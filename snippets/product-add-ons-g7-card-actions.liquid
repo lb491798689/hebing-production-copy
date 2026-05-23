@@ -1,0 +1,53 @@
+{%- comment -%}
+  Details (own row) + quantity capsule & checkbox (same row)
+{%- endcomment -%}
+<div class="product-add-ons-g7__actions">
+  {%- if show_details -%}
+    <button
+      type="button"
+      class="product-add-ons-g7__details"
+      data-addon-details
+      data-product-url="{{ product_url }}"
+    >
+      <span class="product-add-ons-g7__details-label">{{ details_label | default: 'Details' | escape }}</span>
+      <span class="product-add-ons-g7__details-icon" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10.8333 9.17072H13.3333V10.8374H10.8333V13.3374H9.16665V10.8374H6.66665V9.17072H9.16665V6.67072H10.8333V9.17072Z" fill="#E8000B"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.99998 3.33331C13.6819 3.33331 16.6666 6.31808 16.6666 9.99998C16.6666 13.6819 13.6819 16.6666 9.99998 16.6666C6.31808 16.6666 3.33331 13.6819 3.33331 9.99998C3.33331 6.31808 6.31808 3.33331 9.99998 3.33331ZM9.99998 4.99998C7.23856 4.99998 4.99998 7.23856 4.99998 9.99998C4.99998 12.7614 7.23856 15 9.99998 15C12.7614 15 15 12.7614 15 9.99998C15 7.23856 12.7614 4.99998 9.99998 4.99998Z" fill="#E8000B"/>
+        </svg>
+      </span>
+    </button>
+  {%- endif -%}
+
+  <div class="product-add-ons-g7__footer-row">
+    <quantity-selector class="quantity-selector product-add-ons-g7__card-qty" data-card-quantity-wrap>
+      <button type="button" class="quantity-selector__button quantity-selector__button--minus" aria-label="{{ 'product.quantity.decrease_quantity' | t }}">{% render 'quantity-step-icon-g7-addon', step: 'minus' %}</button>
+      <input
+        type="number"
+        class="quantity-selector__input"
+        value="{{ qty | default: 1 }}"
+        min="1"
+        step="1"
+        inputmode="numeric"
+        data-card-quantity
+        {% if sync_form_qty %}data-sync-form-quantity{% endif %}
+        aria-label="{{ 'product.quantity.label' | t }}"
+      >
+      <button type="button" class="quantity-selector__button quantity-selector__button--plus" aria-label="{{ 'product.quantity.increase_quantity' | t }}">{% render 'quantity-step-icon-g7-addon', step: 'plus' %}</button>
+    </quantity-selector>
+
+    <label class="product-add-ons-g7__check">
+      <input
+        type="checkbox"
+        class="product-add-ons-g7__check-input"
+        data-addon-checkbox
+        {% unless addon_available %}disabled{% endunless %}
+      >
+      <span class="product-add-ons-g7__check-box">
+        <svg class="product-add-ons-g7__check-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="13" viewBox="0 0 17 13" fill="none" aria-hidden="true">
+          <path d="M15.5563 1.41418L6.36393 10.6066L1.41418 5.65683" stroke="#F4F4F4" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </span>
+    </label>
+  </div>
+</div>

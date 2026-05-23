@@ -962,13 +962,23 @@
 </div>
 <script>
   (function () {
-    var root = document.getElementById('shopify-section-{{ section.id }}');
-    if (!root) return;
+    var formId = '{{ product_form_id }}';
+    var mainQtyId = formId + '-quantity';
+
+    function getMainQuantityInput() {
+      return document.getElementById(mainQtyId);
+    }
+
+    function isMainProductQuantityInput(input) {
+      if (!input || input.id !== mainQtyId) return false;
+      if (input.closest('product-add-ons-g7')) return false;
+      return true;
+    }
 
     function syncQuantityInput(input) {
-      if (!input || !input.classList || !input.classList.contains('quantity-selector__input')) return;
+      if (!isMainProductQuantityInput(input)) return;
       var qs = input.closest('quantity-selector');
-      if (!qs || !root.contains(qs)) return;
+      if (!qs) return;
       var dec = qs.querySelector('.quantity-selector__button--minus');
       var inc = qs.querySelector('.quantity-selector__button--plus');
       if (!dec || !inc) return;
@@ -993,48 +1003,63 @@
       inc.setAttribute('aria-disabled', belowMax ? 'false' : 'true');
     }
 
-    function scanAll() {
-      root.querySelectorAll('.quantity-selector__input').forEach(function (inp) {
-        syncQuantityInput(inp);
-      });
+    function notifyMainQuantityChange(input) {
+      if (!isMainProductQuantityInput(input)) return;
+      document.documentElement.dispatchEvent(
+        new CustomEvent('g7:main-quantity-change', {
+          bubbles: true,
+          detail: { quantity: parseInt(input.value, 10) || 1 }
+        })
+      );
     }
 
-    root.addEventListener(
-      'input',
-      function (e) {
-        if (e.target && e.target.matches && e.target.matches('.quantity-selector__input')) syncQuantityInput(e.target);
-      },
-      true
-    );
-    root.addEventListener(
-      'change',
-      function (e) {
-        if (e.target && e.target.matches && e.target.matches('.quantity-selector__input')) syncQuantityInput(e.target);
-      },
-      true
-    );
-    root.addEventListener(
-      'click',
-      function (e) {
-        var qs = e.target.closest && e.target.closest('quantity-selector');
-        if (!qs || !root.contains(qs)) return;
-        var inp = qs.querySelector('.quantity-selector__input');
-        if (inp) setTimeout(function () { syncQuantityInput(inp); }, 0);
-      },
-      true
-    );
+    function refreshMainQuantityUi() {
+      var input = getMainQuantityInput();
+      if (!input) return;
+      syncQuantityInput(input);
+      notifyMainQuantityChange(input);
+    }
 
-    var form = document.getElementById('{{ product_form_id }}');
+    function bindMainQuantityInput() {
+      var input = getMainQuantityInput();
+      if (!input || input.dataset.g7MainQtyBound === '1') return;
+      input.dataset.g7MainQtyBound = '1';
+
+      var onActivity = function () {
+        setTimeout(refreshMainQuantityUi, 0);
+      };
+
+      input.addEventListener('change', onActivity);
+      input.addEventListener('input', onActivity);
+
+      var qs = input.closest('quantity-selector');
+      if (qs) {
+        qs.addEventListener('click', function (event) {
+          if (event.target.closest('.quantity-selector__button')) {
+            onActivity();
+          }
+        });
+      }
+    }
+
+    function initMainQuantity() {
+      bindMainQuantityInput();
+      refreshMainQuantityUi();
+    }
+
+    var form = document.getElementById(formId);
     if (form) {
       form.addEventListener('product:rerender', function () {
-        setTimeout(scanAll, 0);
+        var input = getMainQuantityInput();
+        if (input) delete input.dataset.g7MainQtyBound;
+        setTimeout(initMainQuantity, 0);
       });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', scanAll);
+      document.addEventListener('DOMContentLoaded', initMainQuantity);
     } else {
-      scanAll();
+      initMainQuantity();
     }
   })();
 </script>
@@ -1179,27 +1204,258 @@
           var form = document.getElementById('{{ product_form_id }}');
           if (!buyNow || !form) return;
 
+          var formId = '{{ product_form_id }}';
           var cartUrl = buyNow.getAttribute('data-cart-url') || '/cart';
-          var pageQuery = window.location.search.replace(/^\?/, '');
-          var checkoutSuffix = pageQuery ? '?checkout&' + pageQuery : '?checkout';
-          var updateHref = function () {
+
+          function getMainQuantityInput() {
+            return document.getElementById(formId + '-quantity');
+          }
+
+          function getQty() {
+            var qtyInput = getMainQuantityInput();
+            var qty = qtyInput && qtyInput.value ? parseInt(qtyInput.value, 10) : 1;
+            return !qty || qty < 1 ? 1 : qty;
+          }
+
+          function getVariantId() {
+            var variantInput = form.querySelector('input[name="id"]');
+            return variantInput && variantInput.value ? parseInt(variantInput.value, 10) : null;
+          }
+
+          function getAddonItems() {
+            var widget = document.querySelector('product-add-ons-g7');
+            if (!widget || typeof widget.getSelectedItems !== 'function') return [];
+            var items = widget.getSelectedItems();
+            return Array.isArray(items) ? items : [];
+          }
+
+          // href 仅作兜底（中键/右键打开新标签页），不带 ?checkout 避免触发店铺 cart 模板报错
+          function updateHref() {
+            var variantId = getVariantId();
+            if (!variantId) return;
+            var qty = getQty();
+            var mainItem = { id: variantId, quantity: qty };
+            var addons = getAddonItems();
+            var items = addons.length ? [mainItem].concat(addons) : [mainItem];
+            var permalink = items.map(function (it) { return it.id + ':' + it.quantity; }).join(',');
+            buyNow.setAttribute('href', cartUrl + '/' + permalink);
+          }
+
+          updateHref();
+          form.addEventListener('change', function (event) {
+            if (event.target && event.target.name === 'id') updateHref();
+          });
+          document.addEventListener('change', function (event) {
+            if (event.target && event.target.id === formId + '-quantity') updateHref();
+          });
+          document.addEventListener('input', function (event) {
+            if (event.target && event.target.id === formId + '-quantity') updateHref();
+          }, true);
+          document.documentElement.addEventListener('g7:main-quantity-change', updateHref);
+          document.documentElement.addEventListener('g7-main-quantity-change', updateHref);
+          document.documentElement.addEventListener('g7-addons:change', updateHref);
+
+          // 点击：fetch cart/add.js 加购主商品（+ add-ons），成功后跳 /checkout
+          // 不用 ?checkout 后缀，因当前店铺 cart 模板对该参数报错（"expected String to be a Hash: checkout"）
+          buyNow.addEventListener('click', function (event) {
+            event.preventDefault();
+            var variantId = getVariantId();
+            if (!variantId) return;
+            var qty = getQty();
+            var mainItem = { id: variantId, quantity: qty };
+            var addons = getAddonItems();
+            var items = addons.length ? [mainItem].concat(addons) : [mainItem];
+
+            buyNow.setAttribute('aria-busy', 'true');
+            var root = (window.Shopify && Shopify.routes && Shopify.routes.root) ? Shopify.routes.root : '/';
+            fetch(root + 'cart/add.js', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              body: JSON.stringify({ items: items })
+            }).then(function (resp) {
+              return resp.json().then(function (json) { return { ok: resp.ok, json: json }; });
+            }).then(function (res) {
+              buyNow.removeAttribute('aria-busy');
+              if (res.ok) {
+                window.location.assign(root + 'checkout');
+              } else {
+                document.documentElement.dispatchEvent(new CustomEvent('cart:error', {
+                  bubbles: true,
+                  detail: { error: (res.json && (res.json.description || res.json.message)) || 'Add to cart failed' }
+                }));
+                console.error('Sticky Buy Now add-to-cart failed:', res.json);
+              }
+            }).catch(function (err) {
+              buyNow.removeAttribute('aria-busy');
+              console.error('Sticky Buy Now error:', err);
+            });
+          });
+        })();
+      </script>
+
+      <script type="application/json" id="g7-sticky-variants-{{ section.id }}">{{ product.variants | json }}</script>
+      <script>
+        (function () {
+          var formId = '{{ product_form_id }}';
+          var sectionId = '{{ section.id }}';
+          var variants = [];
+          var moneyFormat = {{ shop.money_format | json }};
+
+          try {
+            variants = JSON.parse(
+              document.getElementById('g7-sticky-variants-' + sectionId).textContent || '[]'
+            );
+          } catch (e) {
+            variants = [];
+          }
+
+          function getForm() {
+            return document.getElementById(formId);
+          }
+
+          function getSectionRoot() {
+            return document.getElementById('shopify-section-' + sectionId);
+          }
+
+          function getSticky() {
+            var root = getSectionRoot();
+            return root ? root.querySelector('.g7-custom-sticky-cart') : null;
+          }
+
+          function formatMoney(cents) {
+            if (window.Shopify && window.Shopify.formatMoney) {
+              return window.Shopify.formatMoney(cents, moneyFormat);
+            }
+            // Fallback：店铺货币是 USD，至少补上 $（不动 moneyFormat 中的任何 HTML 结构）
+            return '$' + (cents / 100).toFixed(2);
+          }
+
+          function getMainQuantityInput() {
+            return document.getElementById(formId + '-quantity');
+          }
+
+          function getQuantity() {
+            var input = getMainQuantityInput();
+            var qty = input ? parseInt(input.value, 10) : 1;
+            return !qty || qty < 1 ? 1 : qty;
+          }
+
+          function getAddonsState() {
+            var widget = getSectionRoot() && getSectionRoot().querySelector('product-add-ons-g7');
+            if (!widget || typeof widget.getTotals !== 'function') {
+              return { price: 0, compare: 0, items: [] };
+            }
+            var totals = widget.getTotals();
+            var items = typeof widget.getSelectedItems === 'function' ? widget.getSelectedItems() : [];
+            return {
+              price: totals.finalTotal || totals.totalPrice || 0,
+              compare: totals.totalCompare || 0,
+              items: items || []
+            };
+          }
+
+          function updateStickyPrice() {
+            var form = getForm();
+            var sticky = getSticky();
+            var priceCurrent = sticky && sticky.querySelector('.g7-price-current');
+            var priceCompare = sticky && sticky.querySelector('.g7-price-compare');
+            if (!form || !priceCurrent) return;
+
             var variantInput = form.querySelector('input[name="id"]');
             if (!variantInput || !variantInput.value) return;
 
-            var qtyInput = form.querySelector('input[name="quantity"]');
-            var qty = qtyInput && qtyInput.value ? parseInt(qtyInput.value, 10) : 1;
-            if (!qty || qty < 1) qty = 1;
-
-            buyNow.setAttribute('href', cartUrl + '/' + variantInput.value + ':' + qty + checkoutSuffix);
-          };
-
-          updateHref();
-          form.addEventListener('change', updateHref);
-          form.addEventListener('input', function (event) {
-            if (event.target && event.target.name === 'quantity') {
-              updateHref();
+            var variant = null;
+            for (var i = 0; i < variants.length; i++) {
+              if (String(variants[i].id) === String(variantInput.value)) {
+                variant = variants[i];
+                break;
+              }
             }
-          }, true);
+            if (!variant) return;
+
+            var qty = getQuantity();
+            var addons = getAddonsState();
+            var linePrice = variant.price * qty + addons.price;
+            var lineCompare = (variant.compare_at_price || variant.price) * qty + (addons.compare || addons.price);
+
+            priceCurrent.textContent = formatMoney(linePrice);
+
+            if (priceCompare) {
+              if (lineCompare > linePrice) {
+                priceCompare.textContent = formatMoney(lineCompare);
+                priceCompare.hidden = false;
+              } else {
+                priceCompare.hidden = true;
+              }
+            }
+          }
+
+          function refreshStickyBar() {
+            updateStickyPrice();
+          }
+
+          function initStickyBarWatchers() {
+            var form = getForm();
+            if (!form || form.dataset.g7StickyQtyWatch) return;
+            form.dataset.g7StickyQtyWatch = '1';
+
+            form.addEventListener('variant:change', refreshStickyBar);
+            form.addEventListener('change', function (event) {
+              if (event.target && event.target.name === 'id') refreshStickyBar();
+            });
+            form.addEventListener('product:rerender', function () {
+              setTimeout(refreshStickyBar, 50);
+            });
+
+            document.documentElement.addEventListener('g7-main-quantity-change', refreshStickyBar);
+            document.documentElement.addEventListener('g7-addons:change', refreshStickyBar);
+
+            refreshStickyBar();
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initStickyBarWatchers);
+          } else {
+            initStickyBarWatchers();
+          }
+
+          // 前进/后退（bfcache）恢复后：DOM 是离开时的快照，需要重置 add-ons 选中态、
+          // 主商品 quantity 与每张 add-on 卡片的 quantity，再让原合价逻辑重算 sticky 价格。
+          window.addEventListener('pageshow', function (event) {
+            if (!event.persisted) return;
+
+            // 主商品 quantity → 1
+            var mainQty = getMainQuantityInput();
+            if (mainQty && mainQty.value !== '1') {
+              mainQty.value = '1';
+              mainQty.dispatchEvent(new Event('input', { bubbles: true }));
+              mainQty.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+
+            // add-on 卡片：取消勾选 + 卡片 quantity → 1
+            var widget = getSectionRoot() && getSectionRoot().querySelector('product-add-ons-g7');
+            if (widget) {
+              widget.querySelectorAll('[data-role="addon"]').forEach(function (card) {
+                var checkbox = card.querySelector('[data-addon-checkbox]');
+                if (checkbox && checkbox.checked) {
+                  checkbox.checked = false;
+                  checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+                card.classList.remove('is-selected');
+                var cardQty = card.querySelector('[data-card-quantity]');
+                if (cardQty && cardQty.value !== '1') {
+                  cardQty.value = '1';
+                  cardQty.dispatchEvent(new Event('input', { bubbles: true }));
+                  cardQty.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+              });
+            }
+
+            setTimeout(refreshStickyBar, 0);
+          });
         })();
       </script>
 
@@ -2410,6 +2666,48 @@ quick buy information in a template, that will be extracted in JS, but ensure it
         {
           "type": "paragraph",
           "content": "The selector is automatically hidden if all variants are sold out. When at least one variant is available, the selector is always visible to prevent the page from moving when switching variants. To show a volume pricing table, add the dedicatd Volume pricing block."
+        }
+      ]
+    },
+    {
+      "type": "product_add_ons",
+      "name": "Add-Ons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Metafield: List of products or List of product variants. Only bound add-on items are shown; the current product is not listed here."
+        },
+        {
+          "type": "text",
+          "id": "metafield_namespace",
+          "label": "Metafield namespace",
+          "default": "custom"
+        },
+        {
+          "type": "text",
+          "id": "metafield_key",
+          "label": "Metafield key",
+          "default": "add_on_products",
+          "info": "Recommended: list.variant_reference. Alternative: list.product_reference (uses first available variant)."
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Add-Ons"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_details_link",
+          "label": "Show Details link",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "details_label",
+          "label": "Details link label",
+          "default": "Details"
         }
       ]
     },

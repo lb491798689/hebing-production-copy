@@ -966,6 +966,9 @@
             </div>
           {%- endif -%}
 
+        {%- when 'product_add_ons' -%}
+          {%- render 'product-add-ons-g7-m6', product: product, block: block, section: section, product_form_id: product_form_id -%}
+
         {%- when 'quantity_selector' -%}
           {%- if product.available -%}
             {%- assign variant = product.selected_or_first_available_variant -%}

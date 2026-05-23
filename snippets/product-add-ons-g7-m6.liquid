@@ -1,0 +1,469 @@
+{%- comment -%}
+  Add-Ons — metafield list.variant_reference (recommended) or list.product_reference
+  Figma has no SKU picker: merchant picks exact variants in admin.
+{%- endcomment -%}
+
+{%- liquid
+  assign mf_namespace = block.settings.metafield_namespace | default: 'custom'
+  assign mf_key = block.settings.metafield_key | default: 'add_on_products'
+  assign addon_entries = product.metafields[mf_namespace][mf_key].value
+
+  if addon_entries == blank and product.metafields.custom.addon_products.value != blank
+    assign addon_entries = product.metafields.custom.addon_products.value
+  endif
+
+  assign has_addons = false
+  if addon_entries != blank and addon_entries.size > 0
+    assign has_addons = true
+  endif
+
+  assign scope = '#shopify-section-' | append: section.id | append: ' [data-block-type="product_add_ons"][data-block-id="' | append: block.id | append: '"]'
+  assign show_details = block.settings.show_details_link
+  assign details_label = block.settings.details_label | default: 'Details'
+-%}
+
+{%- unless has_addons -%}
+{%- else -%}
+
+<product-add-ons-g7
+  class="product-add-ons-g7"
+  data-block-type="product_add_ons"
+  data-block-id="{{ block.id }}"
+  form-id="{{ product_form_id }}"
+  data-money-format="{{ shop.money_format | escape }}"
+>
+  <script type="application/json" data-main-product-variants>{{ product.variants | json }}</script>
+
+  {%- if block.settings.heading != blank -%}
+    <h3 class="product-add-ons-g7__heading">{{ block.settings.heading | escape }}</h3>
+  {%- endif -%}
+
+  <div class="product-add-ons-g7__cards">
+
+    {%- for addon_entry in addon_entries -%}
+      {%- liquid
+        if addon_entry.product != blank
+          assign addon_variant = addon_entry
+          assign addon_product = addon_entry.product
+        else
+          assign addon_product = addon_entry
+          assign addon_variant = addon_product.selected_or_first_available_variant
+        endif
+      -%}
+      <article
+        class="product-add-ons-g7__card"
+        data-role="addon"
+        data-product-id="{{ addon_product.id }}"
+        data-variant-id="{{ addon_variant.id }}"
+      >
+        <div class="product-add-ons-g7__card-inner">
+          <div class="product-add-ons-g7__media">
+            {%- if addon_variant.featured_media -%}
+              {{- addon_variant.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', sizes: '120px', widths: '80,120,160,240', class: 'product-add-ons-g7__image', data-addon-image: '' -}}
+            {%- elsif addon_product.featured_media -%}
+              {{- addon_product.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', sizes: '120px', widths: '80,120,160,240', class: 'product-add-ons-g7__image', data-addon-image: '' -}}
+            {%- endif -%}
+          </div>
+
+          <div class="product-add-ons-g7__body">
+            <p class="product-add-ons-g7__title">{{ addon_product.title | escape }}</p>
+
+            <input type="hidden" data-variant-id value="{{ addon_variant.id }}" data-price="{{ addon_variant.price }}" data-compare="{{ addon_variant.compare_at_price | default: addon_variant.price }}">
+
+            <div class="product-add-ons-g7__prices" data-price-row>
+              <span class="product-add-ons-g7__price" data-sale-price>{{ addon_variant.price | money }}</span>
+              <span class="product-add-ons-g7__price-compare" data-compare-price{% unless addon_variant.compare_at_price > addon_variant.price %} hidden{% endunless %}>{{ addon_variant.compare_at_price | money }}</span>
+            </div>
+
+            {%- render 'product-add-ons-g7-card-actions',
+              product_url: addon_product.url,
+              show_details: show_details,
+              details_label: details_label,
+              qty: 1,
+              sync_form_qty: false,
+              addon_available: addon_variant.available
+            -%}
+          </div>
+        </div>
+      </article>
+    {%- endfor -%}
+  </div>
+</product-add-ons-g7>
+
+{% style %}
+  {{ scope }} {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin-block: 8px 16px;
+  }
+
+  {{ scope }} .product-add-ons-g7__heading {
+    margin: 0 0 4px;
+    color: #0A0A0A;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  {{ scope }} .product-add-ons-g7__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  {{ scope }} .product-add-ons-g7__card[data-role="addon"] {
+    cursor: pointer;
+  }
+
+  {{ scope }} .product-add-ons-g7__card[data-role="addon"]:has(.product-add-ons-g7__check-input:disabled) {
+    cursor: default;
+  }
+
+  {{ scope }} .product-add-ons-g7__card {
+    position: relative;
+    border: 2px solid rgba(26, 26, 26, 0.2);
+    border-radius: 12px;
+    background: #fff;
+    padding: 16px;
+    transition: border-color 0.2s ease;
+  }
+
+  {{ scope }} .product-add-ons-g7__card.is-selected {
+    border-color: #E8000B;
+  }
+
+  {{ scope }} .product-add-ons-g7__check {
+    display: flex;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  {{ scope }} .product-add-ons-g7__check-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  {{ scope }} .product-add-ons-g7__check-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(26, 26, 26, 0.2);
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  {{ scope }} .product-add-ons-g7__check-icon {
+    display: none;
+    width: 17px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+
+  {{ scope }} .product-add-ons-g7__check-input:checked + .product-add-ons-g7__check-box {
+    border-color: #E8000B;
+    background: #E8000B;
+  }
+
+  {{ scope }} .product-add-ons-g7__check-input:checked + .product-add-ons-g7__check-box .product-add-ons-g7__check-icon {
+    display: block;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-inner {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  {{ scope }} .product-add-ons-g7__media {
+    flex-shrink: 0;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 105.72px;
+    height: 105.72px;
+    aspect-ratio: 1 / 1;
+    border-radius: 4px;
+    background: #EDEDED;
+    overflow: hidden;
+  }
+
+  {{ scope }} .product-add-ons-g7__image {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+  }
+
+  {{ scope }} .product-add-ons-g7__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  {{ scope }} .product-add-ons-g7__title {
+    margin: 0;
+    padding-right: 24px;
+    overflow: hidden;
+    color: #1A1A1A;
+    font-family: Gabarito, sans-serif;
+    font-size: var(--Font-Levels-Boby-Boby-1, 24px);
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+  }
+
+  {{ scope }} .product-add-ons-g7__prices {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  {{ scope }} .product-add-ons-g7__price-compare {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    color: rgba(26, 26, 26, 0.4);
+    text-overflow: ellipsis;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    text-decoration: none;
+    isolation: isolate;
+  }
+
+  {{ scope }} .product-add-ons-g7__price-compare::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background-color: rgba(26, 26, 26, 0.4);
+    transform: translateY(-50%);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  {{ scope }} .product-add-ons-g7__price {
+    overflow: hidden;
+    color: #1A1A1A;
+    text-overflow: ellipsis;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    letter-spacing: -0.4px;
+  }
+
+  {{ scope }} .product-add-ons-g7__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  {{ scope }} .product-add-ons-g7__footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+  }
+
+  {{ scope }} .product-add-ons-g7__details {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: fit-content;
+    max-width: 100%;
+    min-height: 20px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--Prompt-red-1-defaul, #E8000B);
+    font-family: Gabarito, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+  }
+
+  {{ scope }} .product-add-ons-g7__card a:not([data-addon-details]) {
+    pointer-events: none;
+  }
+
+  {{ scope }} .product-add-ons-g7__details-label {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  {{ scope }} .product-add-ons-g7__details-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    line-height: 0;
+  }
+
+  {{ scope }} .product-add-ons-g7__details-icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty.quantity-selector {
+    width: 96px;
+    min-width: 96px;
+    max-width: 96px;
+    height: 32px;
+    background: #F0F0F0;
+    border-radius: 999px;
+    border: none;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    color: #0A0A0A;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button::before,
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button--minus:disabled {
+    color: rgba(26, 26, 26, 0.2);
+    cursor: default;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button .quantity-step-svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button .quantity-step-svg--minus {
+    width: 12px;
+    height: 2px;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__button .quantity-step-svg--plus {
+    width: 12px;
+    height: 12px;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__input {
+    flex: 0 0 32px;
+    width: 32px;
+    min-width: 0;
+    max-width: 32px;
+    text-align: center;
+    font-family: Gabarito, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    color: #0A0A0A;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    appearance: textfield;
+    -webkit-appearance: none;
+  }
+
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__input::-webkit-outer-spin-button,
+  {{ scope }} .product-add-ons-g7__card-qty .quantity-selector__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  @media screen and (min-width: 1000px) {
+    {{ scope }} .product-add-ons-g7__heading {
+      font-size: 24px;
+    }
+
+    {{ scope }} .product-add-ons-g7__card {
+      padding: 24px 16px;
+    }
+  }
+
+  @media screen and (max-width: 999px) {
+    {{ scope }} .product-add-ons-g7__title {
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    {{ scope }} .product-add-ons-g7__price {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 120%;
+      letter-spacing: -0.32px;
+    }
+
+    {{ scope }} .product-add-ons-g7__price-compare {
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%;
+      text-decoration-line: line-through;
+    }
+  }
+{% endstyle %}
+
+<script src="{{ 'product-add-ons-g7-m6.js' | asset_url }}" defer></script>
+
+{%- endunless -%}

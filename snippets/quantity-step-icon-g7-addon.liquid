@@ -1,0 +1,15 @@
+{%- comment -%}
+  Add-Ons 卡片数量胶囊 — Figma 1156:252729
+  minus: 12×2, 默认 rgba(26,26,26,.2)；可用时 #0A0A0A（按钮 color + currentColor）
+  plus: 12×12, #0A0A0A
+{%- endcomment -%}
+{%- assign step = step | default: 'plus' | strip -%}
+{%- if step == 'minus' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="2" viewBox="0 0 12 2" fill="none" class="quantity-step-svg quantity-step-svg--minus" aria-hidden="true" focusable="false">
+    <path d="M12.002 2L0.00195312 2.00977L0 0.00976562L12 0L12.002 2Z" fill="currentColor"/>
+  </svg>
+{%- else -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" class="quantity-step-svg quantity-step-svg--plus" aria-hidden="true" focusable="false">
+    <path d="M7.00098 5.00391L12 5L12.002 7L7.00098 7.00391V12H5.00098V7.00488L0.00195312 7.00977L0 5.00977L5.00098 5.00488V0H7.00098V5.00391Z" fill="#0A0A0A"/>
+  </svg>
+{%- endif -%}
