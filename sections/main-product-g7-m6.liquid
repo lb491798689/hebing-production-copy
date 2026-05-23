@@ -1,0 +1,4033 @@
+{% comment %} {{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}} {% endcomment %}
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --product-grid: auto / minmax(0, 1fr);
+    --product-gallery-media-list-grid: auto / auto-flow {% if section.settings.mobile_carousel_control == 'free_scroll' %}{% if section.settings.mobile_media_size == 'expanded' %}84vw{% else %}73vw{% endif %}{% else %}100%{% endif %};
+    --product-gallery-media-list-gap: {% if section.settings.mobile_media_size == 'expanded' %}var(--spacing-0-5){% else %}var(--grid-gutter){% endif %};
+  }
+
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} {
+      --section-spacing-block-start: 0px !important;
+      --section-spacing-block-end: 0px !important;
+      --calculated-section-spacing-block-start: 0px !important;
+      --calculated-section-spacing-block-end: 0px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100vw !important;
+      max-width: 100vw !important;
+      margin-left: calc(-50vw + 50%) !important;
+      margin-right: calc(-50vw + 50%) !important;
+    }
+
+    /* 移动端产品容器全宽 */
+    #shopify-section-{{ section.id }} .section,
+    #shopify-section-{{ section.id }} .section--tight {
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* 移动端产品网格全宽 */
+    #shopify-section-{{ section.id }} .product {
+      padding: 0 !important;
+      margin: 0 !important;
+      gap: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      display: block !important;
+    }
+
+    /* 移动端画廊全宽 */
+    #shopify-section-{{ section.id }} .product-gallery {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* 移动端产品信息区域恢复正常布局 - 在block-item上添加padding */
+    #shopify-section-{{ section.id }} .product-info {
+      padding: 0 !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item {
+      padding: 0 16px !important;
+      margin: 0 !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item:first-child {
+      padding-top: 16px !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item:last-child {
+      padding-bottom: 16px !important;
+    }
+
+    /* 确保标题在移动端显示 */
+    #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="title"] {
+      display: block !important;
+      padding: 16px 16px 0 !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__title {
+      display: block !important;
+    }
+
+    /* 移动端覆盖容器类 */
+    #shopify-section-{{ section.id }} .container {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .container--narrow,
+    #shopify-section-{{ section.id }} .container--wide {
+      max-width: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /*
+      数量药丸「下半截没了」排查结论（DOM 自上而下）：
+      - theme.css 里 product-rerender { display: contents } → 不占盒，真正的父链是 div.section > div.product > safe-sticky.product-info > .product-info__block-item
+      - safe-sticky 未设 display → 部分浏览器里自定义标签默认 inline，配合子块级可能影响叠层；此处强制 block + overflow 可见
+      - 前一兄弟 variant 区块内：variant-picker.liquid 包了 .scroll-area，theme.css .scroll-area 为 overflow: auto hidden → 只应裁切选项内部；若仍怀疑纵向裁切，对 variant 区单独放开 overflow-y
+      - 后一兄弟常为 product-tabs / Klarna：浅灰底 block 若叠层在上会盖住药丸底部 → quantity 的 block-item 设 position:relative; z-index:2
+      - 勿对 quantity 用负 margin 抵消 padding：会把绘制区挤进相邻区块的叠层，易被盖住
+    */
+    #shopify-section-{{ section.id }} .section,
+    #shopify-section-{{ section.id }} .product {
+      overflow: visible !important;
+    }
+
+    #shopify-section-{{ section.id }} safe-sticky.product-info {
+      display: block !important;
+      width: 100% !important;
+      overflow: visible !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__variant-picker,
+    #shopify-section-{{ section.id }} .product-info__variant-picker variant-picker {
+      overflow: visible !important;
+    }
+
+    /* variant 选项条：主题 .scroll-area 默认 overflow-y:hidden，仅作用于选项容器本身，改为 visible 避免极端情况下影响下方区块视觉叠层 */
+    #shopify-section-{{ section.id }} .product-info__variant-picker .scroll-area {
+      overflow-y: visible !important;
+    }
+
+    /* PDP variant 选项标题（如 "Select:"）字体颜色对齐 Figma：theme 默认 .text-subdued 为 #AEAEAE，
+       Jingva G7/M6 PDP 要求实色 #1A1A1A，覆盖范围严格限定到当前 section 的 variant-picker 标题区。 */
+    #shopify-section-{{ section.id }} .product-info__variant-picker .variant-picker__option-heading,
+    #shopify-section-{{ section.id }} .product-info__variant-picker .variant-picker__option-heading.text-subdued {
+      color: #1A1A1A !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="quantity-selector"] {
+      position: relative !important;
+      z-index: 2 !important;
+      overflow: visible !important;
+      isolation: isolate;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__quantity-selector {
+      overflow: visible !important;
+      clip-path: none !important;
+      contain: none !important;
+      padding-block: 6px !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__quantity-selector .form-control {
+      overflow: visible !important;
+      clip-path: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__quantity-selector quantity-selector.quantity-selector {
+      clip-path: none !important;
+      border-style: none !important;
+      border-width: 0 !important;
+      box-shadow: none !important;
+      flex-shrink: 0 !important;
+    }
+  }
+
+  /* G7-M6: mob (≤1279) 严格 normal flow，禁止任何 sticky / absolute / fixed —
+     PAD/PC 仍保留主题默认 sticky 行为（大屏右列粘顶）。
+     主题在 >=1000 给 .product-info 加了 position:sticky，仅在 mob 区间覆盖掉即可。 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} safe-sticky,
+    #shopify-section-{{ section.id }} safe-sticky.product-info,
+    #shopify-section-{{ section.id }} .product-info,
+    #shopify-section-{{ section.id }} product-rerender,
+    #shopify-section-{{ section.id }} product-gallery,
+    #shopify-section-{{ section.id }} .product-gallery,
+    #shopify-section-{{ section.id }} .jingva-product-gallery-box,
+    #shopify-section-{{ section.id }} .product-gallery__ar-wrapper,
+    #shopify-section-{{ section.id }} .product-gallery__media-list-wrapper,
+    #shopify-section-{{ section.id }} .product {
+      position: static !important;
+      top: auto !important;
+      bottom: auto !important;
+      left: auto !important;
+      right: auto !important;
+      transform: none !important;
+      z-index: auto !important;
+      float: none !important;
+    }
+  }
+
+  /* PAD + PC（1280+）：按 develop.md 竬规范「版心：PC/PAD 均为 1200px」处理：
+     - .product 内容区严格限制 max-width: 1200px 居中
+     - section 本身跨视口全宽（背景可以铺满），仅用 padding 拉开顶底
+     - PAD/PC 双列布局：1fr | 560px，gap 使用该档 Grid token */
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} {
+      --product-grid: auto / 1fr 560px;
+      --product-gallery-media-list-grid: auto / auto-flow 100%;
+      --product-gallery-media-list-gap: calc(var(--grid-gutter) / 2);
+      --pdp-sticky-gap: 20px;
+      --pdp-sticky-top: calc(var(--sticky-area-height, var(--header-height, 60px)) + var(--pdp-sticky-gap));
+    }
+
+    /* 清除 section 默认上下间距，保留跨视口全宽以让背景铺满 */
+    #shopify-section-{{ section.id }} .section,
+    #shopify-section-{{ section.id }} .section--tight {
+      --section-spacing-block-start: 0px !important;
+      --section-spacing-block-end: 0px !important;
+      --calculated-section-spacing-block-start: 0px !important;
+      --calculated-section-spacing-block-end: 0px !important;
+      padding-inline-start: 0 !important;
+      padding-inline-end: 0 !important;
+      padding-block-start: 0 !important;
+      padding-block-end: 0 !important;
+    }
+
+    /* 版心 1200px 居中：PAD/PC 一致，按 develop.md 要求 */
+    #shopify-section-{{ section.id }} .product {
+      display: flex !important;
+      grid: var(--product-grid) !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin-inline: auto !important;
+      padding-top: 36px !important;
+      padding-left: 48px !important;
+      padding-right: 48px !important;
+      padding-bottom: 0 !important;
+      gap: 40px !important;
+      column-gap: 40px !important;
+      align-items: start !important;
+    }
+
+    /* gallery 在 1200 版心下填满左列 */
+    #shopify-section-{{ section.id }} .product-gallery {
+      {% comment %} width: 65% !important;
+      max-width: 65% !important; {% endcomment %}
+    }
+
+    /* PC：左列画廊 sticky；top 由下方脚本按公告/导航实际可见底边写入 --pdp-sticky-top，
+       与 store-header translateY 隐藏动画同步，避免顶栏消失后图片上方留白。 */
+    #shopify-section-{{ section.id }} product-gallery.product-gallery,
+    #shopify-section-{{ section.id }} .product-gallery {
+      position: sticky !important;
+      top: var(--pdp-sticky-top) !important;
+      transition: top 0.2s ease !important;
+      align-self: start !important;
+      z-index: 1;
+    }
+
+    #shopify-section-{{ section.id }} safe-sticky.product-info {
+      top: var(--pdp-sticky-top) !important;
+      transition: top 0.2s ease !important;
+    }
+  }
+
+  /* PAD（1280–1439）：缩 gap/padding + 弹性列宽；保留双列 sticky / safe-sticky 滚动逻辑，禁止横向撑出视口 */
+  @media screen and (min-width: 1280px) and (max-width: 1439px) {
+    #shopify-section-{{ section.id }} .product {
+      gap: 16px !important;
+      column-gap: 16px !important;
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+      padding-top: 24px !important;
+      min-width: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      overflow-x: clip !important;
+      box-sizing: border-box !important;
+    }
+
+    #shopify-section-{{ section.id }} product-gallery.product-gallery,
+    #shopify-section-{{ section.id }} .product-gallery {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      width: auto !important;
+      position: sticky !important;
+      top: var(--pdp-sticky-top) !important;
+      transition: top 0.2s ease !important;
+      align-self: start !important;
+      z-index: 1;
+    }
+
+    #shopify-section-{{ section.id }} safe-sticky.product-info,
+    #shopify-section-{{ section.id }} .product-info {
+      flex: 0 0 480px !important;
+      width: 480px !important;
+      min-width: 0 !important;
+      max-width: 480px !important;
+      overflow-x: clip !important;
+      overflow-y: visible !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item {
+      min-width: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="product-tabs"],
+    #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="product-tabs"] .product-tabs-container {
+      overflow-x: clip !important;
+      max-width: 100% !important;
+    }
+  }
+
+  /* PC（≥ 1440）：按 Figma 1920 稿（节点 1156:254024）原生尺寸展开画廊列。
+     Figma 媒体橱窗 1264 × 852.69，信息列 560，列间 24 → PDP 版心 = 1264 + 24 + 560 = 1848px。
+     在 1440~1919 视口下按 1fr 比例自动缩小画廊列；至 1920+ 视口达到 Figma 原生 1264。 */
+  @media screen and (min-width: 1440px) {
+    #shopify-section-{{ section.id }} {
+      --product-gallery-media-list-gap: var(--grid-gutter);
+    }
+
+    /* 1848 = 1264 (gallery) + 24 (gap) + 560 (info)；box-sizing 取主题默认 border-box
+       因此不加 L/R padding，避免把 1fr 列挤小。视口 < 1848 时自动 margin: 0 auto 居中缩放。 */
+    #shopify-section-{{ section.id }} .product {
+      max-width: 100% !important;
+      padding-left: 48px !important;
+      padding-right: 48px !important;
+    }
+  }
+  @media screen and (min-width: 1440px) {
+    #shopify-section-{{ section.id }} safe-sticky.product-info,
+    #shopify-section-{{ section.id }} .product-info {
+      flex: 0 0 536px;
+      width: 536px;
+      min-width: 0;
+    }
+  }
+
+  /* 覆盖按钮文本的 text-transform: capitalize */
+  #shopify-section-{{ section.id }} .g7-sticky-atc-label {
+    text-transform: none !important;
+  }
+</style>
+<style>
+  {% if section.settings.type_switch %}
+  #shopify-section-{{ section.id }}  .product-gallery__choose{
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+  #shopify-section-{{ section.id }} .product-gallery__choose .product__choose-btn {
+    display: flex;
+    height: 40px;
+    padding: 16px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #000;
+    background: #fafafa;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    cursor:pointer;
+  }
+
+  #shopify-section-{{ section.id }} .product-gallery__choose .product__choose-btn.active {
+    background: #000;
+    color: #fff;
+  }
+
+  
+  #shopify-section-{{ section.id }} .product-gallery__ar-wrapper > button{
+    display:none!important;
+  }
+
+  @media only screen and (max-width: 430px) {
+    #shopify-section-{{ section.id }} .custom-group .product-info__quantity-selector {
+      max-width: 130px;
+    }
+    #shopify-section-{{ section.id }} .custom-group {
+      gap: 5px;
+    }
+    #shopify-section-{{ section.id }} .product-info__buy-buttons .custom-group.buttons--multiple form {
+      max-width:unset;
+    }
+    #shopify-section-{{ section.id }} .discount-container .discount-content .discount-left-content {
+      flex: 0 0 65%;
+    }
+    #shopify-section-{{ section.id }} .discount-container .discount-content {
+      padding: 18px 5px;
+    }
+  }
+
+  @media only screen and (max-width: 369px) {
+    #shopify-section-{{ section.id }} .discount-container .discount-content .discount-left-content {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px;
+      text-align: center;
+    }
+    #shopify-section-{{ section.id }} .discount-container .discount-content {
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+
+  @media only screen and (max-width: 329px) {
+    #shopify-section-{{ section.id }} .custom-group .product-info__quantity-selector {
+        max-width: 120px;
+    }
+  }
+{% endif %}
+#shopify-section-{{ section.id }} .size_guide{
+  display: flex;
+    align-items: center;
+    color: black;
+    gap: 4px;
+    background: #F6F6F6;
+    padding: 4px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    clip-path: polygon(
+      0% 5px,            /* top-left corner cut */
+      5px 0%, 
+      calc(100% - 5px) 0%, /* top-right corner cut */
+      100% 5px,
+      100% calc(100% - 5px), /* bottom-right corner cut */
+      calc(100% - 5px) 100%,
+      5px 100%,          /* bottom-left corner cut */
+      0% calc(100% - 5px)
+    );
+}
+
+#shopify-section-{{ section.id }} .kik_product_size_guide{
+  position: fixed;
+    top: 0;
+    left: 0;
+    background: rgb(0 0 0 / 0%);
+    z-index: 99;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    transition: visibility 0s;
+    visibility: hidden;
+}
+#shopify-section-{{ section.id }} .kik_size_guide_overlay{
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0 0 0 / 0%);
+    transition: .3s;
+}
+#shopify-section-{{ section.id }} .kik_product_size_guide_content{
+    background: white;
+    z-index: 99;
+    max-width: 600px;
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
+    border-end-start-radius: 20px;
+    border-start-start-radius: 20px;
+    transition: .3s;
+    transform: translateX(100%);
+}
+#shopify-section-{{ section.id }} .kik_product_size_guide.active{
+  visibility: visible;
+}
+#shopify-section-{{ section.id }} .kik_product_size_guide.active .kik_size_guide_overlay{
+  background: rgb(0 0 0 / 38%);
+}
+#shopify-section-{{ section.id }} .kik_product_size_guide.active .kik_product_size_guide_content{
+  transform: translateX(0%);
+}
+#shopify-section-{{ section.id }} .kik_size_guide_heading{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    align-items: center;
+    border-bottom:1px solid #eaeaea;
+}
+#shopify-section-{{ section.id }} .kik_close_icon{
+  padding: 5px;
+    border: 1px solid;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#shopify-section-{{ section.id }} .kik_close_icon svg{
+  width: 24px;
+    height: 24px;
+}
+#shopify-section-{{ section.id }} .kik_size_image img{
+    width:100%;
+}
+#shopify-section-{{ section.id }} .selling_points{
+  padding: 24px;
+  gap: 16px;
+  border-radius: 16px;
+  background-color: #fafafa;
+  margin-top: 24px;
+  width:100%;
+}
+/* 商品标题行：Figma PC 5276:2539 / 移动 5726:3778 — 标题 + NEW 标签，gap 24px */
+#shopify-section-{{ section.id }} .product-info__title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  width: 100%;
+}
+
+/* NEW 标签 — 移动 Figma 5726:3780（外框 22px 高：3px + 14px 字 + 3px + 上下边框 2px） */
+#shopify-section-{{ section.id }} .product-info__new-badge {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  height: 22px;
+  padding: 3px 4px;
+  border: 1px solid #e90202;
+  border-radius: 4px;
+  background: transparent;
+  color: #e90202;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+}
+
+#shopify-section-{{ section.id }} .product-info__new-badge__text {
+  display: block;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NEW 标签 — PC Figma 5276:2541～5276:2542 */
+@media screen and (min-width: 1280px) {
+  #shopify-section-{{ section.id }} .product-info__new-badge {
+    height: auto;
+    padding: 4px 8px;
+    border-color: #e90206;
+    border-radius: 8px;
+    color: #e8000b;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .product-info__new-badge__text {
+    text-transform: none;
+  }
+}
+
+/* 商品标题样式 — PC Figma 5276:2540 Gabarito SemiBold 40px / 行内与 NEW 并排 */
+#shopify-section-{{ section.id }} .product-info .product-info__title-row .product-info__title{
+  color: var(--Font-Color-Gy1, #0A0A0A);
+  font-family: Gabarito;
+  font-size: var(--Font-Levels-Headline-Headline-3, 32px);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 120%;
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto !important;
+  height: auto !important;
+  margin: 0;
+}
+
+/* 商品描述文本样式 */
+#shopify-section-{{ section.id }} .product-info__text .prose {
+  overflow: hidden;
+  color: var(--Font-Color-Gy2, rgba(26, 26, 26, 0.80));
+  text-overflow: ellipsis;
+  font-family: Gabarito;
+  font-size: var(--Font-Levels-Boby-Boby-3, 16px);
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  display: -webkit-box;
+  width: 231px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  margin-bottom: 8px;
+}
+
+/* Trustoo Star Rating Widget Style Override */
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Klarna 组件占满宽度 */
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] > *,
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-custom-messaging {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Klarna logo 尺寸（保持原始比例，禁止横向拉伸） */
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-logo,
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] klarna-placement img,
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] img[alt*="Klarna"],
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] img[src*="klarna"] {
+  width: auto !important;
+  height: 24px !important;
+  max-width: none !important;
+  max-height: 24px !important;
+  object-fit: contain !important;
+}
+
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="price"] {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+}
+
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="text"] {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+}
+
+#shopify-section-{{ section.id }} #seal-star-rating-widget {
+  margin: 14px 0 0 !important;
+}
+
+@media screen and (max-width: 1279px) {
+  #shopify-section-{{ section.id }} #seal-star-rating-widget {
+    margin: 12px 0 0 !important;
+  }
+
+  #shopify-section-{{ section.id }} #seal-star-rating-widget > .product-icon-list {
+    margin-bottom: 12px !important;
+  }
+
+  /* 手机端隐藏 product-info__text */
+  #shopify-section-{{ section.id }} .product-info__text {
+    display: none !important;
+  }
+
+  /* 手机端 price-list margin-bottom */
+  #shopify-section-{{ section.id }} .price-list.price-list--lg {
+    margin-bottom: 12px !important;
+  }
+
+  /* 手机端 product-tabs 与上方元素的间距 32px */
+  /* 同时设置 margin-bottom，让下方无论接 variant-picker 还是 discount 块都能落到 32px；
+     利用 margin collapse 保证最终间距取最大值，不会和下一个块的 margin-top 相加（不会变 64） */
+  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="product-tabs"] {
+    margin-top: 32px !important;
+    margin-bottom: 32px !important;
+  }
+
+  /* 手机端 variant-picker（Select 区）与上方元素的间距 32px
+     - 折扣块隐藏时：直接接 product-tabs，由 tabs.margin-bottom(32) 与 Select.margin-top(32) 塌缩 → 32px
+     - 折扣块显示时：discount.margin-bottom(24) 与 Select.margin-top(32) 塌缩 → 32px
+     兄弟 margin 取最大不相加，保证不会出现 64px */
+  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="variant-picker"] {
+    margin-top: 32px !important;
+  }
+}
+
+/* 移除 rating-with-text 的 min-height 限制 */
+#shopify-section-{{ section.id }} .product-info__price .rating-with-text,
+#shopify-section-{{ section.id }} .product-info__price.custom-price-style .rating-with-text,
+#shopify-section-{{ section.id }} #seal-star-rating-widget .rating-with-text,
+#shopify-section-{{ section.id }} .rating-with-text,
+#shopify-section-{{ section.id }} * .rating-with-text {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+/* 确保 rating-with-text 内部元素也不受 min-height 影响 */
+#shopify-section-{{ section.id }} .rating-with-text * {
+  min-height: 0 !important;
+}
+
+#shopify-section-{{ section.id }} #seal-star-rating-widget .vstar-star {
+  --star-color: #E90202 !important;
+}
+
+#shopify-section-{{ section.id }} .product-info .product-info__badge-list,
+#shopify-section-{{ section.id }} .product-info__badge-list {
+  display: none !important;
+}
+
+/* 价格容器 - 让文字自然撑开，不设置固定高度 */
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg,
+#shopify-section-{{ section.id }} .price-list--lg {
+  height: auto !important;
+  line-height: 1 !important;
+}
+
+/* PC 端 text-lg text-on-sale 间距 */
+@media screen and (min-width: 1280px) {
+  #shopify-section-{{ section.id }} .text-lg.text-on-sale {
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
+  }
+}
+
+/* PAD（1280–1439）：Klarna 宿主块不撑出 info 列，保持 PC 横向布局 */
+@media screen and (min-width: 1280px) and (max-width: 1439px) {
+  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] {
+    max-width: 100% !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-custom-messaging {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 24px !important;
+    min-height: 58px !important;
+    padding: 12px 16px !important;
+    max-width: 100% !important;
+  }
+}
+
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg sale-price,
+#shopify-section-{{ section.id }} .price-list--lg sale-price {
+  height: auto !important;
+  line-height: 1 !important;
+  display: inline-block !important;
+}
+
+/* compare-at-price.text-subdued.line-through：划线价容器（删除线画在 .money 上，避免与 line-through 类双删除线） */
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price,
+#shopify-section-{{ section.id }} .price-list--lg compare-at-price {
+  height: auto !important;
+  line-height: 120% !important;
+  display: inline-block !important;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: baseline;
+}
+
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price .money,
+#shopify-section-{{ section.id }} .price-list--lg compare-at-price .money {
+  overflow: hidden;
+  /* Figma 为 gy 40%：浏览器里 rgba 字 + rgba 删除线叠在笔画上会发暗；改用与白底等效的实色 + currentColor 划线与字同色 */
+  color: #a3a3a3 !important;
+  color: color-mix(in srgb, #0a0a0a 40%, #ffffff) !important;
+  text-overflow: ellipsis;
+  font-family: Gabarito, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  letter-spacing: -0.4px;
+  text-decoration-line: line-through;
+  text-decoration-color: currentColor;
+  /* Figma 默认删除线约随字号；0.1em ≈20px 字下 2px，比 1px 更接近稿面观感 */
+  text-decoration-thickness: 0.1em;
+}
+
+/* 删除线仅在 .money，compare-at-price 上的 line-through 类不画线（避免双删除线） */
+#shopify-section-{{ section.id }} compare-at-price.line-through {
+  text-decoration: none !important;
+}
+
+#shopify-section-{{ section.id }} #seal-star-rating-widget .tt-rating-text {
+  color: var(--Font-Color-Gy3, rgba(26, 26, 26, 0.60)) !important;
+  text-align: center;
+  font-family: 'Gabarito', sans-serif !important;
+  font-size: 14px !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  line-height: normal !important;
+  text-transform: capitalize !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(26, 26, 26, 0.45) !important;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 2px;
+  border-bottom: none !important;
+  display: inline-block !important;
+}
+
+@media screen and (max-width: 1279px) {
+  /* 移动标题行：标题 + NEW 并排（避免被其它样式压成单列看不见徽章） */
+  #shopify-section-{{ section.id }} .product-info__title-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 24px !important;
+    flex-wrap: nowrap !important;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .product-info__new-badge {
+    display: inline-flex !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* 移动标题 Figma 5726:3779 */
+  #shopify-section-{{ section.id }} .product-info .product-info__title-row .product-info__title{
+    color: #1A1A1A;
+    font-family: Gabarito;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    width: auto;
+    height: auto;
+  }
+}
+
+
+  @media (min-width:530px){
+    #shopify-section-{{ section.id }} .kik_slideshow{
+        display: grid;
+        grid-template: auto / repeat(2, 1fr);
+        row-gap: 18px;
+    }
+  }
+  #shopify-section-{{ section.id }} .only_desktop{
+    display:none;
+  }
+
+  @media (min-width:1280px){
+    #shopify-section-{{ section.id }} .only_desktop{
+      display:grid;
+    }
+    #shopify-section-{{ section.id }} .only_mobile{
+      display:none;
+    }
+  }
+  #shopify-section-{{ section.id }} .selling_points:empty{
+    display:none;
+  }
+  #shopify-section-{{ section.id }} .selling_points__item{
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #shopify-section-{{ section.id }} .selling_points__item__icon img{
+    height: 32px;
+    width: 32px;
+    object-fit:contain
+  }
+  #shopify-section-{{ section.id }} .selling_points__item__text{
+    display: flex;
+    flex-direction: column;
+  }
+  #shopify-section-{{ section.id }} .selling_points__item__text h5{
+    font-size: 13px;
+    font-weight:500;
+    line-height: 1.2;
+    margin-bottom: 5px;
+    font-family: var(--font-family);
+
+  }
+  #shopify-section-{{ section.id }} .variants_comparors{
+
+    display: flex;
+
+    align-items: flex-end;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .selling_points__item__text p{
+    font-size: 14px;
+    color: #666;
+  }
+  #shopify-section-{{ section.id }} .size_guide.compare{
+    margin-top: 8px;
+  }
+  #shopify-section-{{ section.id }} .size_guide.compare a{
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    color: rgb(var(--text-color) / .7);
+  }
+
+  @media (max-width:749px){
+  #shopify-section-{{ section.id }} .size_guide{
+    font-size: 14px;
+  }
+    #shopify-section-{{ section.id }} product-gallery.product-gallery page-dots.page-dots.page-dots--blurred{
+      display:none !important;
+    }
+  
+    #shopify-section-{{ section.id }} .selling_points__item{
+      display: flex;
+      gap: 4px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #shopify-section-{{ section.id }} .selling_points__item__text{
+      align-items: center;
+    }
+
+    #shopify-section-{{ section.id }} .selling_points__item__text h5{
+      /* font-size: 11px; */
+      text-align:center;
+    }
+
+    #shopify-section-{{ section.id }} .selling_points__item__text p{
+      font-size: 9px;
+      text-align:center;
+    }
+  }
+  [data-block-type="bottom-policy"]{
+    margin-block-start: 8px;
+    margin-block-end: 8px;
+  }
+  #shopify-section-{{ section.id }} .kik_policy,
+  #shopify-section-{{ section.id }} .kik_policy a{
+    display: flex;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .kik_policy img {
+      margin-right: 8px;
+      object-fit:contain;
+  }
+  #shopify-section-{{ section.id }} .selling_points .kik-arrow-button {
+    position: absolute;
+    top: calc( 50% - 17px);
+    left: 1px;
+    /* right: 48px; */
+    width: 20px;
+    height: 34px;
+    text-align: center;
+    border-radius: 50%;
+    z-index:3;
+    outline: 0;
+     display: none; 
+}
+  #shopify-section-{{ section.id }} .selling_points .kik-arrow-button.kik-next-p{
+    right:1px;
+    left:unset;
+  }
+@media (max-width:529px){
+ /* .selling_points {
+    display: flex;
+    overflow: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 24px;
+}
+.selling_points__item {
+    flex: 0 0 calc(50% - 8px);
+        scroll-snap-align: start;
+}*/
+  #shopify-section-{{ section.id }} .selling_points .kik-arrow-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .selling_points{
+    width:100%;
+    padding: 15px 25px;
+  }
+
+}
+</style>
+
+{%- capture product_form_id -%}product-form-{{ product.id }}-{{ section.id }}{%- endcapture -%}
+
+<div {% render 'section-properties', tight: true %}>
+  <product-rerender id="product-info-{{ product.id }}-{{ section.id }}" observe-form="{{ product_form_id }}" allow-partial-rerender>
+    <div class="product">
+      {%- if product.media.size > 0 -%}
+        {%- render 'product-gallery-g7-m6', product: product, product_form_id: product_form_id,  custom_metafield: product.metafields.custom.3d_product.value -%}
+      {%- endif -%}
+
+      {%- render 'product-info-g7-m6',
+        product: product,
+        update_url: true,
+        product_form_id: product_form_id,
+        context: 'main_product'
+      -%}
+    </div>
+  </product-rerender>
+</div>
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root) return;
+
+    function syncQuantityInput(input) {
+      if (!input || !input.classList || !input.classList.contains('quantity-selector__input')) return;
+      var qs = input.closest('quantity-selector');
+      if (!qs || !root.contains(qs)) return;
+      var dec = qs.querySelector('.quantity-selector__button--minus');
+      var inc = qs.querySelector('.quantity-selector__button--plus');
+      if (!dec || !inc) return;
+
+      var min = parseInt(input.getAttribute('min'), 10);
+      if (isNaN(min)) min = 1;
+      var v = parseInt(input.value, 10);
+      if (isNaN(v)) v = min;
+
+      var maxAttr = input.getAttribute('max');
+      var max = maxAttr !== null && maxAttr !== '' ? parseInt(maxAttr, 10) : NaN;
+
+      var aboveMin = v > min;
+      var belowMax = isNaN(max) || v < max;
+
+      qs.classList.toggle('is-above-min', aboveMin);
+      qs.classList.toggle('is-below-max', belowMax);
+
+      dec.disabled = !aboveMin;
+      dec.setAttribute('aria-disabled', aboveMin ? 'false' : 'true');
+      inc.disabled = !belowMax;
+      inc.setAttribute('aria-disabled', belowMax ? 'false' : 'true');
+    }
+
+    function scanAll() {
+      root.querySelectorAll('.quantity-selector__input').forEach(function (inp) {
+        syncQuantityInput(inp);
+      });
+    }
+
+    root.addEventListener(
+      'input',
+      function (e) {
+        if (e.target && e.target.matches && e.target.matches('.quantity-selector__input')) syncQuantityInput(e.target);
+      },
+      true
+    );
+    root.addEventListener(
+      'change',
+      function (e) {
+        if (e.target && e.target.matches && e.target.matches('.quantity-selector__input')) syncQuantityInput(e.target);
+      },
+      true
+    );
+    root.addEventListener(
+      'click',
+      function (e) {
+        var qs = e.target.closest && e.target.closest('quantity-selector');
+        if (!qs || !root.contains(qs)) return;
+        var inp = qs.querySelector('.quantity-selector__input');
+        if (inp) setTimeout(function () { syncQuantityInput(inp); }, 0);
+      },
+      true
+    );
+
+    var form = document.getElementById('{{ product_form_id }}');
+    if (form) {
+      form.addEventListener('product:rerender', function () {
+        setTimeout(scanAll, 0);
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', scanAll);
+    } else {
+      scanAll();
+    }
+  })();
+</script>
+{% if product.metafields.custom.size_guide_image != blank %}
+<div class="kik_product_size_guide">
+  <div class="kik_size_guide_overlay"></div>
+  <div class="kik_product_size_guide_content">
+  <div class="kik_size_guide_heading">
+    <h5>Size & Fit</h5>
+    <div class="kik_close_icon">
+      <svg class="icon icon-close icon-sm" viewBox="0 0 20 20" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 15L15 5M5 5L15 15"></path>
+      </svg>
+    </div>
+  </div>
+  <div class="kik_size_image">
+    <img src="{{ product.metafields.custom.size_guide_image | img_url: "master" }}" loading="lazy">
+  </div>
+  </div>
+</div>
+{% endif %}
+
+{%- assign buy_buttons_block = section.blocks | where: 'type', 'buy_buttons' | first -%}
+
+{%- if section.settings.show_fixed_add_to_cart and product.available and buy_buttons_block != blank -%}
+  <product-rerender id="{{ product_form_id }}-sticky-bar" observe-form="{{ product_form_id }}">
+    {%- if product.selected_or_first_available_variant.available -%}
+      <div class="g7-custom-sticky-cart">
+        <div class="g7-sticky-cart-container">
+          {%- assign sticky_variant = product.selected_or_first_available_variant -%}
+          {%- comment -%} Mobile：Grid + display:contents 对齐 Figma 934:43045（价格行｜配送文案｜双按钮） {%- endcomment -%}
+          <div class="g7-sticky-delivery">
+            <div class="g7-delivery-to">
+              <span class="g7-delivery-label">Deliver to:</span>
+              <span class="g7-delivery-location" id="g7-user-country">
+                {%- if localization.country.name -%}
+                  {{ localization.country.name }}
+                {%- else -%}
+                  <span class="g7-loading-country">Loading...</span>
+                {%- endif -%}
+              </span>
+            </div>
+            <div class="g7-delivery-date">
+              {%- liquid
+                assign g7_lead_days = section.settings.sticky_cart_ships_by_days | default: 15
+                assign g7_spread_days = section.settings.sticky_cart_delivery_plus_days | default: 2
+                assign g7_now_sec = 'now' | date: '%s' | times: 1
+                assign g7_lead_sec = g7_lead_days | times: 86400
+                assign g7_ship_sec = g7_now_sec | plus: g7_lead_sec
+                assign g7_spread_sec = g7_spread_days | times: 86400
+                assign g7_end_sec = g7_ship_sec | plus: g7_spread_sec
+                assign g7_sb_month = g7_ship_sec | date: '%b'
+                assign g7_sb_day = g7_ship_sec | date: '%-d'
+                assign g7_end_month = g7_end_sec | date: '%b'
+                assign g7_end_day = g7_end_sec | date: '%-d'
+                assign g7_ym_ship = g7_ship_sec | date: '%Y-%m'
+                assign g7_ym_end = g7_end_sec | date: '%Y-%m'
+                if g7_ym_ship == g7_ym_end
+                  assign g7_est_range = g7_sb_month | append: ' ' | append: g7_sb_day | append: '–' | append: g7_end_day
+                else
+                  assign g7_est_range = g7_sb_month | append: ' ' | append: g7_sb_day | append: '–' | append: g7_end_month | append: ' ' | append: g7_end_day
+                endif
+              -%}
+              {%- liquid
+                assign g7_ships_msg = section.settings.sticky_cart_ships_text
+                if g7_ships_msg == blank
+                  assign g7_ships_msg = 'Normally ships within [days] days.'
+                endif
+                assign g7_ships_msg = g7_ships_msg | replace: '[days]', g7_lead_days
+              -%}
+              <span class="g7-ships-text">{{ g7_ships_msg }}</span>
+            </div>
+          </div>
+
+          <div class="g7-sticky-right">
+            <div class="g7-sticky-price">
+              <span class="g7-price-current">{{ sticky_variant.price | money }}</span>
+              {%- if sticky_variant.compare_at_price > sticky_variant.price -%}
+                <span class="g7-price-compare">{{ sticky_variant.compare_at_price | money }}</span>
+              {%- endif -%}
+            </div>
+
+            <div class="g7-sticky-buttons-wrapper">
+              <div class="g7-sticky-buttons">
+                <buy-buttons template="{{ product.template_suffix }}" form="{{ product_form_id }}">
+                  <button type="submit" form="{{ product_form_id }}" class="g7-btn-add-to-cart">
+                    <span class="g7-sticky-atc-label g7-sticky-atc-label--desktop">Add to Cart</span>
+                    <span class="g7-sticky-atc-label g7-sticky-atc-label--mobile">Add to Cart</span>
+                  </button>
+                  {%- comment -%} Buy Now Button - 直接跳转到结账 {%- endcomment -%}
+                  <a
+                    href="{{ routes.cart_url }}/{{ sticky_variant.id }}:1?checkout"
+                    class="g7-btn-buy-now"
+                    data-sticky-buy-now
+                    data-cart-url="{{ routes.cart_url }}"
+                  >
+                    Buy Now
+                  </a>
+                </buy-buttons>
+              </div>
+              
+              {%- comment -%} Klarna Payment Info {%- endcomment -%}
+              <div class="g7-klarna-info">
+                {%- assign monthly_payment = product.selected_or_first_available_variant.price | divided_by: 4.0 | money -%}
+                <span class="g7-klarna-text">From {{ monthly_payment }}/month or 4 payments at 0% interest with</span>
+                <img src="{{ 'pay-klarna.svg' | asset_url }}" alt="Klarna" class="g7-klarna-logo" loading="lazy">
+                <span class="g7-klarna-link" style="display:none">Check purchase power</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} JavaScript to detect user country {%- endcomment -%}
+      <script>
+        (function() {
+          // Try to get country from Shopify's localization
+          const countryElement = document.getElementById('g7-user-country');
+          if (!countryElement) return;
+          
+          // If no country from Shopify, try to detect via IP
+          if (countryElement.querySelector('.g7-loading-country')) {
+            fetch('https://ipapi.co/json/')
+              .then(response => response.json())
+              .then(data => {
+                if (data.country_name) {
+                  countryElement.textContent = data.country_name;
+                } else {
+                  countryElement.textContent = 'United States';
+                }
+              })
+              .catch(() => {
+                countryElement.textContent = 'United States';
+              });
+          }
+        })();
+      </script>
+
+      <script>
+        (function () {
+          var buyNow = document.querySelector('[data-sticky-buy-now]');
+          var form = document.getElementById('{{ product_form_id }}');
+          if (!buyNow || !form) return;
+
+          var cartUrl = buyNow.getAttribute('data-cart-url') || '/cart';
+          var pageQuery = window.location.search.replace(/^\?/, '');
+          var checkoutSuffix = pageQuery ? '?checkout&' + pageQuery : '?checkout';
+          var updateHref = function () {
+            var variantInput = form.querySelector('input[name="id"]');
+            if (!variantInput || !variantInput.value) return;
+
+            var qtyInput = form.querySelector('input[name="quantity"]');
+            var qty = qtyInput && qtyInput.value ? parseInt(qtyInput.value, 10) : 1;
+            if (!qty || qty < 1) qty = 1;
+
+            buyNow.setAttribute('href', cartUrl + '/' + variantInput.value + ':' + qty + checkoutSuffix);
+          };
+
+          updateHref();
+          form.addEventListener('change', updateHref);
+          form.addEventListener('input', function (event) {
+            if (event.target && event.target.name === 'quantity') {
+              updateHref();
+            }
+          }, true);
+        })();
+      </script>
+
+    {%- endif -%}
+  </product-rerender>
+
+  {%- comment -%}
+    Sticky 购买栏显示规则：
+    - 默认隐藏（页面打开时 gallery 在视口内）
+    - 当大图 product-gallery 滚出视口后显示
+    - 当滚动到 footer 时再次隐藏
+  {%- endcomment -%}
+  <style>
+    {% comment %} /* 默认隐藏，等 gallery 滚出后通过 body.is-gallery-out-of-view 显示 */
+    .g7-custom-sticky-cart { display: none !important; }
+    body.is-gallery-out-of-view .g7-custom-sticky-cart { display: flex !important; }
+    body.is-footer-visible .g7-custom-sticky-cart { display: none !important; }
+    @media screen and (min-width: 1200px) {
+      body.is-footer-visible #{{ product_form_id }} { display: none !important; }
+    } {% endcomment %}
+
+    /* 延迟显示：等产品表单就绪后再显示，避免首屏误触发 */
+    .g7-custom-sticky-cart { display: none !important; }
+    body.g7-sticky-ready .g7-custom-sticky-cart { display: flex !important; }
+    
+    /* 2. 当滚动到页面最底部的 footer 时隐藏（建议保留，以免遮挡页脚） */
+    body.is-footer-visible .g7-custom-sticky-cart { display: none !important; }
+    @media screen and (min-width: 1200px) {
+      body.is-footer-visible #{{ product_form_id }} { display: none !important; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      var formId = '{{ product_form_id }}';
+      var readyDelayMs = 120;
+      var maxWaitMs = 5000;
+      var checkIntervalMs = 80;
+      var delayTimer = null;
+      var waitedMs = 0;
+      var revealed = false;
+
+      function isProductFormReady() {
+        var form = document.getElementById(formId);
+        if (!form) return false;
+
+        var variantInput = form.querySelector('input[name="id"]');
+        if (!variantInput) return false;
+
+        return !variantInput.disabled && !!variantInput.value;
+      }
+
+      function revealSticky() {
+        if (revealed || document.body.classList.contains('g7-sticky-ready')) return;
+        revealed = true;
+        delayTimer = window.setTimeout(function () {
+          document.body.classList.add('g7-sticky-ready');
+        }, readyDelayMs);
+      }
+
+      function waitUntilReady() {
+        if (isProductFormReady()) {
+          if (document.readyState === 'complete') {
+            readyDelayMs = 0;
+          }
+          revealSticky();
+          return;
+        }
+
+        var pollTimer = window.setInterval(function () {
+          waitedMs += checkIntervalMs;
+
+          if (isProductFormReady() || waitedMs >= maxWaitMs) {
+            window.clearInterval(pollTimer);
+            if (document.readyState === 'complete') {
+              readyDelayMs = 0;
+            }
+            revealSticky();
+          }
+        }, checkIntervalMs);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', waitUntilReady, { once: true });
+      } else {
+        waitUntilReady();
+      }
+
+      window.addEventListener('pageshow', function () {
+        if (delayTimer) window.clearTimeout(delayTimer);
+        waitUntilReady();
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
+      function bindFooterObserver() {
+        var footer = document.querySelector('.footer-v2, .footer');
+        if (!footer) return false;
+        if (footer.dataset.stickyObserverBound === '1') return true;
+        footer.dataset.stickyObserverBound = '1';
+
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              document.body.classList.toggle('is-footer-visible', entry.isIntersecting);
+            });
+          }, { root: null, threshold: 0, rootMargin: '0px 0px 0px 0px' });
+          io.observe(footer);
+        } else {
+          var onScroll = function () {
+            var rect = footer.getBoundingClientRect();
+            var inView = rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0;
+            document.body.classList.toggle('is-footer-visible', inView);
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        return true;
+      }
+
+      // 绑定 Footer 监听器
+      if (!bindFooterObserver()) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bindFooterObserver);
+        } else {
+          var tries = 0;
+          var retry = setInterval(function () {
+            if (bindFooterObserver() || ++tries > 20) clearInterval(retry);
+          }, 100);
+        }
+        window.addEventListener('load', bindFooterObserver);
+      }
+    })();
+  </script>
+
+  <script>
+    /* G7/M6 PDP：画廊与右列 sticky top 跟随公告 + store-header 实际可见高度（含 hide-on-scroll 动画） */
+    (function () {
+      var mq = window.matchMedia('(min-width: 1280px)');
+      var sectionId = 'shopify-section-{{ section.id }}';
+      var gapPx = 20;
+      var rafId = 0;
+
+      function isVisibleSection(el) {
+        if (!el) return false;
+        var cs = window.getComputedStyle(el);
+        return cs.visibility !== 'hidden' && cs.display !== 'none';
+      }
+
+      function syncPdpStickyTop() {
+        if (!mq.matches) return;
+        var sec = document.getElementById(sectionId);
+        if (!sec) return;
+
+        var offset = gapPx;
+        var ann = document.querySelector('.shopify-section--announcement-bar');
+        if (isVisibleSection(ann)) {
+          var ar = ann.getBoundingClientRect();
+          if (ar.bottom > 0) offset = Math.max(offset, ar.bottom + gapPx);
+        }
+
+        var storeHeader = document.querySelector('store-header.header');
+        if (storeHeader) {
+          var hr = storeHeader.getBoundingClientRect();
+          if (hr.bottom > 0) offset = Math.max(offset, hr.bottom + gapPx);
+        }
+
+        sec.style.setProperty('--pdp-sticky-top', Math.round(offset) + 'px');
+
+        var stickyInfo = sec.querySelector('safe-sticky.product-info');
+        if (stickyInfo) {
+          stickyInfo.style.removeProperty('top');
+        }
+      }
+
+      function scheduleSync() {
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(syncPdpStickyTop);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scheduleSync, { once: true });
+      } else {
+        scheduleSync();
+      }
+
+      window.addEventListener('scroll', scheduleSync, { passive: true });
+      window.addEventListener('resize', scheduleSync, { passive: true });
+      window.addEventListener('pageshow', scheduleSync);
+
+      if (typeof mq.addEventListener === 'function') {
+        mq.addEventListener('change', scheduleSync);
+      } else if (mq.addListener) {
+        mq.addListener(scheduleSync);
+      }
+
+      var storeHeader = document.querySelector('store-header.header');
+      if (storeHeader && typeof MutationObserver !== 'undefined') {
+        var mo = new MutationObserver(scheduleSync);
+        mo.observe(storeHeader, { attributes: true, attributeFilter: ['style', 'class'] });
+        var hdrSec = document.querySelector('.shopify-section--header');
+        if (hdrSec) mo.observe(hdrSec, { attributes: true, attributeFilter: ['style'] });
+      }
+    })();
+  </script>
+
+
+  {% comment %} <script>
+    (function () {
+      function bindFooterObserver() {
+        var footer = document.querySelector('.footer-v2, .footer');
+        if (!footer) return false;
+        if (footer.dataset.stickyObserverBound === '1') return true;
+        footer.dataset.stickyObserverBound = '1';
+
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              document.body.classList.toggle('is-footer-visible', entry.isIntersecting);
+            });
+          }, { root: null, threshold: 0, rootMargin: '0px 0px 0px 0px' });
+          io.observe(footer);
+        } else {
+          // 兜底：scroll 判断 footer 是否进入视口
+          var onScroll = function () {
+            var rect = footer.getBoundingClientRect();
+            var inView = rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0;
+            document.body.classList.toggle('is-footer-visible', inView);
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        return true;
+      }
+
+      function bindGalleryObserver() {
+        var section = document.getElementById('shopify-section-{{ section.id }}');
+        if (!section) return false;
+        
+        // 【修改点 1】：将监听目标从 gallery 改为 product-info__block-item
+        // 这里默认精准监听“购买按钮”所在的 block-item，如果找不到，再降级监听第一个 block-item
+        var targetElement = section.querySelector('.product-info__block-item[data-block-type="buy_buttons"]') || section.querySelector('.product-info__block-item');
+        
+        if (!targetElement) return false;
+        if (targetElement.dataset.stickyGalleryObserverBound === '1') return true;
+        targetElement.dataset.stickyGalleryObserverBound = '1';
+
+        function setOutOfView(isOut) {
+          document.body.classList.toggle('is-gallery-out-of-view', !!isOut);
+        }
+
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              // 目标元素离开视口 → 显示 sticky
+              setOutOfView(!entry.isIntersecting);
+            });
+          }, { root: null, threshold: 0, rootMargin: '0px 0px 0px 0px' });
+          // 【修改点 2】：传入新的目标元素
+          io.observe(targetElement); 
+        } else {
+          // 兜底方案也同步修改目标元素
+          var onScroll = function () {
+            var rect = targetElement.getBoundingClientRect(); 
+            var inView = rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0;
+            setOutOfView(!inView);
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        return true;
+      }
+
+      {% comment %} function bindGalleryObserver() {
+        // 仅监听本 section 内的产品大图区域，避免误中其它组件
+        var section = document.getElementById('shopify-section-{{ section.id }}');
+        if (!section) return false;
+        var gallery = section.querySelector('product-gallery, .product-gallery, .jingva-product-gallery-box');
+        if (!gallery) return false;
+        if (gallery.dataset.stickyGalleryObserverBound === '1') return true;
+        gallery.dataset.stickyGalleryObserverBound = '1';
+
+        function setOutOfView(isOut) {
+          document.body.classList.toggle('is-gallery-out-of-view', !!isOut);
+        }
+
+        if ('IntersectionObserver' in window) {
+          var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              // gallery 可见 → 隐藏 sticky；gallery 离开视口 → 显示 sticky
+              setOutOfView(!entry.isIntersecting);
+            });
+          }, { root: null, threshold: 0, rootMargin: '0px 0px 0px 0px' });
+          io.observe(gallery);
+        } else {
+          var onScroll = function () {
+            var rect = gallery.getBoundingClientRect();
+            var inView = rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.bottom > 0;
+            setOutOfView(!inView);
+          };
+          window.addEventListener('scroll', onScroll, { passive: true });
+          onScroll();
+        }
+        return true;
+      } {% endcomment %}
+
+      function bindAll() {
+        var ok1 = bindFooterObserver();
+        var ok2 = bindGalleryObserver();
+        return ok1 && ok2;
+      }
+
+      // 主商品 section 渲染时 footer/gallery 可能还未就绪，延迟绑定
+      if (!bindAll()) {
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', bindAll);
+        } else {
+          var tries = 0;
+          var retry = setInterval(function () {
+            if (bindAll() || ++tries > 20) clearInterval(retry);
+          }, 100);
+        }
+        window.addEventListener('load', bindAll);
+      }
+    })();
+  </script> {% endcomment %}
+{%- endif -%}
+
+{%- comment -%}
+IMPLEMENTATION NOTE: Shopify does not currently allows to render a given section within the context of a given product. However,
+when rendering the quick buy popovers, we want to be able to re-use the merchant's choices (such as the selector type). This
+is however only possible by rendering the whole product page, and extracting the relevant part. Here, we therefore render the
+quick buy information in a template, that will be extracted in JS, but ensure it is not visible in the main product page
+{%- endcomment -%}
+
+{%- render 'product-quick-buy', product: product -%}
+{% comment %} {% if product.metafields.custom.size_guide_image != blank %}
+<script>
+  document.querySelector('.kik_size_guide_heading .kik_close_icon').addEventListener('click', function() {
+    document.querySelector('.kik_product_size_guide').classList.remove('active');
+  });
+  document.querySelector('.size_guide').addEventListener('click', function() {
+    document.querySelector('.kik_product_size_guide').classList.add('active');
+  });
+  document.querySelector('.kik_size_guide_overlay').addEventListener('click', function() {
+    document.querySelector('.kik_product_size_guide').classList.remove('active');
+  });
+</script>
+{% endif %} {% endcomment %}
+ {% if product.metafields.custom.size_guide_image != blank %}
+  <script>
+    $(document).on('click', '.kik_size_guide_heading .kik_close_icon', function() {
+      $('.kik_product_size_guide').removeClass('active');
+    });
+
+    $(document).on('click', '.size_guide', function() {
+      $('.kik_product_size_guide').addClass('active');
+    });
+
+    $(document).on('click', '.kik_size_guide_overlay', function() {
+      $('.kik_product_size_guide').removeClass('active');
+    });
+    </script>
+    {% endif %}
+    {% assign selling = false %}
+    {% for block in section.blocks %}
+      {% if block.type == "selling_points" %}
+    {% assign selling = true %}
+      {% endif %}
+    {% endfor %}
+    {% if  selling %}
+    {% comment %} <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script> {% endcomment %}
+    <script>
+    var init = false;
+    var Blog_swiper;
+    function swiperBlog() {
+      if (window.innerWidth <= 529) {
+        if (!init) {
+          init = true;
+            Blog_swiper = new Swiper('.selling_points',{
+            spaceBetween: 0,
+            slidesPerView: 2,
+            loop:true,
+            pagination:false,
+            navigation: {
+            nextEl: ".kik-next-p",
+            prevEl: ".kik-prev-p",
+            },
+            breakpoints: { 
+              529: {
+                slidesPerView: 3,
+                spaceBetween: 0,
+                pagination:false,
+              },
+            },
+          });
+        }
+      } else if (init) {
+        swiper.destroy(true, true);
+        init = false;
+      }
+    }
+      document.addEventListener('DOMContentLoaded', function() { 
+        swiperBlog();
+      })
+
+    window.addEventListener("resize", swiperBlog);
+    </script>
+      {% endif %}
+      <script>
+    // Only enable variant-based gallery logic when default_slider is ON and product has per-variant images
+    {% assign has_variant_gallery = false %}
+    {% for v in product.variants %}
+      {% if v.metafields.custom.images and v.metafields.custom.images.value and v.metafields.custom.images.value.size > 0 %}
+        {% assign has_variant_gallery = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+    {% if section.settings.default_slider and has_variant_gallery %}
+    // Function to get the currently selected variant ID
+    function getCurrentVariantId() {
+      const selectedInput = document.querySelector('.variant-picker__option-values input:checked');
+      console.log(selectedInput.getAttribute("data-id"))
+      return selectedInput ? selectedInput.getAttribute("data-id") : null;
+    }
+
+    function getVariantIdFromUrl() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('variant');
+    }
+
+    // Function to update visible images based on variant ID
+    function updateVisibleImages(variantId) {
+      var thumbSelectors = '.product-gallery__thumbnail, .jingva-gallery-thumbnail';
+
+      document.querySelectorAll('.product-gallery__media').forEach(el => {
+        el.style.display = 'none';
+      });
+      document.querySelectorAll(thumbSelectors).forEach(el => {
+        el.style.display = 'none';
+      });
+
+      document.querySelectorAll(`.product-gallery__media[data-id="${variantId}"]`).forEach(el => {
+        el.style.display = 'block';
+      });
+      document.querySelectorAll(`.product-gallery__thumbnail[data-id="${variantId}"], .jingva-gallery-thumbnail[data-id="${variantId}"]`).forEach(el => {
+        el.style.display = 'block';
+      });
+
+      var firstThumbnail = document.querySelector(`.jingva-gallery-thumbnail[data-id="${variantId}"]`)
+        || document.querySelector(`.product-gallery__thumbnail[data-id="${variantId}"]`);
+      if (firstThumbnail) {
+        firstThumbnail.click();
+      }
+    }
+
+
+
+
+    const initialVariantId = getCurrentVariantId();
+    setTimeout(function(){
+    updateVisibleImages(initialVariantId);
+    },250)
+    
+
+
+    // Listen for variant selection changes
+    document.querySelectorAll('.variant-picker__option-values input').forEach(input => {
+      input.addEventListener('change', () => {
+        const variantId = getCurrentVariantId();
+        if (variantId) {
+          updateVisibleImages(variantId);
+          // Update URL to maintain the variant
+          const url = new URL(window.location.href);
+        // url.searchParams.set('variant', variantId);
+        // window.history.replaceState({}, '', url.toString());
+        }
+      });
+    });
+
+    // Watch for URL changes (back/forward buttons)
+    let lastUrl = window.location.href;
+    function checkUrlChange() {
+      const currentUrl = window.location.href;
+      if (currentUrl !== lastUrl) {
+        lastUrl = currentUrl;
+        const variantMatch = currentUrl.match(/variant=(\d+)/);
+        if (variantMatch && variantMatch[1]) {
+          updateVisibleImages(variantMatch[1]);
+          // Also update the radio input to match
+          const input = document.querySelector(`.variant-picker__option-values input[value="${variantMatch[1]}"]`);
+          if (input) input.checked = true;
+        }
+      }
+      requestAnimationFrame(checkUrlChange);
+    }
+    checkUrlChange();
+    {% endif %}
+</script>
+ 
+{% schema %}
+{
+  "name": "Product page",
+  "class": "shopify-section--main-product",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Style",
+          "options": [
+            {
+              "value": "h1",
+              "label": "X-Large"
+            },
+            {
+              "value": "h2",
+              "label": "Large"
+            },
+            {
+              "value": "h3",
+              "label": "Medium"
+            },
+            {
+              "value": "h4",
+              "label": "Small"
+            },
+            {
+              "value": "h5",
+              "label": "X-Small"
+            },
+            {
+              "value": "h6",
+              "label": "XX-Small"
+            }
+          ],
+          "default": "h2"
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1
+    },
+    {
+      "type": "badges",
+      "name": "Badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Use metafields to add custom badges. [Learn more](https://support.maestrooo.com/article/75-collection-displaying-custom-label)"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_taxes_notice",
+          "label": "Show taxes notice",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "payment_terms",
+      "name": "Payment installments",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To display payment installments, your store needs to support Shop Pay Installments. [Learn more](https://help.shopify.com/en/manual/payments/shop-pay-installments)"
+        }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "Rating",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To display a rating, add a product rating app. [Learn more](https://apps.shopify.com/categories/store-design-social-proof-product-reviews)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_empty",
+          "label": "Show if no reviews",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "bottom_policy",
+      "name": "Bottom policy",
+      "settings": [
+        {
+          "type": "url",
+          "id": "add_link",
+          "label": "Link"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        }
+      ]
+    },
+    {
+      "type": "selling_points",
+      "name": "Selling points",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "countdown",
+      "name": "Countdown",
+      "limit": 1,
+      "settings": [
+      {
+          "type": "checkbox",
+          "id": "show_countdown",
+          "label": "显示倒计时",
+          "default": true
+        },
+        { "type": "checkbox", "id": "show_title_countdown", "label": "倒计时显示标题", "default": true },
+        { "type": "html", "id": "title_countdown", "label": "倒计时标题", "default": "Sale Ends in" },
+        { "type": "text", "id": "end_time", "label": "截止时间", "default": "2030-12-31 23:59:59", "info": "支持 ISO 或 YYYY-MM-DD HH:mm:ss（本地时区）" },
+        { "type": "checkbox", "id": "show_days", "label": "显示天数块", "default": true },
+        { "type": "checkbox", "id": "auto_hide_days", "label": "小于1天时自动隐藏天数块", "default": true },
+        { "type": "text", "id": "expired_text", "label": "到期后标题文案", "default": "Offer ended" },
+        { "type": "select", "id": "position_countdown", "label": "倒计时位置", "default": "center", "options": [
+          { "value": "left", "label": "左" },
+          { "value": "center", "label": "中" },
+          { "value": "right", "label": "右" }
+        ] },
+        { "type": "select", "id": "position_countdown_mb", "label": "倒计时位置（移动端）", "default": "center", "options": [
+          { "value": "left", "label": "左" },
+          { "value": "center", "label": "中" },
+          { "value": "right", "label": "右" }
+        ] },
+
+        { "type": "header", "content": "倒计时样式" },
+        { "type": "color", "id": "background_countdown", "label": "倒计时背景色", "default": "#000000" },
+        { "type": "color", "id": "title_color_countdown", "label": "倒计时标题颜色", "default": "#ffffff" },
+        { "type": "text", "id": "title_size_countdown", "label": "倒计时标题字号", "default": "24px;24px;18px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+        { "type": "color", "id": "digits_bg", "label": "数字背景色", "default": "#1f1f1f" },
+        { "type": "color", "id": "digits_color", "label": "数字颜色", "default": "#ffffff" },
+        { "type": "text", "id": "digits_size", "label": "数字字号", "default": "36px;36px;24px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+        { "type": "color", "id": "label_color", "label": "标签颜色", "default": "#ffffff" },
+        { "type": "text", "id": "label_size", "label": "标签字号", "default": "12px;12px;11px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+        { "type": "text", "id": "gap", "label": "块间距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+        { "type": "range", "id": "radius", "label": "圆角", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 8 },
+        { "type": "text", "id": "padding_top_countdown", "label": "上内边距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+        { "type": "text", "id": "padding_bottom_countdown", "label": "下内边距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+
+        { "type": "header", "content": "标签文案" },
+        { "type": "text", "id": "days_label", "label": "天 标签", "default": "Days" },
+        { "type": "text", "id": "hours_label", "label": "时 标签", "default": "Hours" },
+        { "type": "text", "id": "mins_label", "label": "分 标签", "default": "Mins" },
+        { "type": "text", "id": "secs_label", "label": "秒 标签", "default": "Secs" }
+      ]
+    },
+    {
+      "type": "selling_points_titles",
+      "name": "Selling points titles",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Key Features"
+        }
+      ]
+    },
+    {
+      "type": "separator",
+      "name": "Separator"
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "picto-coupon",
+              "label": "Coupon",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-percent",
+              "label": "Percent",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-gift",
+              "label": "Gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-star",
+              "label": "Star",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-like",
+              "label": "Like",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-building",
+              "label": "Building",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-love",
+              "label": "Love",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-award-gift",
+              "label": "Award gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-happy",
+              "label": "Happy",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-box",
+              "label": "Box",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-pin",
+              "label": "Pin",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-timer",
+              "label": "Timer",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-validation",
+              "label": "Validation",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-truck",
+              "label": "Truck",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-return",
+              "label": "Return",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-earth",
+              "label": "Earth",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-plane",
+              "label": "Plane",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-credit-card",
+              "label": "Credit card",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-lock",
+              "label": "Lock",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-shield",
+              "label": "Shield",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-secure-profile",
+              "label": "Secure profile",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-money",
+              "label": "Money",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-recycle",
+              "label": "Recycle",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-leaf",
+              "label": "Leaf",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-tree",
+              "label": "Tree",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-mobile-phone",
+              "label": "Mobile phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-phone",
+              "label": "Phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-chat",
+              "label": "Chat",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-customer-support",
+              "label": "Customer support",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-operator",
+              "label": "Operator",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-mailbox",
+              "label": "Mailbox",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-envelope",
+              "label": "Envelope",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-comment",
+              "label": "Comment",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-question",
+              "label": "Question",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-send",
+              "label": "Send",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-at-sign",
+              "label": "At sign",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-camera",
+              "label": "Camera",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-wifi",
+              "label": "WiFi",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-bluetooth",
+              "label": "Bluetooth",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-printer",
+              "label": "Printer",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-smart-watch",
+              "label": "Smart watch",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-coffee",
+              "label": "Coffee",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-burger",
+              "label": "Burger",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-beer",
+              "label": "Beer",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-target",
+              "label": "Target",
+              "group": "Other"
+            },
+            {
+              "value": "picto-document",
+              "label": "Document",
+              "group": "Other"
+            },
+            {
+              "value": "picto-jewelry",
+              "label": "Jewelry",
+              "group": "Other"
+            },
+            {
+              "value": "picto-music",
+              "label": "Music",
+              "group": "Other"
+            },
+            {
+              "value": "picto-file",
+              "label": "File",
+              "group": "Other"
+            },
+            {
+              "value": "picto-mask",
+              "label": "Mask",
+              "group": "Other"
+            },
+            {
+              "value": "picto-stop",
+              "label": "Stop",
+              "group": "Other"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon",
+          "info": "96 x 96px .png or .svg recommended. Only used when content is collapsed."
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "min": 16,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon width",
+          "default": 20
+        },
+        {
+          "type": "checkbox",
+          "id": "collapse_content",
+          "label": "Collapse content",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "hide_sold_out_variants",
+          "label": "Hide sold out variants",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "stack_blocks",
+          "label": "Stack options on mobile",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "selector_style",
+          "label": "Selector style",
+          "options": [
+            {
+              "value": "block",
+              "label": "Block"
+            },
+            {
+              "value": "dropdown",
+              "label": "Dropdown"
+            },
+            {
+              "value": "variant_image",
+              "label": "Variant image"
+            },
+            {
+              "value": "block_swatch",
+              "label": "Block with swatch"
+            }
+          ],
+          "default": "block"
+        },
+        {
+          "type": "select",
+          "id": "swatch_selector_style",
+          "label": "Swatch selector style",
+          "info": "Enable [swatches](https://help.shopify.com/en/manual/online-store/themes/theme-structure/theme-settings#options-with-swatches) on product options.",
+          "options": [
+            {
+              "value": "swatch",
+              "label": "Swatch"
+            },
+            {
+              "value": "block_swatch",
+              "label": "Block with swatch"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "swatch"
+        },
+        {
+          "type": "text",
+          "id": "variant_image_options",
+          "label": "Show variant image for options",
+          "info": "List of comma separated option names where option values show the attached variant image. [Learn more](https://impact-theme.helpscoutdocs.com/article/555-variant-images-for-color-option)"
+        },
+        {
+          "type": "page",
+          "id": "size_chart_page",
+          "label": "Size chart page",
+          "info": "Feature a page for size option"
+        }
+      ]
+    },
+    {
+      "type": "product_variations",
+      "name": "Product variations",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Link products of different colors using swatches. [Learn more](https://support.maestrooo.com/article/307-product-creating-product-variations-that-link-to-different-pages)"
+        },
+        {
+          "type": "text",
+          "id": "option_name",
+          "label": "Option name",
+          "info": "Example: Color, Style..."
+        },
+        {
+          "type": "text",
+          "id": "option_value_metafield",
+          "label": "Option value metafield",
+          "info": "Enter namespace and key of the metafield holding the value. Eg.: custom.color"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "Products",
+          "info": "Select all the variations (including the product itself)."
+        },
+        {
+          "type": "select",
+          "id": "selector_style",
+          "label": "Selector style",
+          "info": "Product image mode requires that all variant have an associated image. [Learn more](https://help.shopify.com/en/manual/products/product-media/add-images-variants#add-images-to-existing-variants)",
+          "options": [
+            {
+              "value": "block",
+              "label": "Block"
+            },
+            {
+              "value": "block_swatch",
+              "label": "Block with swatch"
+            },
+            {
+              "value": "swatch",
+              "label": "Swatch"
+            },
+            {
+              "value": "variant_image",
+              "label": "Variant image"
+            }
+          ],
+          "default": "swatch"
+        }
+      ]
+    },
+    {
+      "type": "line_item_property",
+      "name": "Line item property",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Line item properties are used to collect customization information for an item added to the cart."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Your label"
+        },
+        {
+          "type": "select",
+          "id": "type",
+          "label": "Type",
+          "options": [
+            {
+              "value": "text",
+              "label": "Text"
+            },
+            {
+              "value": "checkbox",
+              "label": "Checkbox"
+            }
+          ],
+          "default": "text"
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "info": "For text property, the customer must write a text ; for checkbox, the customer must check it to add to cart.",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Text",
+          "info": "Only applicable for line item property of type Text."
+        },
+        {
+          "type": "checkbox",
+          "id": "allow_long_text",
+          "label": "Allow long text",
+          "default": false
+        },
+        {
+          "type": "number",
+          "id": "max_length",
+          "label": "Maximum number of characters"
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "The selector is automatically hidden if all variants are sold out. When at least one variant is available, the selector is always visible to prevent the page from moving when switching variants. To show a volume pricing table, add the dedicatd Volume pricing block."
+        }
+      ]
+    },
+    {
+      "type": "volume_pricing",
+      "name": "Volume pricing table",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Volume pricing is only available to Shopify Plus merchants. [Learn more](https://help.shopify.com/en/manual/b2b/catalogs/quantity-pricing#volume-pricing)"
+        }
+      ]
+    },
+    {
+      "type": "inventory",
+      "name": "Inventory",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "low_inventory_threshold",
+          "label": "Low inventory threshold",
+          "info": "Use low stock color when quantity is below the threshold. Choose 0 to always show in stock.",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_pulse",
+          "label": "Enable Pulse",
+          "info": "Allow you to use a custom indicator with animation pulse",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "warning_color",
+          "label": "Warning"
+        },
+        {
+          "type": "color",
+          "id": "success_color",
+          "label": "Success"
+        },
+        {
+          "type": "color",
+          "id": "error_color",
+          "label": "Error"
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_payment_button",
+          "label": "Show dynamic checkout button",
+          "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "label": "Show recipient information form for gift cards",
+          "info": "Allow buyers to send gift cards along with a personal message. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/add-gift-card-recipient-fields)",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "atc_button_background",
+          "label": "Add to cart background"
+        },
+        {
+          "type": "color",
+          "id": "atc_button_text_color",
+          "label": "Add to cart color"
+        },
+        {
+          "type": "color",
+          "id": "payment_button_background",
+          "label": "Buy now button background"
+        },
+        {
+          "type": "color",
+          "id": "payment_button_text_color",
+          "label": "Buy now button color"
+        },
+        {
+          "type": "header",
+          "content": "Custom Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_quantity",
+          "label": "Show Quantity",
+          "info": "Allow quantity show inline on the buy button. Make sure disable the quantity blocks.",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "pickup_availability",
+      "name": "Pickup availability",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Allow your customers to see availability in retail stores by [setting up local pickup](https://help.shopify.com/en/manual/sell-in-person/shopify-pos/order-management/local-pickup-for-online-orders)."
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Share some content to your customers about your products.</p>"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_text",
+      "name": "Collapsible text",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "enable_group",
+          "label": "Selecting Group",
+          "info": "Allow you to Changes background all group of 'Collapsible Text' if this one of the collapsible text already enable you don't need to enable each collapsible text.",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "font_transform",
+          "label": "Collapsible Header style ",
+          "info": "Applied to all the text in the collapsible header",
+          "options": [
+              {
+              "value": "capitalize",
+              "label": "Capitalize"
+              },
+              {
+              "value": "uppercase",
+              "label": "Uppercase"
+              },
+              {
+              "value": "lowercase",
+              "label": "Lowercase"
+              }
+          ],
+          "default": "capitalize"
+        },
+        {
+          "type": "color",
+          "id": "background_group",
+          "label": "Background Group"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "picto-coupon",
+              "label": "Coupon",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-percent",
+              "label": "Percent",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-gift",
+              "label": "Gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-star",
+              "label": "Star",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-like",
+              "label": "Like",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-building",
+              "label": "Building",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-love",
+              "label": "Love",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-award-gift",
+              "label": "Award gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-happy",
+              "label": "Happy",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-box",
+              "label": "Box",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-pin",
+              "label": "Pin",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-timer",
+              "label": "Timer",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-validation",
+              "label": "Validation",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-truck",
+              "label": "Truck",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-return",
+              "label": "Return",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-earth",
+              "label": "Earth",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-plane",
+              "label": "Plane",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-credit-card",
+              "label": "Credit card",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-lock",
+              "label": "Lock",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-shield",
+              "label": "Shield",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-secure-profile",
+              "label": "Secure profile",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-money",
+              "label": "Money",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-recycle",
+              "label": "Recycle",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-leaf",
+              "label": "Leaf",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-tree",
+              "label": "Tree",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-mobile-phone",
+              "label": "Mobile phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-phone",
+              "label": "Phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-chat",
+              "label": "Chat",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-customer-support",
+              "label": "Customer support",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-operator",
+              "label": "Operator",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-mailbox",
+              "label": "Mailbox",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-envelope",
+              "label": "Envelope",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-comment",
+              "label": "Comment",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-question",
+              "label": "Question",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-send",
+              "label": "Send",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-at-sign",
+              "label": "At sign",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-camera",
+              "label": "Camera",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-wifi",
+              "label": "WiFi",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-bluetooth",
+              "label": "Bluetooth",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-printer",
+              "label": "Printer",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-smart-watch",
+              "label": "Smart watch",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-coffee",
+              "label": "Coffee",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-burger",
+              "label": "Burger",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-beer",
+              "label": "Beer",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-target",
+              "label": "Target",
+              "group": "Other"
+            },
+            {
+              "value": "picto-document",
+              "label": "Document",
+              "group": "Other"
+            },
+            {
+              "value": "picto-jewelry",
+              "label": "Jewelry",
+              "group": "Other"
+            },
+            {
+              "value": "picto-music",
+              "label": "Music",
+              "group": "Other"
+            },
+            {
+              "value": "picto-file",
+              "label": "File",
+              "group": "Other"
+            },
+            {
+              "value": "picto-mask",
+              "label": "Mask",
+              "group": "Other"
+            },
+            {
+              "value": "picto-stop",
+              "label": "Stop",
+              "group": "Other"
+            }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon",
+          "info": "96 x 96px .png or .svg recommended"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "min": 16,
+          "max": 48,
+          "step": 2,
+          "unit": "px",
+          "label": "Icon width",
+          "default": 20
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Share some content to your customers about your products.</p>"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "Replaces inline content if specified."
+        }
+      ]
+    },
+    {
+      "type": "kiks_extended_products",
+      "name": "Kiks Extended Products",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Make sure you have a product items added on the 'Extended Product' Metafield."
+        },
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Block Label",
+          "default": "Variant:"
+        }
+      ]
+    },
+    {
+      "type": "custom_free_gifts",
+      "name": "Kiks Free Gifts",
+      "settings": [
+          {
+            "type": "text",
+            "id": "block_title",
+            "label": "Block Label",
+            "default": "Free Gifts"
+          },
+          {
+            "type": "product",
+            "id": "custom_product",
+            "label": "Product Gift",
+            "info": "Select your free gift"
+          }
+      ]
+    },
+    {
+      "type": "custom_discode",
+      "name": "Kiks Discount Code",
+      "settings": [
+        {
+          "type": "text",
+          "id": "block_title",
+          "label": "Block Label",
+          "default": "Offer Ends Soon"
+        },
+        {
+          "type": "text",
+          "id": "dis_title",
+          "label": "Discount Title",
+          "default": "$39 OFF"
+        },
+        {
+          "type": "text",
+          "id": "dis_code",
+          "label": "Discount Code",
+          "default": "WS24D3200US"
+        },
+        {
+          "type": "header",
+          "content": "Countdown"
+        },
+        {
+          "type": "text",
+          "id": "ends_label",
+          "label": "Ends Label",
+          "default": "Ends In"
+        },
+        {
+          "type": "text",
+          "id": "end_date",
+          "label": "End date / time",
+          "info": "Format: YYYY-MM-DD HH:MM:SS (in browser local time). Leave blank to hide countdown."
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Text",
+          "default": "COPY"
+        },
+        {
+          "type": "header",
+          "content": "Ticket Colors"
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background (Gradient Start)",
+          "default": "#ED0014"
+        },
+        {
+          "type": "color",
+          "id": "background_end",
+          "label": "Background Gradient End",
+          "info": "Leave blank for a solid background color.",
+          "default": "#FF6A00"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+    "type": "custom_logos",
+    "name": "Kiks Custom Logos",
+    "settings": [
+      {
+          "type": "paragraph",
+          "content": "Custom settings can allow you to modify the position"
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_inline",
+        "label": "Allow Inline",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "allow_flex",
+        "label": "Alignment Group",
+        "options": [
+          {
+            "value": "space-evenly",
+            "label": "Space Evenly"
+          },
+          {
+            "value": "space-around",
+            "label": "Space Around"
+          },
+          {
+            "value": "space-between",
+            "label": "Space Between"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-start",
+            "label": "Left"
+          },
+          {
+            "value": "flex-end",
+            "label": "Right"
+          }
+        ],
+        "default": "space-around"
+      },
+      {
+        "type": "range",
+        "id": "allow_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Width",
+        "default": 20
+      },
+      {
+        "type": "paragraph",
+        "content": "We can add max 3 images with settings can use the settings on a column mode."
+      },
+      {
+        "type": "image_picker",
+        "id": "image1",
+        "label": "Image 1"
+      },
+      {
+        "type": "select",
+        "id": "alignment1",
+        "label": "Alignment 1",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "start"
+      },
+      {
+        "type": "range",
+        "id": "max_width1",
+        "min": 50,
+        "max": 500,
+        "step": 10,
+        "unit": "px",
+        "label": "Width",
+        "default": 150
+      },
+      {
+        "type": "image_picker",
+        "id": "image2",
+        "label": "Image 2"
+      },
+      {
+      "type": "select",
+      "id": "alignment2",
+      "label": "Alignment 2",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "range",
+          "id": "max_width2",
+          "min": 50,
+          "max": 500,
+          "step": 10,
+          "unit": "px",
+          "label": "Width",
+          "default": 150
+        },
+        {
+          "type": "image_picker",
+          "id": "image3",
+          "label": "Image 3"
+        },
+        {
+        "type": "select",
+        "id": "alignment3",
+        "label": "Alignment 3",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "start"
+        },
+        {
+          "type": "range",
+          "id": "max_width3",
+          "min": 50,
+          "max": 500,
+          "step": 10,
+          "unit": "px",
+          "label": "Width",
+          "default": 150
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "min": 50,
+          "max": 500,
+          "step": 10,
+          "unit": "px",
+          "label": "Width",
+          "default": 150
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Create link to your contact page, external marketplace..."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Button"
+        },
+        {
+          "type": "select",
+          "id": "size",
+          "label": "Size",
+          "options": [
+            {
+              "value": "sm",
+              "label": "Small"
+            },
+            {
+              "value": "base",
+              "label": "Medium"
+            },
+            {
+              "value": "lg",
+              "label": "Large"
+            },
+            {
+              "value": "xl",
+              "label": "X-Large"
+            }
+          ],
+          "default": "xl"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "outline",
+              "label": "Outline"
+            },
+            {
+              "value": "fill",
+              "label": "Fill"
+            }
+          ],
+          "default": "fill"
+        },
+        {
+          "type": "checkbox",
+          "id": "stretch",
+          "label": "Stretch",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "Liquid",
+          "info": "Add app snippets or other Liquid code to create advanced customizations."
+        }
+      ]
+    },
+    {
+      "type": "associated_products",
+      "name": "Complementary products",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To select complementary products, use the Search & Discovery app. [Learn more](https://help.shopify.com/en/manual/online-store/search-and-discovery/product-recommendations#complementary-products)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Buy it with"
+        },
+        {
+          "type": "checkbox",
+          "id": "stack_products",
+          "label": "Stack products",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "products_count",
+          "min": 1,
+          "max": 10,
+          "label": "Products to show",
+          "default": 5
+        },
+        {
+          "type": "header",
+          "content": "Colors",
+          "info": "Cards are bordered when background matches section background."
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "offer",
+      "name": "Offer",
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            }
+          ],
+          "default": "start"
+        },
+        {
+          "type": "select",
+          "id": "icon_position",
+          "label": "Icon position",
+          "options": [
+            {
+              "value": "aligned",
+              "label": "Aligned horizontally"
+            },
+            {
+              "value": "stacked",
+              "label": "Stacked"
+            }
+          ],
+          "default": "aligned"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "picto-coupon",
+              "label": "Coupon",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-percent",
+              "label": "Percent",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-gift",
+              "label": "Gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-star",
+              "label": "Star",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-like",
+              "label": "Like",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-building",
+              "label": "Building",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-love",
+              "label": "Love",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-award-gift",
+              "label": "Award gift",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-happy",
+              "label": "Happy",
+              "group": "Shop"
+            },
+            {
+              "value": "picto-box",
+              "label": "Box",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-pin",
+              "label": "Pin",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-timer",
+              "label": "Timer",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-validation",
+              "label": "Validation",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-truck",
+              "label": "Truck",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-return",
+              "label": "Return",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-earth",
+              "label": "Earth",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-plane",
+              "label": "Plane",
+              "group": "Shipping"
+            },
+            {
+              "value": "picto-credit-card",
+              "label": "Credit card",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-lock",
+              "label": "Lock",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-shield",
+              "label": "Shield",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-secure-profile",
+              "label": "Secure profile",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-money",
+              "label": "Money",
+              "group": "Payment & Security"
+            },
+            {
+              "value": "picto-recycle",
+              "label": "Recycle",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-leaf",
+              "label": "Leaf",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-tree",
+              "label": "Tree",
+              "group": "Ecology"
+            },
+            {
+              "value": "picto-mobile-phone",
+              "label": "Mobile phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-phone",
+              "label": "Phone",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-chat",
+              "label": "Chat",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-customer-support",
+              "label": "Customer support",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-operator",
+              "label": "Operator",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-mailbox",
+              "label": "Mailbox",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-envelope",
+              "label": "Envelope",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-comment",
+              "label": "Comment",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-question",
+              "label": "Question",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-send",
+              "label": "Send",
+              "group": "Communication"
+            },
+            {
+              "value": "picto-at-sign",
+              "label": "At sign",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-camera",
+              "label": "Camera",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-wifi",
+              "label": "WiFi",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-bluetooth",
+              "label": "Bluetooth",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-printer",
+              "label": "Printer",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-smart-watch",
+              "label": "Smart watch",
+              "group": "Tech"
+            },
+            {
+              "value": "picto-coffee",
+              "label": "Coffee",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-burger",
+              "label": "Burger",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-beer",
+              "label": "Beer",
+              "group": "Food & Drink"
+            },
+            {
+              "value": "picto-target",
+              "label": "Target",
+              "group": "Other"
+            },
+            {
+              "value": "picto-document",
+              "label": "Document",
+              "group": "Other"
+            },
+            {
+              "value": "picto-jewelry",
+              "label": "Jewelry",
+              "group": "Other"
+            },
+            {
+              "value": "picto-music",
+              "label": "Music",
+              "group": "Other"
+            },
+            {
+              "value": "picto-file",
+              "label": "File",
+              "group": "Other"
+            },
+            {
+              "value": "picto-mask",
+              "label": "Mask",
+              "group": "Other"
+            },
+            {
+              "value": "picto-stop",
+              "label": "Stop",
+              "group": "Other"
+            }
+          ],
+          "default": "picto-coupon"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon",
+          "label": "Custom icon",
+          "info": "240 x 240px .png recommended"
+        },
+        {
+          "type": "range",
+          "id": "icon_width",
+          "min": 20,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "Icon width",
+          "default": 20
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Shipping"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Short content about your shipping rates or discounts.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "content_icon",
+          "label": "Content icon"
+        },
+        {
+          "type": "color",
+          "id": "background",
+          "label": "Background",
+          "default": "#eaf2ed"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background image"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text",
+          "default": "#00a341"
+        }
+      ]
+    },
+    {
+      "type": "share_buttons",
+      "name": "Share buttons",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "To improve user experience and performance, native share buttons are used when supported."
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "options": [
+            {
+              "value": "start",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "end",
+              "label": "Right"
+            }
+          ],
+          "default": "start"
+        }
+      ]
+    },
+    {
+      "type": "product_tabs",
+      "name": "Product Tabs",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Tab 1"
+        },
+        {
+          "type": "text",
+          "id": "tab_1_title",
+          "label": "Tab 1 Title",
+          "default": "What you'll love"
+        },
+        {
+          "type": "text",
+          "id": "tab_1_heading",
+          "label": "Tab 1 Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_1_main_content",
+          "label": "Tab 1 Main Content",
+          "default": "<p>Main content goes here</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "tab_1_tags",
+          "label": "Tab 1 Tags (one per line)",
+          "default": "Tag 1\nTag 2\nTag 3"
+        },
+        {
+          "type": "header",
+          "content": "Tab 2"
+        },
+        {
+          "type": "text",
+          "id": "tab_2_title",
+          "label": "Tab 2 Title",
+          "default": "Key Features"
+        },
+        {
+          "type": "text",
+          "id": "tab_2_heading",
+          "label": "Tab 2 Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "tab_2_main_content",
+          "label": "Tab 2 Main Content",
+          "default": "<p>Main content goes here</p>"
+        },
+        {
+          "type": "textarea",
+          "id": "tab_2_list",
+          "label": "Tab 2 List Items (one per line)",
+          "default": "Item 1\nItem 2\nItem 3"
+        },
+        {
+          "type": "header",
+          "content": "Tab 3"
+        },
+        {
+          "type": "text",
+          "id": "tab_3_title",
+          "label": "Tab 3 Title",
+          "default": "Good mattress for"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_3_image_1",
+          "label": "Tab 3 Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_3_image_2",
+          "label": "Tab 3 Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_3_image_3",
+          "label": "Tab 3 Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "tab_3_image_4",
+          "label": "Tab 3 Image 4"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "default_slider",
+      "label": "Multiple images for each variante"
+    },
+    {
+      "type": "checkbox",
+      "id": "type_switch",
+      "label": "Type switch",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_fixed_add_to_cart",
+      "label": "Show add to cart on scroll",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_cart_ships_by_days",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "unit": "day",
+      "label": "Sticky bar: days until ship-by date",
+      "default": 15,
+      "info": "Copy matches Figma: “Ships by [date], estimated delivery [range].” based on today + this many days."
+    },
+    {
+      "type": "range",
+      "id": "sticky_cart_delivery_plus_days",
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "unit": "day",
+      "label": "Sticky bar: delivery range end (days after ship-by)",
+      "default": 2,
+      "info": "Estimated delivery ends on ship-by date plus these days (e.g. 2 → Mar 26–28)."
+    },
+    {
+      "type": "text",
+      "id": "sticky_cart_ships_text",
+      "label": "Sticky bar: shipping line text",
+      "default": "Normally ships within [days] days.",
+      "info": "Shown in the sticky cart (class g7-ships-text). Use [days] to insert the number from “days until ship-by” above; omit it for fixed copy."
+    },
+    {
+      "type": "header",
+      "content": "Media"
+    },
+    {
+      "type": "paragraph",
+      "content": "Learn more about [media types](https://help.shopify.com/en/manual/products/product-media)"
+    },
+    {
+      "type": "range",
+      "id": "desktop_media_width",
+      "label": "Desktop media size",
+      "min": 35,
+      "max": 65,
+      "step": 5,
+      "unit": "%",
+      "default": 55
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_layout",
+      "label": "Desktop media layout",
+      "options": [
+        {
+          "value": "grid_one",
+          "label": "Grid (1x1)"
+        },
+        {
+          "value": "grid",
+          "label": "Grid (2x2)"
+        },
+        {
+          "value": "grid_highlight",
+          "label": "Grid (2x2) with highlighted media"
+        },
+        {
+          "value": "carousel_thumbnails_left",
+          "label": "Thumbnails left (carousel)"
+        },
+        {
+          "value": "carousel_thumbnails_bottom",
+          "label": "Thumbnails bottom (carousel)"
+        }
+      ],
+      "default": "carousel_thumbnails_left"
+    },
+    {
+      "type":"select",
+      "id": "mobile_media_size",
+      "label": "Mobile media size",
+      "options": [
+        {
+          "value": "expanded",
+          "label": "Expanded"
+        },
+        {
+          "value": "contained",
+          "label": "Contained"
+        }
+      ],
+      "default": "expanded"
+    },
+    {
+      "type": "select",
+      "id": "mobile_carousel_control",
+      "label": "Mobile carousel control",
+      "options": [
+        {
+          "value": "dots",
+          "label": "Dots"
+        },
+        {
+          "value": "floating_dots",
+          "label": "Floating dots"
+        },
+        {
+          "value": "thumbnails",
+          "label": "Thumbnails"
+        },
+        {
+          "value": "free_scroll",
+          "label": "Free scroll"
+        }
+      ],
+      "default": "floating_dots"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_autoplay",
+      "label": "Enable video autoplay",
+      "info": "Video are muted automatically to allow autoplay. Grid mode on desktop turn off autoplay.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_looping",
+      "label": "Enable video looping",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Image zoom"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_image_zoom_level",
+      "min": 1,
+      "max": 4,
+      "step": 0.5,
+      "label": "Max zoom level",
+      "default": 3
+    },
+    {
+      "type": "url",
+      "id": "compare_link",
+      "label": "Compare link"
+    },
+    {
+      "type": "text",
+      "id": "compare_link_text",
+      "label": "Compare label",
+      "default": "Compare"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "header",
+      "content": "Input colors",
+      "info": "Applies to elements like quantity selector and variant selectors."
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Text"
+    }
+  ]
+}
+{% endschema %}

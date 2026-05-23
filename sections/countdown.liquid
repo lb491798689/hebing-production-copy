@@ -1,0 +1,233 @@
+{% liquid
+  assign sid = section.id
+  assign title_size = section.settings.title_size | split: ";"
+  assign digits_size = section.settings.digits_size | split: ";"
+  assign gap = section.settings.gap | split: ";"
+  assign padding_top = section.settings.padding_top | split: ";"
+  assign padding_bottom = section.settings.padding_bottom | split: ";"
+  assign label_size = section.settings.label_size | split: ";"
+%}
+
+{% capture default_sid %}.jingva-countdown-{{ sid }}{% endcapture %}
+
+<section class="jingva-countdown {{ section.settings.section_css }} jingva-countdown-{{ sid }}">
+  {% style %}
+  {{ default_sid }} {
+    --bg: {{ section.settings.background | default: '#000000' }};
+    --title-color: {{ section.settings.title_color | default: '#ffffff' }};
+    --title-size: {{ title_size[0] | default: '24px' }};
+    --title-size-ipad: {{ title_size[1] | default: '24px' }};
+    --title-size-mb: {{ title_size[2] | default: '18px' }};
+    --digits-bg: {{ section.settings.digits_bg | default: '#1f1f1f' }};
+    --digits-color: {{ section.settings.digits_color | default: '#ffffff' }};
+    --digits-size: {{ digits_size[0] | default: '36px' }};
+    --digits-size-ipad: {{ digits_size[1] | default: '36px' }};
+    --digits-size-mb: {{ digits_size[2] | default: '24px' }};
+    --label-color: {{ section.settings.label_color | default: '#ffffff' }};
+    --gap: {{ gap[0] | default: '16px' }};
+    --gap-ipad: {{ gap[1] | default: '16px' }};
+    --gap-mb: {{ gap[2] | default: '12px' }};
+    --radius: {{ section.settings.radius | default: 8 }}px;
+    --box-h: 90px;
+    --padding-top: {{ padding_top[0] | default: '24px' }};
+    --padding-top-ipad: {{ padding_top[1] | default: '24px' }};
+    --padding-top-mb: {{ padding_top[2] | default: '18px' }};
+    --padding-bottom: {{ padding_bottom[0] | default: '24px' }};
+    --padding-bottom-ipad: {{ padding_bottom[1] | default: '24px' }};
+    --padding-bottom-mb: {{ padding_bottom[2] | default: '18px' }};
+    --label-size: {{ label_size[0] | default: '12px' }};
+    --label-size-ipad: {{ label_size[1] | default: '12px' }};
+    --label-size-mb: {{ label_size[2] | default: '11px' }};
+    background: var(--bg);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    padding-left:var(--container-gutter);
+    padding-right:var(--container-gutter);
+  }
+
+  {{ default_sid }} .container{ max-width: var(--container-max-width); margin: 0 auto; text-align:center; }
+
+  {{ default_sid }} .title{color: var(--title-color); font-size: var(--title-size); font-weight: 800; margin: 0 0 14px 0; font-family: 'D-DINCondensed-Bold' !important; }
+
+  {{ default_sid }} .cd-wrap{ display:flex; align-items:center; justify-content:{{ section.settings.position }}; gap: var(--gap); }
+  {{ default_sid }} .cd-items{ display: inline-flex; align-items: flex-start; justify-content: center; gap: var(--gap); }
+
+  {{ default_sid }} .cd-item{ display: grid; grid-template-rows: auto auto; align-items: center; justify-items: center; gap: 6px; }
+  {{ default_sid }} .cd-box{ width: 90px; height: var(--box-h); padding: 6px 12px; display:flex; align-items:center; justify-content:center; border-radius: var(--radius); color: var(--digits-color); background: var(--digits-bg); font-size: var(--digits-size); font-weight: 800; line-height: 1; position: relative; overflow: hidden; }
+  {{ default_sid }} .cd-box::after{ content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: #000; transform: translateY(-50%); z-index: 0; opacity: .9; }
+  {{ default_sid }} .cd-num{ font-size: var(--digits-size); position: relative; z-index: 1; font-family: 'D-DINCondensed-Bold' !important; }
+  {{ default_sid }} .cd-label{ color: var(--label-color); font-size: var(--label-size); opacity: .9; font-family: 'D-DINCondensed-Bold' !important;}
+
+   {{ default_sid }} .colon{ color: var(--label-color); font-weight: 700; opacity: .7; padding: 0 2px; display:inline-flex; align-items:center; justify-content:center; height: var(--box-h); line-height: var(--box-h); font-size: calc(var(--digits-size) * .6); font-family: 'D-DINCondensed-Bold' !important; }
+
+  {{ default_sid }} .hide-days .cd-item--days, {{ default_sid }} .hide-days .colon--d-h { display: none !important; }
+
+
+   @media (max-width: 1024px){
+    {{ default_sid }} { padding-top: var(--padding-top-ipad); padding-bottom: var(--padding-bottom-ipad); }
+    {{ default_sid }} .title{ font-size: var(--title-size-ipad); }
+    {{ default_sid }} .cd-num{ font-size: var(--digits-size-ipad); }
+    {{ default_sid }} .cd-label{ font-size: var(--label-size-ipad); }
+    {{ default_sid }} .cd-items{ gap: var(--gap-ipad); }
+     {{ default_sid }} .colon{ font-size: calc(var(--digits-size-ipad) * .6); }
+  }
+  @media (max-width: 768px){
+    {{ default_sid }} { padding-top: var(--padding-top-mb); padding-bottom: var(--padding-bottom-mb); }
+    {{ default_sid }} .title{ font-size: var(--title-size-mb); }
+    {{ default_sid }} .cd-num{ font-size: var(--digits-size-mb); }
+    {{ default_sid }} .cd-label{ font-size: var(--label-size-mb); }
+    {{ default_sid }} .cd-items{ gap: var(--gap-mb); }
+     {{ default_sid }} .colon{ font-size: calc(var(--digits-size-mb) * .6); }
+     {{ default_sid }} .cd-box { width: 58px; --box-h: 58px;}
+ 
+  {% endstyle %}
+
+  <div class="container" data-end-time="{{ section.settings.end_time | escape }}" data-show-days="{{ section.settings.show_days | json }}" data-auto-hide-days="{{ section.settings.auto_hide_days | json }}" data-expired-text="{{ section.settings.expired_text | escape }}">
+    {% if section.settings.show_title and section.settings.title != blank %}
+      <h3 class="title">{{ section.settings.title }}</h3>
+    {% endif %}
+
+    <div class="cd-wrap">
+      <div class="cd-items">
+        <div class="cd-item cd-item--days">
+          <div class="cd-box"><span class="cd-num js-days">00</span></div>
+          <div class="cd-label">{{ section.settings.days_label | default: 'Days' }}</div>
+        </div>
+        <span class="colon colon--d-h">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-hours">00</span></div>
+          <div class="cd-label">{{ section.settings.hours_label | default: 'Hours' }}</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-mins">00</span></div>
+          <div class="cd-label">{{ section.settings.mins_label | default: 'Mins' }}</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-secs">00</span></div>
+          <div class="cd-label">{{ section.settings.secs_label | default: 'Secs' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const root = document.querySelector('.jingva-countdown-{{ sid }} .container');
+  if(!root) return;
+  const daysBox  = root.querySelector('.js-days');
+  const hoursBox = root.querySelector('.js-hours');
+  const minsBox  = root.querySelector('.js-mins');
+  const secsBox  = root.querySelector('.js-secs');
+  const items    = root.querySelector('.cd-items');
+
+  const showDays = root.getAttribute('data-show-days') === 'true';
+  const autoHideDays = root.getAttribute('data-auto-hide-days') === 'true';
+  const expiredText = root.getAttribute('data-expired-text') || '';
+  const endRaw = root.getAttribute('data-end-time') || '';
+
+  function parseDate(input){
+    let d = new Date(input);
+    if(!isNaN(d)) return d;
+    const t = input.trim().replace('T',' ').replace(/\./g,'-');
+    const m = t.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?$/);
+    if(m){
+      const y=+m[1], mo=(+m[2])-1, da=+m[3], h=+m[4], mi=+m[5], s=+(m[6]||0);
+      d = new Date(y,mo,da,h,mi,s);
+    }
+    return d;
+  }
+
+  const endTime = parseDate(endRaw);
+  if(isNaN(endTime)) return;
+
+  function pad(n){ return n < 10 ? '0'+n : String(n); }
+
+  function tick(){
+    const now = new Date();
+    let ms = endTime - now;
+    if(ms <= 0){
+      daysBox.textContent = '00';
+      hoursBox.textContent = '00';
+      minsBox.textContent = '00';
+      secsBox.textContent = '00';
+      if(expiredText){
+        const title = root.querySelector('.title');
+        if(title) title.textContent = expiredText;
+      }
+      items.classList.toggle('hide-days', !showDays || autoHideDays);
+      return;
+    }
+
+    const dayMs = 24*60*60*1000;
+    const hourMs = 60*60*1000;
+    const minMs = 60*1000;
+
+    const days  = Math.floor(ms / dayMs); ms -= days*dayMs;
+    const hours = Math.floor(ms / hourMs); ms -= hours*hourMs;
+    const mins  = Math.floor(ms / minMs);  ms -= mins*minMs;
+    const secs  = Math.floor(ms / 1000);
+
+    daysBox.textContent  = pad(days);
+    hoursBox.textContent = pad(hours);
+    minsBox.textContent  = pad(mins);
+    secsBox.textContent  = pad(secs);
+
+    const hideDays = (!showDays) || (autoHideDays && days <= 0);
+    items.classList.toggle('hide-days', hideDays);
+
+    requestAnimationFrame(() => setTimeout(tick, 1000 - (Date.now()%1000)));
+  }
+
+  tick();
+});
+</script>
+
+{% schema %}
+{
+  "name": "Countdown",
+  "tag": "section",
+  "class": "shopify-section--countdown",
+  "settings": [
+    { "type": "text", "id": "section_css", "label": "自定义CSS类名" },
+    { "type": "checkbox", "id": "show_title", "label": "显示标题", "default": true },
+    { "type": "html", "id": "title", "label": "标题", "default": "Sale Ends in" },
+    { "type": "text", "id": "end_time", "label": "截止时间", "default": "2030-12-31 23:59:59", "info": "支持 ISO 或 YYYY-MM-DD HH:mm:ss（本地时区）" },
+    { "type": "checkbox", "id": "show_days", "label": "显示天数块", "default": true },
+    { "type": "checkbox", "id": "auto_hide_days", "label": "小于1天时自动隐藏天数块", "default": true },
+    { "type": "text", "id": "expired_text", "label": "到期后标题文案", "default": "Offer ended" },
+    { "type": "select", "id": "position", "label": "位置", "options": [
+      { "value": "flex-start", "label": "左" },
+      { "value": "center", "label": "中" },
+      { "value": "flex-end", "label": "右" }
+    ], "default": "center" },
+
+    { "type": "header", "content": "样式" },
+    { "type": "color", "id": "background", "label": "背景色", "default": "#000000" },
+    { "type": "color", "id": "title_color", "label": "标题颜色", "default": "#ffffff" },
+    { "type": "text", "id": "title_size", "label": "标题字号", "default": "24px;24px;18px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+    { "type": "color", "id": "digits_bg", "label": "数字背景色", "default": "#1f1f1f" },
+    { "type": "color", "id": "digits_color", "label": "数字颜色", "default": "#ffffff" },
+    { "type": "text", "id": "digits_size", "label": "数字字号", "default": "36px;36px;24px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+    { "type": "color", "id": "label_color", "label": "标签颜色", "default": "#ffffff" },
+    { "type": "text", "id": "label_size", "label": "标签字号", "default": "12px;12px;11px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+    { "type": "text", "id": "gap", "label": "块间距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+    { "type": "range", "id": "radius", "label": "圆角", "min": 0, "max": 20, "step": 1, "unit": "px", "default": 8 },
+    { "type": "text", "id": "padding_top", "label": "上内边距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+    { "type": "text", "id": "padding_bottom", "label": "下内边距", "default": "16px;16px;12px", "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端" },
+
+    { "type": "header", "content": "标签文案" },
+    { "type": "text", "id": "days_label", "label": "天 标签", "default": "Days" },
+    { "type": "text", "id": "hours_label", "label": "时 标签", "default": "Hours" },
+    { "type": "text", "id": "mins_label", "label": "分 标签", "default": "Mins" },
+    { "type": "text", "id": "secs_label", "label": "秒 标签", "default": "Secs" }
+  ],
+  "presets": [
+    { "name": "Countdown" }
+  ]
+}
+{% endschema %}
+
+

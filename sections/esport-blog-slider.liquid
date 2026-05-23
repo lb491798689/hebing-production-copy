@@ -1,0 +1,232 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+  }
+  #{{ section.id }} .swiper-button-next:after,
+  #{{ section.id }} .swiper-button-prev:after {
+    content: none;
+  }
+  #{{ section.id }} .blog-slider-link {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s ease;
+  }
+  #{{ section.id }} .swiper-slide-active .blog-slider-link {
+    visibility: visible;
+    opacity: 1;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito">
+  <h2
+    class="
+      tw:text-[72px] tw:leading-[1.2] tw:uppercase tw:text-[#D6000D] tw:font-black tw:font-orbitron
+      tw:max-md:text-[32px] tw:text-center tw:max-md:max-w-[358px] tw:mx-auto
+    "
+  >
+    {{ section.settings.title }}
+  </h2>
+  <p
+    class="
+      tw:text-[32px] tw:font-bold tw:text-black tw:text-center
+      tw:mt-6 tw:max-md:mt-4 tw:font-orbitron tw:max-md:text-[20px]
+      tw:max-md:max-w-[358px] tw:mx-auto
+    "
+  >
+    {{ section.settings.subtitle }}
+  </p>
+  <div class="swiper tw:mt-12">
+    <div class="swiper-wrapper tw:-ml-[6px]">
+      {% for block in section.blocks %}
+        <div class="swiper-slide tw:w-[1200px]! tw:ml-3 tw:max-md:w-[320px]!">
+          <div class="tw:aspect-1200/560 tw:w-full tw:overflow-hidden tw:relative tw:max-md:aspect-320/320">
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url }}"
+                alt="{{ block.settings.image.alt }}"
+                class="tw:w-full tw:h-full tw:object-cover tw:absolute tw:top-0 tw:left-0"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+              >
+            {% else %}
+              <div class="tw:absolute tw:size-full tw:inset-0 tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+                image
+              </div>
+            {% endif %}
+          </div>
+          <a
+            href="{{ block.settings.article.url }}"
+            class="
+              blog-slider-link tw:text-[24px] tw:font-semibold tw:mt-4
+              tw:leading-[calc(29px/24px)] tw:max-md:text-[16px]
+              tw:flex tw:items-center tw:gap-1 tw:justify-center tw:mx-auto tw:w-fit
+              tw:underline tw:max-md:px-[16px] tw:max-md:items-start tw:max-md:mt-3
+            "
+          >
+            <span class="tw:text-balance">
+              {{- block.settings.article_title | default: block.settings.article.title -}}
+            </span>
+            <svg
+              class="tw:size-[24px] tw:max-md:size-[20px] tw:shrink-0"
+              class="tw:shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M19.207 12L11.5 19.707L10.0859 18.293L15.3789 13H4.79297V11H15.3789L10.0859 5.70703L11.5 4.29297L19.207 12Z" fill="black"/>
+            </svg>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <div
+      class="
+        tw:flex tw:absolute tw:top-0
+        tw:justify-between tw:items-center tw:z-10 tw:h-[560px] tw:max-md:h-[320px]
+        tw:px-[calc((100%-1200px+48px)/2)] tw:w-full
+        tw:max-md:px-[calc((100%-320px+32px)/2)] tw:pointer-events-none
+      "
+    >
+      <button
+        class="
+          swiper-button-prev tw:pointer-events-auto tw:bg-[#FAFAFA] tw:rounded-[12px]
+          tw:mt-0 tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10!
+           tw:active:opacity-80  tw:border tw:border-[#0A0A0A]
+          tw:hover:bg-[#DBDBDB] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#0A0A0A]
+        "
+        data-prev
+      >
+        <svg
+          class="tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+      <button
+        class="
+          swiper-button-next tw:pointer-events-auto tw:bg-[#FAFAFA] tw:rounded-[12px]
+          tw:mt-0 tw:aspect-square tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10! tw:flex tw:items-center
+          tw:justify-center tw:active:opacity-80 tw:border tw:border-[#0A0A0A]
+          tw:hover:bg-[#DBDBDB] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#0A0A0A]
+        "
+        data-next
+      >
+        <svg
+          class="tw:rotate-180 tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('#{{ section.id }} .swiper', {
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      loop: true,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Esport Blog Slider",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "We've Been There"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "On Every Stage That Matters."
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article",
+      "name": "Article",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Article"
+        },
+        {
+          "type": "text",
+          "id": "article_title",
+          "label": "Article Title"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Blog Slider"
+    }
+  ]
+}
+{% endschema %}

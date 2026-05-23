@@ -1,0 +1,384 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign default_sid = '.jingva-specialists-' | append: sid
+-%}
+{% capture default_sid %}.jingva-specialists-{{ sid }}{% endcapture %}
+
+<section class="jingva-specialists-container jingva-specialists-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /* === MOB: 375~1279 === (Mobile First) === */
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background-color: #ffffff !important;
+      padding: 0 16px 65px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-specialists-wrapper {
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 32px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-specialists-headline {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-specialists-headline h2 {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 28px !important;
+      line-height: 33.6px !important;
+      text-align: left !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-specialists-headline h2.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    {{ default_sid }} .jingva-specialists-cards {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card {
+      width: 100% !important;
+      background-color: #f5f5f5 !important;
+      padding: 24px 16px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+      gap: 147px !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card-content {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      width: auto !important;
+      align-items: flex-start !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 24px !important;
+      line-height: 28.8px !important;
+      text-align: left !important;
+      color: #000000 !important;
+      text-transform: none !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card-link {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: 120% !important;
+      text-align: left !important;
+      color: #0062ff !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      text-decoration: underline !important;
+      text-decoration-color: #0062ff !important;
+      text-decoration-thickness: 1px !important;
+      text-underline-offset: 2px !important;
+      border: none !important;
+      border-bottom: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card-icon {
+      width: 36px !important;
+      height: 36px !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    {{ default_sid }} .jingva-specialist-card-icon svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* === PAD: 1280~1439 ===
+       视觉对齐 PC（≥1440）：1200 版心居中、卡片横排、字号一致；
+       section 不再加左右 padding，1200 版心由 wrapper 的 auto margin 在视口里居中。
+       1280 视口下：(1280 - 1200) / 2 = 40px 自然留白；1439 视口下：~120px 留白。 */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        padding: 70px 0 140px !important;
+        overflow: visible !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-wrapper {
+        /* 锁死 1200 版心，跨整个 PAD 区间宽度恒定，间距由两侧 auto margin 自然吸收 */
+        width: 1200px !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-headline {
+        align-items: center !important;
+        gap: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-headline h2 {
+        font-size: 40px !important;
+        line-height: 48px !important;
+        text-align: center !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-cards {
+        flex-direction: row !important;
+        gap: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card {
+        background-color: #F0F0F0 !important;
+        padding: 51px 48px 49px !important;
+        gap: 147px !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-content {
+        align-items: flex-start !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-title {
+        font-size: 24px !important;
+        line-height: 28.8px !important;
+        text-align: left !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-icon {
+        width: 48px !important;
+        height: 48px !important;
+      }
+    }
+
+    /* === PC: 1440~2560 === */
+    @media screen and (min-width: 1440px) {
+      {{ default_sid }} {
+        padding: 70px 48px 140px !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-wrapper {
+        padding: 0 !important;
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-headline {
+        align-items: center !important;
+        gap: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-headline h2 {
+        font-size: 40px !important;
+        line-height: 48px !important;
+        text-align: center !important;
+      }
+
+      {{ default_sid }} .jingva-specialists-cards {
+        flex-direction: row !important;
+        gap: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card {
+        background-color: #F0F0F0 !important;
+        padding: 51px 48px 49px !important;
+        gap: 147px !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-content {
+        align-items: flex-start !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-title {
+        font-size: 24px !important;
+        line-height: 28.8px !important;
+        text-align: left !important;
+      }
+
+      {{ default_sid }} .jingva-specialist-card-icon {
+        width: 48px !important;
+        height: 48px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-specialists-wrapper">
+    <div class="jingva-specialists-headline">
+      <h2>{{ section.settings.headline | default: 'specialists available 24/7' }}</h2>
+    </div>
+
+    <div class="jingva-specialists-cards">
+      <!-- Card 1: Chat -->
+      <div class="jingva-specialist-card">
+        <div class="jingva-specialist-card-content">
+          <p class="jingva-specialist-card-title">{{ section.settings.card1_title | default: 'chat with us' }}</p>
+          {%- if section.settings.card1_url != blank -%}
+            <a href="{{ section.settings.card1_url }}" class="jingva-specialist-card-link">{{ section.settings.card1_link | default: 'chat now' }}</a>
+          {%- else -%}
+            <a href="#" class="jingva-specialist-card-link jingva-open-chat">{{ section.settings.card1_link | default: 'chat now' }}</a>
+          {%- endif -%}
+        </div>
+        <div class="jingva-specialist-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="chat-double">
+              <path id="fill1" d="M4 6H38V30H11L4 35L4 6Z" fill="white" fill-opacity="0.1"/>
+              <path id="stroke2 (Stroke)" d="M43 9H47V45.8867L37.3584 39H15V35H38.6406L43 38.1133V9Z" fill="#0A0A0A"/>
+              <g id="Group 2">
+                <g id="Group 1">
+                  <path id="stroke1 (Stroke)" d="M40 4V32H11.6416L2 38.8867V4H40ZM6 31.1133L10.3594 28H36V8H6V31.1133Z" fill="#0A0A0A"/>
+                </g>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Card 2: Email -->
+      <div class="jingva-specialist-card">
+        <div class="jingva-specialist-card-content">
+          <p class="jingva-specialist-card-title">{{ section.settings.card2_title | default: 'email us' }}</p>
+          {%- if section.settings.card2_url != blank -%}
+            <a href="{{ section.settings.card2_url }}" class="jingva-specialist-card-link">{{ section.settings.card2_link | default: 'contact us' }}</a>
+          {%- else -%}
+            <a href="/pages/contact-us" class="jingva-specialist-card-link">{{ section.settings.card2_link | default: 'contact us' }}</a>
+          {%- endif -%}
+        </div>
+        <div class="jingva-specialist-card-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="mark-as-unread">
+              <path id="stroke1" d="M11 21L27 32L43 21M10 20H44V22V44H10V22V20Z" stroke="#0A0A0A" stroke-width="4" stroke-linecap="square"/>
+              <path id="stroke2" d="M2 38V17V15L19 5L27.5 10L31.75 12.5" stroke="#0A0A0A" stroke-width="4" stroke-linecap="square"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-specialists-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-specialists-headline h2');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var chatLink = document.querySelector('.jingva-specialists-{{ sid }} .jingva-open-chat');
+    if (chatLink) {
+      chatLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (typeof window.jingvaOpenShopifyInbox === 'function') {
+          window.jingvaOpenShopifyInbox();
+        }
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Specialists",
+  "class": "shopify-section--jingva-specialists",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "specialists available 24/7"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Card 1 Title",
+      "default": "chat with us"
+    },
+    {
+      "type": "text",
+      "id": "card1_link",
+      "label": "Card 1 Link Text",
+      "default": "chat now"
+    },
+    {
+      "type": "url",
+      "id": "card1_url",
+      "label": "Card 1 URL"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Card 2 Title",
+      "default": "email us"
+    },
+    {
+      "type": "text",
+      "id": "card2_link",
+      "label": "Card 2 Link Text",
+      "default": "contact us"
+    },
+    {
+      "type": "url",
+      "id": "card2_url",
+      "label": "Card 2 URL"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Specialists",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

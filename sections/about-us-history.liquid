@@ -1,0 +1,202 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+  }
+  #{{ section.id }} .swiper-button-next:after,
+  #{{ section.id }} .swiper-button-prev:after {
+    content: none;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="tw:relative tw:z-2 tw:bg-[#131313] tw:text-white tw:font-gabarito" id="{{ section.id }}">
+  <h2
+    class="
+      tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4 tw:text-[48px] tw:uppercase tw:text-white
+      tw:font-black tw:font-orbitron tw:max-md:text-[24px] tw:mb-12 tw:max-md:mb-8
+    "
+  >
+    {{ section.settings.section_title }}
+  </h2>
+  <div class="swiper tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4">
+    <div class="swiper-wrapper tw:flex">
+      {% for block in section.blocks %}
+        <div class="tw:flex tw:flex-col swiper-slide tw:w-[320px]! tw:max-md:w-[280px]! tw:pr-6 tw:pt-9 tw:max-md:pt-[28px]">
+          <svg
+            viewBox="0 0 320 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            class="tw:absolute tw:top-0 tw:left-0 tw:w-full"
+          >
+            <circle cx="6" cy="6" r="6" fill="#D6000D"/>
+            <path d="M12 6H320" stroke="white" stroke-opacity="0.2" stroke-width="2"/>
+          </svg>
+
+          <div class="tw:text-[32px] tw:leading-[1.2] tw:font-bold tw:font-orbitron tw:mb-6 tw:max-md:mb-4 tw:max-md:text-[24px]">
+            {{ block.settings.year }}
+          </div>
+          <div class="tw:aspect-296/200 tw:w-full tw:rounded-[12px] tw:overflow-hidden tw:relative tw:mb-6 tw:max-md:mb-4 tw:max-md:rounded-[8px]">
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url }}"
+                alt="{{ block.settings.image.alt }}"
+                class="tw:w-full tw:h-full tw:object-cover tw:absolute tw:top-0 tw:left-0"
+                width="{{ block.settings.image.width }}"
+                height="{{ block.settings.image.height }}"
+              >
+            {% else %}
+              <div class="tw:absolute tw:size-full tw:inset-0 tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+                image
+              </div>
+            {% endif %}
+          </div>
+          <div class="tw:text-[24px] tw:font-bold tw:mb-2 tw:leading-[calc(29px/24px)] tw:max-md:text-[20px]">
+            {{ block.settings.title }}
+          </div>
+          <div class="tw:text-[16px] tw:leading-[1.2] tw:max-md:text-[14px] tw:text-white/60">
+            {{ block.settings.description | newline_to_br }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="tw:flex tw:gap-4 tw:max-md:gap-2 tw:pt-12">
+      <button
+        class="
+          swiper-button-prev tw:shrink-0 tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10! tw:active:opacity-60 tw:border tw:rounded-[12px] tw:border-[#FFFFFF]
+          tw:hover:bg-[#FFFFFF1A] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#FFFFFF]
+        "
+        data-prev
+      >
+        <svg
+          class="tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+      <button
+        class="
+          swiper-button-next tw:shrink-0 tw:aspect-square tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10! tw:flex tw:items-center tw:border tw:rounded-[12px] tw:border-[#FFFFFF]
+          tw:hover:bg-[#FFFFFF1A] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#FFFFFF]
+          tw:justify-center tw:active:opacity-60
+        "
+        data-next
+      >
+        <svg
+          class="tw:rotate-180 tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('#{{ section.id }} .swiper', {
+      slidesPerView: 'auto',
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "About Us History",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Brand History"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "history_item",
+      "name": "History Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "year",
+          "label": "Year",
+          "default": "2026"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Partnering with CS2 Legend Niko"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Partnering with CS2 legend Niko to provide professional players with the most advanced esports gear."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us History"
+    }
+  ]
+}
+{% endschema %}

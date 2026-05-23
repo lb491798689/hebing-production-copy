@@ -1,0 +1,544 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .esport-games__marquee {
+    overflow: hidden;
+  }
+
+  #{{ section.id }} .esport-games__marquee-viewport {
+    block-size: 100%;
+    overflow: hidden;
+  }
+
+  #{{ section.id }} .esport-games__marquee-track {
+    display: flex;
+    align-items: center;
+    inline-size: max-content;
+    block-size: 100%;
+    will-change: transform;
+    animation-name: esport-games-marquee-{{ section.id | replace: '-', '' | replace: '_', '' }};
+    animation-duration: var(--marquee-duration, 24s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: var(--marquee-direction, normal);
+  }
+
+  #{{ section.id }} .esport-games__marquee-list {
+    flex: 0 0 auto;
+  }
+
+  #{{ section.id }} .esport-games__marquee-list[data-marquee-list-clone='true'] {
+    margin-inline-start: var(--marquee-list-gap, 72px);
+  }
+
+  #{{ section.id }} .esport-games__logo-item {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #{{ section.id }} .esport-games__logo-item + .esport-games__logo-item {
+    margin-inline-start: 72px;
+  }
+
+  #{{ section.id }} .esport-games__logo-item img {
+    display: block;
+    flex: 0 0 auto;
+    inline-size: auto;
+    max-inline-size: none;
+  }
+
+  #{{ section.id }} .esport-games__image-list-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 64px;
+  }
+
+  #{{ section.id }} .esport-games__image-marquee {
+    block-size: 474px;
+    --esport-games-image-gap: 12px;
+  }
+
+  #{{ section.id }} .esport-games__image-item {
+    flex: 0 0 auto;
+    height: 100%;
+    aspect-ratio: auto;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+
+  #{{ section.id }} .esport-games__image-item + .esport-games__image-item {
+    margin-inline-start: var(--esport-games-image-gap, 12px);
+  }
+
+  #{{ section.id }} .esport-games__image-item img {
+    display: block;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+  }
+
+  @keyframes esport-games-marquee-{{ section.id | replace: '-', '' | replace: '_', '' }} {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+
+    to {
+      transform: translate3d(calc(var(--marquee-loop-width) * -1), 0, 0);
+    }
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+
+    #{{ section.id }} .esport-games__image-list-wrapper {
+      margin-top: 96px;
+      gap: 8px;
+    }
+
+    #{{ section.id }} .esport-games__image-marquee {
+      block-size: 237px;
+      --esport-games-image-gap: 12px;
+    }
+
+    #{{ section.id }} .esport-games__image-item {
+    }
+
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  @media (prefers-reduced-motion: reduce) {
+    .esport-games__marquee-track {
+      animation: none;
+      transform: none;
+    }
+  }
+{% endstylesheet %}
+
+{% liquid
+  assign image_item_count = 0
+  for block in section.blocks
+    if block.type == 'image_item'
+      assign image_item_count = image_item_count | plus: 1
+    endif
+  endfor
+  assign image_first_row_count = image_item_count | plus: 1 | divided_by: 2
+  assign image_second_row_count = image_item_count | minus: image_first_row_count
+%}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:bg-black" data-esport-games>
+  <h2
+    class="
+          tw:md:px-[calc((100%-1200px)/2)] tw:max-md:px-4
+      tw:text-[32px] tw:leading-[1.2] tw:uppercase tw:text-white
+      tw:font-black tw:font-orbitron tw:max-md:text-[20px] tw:text-center
+    "
+  >
+    {{ section.settings.title }}
+  </h2>
+
+  <div
+    class="logo-list-wrapper esport-games__marquee tw:h-[72px] tw:max-md:h-[48px] tw:mt-8 tw:relative tw:max-md:mt-6"
+    data-marquee
+    data-marquee-gap="72"
+    data-marquee-speed="60"
+    data-marquee-direction="normal"
+  >
+    <div class="esport-games__marquee-viewport" data-marquee-viewport>
+      <div class="logo-list esport-games__marquee-list tw:flex tw:items-center tw:w-fit tw:h-full" data-marquee-list-source>
+        {% for block in section.blocks %}
+          {% if block.type == 'logo_image_item' %}
+            <div class="esport-games__logo-item">
+              <img
+                src="{{ block.settings.image | image_url }}"
+                alt="{{ block.settings.image.alt }}"
+                width="{{ block.settings.image.width | divided_by: 2 }}"
+                height="{{ block.settings.image.height | divided_by: 2 }}"
+                style="width: {{ block.settings.image.width | divided_by: 2 }}px; height: {{ block.settings.image.height | divided_by: 2 }}px;"
+              >
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+
+    <div
+      class="tw:absolute tw:top-0 tw:left-0 tw:w-full tw:h-full tw:pointer-events-none"
+      style="background: linear-gradient(90deg, #000000 0%, rgba(0, 0, 0, 0) 50%, #000000 100%);"
+    ></div>
+  </div>
+
+  {% if image_item_count > 0 %}
+    <div class="esport-games__image-list-wrapper">
+      {% if image_first_row_count > 0 %}
+        {% assign image_item_index = 0 %}
+        <div
+          class="esport-games__image-marquee esport-games__marquee tw:relative"
+          data-marquee
+          data-marquee-gap="12"
+          data-marquee-speed="80"
+          data-marquee-direction="reverse"
+        >
+          <div class="esport-games__marquee-viewport" data-marquee-viewport>
+            <div class="esport-games__marquee-list tw:flex tw:items-center tw:w-fit tw:h-full" data-marquee-list-source>
+              {% for block in section.blocks %}
+                {% if block.type == 'image_item' %}
+                  {% assign image_item_index = image_item_index | plus: 1 %}
+                  {% if image_item_index <= image_first_row_count %}
+                    <div class="esport-games__image-item">
+                      {% if block.settings.image != blank %}
+                        <img
+                          src="{{ block.settings.image | image_url }}"
+                          alt="{{ block.settings.image.alt }}"
+                          width="auto"
+                          height="100%"
+                        >
+                      {% else %}
+                        <div class="tw:w-full tw:h-full tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">image</div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% if image_second_row_count > 0 %}
+        {% assign image_item_index = 0 %}
+        <div
+          class="esport-games__image-marquee esport-games__marquee tw:relative"
+          data-marquee
+          data-marquee-gap="12"
+          data-marquee-speed="80"
+          data-marquee-direction="normal"
+        >
+          <div class="esport-games__marquee-viewport" data-marquee-viewport>
+            <div class="esport-games__marquee-list tw:flex tw:items-center tw:w-fit tw:h-full" data-marquee-list-source>
+              {% for block in section.blocks %}
+                {% if block.type == 'image_item' %}
+                  {% assign image_item_index = image_item_index | plus: 1 %}
+                  {% if image_item_index > image_first_row_count %}
+                    <div class="esport-games__image-item">
+                      {% if block.settings.image != blank %}
+                        <img
+                          src="{{ block.settings.image | image_url }}"
+                          alt="{{ block.settings.image.alt }}"
+                          width="auto"
+                          height="100%"
+                        >
+                      {% else %}
+                        <div class="tw:w-full tw:h-full tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">image</div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</section>
+
+<script>
+  (function () {
+    const sectionId = '{{ section.id }}';
+    const MIN_FAKE_LISTS = 2;
+    const PIXELS_PER_SECOND = 80;
+
+    function createMarquee(marquee) {
+      const viewport = marquee.querySelector('[data-marquee-viewport]');
+
+      if (!marquee || !viewport) {
+        return null;
+      }
+
+      const pixelsPerSecond = Number(marquee.dataset.marqueeSpeed || PIXELS_PER_SECOND);
+      const animationDirection = marquee.dataset.marqueeDirection === 'reverse' ? 'reverse' : 'normal';
+      let resizeObserver = null;
+      let resizeHandler = null;
+      let rebuildFrame = null;
+
+      function getListGap() {
+        const cssGap = Number.parseFloat(getComputedStyle(marquee).getPropertyValue('--esport-games-image-gap'));
+
+        if (Number.isFinite(cssGap)) {
+          return cssGap;
+        }
+
+        return Number(marquee.dataset.marqueeGap || 72);
+      }
+
+      function resetToSource() {
+        const currentTrack = viewport.querySelector('.esport-games__marquee-track');
+
+        if (!currentTrack) {
+          return viewport.querySelector('[data-marquee-list-source]');
+        }
+
+        const sourceList = currentTrack.querySelector('[data-marquee-list-source]');
+
+        if (sourceList) {
+          viewport.replaceChildren(sourceList);
+        } else {
+          currentTrack.remove();
+        }
+
+        return sourceList;
+      }
+
+      function sanitizeClone(cloneNode) {
+        cloneNode.setAttribute('aria-hidden', 'true');
+        cloneNode.dataset.marqueeListClone = 'true';
+
+        cloneNode.querySelectorAll('img').forEach((image) => {
+          image.alt = '';
+          image.setAttribute('role', 'presentation');
+        });
+      }
+
+      function buildTrack() {
+        const sourceList = resetToSource();
+
+        if (!sourceList) {
+          return;
+        }
+
+        const wrapperWidth = Math.ceil(marquee.getBoundingClientRect().width);
+        const sourceWidth = Math.ceil(sourceList.scrollWidth || sourceList.getBoundingClientRect().width);
+
+        if (!wrapperWidth || !sourceWidth) {
+          return;
+        }
+
+        const listGap = getListGap();
+        const loopWidth = sourceWidth + listGap;
+        const fakeListCount = Math.max(MIN_FAKE_LISTS, Math.ceil((wrapperWidth * 2) / loopWidth));
+        const durationInSeconds = Math.max(12, loopWidth / pixelsPerSecond);
+        const track = document.createElement('div');
+
+        track.className = 'esport-games__marquee-track';
+        track.style.setProperty('--marquee-loop-width', loopWidth + 'px');
+        track.style.setProperty('--marquee-duration', durationInSeconds.toFixed(2) + 's');
+        track.style.setProperty('--marquee-list-gap', listGap + 'px');
+        track.style.setProperty('--marquee-direction', animationDirection);
+        track.dataset.marqueeTrack = 'true';
+
+        track.appendChild(sourceList);
+
+        for (let index = 0; index < fakeListCount; index += 1) {
+          const fakeList = sourceList.cloneNode(true);
+
+          sanitizeClone(fakeList);
+          track.appendChild(fakeList);
+        }
+
+        viewport.replaceChildren(track);
+      }
+
+      function scheduleBuild() {
+        if (rebuildFrame) {
+          cancelAnimationFrame(rebuildFrame);
+        }
+
+        rebuildFrame = requestAnimationFrame(() => {
+          rebuildFrame = null;
+          buildTrack();
+        });
+      }
+
+      function waitForImages() {
+        const sourceList = resetToSource();
+
+        if (!sourceList) {
+          return;
+        }
+
+        const pendingImages = Array.from(sourceList.querySelectorAll('img')).filter((image) => {
+          return !(image.complete && image.naturalWidth > 0);
+        });
+
+        if (!pendingImages.length) {
+          scheduleBuild();
+          return;
+        }
+
+        let settledCount = 0;
+
+        function handleSettled() {
+          settledCount += 1;
+
+          if (settledCount === pendingImages.length) {
+            scheduleBuild();
+          }
+        }
+
+        pendingImages.forEach((image) => {
+          image.addEventListener('load', handleSettled, { once: true });
+          image.addEventListener('error', handleSettled, { once: true });
+        });
+      }
+
+      waitForImages();
+
+      if (window.ResizeObserver) {
+        resizeObserver = new ResizeObserver(() => {
+          scheduleBuild();
+        });
+        resizeObserver.observe(marquee);
+      } else {
+        resizeHandler = () => {
+          scheduleBuild();
+        };
+        window.addEventListener('resize', resizeHandler);
+      }
+
+      return {
+        destroy() {
+          if (rebuildFrame) {
+            cancelAnimationFrame(rebuildFrame);
+          }
+
+          if (resizeObserver) {
+            resizeObserver.disconnect();
+          }
+
+          if (resizeHandler) {
+            window.removeEventListener('resize', resizeHandler);
+          }
+
+          resetToSource();
+        }
+      };
+    }
+
+    function initSection() {
+      const section = document.getElementById(sectionId);
+
+      if (!section) {
+        return;
+      }
+
+      if (section.marqueeInstances) {
+        section.marqueeInstances.forEach((instance) => instance.destroy());
+      }
+
+      section.marqueeInstances = Array.from(section.querySelectorAll('[data-marquee]'))
+        .map((marquee) => createMarquee(marquee))
+        .filter(Boolean);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSection, { once: true });
+    } else {
+      initSection();
+    }
+
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target && event.target.id === sectionId) {
+        initSection();
+      }
+    });
+
+    document.addEventListener('shopify:section:unload', (event) => {
+      if (event.target && event.target.id === sectionId) {
+        const section = event.target;
+
+        if (section.marqueeInstances) {
+          section.marqueeInstances.forEach((instance) => instance.destroy());
+          section.marqueeInstances = null;
+        }
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Esport Games",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "We've teamed up with a diverse array of partners extending our reach beyond esports into various industries"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_list_image",
+      "label": "Logo List Image"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_item",
+      "name": "Image Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "logo_image_item",
+      "name": "Logo Image Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Games"
+    }
+  ]
+}
+{% endschema %}

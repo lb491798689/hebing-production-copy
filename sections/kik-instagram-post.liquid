@@ -1,0 +1,143 @@
+<style>
+.kik_instagram_post {
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+}
+.kik_instagram_post_content{
+  padding-top:96px;
+  padding-bottom:96px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.kik_embed{
+  flex:0 0 50%;
+  display:flex;
+  justify-content:flex-end;
+}
+.kik_embed > div{
+  max-width:560px;
+}
+.kik_instagram_post_text{
+  flex:0 0 50%;
+  padding:64px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.kik_instagram_post_text h3{
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing: 0;
+  color:{{ section.settings.heading_color }};
+  margin:0;
+  margin-bottom:8px;
+  font-style:italic;
+  text-transform: uppercase;
+}
+.kik_instagram_post_text p{
+  font-size:16px;
+  line-height:1.5;
+  letter-spacing: 0;
+  color:{{ section.settings.text_color }};
+  margin:0;
+}
+@media (max-width:699px){
+.kik_instagram_post_content{
+  padding-top:64px;
+  padding-bottom:64px;
+  flex-wrap: wrap;
+}
+.kik_embed{
+  flex:0 0 100%;
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:20px;
+}
+.kik_instagram_post_text{
+  flex:0 0 100%;
+  padding:0px 0px;
+}
+.kik_instagram_post_text h3{
+  font-size: 32px;
+}
+.kik_instagram_post_text p{
+  font-size:14px;
+}
+}
+</style>
+<div class="kik_instagram_post">
+    <div class="section kik_instagram_post_content">
+        <div class="kik_embed">
+          <div>
+            {{ section.settings.embed_code }}
+            </div>
+        </div>
+        <div class="kik_instagram_post_text">
+            <h3 class="kik_heading">{{ section.settings.title | raw }}</h3>
+            <p>{{ section.settings.content }}</p> 
+        </div>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "Kiks instagram post",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "embed_code",
+      "label": "Embed code"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kiks instagram post",
+      "blocks": [
+     
+      ]
+    }
+  ]
+}
+{% endschema %}

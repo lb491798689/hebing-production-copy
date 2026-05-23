@@ -1,0 +1,548 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign subtitle = se_stts.subtitle
+  assign description = se_stts.description
+  assign mob_description = se_stts.mob_description
+  if mob_description == blank
+    assign mob_description = description
+  endif
+  assign pc_image = se_stts.pc_image
+  assign mob_image = se_stts.mob_image
+  assign pc_video_file = se_stts.pc_video_file
+  assign mob_video_file = se_stts.mob_video_file
+  assign logo_image = se_stts.logo_image
+-%}
+{% capture default_sid %}.jingva-g7-craftsmanship-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-g7-craftsmanship jingva-g7-craftsmanship-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, file 3D6Ia8SCt3YYw8P5Pgda6W, node 2373:1641) 详细参数:
+     * ========================================
+     *   section (内容12): w:1920 VERTICAL gap:48 center
+     *   title block (标题): w:1200 VERTICAL gap:24 center
+     *     - title: Orbitron 900 64px lh:80.256 (1.254) UPPER #FFFFFF center
+     *     - subtitle: Gabarito 500 24px lh:28.8 (1.2) #FFFFFF center (非 upper)
+     *   image container: w:1920 h:960 (全屏背景)
+     *   content overlay (Frame 1973771803): w:1200 VERTICAL gap:12 center
+     *     - logo (image 558): 152x39 水平居中
+     *     - description: Gabarito 400 16px lh:19.2 (1.2) #FFFFFF center
+     *   content overlay distance from image bottom: 90px (Figma实测)
+     *
+     * ========================================
+     * Figma MOB (390px, node 2812:3904) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:32px, pt:68px, bg:#000000
+     *   title: Orbitron 900 28px line-height:1.254 #FFFFFF uppercase center, w:358
+     *   image container: h:540, relative
+     *   logo: x:139, y:349, w:112, h:29
+     *   description: Gabarito 400 12px line-height:1.2 #FFFFFF center, w:358
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: #121B2C !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      padding-top: 160px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-title-block {
+      width: 100% !important;
+      max-width: 1200px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 1.254 !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-subtitle {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-subtitle p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-image-container {
+      position: relative !important;
+      width: 100% !important;
+      /* height: 960px !important; */
+      height: 100% !important;
+      overflow: hidden !important;
+      aspect-ratio: 2 / 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-image {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-video {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      opacity: 0 !important;
+      transition: opacity 0.3s ease !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-video.loaded {
+      opacity: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-content-overlay {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      padding: 0 0 90px 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-logo {
+      width: 152px !important;
+      height: 39px !important;
+      object-fit: contain !important;
+      flex-shrink: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+    }
+
+    /* PC 默认只显示 PC 描述，MOB 描述隐藏；MOB 断点反转 */
+    {{ default_sid }} .jingva-g7-craftsmanship-description--mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-craftsmanship-description p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-g7-craftsmanship-wrapper {
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-title-block {
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-title {
+        font-size: 48px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-subtitle,
+      {{ default_sid }} .jingva-g7-craftsmanship-subtitle p {
+        font-size: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-image-container {
+        height: 800px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-content-overlay {
+        padding: 0 40px 75px 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-logo {
+        width: 120px !important;
+        height: 31px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-description,
+      {{ default_sid }} .jingva-g7-craftsmanship-description p {
+        font-size: 14px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding-top: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-description--pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-description--mob {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-wrapper {
+        gap: 32px !important;
+        padding-top: 96px !important;
+        padding-bottom: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-title-block {
+        gap: 12px !important;
+        max-width: 358px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-title {
+        font-size: 32px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-subtitle,
+      {{ default_sid }} .jingva-g7-craftsmanship-subtitle p {
+        font-size: 14px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-image-container {
+        height: 540px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-content-overlay {
+        padding: 0 16px 24px 16px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-logo {
+        width: 112px !important;
+        height: 29px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-craftsmanship-description,
+      {{ default_sid }} .jingva-g7-craftsmanship-description p {
+        font-size: 12px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-craftsmanship-wrapper">
+    {% if title != blank or subtitle != blank %}
+      <div class="jingva-g7-craftsmanship-title-block">
+        {% if title != blank %}
+          <h2 class="jingva-g7-craftsmanship-title">{{ title }}</h2>
+        {% endif %}
+        {% if subtitle != blank %}
+          <div class="jingva-g7-craftsmanship-subtitle">{{ subtitle }}</div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if pc_image != blank or mob_image != blank or pc_video_file != blank or mob_video_file != blank %}
+      <div class="jingva-g7-craftsmanship-image-container">
+        {% comment %} 图片层 - 作为封面或备用 {% endcomment %}
+        {% if pc_image != blank or mob_image != blank %}
+          <picture class="jingva-g7-craftsmanship-image">
+              {% if pc_image != blank %}
+                <source media="(min-width: 1280px)" srcset="{{ pc_image | image_url: width: 1920 }}">
+              {% endif %}
+              {% if mob_image != blank %}
+                <img
+                  src="{{ mob_image | image_url: width: 780 }}"
+                  alt="{{ title | escape }}"
+                  loading="lazy"
+                />
+              {% elsif pc_image != blank %}
+                <img
+                  src="{{ pc_image | image_url: width: 1920 }}"
+                  alt="{{ title | escape }}"
+                  loading="lazy"
+                />
+              {% endif %}
+          </picture>
+        {% endif %}
+
+        {% comment %} 视频层 - 加载成功后显示 {% endcomment %}
+        {% if pc_video_file != blank or mob_video_file != blank %}
+          <video
+            class="jingva-g7-craftsmanship-video"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+            data-pc-video="{{ pc_video_file.sources[1].url }}"
+            data-mob-video="{{ mob_video_file.sources[1].url }}"
+          >
+            <source src="" type="video/mp4">
+          </video>
+        {% endif %}
+
+        <div class="jingva-g7-craftsmanship-content-overlay">
+          {% if logo_image != blank %}
+            <img
+              src="{{ logo_image | image_url: width: 300 }}"
+              alt="Logo"
+              class="jingva-g7-craftsmanship-logo"
+              loading="lazy"
+            />
+          {% endif %}
+
+          {% if description != blank %}
+            <div class="jingva-g7-craftsmanship-description jingva-g7-craftsmanship-description--pc">{{ description }}</div>
+          {% endif %}
+          {% if mob_description != blank %}
+            <div class="jingva-g7-craftsmanship-description jingva-g7-craftsmanship-description--mob">{{ mob_description }}</div>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function() {
+    var sectionId = '{{ sid }}';
+    var section = document.querySelector('.jingva-g7-craftsmanship-' + sectionId);
+    if (!section) return;
+
+    var video = section.querySelector('.jingva-g7-craftsmanship-video');
+    if (!video) return;
+
+    var pcVideo = video.dataset.pcVideo || '';
+    var mobVideo = video.dataset.mobVideo || '';
+
+    // 根据屏幕尺寸选择视频
+    function getVideoUrl() {
+      var isMobile = window.innerWidth < 1280;
+      if (isMobile && mobVideo) {
+        return mobVideo;
+      }
+      return pcVideo || mobVideo;
+    }
+
+    // 加载视频
+    function loadVideo() {
+      var videoUrl = getVideoUrl();
+      if (!videoUrl) return;
+
+      var source = video.querySelector('source');
+      if (source) {
+        source.src = videoUrl;
+        video.load();
+
+        // 视频加载成功后显示
+        video.addEventListener('loadeddata', function() {
+          video.classList.add('loaded');
+          video.play().catch(function(error) {
+            console.log('Video autoplay failed:', error);
+          });
+        });
+
+        // 视频加载失败，保持显示图片
+        video.addEventListener('error', function() {
+          console.log('Video load failed, showing poster/image');
+        });
+      }
+    }
+
+    // 初始加载
+    loadVideo();
+
+    // 窗口大小改变时重新加载合适的视频
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        var currentUrl = video.querySelector('source').src;
+        var newUrl = getVideoUrl();
+        if (currentUrl !== newUrl) {
+          video.classList.remove('loaded');
+          loadVideo();
+        }
+      }, 500);
+    });
+  })();
+</script>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-g7-craftsmanship-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-g7-craftsmanship-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Craftsmanship",
+  "class": "shopify-section--jingva-g7-craftsmanship",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Master Craftsmanship · Premium Quality"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "<p>Gradient mesh with a stunning, high-aesthetic color way! Infused with anti-UV components, durability and elasticity are enhanced by 56%, while breathability is increased by 16.5%, keeping you fresh at all times.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description (PC)",
+      "default": "<p>Exceeds BIFMA standards, surpassing national requirements. Rigorously tested: 100,000 caster cycles, 120,000 backrest recline cycles, 60,000 armrest cycles, 120,000 gas lift cycles, 120,000 swivel cycles. Backed by a 3-year warranty engineered for reliability, supported with peace of mind.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "mob_description",
+      "label": "Description (Mobile)",
+      "info": "留空时在手机端使用 PC 描述\u3002",
+      "default": "<p>Strictly adhering to BIFMA international standards, the chair has passed rigorous 10-year simulated lifespan testing for long-lasting reliability. Specific tests include 100,000 caster cycles, 120,000 backrest recline cycles, and 600,000 armrest cycles. Comprehensive durability testing includes 120,000 gas lift cycles and 120,000 rotation fatigue cycles, ensuring every component is built to last. For after-sales, we provide a 3-year warranty and a special Lifetime Warranty for the AutoFull chair frame, demonstrating our confidence in the quality of the core structure.</p>"
+    },
+    {
+      "type": "header",
+      "content": "PC Video"
+    },
+    {
+      "type": "video",
+      "id": "pc_video_file",
+      "label": "PC Video File"
+    },
+    {
+      "type": "header",
+      "content": "Mobile Video"
+    },
+    {
+      "type": "video",
+      "id": "mob_video_file",
+      "label": "Mobile Video File"
+    },
+    {
+      "type": "header",
+      "content": "Fallback Images (if no video)"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Craftsmanship"
+    }
+  ]
+}
+{% endschema %}

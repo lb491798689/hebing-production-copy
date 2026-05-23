@@ -1,0 +1,333 @@
+<div class="support-services">
+  <div class="section">
+    <div class="supportive-services-content">
+      {% if section.settings.heading != blank %}
+        <h3 class="section-heading h3">{{ section.settings.heading }}</h3>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <p class="section-subheading">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+    <div class="support-grid">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'fancy-image-popup' %}
+            <div class="support-box">
+              {% if block.settings.media_type == 'video' and block.settings.video != blank %}
+                <div class="support-video">
+                  {{
+                    block.settings.video
+                    | video_tag: controls: true, autoplay: false, loop: false, muted: false, class: 'custom-video'
+                  }}
+                </div>
+              {% elsif block.settings.media_type == 'image' and block.settings.image != blank %}
+                <div class="support-image">
+                  <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.title }}">
+                </div>
+              {% endif %}
+              <div class="support-content">
+                <div class="support-content-main">
+                  {% if block.settings.title != blank %}
+                    <h6>{{ block.settings.title }}</h6>
+                  {% endif %}
+                  {% if block.settings.description != blank %}
+                    <p>{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+                {% if block.settings.link_label_1 != blank and block.settings['fancy-image-one'] %}
+                  <div class="support-link">
+                    <p>{{ block.settings.link_label_1 }}</p>
+                    <a
+                      href="{{ block.settings.fancy-image-one | img_url: 'master' }}"
+                      data-fancybox="gallery-{{ forloop.index }}"
+                      data-caption="{{ block.settings.link_label_1 }}"
+                      class="support-link-tag"
+                    >
+                      <img src="https://cdn.shopify.com/s/files/1/0303/9805/4531/files/read.svg?v=1749733753">
+                    </a>
+                  </div>
+                {% endif %}
+                {% if block.settings.link_label_2 != blank and block.settings['fancy-image-two'] %}
+                  <div class="support-link">
+                    <p>{{ block.settings.link_label_2 }}</p>
+                    <a
+                      href="{{ block.settings.fancy-image-two | img_url: 'master' }}"
+                      data-fancybox="gallery-{{ forloop.index }}"
+                      data-caption="{{ block.settings.link_label_2 }}"
+                      class="support-link-tag"
+                    >
+                      <img src="https://cdn.shopify.com/s/files/1/0303/9805/4531/files/read.svg">
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+
+          {% when 'pdf-download' %}
+            <div class="support-box">
+              {% if block.settings.image != blank %}
+                <div class="support-image">
+                  <img src="{{ block.settings.image | img_url: 'master' }}" alt="{{ block.settings.title }}">
+                </div>
+              {% endif %}
+              <div class="support-content">
+                <div class="support-content-main">
+                  {% if block.settings.title != blank %}
+                    <h6>{{ block.settings.title }}</h6>
+                  {% endif %}
+                  {% if block.settings.description != blank %}
+                    <p>{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+
+                {% if block.settings.link_label != blank and block.settings.link_label_url %}
+                  <div class="support-link">
+                    <p>{{ block.settings.link_label }}</p>
+                    <a href="{{ block.settings.link_label_url }}" target="_blank" class="support-link-tag">
+                      <img src="https://cdn.shopify.com/s/files/1/0303/9805/4531/files/download_4bbd1d26-54dd-4c6b-8be1-195fda295bdb_1.svg">
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+        .supportive-services-content h3 {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    .supportive-services-content p {
+        text-align: center;
+        margin-bottom: 80px;
+    }
+    .support-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 60px;
+    }
+    .support-box {
+        width: calc(50% - 60px);
+        display: flex;
+        gap: 24px;
+    }
+    /* .support-image img {
+        max-width: 245px;
+    } */
+    .support-image, .support-video {
+        width: 33.5%;
+    }
+    .support-content {
+        width: 66.5%;
+    }
+    .support-content h6 {
+        color: #18191b;
+        text-transform: capitalize !important;
+        margin-bottom: 14px;
+    }
+    .support-content-main {
+        padding-bottom: 16px;
+        border-bottom: 1px solid #c4c4c4;
+    }
+    .support-link:hover {
+        background: #e6e6e6;
+    }
+    .support-link {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+   .support-link img {
+      width: 16px;
+      height: 100%;
+      cursor: pointer;
+      max-width: unset;
+  }
+
+    @media screen and (max-width: 768px) {
+        .support-box{
+            width: 100%;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #c4c4c4;
+        }
+        .support-image img {
+        max-width: 100%;
+    }
+    .support-content,
+    .support-image,
+    .support-video {
+        width: 100%;
+    }
+    .support-box:last-child{
+        border-bottom: none;
+    }
+    .support-content-main{
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+    .support-grid{
+        gap: 30px;
+    }
+    .supportive-services-content p{
+        margin-bottom: 32px;
+    }
+    }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const videos = document.querySelectorAll('.custom-video');
+
+    videos.forEach(video => {
+      video.addEventListener('click', function () {
+        if (video.requestFullscreen) {
+          video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) { // Safari
+          video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { // IE11
+          video.msRequestFullscreen();
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Support Services",
+  "settings": [
+    {
+        "type": "text",
+        "id": "heading",
+        "label": "Heading"
+    },
+    {
+        "type": "text",
+        "id": "description",
+        "label": "Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "fancy-image-popup",
+      "name": "Fancy Image Popup",
+      "settings": [
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "default": "image",
+          "options": [
+            { "value": "image", "label": "Image" },
+            { "value": "video", "label": "Video" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Specification Sheet"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Get all the technical details you need."
+        },
+        {
+          "type": "text",
+          "id": "link_label_1",
+          "label": "Link Label 1",
+          "default": "L size specifications"
+        },
+        {
+          "type": "image_picker",
+          "id": "fancy-image-one",
+          "label": "Fancy Image"
+        },
+        {
+          "type": "text",
+          "id": "link_label_2",
+          "label": "Link Label 2",
+          "default": "XL size specifications"
+        },
+        {
+          "type": "image_picker",
+          "id": "fancy-image-two",
+          "label": "Fancy Image"
+        }
+      ]
+    },
+    {
+      "type": "pdf-download",
+      "name": "PDF Download",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Support Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "link_label_url",
+          "label": "Link label URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Support Services Section"
+    }
+  ]
+}
+{% endschema %}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css">
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+<script>
+  Fancybox.bind("[data-fancybox]", {
+    Toolbar: {
+      display: [
+        "zoom",
+        "fullscreen",
+        "close"
+      ]
+    },
+    Carousel: {
+      Navigation: false
+    },
+    Thumbs: false
+  });
+</script>

@@ -1,0 +1,419 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+
+  #{{ section.id }} .iem-top-rated__panel {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.55s cubic-bezier(.22, 1, .36, 1), opacity 0.28s ease;
+  }
+
+  #{{ section.id }} .iem-top-rated__item.is-active .iem-top-rated__panel {
+    opacity: 1;
+  }
+
+  #{{ section.id }} .iem-top-rated__item.is-active .iem-top-rated__title {
+    color: #0a0a0a;
+  }
+
+  #{{ section.id }} .iem-top-rated__media-panel {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.45s ease, visibility 0.45s ease;
+  }
+
+  #{{ section.id }} .iem-top-rated__media-panel.is-active {
+    opacity: 1;
+    visibility: visible;
+    z-index: 1;
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:text-white" data-iem-top-rated>
+  <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:gap-12 tw:max-md:gap-6 tw:max-md:px-4">
+    {% if section.settings.title != blank or section.settings.desc != blank %}
+      <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-3 tw:text-center">
+        {% if section.settings.title != blank %}
+          <h2
+            class="
+              tw:m-0 tw:w-full tw:font-orbitron tw:text-[48px] tw:font-black
+              tw:leading-[normal] tw:text-[#f7f700] tw:uppercase
+              tw:max-md:text-[28px]
+            "
+          >
+            {{ section.settings.title | escape | newline_to_br }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.desc != blank %}
+          <div
+            class="
+              tw:text-[24px] tw:font-normal tw:leading-[normal] tw:text-[#9f9f9f]
+              tw:lowercase tw:max-md:w-full tw:max-md:text-[16px] tw:max-md:text-white/60
+            "
+          >
+            {{ section.settings.desc | escape | newline_to_br }}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="tw:bg-white tw:text-black tw:max-md:hidden">
+        <div class="tw:grid tw:min-h-[640px] tw:grid-cols-[639px_minmax(0,1fr)] tw:items-center tw:gap-12">
+          <div class="tw:relative tw:h-[640px] tw:w-full tw:overflow-hidden" aria-live="polite">
+            {% for block in section.blocks %}
+              <div
+                class="iem-top-rated__media-panel tw:absolute tw:inset-0 tw:size-full{% if forloop.first %} is-active{% endif %}"
+                data-iem-top-rated-media
+                data-top-rated-index="{{ forloop.index0 }}"
+              >
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: block.settings.image.width
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '639px',
+                      widths: '640,900,1200,1400,1800',
+                      class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover'
+                  }}
+                {% else %}
+                  <div class="tw:absolute tw:inset-0 tw:size-full tw:bg-[#e5e5e5]"></div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+
+          <div class="tw:flex tw:w-full tw:flex-col tw:py-12 tw:pr-12">
+            {% for block in section.blocks %}
+              {% assign panel_id = section.id | append: '-top-rated-panel-' | append: forloop.index0 %}
+
+              <article
+                class="iem-top-rated__item{% if forloop.first %} is-active{% endif %}"
+                data-iem-top-rated-item
+                data-top-rated-index="{{ forloop.index0 }}"
+                {{ block.shopify_attributes }}
+              >
+                <button
+                  type="button"
+                  class="tw:flex tw:w-full tw:items-center tw:justify-between tw:gap-6 tw:border-0 tw:bg-transparent tw:p-0 tw:text-left tw:text-black"
+                  aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-controls="{{ panel_id }}"
+                  data-iem-top-rated-toggle
+                >
+                  <span
+                    class="
+                      tw:text-[32px] tw:font-bold tw:leading-[normal] tw:capitalize
+                      tw:text-black/40 iem-top-rated__title
+                    "
+                  >
+                    {{ block.settings.title | escape | newline_to_br }}
+                  </span>
+                  <svg class="tw:size-6 tw:shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                  </svg>
+                </button>
+
+                <div id="{{ panel_id }}" class="iem-top-rated__panel" data-iem-top-rated-panel>
+                  <div class="tw:flex tw:flex-col tw:gap-6 tw:pt-2">
+                    {% if block.settings.desc != blank %}
+                      <div class="tw:text-[18px] tw:font-normal tw:leading-[normal] tw:text-black/60">
+                        {{ block.settings.desc | escape | newline_to_br }}
+                      </div>
+                    {% endif %}
+
+                    <div class="tw:flex tw:flex-wrap tw:gap-6">
+                      {% if block.settings.button_01_text != blank %}
+                        <a
+                          href="{% if block.settings.button_01_url != blank %}{{ block.settings.button_01_url }}{% else %}#{% endif %}"
+                          class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[16px] tw:font-medium tw:leading-[1.2] tw:text-black"
+                        >
+                          <span>{{ block.settings.button_01_text | escape }}</span>
+                          <svg class="tw:size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+                          </svg>
+                        </a>
+                      {% endif %}
+
+                      {% if block.settings.button_02_text != blank %}
+                        <a
+                          href="{% if block.settings.button_02_url != blank %}{{ block.settings.button_02_url }}{% else %}#{% endif %}"
+                          class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[16px] tw:font-medium tw:leading-[1.2] tw:text-[#0062ff]"
+                        >
+                          <span>{{ block.settings.button_02_text | escape }}</span>
+                          <svg class="tw:size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+                          </svg>
+                        </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+
+                {% unless forloop.last %}
+                  <div class="tw:my-12 tw:h-px tw:w-full tw:bg-black/70" aria-hidden="true"></div>
+                {% endunless %}
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="tw:hidden tw:flex-col tw:gap-12 tw:max-md:flex">
+        {% for block in section.blocks %}
+          {% assign mobile_image = block.settings.mobile_image | default: block.settings.image %}
+
+          <article class="tw:flex tw:flex-col tw:items-center tw:gap-6" {{ block.shopify_attributes }}>
+            <div class="tw:relative tw:aspect-360/400 tw:w-full tw:overflow-hidden tw:rounded-[9px]">
+              {% if mobile_image != blank %}
+                {{
+                  mobile_image
+                  | image_url: width: mobile_image.width
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: 'calc(100vw - 32px)',
+                    widths: '360,480,720,900,1200',
+                    class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover'
+                }}
+              {% else %}
+                <div class="tw:absolute tw:inset-0 tw:size-full tw:bg-[#e5e5e5]"></div>
+              {% endif %}
+            </div>
+
+            <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-4 tw:text-center">
+              <div>
+                {% if block.settings.title != blank %}
+                  <h3 class="tw:m-0 tw:w-full tw:text-[24px] tw:font-bold tw:leading-[normal] tw:text-white tw:font-gabarito!">
+                    {{ block.settings.title | escape | newline_to_br }}
+                  </h3>
+                {% endif %}
+
+                {% if block.settings.desc != blank %}
+                  <div class="tw:w-full tw:text-[16px] tw:font-normal tw:leading-[normal] tw:text-white/60 tw:mt-2">
+                    {{ block.settings.desc | escape | newline_to_br }}
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="tw:flex tw:flex-wrap tw:justify-center tw:gap-6">
+                {% if block.settings.button_01_text != blank %}
+                  <a
+                    href="{% if block.settings.button_01_url != blank %}{{ block.settings.button_01_url }}{% else %}#{% endif %}"
+                    class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[14px] tw:font-medium tw:leading-[1.2] tw:text-white"
+                  >
+                    <span>{{ block.settings.button_01_text | escape }}</span>
+                    <svg class="tw:size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+                    </svg>
+                  </a>
+                {% endif %}
+
+                {% if block.settings.button_02_text != blank %}
+                  <a
+                    href="{% if block.settings.button_02_url != blank %}{{ block.settings.button_02_url }}{% else %}#{% endif %}"
+                    class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[14px] tw:font-medium tw:leading-[1.2] tw:text-[#0062ff]"
+                  >
+                    <span>{{ block.settings.button_02_text | escape }}</span>
+                    <svg class="tw:size-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M7 4L13 10L7 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/>
+                    </svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-iem-top-rated]').forEach((sectionEl) => {
+      const items = Array.from(sectionEl.querySelectorAll('[data-iem-top-rated-item]'));
+      const mediaPanels = Array.from(sectionEl.querySelectorAll('[data-iem-top-rated-media]'));
+
+      if (!items.length) {
+        return;
+      }
+
+      const updatePanelHeights = () => {
+        items.forEach((item) => {
+          const panel = item.querySelector('[data-iem-top-rated-panel]');
+          if (!panel) {
+            return;
+          }
+
+          panel.style.maxHeight = item.classList.contains('is-active') ? `${panel.scrollHeight}px` : '0px';
+        });
+      };
+
+      const setActive = (index) => {
+        items.forEach((item, itemIndex) => {
+          const isActive = itemIndex === index;
+          const toggle = item.querySelector('[data-iem-top-rated-toggle]');
+
+          item.classList.toggle('is-active', isActive);
+          if (toggle) {
+            toggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+          }
+        });
+
+        mediaPanels.forEach((panel, panelIndex) => {
+          panel.classList.toggle('is-active', panelIndex === index);
+        });
+
+        requestAnimationFrame(updatePanelHeights);
+      };
+
+      items.forEach((item, index) => {
+        const toggle = item.querySelector('[data-iem-top-rated-toggle]');
+        if (!toggle) {
+          return;
+        }
+
+        toggle.addEventListener('click', () => setActive(index));
+      });
+
+      setActive(0);
+      window.addEventListener('resize', updatePanelHeights);
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "IEM Top Rated",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Top Rated Picks"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Trusted by thousands. Rated 4.8+ stars. Built for victory."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 68
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobile image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+          "default": "AutoFull G7 Gaming Chair"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "Rebuild Your Ideal Seating Experience"
+        },
+        {
+          "type": "text",
+          "id": "button_01_text",
+          "label": "Button 01 text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "button_01_url",
+          "label": "Button 01 URL"
+        },
+        {
+          "type": "text",
+          "id": "button_02_text",
+          "label": "Button 02 text",
+          "default": "Buy Now"
+        },
+        {
+          "type": "url",
+          "id": "button_02_url",
+          "label": "Button 02 URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Top Rated",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": {
+            "title": "AutoFull G7 Gaming Chair",
+            "desc": "Rebuild Your Ideal Seating Experience",
+            "button_01_text": "Learn More",
+            "button_02_text": "Buy Now"
+          }
+        },
+        {
+          "type": "product",
+          "settings": {
+            "title": "AutoFull M602 Ultra 2.0\nGaming Chair",
+            "desc": "Massaging Lumbar Cooling Seat",
+            "button_01_text": "Learn More",
+            "button_02_text": "Buy Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

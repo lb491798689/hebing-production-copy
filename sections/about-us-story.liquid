@@ -1,0 +1,104 @@
+<section
+  class="
+    tw:pt-[140px] tw:pb-[70px] tw:max-md:py-[64px] tw:max-md:px-4 tw:relative
+    tw:z-2 tw:bg-[#131313] tw:font-gabarito svg-bg-image
+  "
+>
+  <div
+    class="
+      tw:text-[56px] tw:leading-[calc(70px/56px)] tw:uppercase tw:text-[#D6000D] tw:font-black
+      tw:font-orbitron tw:max-md:text-[36px] tw:text-center tw:mb-[32px] tw:max-md:text-left
+    "
+  >
+    {{ section.settings.section_title }}
+  </div>
+
+  <div class="tw:max-md:[&>*+*]:mt-14">
+    {% for block in section.blocks %}
+      <div
+        class="
+          tw:md:py-[70px] tw:flex tw:items-center
+          {% if block.settings.align == 'left' %} tw:flex-row {% else %} tw:flex-row-reverse {% endif %}
+           tw:max-md:flex-col tw:max-md:gap-6
+        "
+      >
+        <div class="tw:relative tw:aspect-960/580 tw:max-md:aspect-359/240 tw:w-1/2 tw:max-md:w-full">
+          {% if block.settings.story_image != blank %}
+            <img
+              src="{{ block.settings.story_image | image_url }}"
+              alt="{{ block.settings.story_image.alt }}"
+              class="tw:absolute tw:top-0 tw:left-0 tw:w-full tw:h-full tw:object-cover"
+              width="{{ block.settings.story_image.width }}"
+              height="{{ block.settings.story_image.height }}"
+            >
+          {% else %}
+            <div
+              class="
+                tw:absolute tw:size-full tw:inset-0 tw:object-cover
+                tw:bg-gray-400 tw:flex tw:items-center tw:justify-center
+              "
+            >
+              image
+            </div>
+          {% endif %}
+        </div>
+        <div
+          class="
+            tw:max-w-[600px] tw:md:px-[48px] tw:flex tw:items-center tw:tracking-[-0.02em]
+            tw:text-[20px] tw:leading-[1.4] tw:text-white/80 tw:max-md:text-[16px]
+          "
+        >
+          {{ block.settings.story_desc | newline_to_br }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Us Story",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "Brand Story"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "story",
+      "name": "Story Item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "align",
+          "label": "Image Align",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "image_picker",
+          "id": "story_image",
+          "label": "Story Image"
+        },
+        {
+          "type": "textarea",
+          "id": "story_desc",
+          "label": "Story Desc",
+          "default": "AutoFull gaming chairs were initially designed for gamers seeking to boost their performance with top-notch gear while embracing a stylish and modern look. But after years of studying thousands of gamers and delving into their preferences and gaming setups, we realized that a great gaming chain needs to do more than enhance gameplay. It must also tackle the health issues that come from sitting for long periods."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Story"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,355 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}} {{section.settings.section_css}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      background-color: #121212 !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stats {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      width: 100% !important;
+      max-width: 1920px !important;
+      margin: 0 auto !important;
+      padding: 16px 40px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-brand-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 16px !important;
+      line-height: 1.254 !important;
+      text-transform: none !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stats-items {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stats-desktop {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 48px !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stat-wrapper {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 10px !important;
+      border-radius: 6px !important;
+      background-color: transparent !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stats-swiper-wrap {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-brand-stat-item {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      line-height: 1.2 !important;
+      text-transform: none !important;
+      text-align: center !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      margin: 0 !important;
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        overflow: visible !important;
+      }
+      
+      {{ default_sid }} .jingva-brand-stats {
+        position: relative !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-end !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        padding: 24px 16px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: visible !important;
+      }
+
+      {{ default_sid }} .jingva-brand-title {
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 14px !important;
+        line-height: 1.254 !important;
+        text-transform: none !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        width: 219px !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+        position: relative !important;
+        z-index: 2 !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-items {
+        position: absolute !important;
+        left: 16px !important;
+        right: 16px !important;
+        bottom: 24px !important;
+        top: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: flex-end !important;
+        justify-content: flex-end !important;
+        gap: 0 !important;
+        width: auto !important;
+        flex: none !important;
+        min-width: 0 !important;
+        overflow: visible !important;
+        pointer-events: none !important;
+        z-index: 1 !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-swiper-wrap {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        pointer-events: auto !important;
+      }
+
+      /* 垂直轮播：固定视口高度一行字，仅上下切换，不横向压左侧标题 */
+      {{ default_sid }} .jingva-brand-stats-swiper.swiper {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 1.5em !important;
+        min-height: 22px !important;
+        margin: 0 !important;
+        margin-left: auto !important;
+        overflow: hidden !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-swiper .swiper-wrapper {
+        align-items: flex-end !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-swiper .swiper-slide {
+        display: flex !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        height: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-swiper .jingva-brand-stat-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 10px !important;
+        border-radius: 6px !important;
+        background-color: transparent !important;
+      }
+
+      {{ default_sid }} .jingva-brand-stats-swiper .jingva-brand-stat-item {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 14px !important;
+        line-height: 1.2 !important;
+        text-transform: none !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        text-align: right !important;
+        white-space: nowrap !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: auto !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        box-sizing: border-box !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-brand-stats">
+    <h3 class="jingva-brand-title">{{ se_stts.brand_title | default: 'Outstanding GAMING CHAIR BRAND' }}</h3>
+
+    <div class="jingva-brand-stats-items">
+      <div class="jingva-brand-stats-desktop">
+        <div class="jingva-brand-stat-wrapper">
+          <div class="jingva-brand-stat-item">{{ se_stts.stat1 | default: 'Length of R&amp;D 52,800+' }}</div>
+        </div>
+        <div class="jingva-brand-stat-wrapper">
+          <div class="jingva-brand-stat-item">{{ se_stts.stat2 | default: 'Number of designs 15,000+' }}</div>
+        </div>
+        <div class="jingva-brand-stat-wrapper">
+          <div class="jingva-brand-stat-item">{{ se_stts.stat3 | default: 'Length of testing/h 108,800+' }}</div>
+        </div>
+      </div>
+
+      <div class="jingva-brand-stats-swiper-wrap">
+        <div class="swiper jingva-brand-stats-swiper" id="jingva-brand-stats-swiper-{{ sid }}">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="jingva-brand-stat-wrapper">
+                <div class="jingva-brand-stat-item">{{ se_stts.stat1 | default: 'Length of R&amp;D 52,800+' }}</div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="jingva-brand-stat-wrapper">
+                <div class="jingva-brand-stat-item">{{ se_stts.stat2 | default: 'Number of designs 15,000+' }}</div>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="jingva-brand-stat-wrapper">
+                <div class="jingva-brand-stat-item">{{ se_stts.stat3 | default: 'Length of testing/h 108,800+' }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var sectionId = '{{ sid }}';
+    var root = document.querySelector('.jingva-section-container-' + sectionId);
+    if (!root) return;
+
+    var swiperEl = document.getElementById('jingva-brand-stats-swiper-' + sectionId);
+    if (!swiperEl) return;
+
+    var swiperInstance = null;
+    var mq = window.matchMedia('(max-width: 1279px)');
+
+    function destroySwiper() {
+      if (swiperInstance && typeof swiperInstance.destroy === 'function') {
+        try {
+          swiperInstance.destroy(true, true);
+        } catch (e) {}
+        swiperInstance = null;
+      }
+    }
+
+    function initSwiper() {
+      if (typeof Swiper === 'undefined') return;
+      if (!mq.matches) return;
+      if (swiperInstance) return;
+
+      var reduced =
+        window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      swiperInstance = new Swiper(swiperEl, {
+        direction: 'vertical',
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: true,
+        speed: 450,
+        autoplay: reduced
+          ? false
+          : {
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: false
+            },
+        allowTouchMove: true,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+        resistanceRatio: 0.85
+      });
+    }
+
+    function onBreakpoint() {
+      if (mq.matches) {
+        if (!swiperInstance) initSwiper();
+      } else {
+        destroySwiper();
+      }
+    }
+
+    onBreakpoint();
+    if (mq.addEventListener) mq.addEventListener('change', onBreakpoint);
+    else if (mq.addListener) mq.addListener(onBreakpoint);
+
+    document.addEventListener('shopify:section:load', function (e) {
+      if (e.detail && e.detail.sectionId && String(e.detail.sectionId) === String(sectionId)) {
+        destroySwiper();
+        if (mq.matches) initSwiper();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Brand Stats",
+  "class": "shopify-section--jingva-brand-stats",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_css",
+      "label": "自定义CSS类名"
+    },
+    {
+      "type": "header",
+      "content": "品牌标题"
+    },
+    {
+      "type": "text",
+      "id": "brand_title",
+      "label": "品牌标题",
+      "default": "Outstanding GAMING CHAIR BRAND"
+    },
+    {
+      "type": "header",
+      "content": "数据统计"
+    },
+    {
+      "type": "text",
+      "id": "stat1",
+      "label": "数据1",
+      "default": "Length of R&amp;D 52,800+"
+    },
+    {
+      "type": "text",
+      "id": "stat2",
+      "label": "数据2",
+      "default": "Number of designs 15,000+"
+    },
+    {
+      "type": "text",
+      "id": "stat3",
+      "label": "数据3",
+      "default": "Length of testing/h 108,800+"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Brand Stats"
+    }
+  ]
+}
+{% endschema %}

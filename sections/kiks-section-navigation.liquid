@@ -1,0 +1,705 @@
+{%- if section.blocks.size > 0 -%}
+    {%- render 'section-spacing-collapsing' -%}
+    {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+    <style>
+      @media screen and (min-width: 700px) {
+        #shopify-section-{{ section.id }} {
+          --tabs-max-width: {% if section.settings.content_size == 'small' %}760{% elsif section.settings.content_size == 'medium' %}1000{% elsif section.settings.content_size == 'large' %}1260{% endif %}px;
+          --section-stack-spacing-block: var(--spacing-8);
+        }
+      }
+  
+      @media screen and (min-width: 1400px) {
+        #shopify-section-{{ section.id }} {
+          --section-stack-spacing-block: var(--spacing-10);
+        }
+      }
+.shopify-kiks-section--navigation{
+position: sticky !important;
+    top: var(--header-height);
+    z-index: 6;
+}
+      {% if section.settings.allow_sticky %}
+     
+
+        
+        {{ section_identifier }}.shopify-kiks-section--navigation.scrolled-past-section {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        
+        {{ section_identifier }}.shopify-kiks-section--navigation .section.section-full {
+            padding-top: 0;
+            padding-bottom: 0;
+            border-style: solid;
+            border-color: #999999;
+        }
+        {{ section_identifier }}.shopify-kiks-section--navigation.scrolled-past-section .section.section-full {
+            padding-top: calc(var(--background-differs-from-previous) * var(--calculated-section-spacing-block-start));
+            padding-bottom: 0;
+        }
+     {% endif %}
+      {{ section_identifier }}.shopify-kiks-section--navigation .kiks-nav .kiks-nav-items {
+        justify-content: {{ section.settings.nav_alignment }};
+      }
+
+     
+        .kiks-section-navigation .kiks-nav .kiks-nav-items {
+            display: flex;
+            align-items: center;
+            padding: 18px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 110px;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+
+        }
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item {
+            font-size: 18px;
+            font-weight: 700;
+            position: relative;
+            cursor: pointer; 
+            font-family: 'HarmonyOS-Sans-SC';
+            text-transform: none !important;
+            transition: all .3s ease;
+        }
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item:after{
+            content: "";
+            height: 2px;
+            width: 100%;
+            display: block;
+            transition: all .3s ease;
+      }
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item:hover:after,
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item.is-active:after {
+            background: #ED1C24;
+        }
+
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item:hover,
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item.is-active {
+            color: #ED1C24;
+        }
+
+        /* JS-driven sticky (fixed) mode */
+        {{ section_identifier }}.is-fixed .section.section-full{position:fixed;left:0;right:0;top:var(--header-height);z-index:9;transition: all .1s ease;}
+ 
+
+        /* Right side price + ATC container */
+        {{ section_identifier }} .kiks-nav-container {
+          position: relative;
+        }
+        {{ section_identifier }} .product-price-and-buttons-box{
+        position:absolute;right:0;
+        top:50%;
+        transform:translateY(-50%);display:flex;align-items:center;gap:19px;}
+        {{ section_identifier }} .product-price-and-buttons-box .product-buttons .button{margin:0;}
+        {{ section_identifier }} .product-price-and-buttons-box .product-price{
+          font-size: 18px;
+          font-weight: 700;
+          color: #000;
+        }
+        {{ section_identifier }} .product-price-and-buttons-box .product-price compare-at-price{
+          color: #fff;
+          font-size: 14px;
+          font-weight: 400;
+        }
+      
+        {{ section_identifier }} .product-price-and-buttons-box .product-price .text-on-sale{
+          font-size: 18px;
+          color: #fff ;
+        }
+        {{ section_identifier }} .product-price-and-buttons-box .product-buttons .buy-buttons{
+          clip-path: polygon(
+            0% 7px,            /* top-left corner cut */
+            7px 0%, 
+            calc(100% - 7px) 0%, /* top-right corner cut */
+            100% 7px,
+            100% calc(100% - 7px), /* bottom-right corner cut */
+            calc(100% - 7px) 100%,
+            7px 100%,          /* bottom-left corner cut */
+            0% calc(100% - 7px)
+          );
+          height: 45px;
+          width: 120px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        {{ section_identifier }} .product-design-and-buy-now-box__button .product-buttons .buy-buttons button,
+        {{ section_identifier }} .product-price-and-buttons-box .product-buttons .buy-buttons button{
+          text-transform: none !important;
+          background: #fff;
+          font-size: 18px;
+          
+          border-radius:7px;
+          color: #000;
+          height: 46px;
+          padding: 0;
+          clip-path: polygon(
+            0% 5px,            /* top-left corner cut */
+            5px 0%, 
+            calc(100% - 5px) 0%, /* top-right corner cut */
+            100% 5px,
+            100% calc(100% - 5px), /* bottom-right corner cut */
+            calc(100% - 5px) 100%,
+            5px 100%,          /* bottom-left corner cut */
+            0% calc(100% - 5px)
+          );
+          width: 100%;
+          transition: all .3s ease;
+      
+
+        }
+        {{ section_identifier }} .product-design-and-buy-now-box__button .product-buttons .buy-buttons:hover button,
+        {{ section_identifier }} .product-price-and-buttons-box .product-buttons .buy-buttons:hover button{
+          background: #ED1C24;
+          color: #fff;
+        }
+        
+      
+
+        .product-design-and-buy-now-box{
+          display: none;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+          padding-top: 24px;
+        }
+        .product-design-and-buy-now-box__title{
+          font-size: 18px;
+          font-weight: 700; 
+        }
+        
+      
+        @media screen and (max-width: 1250px){
+          .kiks-section-navigation .kiks-nav .kiks-nav-items {
+            gap: 24px;
+          }
+        
+        }
+        @media screen and (max-width: 999px){
+          {{ section_identifier }} .product-price-and-buttons-box{position:static;transform:none;justify-content:flex-end;padding:12px 0;display: none;}
+    
+          .kiks-section-navigation .kiks-nav .kiks-nav-items {
+            gap: 50px;
+          }
+        }
+
+        @media screen and (max-width: 768px){
+        {{ section_identifier }}.shopify-kiks-section--navigation .kiks-nav .kiks-nav-items{padding:13px 0;justify-content: flex-start;}
+        .kiks-section-navigation .kiks-nav .kiks-nav-items .kiks-nav-item{
+          font-size: 12px;
+        }
+        .product-design-and-buy-now-box{padding-top: 13px;display: flex;}
+        .product-design-and-buy-now-box__title{font-size: 16px;}
+        {{ section_identifier }} .product-design-and-buy-now-box__button .product-buttons .buy-buttons button{padding: 0px 10px;font-size: 10px;height: 22px;}
+   
+        }
+    </style>
+  
+    <div {% render 'section-properties' %}>
+      <div class="{% if section.settings.allow_sticky %}kiks-section-navigation{% else %}tabs{% endif %}">
+
+        {% comment %} 产品页面移动端导航展示产品 buy now 按钮 {% endcomment %}
+
+        {% if product != blank %}
+          <div class="product-design-and-buy-now-box">
+            {% comment %} 颜色和设计 {% endcomment %}
+            <p class="product-design-and-buy-now-box__title">
+              {% if product.title != blank %}
+                {% if section.settings.product_name_text != blank %}
+                  {{ section.settings.product_name_text }}
+                {% else %}
+                  {{ product.title }}:
+                {% endif %}
+              {% endif %}
+            </p>
+            {% comment %} 立即购买按钮 {% endcomment %}
+            {% comment %} <button class="product-design-and-buy-now-box__button" onclick="document.querySelector('.buy-now-button-a')?.click();">Buy Now</button> {% endcomment %}
+            <div class="product-design-and-buy-now-box__button">
+              <div class="product-buttons">
+                {% assign product_form_id = 'nav-atc-' | append: section.id %}
+                {% render 'buy-buttons', product: product, form_id: product_form_id, show_payment_button: false %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <div class="section-stack">
+          {%- if section.settings.subheading != blank or section.settings.title != blank -%}
+            <div class="prose text-center">
+              {%- if section.settings.subheading != blank -%}
+                <p class="custom_font_family subheading">{{ section.settings.subheading | escape }}</p>
+              {%- endif -%}
+  
+              {%- if section.settings.title != blank -%}
+                <p class="h2">{%- render 'styled-text', content: section.settings.title, text_color: section.settings.heading_color, gradient: section.settings.heading_gradient -%}</p>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+  
+          <div class="{% if section.settings.allow_sticky %}kiks-nav-container{% else %}tabs-container{% endif %}">
+            {% if section.settings.allow_sticky %}
+                <div class="kiks-nav">
+                    <div class="kiks-nav-items nav_list__scroller">
+                        {%- for block in section.blocks -%}
+                            {% assign title = block.settings.title  %}
+                        <div scroll-to="{{ title | downcase | replace: ' ', '_' }}" type="button" id="tab-{{ forloop.index }}"  class="kiks-nav-item h6">
+                            {{ title }}
+                          </div>
+                        {%- endfor -%}
+                      </div>
+                    
+                    
+                </div>
+              
+             {% else %}
+              <div class="sm:hidden">
+                {%- for block in section.blocks -%}
+                  {%- liquid
+                    assign title = block.settings.title | default: block.settings.page.title
+    
+                    if block.type == 'section'
+                      assign content = block.settings.page.content | default: block.settings.content
+                    elsif block.type == 'liquid'
+                      assign content = block.settings.liquid
+                    endif
+                  -%}
+    
+                  {%- if title and content -%}
+                    {%- assign open = false -%}
+    
+                    {%- if forloop.first and section.settings.first_tab_open -%}
+                      {%- assign open = true -%}
+                    {%- endif -%}
+    
+                    {%- capture accordion_content -%}
+                      <div class="prose">{{ content }}</div>
+                    {%- endcapture -%}
+    
+                    {%- render 'accordion', title: title, content: accordion_content, open: open -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+    
+              <x-tabs class="tabs-inner sm:text-{{ section.settings.text_alignment | replace: 'left', 'start' | replace: 'right', 'end' }}">
+                <template shadowrootmode="open">
+                  <slot role="tablist" part="tab-list" name="title"></slot>
+                  <slot part="tab-panels" name="content"></slot>
+                </template>
+    
+                {%- for block in section.blocks -%}
+                  {%- liquid
+                    assign title = block.settings.title | default: block.settings.page.title
+    
+                    if block.type == 'tab'
+                      assign content = block.settings.page.content | default: block.settings.content
+                    elsif block.type == 'liquid'
+                      assign content = block.settings.liquid
+                    endif
+                  -%}
+    
+                  {%- if title != blank and content != blank -%}
+                    <button type="button" slot="title" class="tabs-nav__button bold text-subdued text-center" {{ block.shopify_attributes }}>{{ title | escape }}</button>
+                    <div role="tabpanel" class="tab-content prose" slot="content" {% cycle '', 'hidden', 'hidden', 'hidden', 'hidden' %}>
+                      {{ content }}
+                    </div>
+                  {%- endif -%}
+                {%- endfor -%}
+              </x-tabs>
+            {% endif %}
+
+            {% comment %} 原先的价格和按钮（移动端或需要 fallback 时可保留） {% endcomment %}
+             {% if product != blank %}
+              <div class="product-price-and-buttons-box">
+                <div class="product-price">
+                  {% render 'price-list', product: product, size: 'lg' %}
+                </div>
+                <div class="product-buttons">
+                  {% assign product_form_id = 'nav-atc-' | append: section.id %}
+                  {% render 'buy-buttons', product: product, form_id: product_form_id, show_payment_button: false %}
+                </div>
+              </div>
+            {% endif %} 
+          </div>
+
+        
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <script>
+   
+    // JS
+    
+    document.addEventListener('DOMContentLoaded', function () {
+      const navSection = document.querySelector('{{ section_identifier }}.shopify-kiks-section--navigation');
+      if(!navSection) return;
+      const container = navSection.querySelector('.kiks-nav-container');
+    
+      const header = document.querySelector('header.shopify-section--header') || document.querySelector('.header__wrapper');
+
+      const isHeaderVisible = () => {
+        if(!header) return false;
+        // Prefer inline style visibility if present, fallback to computed style
+        const inline = (header.getAttribute('style') || '').toLowerCase();
+        if(inline.includes('visibility')){
+          return /visibility\s*:\s*visible/.test(inline);
+        }
+        const comp = getComputedStyle(header);
+        return comp.visibility !== 'hidden';
+      };
+
+      const getTop = () => (header && isHeaderVisible() ? header.getBoundingClientRect().height : 0);
+      const getOffset = () => navSection.getBoundingClientRect().top + window.scrollY; // initial absolute Y
+
+      let stickyTop = 0;
+      let sectionTop = 0;
+
+      const compute = () => {
+        stickyTop = getTop();
+        sectionTop = getOffset();
+        if(container) container.style.setProperty('--sticky-top', stickyTop + 'px');
+        // Update CSS var used by fixed nav top calc
+        navSection.style.setProperty('--header-height', stickyTop + 'px');
+      };
+      compute();
+      window.addEventListener('resize', compute);
+
+      // Observe header style changes (visibility) and recompute
+      if(header && 'MutationObserver' in window){
+        const mo = new MutationObserver(compute);
+        mo.observe(header, { attributes: true, attributeFilter: ['style', 'class'] });
+      }
+
+      const onScroll = () => {
+        // Recompute header visibility and height on scroll
+        navSection.style.setProperty('--header-height', getTop() + 'px');
+        {% comment %} if(window.scrollY + getTop() >= sectionTop){
+          navSection.classList.add('is-fixed');
+        }else{
+          navSection.classList.remove('is-fixed');
+        } {% endcomment %}
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      requestAnimationFrame(onScroll);
+    });
+
+
+   document.addEventListener("DOMContentLoaded", function () {
+        const navItems = document.querySelectorAll(".kiks-nav-items .kiks-nav-item[scroll-to]");
+        let isManualClick = false; // 添加手动点击标志
+
+        const sections = Array.from(document.querySelectorAll(".shopify-section div[id]")).map(div => {
+            const id = div.getAttribute("id");
+            const sectionEl = div.closest(".shopify-section");
+            const navItem = document.querySelector(`.kiks-nav-item[scroll-to="${id}"]`);
+            return { id, sectionEl, navItem };
+        });
+
+        function highlightOnScroll() {
+            // 如果是手动点击，跳过自动高亮
+            if (isManualClick) {
+                setTimeout(() => {
+                    isManualClick = false;
+                }, 1000); // 1秒后恢复自动高亮
+                return;
+            }
+
+            let matched = false;
+
+            navItems.forEach(item => item.classList.remove("is-active"));
+
+            for (const { sectionEl, navItem } of sections) {
+                // ✅ Add null check here
+                if (!sectionEl || !navItem) continue;
+
+                const rect = sectionEl.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 195;
+
+                if (isVisible) {
+                navItem.classList.add("is-active");
+
+                const container = document.querySelector('.kiks-nav-items');
+                const itemRect = navItem.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                const scrollLeft = (itemRect.left - containerRect.left) - (containerRect.width / 2) + (itemRect.width / 2);
+
+                container.scrollBy({ left: scrollLeft, behavior: 'smooth' });
+
+                matched = true;
+                break;
+                }
+            }
+
+            // ✅ Add null checks in fallback too
+            if (!matched && sections.length > 0) {
+                const first = sections.find(({ sectionEl }) => {
+                if (!sectionEl) return false;
+                const rect = sectionEl.getBoundingClientRect();
+                return rect.top >= 0 && rect.bottom > 0;
+                });
+
+                if (first?.navItem) {
+                first.navItem.classList.add("is-active");
+
+                const container = document.querySelector('.kiks-nav-items');
+                const itemRect = first.navItem.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                const scrollLeft = (itemRect.left - containerRect.left) - (containerRect.width / 2) + (itemRect.width / 2);
+
+                container.scrollBy({ left: scrollLeft, behavior: 'smooth' });
+                }
+            }
+        }
+
+
+        // Run on scroll
+        window.addEventListener("scroll", highlightOnScroll);
+
+        // ✅ Run once immediately after layout is painted
+        requestAnimationFrame(() => {
+            highlightOnScroll(); // no setTimeout needed
+        });
+
+        // Smooth scroll to section on click
+        navItems.forEach(item => {
+            item.addEventListener("click", function () {
+                // 设置手动点击标志
+                isManualClick = true;
+                
+                // 立即激活点击的导航项
+                navItems.forEach(navItem => navItem.classList.remove("is-active"));
+                this.classList.add("is-active");
+                
+                const targetId = item.getAttribute("scroll-to");
+                const targetEl = document.querySelector(`.shopify-section div[id="${targetId}"]`);
+                if (targetEl && !targetEl.closest(".shopify-section").classList.contains("hidden")) {
+                    const y = targetEl.getBoundingClientRect().top + window.scrollY - 190;
+                    window.scroll({ top: y, behavior: "smooth" });
+                }
+            });
+        });
+    });
+  </script>
+  
+  
+  
+  
+  
+  {% schema %}
+  {
+    "name": "Kiks Section Navigation",
+    "class": "shopify-kiks-section--navigation",
+    "disabled_on": {
+      "groups": ["header", "custom.overlay"]
+    },
+    "max_blocks": 6,
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "nav_alignment",
+        "label": "Navigation alignment",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "Flex Start"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "flex-end",
+            "label": "Flex End"
+          },
+          {
+            "value": "space-between",
+            "label": "Space between"
+          },
+          {
+            "value": "space-around",
+            "label": "Space around"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_sticky",
+        "label": "Sticky Section",
+        "info": "Allow the section sticky (Don't enable this if going to use this as tab section)",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "content_size",
+        "label": "Content size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "fill",
+            "label": "Fill page"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "Subheading"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Heading"
+      },
+      {
+        "type": "text_alignment",
+        "id": "text_alignment",
+        "label": "Desktop text alignment",
+        "default": "center"
+      },
+      {
+        "type": "checkbox",
+        "id": "first_tab_open",
+        "label": "Open first tab on mobile"
+      },
+      {
+        "type": "header",
+        "content": "Colors",
+        "info": "Gradient replaces solid colors when set."
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Background gradient"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Heading color"
+      },
+      {
+        "type": "color_background",
+        "id": "heading_gradient",
+        "label": "Heading gradient"
+      },
+      {
+        "type": "header",
+        "content": "Product price",
+      },
+      {
+        "type": "text",
+        "id": "product_name_text",
+        "label": "Product name text",
+        "info": "自定义名称，默认产品名称"
+      },
+    ],
+    "blocks": [
+      {
+        "type": "section",
+        "name": "Rich-text content",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Tab"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+          },
+          {
+            "type": "page",
+            "id": "page",
+            "label": "Page",
+            "info": "Replaces inline content if specified."
+          }
+        ]
+      },
+      {
+        "type": "liquid",
+        "name": "Liquid code",
+        "settings": [
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Title",
+            "default": "Tab"
+          },
+          {
+            "type": "liquid",
+            "id": "liquid",
+            "label": "Liquid code",
+            "default": "<p>Write Liquid code to create advanced customizations.</p>"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Kiks Section Navigation",
+        "blocks": [
+          {
+            "type": "section",
+            "settings": {
+              "title": "section 1",
+              "content": "<p>Use this text to share information about your brand with your customers.</p>"
+            }
+          },
+          {
+            "type": "section",
+            "settings": {
+              "title": "section 2",
+              "content": "<p>Describe a product, share announcements, or welcome customers to your store.</p>"
+            }
+          },
+          {
+            "type": "section",
+            "settings": {
+              "title": "section 3",
+              "content": "<p>Share information about your shipping rates, return policy or contact information.</p>"
+            }
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}
+  

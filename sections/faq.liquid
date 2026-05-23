@@ -1,0 +1,566 @@
+{%- render 'section-spacing-collapsing' -%}
+{%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+{%- assign text_position = section.settings.text_position -%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --section-stack-intro: {% if text_position == 'center' %}60%{% else %}50%{% endif %};
+    --section-stack-main: {% if text_position == 'center' %}60%{% else %}50%{% endif %};
+  }
+  #shopify-section-{{ section.id }}.shopify-section--faq .accordion-box span.circle-chevron {
+    background: unset;
+}
+.shopify-section--faq .accordion__toggle.regular-text span, .shopify-section--faq .accordion__toggle.regular-text {
+    font-style: normal;
+}
+{{ section_identifier }}.shopify-section--faq .accordion-box details.accordion span.circle-chevron{
+  border: unset;
+}
+{{ section_identifier }}.shopify-section--faq .accordion-box details.accordion:hover span.circle-chevron {
+    color: rgb(var(--text-color));
+}
+{{ section_identifier }}.shopify-section--faq .accordion-box .accordion {
+    border-color: rgb(var(--text-color));
+}
+.faq_content.flexed{
+    display:flex;
+    gap:32px;
+  }
+  .faq_box{
+    flex:1;
+    display:flex;
+    border-radius:8px;
+  }
+  .accordion__toggle span{
+    line-height:1.5;
+    font-size:18px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  .accordion__content p{
+    font-size:16px;
+    line-height:1.5;
+  }
+  .accordion-box{
+        border-radius:4px;
+  }
+  .accordion-box .circle-chevron {
+    background: transparent;
+    border: 1px solid;
+}
+  .faq_content.flexed .section-stack__main{
+width:50%;
+  }
+.faq_main_image{
+  width:50%;
+  height:100%;
+}
+.faq_main_image img{
+  height:100%;
+  width:100%;
+  object-fit:cover;
+}
+.faq_box_content{
+  width:50%;
+  padding:24px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.faq_box_content h2{
+margin:0;
+margin-bottom:8px;
+line-height:1.2;
+font-size:24px;
+letter-spacing: 0;
+text-transform: uppercase;
+font-style: italic;
+}
+.faq_box_content p{
+  margin:0;
+margin-bottom:24px;
+  line-height:1.5;
+font-size:16px;
+letter-spacing: 0;
+}
+.faq_box_content a{
+text-decoration: unset;
+}
+.faq_box_content button,
+.faq_box_content a h3{
+  margin:0;
+line-height:1.5;
+color:#ED1C24;
+font-size:18px;
+letter-spacing: 0;
+text-transform: uppercase;
+font-style: italic;
+}
+@media (max-width:999px){
+  .faq_content.flexed{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  .accordion__toggle span{
+font-size:16px;
+  }
+  .faq_content.flexed .section-stack__main {
+    width: 100%;
+}
+.faq_box{
+    flex-wrap:wrap;
+  }
+.faq_main_image{
+  width:100%;
+  height:auto;
+}
+.faq_box_content{
+  width:100%;
+  padding:24px;
+}
+.faq_box_content h2{
+font-size:20px;
+}
+.faq_box_content p{
+font-size:14px;
+}
+.faq_box_content a h3{
+font-size:16px;
+}
+}
+</style>
+
+<div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %} {% render 'section-properties' %}  data_link="true">
+  <div class="section-stack {% if text_position != 'center' %}section-stack--horizontal{% else %}section-stack--center{% endif %} {% if text_position == 'end' %}section-stack--reverse{% endif %}">
+    {%- capture content -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="custom_font_family subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="h2">
+          {%- render 'styled-text', content: section.settings.title, text_color: section.settings.heading_color, gradient: section.settings.heading_gradient -%}
+        </h2>
+      {%- endif -%}
+
+      {{- section.settings.content -}}
+    {%- endcapture -%}
+
+    {%- capture subcontent -%}
+      <div class="faq-availability">
+        {%- if section.settings.team_avatar != blank or section.settings.support_hours != blank or section.settings.answer_time != blank -%}
+          <div class="v-stack gap-4">
+            {%- if section.settings.team_avatar != blank -%}
+              {%- capture sizes -%}{{ section.settings.team_avatar_width }}px{%- endcapture -%}
+              {%- capture widths -%}{{ section.settings.team_avatar_width }}, {{ section.settings.team_avatar_width | times: 2 | at_most: section.settings.team_avatar.width }}{%- endcapture -%}
+              {%- capture style -%}max-width: {{ section.settings.team_avatar_width }}px{%- endcapture -%}
+              {{- section.settings.team_avatar | image_url: width: section.settings.team_avatar.width | image_tag: style: style, sizes: sizes, widths: widths -}}
+            {%- endif -%}
+
+            {%- if section.settings.support_hours != blank or section.settings.answer_time != blank -%}
+              <div class="v-stack">
+                {{- section.settings.support_hours -}}
+
+                {%- if section.settings.answer_time != blank -%}
+                  <span class="text-subdued">{{ section.settings.answer_time }}</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.button_text != blank -%}
+          {% render 'button', content: section.settings.button_text, href: section.settings.button_url,  background: section.settings.button_background, text_color: section.settings.button_text_color, size: section.settings.size, style: section.settings.style %}
+        {%- endif -%}
+      </div>
+    {%- endcapture -%}
+
+    {%- if content != blank or subcontent != blank -%}
+      <div class="section-stack__intro">
+        <div class="v-stack gap-10">
+          {%- if content != blank -%}
+            <div class="prose {% if text_position == 'center' %}text-center{% endif %}">
+              {{- content -}}
+            </div>
+          {%- endif -%}
+
+          {%- if text_position != 'center' and subcontent != blank -%}
+            <div class="hidden lg:block">
+              {{- subcontent -}}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+
+    {% if section.settings.image != blank and section.settings.box_heading != blank %}  <div class="faq_content flexed">{% endif %}
+    {%- if section.blocks.size > 0 -%}
+      <div class="section-stack__main" >
+        <div {% render 'surface', class: 'accordion-box rounded', background: section.settings.accordion_background, text_color: section.settings.accordion_text_color, background_fallback: 'bg-secondary' %}>
+          {%- for block in section.blocks -%}
+            {%- if block.settings.title != blank and block.settings.content != blank -%}
+              {%- capture accordion_content -%}
+                <div class="prose">{{ block.settings.content }}</div>
+              {%- endcapture -%}
+              {% if section.settings.plain_content %}
+                {%- render 'kiks-accordion-content', title: block.settings.title, content: accordion_content, block: block, plain_content: section.settings.plain_content -%}
+                {% else %}
+              {%- render 'accordion', title: block.settings.title, content: accordion_content, block: block -%}
+              {% endif %}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {% if section.settings.image != blank and section.settings.box_heading != blank %}
+      <div class="faq_box bg-secondary">
+        <div class="faq_main_image">
+          <picture>
+            {% if section.settings.mobile_image != blank %}
+            <source srcset="{{ section.settings.mobile_image | img_url: '500x' }}" media="(max-width: 699px)">
+            {% endif %}
+            <source srcset="{{ section.settings.image | img_url: '500x' }}">
+            <img src="{{ section.settings.image | img_url: '500x' }}" loading="lazy">
+          </picture>
+        </div>
+        <div class="faq_box_content">
+          <h2>{{ section.settings.box_heading }}</h2>
+          {% if section.settings.box_content %}
+            <p>{{ section.settings.box_content }}</p>
+          {% endif %}
+          {%- if section.settings.allow_comparison  -%}
+            <button type="button" class="kiks_filter_fam btn-custom text-with-icon">
+              {{- section.settings.box_link_text | escape -}}  {%- render 'icon' with 'plus' -%}
+            </button>
+            {%- else -%}
+          {% if section.settings.box_link %}
+            <a href="{{ section.settings.box_link }}"><h3>{{ section.settings.box_link_text }}</h3></a>
+          {% endif %}
+        {%- endif -%}
+        </div>
+      </div>
+    {% endif %}
+
+  {% if section.settings.image != blank and section.settings.box_heading != blank %} </div>{% endif %}
+
+
+    <div {% if text_position != 'center' %}class="lg:hidden"{% endif %}>
+      {{- subcontent -}}
+    </div>
+  </div>
+</div>
+
+{%- comment -%}On the FAQ page, we also output the content with JSON microdata for SEO{%- endcomment -%}
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.title | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.content | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% schema %}
+{
+  "name": "FAQ",
+  "class": "shopify-section--faq",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "blocks": [
+    {
+      "name": "Item",
+      "type": "item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Question",
+          "default": "Question"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Answer",
+          "default": "<p>Write content to answer to common questions your customers may have about your products, shipping policies..</p>"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section id",
+       "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same id or name in the (Kiks Section Navigation) section."
+      
+    },
+    {
+      "type": "paragraph",
+      "content": "Structured data is automatically created on FAQ page to improve SEO. [Learn more](https://developers.google.com/search/docs/advanced/structured-data/faqpage)"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "FAQ"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Use this text to share information about your product or shipping policies.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "plain_content",
+      "label": "Plain Content",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "team_avatar",
+      "label": "Team avatar",
+      "info": "700 x 160px .jpg recommended"
+    },
+    {
+      "type": "range",
+      "id": "team_avatar_width",
+      "min": 50,
+      "max": 350,
+      "step": 10,
+      "unit": "px",
+      "label": "Team avatar width",
+      "default": 160
+    },
+    {
+      "type": "header",
+      "content": "Right box"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "text",
+      "id": "box_heading",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "box_content",
+      "label": "Content"
+    },
+    {
+      "type": "url",
+      "id": "box_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "box_link_text",
+      "label": "Link label"
+    },
+    {
+      "type": "text",
+      "id": "support_hours",
+      "label": "Support operating hours",
+      "default": "Our customer support is available Monday to Friday: 8am-8:30pm."
+    },
+    {
+      "type": "text",
+      "id": "answer_time",
+      "label": "Average answer time",
+      "default": "Average answer time: 24h"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "allow_comparison",
+      "label": "Show Comparison Button",
+      "info": "Make sure added the section (Kiks Modal Comparison)",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "outline",
+          "label": "Outline"
+        },
+        {
+          "value": "fill",
+          "label": "Fill"
+        }
+      ],
+      "default": "fill"
+    },
+    {
+      "type": "select",
+      "id": "size",
+      "label": "Size",
+      "options": [
+        {
+          "value": "sm",
+          "label": "Small"
+        },
+        {
+          "value": "base",
+          "label": "Medium"
+        },
+        {
+          "value": "lg",
+          "label": "Large"
+        },
+        {
+          "value": "xl",
+          "label": "X-Large"
+        }
+      ],
+      "default": "xl"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text"
+    },
+    {
+      "type": "color",
+      "id": "accordion_background",
+      "label": "Accordion background"
+    },
+    {
+      "type": "color",
+      "id": "accordion_text_color",
+      "label": "Accordion text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {
+            "title": "Do you ship overseas?",
+            "content": "<p>Yes, we ship all over the world. Shipping costs will apply, and will be added at checkout. We run discounts and promotions all year, so stay tuned for exclusive deals.</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "How long will it take to get my orders?",
+            "content": "<p>It depends on where you are. Orders processed here will take 5-7 business days to arrive. Overseas deliveries can take anywhere from 7-16 days. Delivery details will be provided in your confirmation email.</p>"
+          }
+        },
+        {
+          "type": "item",
+          "settings": {
+            "title": "Any question?",
+            "content": "<p>You can contact us through our contact page! We will be happy to assist you.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

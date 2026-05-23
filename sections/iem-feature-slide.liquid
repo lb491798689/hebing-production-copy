@@ -1,0 +1,336 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+
+  #{{ section.id }} [data-iem-feature-media],
+  #{{ section.id }} [data-iem-feature-content] {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity 300ms ease;
+  }
+
+  #{{ section.id }} [data-iem-feature-media].is-active,
+  #{{ section.id }} [data-iem-feature-content].is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 1;
+  }
+{% endstyle %}
+
+<section
+  id="{{ section.id }}"
+  class="tw:font-gabarito tw:text-white"
+  data-iem-feature-slide
+>
+  <div
+    class="
+      tw:mx-auto tw:grid tw:w-full tw:max-w-[1200px] tw:grid-cols-2
+      tw:max-md:grid-cols-1
+    "
+  >
+    <div
+      class="
+        tw:relative tw:aspect-600/680 tw:w-full tw:overflow-hidden tw:bg-black
+        tw:max-md:aspect-square tw:max-md:rounded-t-[12px]
+      "
+      aria-live="polite"
+    >
+      {% for block in section.blocks %}
+        <div
+          class="
+            tw:absolute tw:inset-0 tw:size-full
+            {% if forloop.first %}is-active{% endif %}
+          "
+          data-iem-feature-media
+          data-slide-index="{{ forloop.index0 }}"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.video != blank %}
+            {{
+              block.settings.video
+              | video_tag:
+                playsinline: true,
+                muted: true,
+                loop: true,
+                controls: false,
+                preload: 'metadata',
+                autoplay: forloop.first,
+                loading: 'lazy',
+                class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+                image_size: '900x'
+            }}
+          {% elsif block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: block.settings.image.width
+              | image_tag:
+                loading: 'lazy',
+                sizes: '(max-width: 1149px) 100vw, 600px',
+                widths: '390,600,720,900,1200',
+                class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover'
+            }}
+          {% else %}
+            <div class="tw:absolute tw:inset-0 tw:size-full tw:bg-black"></div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div
+      class="
+        tw:flex tw:min-h-[680px] tw:flex-col tw:justify-between tw:bg-[#292929] tw:p-12
+        tw:max-md:min-h-[360px] tw:max-md:p-4
+      "
+    >
+      <div class="tw:relative tw:min-h-0 tw:flex-1">
+        {% for block in section.blocks %}
+          <div
+            class="
+              tw:absolute tw:inset-0 tw:flex tw:w-full tw:flex-col tw:md:justify-center
+              {% if forloop.first %}is-active{% endif %}
+            "
+            data-iem-feature-content
+            data-slide-index="{{ forloop.index0 }}"
+          >
+            {% if block.settings.title != blank %}
+              <h2
+                class="
+                  tw:m-0 tw:w-full tw:text-[40px] tw:font-bold tw:leading-[normal]
+                  tw:text-[#ffff09]
+                  tw:max-md:text-[28px] tw:font-gabarito!
+                "
+              >
+                {{ block.settings.title | escape | newline_to_br }}
+              </h2>
+            {% endif %}
+
+            {% if block.settings.desc != blank %}
+              <div
+                class="
+                  tw:mt-6 tw:w-full tw:text-[24px] tw:font-normal tw:leading-[normal]
+                  tw:text-white/60 tw:lowercase
+                  tw:max-md:mt-2 tw:max-md:text-[16px]
+                "
+              >
+                {{ block.settings.desc | escape | newline_to_br }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if section.blocks.size > 1 %}
+        <div class="tw:mt-6 tw:grid tw:w-full tw:grid-cols-2 tw:gap-4 tw:max-md:gap-3">
+          <button
+            type="button"
+            class="
+              tw:flex tw:h-12 tw:w-full tw:items-center tw:justify-center tw:rounded-[12px]
+              tw:border tw:border-white tw:text-white tw:transition-colors
+              tw:hover:bg-white/10 tw:max-md:h-10 tw:max-md:rounded-[8px]
+            "
+            aria-label="Previous slide"
+            data-iem-feature-prev
+          >
+            <svg class="tw:size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M15 6L9 12L15 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="
+              tw:flex tw:h-12 tw:w-full tw:items-center tw:justify-center tw:rounded-[12px]
+              tw:border tw:border-white tw:text-white tw:transition-colors
+              tw:hover:bg-white/10 tw:max-md:h-10 tw:max-md:rounded-[8px]
+            "
+            aria-label="Next slide"
+            data-iem-feature-next
+          >
+            <svg class="tw:size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9 6L15 12L9 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-iem-feature-slide]').forEach((sectionEl) => {
+      const mediaItems = Array.from(sectionEl.querySelectorAll('[data-iem-feature-media]'));
+      const contentItems = Array.from(sectionEl.querySelectorAll('[data-iem-feature-content]'));
+      const prevButton = sectionEl.querySelector('[data-iem-feature-prev]');
+      const nextButton = sectionEl.querySelector('[data-iem-feature-next]');
+      let activeIndex = 0;
+      if (!mediaItems.length || !contentItems.length) {
+        return;
+      }
+
+      const syncVideos = () => {
+        mediaItems.forEach((item, index) => {
+          item.querySelectorAll('video').forEach((video) => {
+            if (index === activeIndex) {
+              video.currentTime = video.currentTime || 0;
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        });
+      };
+
+      const showSlide = (nextIndex) => {
+        const normalizedIndex = (nextIndex + mediaItems.length) % mediaItems.length;
+
+        if (normalizedIndex === activeIndex) {
+          return;
+        }
+
+        activeIndex = normalizedIndex;
+
+        mediaItems.forEach((item, index) => {
+          item.classList.toggle('is-active', index === activeIndex);
+        });
+
+        contentItems.forEach((item, index) => {
+          item.classList.toggle('is-active', index === activeIndex);
+        });
+
+        syncVideos();
+      };
+
+      if (prevButton) {
+        prevButton.addEventListener('click', () => showSlide(activeIndex - 1));
+      }
+
+      if (nextButton) {
+        nextButton.addEventListener('click', () => showSlide(activeIndex + 1));
+      }
+
+      mediaItems.forEach((item, index) => {
+        item.classList.toggle('is-active', index === activeIndex);
+      });
+
+      contentItems.forEach((item, index) => {
+        item.classList.toggle('is-active', index === activeIndex);
+      });
+
+      syncVideos();
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "IEM Feature Slide",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 68
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+          "default": "Dual-Fan Ventilation Cooling"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "Dual built-in fans cool the seat cushion and help reduce sweating, lowering seat temperature by up to 56%."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Feature Slide",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Total-Surround Lumbar Armor: Precision Support, Zero Gaps",
+            "desc": "The expansive 3D wrap-around design covers the entire lower back, increasing contact area by over 50% to redistribute pressure and eliminate gaps. This high-fidelity fit cradles every inch of your lumbar, providing the ultimate stability for long-time gaming and high-intensity work."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Dual-Fan Ventilation Cooling",
+            "desc": "Dual built-in fans cool the seat cushion and help reduce sweating, lowering seat temperature by up to 56%."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Seat Heating System",
+            "desc": "Increase seat temperature by up to 67% for warm, comfortable winter use."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "720° Mechanical Arms",
+            "desc": "Maximize your performance with 720° Mechanical Arms, offering unobstructed support through 65mm height, 40mm depth, and 20° fold-up adjustments. With 720° main and 40° secondary axis rotation, this system provides professional symmetrical/asymmetrical support for PC gaming and stabilized elbow support for mobile and console play."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

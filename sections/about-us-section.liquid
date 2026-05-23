@@ -1,0 +1,109 @@
+<div class="tw:relative tw:z-2 tw:bg-[#131313] tw:font-gabarito svg-bg-image">
+  <section
+    class="
+      tw:px-[calc((100%-1200px)/2)] tw:text-left
+      tw:py-[140px] tw:max-md:pt-[64px] tw:max-md:pb-[32px] tw:max-md:px-4
+    "
+  >
+    <div
+      class="
+        tw:text-[56px] tw:leading-[70px] tw:uppercase tw:text-[#D6000D] tw:font-black
+        tw:font-orbitron tw:max-md:text-[48px] tw:max-md:text-left
+      "
+    >
+      {{ section.settings.section_1_title }}
+    </div>
+    <div
+      class="
+        tw:text-[28px] tw:leading-[1.2] tw:mt-6 tw:text-white
+        tw:max-md:text-[20px] tw:max-md:text-balance tw:font-medium
+      "
+    >
+      {{ section.settings.section_1_desc }}
+    </div>
+    <div
+      class="
+        tw:text-[20px] tw:leading-[1.2] tw:mt-[140px] tw:text-white/80 tw:max-w-[672px]
+        tw:max-md:text-[16px] tw:[&_strong]:text-white
+        tw:max-md:text-white/60 tw:max-md:mt-[64px]
+      "
+    >
+      {{ section.settings.section_1_desc2 | newline_to_br }}
+    </div>
+  </section>
+
+  <section class="tw:pb-[70px] tw:max-md:pb-[32px]">
+    <div
+      class="
+        tw:text-[96px] tw:leading-[70px] tw:uppercase tw:text-white tw:font-black
+        tw:font-orbitron tw:text-center tw:max-md:text-[48px] tw:max-md:max-w-[390px] tw:mx-auto
+      "
+    >
+      {{ section.settings.section_2_title }}
+    </div>
+    <div class="tw:h-[820px] tw:w-full tw:relative tw:mt-[48px] tw:max-md:h-[420px] tw:max-md:mt-[32px]">
+      {% if section.settings.section_2_video != blank %}
+        {{
+          section.settings.section_2_video
+          | video_tag:
+            playsinline: true,
+            muted: true,
+            loop: true,
+            controls: false,
+            preload: 'metadata',
+            autoplay: true,
+            loading: 'lazy',
+            class: 'tw:absolute tw:top-1/2 tw:left-1/2 tw:transform tw:-translate-x-1/2 tw:-translate-y-1/2 tw:size-full tw:object-cover',
+            image_size: '1920x1080'
+        }}
+      {% else %}
+        <div class="tw:absolute tw:size-full tw:inset-0 tw:object-cover tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+          video
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "About Us Section",
+  "class": "shopify-section--about-us-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_1_title",
+      "label": "Section 1 Title",
+      "default": "About US"
+    },
+    {
+      "type": "text",
+      "id": "section_1_desc",
+      "label": "Section 1 desc",
+      "default": "Esports is about the will to fight back and the courage to turn the tide. We win games, defeat opponents, and push our limits. Until the final whistle, anything is possible. This drive is the spirit of AutoFull."
+    },
+    {
+      "type": "textarea",
+      "id": "section_1_desc2",
+      "label": "Section 1 desc2",
+      "default": "AutoFull - automatically fueled, fully fearless. \"Automatically fueled\" suggests that AutoFull is self-sustaining, always ready for action. \"Fully fearless\" implies that the product embodies complete confidence and strength, helping users face challenges without hesitation.  We're born winners. The silver knight stands for strength, the red plume for courage. The knight with a sword shows our support for players chasing their dreams. The shield represents protection and a fearless spirit, aligning with our \"BE YOUR OWN HERO\" philosophy, making AutoFull a trusted partner for gamers."
+    },
+    {
+      "type": "text",
+      "id": "section_2_title",
+      "label": "Section 2 Title",
+      "default": "be your own hero"
+    },
+    {
+      "type": "video",
+      "id": "section_2_video",
+      "label": "Section 2 Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Section"
+    }
+  ]
+}
+{% endschema %}

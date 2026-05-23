@@ -1,0 +1,658 @@
+<style>
+    .kik_buy_more{
+      background:{{ section.settings.background }};
+      color:{{ section.settings.text_color }};
+    }
+    .kik_coupons{
+      padding-top:96px;
+      padding-bottom:96px;
+      display:flex;
+      gap:24px;
+    }
+    .kik_coupons_box{
+      padding:32px;
+      border-radius:6px;
+      background:#1F1F1F;
+      flex : 0 0 65%;
+      width: 65%;
+      }
+      .kik_coupons_box h2{
+        font-size:24px;
+        line-height:1.2;
+        letter-spacing: 0;
+        color:{{ section.settings.heading_color }};
+        margin:0;
+        margin-bottom:32px;
+        text-transform:uppercase;
+        font-style:italic;
+      }
+      .kik_coupons-c{
+        display:flex;
+        gap:8px;
+        margin-bottom:32px;
+        flex-wrap: wrap;
+      }
+      .kik_coupon{
+        border-radius:4px;
+        background:linear-gradient(90deg, #A32F33 3%, #ED1C24 64%, #CB161D 85%);
+        flex:1;
+        text-align:center;
+        display:flex !important;
+        overflow:hidden;
+      }
+      @media (min-width: 768px) {
+        .kik_coupon{
+          width: calc(33.33% - 6px);
+          flex: unset;
+        }
+      }
+      .kik_coupons-c .slick-slide {
+        margin-inline: 4px;
+      }
+      .kik_coupons-c .slick-list.draggable {
+        width: 100%;
+    }
+      .coupon_left{
+        flex: 0 0 32px;
+        /* border-right: 4px dashed #1F1F1F; */
+        position: relative;
+        background-image: linear-gradient(#1F1F1F 50%, rgba(255,255,255,0) 0%);
+        background-position: 100% 12%;
+        background-size: 4px 18px;
+        background-repeat: repeat-y;
+      }
+      .coupon_left:before,
+      .coupon_left:after{
+        content:"";
+        position:absolute;
+        top:-14px;
+        right:-10px;
+        height:24px;
+        width:24px;
+        background:#1F1F1F;
+        border-radius:50%;
+      }
+      .coupon_left:after{
+        top:calc(100% - 12px);
+      }
+    .coupon_content{
+    flex:1;
+    padding:24px;
+    }
+      .kik_coupon h2{
+        font-size:56px;
+        line-height:1.2;
+        letter-spacing: 0;
+        color:{{ section.settings.text_color }};
+        margin:0;
+        margin-bottom:8px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-transform:uppercase;
+        font-style:italic;
+      }
+      .kik_coupon h2 span{
+        font-size:20px;
+        line-height:1.2;
+      }
+      .kik_coupon h4{
+        font-size:18px;
+        line-height:1.5;
+        letter-spacing: 0;
+        color:{{ section.settings.text_color }};
+        margin:0;
+        text-transform:uppercase;
+        font-style:italic;
+      }
+      .kik_coupons_box p{
+        font-size:16px;
+        line-height:1.5;
+        letter-spacing: 0;
+        color:{{ section.settings.text_color }};
+        margin:0;
+      }
+      .kik_coupons_box p a{
+        text-decoration: underline;
+      }
+      .kik_coupons_wheel{
+        flex:0 0 calc(35% - 24px);
+        background:#1F1F1F;
+        padding:32px;
+        border-radius:6px;
+        gap:16px;
+        display:flex;
+        flex-direction:column;
+      }
+      .wheel_top{
+        display:flex;
+        gap:32px;
+        align-items:center;
+      }
+      .wheel_top h2{
+        font-size:24px;
+        line-height:1.2;
+        letter-spacing: 0;
+        color:{{ section.settings.heading_color }};
+        margin:0;
+        margin-bottom:8px;
+        text-transform:uppercase;
+        font-style:italic;
+      }
+      .wheel_top p{
+        font-size:16px;
+        line-height:1.5;
+        letter-spacing: 0;
+        color:{{ section.settings.text_color }};
+        margin:0;
+      }
+      .wheel_bottom{
+        display:flex;
+        gap:32px;
+        justify-content:center;
+      }
+      .wheel_top img{
+        width: 200px;
+        max-width: 50%;
+      }
+      .wheel_bottom a{
+        padding:8px 24px;
+
+        color:{{ section.settings.text_color }};
+        text-decoration:none;
+        border-radius:100px;
+        font-size:18px;
+        letter-spacing: 0;
+        line-height:1.5;
+        cursor:pointer;
+        border:1px solid;
+        display:flex;
+        align-items:center;
+        text-align:center;
+    }
+    .wheel_bottom a h4{
+      font-size:18px;
+        letter-spacing: 0;
+        line-height:1.5;
+        text-transform:uppercase;
+        font-style:italic;
+    }
+    .wheel_bottom a.sec{
+      background:#ED1C24;
+      border:unset;
+    }
+    body{
+      overflow:unset!important;
+    }
+    .EcomSendAPP{
+      display:none!important;
+    }
+    .EcomSendAPP .spinWheelWrapper.hideWrapper{
+      visibility: hidden;
+      opacity: 0;
+      width:100%;
+    }
+    .spinWheelWrapper.hideWrapper.active {
+      visibility: visible;
+      opacity: 1;
+      width: 100%;
+  }
+    .ecomsend-SpinWheel__Modal__Container{
+      opacity: 0;
+      transform: translate(-100%);
+    }
+    .EcomSendAPP.active{
+      display:block!important;
+    }
+    .EcomSendAPP.active .ecomsend-SpinWheel__Modal__Container{
+      opacity: 1;
+      transform: translate(0);
+    }
+    @media screen and (max-width: 768px) {
+      .EcomSendAPP.active  .ecomsend-SpinWheel__Modal__Content {
+            transform: translate(0%);
+        }
+    }
+    @media (max-width:1399px){
+    .kik_coupons_box{
+      flex:0 0 55%;
+    }
+    .kik_coupons_wheel{
+      flex:1;
+    }
+    .kik_coupon h2 {
+      font-size: 36px;
+    }
+      .kik_coupon h2 span {
+      font-size: 16px;
+    }
+    }
+    @media (max-width:999px){
+    .kik_coupons{
+      padding-top:64px;
+      padding-bottom:64px;
+      flex-wrap:wrap;
+    }
+    .kik_coupons_box{
+      padding:24px;
+      flex : 0 0 100%;
+      }
+      .kik_coupons_box h2{
+        font-size:20px;
+        margin-bottom:16px;
+      }
+      .kik_coupons-c{
+        flex-wrap:wrap;
+        margin-bottom:16px;
+      }
+      .kik_coupon{
+        border-radius:6px;
+        background:#ED1C24;
+        flex:0 0 302px;
+        max-width:100%;
+        text-align:center;
+      }
+      .kik_coupon h2{
+        font-size:40px;
+      }
+      .kik_coupon h2 span{
+        font-size:16px;
+      }
+      .kik_coupon h4{
+        font-size:16px;
+      }
+      .kik_coupons_box p{
+        font-size:14px;
+      }
+      .kik_coupons_wheel{
+        flex:0 0 100%;
+        padding:24px;
+      }
+      .wheel_top{
+        gap:8px;
+      }
+      .wheel_top h2{
+        font-size:20px;
+      }
+      .wheel_top p{
+        font-size:14px;
+      }
+      .wheel_bottom{
+        gap:10px;
+      }
+      .wheel_top img{
+        width: 160px;
+        max-width: 50%;
+      }
+      .kik_coupon h2 {
+          font-size: 20px;
+      }
+          .kik_coupon h2 span {
+          font-size: 12px;
+      }
+    }
+</style>
+<div id="buy_more" class="kik_buy_more" data_link="true">
+  <div class="section kik_coupons">
+    <div class="kik_coupons_box">
+      <h2>{{ section.settings.coupons_title }}</h2>
+      <div class="kik_coupons-c">
+        {% for block in section.blocks %}
+          <div class="kik_coupon">
+            <div class="coupon_left"></div>
+            <div class="coupon_content">
+              <h2>
+                {{ block.settings.title -}}
+                <span>{{ block.settings['discount-type'] }}</span>
+              </h2>
+              <h4>{{ block.settings.description }}</h4>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div>{{ section.settings.coupons_content }}</div>
+    </div>
+    <div class="kik_coupons_wheel">
+      <div class="wheel_top">
+        <div>
+          <h2>{{ section.settings.wheel_title }}</h2>
+          <p>{{ section.settings.wheel_content }}</p>
+        </div>
+        <img src="{{ section.settings.wheel_image | img_url: '200x200' }}" loading="lazy" alt="">
+      </div>
+      <div class="wheel_bottom">
+        <a href="{{ section.settings.wheel_link_1 }}">
+          <h4>{{ section.settings.wheel_link_1_text }}</h4>
+        </a>
+        <a class="sec open-wheel-popup-buy" href="{{ section.settings.wheel_link_2 }}">
+          <h4>{{ section.settings.wheel_link_2_text }}</h4>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% if section.settings.wheel_rules_heading != blank %}
+  <style>
+    .kik_wheel_popup{
+      display:none;
+      align-items:center;
+      justify-content:center;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100vh;
+      overflow:scroll;
+      align-items:center;
+      padding:16px;
+      background:#20202066;
+      z-index: 99;
+    }
+    .kik_wheel_popup.active{
+      display:flex;
+    }
+    .kik_wheel_popup_content{
+      max-width:900px;
+      width:100%;
+      background:#FFFFFF;
+      border-radius:10px;
+      padding:64px 80px;
+      position:relative;
+    }
+    .kik_wheel_popup_close{
+      position:absolute;
+      right:32px;
+      top:32px;
+      cursor:pointer;
+      height:32px;
+      width:32px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .kik_wheel_popup_close svg{
+      width:100%;
+      height:100%;
+    }
+    .kik_wheel_popup_content_inner h2{
+      margin:0;
+      margin-bottom:32px;
+      font-size:40px;
+        line-height:1.2;
+        letter-spacing: 0;
+        text-transform:uppercase;
+        font-style:italic;
+        text-align:center;
+        padding: 0 10px;
+    }
+    .kik_wheel_popup_content_inner ul{
+      padding-left: 25px;
+    }
+    .kik_wheel_popup_content_inner > ul:nth-child(2){
+      list-style: disc;
+      margin-bottom:25px;
+    }
+    .kik_wheel_popup_content_inner em{
+      font-style: normal;
+        margin-top: 20px;
+        display: block;
+    }
+
+    .kik_wheel_popup_content_inner ul li strong{
+      display: list-item;
+        list-style: disc;
+    }
+    .kik_wheel_popup_content_inner .content{
+      font-size:16px;
+        line-height:1.5;
+        letter-spacing: 0;
+        margin:0;
+    }
+    @media (max-width:699px){
+        .kik_wheel_popup{
+            align-items: flex-start;
+        }
+        .kik_wheel_popup_content {
+        padding: 32px 16px;
+    }
+      .kik_wheel_popup_content_inner h2{
+      font-size:32px;
+    }
+    .kik_wheel_popup_close{
+      right:10px;
+      top:10px;
+    }
+    .slick-dots li {
+        width: auto;
+        height: auto;
+    }
+    .slick-dots li button {
+        background: #000;
+        width: 8px;
+        height: 8px;
+        border-radius: 18px;
+        opacity: 1;
+    }
+    .slick-dots li.slick-active button {
+      background: #ed1c24;
+        border-radius: 16px;
+        height: 8px;
+        opacity: 1;
+        width: 24px;
+    }
+    .slick-dots li button:before{
+      display: none !important;
+    }
+    }
+  </style>
+  <div class="kik_wheel_popup">
+    <div class="kik_wheel_popup_content">
+      <div class="kik_wheel_popup_close">
+        <svg
+          role="presentation"
+          stroke-width="2"
+          focusable="false"
+          width="24"
+          height="24"
+          class="icon icon-close"
+          viewBox="0 0 24 24"
+        >
+          <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+        </svg>
+      </div>
+      <div class="kik_wheel_popup_content_inner">
+        <div class="kik_wheel_popup_content_inner_top">
+          <h2>{{ section.settings.wheel_rules_heading }}</h2>
+          <div class="content">{{ section.settings.wheel_rules_content | newline_to_br }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+     document.querySelectorAll('a[href="#open_rules"]').forEach((item)=>{
+      item.addEventListener('click',(e)=>{
+      e.preventDefault();
+      document.querySelector('.kik_wheel_popup').classList.add("active");
+    })
+     })
+    document.querySelector('.kik_wheel_popup_close').addEventListener('click',()=>{
+      document.querySelector('.kik_wheel_popup').classList.remove("active");
+    })
+  </script>
+{% endif %}
+<script>
+    $(document).ready(function () {
+    function initSlickIfMobile() {
+      const $slider = $('.kik_coupons-c');
+
+      if ($(window).width() < 768) {
+        if (!$slider.hasClass('slick-initialized')) {
+          $slider.slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            dots: true,
+            speed: 300,
+            infinite: false
+          });
+        }
+      } else {
+        if ($slider.hasClass('slick-initialized')) {
+          $slider.slick('unslick'); // Destroy slick on desktop
+        }
+      }
+    }
+
+    // Run on document ready
+    initSlickIfMobile();
+
+    // Re-check on window resize
+    $(window).on('resize', function () {
+      initSlickIfMobile();
+    });
+  });
+</script>
+<!--
+  <script>
+       document.querySelector('a[href="#open_wheel"]').addEventListener('click',(e)=>{
+      e.preventDefault();
+      document.querySelector('.EcomSendAPP').classList.add("active");
+    })
+    let x_found = false;
+    for (let i = 0; i < 2000; i=i+50) {
+      setTimeout(() => {
+        if(document.querySelector('.ecomsend-SpinWheel__Modal__CloseButton') != undefined ){
+          x_found = true;
+          document.querySelector('.ecomsend-SpinWheel__Modal__CloseButton').addEventListener('click',()=>{
+          document.querySelector('.EcomSendAPP').classList.remove("active");
+        })
+        }
+      }, i);
+    }
+  </script>
+-->
+{% schema %}
+{
+  "name": "Kiks Buy More",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "coupons_title",
+      "label": "Coupons heading",
+      "default": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "coupons_content",
+      "label": "Coupons content"
+    },
+    {
+      "type": "text",
+      "id": "wheel_title",
+      "label": "Wheel heading",
+      "default": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "wheel_content",
+      "label": "Wheel content"
+    },
+    {
+      "type": "image_picker",
+      "id": "wheel_image",
+      "label": "Wheel image"
+    },
+    {
+      "type": "url",
+      "id": "wheel_link_1",
+      "label": "Wheel link 1"
+    },
+    {
+      "type": "text",
+      "id": "wheel_link_1_text",
+      "label": "Wheel link 1 text"
+    },
+    {
+      "type": "url",
+      "id": "wheel_link_2",
+      "label": "Wheel link 2"
+    },
+    {
+      "type": "text",
+      "id": "wheel_link_2_text",
+      "label": "Wheel link 2 text"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "text",
+      "id": "wheel_rules_heading",
+      "label": "Wheel rules heading",
+      "default": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "wheel_rules_content",
+      "label": "Wheel rules content",
+      "default": "<p>Content</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Coupon",
+      "type": "coupon",
+      "limit": 9,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "text",
+          "id": "discount-type",
+          "label": "Discount Type",
+          "default": "OFF"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+    ],
+  "presets": [
+    {
+      "name": "Kiks Buy More",
+      "blocks": [
+
+      ]
+    }
+  ]
+}
+{% endschema %}

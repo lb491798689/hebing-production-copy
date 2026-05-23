@@ -1,0 +1,152 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:text-white">
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-start
+      tw:gap-[42px]
+      tw:max-md:gap-6 tw:max-md:px-4
+    "
+  >
+    <div
+      class="
+        tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-6 tw:text-center
+        tw:max-md:items-start tw:max-md:gap-3 tw:max-md:text-left
+      "
+    >
+      {% if section.settings.title != blank %}
+        <h2
+          class="
+            tw:m-0 tw:w-full tw:font-orbitron tw:text-[48px] tw:font-black
+            tw:leading-[normal] tw:tracking-normal tw:text-[#ffff09] tw:uppercase
+            tw:max-md:text-[28px]
+          "
+        >
+          {{ section.settings.title | escape | newline_to_br }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.desc != blank %}
+        <div
+          class="
+            tw:w-full tw:max-w-[1080px] tw:text-[24px] tw:font-normal
+            tw:leading-[normal] tw:text-[#9f9f9f] tw:lowercase
+            tw:max-md:max-w-none tw:max-md:text-[16px] tw:max-md:text-white/60
+          "
+        >
+          {{ section.settings.desc | escape | newline_to_br }}
+        </div>
+      {% endif %}
+    </div>
+
+    <div
+      class="
+        tw:relative tw:w-full tw:aspect-1200/640 tw:overflow-hidden tw:bg-black
+        tw:max-md:aspect-square tw:max-md:rounded-[8px]
+      "
+    >
+      {% if section.settings.video != blank %}
+        {{
+          section.settings.video
+          | video_tag:
+            playsinline: true,
+            muted: true,
+            loop: true,
+            controls: false,
+            preload: 'metadata',
+            autoplay: true,
+            loading: 'lazy',
+            class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+            image_size: '1200x'
+        }}
+      {% elsif section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '(max-width: 1149px) calc(100vw - 32px), 1200px',
+            widths: '360,480,720,960,1200,1440,1800,2400',
+            class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover'
+        }}
+      {% else %}
+        <div class="tw:absolute tw:inset-0 tw:size-full tw:bg-black"></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "IEM Tech",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Redefining Lumbar Support\nwith 8D Dual-Core Kinetic Technology"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "The M6 Ultra is not just a chair. It is a high-performance recovery suit for pro-players and creators. We’ve replaced passive support with an Active Restoration System, ensuring your lumbar stays in peak condition through every clutch moment."
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 68
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Tech"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,655 @@
+{% comment %}
+  Reusable rotating globe snippet (Three.js + D3 geo).
+
+  Usage:
+  {% render 'rotating-globe',
+    class: 'tw:w-full',
+    height: 520,
+    ocean_color: '#000000',
+    ocean_opacity: 1,
+    dot_color: '#FFFFFF',
+    outline_color: '#FFFFFF',
+    outline_width: 1,
+    grid_color: '#616161',
+    background_color: 'transparent',
+    auto_rotate: true,
+    rotation_speed: 0.1,
+    density: 0.8,
+    dot_size: 0.4,
+    scale: 0.9,
+    initial_latitude: 42,
+    initial_longitude: -15,
+    tilt_deg: 0,
+    detail: 1,
+    show_grid: true,
+    grid_step: 15,
+    drag_speed: 0.5,
+    stop_on_hover: true
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign globe_height = height
+  assign globe_class = class | default: ''
+  assign ocean_color_value = ocean_color | default: '#000000'
+  assign ocean_opacity_value = ocean_opacity | default: 0.8
+  assign dot_color_value = dot_color | default: '#FFFFFF'
+  assign outline_color_value = outline_color | default: '#FFFFFF'
+  assign outline_width_value = outline_width | default: 1
+  assign grid_color_value = grid_color | default: '#616161'
+  assign background_color_value = background_color | default: 'transparent'
+  assign auto_rotate_value = auto_rotate | default: true
+  assign rotation_speed_value = rotation_speed | default: 0.1
+  assign density_value = density | default: 0.8
+  assign dot_size_value = dot_size | default: 0.4
+  assign scale_value = scale | default: 0.9
+  assign initial_latitude_value = initial_latitude | default: 42
+  assign initial_longitude_value = initial_longitude | default: -15
+  assign tilt_deg_value = tilt_deg | default: 0
+  assign detail_value = detail | default: 1
+  assign show_grid_value = show_grid | default: true
+  assign grid_step_value = grid_step | default: 15
+  assign drag_speed_value = drag_speed | default: 0.5
+  assign stop_on_hover_value = stop_on_hover | default: true
+-%}
+
+{%- capture globe_options -%}
+{
+  "oceanColor": {{ ocean_color_value | json }},
+  "oceanOpacity": {{ ocean_opacity_value | json }},
+  "dotColor": {{ dot_color_value | json }},
+  "outlineColor": {{ outline_color_value | json }},
+  "outlineWidth": {{ outline_width_value | json }},
+  "gridColor": {{ grid_color_value | json }},
+  "backgroundColor": {{ background_color_value | json }},
+  "autoRotate": {{ auto_rotate_value | json }},
+  "rotationSpeed": {{ rotation_speed_value | json }},
+  "density": {{ density_value | json }},
+  "dotSize": {{ dot_size_value | json }},
+  "scale": {{ scale_value | json }},
+  "initialLatitude": {{ initial_latitude_value | json }},
+  "initialLongitude": {{ initial_longitude_value | json }},
+  "tiltDeg": {{ tilt_deg_value | json }},
+  "detail": {{ detail_value | json }},
+  "showGrid": {{ show_grid_value | json }},
+  "gridStep": {{ grid_step_value | json }},
+  "dragSpeed": {{ drag_speed_value | json }},
+  "stopOnHover": {{ stop_on_hover_value | json }}
+}
+{%- endcapture -%}
+
+<hbada-rotating-globe
+  class="hbada-rotating-globe {{ globe_class }}"
+  style="{% if globe_height != blank %}height: {{ globe_height }}px;{% else %}height: 100%;{% endif %}"
+  data-options='{{ globe_options | escape }}'
+></hbada-rotating-globe>
+
+<script type="module">
+  import {
+    Scene,
+    PerspectiveCamera,
+    WebGLRenderer,
+    SphereGeometry,
+    MeshBasicMaterial,
+    Color,
+    Mesh,
+    Group,
+    InstancedMesh,
+    Matrix4,
+    Raycaster,
+    Vector2,
+    BufferGeometry,
+    TubeGeometry,
+    CatmullRomCurve3,
+    Line,
+    LineLoop,
+    LineBasicMaterial,
+    Vector3
+  } from 'https://cdn.jsdelivr.net/npm/three@0.174.0/build/three.module.js';
+  import { geoEquirectangular, geoPath } from 'https://cdn.jsdelivr.net/npm/d3-geo@3/+esm';
+
+  if (!window.customElements.get('hbada-rotating-globe')) {
+    const LAND_GEOJSON_URL =
+      'https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/50m/physical/ne_50m_land.json';
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function parseColorToRgba(input) {
+      if (!input || typeof input !== 'string') {
+        return { r: 0, g: 0, b: 0, a: 1 };
+      }
+
+      const str = input.trim();
+
+      const rgbaMatch = str.match(
+        /rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)\s*(?:,\s*([\d.]+)\s*)?\)/i
+      );
+      if (rgbaMatch) {
+        return {
+          r: clamp(parseFloat(rgbaMatch[1]) / 255, 0, 1),
+          g: clamp(parseFloat(rgbaMatch[2]) / 255, 0, 1),
+          b: clamp(parseFloat(rgbaMatch[3]) / 255, 0, 1),
+          a: rgbaMatch[4] !== undefined ? clamp(parseFloat(rgbaMatch[4]), 0, 1) : 1
+        };
+      }
+
+      const hex = str.replace(/^#/, '');
+      if (hex.length === 8) {
+        return {
+          r: parseInt(hex.slice(0, 2), 16) / 255,
+          g: parseInt(hex.slice(2, 4), 16) / 255,
+          b: parseInt(hex.slice(4, 6), 16) / 255,
+          a: parseInt(hex.slice(6, 8), 16) / 255
+        };
+      }
+
+      if (hex.length === 6) {
+        return {
+          r: parseInt(hex.slice(0, 2), 16) / 255,
+          g: parseInt(hex.slice(2, 4), 16) / 255,
+          b: parseInt(hex.slice(4, 6), 16) / 255,
+          a: 1
+        };
+      }
+
+      if (hex.length === 4) {
+        return {
+          r: parseInt(hex[0] + hex[0], 16) / 255,
+          g: parseInt(hex[1] + hex[1], 16) / 255,
+          b: parseInt(hex[2] + hex[2], 16) / 255,
+          a: parseInt(hex[3] + hex[3], 16) / 255
+        };
+      }
+
+      if (hex.length === 3) {
+        return {
+          r: parseInt(hex[0] + hex[0], 16) / 255,
+          g: parseInt(hex[1] + hex[1], 16) / 255,
+          b: parseInt(hex[2] + hex[2], 16) / 255,
+          a: 1
+        };
+      }
+
+      return { r: 0, g: 0, b: 0, a: 1 };
+    }
+
+    function latLngToVector(lat, lng, radius) {
+      const latRad = (lat * Math.PI) / 180;
+      const lngRad = (lng * Math.PI) / 180;
+      return new Vector3(
+        Math.cos(latRad) * Math.sin(lngRad) * radius,
+        Math.sin(latRad) * radius,
+        Math.cos(latRad) * Math.cos(lngRad) * radius
+      );
+    }
+
+    function mapLinear(value, inMin, inMax, outMin, outMax) {
+      if (inMax === inMin) return outMin;
+      const t = (value - inMin) / (inMax - inMin);
+      return outMin + t * (outMax - outMin);
+    }
+
+    function mapSpeedUiToInternal(speedUi) {
+      const s = clamp(speedUi, 0, 1);
+      if (s === 0) return 0;
+      return mapLinear(s, 0, 1, 0, 0.9);
+    }
+
+    function mapDensityUiToSpacing(densityUi) {
+      const d = clamp(densityUi, 0.1, 1);
+      return mapLinear(d, 0.1, 1, 24, 8);
+    }
+
+    function mapScaleUiToMultiplier(scaleUi) {
+      const s = clamp(scaleUi, 0, 1);
+      return mapLinear(s, 0, 1, 0.2, 1);
+    }
+
+    function mapDotSizeUiToMultiplier(dotSizeUi) {
+      const d = clamp(dotSizeUi, 0.1, 1);
+      return mapLinear(d, 0.1, 1, 0.1, 0.5);
+    }
+
+    function mapDragSpeedUiToSensitivity(dragSpeedUi) {
+      const d = clamp(dragSpeedUi, 0, 1);
+      return mapLinear(d, 0, 1, 0.001, 0.02);
+    }
+
+    function mapDetailToStepSize(detailUi) {
+      const d = clamp(detailUi, 0.1, 1);
+      return mapLinear(d, 0.1, 1, 10, 1);
+    }
+
+    function simplifyRing(ring, detailUi) {
+      if (!Array.isArray(ring) || ring.length < 2) return ring;
+      if (detailUi >= 1) return ring;
+
+      const stepSize = Math.max(1, Math.floor(mapDetailToStepSize(detailUi)));
+      const simplified = [ring[0]];
+
+      for (let i = stepSize; i < ring.length - 1; i += stepSize) {
+        const idx = Math.min(i, ring.length - 1);
+        simplified.push(ring[idx]);
+      }
+
+      const lastPoint = ring[ring.length - 1];
+      const firstPoint = ring[0];
+      const isClosed =
+        Math.abs(lastPoint[0] - firstPoint[0]) < 0.0001 &&
+        Math.abs(lastPoint[1] - firstPoint[1]) < 0.0001;
+
+      if (!isClosed) {
+        simplified.push(lastPoint);
+      }
+
+      return simplified.length >= 2 ? simplified : ring;
+    }
+
+    class HbadaRotatingGlobe extends HTMLElement {
+      constructor() {
+        super();
+        this._cleanup = null;
+      }
+
+      connectedCallback() {
+        if (this._cleanup) return;
+        this._cleanup = this.init();
+      }
+
+      disconnectedCallback() {
+        if (typeof this._cleanup === 'function') {
+          this._cleanup();
+          this._cleanup = null;
+        }
+      }
+
+      init() {
+        const defaults = {
+          oceanColor: '#000000',
+          oceanOpacity: 1,
+          dotColor: '#FFFFFF',
+          outlineColor: '#FFFFFF',
+          outlineWidth: 1,
+          gridColor: '#616161',
+          backgroundColor: 'transparent',
+          autoRotate: true,
+          rotationSpeed: 0.1,
+          density: 0.8,
+          dotSize: 0.4,
+          scale: 0.9,
+          initialLatitude: 42,
+          initialLongitude: -15,
+          tiltDeg: 0,
+          detail: 1,
+          showGrid: true,
+          gridStep: 15,
+          dragSpeed: 0.5,
+          stopOnHover: true
+        };
+
+        let input = {};
+        try {
+          input = JSON.parse(this.dataset.options || '{}');
+        } catch (error) {
+          input = {};
+        }
+
+        const opts = { ...defaults, ...input };
+        const oceanOpacity = clamp(Number(opts.oceanOpacity), 0, 1);
+        const oceanRgba = parseColorToRgba(opts.oceanColor);
+        const dotRgba = parseColorToRgba(opts.dotColor);
+        const outlineRgba = parseColorToRgba(opts.outlineColor);
+        const gridRgba = parseColorToRgba(opts.gridColor);
+        const speedUi = clamp(Number(opts.rotationSpeed) || 0.1, 0, 1);
+        const densityUi = clamp(Number(opts.density) || 0.8, 0.1, 1);
+        const dotSizeUi = clamp(Number(opts.dotSize) || 0.4, 0.1, 1);
+        const scaleUi = clamp(Number(opts.scale) || 0.9, 0, 1);
+        const dragSpeedUi = clamp(Number(opts.dragSpeed) || 0.5, 0, 1);
+        const detailUi = clamp(Number(opts.detail) || 1, 0.1, 1);
+
+        const rotationStep = mapSpeedUiToInternal(speedUi) * 0.01;
+        const dotSpacing = mapDensityUiToSpacing(densityUi);
+        const dotSizeMultiplier = mapDotSizeUiToMultiplier(dotSizeUi);
+        const scaleMultiplier = mapScaleUiToMultiplier(scaleUi);
+        const dragSensitivity = mapDragSpeedUiToSensitivity(dragSpeedUi);
+
+        const globeRadius = 1 * scaleMultiplier;
+        const oceanAlpha = clamp(oceanOpacity * oceanRgba.a, 0, 1);
+
+        this.style.position = 'relative';
+        this.style.display = 'block';
+        this.style.overflow = 'hidden';
+        this.style.background = opts.backgroundColor;
+        this.style.borderRadius = this.style.borderRadius || '0';
+
+        const scene = new Scene();
+        const camera = new PerspectiveCamera(50, 1, 0.1, 1000);
+        camera.position.set(0, 0, 2.5 / scaleMultiplier);
+        camera.lookAt(0, 0, 0);
+
+        const renderer = new WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+        renderer.outputColorSpace = 'srgb';
+        renderer.domElement.style.position = 'absolute';
+        renderer.domElement.style.inset = '0';
+        renderer.domElement.style.width = '100%';
+        renderer.domElement.style.height = '100%';
+        renderer.domElement.style.display = 'block';
+        this.appendChild(renderer.domElement);
+
+        const globeGroup = new Group();
+        scene.add(globeGroup);
+
+        const oceanMesh = new Mesh(
+          new SphereGeometry(globeRadius, 64, 64),
+          new MeshBasicMaterial({
+            color: new Color(oceanRgba.r, oceanRgba.g, oceanRgba.b),
+            transparent: oceanAlpha < 1,
+            opacity: oceanAlpha,
+            depthTest: true,
+            depthWrite: true
+          })
+        );
+        globeGroup.add(oceanMesh);
+
+        const gridGroup = new Group();
+        const continentOutlineGroup = new Group();
+        globeGroup.add(continentOutlineGroup);
+        if (opts.showGrid) {
+          const step = clamp(Number(opts.gridStep) || 15, 5, 45);
+          const material = new LineBasicMaterial({
+            color: new Color(gridRgba.r, gridRgba.g, gridRgba.b),
+            transparent: gridRgba.a < 1,
+            opacity: gridRgba.a
+          });
+          const lineRadius = 0.0025 * scaleMultiplier;
+
+          const createPolyline = (points, closed) => {
+            const curve = new BufferGeometry().setFromPoints(points);
+            const line = closed ? new LineLoop(curve, material) : new Line(curve, material);
+            line.renderOrder = 2;
+            line.scale.set(1 + lineRadius, 1 + lineRadius, 1 + lineRadius);
+            gridGroup.add(line);
+          };
+
+          for (let lat = -75; lat <= 75; lat += step) {
+            const points = [];
+            for (let lng = -180; lng < 180; lng += 5) {
+              points.push(latLngToVector(lat, lng, globeRadius));
+            }
+            if (points.length > 2) createPolyline(points, true);
+          }
+
+          for (let lng = -180; lng < 180; lng += step) {
+            const points = [];
+            for (let lat = -90; lat <= 90; lat += 5) {
+              points.push(latLngToVector(lat, lng, globeRadius));
+            }
+            if (points.length > 2) createPolyline(points, false);
+          }
+
+          globeGroup.add(gridGroup);
+        }
+
+        let dotMesh = null;
+        const makeDots = async () => {
+          const response = await fetch(LAND_GEOJSON_URL);
+          if (!response.ok) {
+            throw new Error('Failed to fetch land data');
+          }
+
+          const geojson = await response.json();
+          while (continentOutlineGroup.children.length > 0) {
+            const child = continentOutlineGroup.children[0];
+            continentOutlineGroup.remove(child);
+            if (child.geometry) {
+              child.geometry.dispose();
+            }
+            if (child.material && child.material.dispose) {
+              child.material.dispose();
+            }
+          }
+
+          if (opts.outlineColor) {
+            const outlineMaterial = new MeshBasicMaterial({
+              color: new Color(outlineRgba.r, outlineRgba.g, outlineRgba.b),
+              transparent: outlineRgba.a < 1,
+              opacity: outlineRgba.a,
+              depthTest: true,
+              depthWrite: true
+            });
+            const outlineRadius = ((Number(opts.outlineWidth) || 1) / 10) * 0.01;
+
+            const addRingOutline = (ring) => {
+              if (!ring || ring.length < 2) {
+                return;
+              }
+
+              const simplifiedRing = simplifyRing(ring, detailUi);
+              const points = [];
+
+              simplifiedRing.forEach((coord) => {
+                const lng = coord[0];
+                const lat = coord[1];
+                points.push(latLngToVector(lat, lng, globeRadius * 1.002));
+              });
+
+              if (points.length > 0 && points[0].distanceTo(points[points.length - 1]) > 0.001) {
+                points.push(points[0].clone());
+              }
+
+              if (points.length < 2) {
+                return;
+              }
+
+              const curve = new CatmullRomCurve3(points);
+              const tubeGeometry = new TubeGeometry(
+                curve,
+                Math.max(points.length * 2, 16),
+                outlineRadius,
+                8,
+                false
+              );
+              const tubeMesh = new Mesh(tubeGeometry, outlineMaterial.clone());
+              tubeMesh.renderOrder = 3;
+              continentOutlineGroup.add(tubeMesh);
+            };
+
+            geojson.features.forEach((feature) => {
+              const geometry = feature && feature.geometry;
+              if (!geometry || !geometry.coordinates) {
+                return;
+              }
+
+              if (geometry.type === 'Polygon' && geometry.coordinates.length > 0) {
+                addRingOutline(geometry.coordinates[0]);
+                return;
+              }
+
+              if (geometry.type === 'MultiPolygon') {
+                geometry.coordinates.forEach((polygon) => {
+                  if (polygon && polygon.length > 0) {
+                    addRingOutline(polygon[0]);
+                  }
+                });
+              }
+            });
+          }
+          const bitmapWidth = 2048;
+          const bitmapHeight = 1024;
+          const landCanvas = document.createElement('canvas');
+          landCanvas.width = bitmapWidth;
+          landCanvas.height = bitmapHeight;
+          const ctx = landCanvas.getContext('2d', { willReadFrequently: true });
+          if (!ctx) return;
+
+          const projection = geoEquirectangular().fitSize([bitmapWidth, bitmapHeight], { type: 'Sphere' });
+          const path = geoPath().projection(projection).context(ctx);
+
+          ctx.fillStyle = '#000';
+          ctx.fillRect(0, 0, bitmapWidth, bitmapHeight);
+          ctx.fillStyle = '#fff';
+          ctx.beginPath();
+          geojson.features.forEach((feature) => path(feature));
+          ctx.fill();
+
+          const pixels = ctx.getImageData(0, 0, bitmapWidth, bitmapHeight).data;
+          const isLand = (lng, lat) => {
+            const x = Math.round(((lng + 180) / 360) * bitmapWidth) % bitmapWidth;
+            const y = clamp(Math.round(((90 - lat) / 180) * bitmapHeight), 0, bitmapHeight - 1);
+            const index = (y * bitmapWidth + x) * 4;
+            return pixels[index] > 127;
+          };
+
+          const baseStep = dotSpacing * 0.08;
+          const points = [];
+
+          for (let lat = -90; lat <= 90; lat += baseStep) {
+            const cos = Math.cos((Math.abs(lat) * Math.PI) / 180);
+            const lngStep = cos > 0.01 ? baseStep / Math.max(0.3, cos) : 360;
+            for (let lng = -180; lng < 180; lng += lngStep) {
+              if (isLand(lng, lat)) {
+                points.push([lat, lng]);
+              }
+            }
+          }
+
+          if (!points.length) return;
+
+          const dotGeometry = new SphereGeometry(0.01 * dotSizeMultiplier, 4, 4);
+          const dotMaterial = new MeshBasicMaterial({
+            color: new Color(dotRgba.r, dotRgba.g, dotRgba.b),
+            transparent: dotRgba.a < 1,
+            opacity: dotRgba.a
+          });
+          dotMesh = new InstancedMesh(dotGeometry, dotMaterial, points.length);
+
+          const matrix = new Matrix4();
+          points.forEach((point, index) => {
+            const vec = latLngToVector(point[0], point[1], globeRadius * 1.001);
+            matrix.identity();
+            matrix.setPosition(vec);
+            dotMesh.setMatrixAt(index, matrix);
+          });
+          dotMesh.instanceMatrix.needsUpdate = true;
+          globeGroup.add(dotMesh);
+        };
+
+        makeDots().catch(() => {
+          // Keep ocean + graticule even if land data fails.
+        });
+
+        const rotation = {
+          x: ((Number(opts.initialLongitude) || 0) * Math.PI) / 180,
+          y: ((Number(opts.initialLatitude) || 0) * Math.PI) / 180
+        };
+        const target = { ...rotation };
+
+        const pointer = new Vector2();
+        const raycaster = new Raycaster();
+        const drag = { active: false, x: 0, y: 0 };
+        let isHovering = false;
+        let rafId = null;
+
+        globeGroup.rotation.z = ((Number(opts.tiltDeg) || 0) * Math.PI) / 180;
+
+        const onPointerDown = (event) => {
+          drag.active = true;
+          drag.x = event.clientX;
+          drag.y = event.clientY;
+          renderer.domElement.setPointerCapture(event.pointerId);
+        };
+
+        const onPointerMove = (event) => {
+          const rect = renderer.domElement.getBoundingClientRect();
+          pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+          pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+          raycaster.setFromCamera(pointer, camera);
+          isHovering = raycaster.intersectObject(oceanMesh).length > 0;
+
+          if (!drag.active) return;
+
+          const dx = event.clientX - drag.x;
+          const dy = event.clientY - drag.y;
+          target.x += dx * dragSensitivity;
+          target.y = clamp(target.y + dy * dragSensitivity, -Math.PI / 2, Math.PI / 2);
+          drag.x = event.clientX;
+          drag.y = event.clientY;
+        };
+
+        const onPointerUp = (event) => {
+          drag.active = false;
+          if (renderer.domElement.hasPointerCapture(event.pointerId)) {
+            renderer.domElement.releasePointerCapture(event.pointerId);
+          }
+        };
+
+        renderer.domElement.addEventListener('pointerdown', onPointerDown);
+        renderer.domElement.addEventListener('pointermove', onPointerMove);
+        renderer.domElement.addEventListener('pointerup', onPointerUp);
+        renderer.domElement.addEventListener('pointercancel', onPointerUp);
+        renderer.domElement.addEventListener('pointerleave', onPointerUp);
+
+        const render = () => {
+          if (opts.autoRotate && !drag.active && !(opts.stopOnHover && isHovering)) {
+            target.x += rotationStep;
+          }
+
+          rotation.x += (target.x - rotation.x) * 0.03;
+          rotation.y += (target.y - rotation.y) * 0.03;
+
+          globeGroup.rotation.y = rotation.x;
+          globeGroup.rotation.x = rotation.y;
+
+          renderer.render(scene, camera);
+          rafId = requestAnimationFrame(render);
+        };
+
+        const resize = () => {
+          const width = this.clientWidth || 1;
+          const height = this.clientHeight || 1;
+          renderer.setSize(width, height, false);
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+        };
+
+        const observer = new ResizeObserver(resize);
+        observer.observe(this);
+        resize();
+        render();
+
+        return () => {
+          if (rafId) cancelAnimationFrame(rafId);
+          observer.disconnect();
+          renderer.domElement.removeEventListener('pointerdown', onPointerDown);
+          renderer.domElement.removeEventListener('pointermove', onPointerMove);
+          renderer.domElement.removeEventListener('pointerup', onPointerUp);
+          renderer.domElement.removeEventListener('pointercancel', onPointerUp);
+          renderer.domElement.removeEventListener('pointerleave', onPointerUp);
+          renderer.dispose();
+          if (dotMesh) {
+            dotMesh.geometry.dispose();
+            dotMesh.material.dispose();
+          }
+          continentOutlineGroup.children.forEach((mesh) => {
+            if (mesh.geometry) {
+              mesh.geometry.dispose();
+            }
+            if (mesh.material && mesh.material.dispose) {
+              mesh.material.dispose();
+            }
+          });
+          oceanMesh.geometry.dispose();
+          oceanMesh.material.dispose();
+          if (renderer.domElement.parentNode === this) {
+            this.removeChild(renderer.domElement);
+          }
+        };
+      }
+    }
+
+    window.customElements.define('hbada-rotating-globe', HbadaRotatingGlobe);
+  }
+</script>

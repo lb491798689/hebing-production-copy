@@ -1,0 +1,895 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_zyK6kG": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "rich_text_LB8hK6": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_TFgVqC": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull AdaptTech",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        },
+        "richtext_WDzJKQ": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p><strong>For utmost user experience, we are dedicated to engineering design and retrofitting in every inch of a gaming chair. With years of user researches and insights, we constantly evolve and update our adjustment technology, and apply it to our gaming chairs</strong></p>",
+            "custom_width": false,
+            "content_width_p": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "heading_TFgVqC",
+        "richtext_WDzJKQ"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_with_text_6GrkFa": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_PMbfaM": {
+          "type": "image",
+          "settings": {
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Exceeds industry standards",
+            "heading_tag": "h4",
+            "content": "<p>Sitting in an AutoFull gaming chair, you'll be amazed by hundreds of design decisions with subtlety, AutoFull is an industry leader in adjustable accuracy and comfort. Elaborately engineered adjustment and elastic and adaptive lumbar support system accommodate your movement precisely, All details, put together, stimulate magnificent change to your user experience. In a better knowledge of body, our R&D team have put forth much effort in our adjustment technology.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "image_PMbfaM"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "small",
+        "sec_background": "#f2f2f2",
+        "inner_background": "#f2f2f2"
+      }
+    },
+    "impact_text_m7hzxw": {
+      "type": "impact-text",
+      "blocks": {
+        "item_iNdXQD": {
+          "type": "item",
+          "settings": {
+            "title": "52,800+",
+            "subheading": "Length of R/D",
+            "content": "",
+            "button_text": "",
+            "button_url": "",
+            "animate_impact_text": true,
+            "animate_impact_text_duration": 2
+          }
+        },
+        "item_iV8Dkc": {
+          "type": "item",
+          "settings": {
+            "title": "15,000+",
+            "subheading": "Number of designs",
+            "content": "",
+            "button_text": "",
+            "button_url": "",
+            "animate_impact_text": true,
+            "animate_impact_text_duration": 1
+          }
+        },
+        "item_gFxJ8z": {
+          "type": "item",
+          "settings": {
+            "title": "108,000+",
+            "subheading": "Length of Testing",
+            "content": "",
+            "button_text": "",
+            "button_url": "",
+            "animate_impact_text": true,
+            "animate_impact_text_duration": 2
+          }
+        }
+      },
+      "block_order": [
+        "item_iNdXQD",
+        "item_iV8Dkc",
+        "item_gFxJ8z"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "stack_mobile": true,
+        "text_alignment": "center",
+        "impact_text_style": "fill",
+        "text_divider": "none",
+        "impact_text_size_ratio": 1,
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "heading_text_color": "#ed1c22",
+        "heading_gradient": "",
+        "text_color": "",
+        "button_background": "",
+        "button_text_color": ""
+      }
+    },
+    "rich_text_DGKb8f": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_dUDqEm": {
+          "type": "heading",
+          "settings": {
+            "text": "Jointly developed by world-renowned chiropractors",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        },
+        "richtext_nyyUKx": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>AutoFull has assembled a world-class team of professional designers and engineers, as well as experts and scholars in all fields. They include professional orthopedists and gamers. We have established a long-term partnership with International Chiropractors Association (ICA), whose specialists have a medical doctorate in spinal rehabilitation awarded in the U.S., China, etc., thus ensuring that our products are in common use worldwide. AutoFull is teaming up with these professionals to craft the world's healthiest and best gaming.</p>",
+            "custom_width": false,
+            "content_width_p": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "heading_dUDqEm",
+        "richtext_nyyUKx"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "press_KiXim3": {
+      "type": "press",
+      "blocks": {
+        "quote_F3qAeA": {
+          "type": "quote",
+          "settings": {
+            "logo_width": 100,
+            "title": "quote",
+            "heading_tag": "h4",
+            "author": "Dr. Dennis Miller",
+            "content": "As a chiropractor, I find AutoFull M6 Series has laudable design. Its back design mitigates pressure on the back, while neck pillow sup- ports the neck and reduces burden on the spine. For gamers and others spending hours sitting every day, it is conducive for maintaining their spinal health.",
+            "heading_quote": "h4",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_VWQfAm": {
+          "type": "quote",
+          "settings": {
+            "logo_width": 100,
+            "title": "quote",
+            "heading_tag": "h4",
+            "author": "Professor Chen Jian",
+            "content": "M6's adjustable headrest, lumbar support, and open seat design adapt to different postures and body types. It maintains the natural curve of the spine, reduces disc pressure, and provides excellent support to prevent lower back strain and other issues.",
+            "heading_quote": "h4",
+            "show_rating": false,
+            "rating": 4
+          }
+        }
+      },
+      "block_order": [
+        "quote_F3qAeA",
+        "quote_VWQfAm"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "content_size": "medium",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "logo_item_background": "",
+        "logo_item_border": ""
+      }
+    },
+    "media_with_text_PeWAMC": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_itg8Lr": {
+          "type": "image",
+          "settings": {
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "IGR Certification",
+            "heading_tag": "h4",
+            "content": "<p>IGR Certification is a globally recognized accreditation system dedicated to ensuring that product design and usability adhere to ergonomic principles, thereby providing users with more comfortable, safe, and efficient experiences. AutoFull G7 Gaming Chair is certified by the Institut für Gesundheit und Ergonomie (IGR) for its exceptional ergonomic design.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "image_itg8Lr"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "small",
+        "sec_background": "#f2f2f2",
+        "inner_background": "#f2f2f2"
+      }
+    },
+    "image_with_text_overlay_VqYAak": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "multi_column_TwP4zh": {
+      "type": "multi-column",
+      "blocks": {
+        "item_rgBjbC": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "Adaptive adjustable massage lumbar support",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_hnH8px": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "360° omnidirectional armrests",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_9jhnYW": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "3D adjustable cervical pillow",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_GV9ekQ": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "HVAC seat cushion",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_Ec9ziC": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "High polymer elastics",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_RtDTHA": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "Soft breathable leather",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_9ax4rV": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "BIFMA-certified",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_8Ei3DP": {
+          "type": "item",
+          "settings": {
+            "column_size": "4",
+            "title": "Stringent laboratory environment",
+            "heading_tag": "h6",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_rgBjbC",
+        "item_hnH8px",
+        "item_9jhnYW",
+        "item_GV9ekQ",
+        "item_Ec9ziC",
+        "item_RtDTHA",
+        "item_9ax4rV",
+        "item_8Ei3DP"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "start",
+        "subheading": "",
+        "title": "",
+        "content": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "multiple_images_with_text_f6mjKX": {
+      "type": "multiple-images-with-text",
+      "blocks": {
+        "item_LxJKVU": {
+          "type": "item",
+          "settings": {
+            "image_rotation_degrees": -2,
+            "subheading": "Body is in the course of dynamic movement. You change posture every day, even though you sit on a chair.",
+            "title": "Advanced industry technology",
+            "heading_tag": "h4",
+            "content": "<p>Adaptive adjustable massage lumbar support. AutoFull's ingenious lumbar support system is structured in a way whether you lean back or forward, it fits your back - the chair moves and supports your body as desired. Over the past 4 years, we studied dozens of lumbar support structures, conceived of more than a hundred designs in terms of structure or materials, fabricated and sampled over 20 prototypes, and made constant refinement.<br/>In the end, we abandoned the conventional timber support, and figured out the best combination - PA+GF and toughened PP+GF through trial and error. The lumbar support ensures comfort and durable support, while featuring a certain amount of elasticity, Besides, we have researched on over 100 back curves of sub- jects that vary by body shapes, analyzed back pressure distri- bution of subjects at different sitting positions using millime- ter-level pressure acquisition instrument, ultimately drawing the most ideal back design curve. The carefully designed hyperbolic curve makes lumbar sup- port better fit back curve. You get the best lumbar support no matter where you are and how you sit.</p>",
+            "button_url": "",
+            "button_text": ""
+          }
+        },
+        "item_YhrjLi": {
+          "type": "item",
+          "settings": {
+            "image_rotation_degrees": 1.5,
+            "subheading": "We give a pledge on the use of the top-tier elastics in the industry.",
+            "title": "Premium industry technology High polymer elastics",
+            "heading_tag": "h4",
+            "content": "<p>Our advanced high-pressure foaming equipment allows us to develop high polymer elastics for the internal support of our gaming chairs, seamlessly combining incredible softness with superior support, albeit at a higher price point.</p>",
+            "button_url": "",
+            "button_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_LxJKVU",
+        "item_YhrjLi"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "images_layout": "stacked",
+        "collage_images_alignment": "middle",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": "",
+        "button_background": "",
+        "button_text_color": ""
+      }
+    },
+    "multi_column_XVPNng": {
+      "type": "multi-column",
+      "blocks": {
+        "item_HW9V7A": {
+          "type": "item",
+          "settings": {
+            "column_size": "2",
+            "title": "Dual fan-based ventilation",
+            "heading_tag": "h4",
+            "content": "<p>AutoFull M6 Ultra has 3 gears of ventilation, with air volume of 71.8cm3/min tops, Sweating is no longer a worry in hot summer. Cool air helps balance body temperature.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_rLARiq": {
+          "type": "item",
+          "settings": {
+            "column_size": "2",
+            "title": "Graphene-based warming",
+            "heading_tag": "h4",
+            "content": "<p>The use of aerospace material - graphene in warming brings warming efficiency to 67%, temperature control at three gears, with ceiling temperature of 50°C, making chill no longer a worry in winter.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_HW9V7A",
+        "item_rLARiq"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "start",
+        "subheading": "",
+        "title": "HVAC seat cushion",
+        "content": "<p>For cozier user experience, the AutoFull M6 Ultra is equipped with HVAC functionality for both ventilation and heating. Each feature has three gears to ensure ultimate experience of users.</p>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "multiple_images_with_text_TE4qTU": {
+      "type": "multiple-images-with-text",
+      "blocks": {
+        "item_PDVDXW": {
+          "type": "item",
+          "settings": {
+            "image_rotation_degrees": -2,
+            "subheading": "Our self-developed armrest gives stable support to arms at all angles, helping mitigate arm and shoulder strain in consequence of prolonged use of PC.",
+            "title": "360° omnidirectional armrests",
+            "heading_tag": "h4",
+            "content": "<p>The 360° omnidirectional armrest offers users with greater flexibility and adaptability and satisfies users' demands in different usage scenarios. It enhances users' performance in working, gaming and learning. When using PC for long periods, the armrest can support your arms and elbows, preventing discomfort resulting from sus- pension or improper support. Assured arm and shoulder comfort helps relieve arm and shoulder strain attributable to prolonged use of PC. Offer strong arm support in all usage scenarios.</p>",
+            "button_url": "",
+            "button_text": ""
+          }
+        },
+        "item_DUTHWC": {
+          "type": "item",
+          "settings": {
+            "image_rotation_degrees": 1.5,
+            "subheading": "",
+            "title": "Heading 2",
+            "heading_tag": "h4",
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "button_url": "",
+            "button_text": ""
+          }
+        },
+        "item_bNpLUP": {
+          "type": "item",
+          "settings": {
+            "image_rotation_degrees": 1.5,
+            "subheading": "",
+            "title": "Heading 2",
+            "heading_tag": "h4",
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "button_url": "",
+            "button_text": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_PDVDXW",
+        "item_DUTHWC",
+        "item_bNpLUP"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "images_layout": "stacked",
+        "collage_images_alignment": "middle",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": "",
+        "button_background": "",
+        "button_text_color": ""
+      }
+    },
+    "rich_text_EYUiDJ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_n7h7ir": {
+          "type": "heading",
+          "settings": {
+            "text": "Heading",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        },
+        "richtext_WXEqFQ": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
+            "custom_width": false,
+            "content_width_p": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "heading_n7h7ir",
+        "richtext_WXEqFQ"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "kiks_media_9CTeim": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/1_8ebce212-1685-48c3-ad42-0d28e336e95f.jpg",
+        "mobile_image": "shopify://shop_images/01_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_pTQrT8": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/2_ec9de900-194e-48fe-9f52-17d06f6d3f8f.jpg",
+        "mobile_image": "shopify://shop_images/02_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_QUH66k": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/3_0361bedb-d8cf-42db-8d8a-3c0a46dbf343.jpg",
+        "mobile_image": "shopify://shop_images/04_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_ciyBNU": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/04_e54ea171-d31d-42d6-9e6c-16460435d17c_1.jpg",
+        "mobile_image": "shopify://shop_images/04_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_ELen78": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/5_e6217d0d-7d5f-4644-b195-bb495a322044.jpg",
+        "mobile_image": "shopify://shop_images/05_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_MRPQDM": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/06_36104b22-438d-44fb-b8d9-5b0cd86fa7d6.jpg",
+        "mobile_image": "shopify://shop_images/06_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_cYeHnH": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/07_dcad80f3-ea7a-42c6-9dcb-2199c50ebc6c.jpg",
+        "mobile_image": "shopify://shop_images/07_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_CxADHM": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/08_760da936-7774-47da-b3d3-5cc5bba88d25.jpg",
+        "mobile_image": "shopify://shop_images/08_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_UJp4tF": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/09_6f80c49d-34d9-441e-8d42-3d29395377fb.jpg",
+        "mobile_image": "shopify://shop_images/09_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_media_eXmDzL": {
+      "type": "kiks-media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/10_64153671-f4d9-42bf-9085-030f4118eeb0.jpg",
+        "mobile_image": "shopify://shop_images/10_mobile.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_zyK6kG",
+    "rich_text_LB8hK6",
+    "media_with_text_6GrkFa",
+    "impact_text_m7hzxw",
+    "rich_text_DGKb8f",
+    "press_KiXim3",
+    "media_with_text_PeWAMC",
+    "image_with_text_overlay_VqYAak",
+    "multi_column_TwP4zh",
+    "multiple_images_with_text_f6mjKX",
+    "multi_column_XVPNng",
+    "multiple_images_with_text_TE4qTU",
+    "rich_text_EYUiDJ",
+    "kiks_media_9CTeim",
+    "kiks_media_pTQrT8",
+    "kiks_media_QUH66k",
+    "kiks_media_ciyBNU",
+    "kiks_media_ELen78",
+    "kiks_media_MRPQDM",
+    "kiks_media_cYeHnH",
+    "kiks_media_CxADHM",
+    "kiks_media_UJp4tF",
+    "kiks_media_eXmDzL"
+  ]
+}

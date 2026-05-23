@@ -1,0 +1,509 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "60ch"
+      }
+    },
+    "rich_text_HmxML8": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_PxfGhC": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull Global Product Ambassador",
+            "heading_tag": "h3",
+            "font_style": "italic",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "linear-gradient(360deg, rgba(0, 0, 0, 1) 9%, rgba(237, 28, 36, 1) 64%, rgba(255, 255, 255, 1) 94%)",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_PxfGhC"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "rich_text_1",
+        "linked_to": true,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "#000000",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "image_with_text_overlay_mKmW6X": {
+      "type": "image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/20250527-111707.jpg",
+        "mobile_image": "shopify://shop_images/APP_banner.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kik_buy_more_7f4H7B": {
+      "type": "kik_buy_more",
+      "blocks": {
+        "coupon_UnMLdA": {
+          "type": "coupon",
+          "disabled": true,
+          "settings": {
+            "title": "$20",
+            "discount-type": "OFF",
+            "description": "Fits M & G series"
+          }
+        },
+        "coupon_mGgppc": {
+          "type": "coupon",
+          "disabled": true,
+          "settings": {
+            "title": "$30",
+            "discount-type": "OFF",
+            "description": "Fits M & G series"
+          }
+        },
+        "coupon_tWPDAC": {
+          "type": "coupon",
+          "settings": {
+            "title": "Gift",
+            "discount-type": "",
+            "description": "Autofull Host Bracket"
+          }
+        },
+        "coupon_p3M3xN": {
+          "type": "coupon",
+          "settings": {
+            "title": "Gift",
+            "discount-type": "",
+            "description": "Autofull Customized Backpack"
+          }
+        }
+      },
+      "block_order": [
+        "coupon_UnMLdA",
+        "coupon_mGgppc",
+        "coupon_tWPDAC",
+        "coupon_p3M3xN"
+      ],
+      "disabled": true,
+      "settings": {
+        "coupons_title": "AutoFull’s Prime Day",
+        "coupons_content": "<p>Note: Get Prime Day deals early! Spin to win exclusive discounts & gifts – guaranteed prizes for every order!<br/><br/> <a href=\"#open_rules\" title=\"#open_rules\">Rules</a></p>",
+        "wheel_title": "100% Winning Chance",
+        "wheel_content": "Win Autofull's Prime Day Discounts & Gifts Early!",
+        "wheel_image": "shopify://shop_images/Spin_Wheel.png",
+        "wheel_link_1": "#open_rules",
+        "wheel_link_1_text": "Rules",
+        "wheel_link_2": "#open_wheel",
+        "wheel_link_2_text": "Spin the Wheel",
+        "background": "#0d0d0d",
+        "heading_color": "",
+        "text_color": "#ffffff",
+        "wheel_rules_heading": "Spin to Win! Will You Be Our Next Lucky Winner?",
+        "wheel_rules_content": "<p>Welcome to the Lucky Spin!<br/><br/>Take a spin to win an exclusive Prime Day discount for July!<br/><br/>Instant win – Use your discount right away!<br/><br/>100% winning chance – Every spin rewards you!<br/><br/>Don’t miss out—spin now! 🎉</p>"
+      }
+    },
+    "rich_text_Kp7Hwj": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_qathq4": {
+          "type": "subheading",
+          "settings": {
+            "text": ""
+          }
+        },
+        "heading_aadRJt": {
+          "type": "heading",
+          "settings": {
+            "text": "Win a Free Gaming Chair",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        },
+        "richtext_wxXLYR": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Share your feedback for a chance to win a free gaming chair or discount coupons. Help us refine the AutoFull G7 to better meet your needs.</p>",
+            "custom_width": false,
+            "content_width_p": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_qathq4",
+        "heading_aadRJt",
+        "richtext_wxXLYR"
+      ],
+      "name": "Rich text",
+      "settings": {
+        "section_id": "",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "kiks_slideshow_tnm39j": {
+      "type": "kiks-slideshow",
+      "blocks": {
+        "image_qh3AzB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/kv_8e264dfb-402a-4e50-a707-ab728261254d_3.jpg",
+            "mobile_image": "shopify://shop_images/20250425-105612_3.jpg",
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-start-center text-center",
+            "desktop_text_position": "sm:place-self-center-start sm:text-start",
+            "subheading": "NiKo‘s Pick",
+            "title": "AutoFull G7",
+            "title_link": "",
+            "heading_tag": "h0",
+            "slider_content": "<p>Bridges the gap between esports style and true ergonomic support</p>",
+            "button_text": "Buy Now",
+            "button_link": "shopify://products/autofull-g7",
+            "button_text2": "",
+            "button_link2": "",
+            "style1": "fill",
+            "size1": "xl",
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "style2": "fill",
+            "size2": "xl",
+            "button_background2": "#ffffff",
+            "button_text_color2": "#000000",
+            "enable_gradient": false,
+            "overlay_gradient": "",
+            "enable_gradient_mobile": false,
+            "overlay_gradient_mobile": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "background": "",
+            "background_gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_qh3AzB"
+      ],
+      "name": "Kiks Slideshow",
+      "settings": {
+        "full_width": true,
+        "collection_logo": false,
+        "allow_transparent_header": true,
+        "show_initial_transition": false,
+        "image_size": "auto",
+        "controls_type": "dots",
+        "controls_position": "right",
+        "transition_type": "fade_with_text",
+        "slider_animation": false,
+        "autoplay": false,
+        "cycle_speed": 6,
+        "background": "#f2f2f2",
+        "background_gradient": ""
+      }
+    },
+    "multi_column_3BPLUj": {
+      "type": "multi-column",
+      "blocks": {
+        "item_DbwDGz": {
+          "type": "item",
+          "settings": {
+            "video": "shopify://files/videos/21 - Trim.mp4",
+            "column_size": "3",
+            "title": "Adaptive Lumbar Support",
+            "heading_tag": "h5",
+            "content": "<p>Dynamically adjusts forward and backward to provide continuous support</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_Pfmj4H": {
+          "type": "item",
+          "settings": {
+            "video": "shopify://files/videos/8 - Trim.mp4",
+            "column_size": "3",
+            "title": "720° Dual-Axis Rotating Armrests",
+            "heading_tag": "h5",
+            "content": "<p>Keeps armrests securely in place during intense gaming battles</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_UcxCqz": {
+          "type": "item",
+          "settings": {
+            "video": "shopify://files/videos/6.mp4",
+            "column_size": "3",
+            "title": "4D Dual-Axis Cervical Support Pillow",
+            "heading_tag": "h5",
+            "content": "<p><strong>Full-angle neck support in any position</strong></p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_DbwDGz",
+        "item_Pfmj4H",
+        "item_UcxCqz"
+      ],
+      "settings": {
+        "section_id": "kik_multicolumn",
+        "full_width": true,
+        "stack_on_mobile": true,
+        "gap": "medium",
+        "text_alignment": "center",
+        "subheading": "",
+        "title": "Key Features",
+        "content": "",
+        "background": "#0d0d0d",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "kiks_modal_section_qPWe8T": {
+      "type": "kiks-modal-section",
+      "blocks": {
+        "product_38qW3V": {
+          "type": "product",
+          "settings": {
+            "product": "autofull-c2-pink-bunny-gaming-chair",
+            "style": "Ultra",
+            "color": "Black",
+            "massage": "Yes",
+            "arm_style": "6D Foldable Mechanical Armrests",
+            "ventilation": "Yes",
+            "warranty": "Extended 3-Year Warranty",
+            "material": "PU Leather",
+            "recommended_height": "51.5\"D x 52\" W x 128.5\"H",
+            "weight": "396 Pounds"
+          }
+        },
+        "product_PXmkdF": {
+          "type": "product",
+          "settings": {
+            "product": "autofull-m5",
+            "style": "Ultra",
+            "color": "Black",
+            "massage": "Yes",
+            "arm_style": "6D Foldable Mechanical Armrests",
+            "ventilation": "Yes",
+            "warranty": "Extended 3-Year Warranty",
+            "material": "PU Leather",
+            "recommended_height": "51.5\"D x 52\" W x 128.5\"H",
+            "weight": "396 Pounds"
+          }
+        },
+        "product_yyTYDB": {
+          "type": "product",
+          "settings": {
+            "product": "autofull-g5-ergonomic-gaming-chair",
+            "style": "Ultra",
+            "color": "Black",
+            "massage": "Yes",
+            "arm_style": "6D Foldable Mechanical Armrests",
+            "ventilation": "Yes",
+            "warranty": "Extended 3-Year Warranty",
+            "material": "PU Leather",
+            "recommended_height": "51.5\"D x 52\" W x 128.5\"H",
+            "weight": "396 Pounds"
+          }
+        }
+      },
+      "block_order": [
+        "product_38qW3V",
+        "product_PXmkdF",
+        "product_yyTYDB"
+      ],
+      "settings": {
+        "sec_heading_text": "Choose Your Perfect Gaming Chair",
+        "header_position": "center",
+        "background_gradient": "",
+        "header_text_color": "",
+        "heading_tag": "h2",
+        "section_background": "#f0f0f0",
+        "inner_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "media_with_text_UWTLGn": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_EMkfBx": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Warranty_Image.png",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center text-center",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Game with Confidence – 3 Years Warranty",
+            "heading_tag": "h2",
+            "content": "<p>AutoFull a professional competitive peripheral equipment brand, has 10 years of professional production experience. We have high standards for product details and are committed to \"providing healthy competition and extreme game experience for global players\".</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#1f1f1f",
+            "background_inner": "#000000",
+            "background_gradient": "",
+            "text_color": "#ffffff",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "image_EMkfBx"
+      ],
+      "settings": {
+        "section_id": "media_text",
+        "full_width": false,
+        "alternate_media_position": false,
+        "column_gap": 16,
+        "spacing": "none",
+        "sec_background": "#0d0d0d",
+        "inner_background": "#f2f2f2",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "text_with_icons_79ExhR": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_MFG3Jp": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/image_14_4580adc5-218c-4bb6-8e9b-2b64e12f0919.png",
+            "mobile_icon_width": 120,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "",
+            "content": "<p>“AutoFull is a leading brand in professional esports gaming chairs.”</p>"
+          }
+        },
+        "item_iG4A8h": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/IGN_Logo.png",
+            "mobile_icon_width": 120,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "",
+            "content": "<p>\"I highly recommend AutoFull to anyone looking for a gaming chair that excels in both work and play.\"</p>"
+          }
+        },
+        "item_Rq63X3": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/image_13_ed1ebf82-dec5-4e4d-8555-9ea2c7d27d09.png",
+            "mobile_icon_width": 120,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "",
+            "content": "<p>\"Finally, a gaming chair that thinks about what matters most: your body temperature! With the AutoFull M6, you get a feature no one else has.\"</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_MFG3Jp",
+        "item_iG4A8h",
+        "item_Rq63X3"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "allow_custom_animation": false,
+        "title": "",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "#0d0d0d",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    }
+  },
+  "order": [
+    "main",
+    "rich_text_HmxML8",
+    "image_with_text_overlay_mKmW6X",
+    "kik_buy_more_7f4H7B",
+    "rich_text_Kp7Hwj",
+    "kiks_slideshow_tnm39j",
+    "multi_column_3BPLUj",
+    "kiks_modal_section_qPWe8T",
+    "media_with_text_UWTLGn",
+    "text_with_icons_79ExhR"
+  ]
+}

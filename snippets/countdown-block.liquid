@@ -1,0 +1,191 @@
+{% liquid
+  assign sid = block.id
+  assign title_size = block.settings.title_size_countdown | split: ";"
+  assign digits_size = block.settings.digits_size | split: ";"
+  assign gap = block.settings.gap | split: ";"
+  assign padding_top = block.settings.padding_top_countdown | split: ";"
+  assign padding_bottom = block.settings.padding_bottom_countdown | split: ";"
+  assign label_size = block.settings.label_size | split: ";"
+%}
+
+{% capture default_sid %}.jingva-countdown-{{ sid }}{% endcapture %}
+
+<section class="jingva-countdown jingva-countdown-{{ sid }}">
+  {% style %}
+  {{ default_sid }} {
+    --bg: {{ block.settings.background_countdown | default: '#000000' }};
+    --title-color: {{ block.settings.title_color_countdown | default: '#ffffff' }};
+    --title-size: {{ title_size[0] | default: '24px' }};
+    --title-size-ipad: {{ title_size[1] | default: '24px' }};
+    --title-size-mb: {{ title_size[2] | default: '18px' }};
+    --digits-bg: {{ block.settings.digits_bg | default: '#1f1f1f' }};
+    --digits-color: {{ block.settings.digits_color | default: '#ffffff' }};
+    --digits-size: {{ digits_size[0] | default: '36px' }};
+    --digits-size-ipad: {{ digits_size[1] | default: '36px' }};
+    --digits-size-mb: {{ digits_size[2] | default: '24px' }};
+    --label-color: {{ block.settings.label_color | default: '#ffffff' }};
+    --gap: {{ gap[0] | default: '16px' }};
+    --gap-ipad: {{ gap[1] | default: '16px' }};
+    --gap-mb: {{ gap[2] | default: '12px' }};
+    --radius: {{ block.settings.radius | default: 8 }}px;
+    --box-h: 90px;
+    --padding-top: {{ padding_top[0] | default: '24px' }};
+    --padding-top-ipad: {{ padding_top[1] | default: '24px' }};
+    --padding-top-mb: {{ padding_top[2] | default: '18px' }};
+    --padding-bottom: {{ padding_bottom[0] | default: '24px' }};
+    --padding-bottom-ipad: {{ padding_bottom[1] | default: '24px' }};
+    --padding-bottom-mb: {{ padding_bottom[2] | default: '18px' }};
+    --label-size: {{ label_size[0] | default: '12px' }};
+    --label-size-ipad: {{ label_size[1] | default: '12px' }};
+    --label-size-mb: {{ label_size[2] | default: '11px' }};
+    background: var(--bg);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+
+  }
+
+  {{ default_sid }} .container{ max-width: var(--container-max-width); margin: 0 auto; text-align:center; }
+
+  {{ default_sid }} .title{text-align: {{ block.settings.position_countdown }}; color: var(--title-color); font-size: var(--title-size); font-weight: 800; margin: 0 0 14px 0; font-family: 'D-DINCondensed-Bold'; }
+
+  {{ default_sid }} .cd-wrap{ display:flex; align-items:center; justify-content:{{ block.settings.position_countdown }}; gap: var(--gap); }
+  {{ default_sid }} .cd-items{ display: inline-flex; align-items: flex-start; justify-content: center; gap: var(--gap); }
+
+  {{ default_sid }} .cd-item{ display: grid; grid-template-rows: auto auto; align-items: center; justify-items: center; gap: 6px; }
+  {{ default_sid }} .cd-box{ width: 90px; height: var(--box-h); padding: 6px 12px; display:flex; align-items:center; justify-content:center; border-radius: var(--radius); color: var(--digits-color); background: var(--digits-bg); font-size: var(--digits-size); font-weight: 800; line-height: 1; position: relative; overflow: hidden; }
+  {{ default_sid }} .cd-box::after{ content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; background: #000; transform: translateY(-50%); z-index: 0; opacity: .9; }
+  {{ default_sid }} .cd-num{ font-size: var(--digits-size); position: relative; z-index: 1; font-family: 'D-DINCondensed-Bold'; }
+  {{ default_sid }} .cd-label{ color: var(--label-color); font-size: var(--label-size); opacity: .9; font-family: 'D-DINCondensed-Bold';}
+
+   {{ default_sid }} .colon{ color: var(--label-color); font-weight: 700; opacity: .7; padding: 0 2px; display:inline-flex; align-items:center; justify-content:center; height: var(--box-h); line-height: var(--box-h); font-size: calc(var(--digits-size) * .6); font-family: 'D-DINCondensed-Bold'; }
+
+  {{ default_sid }} .hide-days .cd-item--days, {{ default_sid }} .hide-days .colon--d-h { display: none !important; }
+
+
+   @media (max-width: 1024px){
+    {{ default_sid }} { padding-top: var(--padding-top-ipad); padding-bottom: var(--padding-bottom-ipad); }
+    {{ default_sid }} .title{ font-size: var(--title-size-ipad);}
+    {{ default_sid }} .cd-num{ font-size: var(--digits-size-ipad); }
+    {{ default_sid }} .cd-label{ font-size: var(--label-size-ipad); }
+    {{ default_sid }} .cd-items{ gap: var(--gap-ipad); }
+     {{ default_sid }} .colon{ font-size: calc(var(--digits-size-ipad) * .6); }
+    
+  }
+  @media (max-width: 768px){
+    {{ default_sid }} { padding-top: var(--padding-top-mb); padding-bottom: var(--padding-bottom-mb); }
+    {{ default_sid }} .title{ font-size: var(--title-size-mb); text-align: {{ block.settings.position_countdown_mb }}; }
+    {{ default_sid }} .cd-num{ font-size: var(--digits-size-mb); }
+    {{ default_sid }} .cd-label{ font-size: var(--label-size-mb); }
+    {{ default_sid }} .cd-items{ gap: var(--gap-mb); }
+     {{ default_sid }} .colon{ font-size: calc(var(--digits-size-mb) * .6); }
+     {{ default_sid }} .cd-box { width: 58px; --box-h: 58px;}
+     {{ default_sid }} .cd-wrap{ justify-content:{{ block.settings.position_countdown_mb }}; }
+  }
+ 
+  {% endstyle %}
+
+  <div class="container" data-end-time="{{ block.settings.end_time | escape }}" data-show-days="{{ block.settings.show_days | json }}" data-auto-hide-days="{{ block.settings.auto_hide_days | json }}" data-expired-text="{{ block.settings.expired_text | escape }}">
+    {% if block.settings.show_title_countdown and block.settings.title_countdown != blank %}
+      <h3 class="title">{{ block.settings.title_countdown }}</h3>
+    {% endif %}
+
+    <div class="cd-wrap">
+      <div class="cd-items">
+        <div class="cd-item cd-item--days">
+          <div class="cd-box"><span class="cd-num js-days">00</span></div>
+          <div class="cd-label">{{ block.settings.days_label | default: 'Days' }}</div>
+        </div>
+        <span class="colon colon--d-h">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-hours">00</span></div>
+          <div class="cd-label">{{ block.settings.hours_label | default: 'Hours' }}</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-mins">00</span></div>
+          <div class="cd-label">{{ block.settings.mins_label | default: 'Mins' }}</div>
+        </div>
+        <span class="colon">:</span>
+        <div class="cd-item">
+          <div class="cd-box"><span class="cd-num js-secs">00</span></div>
+          <div class="cd-label">{{ block.settings.secs_label | default: 'Secs' }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const root = document.querySelector('.jingva-countdown-{{ sid }} .container');
+  if(!root) return;
+  const daysBox  = root.querySelector('.js-days');
+  const hoursBox = root.querySelector('.js-hours');
+  const minsBox  = root.querySelector('.js-mins');
+  const secsBox  = root.querySelector('.js-secs');
+  const items    = root.querySelector('.cd-items');
+
+  const showDays = root.getAttribute('data-show-days') === 'true';
+  const autoHideDays = root.getAttribute('data-auto-hide-days') === 'true';
+  const expiredText = root.getAttribute('data-expired-text') || '';
+  const endRaw = root.getAttribute('data-end-time') || '';
+
+  function parseDate(input){
+    let d = new Date(input);
+    if(!isNaN(d)) return d;
+    const t = input.trim().replace('T',' ').replace(/\./g,'-');
+    const m = t.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?$/);
+    if(m){
+      const y=+m[1], mo=(+m[2])-1, da=+m[3], h=+m[4], mi=+m[5], s=+(m[6]||0);
+      d = new Date(y,mo,da,h,mi,s);
+    }
+    return d;
+  }
+
+  const endTime = parseDate(endRaw);
+  if(isNaN(endTime)) return;
+
+  function pad(n){ return n < 10 ? '0'+n : String(n); }
+
+  function tick(){
+    const now = new Date();
+    let ms = endTime - now;
+    if(ms <= 0){
+      daysBox.textContent = '00';
+      hoursBox.textContent = '00';
+      minsBox.textContent = '00';
+      secsBox.textContent = '00';
+      if(expiredText){
+        const title = root.querySelector('.title');
+        if(title) title.textContent = expiredText;
+      }
+      items.classList.toggle('hide-days', !showDays || autoHideDays);
+      return;
+    }
+
+    const dayMs = 24*60*60*1000;
+    const hourMs = 60*60*1000;
+    const minMs = 60*1000;
+
+    const days  = Math.floor(ms / dayMs); ms -= days*dayMs;
+    const hours = Math.floor(ms / hourMs); ms -= hours*hourMs;
+    const mins  = Math.floor(ms / minMs);  ms -= mins*minMs;
+    const secs  = Math.floor(ms / 1000);
+
+    daysBox.textContent  = pad(days);
+    hoursBox.textContent = pad(hours);
+    minsBox.textContent  = pad(mins);
+    secsBox.textContent  = pad(secs);
+
+    const hideDays = (!showDays) || (autoHideDays && days <= 0);
+    items.classList.toggle('hide-days', hideDays);
+
+    requestAnimationFrame(() => setTimeout(tick, 1000 - (Date.now()%1000)));
+  }
+
+  tick();
+});
+</script>
+
+
+

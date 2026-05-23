@@ -1,0 +1,748 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign slide_blocks = section.blocks
+  assign slide_count = slide_blocks | size
+  assign bg_color = se_stts.bg_color
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+  assign title_color = se_stts.title_color
+  assign description_color = se_stts.description_color | default: 'rgba(255, 255, 255, 0.6)'
+  assign padding_top_pc = se_stts.padding_top_pc | default: 160
+  assign padding_bottom_pc = se_stts.padding_bottom_pc | default: 0
+  assign padding_top_mob = se_stts.padding_top_mob | default: 96
+  assign padding_bottom_mob = se_stts.padding_bottom_mob | default: 0
+-%}
+{% capture default_sid %}.jingva-g7-lumbar-{{ sid }}{% endcapture %}
+
+<section id="lumbar-support" class="jingva-section-container jingva-g7-lumbar-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, node 4298:1567) 详细参数:
+     * ========================================
+     *   section: w:1920, flex column, gap:48px
+     *   content frame: column, gap:24px, center
+     *   title: Orbitron 900 64px line-height:1.254 #FFFFFF uppercase center, w:1200
+     *   description: Gabarito 500 24px line-height:1.2 rgba(255,255,255,0.6) center, w:1200
+     *   media container: h:960, bg:#000000
+     *   nav button: x:1812, y:426, w:60, p:36 24, br:999px, bg:rgba(0,94,255,0.5)
+     *   nav dots: w:12, h:12, br:50%, gap:12px
+     *
+     * ========================================
+     * Figma MOB (390px, node 4298:1618) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:27px, p:68px 0
+     *   content frame: column, gap:12px, left align
+     *   title: Orbitron 900 28px line-height:1.254 #FFFFFF uppercase left, w:358
+     *   description: Gabarito 500 16px line-height:1.2 rgba(255,255,255,0.6) left, w:358, h:76
+     *   media container: h:540, p:468 57 24
+     *   nav button: w:82, h:48, p:24, br:999px, bg:rgba(0,94,255,0.5), center
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121B2C' }} !important;
+      padding: {{ padding_top_pc }}px 0 {{ padding_bottom_pc }}px 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-content {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 0 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: normal !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-description-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      /* Grid 堆叠：多条描述共占同一单元格，容器高度自适应到最高描述，
+         避免 absolute 不撑高 + wrapper gap 让媒体块上移遮住描述 */
+      display: grid !important;
+      min-height: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: {{ description_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      grid-area: 1 / 1 !important;
+      opacity: 0 !important;
+      transition: opacity 0.5s ease !important;
+      pointer-events: none !important;
+      padding: 0 40px!important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-description.active {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-media-container {
+      position: relative !important;
+      width: 100% !important;
+      /* height: 960px !important; */
+      aspect-ratio: 2 / 1;
+      background-color: #000000 !important;
+      overflow: hidden !important;
+      cursor: pointer !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-media-wrapper {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-media {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      opacity: 0 !important;
+      transition: opacity 0.5s ease !important;
+      pointer-events: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-media.active {
+      opacity: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-nav-button-pc {
+      position: absolute !important;
+      right: 48px !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      width: 60px !important;
+      padding: 36px 24px !important;
+      border-radius: 999px !important;
+      background-color: rgba(0, 94, 255, 0.5) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 12px !important;
+      z-index: 20 !important;
+      box-sizing: border-box !important;
+      cursor: pointer !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-nav-button-mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-nav-dot {
+      width: 12px !important;
+      height: 12px !important;
+      border-radius: 50% !important;
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      transition: background-color 0.3s ease !important;
+      cursor: pointer !important;
+    }
+
+    {{ default_sid }} .jingva-g7-lumbar-nav-dot.active {
+      background-color: #003cff !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        padding-top: {{ padding_top_pc }}px !important;
+        padding-bottom: {{ padding_bottom_pc }}px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-wrapper {
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-content {
+        max-width: 1200px !important;
+        padding: 0 40px !important;
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-title {
+        font-size: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-description {
+        font-size: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-media-container {
+        /* height: 800px !important; */
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-nav-button-pc {
+        right: 40px !important;
+        width: 52px !important;
+        padding: 32px 20px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: {{ padding_top_mob }}px 0 {{ padding_bottom_mob }}px 0 !important;
+        background-color: {{ bg_color_mob | default: '#121B2C' }} !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-wrapper {
+        gap: 27px !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-content {
+        padding: 0 16px !important;
+        gap: 12px !important;
+        align-items: center !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-title {
+        font-size: 32px !important;
+        text-align: center !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-title.aos-animate {
+        transform: translateY(0) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-description-container {
+        max-width: 100% !important;
+        width: 100% !important;
+        /* Grid 堆叠：所有描述共用同一单元格，容器高度 = 最高描述，
+           不再受 PC 默认 min-height:60px 限制，避免 4 行小字溢出被下方图片遮挡 */
+        display: grid !important;
+        min-height: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-description {
+        font-size: 16px !important;
+        text-align: center !important;
+        padding: 0 !important;
+        font-weight: 500 !important;
+        /* grid 堆叠下脱离 absolute，使用 grid-area 共占同一单元格 */
+        position: static !important;
+        grid-area: 1 / 1 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-media-container {
+        height: 540px !important;
+        padding: 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-nav-button-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-nav-button-mob {
+        display: flex !important;
+        position: absolute !important;
+        right: auto !important;
+        left: 50% !important;
+        top: auto !important;
+        bottom: 24px !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        min-width: 82px !important;
+        height: 48px !important;
+        padding: 12px 20px !important;
+        margin: 0 !important;
+        border-radius: 999px !important;
+        background-color: rgba(0, 94, 255, 0.5) !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        z-index: 20 !important;
+        box-sizing: border-box !important;
+        cursor: pointer !important;
+      }
+    }
+
+    /* === Tablet 768~1279：解除 358 版心限制、放大字号、媒体加高，让 1024 视口下显示更舒展 === */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-g7-lumbar-content {
+        padding: 0 24px !important;
+        gap: 16px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-title {
+        font-size: 40px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-description-container {
+        max-width: 100% !important;
+        /* Grid 堆叠：所有描述共用同一单元格，容器高度 = 最高描述，
+           原本 wrapper 的 gap:27px 会自然生效，不再需要 min-height */
+        display: grid !important;
+        min-height: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-description {
+        font-size: 18px !important;
+        padding: 0 !important;
+        /* 取消 absolute，改用 grid 堆叠在同一 cell */
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        grid-area: 1 / 1 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-lumbar-media-container {
+        height: 640px !important;
+      }
+    }
+  {% endstyle %}
+
+  {% if slide_count > 0 %}
+    <div class="jingva-g7-lumbar-wrapper">
+      <div class="jingva-g7-lumbar-content">
+        {% if se_stts.title != blank %}
+          <h2 class="jingva-g7-lumbar-title">{{ se_stts.title }}</h2>
+        {% endif %}
+        
+        <div class="jingva-g7-lumbar-description-container">
+          {% for block in slide_blocks %}
+            {% if block.settings.description != blank %}
+              <p class="jingva-g7-lumbar-description{% if forloop.first %} active{% endif %}" data-description-index="{{ forloop.index0 }}">{{ block.settings.description }}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="jingva-g7-lumbar-media-container" id="jingva-g7-lumbar-media-{{ sid }}">
+        <div class="jingva-g7-lumbar-media-wrapper">
+          {% for block in slide_blocks %}
+            {% assign media_type = block.settings.media_type %}
+            
+            {% if media_type == 'image' %}
+              {% if block.settings.pc_image != blank or block.settings.mob_image != blank %}
+                <picture class="jingva-g7-lumbar-media{% if forloop.first %} active{% endif %}" data-media-index="{{ forloop.index0 }}">
+                  {% if block.settings.pc_image != blank %}
+                    <source media="(min-width: 1280px)" srcset="{{ block.settings.pc_image | image_url: width: 1920 }}">
+                  {% endif %}
+                  {% if block.settings.mob_image != blank %}
+                    <img
+                      src="{{ block.settings.mob_image | image_url: width: 780 }}"
+                      alt="{{ se_stts.title | escape }}"
+                      loading="lazy"
+                    />
+                  {% elsif block.settings.pc_image != blank %}
+                    <img
+                      src="{{ block.settings.pc_image | image_url: width: 1920 }}"
+                      alt="{{ se_stts.title | escape }}"
+                      loading="lazy"
+                    />
+                  {% endif %}
+                </picture>
+              {% endif %}
+            {% elsif media_type == 'video' %}
+              {% if block.settings.pc_video != blank or block.settings.mob_video != blank %}
+                <video
+                  class="jingva-g7-lumbar-media{% if forloop.first %} active{% endif %}"
+                  data-media-index="{{ forloop.index0 }}"
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  {% if block.settings.pc_image != blank %}poster="{{ block.settings.pc_image | image_url: width: 1920 }}"{% endif %}
+                >
+                  {% if block.settings.pc_video != blank %}
+                    {%- for source in block.settings.pc_video.sources -%}
+                      {%- if source.mime_type == 'video/mp4' -%}
+                        <source src="{{- source.url -}}" type="{{- source.mime_type -}}" media="(min-width: 1280px)">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {% endif %}
+                  {% if block.settings.mob_video != blank %}
+                    {%- for source in block.settings.mob_video.sources -%}
+                      {%- if source.mime_type == 'video/mp4' -%}
+                        <source src="{{- source.url -}}" type="{{- source.mime_type -}}" media="(max-width: 1279px)">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {% endif %}
+                  {% if block.settings.pc_video != blank %}
+                    {%- for source in block.settings.pc_video.sources -%}
+                      {%- if source.mime_type == 'video/mp4' -%}
+                        <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {% elsif block.settings.mob_video != blank %}
+                    {%- for source in block.settings.mob_video.sources -%}
+                      {%- if source.mime_type == 'video/mp4' -%}
+                        <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {% endif %}
+                </video>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if slide_count > 1 %}
+          <div class="jingva-g7-lumbar-nav-button-pc">
+            {% for block in slide_blocks %}
+              <span class="jingva-g7-lumbar-nav-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}"></span>
+            {% endfor %}
+          </div>
+
+          <div class="jingva-g7-lumbar-nav-button-mob">
+            {% for block in slide_blocks %}
+              <span class="jingva-g7-lumbar-nav-dot{% if forloop.first %} active{% endif %}" data-index="{{ forloop.index0 }}"></span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if slide_count > 1 %}
+      <script>
+        (function() {
+          var container = document.getElementById('jingva-g7-lumbar-media-{{ sid }}');
+          if (!container) return;
+
+          var sectionEl = document.querySelector('{{ default_sid }}');
+          var medias = container.querySelectorAll('.jingva-g7-lumbar-media');
+          var descriptions = sectionEl.querySelectorAll('.jingva-g7-lumbar-description');
+          var dotsPC = container.querySelectorAll('.jingva-g7-lumbar-nav-button-pc .jingva-g7-lumbar-nav-dot');
+          var dotsMOB = container.querySelectorAll('.jingva-g7-lumbar-nav-button-mob .jingva-g7-lumbar-nav-dot');
+          var total = medias.length;
+          var current = 0;
+
+          function goTo(index) {
+            current = (index + total) % total;
+
+            medias.forEach(function(m, i) {
+              m.classList.toggle('active', i === current);
+              var video = m.querySelector('video') || (m.tagName === 'VIDEO' ? m : null);
+              if (video) {
+                if (i === current) {
+                  video.play();
+                } else {
+                  video.pause();
+                }
+              }
+            });
+
+            descriptions.forEach(function(d, i) {
+              d.classList.toggle('active', i === current);
+            });
+
+            dotsPC.forEach(function(d, i) {
+              d.classList.toggle('active', i === current);
+            });
+
+            dotsMOB.forEach(function(d, i) {
+              d.classList.toggle('active', i === current);
+            });
+          }
+
+          function next() {
+            goTo(current + 1);
+          }
+
+          // 自动轮播 - 4秒间隔
+          var autoPlayInterval = setInterval(next, 9000);
+
+          // 重置自动轮播计时器
+          function resetAutoPlay() {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = setInterval(next, 9000);
+          }
+
+          container.addEventListener('click', function(e) {
+            if (swipeMoved) return; // 滑动后不触发 click 切换
+            if (!e.target.closest('.jingva-g7-lumbar-nav-button-pc') && !e.target.closest('.jingva-g7-lumbar-nav-button-mob')) {
+              next();
+              resetAutoPlay();
+            }
+          });
+
+          // 移动端左右滑动切换
+          var touchStartX = 0;
+          var touchStartY = 0;
+          var swipeMoved = false;
+          var SWIPE_THRESHOLD = 30; // px
+          container.addEventListener('touchstart', function(e) {
+            if (!e.touches || !e.touches[0]) return;
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            swipeMoved = false;
+          }, { passive: true });
+          container.addEventListener('touchend', function(e) {
+            var t = (e.changedTouches && e.changedTouches[0]) || null;
+            if (!t) return;
+            var dx = t.clientX - touchStartX;
+            var dy = t.clientY - touchStartY;
+            if (Math.abs(dx) > SWIPE_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+              swipeMoved = true;
+              if (dx < 0) goTo(current + 1); else goTo(current - 1);
+              resetAutoPlay();
+              // 下一个 tick 复位，避免后续 click 触发再次切换
+              setTimeout(function() { swipeMoved = false; }, 50);
+            }
+          }, { passive: true });
+
+          function setupDots(dots) {
+            dots.forEach(function(dot) {
+              dot.addEventListener('click', function(e) {
+                e.stopPropagation();
+                goTo(parseInt(this.getAttribute('data-index')));
+                resetAutoPlay();
+              });
+            });
+          }
+
+          setupDots(dotsPC);
+          setupDots(dotsMOB);
+        })();
+      </script>
+    {% endif %}
+  {% endif %}
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-g7-lumbar-{{ sid }}');
+  if (!section) return;
+
+  var titles = section.querySelectorAll('.jingva-g7-lumbar-title');
+  if (!titles.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  titles.forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Lumbar Support",
+  "class": "shopify-section--jingva-g7-lumbar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "Auto Dynamic Lumbar Support"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "rgba(255, 255, 255, 0.6)"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "PC Background Color",
+      "default": "#121B2C"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color",
+      "default": "#121B2C"
+    },
+    {
+      "type": "header",
+      "content": "Padding (PC)"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_pc",
+      "label": "Padding Top (PC)",
+      "default": "160"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom_pc",
+      "label": "Padding Bottom (PC)",
+      "default": "0"
+    },
+    {
+      "type": "header",
+      "content": "Padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_mob",
+      "label": "Padding Top (Mobile)",
+      "default": "96"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom_mob",
+      "label": "Padding Bottom (Mobile)",
+      "default": "0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Slide Description"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description",
+          "default": "Vertical slide: 6 levels, 4cm ｜ Horizontal slide: 5 levels, 3cm, lockable ｜ Rotation: 12° adaptive ｜ Vertical slide: 2cm adaptive ｜ Side wings: inward/outward fold 40°"
+        },
+        {
+          "type": "header",
+          "content": "Media Type"
+        },
+        {
+          "type": "select",
+          "id": "media_type",
+          "label": "Media Type",
+          "options": [
+            {"value": "image", "label": "Image"},
+            {"value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "header",
+          "content": "PC Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "pc_image",
+          "label": "PC Image"
+        },
+        {
+          "type": "video",
+          "id": "pc_video",
+          "label": "PC Video"
+        },
+        {
+          "type": "header",
+          "content": "Mobile Media"
+        },
+        {
+          "type": "image_picker",
+          "id": "mob_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "video",
+          "id": "mob_video",
+          "label": "Mobile Video"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Lumbar Support",
+      "settings": {
+        "title": "Auto Dynamic Lumbar Support"
+      },
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "description": "Vertical slide: 6 levels, 4cm ｜ Horizontal slide: 5 levels, 3cm, lockable ｜ Rotation: 12° adaptive ｜ Vertical slide: 2cm adaptive ｜ Side wings: inward/outward fold 40°",
+            "media_type": "image"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

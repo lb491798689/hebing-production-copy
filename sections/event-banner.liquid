@@ -1,0 +1,441 @@
+{%- liquid
+  assign media_aspect_ratio = section.settings.image.aspect_ratio | default: 2.844
+  assign mobile_media_aspect_ratio = 0.609375
+  assign custom_aspect_ratio = section.settings.aspect | default: '1920//680' | replace: '//', '/' | replace: '/', ' / '
+  assign custom_aspect_ratio_mobile = section.settings.aspect_mobile | default: '390/640' | replace: '//', '/' | replace: '/', ' / '
+  assign has_mobile_media = false
+
+  if section.settings.video != blank and section.settings.video.aspect_ratio != blank
+    assign media_aspect_ratio = section.settings.video.aspect_ratio
+  endif
+
+  if section.settings.mobile_image != blank
+    assign has_mobile_media = true
+    assign mobile_media_aspect_ratio = section.settings.mobile_image.aspect_ratio
+  endif
+
+  if section.settings.mobile_video != blank
+    assign has_mobile_media = true
+
+    if section.settings.mobile_video.aspect_ratio != blank
+      assign mobile_media_aspect_ratio = section.settings.mobile_video.aspect_ratio
+    endif
+  endif
+-%}
+
+<style>
+  #{{ section.id }} {
+    --event-banner-padding-top: {{ section.settings.padding_top }}px;
+    --event-banner-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --event-banner-height: {{ section.settings.fixed_height }}px;
+    --event-banner-aspect-ratio: {{ media_aspect_ratio }};
+    --event-banner-custom-aspect-ratio: {{ custom_aspect_ratio }};
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      --event-banner-padding-top: {{ section.settings.padding_top_mobile }}px;
+      --event-banner-padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+      --event-banner-height: {{ section.settings.fixed_height_mobile }}px;
+      --event-banner-aspect-ratio: {{ mobile_media_aspect_ratio }};
+      --event-banner-custom-aspect-ratio: {{ custom_aspect_ratio_mobile }};
+    }
+  }
+</style>
+
+<section
+  id="{{ section.id }}"
+  class="
+    event-banner event-banner--{{ section.settings.height_mode }}{% if has_mobile_media %} event-banner--has-mobile-media{% endif %}
+    tw:relative tw:isolate tw:w-full tw:overflow-hidden tw:bg-[#050509] tw:font-gabarito tw:text-white
+  "
+>
+  <div
+    class="
+      event-banner__inner
+      tw:relative tw:w-full tw:overflow-hidden
+    "
+  >
+    <div class="event-banner__media tw:absolute tw:inset-0 tw:z-0 tw:overflow-hidden" aria-hidden="true">
+      {%- if section.settings.video != blank -%}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            preload: 'metadata',
+            image_size: '1920x',
+            class: 'event-banner__media-item--desktop tw:size-full tw:absolute tw:max-w-none tw:object-cover'
+        }}
+      {%- elsif section.settings.image != blank -%}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '100vw',
+            widths: '390,600,780,960,1200,1440,1680,1920,2400,3000',
+            class: 'event-banner__media-item--desktop tw:size-full tw:absolute tw:max-w-none tw:object-cover',
+            alt: section.settings.image.alt
+        }}
+      {%- endif -%}
+
+      {%- if section.settings.mobile_video != blank -%}
+        {{
+          section.settings.mobile_video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            preload: 'metadata',
+            image_size: '1200x',
+            class: 'event-banner__media-item--mobile tw:size-full tw:absolute tw:max-w-none tw:object-cover'
+        }}
+      {%- elsif section.settings.mobile_image != blank -%}
+        {{
+          section.settings.mobile_image
+          | image_url: width: section.settings.mobile_image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '100vw',
+            widths: '390,600,780,960,1200,1440',
+            class: 'event-banner__media-item--mobile tw:size-full tw:absolute tw:max-w-none tw:object-cover tw:object-bottom',
+            alt: section.settings.mobile_image.alt
+        }}
+      {%- endif -%}
+    </div>
+
+    <div class="tw:absolute tw:inset-0 tw:z-1 tw:bg-black/10" aria-hidden="true"></div>
+
+    <div
+      class="
+        event-banner__content
+        tw:absolute tw:inset-0 tw:z-2 tw:mx-auto tw:w-full tw:max-w-[1200px]
+        tw:max-md:flex tw:max-md:flex-col tw:max-md:items-center tw:max-md:text-center
+      "
+    >
+      {%- if section.settings.logo_image != blank -%}
+        <div
+          class="
+            event-banner__logo
+            tw:max-md:static tw:max-md:order-2 tw:max-md:mt-10 tw:max-md:w-[99px] tw:max-md:mix-blend-screen
+          "
+        >
+          {{
+            section.settings.logo_image
+            | image_url: width: 320
+            | image_tag:
+              loading: 'lazy',
+              widths: '99,136,198,272,320',
+              sizes: '(min-width: 1150px) 136px, 99px',
+              class: 'tw:block tw:h-auto tw:w-full',
+              alt: section.settings.logo_image.alt
+          }}
+        </div>
+      {%- endif -%}
+
+      <div
+        class="
+          event-banner__text
+          tw:flex tw:flex-col tw:items-start tw:gap-3
+          tw:max-md:static tw:max-md:order-1 tw:max-md:w-full tw:max-md:max-w-[390px]
+          tw:max-md:translate-y-0 tw:max-md:items-center
+        "
+      >
+        {%- if section.settings.subtitle != blank -%}
+          <p class="tw:m-0 tw:text-[24px] tw:font-normal tw:leading-[1.2] tw:text-white/80 tw:uppercase tw:max-md:text-[20px] tw:max-md:text-white">
+            {{ section.settings.subtitle | escape | newline_to_br }}
+          </p>
+        {%- endif -%}
+
+        {%- if section.settings.title != blank -%}
+          <h2
+            class="
+              tw:m-0 tw:min-w-full tw:max-w-full tw:font-orbitron tw:text-[48px] tw:font-black tw:leading-[1.08]
+              tw:text-[#FFFC04] tw:uppercase tw:tracking-normal
+              tw:max-md:text-[36px] tw:max-md:leading-[1.18]
+            "
+          >
+            {{ section.settings.title | escape | newline_to_br }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.desc != blank -%}
+          <div
+            class="
+              tw:text-[32px] tw:font-medium tw:leading-[1.2] tw:capitalize
+              tw:max-md:text-[24px]
+            "
+          >
+            {{ section.settings.desc | escape | newline_to_br }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .event-banner__inner {
+    padding-block: var(--event-banner-padding-top) var(--event-banner-padding-bottom);
+    min-height: var(--event-banner-height);
+  }
+
+  .event-banner--screen .event-banner__inner {
+    min-height: 100vh;
+  }
+
+  .event-banner--adapt_media .event-banner__inner {
+    aspect-ratio: var(--event-banner-aspect-ratio);
+    min-height: auto;
+  }
+
+  .event-banner--aspect .event-banner__inner {
+    aspect-ratio: var(--event-banner-custom-aspect-ratio);
+    min-height: auto;
+  }
+
+  .event-banner__media-item {
+    display: block;
+  }
+
+  .event-banner__media-item--mobile {
+    display: none;
+  }
+
+  @media screen and (min-width: 1150px) {
+    .event-banner__inner {
+      container-type: size;
+    }
+    .event-banner__content {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-direction: column;
+      padding-bottom: 20cqh;
+    }
+    .event-banner__logo {
+      width: 136px;
+    }
+
+    .event-banner__text {
+      width: 600px;
+      margin-block-start: 59px;
+    }
+
+    .event-banner__media-item {
+      left: calc(50% + 281.5px);
+      top: calc(50% - 5px);
+      width: 1811px;
+      height: 956px;
+      max-width: none;
+      transform: translate(-50%, -50%);
+      object-position: center;
+    }
+  }
+
+  @media screen and (max-width: 1149px) {
+    .event-banner__content {
+      padding-block: var(--event-banner-padding-top) var(--event-banner-padding-bottom);
+      padding-inline: 16px;
+    }
+
+    .event-banner__inner {
+      min-height: var(--event-banner-height);
+    }
+
+    .event-banner--screen .event-banner__inner {
+      min-height: 100vh;
+    }
+
+    .event-banner--adapt_media .event-banner__inner {
+      aspect-ratio: var(--event-banner-aspect-ratio);
+      min-height: auto;
+    }
+
+    .event-banner--aspect .event-banner__inner {
+      aspect-ratio: var(--event-banner-custom-aspect-ratio);
+      min-height: auto;
+    }
+
+    .event-banner__media-item {
+      left: calc(50% - 21px);
+      top: 50%;
+      width: 282.05vw;
+      height: 87.66%;
+      transform: translate(-50%, -23.9%);
+      object-position: center bottom;
+    }
+
+    .event-banner--has-mobile-media .event-banner__media-item--desktop {
+      display: none;
+    }
+
+    .event-banner--has-mobile-media .event-banner__media-item--mobile {
+      display: block;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Event banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "video",
+      "id": "mobile_video",
+      "label": "Mobile video"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "4/17-4/27"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "M6 ULTRA+ 2.0 SHIATSU"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Official Chair Of IEM 2026"
+    },
+    {
+      "type": "header",
+      "content": "Height"
+    },
+    {
+      "type": "select",
+      "id": "height_mode",
+      "label": "Section height",
+      "options": [
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        },
+        {
+          "value": "screen",
+          "label": "100vh"
+        },
+        {
+          "value": "adapt_media",
+          "label": "Adapt to media"
+        },
+        {
+          "value": "aspect",
+          "label": "Aspect ratio"
+        }
+      ],
+      "default": "fixed"
+    },
+    {
+      "type": "number",
+      "id": "fixed_height",
+      "label": "Fixed height",
+      "default": 360,
+      "visible_if": "{{ section.settings.height_mode == 'fixed' }}"
+    },
+    {
+      "type": "number",
+      "id": "fixed_height_mobile",
+      "label": "Fixed height mobile",
+      "default": 640,
+      "visible_if": "{{ section.settings.height_mode == 'fixed' }}"
+    },
+    {
+      "type": "text",
+      "id": "aspect",
+      "label": "Aspect ratio",
+      "default": "1920//680",
+      "info": "Used only when section height is set to aspect ratio. Example: 1920//680.",
+      "visible_if": "{{ section.settings.height_mode == 'aspect' }}"
+    },
+    {
+      "type": "text",
+      "id": "aspect_mobile",
+      "label": "Aspect ratio mobile",
+      "default": "390/640",
+      "info": "Used only when section height is set to aspect ratio. Example: 390/40.",
+      "visible_if": "{{ section.settings.height_mode == 'aspect' }}"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event banner"
+    }
+  ]
+}
+{% endschema %}

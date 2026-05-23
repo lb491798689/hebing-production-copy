@@ -1,0 +1,992 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_xaQLL6": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_Kzgcew": {
+          "type": "heading",
+          "settings": {
+            "text": "Resources",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_NEpGdN": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Fuel your gaming knowledge and unlock your full potential with Autofull's Resources hub!  Dive into our guides, tips, and expert advice to optimize your setup, master ergonomics, and elevate your game to the next level.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Kzgcew",
+        "richtext_NEpGdN"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "md",
+        "image": "shopify://shop_images/6_5e94cf39-a315-4fe7-9627-dd0739003f51.png",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-end-start sm:text-start",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 62
+      }
+    },
+    "multi_column_riNrzF": {
+      "type": "multi-column",
+      "blocks": {
+        "item_KnR67d": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/5_6aa43488-3956-4a68-ab5e-b16460f78fe8.png",
+            "column_size": "3",
+            "title": "AutoFull M6 Gaming Chair",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "https://www.youtube.com/watch?v=ICNch9jyTao&t=312s",
+            "link_text": "Assembly Video",
+            "link_style": "link"
+          }
+        },
+        "item_TptHeF": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/6_7b5dc67d-8b69-44ab-b4fb-ae5a07893bfe.png",
+            "column_size": "3",
+            "title": "AutoFull C3 Series Gaming Chair - Graffiti",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "https://www.youtube.com/watch?v=ZHFzRnvNu4k",
+            "link_text": "Assembly Video",
+            "link_style": "link"
+          }
+        },
+        "item_6LB3Dg": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/3_e1e81a10-26e3-48ba-9ff2-ee941ad7e865_1.png",
+            "column_size": "3",
+            "title": "AutoFull C3 Series Gaming Chair- Black/ Brown/ Grey",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "https://www.youtube.com/watch?v=THS0qh1osfo",
+            "link_text": "Assembly Video",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_KnR67d",
+        "item_TptHeF",
+        "item_6LB3Dg"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "start",
+        "subheading": "",
+        "title": "Resources",
+        "content": "<p>View Resource by Product</p>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "rich_text_gXpczp": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_EG6jNX": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull C3",
+            "heading_tag": "h2",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_EG6jNX"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "start",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_grid_HL3eW9": {
+      "type": "media-grid",
+      "blocks": {
+        "image_8XJyag": {
+          "type": "image",
+          "settings": {
+            "title": "Technical Specification Sheet",
+            "heading_tag": "h6",
+            "link_url": "shopify://pages/autofull-faq",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_ecB7tp": {
+          "type": "image",
+          "settings": {
+            "title": "What's In The Box?",
+            "heading_tag": "h6",
+            "link_url": "https://autofull.com/apps/17TRACK",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_c6MRH9": {
+          "type": "image",
+          "settings": {
+            "title": "Assembly Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/shipping-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_Nc8k9H": {
+          "type": "image",
+          "settings": {
+            "title": "Full Assembly Video Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_yjHtK3": {
+          "type": "image",
+          "settings": {
+            "title": "Features Usage Video",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_GzRndA": {
+          "type": "image",
+          "settings": {
+            "title": "Usage Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_wJTHTp": {
+          "type": "image",
+          "settings": {
+            "title": "User Manual",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_hXfa3X": {
+          "type": "image",
+          "settings": {
+            "title": "Aftercare Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_8XJyag",
+        "image_ecB7tp",
+        "image_c6MRH9",
+        "image_Nc8k9H",
+        "image_yjHtK3",
+        "image_GzRndA",
+        "image_wJTHTp",
+        "image_hXfa3X"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 150,
+        "mobile_row_height": 190,
+        "background": "#f6f6f6",
+        "background_gradient": ""
+      }
+    },
+    "rich_text_QCtiUB": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_NK3VwC": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull M5",
+            "heading_tag": "h2",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_NK3VwC"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "start",
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_grid_QF7GJa": {
+      "type": "media-grid",
+      "blocks": {
+        "image_MBVbLz": {
+          "type": "image",
+          "settings": {
+            "title": "Technical Specification Sheet",
+            "heading_tag": "h6",
+            "link_url": "shopify://pages/autofull-faq",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_UdcdQX": {
+          "type": "image",
+          "settings": {
+            "title": "What's In The Box?",
+            "heading_tag": "h6",
+            "link_url": "https://autofull.com/apps/17TRACK",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_GjhT4p": {
+          "type": "image",
+          "settings": {
+            "title": "Assembly Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/shipping-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_FNQMJr": {
+          "type": "image",
+          "settings": {
+            "title": "Full Assembly Video Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_yjRDtd": {
+          "type": "image",
+          "settings": {
+            "title": "Features Usage Video",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_Q4dwJF": {
+          "type": "image",
+          "settings": {
+            "title": "Usage Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_B7ApkV": {
+          "type": "image",
+          "settings": {
+            "title": "User Manual",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_U8MkUj": {
+          "type": "image",
+          "settings": {
+            "title": "Aftercare Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_MBVbLz",
+        "image_UdcdQX",
+        "image_GjhT4p",
+        "image_FNQMJr",
+        "image_yjRDtd",
+        "image_Q4dwJF",
+        "image_B7ApkV",
+        "image_U8MkUj"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 150,
+        "mobile_row_height": 190,
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": ""
+      }
+    },
+    "rich_text_Dqx7ih": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_pM8b8M": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull M6",
+            "heading_tag": "h2",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_pM8b8M"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "start",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_grid_AEEY4a": {
+      "type": "media-grid",
+      "blocks": {
+        "image_nrHRVA": {
+          "type": "image",
+          "settings": {
+            "title": "Technical Specification Sheet",
+            "heading_tag": "h6",
+            "link_url": "shopify://pages/autofull-faq",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_YyEJRH": {
+          "type": "image",
+          "settings": {
+            "title": "What's In The Box?",
+            "heading_tag": "h6",
+            "link_url": "https://autofull.com/apps/17TRACK",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_rXKkxH": {
+          "type": "image",
+          "settings": {
+            "title": "Assembly Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/shipping-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_nxQ8CW": {
+          "type": "image",
+          "settings": {
+            "title": "Full Assembly Video Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_qgwDy7": {
+          "type": "image",
+          "settings": {
+            "title": "Features Usage Video",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_D7Tb39": {
+          "type": "image",
+          "settings": {
+            "title": "Usage Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_Qywrza": {
+          "type": "image",
+          "settings": {
+            "title": "User Manual",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_T3GYjq": {
+          "type": "image",
+          "settings": {
+            "title": "Aftercare Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_nrHRVA",
+        "image_YyEJRH",
+        "image_rXKkxH",
+        "image_nxQ8CW",
+        "image_qgwDy7",
+        "image_D7Tb39",
+        "image_Qywrza",
+        "image_T3GYjq"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 150,
+        "mobile_row_height": 190,
+        "background": "#f6f6f6",
+        "background_gradient": ""
+      }
+    },
+    "rich_text_6QEC7a": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_Dmgrd9": {
+          "type": "heading",
+          "settings": {
+            "text": "AutoFull G5",
+            "heading_tag": "h2",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_Dmgrd9"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "start",
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_grid_jreEiG": {
+      "type": "media-grid",
+      "blocks": {
+        "image_HWjCKt": {
+          "type": "image",
+          "settings": {
+            "title": "Technical Specification Sheet",
+            "heading_tag": "h6",
+            "link_url": "shopify://pages/autofull-faq",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_CQnwjw": {
+          "type": "image",
+          "settings": {
+            "title": "What's In The Box?",
+            "heading_tag": "h6",
+            "link_url": "https://autofull.com/apps/17TRACK",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_7Di9TR": {
+          "type": "image",
+          "settings": {
+            "title": "Assembly Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/shipping-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_FMVcDJ": {
+          "type": "image",
+          "settings": {
+            "title": "Full Assembly Video Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_khgDEg": {
+          "type": "image",
+          "settings": {
+            "title": "Features Usage Video",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_GpibNk": {
+          "type": "image",
+          "settings": {
+            "title": "Usage Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_nnc7aG": {
+          "type": "image",
+          "settings": {
+            "title": "User Manual",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_Wer36y": {
+          "type": "image",
+          "settings": {
+            "title": "Aftercare Guide",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_HWjCKt",
+        "image_CQnwjw",
+        "image_7Di9TR",
+        "image_FMVcDJ",
+        "image_khgDEg",
+        "image_GpibNk",
+        "image_nnc7aG",
+        "image_Wer36y"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 150,
+        "mobile_row_height": 190,
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_xaQLL6",
+    "multi_column_riNrzF",
+    "rich_text_gXpczp",
+    "media_grid_HL3eW9",
+    "rich_text_QCtiUB",
+    "media_grid_QF7GJa",
+    "rich_text_Dqx7ih",
+    "media_grid_AEEY4a",
+    "rich_text_6QEC7a",
+    "media_grid_jreEiG"
+  ]
+}

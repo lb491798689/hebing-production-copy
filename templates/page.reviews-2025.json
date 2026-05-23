@@ -1,0 +1,904 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "images_with_text_scrolling_P4kDTc": {
+      "type": "images-with-text-scrolling",
+      "blocks": {
+        "item_BrxwTT": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-154856_-_frame_at_0m17s_1_c748ecca-6f77-4a05-9889-7010a3c3d783.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Jorena",
+            "content": "<p>Auoto M6 ultra  den krassesten Caming Stuhl den ich auf diesem Planeten jemals gesehen habe.ein riesen Paket und ich freue mich das mit euchzu Öffnen der Aufbau war so einfach dass auch Leute verstehen und ganz einfach zusammen schrauben konnten.dieser Stuhl sieht nicht nur gut aus nein der hat auch einfach eine Sitzheizung für den Winter und für den Sommer sogar eine Belüftungsfunktion.</p>"
+          }
+        },
+        "item_A67yJN": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-154856_-_frame_at_0m17s_1_b9bc5348-8cae-4c27-8955-b9f5a74a3ae6.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Hall Of Tech",
+            "content": "<p>The autofull g7 ergonomic chair which was tested and approved by an actual chiropractor.So,yeah,my spine's about to live its best life.Just look at it.It has 22 adjustable features like auto lumber support.</p>"
+          }
+        },
+        "item_MmgnkG": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/wmremove-transformed_1.png",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Frslush",
+            "content": "<p> My chair actually has heating 、cooling and messaging built in，whitch is crazy overkill, but I love it！</p>"
+          }
+        },
+        "item_dHdraV": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/2025-10-20_162858_820_-_frame_at_0m2s_1_99fec6a2-3f00-4970-a069-1df777a49b75.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Above average",
+            "content": "<p>The most high tech gaming chair on the market just got even crazier 👀</p>"
+          }
+        },
+        "item_QD6JRH": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-163310_-_frame_at_0m0s_1_b0ee871d-ad79-483e-b074-12b3740e7990.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "ilke.iam",
+            "content": "<p>Der Autofull M6 Ultra ist mit Abstand der krasseste Gaming Stuhl auf dem MarktSitzheizung, Sitzkühlung und Massagefunktion sorgen dafür das ihr beim Arbeiten und Zocken immer das ultimative Erlebnis habt und durch die Ergonomischen Einstelloptionen habt ihr dabei immernoch eine gesunde und natürliche Haltung</p>"
+          }
+        },
+        "item_daxJEF": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-152603_-_frame_at_0m23s_1_34d7b23c-608d-4754-951d-a77946768fc0.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Amy Elle",
+            "content": "<p>It’s incredibly important to me that he has a supportive but also comfortable gaming chair that looks as cool as his setup will be and did the M6 Ultra deliver! Not only does it have the COOLEST features… 👀 I’m looking at you seat ventilation, buts its lumbar support is so highly adjustable that I knew it would be perfect!</p>"
+          }
+        },
+        "item_EQkqC4": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/The_most_advanced_Gaming_Chair_in_2025_-_frame_at_2m32s_4edaecb1-fd6b-456b-a89a-de93bc1aa934.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Ryan Mikael",
+            "content": "<p>AutoFull M6 Ultra—The Ultimate Gaming Chair is Here! The Best Gaming Chair of 2025! This video provides an in-depth analysis of the AutoFull M6 Ultra to help you make an informed decision. This upgraded model is absolutely worth every penny!From comfort and adjustability to heating, cooling, and massage functions, I'll break down every detail you need to know before purchasing. Whether you're a hardcore gamer or seeking top-tier ergonomic support, the AutoFull M6 Ultra delivers.</p>"
+          }
+        },
+        "item_ngzhUD": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-164020_-_frame_at_1m17s_aabe875c-6b93-4762-bd75-4675e1f1db79.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Taylor Jordn",
+            "content": "<p>The AutoFull M6 is like the boss of gaming chairs! Its heating & cooling function, built-in vibration massage, and 6D adjustable armrests create an epic seating experience – great for marathon gaming or getting stuff done.</p>"
+          }
+        },
+        "item_Fhekyq": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251020-164431_-_frame_at_0m47s_1_264286d0-d67c-4e48-8048-74572f8f648c.jpg",
+            "icon": "none",
+            "icon_width": 48,
+            "title": "Aidenshow",
+            "content": "<p>Blend Your Style with Functional Gaming Essentials... Just Like Adding Avocado to a Smoothie!</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_BrxwTT",
+        "item_A67yJN",
+        "item_MmgnkG",
+        "item_dHdraV",
+        "item_QD6JRH",
+        "item_daxJEF",
+        "item_EQkqC4",
+        "item_ngzhUD",
+        "item_Fhekyq"
+      ],
+      "name": "Images and text scrolling",
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "show_counter": true,
+        "desktop_image_effect": "reveal",
+        "image_position": "end",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": ""
+      }
+    },
+    "kiks_media_wy77re": {
+      "type": "kiks-media",
+      "name": "Kiks Media",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/brand_01_cdab789e-7e23-4b2d-b7c8-e07475ad499e.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_slideshow_pwF633": {
+      "type": "kiks-slideshow",
+      "blocks": {
+        "image_xPFCq9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NIKO-2_d9da8053-fecd-4faf-8780-87f60b117cc2.jpg",
+            "mobile_image": "shopify://shop_images/NIKO-2_f1fdaa08-94d4-4b91-8327-e735609a9d5b.jpg",
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "subheading": "",
+            "title": "",
+            "title_link": "",
+            "heading_tag": "h0",
+            "slider_content": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text2": "",
+            "button_link2": "",
+            "style1": "fill",
+            "size1": "xl",
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "style2": "fill",
+            "size2": "xl",
+            "button_background2": "#ffffff",
+            "button_text_color2": "#000000",
+            "enable_gradient": false,
+            "overlay_gradient": "",
+            "enable_gradient_mobile": false,
+            "overlay_gradient_mobile": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "background": "",
+            "background_gradient": ""
+          }
+        },
+        "image_77ckec": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/UZI_1d0fa968-41bf-42e2-af4a-17752511af00.jpg",
+            "mobile_image": "shopify://shop_images/0bd79d3118bdb9bb8dda85fad7e7fb84_56320f49-8123-442a-9ed3-ca953e1acaa6.jpg",
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "subheading": "",
+            "title": "",
+            "title_link": "",
+            "heading_tag": "h0",
+            "slider_content": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text2": "",
+            "button_link2": "",
+            "style1": "fill",
+            "size1": "xl",
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "style2": "fill",
+            "size2": "xl",
+            "button_background2": "#ffffff",
+            "button_text_color2": "#000000",
+            "enable_gradient": false,
+            "overlay_gradient": "",
+            "enable_gradient_mobile": false,
+            "overlay_gradient_mobile": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "background": "",
+            "background_gradient": ""
+          }
+        },
+        "image_fxL6tw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/NIKO-1_bffa393d-c20f-43ea-831d-c37cbf81213a.jpg",
+            "mobile_image": "shopify://shop_images/NIKO-1_385bc647-6102-4eec-88d5-1f11b9ec9a98.jpg",
+            "content_max_width": 780,
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "subheading": "",
+            "title": "",
+            "title_link": "",
+            "heading_tag": "h0",
+            "slider_content": "",
+            "button_text": "",
+            "button_link": "",
+            "button_text2": "",
+            "button_link2": "",
+            "style1": "fill",
+            "size1": "xl",
+            "button_background": "#ffffff",
+            "button_text_color": "#000000",
+            "style2": "fill",
+            "size2": "xl",
+            "button_background2": "#ffffff",
+            "button_text_color2": "#000000",
+            "enable_gradient": false,
+            "overlay_gradient": "",
+            "enable_gradient_mobile": false,
+            "overlay_gradient_mobile": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0,
+            "background": "",
+            "background_gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_xPFCq9",
+        "image_77ckec",
+        "image_fxL6tw"
+      ],
+      "name": "Kiks Slideshow",
+      "settings": {
+        "full_width": true,
+        "collection_logo": false,
+        "allow_transparent_header": false,
+        "show_initial_transition": false,
+        "image_size": "auto",
+        "controls_type": "numbers",
+        "controls_position": "right",
+        "transition_type": "fade_with_text",
+        "slider_animation": false,
+        "autoplay": false,
+        "cycle_speed": 6,
+        "background": "#f2f2f2",
+        "background_gradient": ""
+      }
+    },
+    "kik_about_player_3YPcMg": {
+      "type": "kik-about-player",
+      "blocks": {
+        "text_and_image_qtyCBc": {
+          "type": "text_and_image",
+          "settings": {
+            "title": "His Legacy",
+            "heading": "",
+            "description": "<p>Nikola \"NiKo\" Kovač is widely regarded as one of the greatest players in Counter-Strike history, renowed for his exceptional aim and game sense, and often considered the best rifler of all time. </p>",
+            "image": "shopify://shop_images/1600X1600.png",
+            "image_width": 400,
+            "mobile_image_width": 250
+          }
+        },
+        "stats_naAkJm": {
+          "type": "stats",
+          "settings": {
+            "title": "<p>HIS ACHIEVEMENTS</p>",
+            "stat_1": "Top 20",
+            "desc_1": "Record for the most consecutive appearances in HLTV’s Top 20 Players of the Year.",
+            "stat_2": "BEST PERF.",
+            "desc_2": "Best overall performance at a \"Big Event\" in Counter-Strike history.",
+            "stat_3": "9 MVPs",
+            "desc_3": "9 MVP titles earned throughout his career so far.",
+            "stat_4": "",
+            "desc_4": "",
+            "stat_5": "",
+            "desc_5": "",
+            "stat_6": "",
+            "desc_6": ""
+          }
+        },
+        "text_and_image_7ALUNe": {
+          "type": "text_and_image",
+          "settings": {
+            "title": "MESSAGE TO FANS",
+            "heading": "MY HEARTFELT GRATITUDE",
+            "description": "<p>Once again, we’ve defied expectations.<br/><br/>Every match, every round, the world doubted us. But we answered with </p><p>unwavering confidence.</p><p><br/>  From SEA to the global stage, we proved that we belong.</p><p>This journey isn’t just mine—it’s ours. To every fan who stood by me, your support</p><p> fuels every clutch, every victory.<br/><br/>This is more than just a game. It’s a statement. </p><p>And we’re just getting started.</p><p></p>",
+            "image": "shopify://shop_images/sign_a3d6761a-94d5-4b52-9a98-a49bd91fad39.jpg",
+            "image_width": 130,
+            "mobile_image_width": 120
+          }
+        }
+      },
+      "block_order": [
+        "text_and_image_qtyCBc",
+        "stats_naAkJm",
+        "text_and_image_7ALUNe"
+      ],
+      "settings": {
+        "full_width": true,
+        "title": "<p>CS2 Legend - <strong>NiKo</strong></p>",
+        "background": "#0d0d0d",
+        "heading_color": "#ffffff",
+        "sec_color": "#ed1c24"
+      }
+    },
+    "kik_testimoniales_hyt8JN": {
+      "type": "kik-testimoniales",
+      "settings": {
+        "image": "shopify://shop_images/M6_6165c737-cf6b-4041-8a9a-23ae3a8273e8.jpg",
+        "title": "With its innovative features, the AutoFull M6 has convinced me. You should give it a try.",
+        "content": "NiKo",
+        "group": "CS2 Legend",
+        "desc": "AutoFull Global Product Ambassador",
+        "background": "#0d0d0d",
+        "heading_color": "",
+        "text_color": "#ffffff",
+        "sec_color": "#ed1c22"
+      }
+    },
+    "kik_about_player_P6RzhF": {
+      "type": "kik-about-player",
+      "blocks": {
+        "text_and_image_UhWBGx": {
+          "type": "text_and_image",
+          "settings": {
+            "title": "His Legacy",
+            "heading": "",
+            "description": "<p>Uzi (Jian Zihao) is a renowned Chinese professional League of Legends player, hailed as the \"World's Best ADC.\" He led the RNG team to the MSI World Championship in 2018 and won a gold medal for China in the League of Legends event at the Asian Games. He is inducted into the League of Legends Hall of Fame in 2025.</p>",
+            "image": "shopify://shop_images/IMG_202511185130_511x661_595a564f-fd4d-42b9-b7a8-d5dcf2534429.png",
+            "image_width": 400,
+            "mobile_image_width": 250
+          }
+        }
+      },
+      "block_order": [
+        "text_and_image_UhWBGx"
+      ],
+      "settings": {
+        "full_width": true,
+        "title": "<p>LOL Legend - <strong>Uzi</strong></p>",
+        "background": "#0d0d0d",
+        "heading_color": "#ffffff",
+        "sec_color": "#ed1c24"
+      }
+    },
+    "kik_testimoniales_ecLwQD": {
+      "type": "kik-testimoniales",
+      "settings": {
+        "image": "shopify://shop_images/maxresdefault_1_8a5a5ef9-d85f-462e-a5b0-28f945e8fa9f.jpg",
+        "title": "\"I has trusted AutoFull for ten years, and it is also the most professional choice for you and me.\"",
+        "content": "Uzi",
+        "group": "LOL Legend",
+        "desc": "AutoFull Global Product Ambassador",
+        "background": "#0d0d0d",
+        "heading_color": "",
+        "text_color": "#ffffff",
+        "sec_color": "#ed1c22"
+      }
+    },
+    "revealed_image_on_scroll_yDjmyY": {
+      "type": "revealed-image-on-scroll",
+      "name": "Revealed image on scroll",
+      "settings": {
+        "image": "shopify://shop_images/20250915-161847_3.jpg",
+        "mobile_image": "shopify://shop_images/20250915-161840_4.jpg",
+        "subheading": "",
+        "title": "Rewards & Reviews",
+        "background": "",
+        "text_color_inside": "#ffffff",
+        "text_color_outside": "#000000"
+      }
+    },
+    "17622240984208b0d5": {
+      "type": "apps",
+      "blocks": {
+        "vizup_shoppable_video_carousel_videos_block_mcYG3F": {
+          "type": "shopify://apps/vizup-videos/blocks/videos-block/eaecaa7b-ab6b-40ae-8ddf-50daa867f3eb",
+          "settings": {
+            "videoc_widget_id": "",
+            "custom_css": ""
+          }
+        }
+      },
+      "block_order": [
+        "vizup_shoppable_video_carousel_videos_block_mcYG3F"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "testimonials_YEVBHF": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_8gw9eL": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 5,
+            "author": "Kenevo",
+            "title": "Fabulous ergonomic gaming chair",
+            "content": "<p>This chair not only looks very nice, it is also very versatile to adjust.<br/>On other chairs, I couldn't play for longer than 2 hours without getting neck and back pain. With the Autofull G7, I can sit on it all day and feel absolutely nothing, no pain or anything.<br/></p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_AdTWCV": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 5,
+            "author": "Ovidiu44",
+            "title": "Very satisfied!",
+            "content": "<p>Everything is as expected, quality materials, a premium and very comfortable gaming chair<br/>Worth the investment 100%<br/>The support service is prompt and very helpful.</p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_AYTJCb": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 5,
+            "author": "Spotjuh",
+            "title": "Autofull M6 Ultra",
+            "content": "<p>I didn't know what to expect from this chair at all but I'm so glad i have bought it. I was afraid that the seat cushion would be to firm but you really sit like a King on a throne.I really liked the manual aswell i understood everything. </p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_KwQpec": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Pedro S",
+            "title": "5 stars, for now.",
+            "content": "<p>So as of right now im giving it a 5 star review due to the resolution of an issue i had with the purchase of a c3 pro chair in black. When i bought it on the website it stated it had stock but a few days later after contacting support for not getting the tracking nr they told me they would only have stock of that chair in mid September. </p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_fUx6BP": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Johan",
+            "title": "Satisfied",
+            "content": "<p>Great updates on shipping, easy and fast delivery. There is one thing I would like to point out that was not easy about the delivery. Swedish PostNord don't help more than leaving the package out on the curb. I would have expected them to at least get them inside the building, maybe even to the elevator, but no. </p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_NQNwRP": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Johan",
+            "title": "Extremely happy",
+            "content": "<p>This is a first impression of mine and my wife's C3's which arrived yesterday evening. We have assembled the chairs and done some initial gaming and feeling how and if they work for us since after all they are our new work-space in competitive gaming which I've been part of for a very long time while my wife only started her career in gaming ~12 years ago.</p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_WQDXbB": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Jason R., Austin, TX",
+            "title": "Comfort, Support, and Features You Didn’t Know You Needed",
+            "content": "<p>I’ve been using the M6 for about a month now, and honestly, it ticks almost every box. The lumbar support is next level — it actually moves with me when I shift positions, which is something I didn’t even know I needed until now. <br/></p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_jKGVRd": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Tony",
+            "title": "Very nice chair",
+            "content": "<p>The chair is very confy, and you can feel the quality of the chair.<br/>The funcions that the chair has are absolutly incredible and i finally found a chair that is good for my back.</p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_UTf7ti": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 5,
+            "author": "Lukas",
+            "title": "Auto Full M6 Ultra",
+            "content": "<p>Also ich muss sagen das ist der beste Gamingstuhl auf den ich mich je hingesetzt habe, die Features sind alle Traumhaft also für den Preis finde ich das in Ordnung ich werde ab sofort nur noch mir Autofull Produkte kaufen Vielen dank Liebe AutoFull Community für die Top Qualität.</p>",
+            "more_url": ""
+          }
+        },
+        "testimonial_y88tnB": {
+          "type": "testimonial",
+          "settings": {
+            "round_avatar": true,
+            "show_rating": true,
+            "rating": 4,
+            "author": "Tuukka",
+            "title": "Arrived incredibly quickly!",
+            "content": "<p>Arrived incredibly quickly!, and assembly was really easy too with great video tutorial! I've used the chair right away and I've been liked it! 5 stars!</p>",
+            "more_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_8gw9eL",
+        "testimonial_AdTWCV",
+        "testimonial_AYTJCb",
+        "testimonial_KwQpec",
+        "testimonial_fUx6BP",
+        "testimonial_NQNwRP",
+        "testimonial_WQDXbB",
+        "testimonial_jKGVRd",
+        "testimonial_UTf7ti",
+        "testimonial_y88tnB"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "full_width": true,
+        "stack_testimonials": true,
+        "subheading": "",
+        "title": "Testimonials",
+        "content": "",
+        "link_url": "",
+        "link_text": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "testimonial_card_background": "",
+        "testimonial_card_text_color": ""
+      }
+    },
+    "kiks_banner_with_logo_list_L899Xp": {
+      "type": "kiks-banner-with-logo-list",
+      "blocks": {
+        "logo_ixdzdV": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/1_6a3d8e2d-b2d7-4bd3-94c3-73c44d7c191f.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_hjY74V": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/8ba62420ab6324e3488bc00000f1bd01.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_YAjXFX": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/10_d74004c7-19bd-4015-8512-805fba37f20d.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_9qMngN": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/6_cae6e5d1-45b6-4cd6-b6df-4a51cbc5f8cf.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_iDKGBf": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/7_c491146a-36d7-4be5-a261-8db46512eeb5.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_BXFQGK": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/2_883ac861-0298-4b32-aa27-4ca75cf9cdc0.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_JRcUwz": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/8_c06b2f24-d116-4d65-b1a7-8ce06c6c1e0d.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_jqBjkC": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/11_804a2e49-4988-41c2-b605-10369e5566c0.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_M6n9mY": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/img_v3_02rb_2716ec93-d355-4ebf-84cb-6cfcf74e084g.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_nQ8Pmr": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/img_v3_02rb_1c852596-bc71-480c-b22a-e7645435854g.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_ENEx46": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/5_2ac68715-caa1-4f0f-af11-670fab41feee.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        },
+        "logo_EcXN4G": {
+          "type": "logo",
+          "settings": {
+            "logo": "shopify://shop_images/9_839dc4f3-a17c-42c6-a313-04511e996bde.png",
+            "logo_width": 140,
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_ixdzdV",
+        "logo_hjY74V",
+        "logo_YAjXFX",
+        "logo_9qMngN",
+        "logo_iDKGBf",
+        "logo_BXFQGK",
+        "logo_JRcUwz",
+        "logo_jqBjkC",
+        "logo_M6n9mY",
+        "logo_nQ8Pmr",
+        "logo_ENEx46",
+        "logo_EcXN4G"
+      ],
+      "name": "Kiks Banner with logo",
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/why.webp",
+        "mobile_image": "shopify://shop_images/app_5c61e65b-f385-46e3-9848-d7cad0a6ae6d.jpg",
+        "enable_loop": true,
+        "auto_slide": true,
+        "speed_slider": 3000,
+        "text_subheading": "",
+        "text_heading": "AWARDS",
+        "font_style": "italic",
+        "heading_color": "#ffffff",
+        "heading_tag": "h1",
+        "content": "<p><br/>With over 50,000 five-star reviews and multiple prestigious awards, the excellence of AutoFull gaming chairs is no accident. Discover the proof through in-depth media features and authentic testimonials from a global community of gamers and professionals.</p>",
+        "style": "fill",
+        "size": "lg",
+        "text_btn": "",
+        "url": "",
+        "background": "",
+        "text_color_btn": "",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "news_position": "center",
+        "enable_custom_width": false,
+        "overlay_width": 780,
+        "full_width_content": false,
+        "enable_gap": false,
+        "desktop_gap": 100,
+        "mobile_gap": 48,
+        "enable_gradient": false,
+        "overlay_gradient": "",
+        "enable_gradient_mobile": false,
+        "overlay_gradient_mobile": "",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "17622245939fef36b2": {
+      "type": "apps",
+      "blocks": {
+        "trustoo_io_reviews_ai_summary_qyBVTa": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/ai-summary/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "product": ""
+          }
+        },
+        "trustoo_io_reviews_review_widget_ajUQFY": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "product": "autofull-m6-ultra-black-gaming-chair-massage"
+          }
+        }
+      },
+      "block_order": [
+        "trustoo_io_reviews_ai_summary_qyBVTa",
+        "trustoo_io_reviews_review_widget_ajUQFY"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "collection_list_anQBNq": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_H4pCNF": {
+          "type": "collection",
+          "settings": {
+            "collection": "m-series",
+            "image": "shopify://shop_images/M6_Series.jpg",
+            "subheading": "",
+            "title": "",
+            "url": "",
+            "heading_tag": "h2",
+            "text_position": "place-self-center text-center",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_9gadwD": {
+          "type": "collection",
+          "settings": {
+            "collection": "conquer-series",
+            "image": "shopify://shop_images/collection-product-card-2.png",
+            "subheading": "",
+            "title": "",
+            "url": "",
+            "heading_tag": "h2",
+            "text_position": "place-self-center text-center",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        },
+        "collection_ABaeC9": {
+          "type": "collection",
+          "settings": {
+            "collection": "autofull-g5-series",
+            "image": "shopify://shop_images/collection-product-card-1.png",
+            "subheading": "",
+            "title": "",
+            "url": "",
+            "heading_tag": "h2",
+            "text_position": "place-self-center text-center",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 30
+          }
+        }
+      },
+      "block_order": [
+        "collection_H4pCNF",
+        "collection_9gadwD",
+        "collection_ABaeC9"
+      ],
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "stack_collections": true,
+        "collections_per_row_mobile": "1",
+        "collections_per_row": 3,
+        "show_progress_bar": false,
+        "custom_layout_mob": false,
+        "overflow_layout": true,
+        "overflow_mobile": true,
+        "show_arrow": false,
+        "desktop_gap": 20,
+        "mobile_gap": 16,
+        "subheading": "",
+        "title": "Why Autofull",
+        "content": "<p>Your team deserves better chairs. Autofull—ergonomic support for all-day work</p>",
+        "link_url": "shopify://collections/all",
+        "link_text": "View all",
+        "background": "#000000",
+        "background_gradient": "",
+        "text_color": "#f6f6f6",
+        "heading_color": "#f6f6f6",
+        "heading_gradient": "",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "padding_top_mob": 24,
+        "padding_bottom_mob": 24
+      }
+    },
+    "contact_aLFKir": {
+      "type": "contact",
+      "disabled": true,
+      "settings": {
+        "full_width": true,
+        "subheading": "Contact Us",
+        "title": "Save Big for Your Business",
+        "content": "",
+        "text_position": "start",
+        "contact_form_size": "large",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "contact_background": "",
+        "contact_text_color": "",
+        "button_background": "",
+        "button_text_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "images_with_text_scrolling_P4kDTc",
+    "kiks_media_wy77re",
+    "kiks_slideshow_pwF633",
+    "kik_about_player_3YPcMg",
+    "kik_testimoniales_hyt8JN",
+    "kik_about_player_P6RzhF",
+    "kik_testimoniales_ecLwQD",
+    "revealed_image_on_scroll_yDjmyY",
+    "17622240984208b0d5",
+    "testimonials_YEVBHF",
+    "kiks_banner_with_logo_list_L899Xp",
+    "17622245939fef36b2",
+    "collection_list_anQBNq",
+    "contact_aLFKir"
+  ]
+}

@@ -1,0 +1,320 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_xaQLL6": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_Kzgcew": {
+          "type": "heading",
+          "settings": {
+            "text": "EXPERIENCE AUTOFULL",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_NEpGdN": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Experience the Autofull difference firsthand!  Immerse yourself in our showroom and discover the superior comfort, ergonomic design, and premium quality that makes our gaming furniture the ultimate upgrade for any setup – feel the difference, game the difference.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_Kzgcew",
+        "richtext_NEpGdN"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "md",
+        "image": "shopify://shop_images/20240910-165935.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 62
+      }
+    },
+    "media_grid_HL3eW9": {
+      "type": "media-grid",
+      "blocks": {
+        "image_8XJyag": {
+          "type": "image",
+          "settings": {
+            "title": "FREQUENTLY ASKED QUESTIONS",
+            "heading_tag": "h6",
+            "link_url": "shopify://pages/autofull-faq",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_ecB7tp": {
+          "type": "image",
+          "settings": {
+            "title": "TRACK YOUR ORDER",
+            "heading_tag": "h6",
+            "link_url": "https://autofull.com/apps/17TRACK",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_c6MRH9": {
+          "type": "image",
+          "settings": {
+            "title": "SHIPPING POLICY",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/shipping-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_Nc8k9H": {
+          "type": "image",
+          "settings": {
+            "title": "RETURN POLICY",
+            "heading_tag": "h6",
+            "link_url": "shopify://policies/refund-policy",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 1,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#f6f6f6",
+            "button_text_color": "#ed1c22",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_8XJyag",
+        "image_ecB7tp",
+        "image_c6MRH9",
+        "image_Nc8k9H"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 150,
+        "mobile_row_height": 190,
+        "background": "",
+        "background_gradient": ""
+      }
+    },
+    "media_with_text_XYNPny": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_DbDJj9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/693480324d299747490194566b5d100f.jpg",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "COME VISIT US",
+            "title": "YOUR FRONT-ROW SEAT TO HOMEGROWN SETUP EXPERTISE",
+            "content": "<p>Visit the AutoFull showroom and experience first-hand our full suite of award-winning ergonomic solutions, designed to support you across everything you do today. For a better and more personalized experience, please make a booking before you arrive.</p><p><strong>Want the best experience? Book an appointment before you arrive.</strong></p><ul><li>Try before you buy</li><li>Get personalized shopping advice and ergonomic tips</li><li>Be the first to try new products</li></ul>",
+            "link_text": "FIND US",
+            "link_url": "https://maps.app.goo.gl/VCfKbvZvgHPHW8JW9",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_DbDJj9"
+      ],
+      "settings": {
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "small"
+      }
+    },
+    "text_with_icons_zcFMTd": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_LJK4JC": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-timer",
+            "mobile_icon_width": 24,
+            "icon_width": 60,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "#ed1c22",
+            "title": "Opening Hours",
+            "content": "<p>Monday to Sunday, 10am - 8pm<br/>(Appointments preferred)<br/>Open on all Public Holidays.</p>"
+          }
+        },
+        "item_pPLwnB": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-phone",
+            "mobile_icon_width": 24,
+            "icon_width": 60,
+            "icon_background_type": "none",
+            "icon_background": "#ed1c22",
+            "icon_color": "#ed1c22",
+            "title": "Delivery & Order Enquiries",
+            "content": "<p>Telephone: +65 6341 5032</p>"
+          }
+        },
+        "item_KQAAxC": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-pin",
+            "mobile_icon_width": 24,
+            "icon_width": 60,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "#ed1c22",
+            "title": "Address",
+            "content": "<p>60 N Circular Rd., London NW10 7PN, UK</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_LJK4JC",
+        "item_pPLwnB",
+        "item_KQAAxC"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "AUTOFULL GLOBAL HQ AND R&D CENTRE",
+        "heading_tag": "h5",
+        "text_alignment": "start",
+        "icon_spacing": "medium",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "faq_JXi6qh": {
+      "type": "faq",
+      "blocks": {
+        "item_9ieFiL": {
+          "type": "item",
+          "settings": {
+            "title": "Public Transport Directions",
+            "content": "<h6><strong>From Braddell MRT</strong></h6><ol><li>Take <strong>Exit A</strong> at Braddell MRT Station.</li><li>Follow the direction of traffic and turn left when you see Block 107.</li><li>Walk straight towards the roundabout and go down the stairs towards Block 206.</li><li>Cut across Block 206 and head towards Block 1008.</li><li>Walk towards the main road and turn left.</li><li>Continue for 150m. <strong>351 On Braddell</strong> will be on your left.</li><li>Enter the compound and register with the security guard.</li><li>Take the lift up to <strong>Level 5</strong>. Welcome to Secretlab!</li></ol><h6><strong>By Bus</strong></h6><ol><li>Alight at <strong>Braddell Road Block 1004</strong>. Bus services available at this stop are <strong>93, 157, and 163</strong>.</li><li>Follow the direction of the traffic and walk for about 200m to <strong>351 On Braddell</strong>.</li><li>Enter the compound and register with the securit</li></ol>"
+          }
+        },
+        "item_D6PkMk": {
+          "type": "item",
+          "settings": {
+            "title": "Driving Directions",
+            "content": "<h6>From Braddell Rd</h6><ol><li>Keep left on Braddell Rd. Look out for a signboard with <strong>351 on Braddell</strong> on it.</li><li>Turn left into the entrance of 351 on Braddell.</li><li>Turn left into the compound and head to the Level 2 Carpark.</li><li>Park and take the lift up to <strong>Level 5</strong>. Welcome to Secretlab!</li></ol>"
+          }
+        },
+        "item_YbXiTR": {
+          "type": "item",
+          "settings": {
+            "title": "What can I expect to see at the Autofull Showroom?",
+            "content": "<p>We're all about letting you <em>experience</em> the Autofull difference.  Come on down and you'll get to try out our full range of gaming chairs, desks, and accessories firsthand.  Sit in 'em, adjust 'em, feel the premium materials, and see what makes Autofull the ultimate upgrade for your setup.  Our team will also be on hand to answer any questions you have and help you find the perfect gear to level up your game.  Think of it as your chance to get hands-on with greatness!</p>"
+          }
+        },
+        "item_G4Ez6M": {
+          "type": "item",
+          "settings": {
+            "title": "Do I need to book an appointment to visit the Showroom?",
+            "content": "<p>While appointments aren't strictly required, we highly recommend booking one, especially if you're planning on visiting during peak hours or want a dedicated consultation with one of our experts.  This way, we can ensure you get the full Autofull experience and have ample time to explore our products. </p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_9ieFiL",
+        "item_D6PkMk",
+        "item_YbXiTR",
+        "item_G4Ez6M"
+      ],
+      "settings": {
+        "full_width": true,
+        "subheading": "",
+        "title": "FREQUENTLY ASKED QUESTIONS",
+        "content": "",
+        "team_avatar_width": 160,
+        "support_hours": "Our customer support is available Monday to Friday: 8am-8:30pm.",
+        "answer_time": "Average answer time: 24h",
+        "button_text": "",
+        "button_url": "",
+        "text_position": "start",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "accordion_background": "",
+        "accordion_text_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_xaQLL6",
+    "media_grid_HL3eW9",
+    "media_with_text_XYNPny",
+    "text_with_icons_zcFMTd",
+    "faq_JXi6qh"
+  ]
+}

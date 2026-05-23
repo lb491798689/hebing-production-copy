@@ -1,0 +1,199 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_xaQLL6": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_yXnJ7t": {
+          "type": "heading",
+          "settings": {
+            "text": "Certifications",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_mfmKXa": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Autofull certifications guarantee top-tier quality and performance, giving gamers the confidence that their gear is built to last and optimized for peak gameplay.  These badges of honor represent our commitment to excellence, ensuring every product meets rigorous standards for comfort, durability, and ergonomic support, so you can focus on dominating the game.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_yXnJ7t",
+        "richtext_mfmKXa"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "md",
+        "image": "shopify://shop_images/5_3d912e48-2013-4ca3-8469-c07ff073334b.png",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-end-start sm:text-start",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 57
+      }
+    },
+    "multi_column_Mn3LWe": {
+      "type": "multi-column",
+      "blocks": {
+        "item_3hy8QT": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/1-KV.jpg",
+            "column_size": "2",
+            "title": "Sit in absolute peace with Class 4 Hydraulics",
+            "heading_tag": "h4",
+            "content": "<p>To enable you to sit with absolute peace of mind, each AutoFull chair features class 4 heavy duty SGS gas pistons-best in class for consistency, stability, and safety, including safety certifica- tions With authorized party mark to trace back manufacture; Higher pure nitrogen; Upgraded thicker gas lift</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_RmD6rY": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/2_c4f325db-7e97-4415-b2fa-be12d7588327.jpg",
+            "column_size": "2",
+            "title": "Get incredible stability with the AutoFull Wheel Base",
+            "heading_tag": "h4",
+            "content": "<p>Constructed to provide impeccable stability and strength, each wheelbase is not just perfectly balanced but reinforced with ribs and gussets as well.Glide smoothly over most surfaces without worry as the AutoFull Racing Caster wheels are made to be durable yet floor-friendly.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_3hy8QT",
+        "item_RmD6rY"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "start",
+        "subheading": "",
+        "title": "",
+        "content": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "rich_text_jEqiCJ": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_epD9QQ": {
+          "type": "heading",
+          "settings": {
+            "text": "Hydraulics",
+            "heading_tag": "h1",
+            "text_color": "",
+            "gradient": ""
+          }
+        },
+        "richtext_9VVhN9": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Experience world-class assurance as the class 4 hydraulics featured in each AutoFull chair has received certifications from multiple internationally-renowned authorities. From the industry’s most stringent processes, to the most rigorous tests, this crucial component has been approved by SGS and Class 4.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_epD9QQ",
+        "richtext_9VVhN9"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "large",
+        "text_position": "center",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_grid_NFMTJm": {
+      "type": "media-grid",
+      "blocks": {
+        "image_zNnh7w": {
+          "type": "image",
+          "settings": {
+            "title": "SGS Certification",
+            "heading_tag": "h4",
+            "link_url": "",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 2,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#ed1c22",
+            "button_text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_NjYVHf": {
+          "type": "image",
+          "settings": {
+            "title": "Class 4 Certification",
+            "heading_tag": "h4",
+            "link_url": "https://cdn.shopify.com/s/files/1/0303/9805/4531/files/AutoFull_Hydraulics_class4_certificate.pdf?v=1629364320",
+            "link_text": "Learn More",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 2,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "#ed1c22",
+            "button_text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_zNnh7w",
+        "image_NjYVHf"
+      ],
+      "settings": {
+        "full_width": true,
+        "reduce_width": false,
+        "desktop_row_height": 200,
+        "mobile_row_height": 150,
+        "background": "#f6f6f6",
+        "background_gradient": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_xaQLL6",
+    "multi_column_Mn3LWe",
+    "rich_text_jEqiCJ",
+    "media_grid_NFMTJm"
+  ]
+}

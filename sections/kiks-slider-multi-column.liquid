@@ -1,0 +1,833 @@
+{%- if section.blocks.size > 0 -%}
+    {%- render 'section-spacing-collapsing' -%}
+    {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+    {%- assign  padding_top = section.settings.padding_top | append:'px' -%}
+    {%- assign  padding_bottom = section.settings.padding_bottom | append:'px' -%}
+    
+    {%- assign padding_mobile_top = section.settings.padding_top_mob | append: 'px' -%}
+    {%- assign padding_mobile_bottom = section.settings.padding_bottom_mob | append: 'px' -%}
+
+
+    {%- assign item_title_size = section.settings.item_title_size | split: ';' -%}
+    {%- assign item_description_size = section.settings.item_description_size | split: ';' -%}
+    {% style %}
+     {{ section_identifier }} .section{
+        padding-top: {{padding_top}};
+        padding-bottom: {{padding_bottom}};
+        overflow: hidden;
+      }
+    .kiks-multi-column-swiper .swiper-pagination {
+        z-index: 1;
+    }
+    
+      .kiks-top-content {
+            display: flex;
+      }
+      .jingva-section-{{section.id}}{
+        overflow: hidden;
+      }
+      .jingva-section-{{section.id}} .kiks-section-text {
+            flex: 1;
+       }
+       .jingva-section-{{section.id}} .kiks-section-text .prose h2, 
+       .jingva-section-{{section.id}} .kiks-section-text .prose p {
+            margin: 0;
+        }
+      .jingva-section-{{section.id}} .kiks-arrow-group {
+            flex: 0 0 115px;
+            z-index: 1;
+            position: relative;
+            
+            gap: 24px;
+       }
+       .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .swiper-slide.multi-column__item img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;    
+            aspect-ratio: {{ section.settings.image_ratio }}; 
+            border-radius: 0px;
+       }
+       .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .swiper-slide{
+        background: {{ section.settings.background_item }};
+      }
+
+       .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next, 
+       .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev {
+            display: flex;
+            position:relative;
+            top:auto;
+            left:auto;
+            right:auto;
+            width: 48px;
+            height: 48px;
+            border: 1px solid {{ section.settings.text_color }};
+            border-radius: 100%;
+            overflow: hidden;
+            transition: background-color 0.3s ease; /* Smooth transition for background */
+            background-color: transparent; /* Set initial background color to transparent */
+            color:#000;
+            
+        }
+        
+      .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next[aria-disabled="true"], 
+      .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev[aria-disabled="true"] {
+        color:#D3D3D3;
+        border-color:#D3D3D3;
+       }
+      .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next[aria-disabled="true"]:after, 
+      .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev[aria-disabled="true"]:after {
+        color:#D3D3D3;
+       }
+
+       /* 移动端more/less功能样式 */
+       @media screen and (max-width: 767px) {
+         .jingva-section-{{section.id}} .jingva-content-text {
+           position: relative;
+         }
+         
+         .jingva-section-{{section.id}} .jingva-content-text .content-paragraph {
+           display: -webkit-box;
+           {% if section.settings.show_more_btn_mobile %}
+           -webkit-line-clamp: 2;
+           -webkit-box-orient: vertical;
+           overflow: hidden;
+           {% endif %}
+           transition: all 0.3s ease;
+           position: relative;
+         }
+         
+         .jingva-section-{{section.id}} .jingva-content-text .content-paragraph.expanded {
+           display: block;
+           -webkit-line-clamp: unset;
+           overflow: visible;
+         }
+         
+         .jingva-section-{{section.id}} .jingva-content-text .more-less-btn {
+           color: #8F8F8F;
+           cursor: pointer;
+           font-weight: 500;
+           display: inline-block !important;
+           margin-left: 2px;
+           position:absolute;
+           bottom: 0;
+           right: 0;
+           z-index: 1;
+           background: {{ section.settings.background_item }};
+         }
+         .jingva-section-{{section.id}} .jingva-content-text .more-less-btn:hover{
+          color: {{ section.settings.item_description_text_color }};
+        }
+
+       }
+
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next:after, 
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev:after {
+            font-size: 14px;
+            color: {{ section.settings.text_color }};  /* Keep the arrow color the same initially */
+            transition: color 0.3s ease; /* Transition only for the arrow color */
+        }
+
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next:hover,
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev:hover {
+            background-color: {{ section.settings.text_color }}; /* Change background to black on hover */
+            
+        }
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next:hover:after, 
+        .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev:hover:after {
+            color: {{ section.settings.background }};
+        }
+      
+        
+        .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .swiper-pagination span.swiper-pagination-bullet {
+              background: #ED1C22;
+        }
+        .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .swiper-pagination span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+            background: #ED1C22;
+        }
+        .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box {
+          gap:24px;
+          padding:24px;
+        }
+        .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box .h4{
+          color: {{ section.settings.text_color }};
+          font-style: normal;
+          font-size: {{ item_title_size[0] }};
+          font-family: 'HarmonyOS Sans SC', sans-serif;
+          font-weight: 700;
+          line-height: 1.2;
+        }
+        .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box .prose p{
+          color: {{ section.settings.item_description_text_color }};
+          font-style:normal;
+          font-size: {{ item_description_size[0] }};
+        }
+
+        .jingva-section-{{section.id}}.section-stack{
+          gap: 50px;
+        }
+
+        /* 切换箭头定位 */
+        {% if section.settings.arrow_position != 'top-right' %}
+        .jingva-section-{{section.id}} .swiper-button-next, 
+        .jingva-section-{{section.id}} .swiper-button-prev{
+            position: relative;
+
+        }
+        .jingva-section-{{section.id}} .swiper-button-next{
+          right:0;
+        }
+        .jingva-section-{{section.id}} .swiper-button-prev{
+          left:0;
+        }
+        .jingva-section-{{section.id}} .kiks-arrow-group {
+          display:flex;
+          justify-content: {{ section.settings.bottom_arrow_position }};
+          align-items: center;
+          gap: 24px;
+          height: 52px;
+        }
+        {% endif %}
+
+        @media only screen and (max-width: 768px) {
+         
+            {{ section_identifier }} .section{
+              padding-top: {{ padding_mobile_top }};
+              padding-bottom: {{ padding_mobile_bottom }};
+            }
+            .jingva-section-{{section.id}}{
+              overflow: visible;
+            }
+            .jingva-section-{{section.id}} .kiks-arrow-group {
+              justify-content: {{ section.settings.bottom_arrow_position_mobile }};
+              gap: 12px;
+            }
+            .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-next, 
+            .jingva-section-{{section.id}} .kiks-arrow-group .swiper-button-prev {
+              width: 32px;
+              height: 32px;
+            }
+            .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box{
+              padding: 16px;
+              gap: 12px;
+            }
+            .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box .h4{
+              font-size: {{ item_title_size[1] }};
+            }
+            .jingva-section-{{section.id}} kiks-multi-column-swiper.kiks-multi-column-swiper .jingva-title-box .prose p{
+              font-size: {{ item_description_size[1] }};
+            }
+
+            .jingva-section-{{section.id}}.section-stack{
+              gap: 27px;
+            }
+  
+        }
+       
+    {% endstyle %}
+  
+    <div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %}{% render 'section-properties' %}>
+      <div class="section-stack jingva-section-{{section.id}}">
+        {% if section.settings.show_heading %}
+          <div class="kiks-top-content">
+             {% if section.settings.subheading != blank or section.settings.title != blank or section.settings.content != blank %}
+              <div class="kiks-section-text">
+                  {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content, text_alignment: section.settings.text_alignment -%}
+              </div>
+              {% endif %}
+              <div class="kiks-arrow-group">
+                  <div class="swiper-button-prev"></div>
+                  <div class="swiper-button-next"></div>
+              </div>
+          </div>
+        {% endif %}
+        <kiks-multi-column-swiper class="kiks-multi-column-swiper">
+            <div class="swiper-wrapper multi-column">
+            {%- for block in section.blocks -%}
+                {%- liquid
+                assign loading_strategy = nil
+        
+                if section.index > 3 or forloop.index > 3
+                    assign loading_strategy = 'lazy'
+                endif
+                -%}
+    
+                {%- case block.type -%}
+                {%- when 'item' -%}
+                    <div class="swiper-slide multi-column__item justify-{{ section.settings.text_alignment }}"  {{ block.shopify_attributes }}>
+                    {%- if block.settings.video != blank -%}
+                        <video-media autoplay style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}">
+                        {{ block.settings.video | video_tag: playsinline: true, muted: true, loop: true, preload: 'metadata', class: 'rounded' }}
+                        </video-media>
+                    {%- elsif block.settings.image != blank -%}
+                        {%- capture sizes -%}(max-width: 699px) calc(73vw - 40px), (max-width: 999px) calc(38vw - 64px), calc(min({{ settings.page_width }}px, 100vw) / {{ block.settings.column_size }}){%- endcapture -%}
+                        {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading_strategy, sizes: sizes, widths: '300,400,500,600,800,1000,1200,1400,1600,1800', class: 'rounded' -}}
+                    {%- endif -%}
+    
+                    {%- if block.settings.title != blank or block.settings.content != blank or block.settings.link_text != blank -%}
+                        <div class="v-stack gap-4 text-{{ section.settings.text_alignment }} jingva-title-box">
+                        {%- if block.settings.title != blank -%}
+                            <p class="{{ block.settings.heading_tag }}" style="color: {{ block.settings.small_heading_color }};">{{ block.settings.title | escape }}</p>
+                        {%- endif -%}
+    
+                        {%- if block.settings.content != blank or block.settings.link_text != blank -%}
+                            <div class="prose">
+                            <div class="jingva-content-text">
+                                <div class="content-paragraph">
+                        {{- block.settings.content -}}  {% if section.settings.show_more_btn_mobile %}<span class="more-less-btn">...more></span>{% endif %}
+                                </div>
+                            </div>
+
+                            {%- if block.settings.link_text != blank -%}
+                                <div>
+                                {%- if block.settings.link_style == 'link' -%}
+                                    <a href="{{ block.settings.link_url }}" class="link">{{ block.settings.link_text | escape }}</a>
+                                {%- else -%}
+                                    {%- render 'button', href: block.settings.link_url, content: block.settings.link_text, size: 'lg' -%}
+                                {%- endif -%}
+                                </div>
+                            {%- endif -%}
+                            </div>
+                        {%- endif -%}
+                        </div>
+                    {%- endif -%}
+                    </div>
+                {%- endcase -%}
+            {%- endfor -%}
+            </div>
+
+            {% if section.settings.show_dot %}
+              <div class="swiper-pagination"></div>
+            {% endif %}
+
+           
+        </kiks-multi-column-swiper>
+        {% if section.settings.show_arrow %}
+          <div class="kiks-arrow-group">
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {% if section.settings.show_more_btn_mobile %}
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查文本是否超过两行的函数
+      function checkTextOverflow() {
+        const contentTexts = document.querySelectorAll('.jingva-section-{{section.id}} .jingva-content-text');
+        
+        contentTexts.forEach(function(contentText) {
+          const paragraph = contentText.querySelector('.content-paragraph');
+          const moreBtn = contentText.querySelector('.more-less-btn');
+          
+          if (!paragraph || !moreBtn) {
+            console.log('Missing paragraph or moreBtn:', paragraph, moreBtn);
+            return;
+          }
+          
+          // 先隐藏按钮，避免影响测量
+          moreBtn.style.display = 'none';
+          
+          // 获取原始文本内容（不包含按钮）
+          const originalContent = paragraph.innerHTML.replace(/<span class="more-less-btn"[^>]*>.*?<\/span>/g, '');
+          
+          // 创建临时元素来测量实际高度
+          const tempDiv = document.createElement('div');
+          tempDiv.style.cssText = `
+            position: absolute;
+            visibility: hidden;
+            height: auto;
+            width: ${paragraph.offsetWidth}px;
+            font-size: ${getComputedStyle(paragraph).fontSize};
+            font-family: ${getComputedStyle(paragraph).fontFamily};
+            font-weight: ${getComputedStyle(paragraph).fontWeight};
+            line-height: ${getComputedStyle(paragraph).lineHeight};
+            letter-spacing: ${getComputedStyle(paragraph).letterSpacing};
+            word-spacing: ${getComputedStyle(paragraph).wordSpacing};
+            white-space: normal;
+            overflow: visible;
+            padding: 0;
+            margin: 0;
+            border: 0;
+          `;
+          
+          tempDiv.innerHTML = originalContent;
+          document.body.appendChild(tempDiv);
+          
+          const lineHeight = parseFloat(getComputedStyle(paragraph).lineHeight);
+          const fontSize = parseFloat(getComputedStyle(paragraph).fontSize);
+          const actualLineHeight = lineHeight || fontSize * 1.2;
+          const twoLineHeight = actualLineHeight * 2;
+          
+          const actualHeight = tempDiv.scrollHeight;
+          
+          document.body.removeChild(tempDiv);
+          
+          console.log('Text height check:', {
+            actualHeight: actualHeight,
+            twoLineHeight: twoLineHeight,
+            shouldShowMore: actualHeight > twoLineHeight + 2
+          });
+          
+          // 如果内容超过两行，显示more按钮
+          if (actualHeight > twoLineHeight + 2) { // 添加2px容差
+            moreBtn.textContent = '...more>';
+            
+            // 创建稳定的点击处理函数
+            function createClickHandler() {
+              return function(e) {
+                e.preventDefault();
+                if (paragraph.classList.contains('expanded')) {
+                  // 当前是展开状态，点击后收起
+                  paragraph.classList.remove('expanded');
+                  moreBtn.textContent = '...more>';
+                } else {
+                  // 当前是收起状态，点击后展开
+                  paragraph.classList.add('expanded');
+                  moreBtn.textContent = 'less>';
+                }
+              };
+            }
+            
+            moreBtn.onclick = createClickHandler();
+            console.log('More button shown');
+          } else {
+            moreBtn.style.display = 'none';
+            console.log('More button hidden - text fits in 2 lines');
+          }
+        });
+      }
+      
+      // 初始化检查
+      setTimeout(checkTextOverflow, 100);
+      
+      // 窗口大小变化时重新检查
+      window.addEventListener('resize', function() {
+        setTimeout(checkTextOverflow, 100);
+      });
+      
+      // Swiper初始化后重新检查
+      const swiperElement = document.querySelector('.jingva-section-{{section.id}} kiks-multi-column-swiper');
+      if (swiperElement) {
+        swiperElement.addEventListener('swiper-init', function() {
+          setTimeout(checkTextOverflow, 200);
+        });
+      }
+      
+      // 测试：确保按钮存在并可以点击
+      setTimeout(function() {
+        const testBtns = document.querySelectorAll('.jingva-section-{{section.id}} .more-less-btn');
+        console.log('Found more buttons:', testBtns.length);
+        testBtns.forEach(function(btn, index) {
+          console.log('Button', index, ':', btn);
+          if (!btn.onclick) {
+            btn.onclick = function(e) {
+              e.preventDefault();
+              const paragraph = btn.parentElement;
+              if (paragraph.classList.contains('expanded')) {
+                paragraph.classList.remove('expanded');
+                btn.textContent = '...more>';
+              } else {
+                paragraph.classList.add('expanded');
+                btn.textContent = 'less>';
+              }
+            };
+          }
+        });
+      }, 500);
+    });
+  </script>
+  {% endif %}
+  
+  {% schema %}
+  {
+    "name": "Kiks Slider Multi column",
+    "class": "shopify-section-kiks-slider-multi-column",
+    "tag": "section",
+    "disabled_on": {
+      "templates": ["password"],
+      "groups": ["header", "footer"]
+    },
+    "settings": [
+      {
+        "type": "text",
+        "id": "section_id",
+        "label": "Section ID",
+        "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same (id or name) in the (Kiks Section Navigation) section."
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "Text alignment",
+        "options": [
+          {
+            "value": "start",
+            "label": "Left"
+          },
+          {
+            "value": "center",
+            "label": "Center"
+          },
+          {
+            "value": "end",
+            "label": "Right"
+          }
+        ],
+        "default": "start"
+      },
+      
+      {
+        "type": "checkbox",
+        "id": "show_heading",
+        "label": "是否显示标题",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_dot",
+        "label": "是否显示Dot",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "image_ratio",
+        "label": "图片比例",
+        "default": "16 / 9",
+        "info": "16 / 9, 9 / 16, 4 / 3, 3 / 4, 1 / 1"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_more_btn_mobile",
+        "label": "移动端是否显示更多按钮",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_arrow",
+        "label": "是否显示箭头",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "arrow_position",
+        "label": "切换箭头定位",
+        "info": "切换箭头定位",
+        "default": "top-right",
+        "options": [
+          {
+            "value": "top-right",
+            "label": "顶部右边"
+          },
+          {
+            "value": "bottom-left",
+            "label": "底部左边"
+          },
+          {
+            "value": "bottom-center",
+            "label": "底部中间"
+          },
+          {
+            "value": "bottom-right",
+            "label": "底部右边"
+          }
+
+        ]
+    
+      },
+      {
+        "type": "select",
+        "id": "bottom_arrow_position",
+        "label": "底部箭头定位",
+        "info": "底部箭头定位",
+        "default": "center",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "left"
+          },
+          {
+            "value": "center",
+            "label": "center"
+          },
+          {
+            "value": "flex-end",
+            "label": "right"
+          },
+        ]
+    
+      },
+      {
+        "type": "select",
+        "id": "bottom_arrow_position_mobile",
+        "label": "底部箭头定位移动端",
+        "default": "flex-end",
+        "options": [
+          {
+            "value": "flex-start",
+            "label": "left"
+          },
+          {
+            "value": "center",
+            "label": "center"
+          },
+          {
+            "value": "flex-end",
+            "label": "right"
+          },
+        ]
+    
+      },
+      {
+        "type": "text",
+        "id": "subheading",
+        "label": "Subheading",
+        "default": "About"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured content"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content",
+        "default": "<p>Organize content into multiple columns to share useful information to your customers about your products, values...</p>"
+      },
+      {
+        "type": "header",
+        "content": "Colors",
+        "info": "Gradient replaces solid colors when set."
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+      {
+        "type": "color_background",
+        "id": "background_gradient",
+        "label": "Background gradient"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text"
+      },
+      
+      {
+        "type": "color",
+        "id": "item_description_text_color",
+        "label": "Item description text color",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "background_item",
+        "label": "Background item"
+      },
+      
+
+      {
+          "type": "header",
+          "content": "Kikstart size Settings"
+      },
+      
+      {
+        "type": "text",
+        "id": "item_title_size",
+        "label": "Item title size",
+        "default": "20px;17px",
+        "info": "desktop;mobile"
+      },
+      {
+        "type": "text",
+        "id": "item_description_size",
+        "label": "Item description size",
+        "default": "15px;15px",
+        "info": "desktop;mobile"
+      },
+      {
+          "type": "header",
+          "content": "Kikstart Spacing Settings"
+      },
+      {
+          "type": "range",
+          "id": "padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Padding top",
+          "default": 64
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "Padding Bottom",
+          "default": 64
+        },
+        {
+          "type": "range",
+          "id": "padding_top_mob",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "For Mobile Padding top",
+          "default": 48
+        },
+        {
+          "type": "range",
+          "id": "padding_bottom_mob",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "px",
+          "label": "For Mobile Padding Bottom",
+          "default": 48
+        }
+    ],
+    "blocks": [
+      {
+        "type": "item",
+        "name": "Item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+            "info": "16:9 aspect ratio recommended"
+          },
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video",
+            "info": "Video are muted automatically and will autoplay."
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Column title"
+          },
+          {
+            "type": "color",
+            "id": "small_heading_color",
+            "label": "Small heading color",
+            "default": "#ffffff",
+            "info": "小标题颜色"
+          },
+          {
+            "type": "select",
+            "id": "heading_tag",
+            "label": "Heading style",
+            "options": [
+              {
+                "value": "h1",
+                "label": "X-Large"
+              },
+              {
+                "value": "h2",
+                "label": "Large"
+              },
+              {
+                "value": "h3",
+                "label": "Medium"
+              },
+              {
+                "value": "h4",
+                "label": "Small"
+              },
+              {
+                "value": "h5",
+                "label": "X-Small"
+              },
+              {
+                "value": "h6",
+                "label": "XX-Small"
+              }
+            ],
+            "default": "h4"
+          },
+          {
+            "type": "richtext",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+          },
+          {
+            "type": "url",
+            "id": "link_url",
+            "label": "Link URL"
+          },
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "Link text"
+          },
+          {
+            "type": "select",
+            "id": "link_style",
+            "label": "Link style",
+            "options": [
+              {
+                "value": "link",
+                "label": "Link"
+              },
+              {
+                "value": "button",
+                "label": "Button"
+              }
+            ],
+            "default": "link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Kiks Slider Multi column",
+        "blocks": [
+          {
+            "type": "item",
+            "settings": {}
+          },
+          {
+            "type": "item",
+            "settings": {}
+          },
+          {
+            "type": "item",
+            "settings": {}
+          },
+          {
+            "type": "item",
+            "settings": {}
+          },
+          {
+            "type": "item",
+            "settings": {}
+          },
+          {
+            "type": "item",
+            "settings": {}
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}

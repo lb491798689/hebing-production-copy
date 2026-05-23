@@ -1,0 +1,307 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign theme = se_stts.theme | default: 'dark'
+  if theme == 'light'
+    assign theme_bg = '#FFFFFF'
+    assign title_color = '#0A0A0A'
+    assign desc_color = 'rgba(26, 26, 26, 0.60)'
+    assign desc_color_mob = 'rgba(26, 26, 26, 0.60)'
+  else
+    assign theme_bg = '#000000'
+    assign title_color = '#FFFFFF'
+    assign desc_color = 'rgba(255, 255, 255, 0.60)'
+    assign desc_color_mob = 'rgba(255, 255, 255, 0.60)'
+  endif
+  assign bg_color = se_stts.bg_color | default: theme_bg
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+-%}
+{% capture default_sid %}.jingva-m6-recline-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-m6-recline-{{ sid }}" data-section-id="{{ sid }}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: theme_bg }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      margin: 0 auto !important;
+      padding: 160px 0 0 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-content {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1920px !important;
+      margin: 0 auto 48px auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-title {
+      width: 100% !important;
+      max-width: 1200px !important;
+      color: {{ title_color }} !important;
+      text-align: center !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 64px !important;
+      font-style: normal !important;
+      font-weight: 900 !important;
+      line-height: 1.254 !important;
+      margin: 0 auto !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-m6-recline-description {
+      width: 100% !important;
+      max-width: 1080px !important;
+      color: {{ desc_color }} !important;
+      text-align: center !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-size: 24px !important;
+      font-style: normal !important;
+      font-weight: 400 !important;
+      line-height: 1.2em !important;
+      margin: 0 auto !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-image {
+      display: block !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-image.pc-image {
+      /* height: 100vh !important; */
+      aspect-ratio: 2 / 1 !important;
+      margin: 0 auto !important;
+    }
+
+    {{ default_sid }} .jingva-m6-recline-image.mob-image {
+      display: none !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-m6-recline-wrapper {
+        /* padding: 120px 32px 165px !important; */
+      }
+
+      {{ default_sid }} .jingva-m6-recline-title {
+        font-size: 48px !important;
+        line-height: normal !important;
+        text-align: center !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-description {
+        font-size: 20px !important;
+        line-height: normal !important;
+        text-align: center !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-image.mob-image {
+        /* display: block !important; */
+        height: 640px !important;
+        max-width: 100% !important;
+        margin: 0 auto !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: {{ bg_color_mob | default: theme_bg }} !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-wrapper {
+        padding: 96px 0 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-content {
+        margin-bottom: 24px !important;
+        gap: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-title {
+        flex-shrink: 0 !important;
+        align-self: stretch !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+        color: {{ title_color }} !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 32px !important;
+        font-style: normal !important;
+        font-weight: 900 !important;
+        line-height: 1.254 !important;
+        text-align: left !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-description {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+        color: {{ desc_color_mob }} !important;
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: 1.2em !important;
+        text-align: left !important;
+        word-break: break-word !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-image.pc-image {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-m6-recline-image.mob-image {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 390 / 475 !important;
+        margin: 0 auto !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-m6-recline-wrapper">
+    <div class="jingva-m6-recline-content">
+      <h2 class="jingva-m6-recline-title">{{ title | default: '160° recline for deep relaxation.' }}</h2>
+      <p class="jingva-m6-recline-description">{{ description | default: 'Beyond conventional recline, unlock near-flat comfort. Every part of your body is fully supported. 160° large recline transforms your chair into a gaming recliner — single-hand operation for easy switch between competitive posture and restful break. Multi-lock system fixes the chair at any angle between 90–160° for gaming or resting.' }}</p>
+    </div>
+
+    {% if se_stts.pc_image %}
+      <img class="jingva-m6-recline-image pc-image" src="{{ se_stts.pc_image | image_url: width: 2560 }}" srcset="{{ se_stts.pc_image | image_url: width: 1920 }} 1920w, {{ se_stts.pc_image | image_url: width: 2560 }} 2560w, {{ se_stts.pc_image | image_url: width: 3000 }} 3000w" sizes="100vw" alt="{{ title | default: '160° recline for deep relaxation.' }}" width="2560" height="1280">
+    {% endif %}
+    {% if se_stts.mob_image %}
+      <img class="jingva-m6-recline-image mob-image" src="{{ se_stts.mob_image | image_url: width: 780 }}" alt="{{ title | default: '160° recline for deep relaxation.' }}" width="390" height="540" loading="lazy">
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-m6-recline-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-m6-recline-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva M6 Recline",
+  "tag": "section",
+  "class": "jingva-m6-recline-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Theme",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark",
+      "info": "Light: bg #FFF, title #0A0A0A, description rgba(26,26,26,.6). Dark: existing black style. Background colors below override theme when set."
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "160° recline for deep relaxation."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Beyond conventional recline, unlock near-flat comfort. Every part of your body is fully supported. 160° large recline transforms your chair into a gaming recliner — single-hand operation for easy switch between competitive posture and restful break. Multi-lock system fixes the chair at any angle between 90–160° for gaming or resting."
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "PC Background Color (override theme)",
+      "info": "Leave blank to use theme default (#000 dark / #FFF light)."
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color (override theme)",
+      "info": "Leave blank to use PC background or theme default."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva M6 Recline",
+      "category": "Jingva"
+    }
+  ]
+}
+{% endschema %}

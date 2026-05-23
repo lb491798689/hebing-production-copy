@@ -1,0 +1,1367 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign hotspot_blocks = section.blocks
+  assign bg_color = se_stts.bg_color
+  assign title_color = se_stts.title_color
+  assign description_color = se_stts.description_color
+  assign padding_top = se_stts.padding_top
+  assign padding_bottom = se_stts.padding_bottom
+  assign padding_top_mob = se_stts.padding_top_mob
+  assign padding_bottom_mob = se_stts.padding_bottom_mob
+  assign has_hotspots = false
+  for block in hotspot_blocks
+    if block.type == 'hotspot'
+      assign has_hotspots = true
+      break
+    endif
+  endfor
+-%}
+{% capture default_sid %}.jingva-hotspots-{{ sid }}{% endcapture %}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-section-container jingva-hotspots-{{ sid }}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ======width: 11.25px;
+height: 11.281px;==================================
+     * Figma PC (1920px, node 2534-473) 详细参数:
+     * ========================================
+     *   section: w:1920, flex column, gap:48px
+     *   title: Orbitron 900 64px line-height:1.254 #FFFFFF uppercase center
+     *   subtitle: Gabarito 500 24px line-height:1.2 rgba(255,255,255,0.6) center
+     *   image: w:1920, h:960
+     *   hotspot dot: w:32, h:32, bg:#005EFF, backdropFilter: blur(40px)
+     *   popup dark: bg:rgba(0,0,0,0.6), blur:40px, br:12px
+     *   popup blue: bg:rgba(0,94,255,0.5), blur:50px, br:12px
+     *
+     * ========================================
+     * Figma MOB (390px, node 4188-2593) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:24px, p:68px 0
+     *   title: Orbitron 900 28px line-height:1.254 #FFFFFF uppercase center
+     *   subtitle: Gabarito 500 16px line-height:1.2 rgba(255,255,255,0.6) center
+     *   image: w:390, h:540
+     *   hotspot dot: w:24, h:24, bg:#005EFF, backdropFilter: blur(40px)
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121B2C' }} !important;
+      padding-top: {{ padding_top | default: 48 }}px !important;
+      padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-content {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding: 0 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 1.254 !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      max-width: {{ se_stts.title_max_width | default: '1200px' }} !important;
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-hotspots-title-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-title-mobile {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-hotspots-subtitle {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: {{ description_color | default: 'rgba(255, 255, 255, 0.6)' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: {{ se_stts.title_max_width | default: '1200px' }} !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-image-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: none !important;
+      height: auto !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+      z-index: 1 !important;
+    }
+
+    /* 背景图未就绪时不显示标记点，避免白屏阶段圆点漂在空白处 */
+    {{ default_sid }} .jingva-hotspots-image-container--await-bg .jingva-hotspots-hotspot {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-image {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      z-index: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-image img {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-hotspot {
+      position: absolute !important;
+      inset: 0 !important;
+      box-sizing: border-box !important;
+      pointer-events: none !important;
+    }
+
+    /* 未展开的热点整层压低，展开中的热点整层抬高，避免其它标记点的 z-index 压过当前弹窗 */
+    {{ default_sid }} .jingva-hotspots-hotspot:not(.active) {
+      z-index: 2 !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-hotspot.active {
+      z-index: 5000 !important;
+      isolation: isolate !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-hotspot .jingva-hotspots-dot {
+      pointer-events: auto !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-hotspot.active .jingva-hotspots-popup {
+      pointer-events: auto !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-dot {
+      position: absolute !important;
+      width: 32px !important;
+      height: 32px !important;
+      border-radius: 999px !important;
+      background-color: #005EFF !important;
+      backdrop-filter: blur(40px) !important;
+      -webkit-backdrop-filter: blur(40px) !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      z-index: 100 !important;
+      padding: 0 !important;
+      opacity: 1 !important;
+      transition: transform 0.38s cubic-bezier(0.34, 1.15, 0.64, 1), opacity 0.2s ease !important;
+      left: var(--pc-x, 50%) !important;
+      top: var(--pc-y, 50%) !important;
+      transform: translate(-50%, -50%) !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-dot:hover {
+      transform: translate(-50%, -50%) scale(1.1) !important;
+    }
+
+    /* 展开时：切换为 x 图标 */
+    {{ default_sid }} .jingva-hotspots-dot[aria-expanded="true"] {
+      z-index: 200 !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* + / x 切换：叠在一起做淡入+旋转过渡 */
+    {{ default_sid }} .jingva-hotspots-dot-icon-plus,
+    {{ default_sid }} .jingva-hotspots-dot-icon-cross {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      width: 15px !important;
+      height: 15px !important;
+      display: block !important;
+      transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.34, 1.15, 0.64, 1) !important;
+      pointer-events: none !important;
+    }
+    {{ default_sid }} .jingva-hotspots-dot-icon-plus {
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) rotate(0deg) !important;
+    }
+    {{ default_sid }} .jingva-hotspots-dot-icon-cross {
+      opacity: 0 !important;
+      transform: translate(-50%, -50%) rotate(-90deg) !important;
+    }
+    {{ default_sid }} .jingva-hotspots-dot[aria-expanded="true"] .jingva-hotspots-dot-icon-plus {
+      opacity: 0 !important;
+      transform: translate(-50%, -50%) rotate(90deg) !important;
+    }
+    {{ default_sid }} .jingva-hotspots-dot[aria-expanded="true"] .jingva-hotspots-dot-icon-cross {
+      opacity: 1 !important;
+      transform: translate(-50%, -50%) rotate(0deg) !important;
+    }
+
+    /* Figma node 2534:351 精确参数: w:316px bg:rgba(0,0,0,0.6) blur:20px br:12px */
+    {{ default_sid }} .jingva-hotspots-popup {
+      position: absolute !important;
+      width: 316px !important;
+      border-radius: 12px !important;
+      backdrop-filter: blur(20px) !important;
+      -webkit-backdrop-filter: blur(20px) !important;
+      padding: 12px;
+      box-sizing: border-box !important;
+      z-index: 1 !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      transform: translateY(10px) !important;
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease !important;
+      pointer-events: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-popup.active {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(0) scale(1) !important;
+      pointer-events: auto !important;
+      z-index: 10 !important;
+    }
+
+    /* 从一个标记点切换到另一个：弹窗 left/top 位移动画 */
+    {{ default_sid }} .jingva-hotspots-popup.active.jingva-hotspots-popup--migrate {
+      transition: left 0.44s cubic-bezier(0.34, 1, 0.64, 1), top 0.44s cubic-bezier(0.34, 1, 0.64, 1), opacity 0.32s ease, transform 0.4s cubic-bezier(0.34, 1.1, 0.64, 1), visibility 0s !important;
+    }
+
+    /* 标记点切换：旧弹窗收起 */
+    {{ default_sid }} .jingva-hotspots-popup.active.jingva-hotspots-popup--anim-out {
+      opacity: 0 !important;
+      transform: translateY(14px) scale(0.96) !important;
+      pointer-events: none !important;
+      transition: opacity 0.32s cubic-bezier(0.4, 0, 0.2, 1), transform 0.32s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    /* 新弹窗进入（首帧由 JS 挂上，下一帧移除以触发过渡） */
+    {{ default_sid }} .jingva-hotspots-popup.active.jingva-hotspots-popup--anim-in {
+      opacity: 0 !important;
+      transform: translateY(20px) scale(0.92) !important;
+      transition: opacity 0.38s cubic-bezier(0.34, 1.15, 0.64, 1), transform 0.38s cubic-bezier(0.34, 1.15, 0.64, 1) !important;
+    }
+
+    /* === 深色弹窗 (node 2534:351): 316px === */
+    {{ default_sid }} .jingva-hotspots-popup.dark {
+      background-color: rgba(0, 0, 0, 0.6) !important;
+      width: 316px !important;
+      padding: 24px !important;
+      gap: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-content > *:first-child {
+      margin-top: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-content > *:not(:first-child) {
+      margin-top: 4px !important;
+    }
+
+    /* === 蓝色弹窗 (node 4012:2592): 254px === */
+    {{ default_sid }} .jingva-hotspots-popup.blue {
+      background-color: rgba(0, 94, 255, 0.5) !important;
+      backdrop-filter: blur(25px) !important;
+      -webkit-backdrop-filter: blur(25px) !important;
+      width: 254px !important;
+      padding: 24px !important;
+      gap: 12px !important;
+      align-items: flex-start !important;
+    }
+
+    /*
+     * 防止标记点遮挡弹窗文字：弹窗相对标记点的方位决定了"标记点在弹窗的哪一侧"，
+     * 反向在对应侧增加内边距。PC 标记点 32px + 20px 回吸 = 插入 36px，留 44px 安全距；
+     * MOB 标记点 24px + 20px 回吸 = 插入 32px，留 40px 安全距。
+     */
+    @media screen and (min-width: 1280px) {
+      {{ default_sid }} .jingva-hotspots-popup.blue,
+      {{ default_sid }} .jingva-hotspots-image-container .jingva-hotspots-popup.blue {
+        width: 254px !important;
+        padding: 24px !important;
+      }
+      /*
+       * 圆点（直径 32，半径 16）侵入 popup = gap(20) + 16 = 36px。
+       * 这里给"圆点所在那一侧"加 40px 单边 padding，让文字让出 4px 视觉空白。
+       * 其余边保持 24px 不变。data-pc-popup-position 表示 popup 相对圆点的方位，
+       * 例如 popup 在圆点的 top-right → 圆点位于 popup 的 bottom-left 角。
+       */
+      /* 仅允许调整 padding-bottom：padding-top/left/right 始终保持 24px。
+         只在圆点位于 popup 底部（top* / top 三种方位）时加大下 padding。 */
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-pc-popup-position="top-right"] { padding-bottom: 40px !important; }
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-pc-popup-position="top-left"]  { padding-bottom: 40px !important; }
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-pc-popup-position="top"]       { padding-bottom: 40px !important; }
+      /* blue 主题：JS 将弹窗统一置于圆点上方，圆点恒落在弹窗下侧，与 data 原始值无关 */
+      {{ default_sid }} .jingva-hotspots-popup.blue.jingva-hotspots-popup--blue-above-icon { padding-bottom: 40px !important; }
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jingva-hotspots-popup.dark,
+      {{ default_sid }} .jingva-hotspots-popup.blue {
+        padding: 12px !important;
+      }
+
+      /*
+       * MOB 圆点（直径 24，半径 12）侵入 = gap(20) + 12 = 32px。
+       * 单边 padding 用 32px 让出圆点位置（基础 padding 仍是 12px）。
+       */
+      /* 仅允许调整 padding-bottom：padding-top/left/right 始终保持 12px。 */
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-mob-popup-position="top-right"] { padding-bottom: 32px !important; }
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-mob-popup-position="top-left"]  { padding-bottom: 32px !important; }
+      {{ default_sid }} .jingva-hotspots-popup.blue[data-mob-popup-position="top"]       { padding-bottom: 32px !important; }
+      {{ default_sid }} .jingva-hotspots-popup.blue.jingva-hotspots-popup--blue-above-icon { padding-bottom: 32px !important; }
+    }
+
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-content {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0 !important;
+      box-sizing: border-box !important;
+      padding: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-content {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 12px;
+      box-sizing: border-box !important;
+      padding: 0 !important;
+    }
+
+    /* === 深色弹窗图片 (node 2534:339): 128×128px === */
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-icon {
+      width: 128px !important;
+      height: 128px !important;
+      object-fit: cover !important;
+      display: block !important;
+      flex-shrink: 0 !important;
+      margin-bottom: 4px !important;
+    }
+
+    /* === 蓝色弹窗无图片 === */
+    {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-icon {
+      display: none !important;
+    }
+
+    /* === 深色弹窗文字 (node 2534:340): 24px, 紧贴图片 === */
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-description {
+      font-family: 'Gabarito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      padding: 12px 0 0 0 !important;
+      margin-top: 12px !important;
+      flex-shrink: 0 !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      text-transform: none !important;
+      letter-spacing: normal !important;
+      word-spacing: normal !important;
+      white-space: normal !important;
+      text-shadow: none !important;
+    }
+    
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-description * {
+      color: #ffffff !important;
+      font-size: 24px !important;
+      font-family: 'Gabarito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-weight: 400 !important;
+    }
+
+    /* === 蓝色弹窗标题 (node 4012:2594): 16px === */
+    {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-title {
+      display: block !important;
+      font-family: 'Gabarito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+      padding: 0 !important;
+    }
+
+    /* === 蓝色弹窗描述 (node 4012:2595): 12px === */
+    {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-description {
+      font-family: 'Gabarito', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 12px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+      padding: 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* === 深色弹窗隐藏标题 === */
+    {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-title {
+      display: none !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        /* 不要用 padding 简写覆盖 padding-top/bottom，否则会清空后台设置 */
+        padding-top: {{ padding_top | default: 48 }}px !important;
+        padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-wrapper {
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-content {
+        max-width: {{ se_stts.title_max_width | default: '1200px' }} !important;
+        gap: 20px !important;
+        padding: 0 40px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-title {
+        font-size: 56px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-hotspots-subtitle {
+        font-size: 20px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 (基准 390, 内容随视口自适应; Grid.Padding=16) === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding-top: {{ padding_top_mob | default: 96 }}px !important;
+        padding-bottom: {{ padding_bottom_mob | default: 0 }}px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-wrapper {
+        gap: 24px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-dot-icon-plus,
+      {{ default_sid }} .jingva-hotspots-dot-icon-cross {
+        width: 11.25px !important;
+        height: 11.25px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 16px !important;
+        gap: 12px !important;
+        align-items: center !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-title {
+        font-size: 32px !important;
+        line-height: 1.254em !important;
+        text-align: center !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-title-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-title-mobile {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-subtitle {
+        font-size: 16px !important;
+        line-height: 1.2em !important;
+        text-align: center !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-image-container {
+        /* 高度跟随图片自然比例，max-width 防止平板段过宽 */
+        max-width: 768px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-dot {
+        width: 24px !important;
+        height: 24px !important;
+        left: var(--mob-x, 50%) !important;
+        top: var(--mob-y, 50%) !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-dot svg {
+        width: 11.25px !important;
+        height: 11.25px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.dark {
+        width: 154px !important;
+        height: auto !important;
+        padding: 12px !important;
+        gap: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-content > *:first-child {
+        margin-top: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-content > *:not(:first-child) {
+        margin-top: 4px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-icon {
+        width: 64px !important;
+        height: 64px !important;
+        margin-bottom: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-description {
+        font-size: 16px !important;
+        width: 100% !important;
+        padding-top: 0 !important;
+        margin-top: 4px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup-close {
+        width: 28px !important;
+        height: 28px !important;
+      }
+      
+      {{ default_sid }} .jingva-hotspots-popup.dark .jingva-hotspots-popup-description * {
+        font-size: 18px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.blue {
+        width: 139px !important;
+        padding: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-title {
+        font-size: 14px !important;
+      }
+
+      {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-description {
+        font-size: 12px !important;
+      }
+
+        {{ default_sid }} .jingva-hotspots-popup.blue .jingva-hotspots-popup-content {
+     
+      gap: 4px;
+     
+    }
+      /*
+       * 注意：以下 dark 弹窗的 left/top 硬编码百分比已移除。
+       * 原因：CSS 用 !important 钉死 left/top 后，会覆盖 JS 在 revealPopup() 里
+       * 通过行内样式按"被点击圆点的真实坐标 + data-mob-popup-position"算出的位置，
+       * 导致点哪个圆点弹窗都飘到固定的几个百分比位置上，看起来像位置错位/内容错位。
+       * 现交由 JS 统一定位（与 blue 弹窗一致），如需微调请改 mob_popup_position 设置。
+       */
+       .jingva-hotspots-image-container > div:nth-child(2) .jingva-hotspots-popup.blue{
+            left: 1%!important;
+    /* top: 15%!important; */
+      width: 139px !important
+      }
+       .jingva-hotspots-image-container > div:nth-child(3) .jingva-hotspots-popup.blue{
+            width: 139px !important;
+            /* top: 41% !important; */
+            /* left: 28% !important; ← 移除：会让弹窗脱离圆点。改由 JS 按 data-mob-popup-position 计算位置 */
+      }
+      .jingva-hotspots-image-container > div:nth-child(4) .jingva-hotspots-popup.blue{
+            /* left: 16% !important; ← 移除：让 JS 按 bottom-right 计算位置，圆点落在弹窗左上角 */
+    /* top: 39%!important; */
+            width: 139px !important
+      }
+       .jingva-hotspots-image-container > div:nth-child(5) .jingva-hotspots-popup.blue{
+                   width: 208px !important;
+                       /* left: 24% !important; ← 移除：让 JS 按 top-right 计算位置，圆点落在弹窗左下角 */
+      }
+      .jingva-hotspots-image-container > div:nth-child(6) .jingva-hotspots-popup.blue{
+                width: 102px !important;
+                    left: 57%!important;
+    /* top: 50%!important; */
+      }
+    }
+  {% endstyle %}
+
+  {% if se_stts.show_title or se_stts.pc_background_image != blank or se_stts.mob_background_image != blank %}
+    <div class="jingva-hotspots-wrapper">
+      {% if se_stts.show_title %}
+        <div class="jingva-hotspots-content">
+          {% if se_stts.title != blank %}
+            <h2 class="jingva-hotspots-title jingva-hotspots-title-pc">{{ se_stts.title | escape }}</h2>
+          {% endif %}
+          {% if se_stts.mobile_title != blank %}
+            <h2 class="jingva-hotspots-title jingva-hotspots-title-mobile">{{ se_stts.mobile_title | escape }}</h2>
+          {% elsif se_stts.title != blank %}
+            <h2 class="jingva-hotspots-title jingva-hotspots-title-mobile">{{ se_stts.title | escape }}</h2>
+          {% endif %}
+          {% if se_stts.subtitle != blank %}
+            <p class="jingva-hotspots-subtitle">{{ se_stts.subtitle | escape }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% assign bg_image = se_stts.pc_background_image | default: se_stts.mob_background_image %}
+      {% if bg_image != blank %}
+        <div class="jingva-hotspots-image-container{% if has_hotspots %} jingva-hotspots-image-container--await-bg{% endif %}">
+          <picture class="jingva-hotspots-image">
+            {% if se_stts.pc_background_image != blank %}
+              <source media="(min-width: 1280px)" srcset="{{ se_stts.pc_background_image | image_url: width: 2400 }}">
+            {% endif %}
+            {% if se_stts.mob_background_image != blank %}
+              <source media="(max-width: 1279px)" srcset="{{ se_stts.mob_background_image | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ bg_image | image_url: width: 2400 }}"
+              alt="{{ se_stts.title | default: 'Background image' | escape }}"
+              loading="lazy"
+            />
+          </picture>
+
+          {% for block in hotspot_blocks %}
+            {% if block.type == 'hotspot' %}
+              {% assign block_index = forloop.index0 %}
+              {% assign pc_x = block.settings.pc_x | default: '50%' %}
+              {% assign pc_y = block.settings.pc_y | default: '50%' %}
+              {% assign mob_x = block.settings.mob_x | default: '50%' %}
+              {% assign mob_y = block.settings.mob_y | default: '50%' %}
+              {% assign pc_popup_position = block.settings.pc_popup_position | default: 'bottom-right' %}
+              {% assign mob_popup_position = block.settings.mob_popup_position | default: 'bottom-right' %}
+              {% assign popup_style = se_stts.popup_style | default: 'dark' %}
+
+              <div class="jingva-hotspots-hotspot" style="--pc-x: {{ pc_x }}; --pc-y: {{ pc_y }}; --mob-x: {{ mob_x }}; --mob-y: {{ mob_y }};">
+                <button
+                  class="jingva-hotspots-dot"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="jingva-hotspots-popup-{{ sid }}-{{ block_index }}"
+                  data-hotspot-index="{{ block_index }}"
+                >
+                  {%- comment -%}
+                    Figma MOB node 2804:3427 (Union): 11.25×11.281, arm=2.2px (≈19.5% 占比，比 PC 路径粗)。
+                    PC node 2534:473 用 15×15 viewBox（arm=2.2/15=14.67%）；MOB 必须用专属 11.25 viewBox 路径，
+                    否则 PC 路径缩到 11.25 后 arm 变成 1.65px，视觉显细 25%。
+                  {%- endcomment -%}
+                  <svg class="jingva-hotspots-dot-icon-plus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 11.25 11.281" fill="none" aria-hidden="true">
+                    <path d="M6.72461 4.54004L11.25 4.54004L11.25 6.73926L6.72461 6.73926L6.72461 11.2812L4.52539 11.2812L4.52539 6.73926L0 6.73926L0 4.54004L4.52539 4.54004L4.52539 0L6.72461 0L6.72461 4.54004Z" fill="#FFFFFF"/>
+                  </svg>
+                  <svg class="jingva-hotspots-dot-icon-cross" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M5.73965 4.57127L9.13363 7.96524L7.96662 9.13224L4.57265 5.73827L1.16694 9.14398L-6.60414e-05 7.97698L3.40565 4.57127L0.011673 1.17729L1.17868 0.0102894L4.57265 3.40426L7.97698 -6.85839e-05L9.14398 1.16693L5.73965 4.57127Z" fill="#FFF"/>
+                  </svg>
+                </button>
+
+                <div
+                  id="jingva-hotspots-popup-{{ sid }}-{{ block_index }}"
+                  class="jingva-hotspots-popup {{ popup_style }}{% if popup_style == 'blue' %} jingva-hotspots-popup--blue-above-icon{% endif %}"
+                  data-pc-popup-position="{{ pc_popup_position }}"
+                  data-mob-popup-position="{{ mob_popup_position }}"
+                >
+                  <div class="jingva-hotspots-popup-content">
+                    {% if popup_style == 'dark' and block.settings.popup_image != blank %}
+                      <img
+                        class="jingva-hotspots-popup-icon"
+                        src="{{ block.settings.popup_image | image_url: width: 256 }}"
+                        alt="{{ block.settings.popup_title | default: 'Icon' | escape }}"
+                        loading="lazy"
+                      />
+                    {% endif %}
+                    {% if block.settings.popup_title != blank %}
+                      <h3 class="jingva-hotspots-popup-title">{{ block.settings.popup_title | escape }}</h3>
+                    {% endif %}
+                    {% if block.settings.popup_description != blank %}
+                      <p class="jingva-hotspots-popup-description">{{ block.settings.popup_description | escape }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <script>
+    (function() {
+      var sectionId = '{{ sid }}';
+      var section = document.querySelector('.jingva-hotspots-' + sectionId);
+      if (!section) return;
+
+      var imgContainer = section.querySelector('.jingva-hotspots-image-container');
+      var bgImg = section.querySelector('.jingva-hotspots-image img');
+      if (imgContainer && bgImg && imgContainer.classList.contains('jingva-hotspots-image-container--await-bg')) {
+        function revealHotspotsAfterBg() {
+          imgContainer.classList.remove('jingva-hotspots-image-container--await-bg');
+        }
+        if (bgImg.complete && bgImg.naturalWidth > 0) {
+          revealHotspotsAfterBg();
+        } else {
+          bgImg.addEventListener('load', revealHotspotsAfterBg, { once: true });
+          bgImg.addEventListener('error', revealHotspotsAfterBg, { once: true });
+        }
+      }
+
+      var dots = section.querySelectorAll('.jingva-hotspots-dot');
+      var popups = section.querySelectorAll('.jingva-hotspots-popup');
+      var currentIndex = -1;
+
+      function showPopup(index) {
+        if (index < 0 || index >= popups.length) return;
+
+        var popup = popups[index];
+        var pcPosition = popup.dataset.pcPopupPosition;
+        var mobPosition = popup.dataset.mobPopupPosition;
+        var isMobile = window.innerWidth < 1280;
+        var position = isMobile ? mobPosition : pcPosition;
+
+        // 切换时：直接关闭旧弹窗并立即显示新弹窗，无中间的平移过渡
+        if (currentIndex >= 0 && currentIndex !== index) {
+          var curPopup = popups[currentIndex];
+          var curHotspot = dots[currentIndex].closest('.jingva-hotspots-hotspot');
+          curPopup.classList.remove('active', 'jingva-hotspots-popup--anim-in', 'jingva-hotspots-popup--anim-out', 'jingva-hotspots-popup--migrate');
+          curPopup.style.removeProperty('transition');
+          curPopup.style.removeProperty('opacity');
+          curHotspot.classList.remove('active');
+          dots[currentIndex].setAttribute('aria-expanded', 'false');
+        }
+
+        revealPopup(index, position);
+      }
+
+      function finalizeHideAll() {
+        popups.forEach(function(p) {
+          p.classList.remove('active', 'jingva-hotspots-popup--anim-in', 'jingva-hotspots-popup--anim-out', 'jingva-hotspots-popup--migrate');
+          p.style.removeProperty('opacity');
+          p.style.removeProperty('transition');
+        });
+        document.querySelectorAll('.jingva-hotspots-hotspot').forEach(function(h) {
+          h.classList.remove('active');
+        });
+        dots.forEach(function(d) {
+          d.setAttribute('aria-expanded', 'false');
+        });
+        currentIndex = -1;
+      }
+
+      function hideAllPopups() {
+        if (currentIndex >= 0 && currentIndex < popups.length) {
+          var closing = popups[currentIndex];
+          closing.classList.add('jingva-hotspots-popup--anim-out');
+          setTimeout(function() {
+            finalizeHideAll();
+          }, POPUP_ANIM_MS);
+          return;
+        }
+        finalizeHideAll();
+      }
+
+      function effectiveBluePopupPosition(position) {
+        var p = position && String(position).trim();
+        if (!p) p = 'bottom-right';
+        switch (p) {
+          case 'bottom-right':
+            return 'top-right';
+          case 'bottom-left':
+            return 'top-left';
+          case 'bottom':
+            return 'top';
+          case 'left':
+            return 'top-left';
+          case 'right':
+            return 'top-right';
+          case 'top':
+          case 'top-left':
+          case 'top-right':
+            return p;
+          default:
+            return 'top';
+        }
+      }
+
+      function computePopupPosition(dot, popup, position) {
+        if (popup.classList.contains('blue')) {
+          position = effectiveBluePopupPosition(position);
+          /* 第 4 个热点（block index 3）：固定为相对圆点右上方向（弹窗在 icon 上方偏右，圆点贴弹窗左下角） */
+          var hi = parseInt(dot.getAttribute('data-hotspot-index'), 10);
+          if (hi === 3) {
+            position = 'top-right';
+          }
+        }
+
+        var containerRect = section.querySelector('.jingva-hotspots-image-container').getBoundingClientRect();
+        var isMobile = window.innerWidth < 1280;
+        var isBlue = popup.classList.contains('blue');
+
+        // 先把弹窗显示出来（不可见）以便测量真实尺寸，避免 CSS 宽度被 JS 硬编码值"覆盖"导致定位漂移
+        popup.style.opacity = '0';
+        popup.style.visibility = 'visible';
+        var popupRect = popup.getBoundingClientRect();
+        // 读取 CSS 实际渲染宽度，CSS 调整后无需同步改 JS
+        var popupWidth = popupRect.width || (isMobile ? (isBlue ? 220 : 280) : (isBlue ? 254 : 316));
+        var popupHeight = popupRect.height || (isBlue ? 180 : 246);
+
+        var dotRect = dot.getBoundingClientRect();
+        var dotCenterX = dotRect.left + dotRect.width / 2 - containerRect.left;
+        var dotCenterY = dotRect.top + dotRect.height / 2 - containerRect.top;
+        var left = 0;
+        var top = 0;
+        var gap = 20;
+
+        switch(position) {
+          case 'top-left':
+            left = dotCenterX - popupWidth + gap;
+            top = dotCenterY - popupHeight + gap;
+            break;
+          case 'top-right':
+            left = dotCenterX - gap;
+            top = dotCenterY - popupHeight + gap;
+            break;
+          case 'bottom-left':
+            left = dotCenterX - popupWidth + gap;
+            top = dotCenterY - gap;
+            break;
+          case 'bottom-right':
+            left = dotCenterX - gap;
+            top = dotCenterY - gap;
+            break;
+          case 'top':
+            left = dotCenterX - popupWidth / 2;
+            top = dotCenterY - popupHeight + gap;
+            break;
+          case 'bottom':
+            left = dotCenterX - popupWidth / 2;
+            top = dotCenterY - gap;
+            break;
+          case 'left':
+            left = dotCenterX - popupWidth + gap;
+            top = dotCenterY - popupHeight / 2;
+            break;
+          case 'right':
+            left = dotCenterX - gap;
+            top = dotCenterY - popupHeight / 2;
+            break;
+          default:
+            left = dotCenterX - gap;
+            top = dotCenterY - gap;
+        }
+
+        if (left < 0) left = gap;
+        if (top < 0) top = gap;
+        if (left + popupWidth > containerRect.width) left = containerRect.width - popupWidth - gap;
+        if (top + popupHeight > containerRect.height) top = containerRect.height - popupHeight - gap;
+
+        return { left: left, top: top };
+      }
+
+      function positionPopup(dot, popup, position) {
+        var p = computePopupPosition(dot, popup, position);
+        popup.style.left = p.left + 'px';
+        popup.style.top = p.top + 'px';
+        popup.style.removeProperty('opacity');
+      }
+
+      var POPUP_ANIM_MS = 320;
+      var MIGRATE_MS = 460;
+
+      function revealPopup(index, position, migrateFrom) {
+        var popup = popups[index];
+        var dot = dots[index];
+        var hotspot = dot.closest('.jingva-hotspots-hotspot');
+        var placement = computePopupPosition(dot, popup, position);
+
+        popup.classList.remove('jingva-hotspots-popup--anim-in', 'jingva-hotspots-popup--anim-out', 'jingva-hotspots-popup--migrate');
+
+        if (migrateFrom && typeof migrateFrom.prevLeft === 'number' && typeof migrateFrom.prevTop === 'number') {
+          hotspot.classList.add('active');
+          popup.style.transition = 'none';
+          popup.style.left = migrateFrom.prevLeft + 'px';
+          popup.style.top = migrateFrom.prevTop + 'px';
+          popup.style.visibility = 'visible';
+          popup.style.opacity = '0';
+          popup.classList.add('active');
+          dots.forEach(function(d) {
+            d.setAttribute('aria-expanded', 'false');
+          });
+          dot.setAttribute('aria-expanded', 'true');
+          currentIndex = index;
+
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              popup.style.removeProperty('transition');
+              popup.classList.add('jingva-hotspots-popup--migrate');
+              popup.style.left = placement.left + 'px';
+              popup.style.top = placement.top + 'px';
+              popup.style.removeProperty('opacity');
+              setTimeout(function() {
+                popup.classList.remove('jingva-hotspots-popup--migrate');
+              }, MIGRATE_MS);
+            });
+          });
+          return;
+        }
+
+        popup.style.left = placement.left + 'px';
+        popup.style.top = placement.top + 'px';
+        popup.style.removeProperty('opacity');
+        popup.classList.add('active', 'jingva-hotspots-popup--anim-in');
+        hotspot.classList.add('active');
+        dots.forEach(function(d) {
+          d.setAttribute('aria-expanded', 'false');
+        });
+        dot.setAttribute('aria-expanded', 'true');
+        currentIndex = index;
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() {
+            popup.classList.remove('jingva-hotspots-popup--anim-in');
+          });
+        });
+      }
+
+      function advancePopupCycle() {
+        // 已废弃：改用 togglePopup
+      }
+
+      function togglePopup(index) {
+        if (index < 0 || index >= popups.length) return;
+        
+        // 如果点击的是当前已打开的弹窗，则关闭
+        if (currentIndex === index) {
+          hideAllPopups();
+          return;
+        }
+        
+        // 否则显示点击的弹窗
+        showPopup(index);
+      }
+
+      dots.forEach(function(dot, index) {
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          togglePopup(index);
+        });
+      });
+
+      /* 点击弹窗关闭 */
+      popups.forEach(function(popup, index) {
+        popup.addEventListener('click', function(e) {
+          e.stopPropagation();
+          hideAllPopups();
+        });
+      });
+
+      section.addEventListener('click', function(e) {
+        var isInsidePopup = false;
+        popups.forEach(function(popup) {
+          if (popup.contains(e.target)) {
+            isInsidePopup = true;
+          }
+        });
+        var isInsideDot = false;
+        dots.forEach(function(dot) {
+          if (dot.contains(e.target)) {
+            isInsideDot = true;
+          }
+        });
+
+        if (!isInsidePopup && !isInsideDot) {
+          hideAllPopups();
+        }
+      });
+
+      window.addEventListener('resize', function() {
+        if (currentIndex >= 0 && currentIndex < popups.length) {
+          var popup = popups[currentIndex];
+          var dot = dots[currentIndex];
+          var pcPosition = popup.dataset.pcPopupPosition;
+          var mobPosition = popup.dataset.mobPopupPosition;
+          var isMobile = window.innerWidth < 1280;
+          var position = isMobile ? mobPosition : pcPosition;
+          positionPopup(dot, popup, position);
+        }
+      });
+    })();
+  </script>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-hotspots-{{ sid }}');
+  if (!section) return;
+
+  var titles = section.querySelectorAll('.jingva-hotspots-title');
+  if (!titles.length) return;
+
+  var trigger = section.querySelector('.jingva-hotspots-content') || titles[0];
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        titles.forEach(function(el) {
+          el.classList.add('aos-animate');
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(trigger);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Hotspots (标记点组件)",
+  "class": "shopify-section--jingva-hotspots",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "显示标题区域",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "full_height",
+      "label": "全屏图片高度 (100vh)",
+      "default": false,
+      "info": "开启后，背景图容器固定为视口高度 100vh（图片以 cover 裁切）。开启后建议重新校准热点 Y 坐标。"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_background_image",
+      "label": "PC 背景图片"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_background_image",
+      "label": "手机端背景图片"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "主标题 (PC)"
+    },
+    {
+      "type": "text",
+      "id": "mobile_title",
+      "label": "主标题 (手机)",
+      "info": "留空则使用 PC 标题"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID (for subnav navigation)",
+      "info": "The id attribute for subnav to scroll to this section (without #)"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "副标题"
+    },
+    {
+      "type": "text",
+      "id": "title_max_width",
+      "label": "标题最大宽度（PC）",
+      "default": "1200px",
+      "info": "例如：1200px 或 998px"
+    },
+    {
+      "type": "select",
+      "id": "popup_style",
+      "label": "弹窗样式",
+      "options": [
+        { "value": "dark", "label": "深色背景" },
+        { "value": "blue", "label": "蓝色背景" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "text",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121B2C",
+      "info": "Supports hex (#121B2C) or rgba (rgba(18, 27, 44, 1))"
+    },
+    {
+      "type": "text",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 1))"
+    },
+    {
+      "type": "text",
+      "id": "description_color",
+      "label": "Subtitle Color",
+      "default": "rgba(255, 255, 255, 0.6)",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 0.6))"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Padding Top Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Padding Bottom Mobile (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "标记点",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pc_x",
+          "label": "PC X 位置（百分比）",
+          "default": "50%"
+        },
+        {
+          "type": "text",
+          "id": "pc_y",
+          "label": "PC Y 位置（百分比）",
+          "default": "50%"
+        },
+        {
+          "type": "text",
+          "id": "mob_x",
+          "label": "手机端 X 位置（百分比）",
+          "default": "50%"
+        },
+        {
+          "type": "text",
+          "id": "mob_y",
+          "label": "手机端 Y 位置（百分比）",
+          "default": "50%"
+        },
+        {
+          "type": "image_picker",
+          "id": "popup_image",
+          "label": "弹窗图片（可选）"
+        },
+        {
+          "type": "text",
+          "id": "popup_title",
+          "label": "弹窗标题"
+        },
+        {
+          "type": "text",
+          "id": "popup_description",
+          "label": "弹窗描述"
+        },
+        {
+          "type": "select",
+          "id": "pc_popup_position",
+          "label": "PC 弹窗相对位置",
+          "options": [
+            { "value": "top-left", "label": "左上" },
+            { "value": "top-right", "label": "右上" },
+            { "value": "bottom-left", "label": "左下" },
+            { "value": "bottom-right", "label": "右下" },
+            { "value": "top", "label": "上方（居中）" },
+            { "value": "bottom", "label": "下方（居中）" },
+            { "value": "left", "label": "左侧" },
+            { "value": "right", "label": "右侧" }
+          ],
+          "default": "bottom-right"
+        },
+        {
+          "type": "select",
+          "id": "mob_popup_position",
+          "label": "手机端弹窗相对位置",
+          "options": [
+            { "value": "top-left", "label": "左上" },
+            { "value": "top-right", "label": "右上" },
+            { "value": "bottom-left", "label": "左下" },
+            { "value": "bottom-right", "label": "右下" },
+            { "value": "top", "label": "上方（居中）" },
+            { "value": "bottom", "label": "下方（居中）" },
+            { "value": "left", "label": "左侧" },
+            { "value": "right", "label": "右侧" }
+          ],
+          "default": "bottom-right"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Hotspots",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "pc_x": "27.14%",
+            "pc_y": "30.52%",
+            "mob_x": "16.92%",
+            "mob_y": "35.55%",
+            "pc_popup_position": "bottom-right",
+            "mob_popup_position": "bottom-right"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "pc_x": "36.15%",
+            "pc_y": "48.33%",
+            "mob_x": "23.85%",
+            "mob_y": "51.29%",
+            "pc_popup_position": "bottom-left",
+            "mob_popup_position": "bottom-left"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "pc_x": "41.67%",
+            "pc_y": "67.81%",
+            "mob_x": "34.10%",
+            "mob_y": "64.07%",
+            "pc_popup_position": "top-right",
+            "mob_popup_position": "top-right"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "pc_x": "50%",
+            "pc_y": "63.02%",
+            "mob_x": "50.77%",
+            "mob_y": "55.73%",
+            "pc_popup_position": "top-left",
+            "mob_popup_position": "top-left"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "pc_x": "58.54%",
+            "pc_y": "70.73%",
+            "mob_x": "70.26%",
+            "mob_y": "64.62%",
+            "pc_popup_position": "top-right",
+            "mob_popup_position": "top-right"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

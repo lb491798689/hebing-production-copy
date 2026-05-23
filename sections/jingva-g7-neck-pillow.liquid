@@ -1,0 +1,462 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign pc_image_base = se_stts.pc_image_base
+  assign mob_image_base = se_stts.mob_image_base
+  assign pc_image_overlay = se_stts.pc_image_overlay
+  assign mob_image_overlay = se_stts.mob_image_overlay
+  assign bg_color = se_stts.bg_color
+  assign title_color = se_stts.title_color
+  assign description_color = se_stts.description_color
+  assign padding_top = se_stts.padding_top
+  assign padding_bottom = se_stts.padding_bottom
+  assign padding_top_mob = se_stts.padding_top_mob
+  assign padding_bottom_mob = se_stts.padding_bottom_mob
+-%}
+{% capture default_sid %}.jingva-g7-neck-pillow-{{ sid }}{% endcapture %}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-section-container jingva-g7-neck-pillow jingva-g7-neck-pillow-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, node 3074-1132) 详细参数:
+     * ========================================
+     *   section: w:1920, flex column, gap:48px
+     *   content frame: column, gap:24px, center
+     *   title: Orbitron 900 64px line-height:1.254 #FFFFFF uppercase center, w:1200
+     *   description: Gabarito 500 24px line-height:1.2 rgba(255,255,255,0.6) center, w:1000
+     *   media container: h:960, bg:#000000
+     *   image1 (default): full size
+     *   image2 (hover): starts at y:960, slides up to y:0
+     *
+     * ========================================
+     * Figma MOB (390px, node 2804-3477) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:24px, p:68px 0 0
+     *   content frame: column, gap:12px, stretch
+     *   title: Orbitron 900 28px line-height:1.254 #FFFFFF uppercase center
+     *   description: Gabarito 500 16px line-height:1.2 rgba(255,255,255,0.6) center
+     *   media container: h:540
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121b2c' }} !important;
+      padding-top: {{ padding_top | default: 0 }}px !important;
+      padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-content {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 0 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 1.254 !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: {{ description_color | default: 'rgba(255, 255, 255, 0.6)' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1000px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-media-container {
+      position: relative !important;
+      width: 100% !important;
+      height: 960px !important;
+      background-color: {{ bg_color | default: '#121b2c' }} !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-image-base {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      z-index: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-image-overlay-wrapper {
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 2 !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-image-overlay {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      clip-path: inset(100% 0 0 0) !important;
+      transition: clip-path 0.6s ease-out !important;
+    }
+
+    {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover .jingva-g7-neck-pillow-image-overlay {
+      clip-path: inset(0 0 0 0) !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        padding-top: 120px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-wrapper {
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-content {
+        max-width: 1200px !important;
+        padding: 0 40px !important;
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-title {
+        font-size: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-description {
+        font-size: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container {
+        height: 800px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding-top: {{ padding_top_mob | default: 96 }}px !important;
+        padding-bottom: {{ padding_bottom_mob | default: 0 }}px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-wrapper {
+        gap: 24px !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-content {
+        padding: 0 16px !important;
+        gap: 12px !important;
+        align-items: center !important;
+        width: 100% !important;
+        max-width: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-title {
+        font-size: 32px !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: none !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-description {
+        font-size: 16px !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container {
+        height: 540px !important;
+        cursor: pointer !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover .jingva-g7-neck-pillow-image-overlay {
+        clip-path: inset(100% 0 0 0) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container.jingva-g7-neck-pillow-active .jingva-g7-neck-pillow-image-overlay {
+        clip-path: inset(0 0 0 0) !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-neck-pillow-wrapper">
+    <div class="jingva-g7-neck-pillow-content">
+      {% if title != blank %}
+        <h2 class="jingva-g7-neck-pillow-title">{{ title }}</h2>
+      {% endif %}
+
+      {% if description != blank %}
+        <p class="jingva-g7-neck-pillow-description">{{ description }}</p>
+      {% endif %}
+    </div>
+
+    {% if pc_image_base != blank or mob_image_base != blank or pc_image_overlay != blank or mob_image_overlay != blank %}
+      <div class="jingva-g7-neck-pillow-media-container">
+        {% if pc_image_base != blank or mob_image_base != blank %}
+          <picture class="jingva-g7-neck-pillow-image-base">
+            {% if pc_image_base != blank %}
+              <source media="(min-width: 1280px)" srcset="{{ pc_image_base | image_url: width: 1920 }}">
+            {% endif %}
+            {% if mob_image_base != blank %}
+              <source media="(max-width: 1279px)" srcset="{{ mob_image_base | image_url: width: 780 }}">
+            {% endif %}
+            <img
+              class="jingva-g7-neck-pillow-image-base"
+              src="{{ pc_image_base | default: mob_image_base | image_url: width: 1920 }}"
+              alt="{{ title | escape }}"
+              loading="lazy"
+            />
+          </picture>
+        {% endif %}
+
+        {% if pc_image_overlay != blank or mob_image_overlay != blank %}
+          <div class="jingva-g7-neck-pillow-image-overlay-wrapper">
+            <picture class="jingva-g7-neck-pillow-image-overlay">
+              {% if pc_image_overlay != blank %}
+                <source media="(min-width: 1280px)" srcset="{{ pc_image_overlay | image_url: width: 1920 }}">
+              {% endif %}
+              {% if mob_image_overlay != blank %}
+                <source media="(max-width: 1279px)" srcset="{{ mob_image_overlay | image_url: width: 780 }}">
+              {% endif %}
+              <img
+                class="jingva-g7-neck-pillow-image-overlay"
+                src="{{ pc_image_overlay | default: mob_image_overlay | image_url: width: 1920 }}"
+                alt="{{ title | escape }}"
+                loading="lazy"
+              />
+            </picture>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  <script>
+    (function() {
+      var mediaContainer = document.querySelector('{{ default_sid }} .jingva-g7-neck-pillow-media-container');
+      if (!mediaContainer) return;
+
+      function isMobile() {
+        return window.innerWidth <= 1279;
+      }
+
+      mediaContainer.addEventListener('click', function() {
+        if (isMobile()) {
+          mediaContainer.classList.toggle('jingva-g7-neck-pillow-active');
+        }
+      });
+    })();
+  </script>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-g7-neck-pillow-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-g7-neck-pillow-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Neck Pillow",
+  "class": "shopify-section--jingva-g7-neck-pillow",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "4D Dual-Axis Neck Pillow, Instantly Aligned on Contact"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID (for subnav navigation)",
+      "info": "The id attribute for subnav to scroll to this section (without #)"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "720° omnidirectional adjustable armrests: 70mm height, 60mm front-to-back, dual 360° rotation, and 4-level 39° flip-up for precision support in every posture."
+    },
+    {
+      "type": "header",
+      "content": "Base Image (Default)"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image_base",
+      "label": "PC Base Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image_base",
+      "label": "Mobile Base Image"
+    },
+    {
+      "type": "header",
+      "content": "Overlay Image (Hover)"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image_overlay",
+      "label": "PC Overlay Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image_overlay",
+      "label": "Mobile Overlay Image"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "text",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121b2c",
+      "info": "Supports hex (#121b2c) or rgba (rgba(18, 27, 44, 1))"
+    },
+    {
+      "type": "text",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 1))"
+    },
+    {
+      "type": "text",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "rgba(255, 255, 255, 0.6)",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 0.6))"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Mobile Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Mobile Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Neck Pillow",
+      "settings": {
+        "title": "4D Dual-Axis Neck Pillow, Instantly Aligned on Contact",
+        "description": "720° omnidirectional adjustable armrests: 70mm height, 60mm front-to-back, dual 360° rotation, and 4-level 39° flip-up for precision support in every posture."
+      }
+    }
+  ]
+}
+{% endschema %}

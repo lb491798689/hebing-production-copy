@@ -1,0 +1,190 @@
+<style>
+.kik_testimonials {
+    background: {{ section.settings.background }};
+    color: {{ section.settings.text_color }};
+}
+.kik_testimonials_content{
+  padding-top:96px;
+  padding-bottom:96px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.testimonials_image{
+  flex:0 0 50%;
+  display:flex;
+}
+.testimonials_image img{
+  width:100%;
+}
+.kik_testimonials_post_text{
+  flex:0 0 50%;
+  padding:0 48px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.kik_testimonials_post_text h1,
+.kik_testimonials_post_text h3,
+.kik_testimonials_post_text h5,
+.kik_testimonials_post_text h4{
+    font-style:italic;
+    text-transform:uppercase;
+    font-size:40px;
+line-height:1.2;
+  margin:0;
+}
+.kik_testimonials_post_text h1{
+  letter-spacing: 0;
+  color:{{ section.settings.heading_color }};
+  margin-bottom:32px;
+  position:relative;
+}
+.kik_testimonials_post_text h1 span{
+    position:relative;
+}
+.kik_testimonials_post_text h1:before {
+    --quote-width: 60px;
+    --quote-height: 49px;
+    content: "";
+    width: var(--quote-width);
+    height: var(--quote-height);
+    background: white;
+    opacity: .2;
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='86' height='55' viewBox='0 0 86 55' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M71.3163 54.6H42.5163L60.3163 0.400024H85.5163L71.3163 54.6ZM29.3163 54.6H0.716309L18.9163 0.400024H44.1163L29.3163 54.6Z' fill='%23252627'/%3E%3C/svg%3E%0A");
+    mask-image: url("data:image/svg+xml,%3Csvg width='86' height='55' viewBox='0 0 86 55' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M71.3163 54.6H42.5163L60.3163 0.400024H85.5163L71.3163 54.6ZM29.3163 54.6H0.716309L18.9163 0.400024H44.1163L29.3163 54.6Z' fill='%23252627'/%3E%3C/svg%3E%0A");
+    -webkit-mask-size: var(--quote-width) var(--quote-height);
+    mask-size: var(--quote-width) var(--quote-height);
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+.kik_testimonials_post_text h3{
+    font-size:24px;
+  color:{{ section.settings.heading_color }};
+  margin-bottom:8px;
+}
+.kik_testimonials_post_text h5{
+    font-size:18px;
+    color:{{ section.settings.heading_color }};
+    opacity:.4;
+  margin-bottom:32px;
+}
+.kik_testimonials_post_text h4{
+    font-size:18px;
+  color:{{ section.settings.sec_color }};
+  margin-bottom:8px;
+}
+@media (max-width:699px){
+.kik_testimonials_content{
+  padding-top:64px;
+  padding-bottom:64px;
+  flex-wrap: wrap;
+}
+.testimonials_image{
+  flex:0 0 100%;
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:64px;
+}
+.kik_testimonials_post_text{
+  flex:0 0 100%;
+  padding:0px 0px;
+}
+
+.kik_testimonials_post_text h1{
+  font-size:32px;
+}
+.kik_testimonials_post_text h3{
+    font-size:20px;
+}
+.kik_testimonials_post_text h5{
+    font-size:16px;
+}
+.kik_testimonials_post_text h4{
+    font-size:16px;
+}
+}
+</style>
+<div class="kik_testimonials">
+    <div class="section kik_testimonials_content">
+        <div class="testimonials_image">
+          <img src="{{ section.settings.image | img_url:"master" }}" loading="lazy" alt="{{ section.settings.title }}">
+        </div>
+        <div class="kik_testimonials_post_text">
+            <h1 class="kik_heading"><span>{{ section.settings.title }}</span></h1>
+            <h3>{{ section.settings.content }}</h3> 
+            <h5>{{ section.settings.group }}</h5>
+            <h4>{{ section.settings.desc }}</h4>
+        </div>
+    </div>
+</div>
+{% schema %}
+{
+  "name": "Kiks testimonials",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Quote"
+    },
+    {
+      "type": "text",
+      "id": "content",
+      "label": "Author"
+    },
+    {
+      "type": "text",
+      "id": "group",
+      "label": "Team"
+    },
+    {
+      "type": "text",
+      "id": "desc",
+      "label": "Description"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    },
+    {
+      "type": "color",
+      "id": "sec_color",
+      "label": "Secondary color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kiks testimonials"
+    }
+  ]
+}
+{% endschema %}

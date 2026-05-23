@@ -1,0 +1,238 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      background-color: #121212 !important;
+      padding: 70px 0 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-klarna-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+    }
+    
+    {{ default_sid }} .jingva-klarna-card {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 102px !important;
+      padding: 24px 48px !important;
+      background-color: #383838 !important;
+      border-radius: 12px !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      height: 70px !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-klarna-logo {
+      width: 185.95px !important;
+      height: 74.38px !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    
+    {{ default_sid }} .jingva-klarna-logo svg,
+    {{ default_sid }} .jingva-klarna-logo img {
+      width: 100% !important;
+      height: 100% !important;
+      fill: #FFFFFF !important;
+      object-fit: contain !important;
+    }
+    
+    {{ default_sid }} .jingva-klarna-text {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
+    }
+    
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: 0 !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: none !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding: 24px 16px !important;
+        box-sizing: border-box !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-card {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 24px 16px !important;
+        background-color: #282828 !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: auto !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-logo {
+        width: 106.5px !important;
+        height: 24px !important;
+        border-radius: 24px !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-logo svg,
+      {{ default_sid }} .jingva-klarna-logo img {
+        width: 100% !important;
+        height: 100% !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-text {
+        font-size: 16px !important;
+        width: 100% !important;
+      }
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        padding: 60px 40px 120px !important;
+      }
+
+      {{ default_sid }} .jingva-klarna-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 60px !important;
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+      }
+
+      {{ default_sid }} .jingva-klarna-card {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 102px !important;
+        padding: 24px 40px !important;
+        background-color: #383838 !important;
+        border-radius: 12px !important;
+        width: 100% !important;
+        max-width: 1200px !important;
+        height: 70px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-klarna-logo {
+        width: 185.95px !important;
+        height: 74.38px !important;
+        flex-shrink: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-klarna-logo svg,
+      {{ default_sid }} .jingva-klarna-logo img {
+        width: 100% !important;
+        height: 100% !important;
+        fill: #FFFFFF !important;
+        object-fit: contain !important;
+      }
+
+      {{ default_sid }} .jingva-klarna-text {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 24px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        color: #FFFFFF !important;
+        margin: 0 !important;
+      }
+    }
+
+    /* === PC: 1440~2560 === */
+    @media screen and (min-width: 1440px) {
+      {{ default_sid }} {
+        padding: 70px 48px 0 !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-wrapper {
+        gap: 48px !important;
+      }
+      
+      {{ default_sid }} .jingva-klarna-card {
+        padding: 24px 48px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-klarna-wrapper">
+    <div class="jingva-klarna-card">
+      <div class="jingva-klarna-logo">
+        {% if se_stts.klarna_logo %}
+          <img src="{{ se_stts.klarna_logo | image_url: width: 400 }}" alt="Klarna" style="width: 100%; height: 100%; object-fit: contain;">
+        {% else %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="159" height="36" viewBox="0 0 159 36" fill="none">
+            <path d="M153.852 26.4135C151.353 26.423 149.335 28.4564 149.344 30.9554C149.344 30.9585 149.344 30.9611 149.344 30.9636C149.33 33.4626 151.344 35.4998 153.843 35.5138C153.846 35.5138 153.849 35.5138 153.851 35.5138C156.338 35.5138 158.359 33.4753 158.359 30.9636C158.373 28.4646 156.359 26.4274 153.86 26.4135C153.858 26.4135 153.854 26.4135 153.852 26.4135ZM139.017 22.8994C139.017 19.4571 136.103 16.6703 132.508 16.6703C128.913 16.6703 126 19.4615 126 22.8994C126 26.3372 128.918 29.1246 132.512 29.1246C136.106 29.1246 139.016 26.3379 139.016 22.8994H139.017ZM139.042 10.7919H146.223V35.0024H139.042V33.4543C136.948 34.8995 134.465 35.6726 131.921 35.67C124.93 35.67 119.264 29.9523 119.264 22.8987C119.264 15.8452 124.931 10.1275 131.921 10.1275C134.564 10.1275 137.012 10.9437 139.042 12.3431V10.7913V10.7919ZM81.5628 13.9465V10.7957H74.2087V35.0018H81.5799V23.6979C81.5799 19.8833 85.6734 17.8366 88.5154 17.8366H88.5999V10.7957C85.6816 10.7957 83.0048 12.056 81.5628 13.9465ZM63.2434 22.8994C63.2434 19.4571 60.3296 16.6703 56.7349 16.6703C53.1401 16.6703 50.2263 19.4615 50.2263 22.8994C50.2263 26.3372 53.1445 29.1246 56.7387 29.1246C60.3328 29.1246 63.2428 26.3379 63.2428 22.8994H63.2434ZM63.2688 10.7919H70.4539V35.0024H63.2688V33.4543C61.2386 34.8499 58.7905 35.67 56.1473 35.67C49.1566 35.67 43.4903 29.9523 43.4903 22.8987C43.4903 15.8452 49.1572 10.1275 56.1473 10.1275C58.7905 10.1275 61.2386 10.9437 63.2688 12.3431V10.7913V10.7919ZM106.501 10.1446C103.634 10.1446 100.919 11.0409 99.1008 13.5196V10.7964H91.9501V35.0024H99.1898V22.2819C99.1898 18.6027 101.634 16.7967 104.582 16.7967C107.736 16.7967 109.555 18.6999 109.555 22.2311V35.0024H116.727V19.6089C116.727 13.9757 112.287 10.1446 106.502 10.1446H106.501ZM33.0281 35.0024H40.5473V0.00825798H33.0281V35.0024ZM0.000635229 35.0107H7.96387V0H0.0044466L0 35.0113L0.000635229 35.0107ZM27.8516 0C27.8516 7.57828 24.9251 14.6319 19.7067 19.8719L30.7102 35.0113H20.8781L8.92306 18.5608L12.0103 16.2263C17.1061 12.3933 20.0891 6.37643 20.0536 0H27.8516Z" fill="#FFA8CD"/>
+          </svg>
+        {% endif %}
+      </div>
+      
+      <p class="jingva-klarna-text">{{ se_stts.klarna_text | default: 'Flexible payments - Monthly options with rates as low as 0% APR' }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Klarna Payment",
+  "class": "shopify-section--jingva-klarna-payment",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Klarna支付"
+    },
+    {
+      "type": "image_picker",
+      "id": "klarna_logo",
+      "label": "Klarna Logo"
+    },
+    {
+      "type": "text",
+      "id": "klarna_text",
+      "label": "支付说明文字",
+      "default": "Flexible payments - Monthly options with rates as low as 0% APR"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Klarna Payment"
+    }
+  ]
+}
+{% endschema %}

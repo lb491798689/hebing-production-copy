@@ -1,0 +1,98 @@
+<section id="{{ section.id }}" class="tw:font-gabarito tw:bg-black tw:-mt-[calc(var(--announcement-bar-height)+var(--header-height))]!">
+  <div
+    class="
+      tw:relative tw:w-full tw:h-screen tw:overflow-hidden
+      tw:flex tw:flex-col tw:items-center tw:justify-end
+      tw:gap-6 tw:pb-[140px] tw:text-center tw:text-white
+      tw:max-md:gap-6 tw:max-md:px-4 tw:max-md:pb-10
+    "
+  >
+    {% if section.settings.video != blank %}
+      {{
+        section.settings.video
+        | video_tag:
+          playsinline: true,
+          muted: true,
+          loop: true,
+          controls: false,
+          preload: 'metadata',
+          autoplay: true,
+          loading: 'lazy',
+          class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+          image_size: '1920x'
+      }}
+    {% elsif section.settings.image != blank %}
+      {{
+        section.settings.image
+        | image_url: width: section.settings.image.width
+        | image_tag:
+          loading: 'lazy',
+          sizes: '100vw',
+          widths: '390,600,780,960,1200,1440,1680,1920,2400,3000',
+          class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover'
+      }}
+    {% endif %}
+
+    <div class="tw:absolute tw:inset-0 tw:bg-black/40 tw:block!"></div>
+
+    <div class="tw:relative tw:z-2 tw:w-full tw:flex tw:flex-col tw:items-center tw:gap-6">
+      {% if section.settings.title != blank %}
+        <h2
+          class="
+            tw:m-0 tw:w-full tw:text-[64px] tw:leading-[normal] tw:font-gabarito!
+            tw:font-semibold tw:normal-case tw:tracking-normal
+            tw:max-md:text-[32px] tw:max-md:font-bold
+          "
+        >
+          {{ section.settings.title | escape | newline_to_br }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.desc != blank %}
+        <div
+          class="
+            tw:w-full tw:max-w-[1080px] tw:text-[24px] tw:font-normal tw:leading-[normal]
+            tw:max-md:text-[16px]
+          "
+        >
+          {{ section.settings.desc | escape | newline_to_br }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "IEM Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "AutoFull x IEM Atlanta 2026\nOfficial Chair Partner"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Bringing comfort, support, and durability to 16 of the world's top CS2 teams. From the practice room to the championship stage, every AutoFull chair is engineered for victory. This May in Atlanta - take your seat with us."
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Banner"
+    }
+  ]
+}
+{% endschema %}

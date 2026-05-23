@@ -1,0 +1,195 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "media_with_text_Ab8Ppe": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_xUzh3q": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ef83114cf76d8504e774b1a25fcdd27e_191b81b2-910d-49e0-9515-049b0e5d1c2b.jpg",
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "title": "Level Up Your Loyalty",
+            "content": "<p>Unlock exclusive perks, earn points with every purchase, and score sweet rewards with the Autofull Rewards Program!  It's our way of saying thanks for being part of the Autofull family, giving you even more ways to gear up and dominate the game.</p>",
+            "link_text": "SIGN UP NOW",
+            "link_url": "/account",
+            "background": "#f6f6f6",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_xUzh3q"
+      ],
+      "settings": {
+        "full_width": true,
+        "alternate_media_position": false,
+        "spacing": "none"
+      }
+    },
+    "1740030677748c1002": {
+      "type": "apps",
+      "blocks": {
+        "joy_loyalty_program_joy_how_it_works_93jKMp": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-how-it-works/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-how-it-work-title": "HOW IT WORKS",
+            "joy-how-it-work-font-size-heading": "2.4rem",
+            "joy-how-it-work-subheading": "Grab your exclusive gifts by being part of our loyalty program",
+            "joy-how-it-work-icon-size": 80,
+            "joy-how-it-work-text-title-first": "JOIN",
+            "joy-how-it-work-text-first": "Sign up with your email address to start earning points",
+            "joy-how-it-work-link-first": "/account",
+            "joy-how-it-work-text-title-second": "EARN",
+            "joy-how-it-work-text-second": "Purchase and complete missions to earn more points",
+            "joy-how-it-work-link-second": "/account",
+            "joy-how-it-work-text-title-third": "SPEND",
+            "joy-how-it-work-text-third": "Spend points to get more rewards and coupons",
+            "joy-how-it-work-link-third": "/account",
+            "joy-how-it-work-heading-color": "#000000",
+            "joy-how-it-work-subheading-color": "#000000",
+            "joy-how-it-work-step-color": "#000000",
+            "joy-how-it-work-icon-color": "#ed1c22",
+            "joy-how-it-work-background-color": "#ffffff",
+            "joy-how-it-work-hover-color": "#f0f0f0",
+            "joy-how-it-work-max-width": 120
+          }
+        },
+        "joy_loyalty_program_joy_way_to_earn_block_CCe8Ci": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-way-to-earn-block/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-way-to-earn-title": "WAYS TO EARN",
+            "joy-way-to-earn-heading-tag": "h2",
+            "joy-way-to-earn-font-size-heading": "2.4rem",
+            "joy-way-to-earn-subtitle": "Earn more points for different actions, and turn those points into awesome rewards.",
+            "joy-way-to-earn-subheading-tag": "p",
+            "joy-way-to-earn-text-summary": "Get more points by completing these missions",
+            "joy-way-to-earn-desktop-number-columns": 3,
+            "joy-way-to-earn-mobile-number-columns": "1",
+            "joy-way-to-earn-max-width": 120,
+            "joy-way-to-earn-corner-radius": 12,
+            "joy-way-to-earn-heading-color": "#000000",
+            "joy-way-to-earn-subheading-color": "#000",
+            "joy-way-to-earn-summary-color": "#303030",
+            "joy-way-to-earn-card-color": "#FFFFFF",
+            "joy-way-to-earn-background-color": "#F6F6F6",
+            "joy-way-to-earn-program-name-color": "#000",
+            "joy-way-to-earn-points-color": "#4A4A4A",
+            "joy-way-to-earn-icon-color": "#ed1c22",
+            "joy-way-to-earn-icon-size": 80
+          }
+        },
+        "joy_loyalty_program_joy_way_to_redeem_block_jpHgap": {
+          "type": "shopify://apps/joy-loyalty-program/blocks/joy-way-to-redeem-block/555c55c9-9a3d-4fe0-a7a8-2c256984a371",
+          "settings": {
+            "joy-way-to-redeem-title": "WAYS TO REDEEM",
+            "joy-way-to-redeem-heading-tag": "h2",
+            "joy-way-to-redeem-heading-font-size": "2.4rem",
+            "joy-way-to-redeem-subtitle": "Spending your hard-earned points is easy. Simply apply your points for a discount at checkout.",
+            "joy-way-to-redeem-subheading-tag": "p",
+            "joy-way-to-redeem-desktop-number-columns": 3,
+            "joy-way-to-redeem-max-width": 120,
+            "joy-way-to-redeem-corner-radius": 12,
+            "joy-way-to-redeem-heading-color": "#000000",
+            "joy-way-to-redeem-subheading-color": "#000000",
+            "joy-way-to-redeem-icon-color": "#ed1c22",
+            "joy-way-to-redeem-program-name-color": "#000000",
+            "joy-way-to-redeem-reward-color": "#303030",
+            "joy-way-to-redeem-card-color": "#F6F6F6",
+            "joy-way-to-redeem-background-color": "#fff",
+            "joy-way-to-redeem-icon-size": 80
+          }
+        }
+      },
+      "block_order": [
+        "joy_loyalty_program_joy_how_it_works_93jKMp",
+        "joy_loyalty_program_joy_way_to_earn_block_CCe8Ci",
+        "joy_loyalty_program_joy_way_to_redeem_block_jpHgap"
+      ],
+      "settings": {
+        "full_width": false,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "image_with_text_overlay_PjtFNX": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_cK8biz": {
+          "type": "heading",
+          "settings": {
+            "text": "What Are You Waiting For?",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_MeFnUN": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Join the Autofull Rewards Program and unlock exclusive access to gear, deals, and more – it pays to be a player.</p>"
+          }
+        },
+        "button_3KpHDr": {
+          "type": "button",
+          "settings": {
+            "style": "fill",
+            "size": "lg",
+            "text": "Sign Up Now!",
+            "url": "/account",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_cK8biz",
+        "richtext_MeFnUN",
+        "button_3KpHDr"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "md",
+        "image": "shopify://shop_images/20250108-144628.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    }
+  },
+  "order": [
+    "main",
+    "media_with_text_Ab8Ppe",
+    "1740030677748c1002",
+    "image_with_text_overlay_PjtFNX"
+  ]
+}

@@ -1,0 +1,395 @@
+{%- liquid
+  assign sid = section.id
+-%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: hidden !important;
+      background-color: #000000 !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-slider {
+      position: relative !important;
+      width: 100% !important;
+      aspect-ratio: 2 / 1 !important;
+      height: auto !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-slider .swiper-wrapper {
+      height: 100% !important;
+    }
+
+    {{ default_sid }} .swiper-slide {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-slide {
+      position: relative !important;
+      width: auto !important;
+      height: 100% !important;
+      margin: 0 auto !important;
+      overflow: hidden !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-position: center 61% !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-slide-desktop {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-slide-mobile {
+      display: none !important;
+    }
+
+    {{ default_sid }} .swiper-desktop {
+      display: block !important;
+    }
+
+    {{ default_sid }} .swiper-mobile {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-nav {
+      position: absolute !important;
+      top: 50% !important;
+      left: 48px !important;
+      right: 48px !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-nav-btn,
+    {{ default_sid }} .swiper-button-prev,
+    {{ default_sid }} .swiper-button-next {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 12px !important;
+      background: transparent !important;
+      border: 1px solid #ffffff !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      pointer-events: auto !important;
+      margin: 0 !important;
+      /* 参与 flex，避免 Swiper 默认 top/margin-top 在「高度为 0 的绝对定位父级」下失效导致视觉上偏下 */
+      position: relative !important;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      margin-top: 0 !important;
+      transform: none !important;
+    }
+
+    {{ default_sid }} .swiper-button-prev::after,
+    {{ default_sid }} .swiper-button-next::after {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-nav-btn:hover,
+    {{ default_sid }} .swiper-button-prev:hover,
+    {{ default_sid }} .swiper-button-next:hover {
+      border-radius: 12px !important;
+      background: rgba(255, 255, 255, 0.10) !important;
+      backdrop-filter: blur(8px) !important;
+      border: 1px solid transparent !important;
+    }
+
+    {{ default_sid }} .jingva-flagship-nav-btn svg {
+      width: auto !important;
+      height: auto !important;
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jingva-flagship-slide-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-slide-mobile {
+        display: block !important;
+        background-size: auto 100% !important;
+        background-position: center center !important;
+      }
+
+      {{ default_sid }} .swiper-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .swiper-mobile {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav {
+        position: absolute !important;
+        top: 50% !important;
+        left: 16px !important;
+        right: 16px !important;
+        transform: translateY(-50%) !important;
+        z-index: 10 !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn,
+        {{ default_sid }} .swiper-button-prev,
+        {{ default_sid }} .swiper-button-next {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 8px !important;
+        background: transparent !important;
+        border: 1px solid #ffffff !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn svg {
+        width: auto !important;
+        height: auto !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn:hover,
+        {{ default_sid }} .swiper-button-prev:hover,
+        {{ default_sid }} .swiper-button-next:hover {
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.10) !important;
+        backdrop-filter: blur(8px) !important;
+        border: 1px solid transparent !important;
+      }
+    }
+
+    /*
+      手机竖屏素材 + 全局 2:1 会导致区域过矮，auto 100% 竖图只能缩在中间显得很小。
+      仅小屏恢复偏高区域；1024+ 仍用上方 2:1（PAD 走桌面轮播）。
+    */
+    @media screen and (max-width: 1023px) {
+      {{ default_sid }} .jingva-flagship-slider.swiper-mobile {
+        aspect-ratio: auto !important;
+        min-height: 560px !important;
+        height: min(144vw, 680px) !important;
+        max-height: 680px !important;
+      }
+    }
+
+    /* PAD过渡：1024~1279 不沿用手机纵向图，改用桌面素材与布局 */
+    @media screen and (min-width: 1024px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-flagship-slide-desktop {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-slide-mobile {
+        display: none !important;
+      }
+
+      {{ default_sid }} .swiper-desktop {
+        display: block !important;
+      }
+
+      {{ default_sid }} .swiper-mobile {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-slide {
+        background-size: cover !important;
+        background-position: center 61% !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav {
+        left: 24px !important;
+        right: 24px !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn,
+      {{ default_sid }} .swiper-button-prev,
+      {{ default_sid }} .swiper-button-next {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 10px !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn svg {
+        width: auto !important;
+        height: auto !important;
+      }
+
+      {{ default_sid }} .jingva-flagship-nav-btn:hover,
+      {{ default_sid }} .swiper-button-prev:hover,
+      {{ default_sid }} .swiper-button-next:hover {
+        border-radius: 10px !important;
+        background: rgba(255, 255, 255, 0.10) !important;
+        backdrop-filter: blur(8px) !important;
+        border: 1px solid transparent !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-flagship-slider swiper swiper-desktop" data-flagship-slider-desktop>
+    <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' -%}
+          {% comment %} PC端图片 {% endcomment %}
+          {%- if block.settings.background_image != blank -%}
+            <div class="swiper-slide">
+              <div class="jingva-flagship-slide jingva-flagship-slide-desktop"
+                style="background-image: url('{{ block.settings.background_image | image_url: width: 2560 }}');"
+              ></div>
+            </div>
+          {%- else -%}
+            <div class="swiper-slide">
+              <div class="jingva-flagship-slide jingva-flagship-slide-desktop"
+                style="background-color: #0a0a0a;"
+              ></div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="jingva-flagship-nav">
+      <button class="jingva-flagship-nav-btn jingva-flagship-prev swiper-button-prev" type="button" aria-label="Previous">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="white"/>
+        </svg>
+      </button>
+      <button class="jingva-flagship-nav-btn jingva-flagship-next swiper-button-next" type="button" aria-label="Next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="white"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="jingva-flagship-slider swiper swiper-mobile" data-flagship-slider-mobile>
+    <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'product' -%}
+          {% comment %} 移动端图片 {% endcomment %}
+          {%- if block.settings.background_image_mobile != blank -%}
+            <div class="swiper-slide">
+              <div class="jingva-flagship-slide jingva-flagship-slide-mobile"
+                style="background-image: url('{{ block.settings.background_image_mobile | image_url: width: 2560 }}');"
+              ></div>
+            </div>
+          {%- elsif block.settings.background_image != blank -%}
+            <div class="swiper-slide">
+              <div class="jingva-flagship-slide jingva-flagship-slide-mobile"
+                style="background-image: url('{{ block.settings.background_image | image_url: width: 2560 }}');"
+              ></div>
+            </div>
+          {%- else -%}
+            <div class="swiper-slide">
+              <div class="jingva-flagship-slide jingva-flagship-slide-mobile"
+                style="background-color: #0a0a0a;"
+              ></div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="jingva-flagship-nav">
+      <button class="jingva-flagship-nav-btn jingva-flagship-prev swiper-button-prev" type="button" aria-label="Previous">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="white"/>
+        </svg>
+      </button>
+      <button class="jingva-flagship-nav-btn jingva-flagship-next swiper-button-next" type="button" aria-label="Next">
+        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+          <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="white"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    const sectionId = '{{ sid }}';
+    const desktopSlider = document.querySelector('.jingva-section-container-' + sectionId + ' [data-flagship-slider-desktop]');
+    const mobileSlider = document.querySelector('.jingva-section-container-' + sectionId + ' [data-flagship-slider-mobile]');
+
+    function initSlider(slider) {
+      if (!slider) return;
+
+      const totalSlides = slider.querySelectorAll('.swiper-slide').length;
+
+      if (totalSlides <= 1) {
+        const prevBtn = slider.querySelector('.jingva-flagship-prev');
+        const nextBtn = slider.querySelector('.jingva-flagship-next');
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (nextBtn) nextBtn.style.display = 'none';
+        return;
+      }
+
+      new Swiper(slider, {
+        loop: true,
+        speed: 500,
+        grabCursor: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true
+        },
+        navigation: {
+          nextEl: '.jingva-flagship-next',
+          prevEl: '.jingva-flagship-prev'
+        }
+      });
+    }
+
+    initSlider(desktopSlider);
+    initSlider(mobileSlider);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Flagship Product",
+  "class": "shopify-section--jingva-flagship-product",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "产品图片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "PC端图片"
+        },
+        {
+          "type": "image_picker",
+          "id": "background_image_mobile",
+          "label": "移动端图片"
+        },
+        {
+          "type": "text",
+          "id": "alt_text",
+          "label": "图片描述",
+          "default": "Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Flagship Product",
+      "blocks": [
+        {
+          "type": "product",
+          "settings": { "alt_text": "AutoFull M6 Ultra Gaming Chair" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

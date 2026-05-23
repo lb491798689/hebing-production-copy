@@ -1,0 +1,1181 @@
+{%- liquid
+  assign sid = section.id
+-%}
+
+<div class="jingva-sidebar jingva-sidebar-{{ sid }}" id="jingva-sidebar">
+  {% style %}
+    /* ===== Floating Sidebar — Figma node 950:8987 & 950:8988 ===== */
+    .jingva-sidebar {
+      position: fixed !important;
+      right: 44px !important;
+      bottom: 48px !important;
+      top: auto !important;
+      transform: none !important;
+      z-index: 2147483646 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      filter: drop-shadow(0px 0px 7px rgba(26, 26, 26, 0.2)) !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0s linear 0s !important;
+    }
+
+    /* 向下滚动时整体淡出，停止 1s 后再淡入 */
+    .jingva-sidebar.is-scroll-hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease, visibility 0s linear 0.3s !important;
+    }
+
+    /* ---------- 头像区 ---------- */
+    .jingva-sidebar__avatar-wrap {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      cursor: pointer !important;
+    }
+
+    .jingva-sidebar__avatar-circle {
+      width: 52px !important;
+      height: 52px !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+      background: #DFF0FF !important;
+      flex-shrink: 0 !important;
+    }
+
+    .jingva-sidebar__avatar-circle img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    /* doctor say：黑底 + 白色描边。-webkit-text-stroke 在 12px 小字号上渲染糊；改用 8 向 text-shadow 模拟描边，更锐利。 */
+    .jingva-sidebar__avatar-label {
+      font-family: "OPPO Sans", sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 12px !important;
+      line-height: 14.4px !important;
+      color: #000000 !important;
+      text-shadow:
+        -1px -1px 0 #FFFFFF,
+         0   -1px 0 #FFFFFF,
+         1px -1px 0 #FFFFFF,
+         1px  0   0 #FFFFFF,
+         1px  1px 0 #FFFFFF,
+         0    1px 0 #FFFFFF,
+        -1px  1px 0 #FFFFFF,
+        -1px  0   0 #FFFFFF !important;
+      -webkit-font-smoothing: antialiased !important;
+      -moz-osx-font-smoothing: grayscale !important;
+      text-rendering: geometricPrecision !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 0 !important;
+    }
+
+    .jingva-sidebar__avatar-label p {
+      line-height: 14.4px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      font-family: "OPPO Sans", sans-serif !important;
+      color: inherit !important;
+      text-align: center !important;
+      text-transform: none !important;
+    }
+
+    /* ---------- 功能按钮组 ---------- */
+    .jingva-sidebar__slot {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 9px !important;
+    }
+
+    .jingva-sidebar__btn {
+      width: 43.2px !important;
+      height: 43.2px !important;
+      min-width: 43.2px !important;
+      min-height: 43.2px !important;
+      border-radius: 50% !important;
+      background: #ffffff !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 0 !important;
+      transition: background-color 0.2s ease !important;
+      position: relative !important;
+      text-decoration: none !important;
+      color: #0A0A0A !important;
+      overflow: hidden !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      box-shadow: 0 3.6px 10.8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .jingva-sidebar__btn:hover {
+      background: #E0E0E0 !important;
+    }
+
+    .jingva-sidebar__btn img {
+      width: 21.6px !important;
+      height: 21.6px !important;
+      object-fit: contain !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    #jingva-sidebar-cart img,
+    #jingva-sidebar-chat img {
+      width: 18px !important;
+      height: 18px !important;
+    }
+    
+    /* 确保聊天按钮始终可见 */
+    #jingva-sidebar-chat {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+
+    /* ---------- 头像弹窗 ---------- */
+    .jingva-sidebar__modal-overlay {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      z-index: 2147483647 !important;
+      display: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 20px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-sidebar__modal-overlay.active {
+      display: flex !important;
+    }
+
+    /* === MOB: 375~1279 === (Mobile First) === */
+    .jingva-sidebar__modal {
+      background: #ffffff !important;
+      border-radius: 12px !important;
+      padding: 12px 24px 31px !important;
+      max-width: 358px !important;
+      width: auto !important;
+      position: relative !important;
+      box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.25) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-sidebar__modal-close {
+      position: absolute !important;
+      top: 12px !important;
+      right: 16px !important;
+      width: 36px !important;
+      height: 36px !important;
+      background: #ffffff !important;
+      border: 2.2px solid #000000 !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .jingva-sidebar__modal-close:hover {
+      background: rgba(26, 26, 26, 0.10) !important;
+      border-color: transparent !important;
+    }
+
+    .jingva-sidebar__modal-avatar-wrap {
+      flex-shrink: 0 !important;
+      width: 213px !important;
+      height: 213px !important;
+    }
+
+    .jingva-sidebar__modal-avatar {
+      width: 213px !important;
+      height: 213px !important;
+      border-radius: 50% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    .jingva-sidebar__modal-content {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0px !important;
+      text-align: left !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Richtext 内部标签样式 */
+    .jingva-sidebar__modal-content div,
+    .jingva-sidebar__modal-content p,
+    .jingva-sidebar__modal-content h1,
+    .jingva-sidebar__modal-content h2,
+    .jingva-sidebar__modal-content h3,
+    .jingva-sidebar__modal-content h4,
+    .jingva-sidebar__modal-content h5,
+    .jingva-sidebar__modal-content h6,
+    .jingva-sidebar__modal-content ul,
+    .jingva-sidebar__modal-content ol,
+    .jingva-sidebar__modal-content li {
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 确保 richtext 容器的 title/doctor-title/quote div 继承样式 */
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 32px !important;
+      line-height: normal !important;
+      color: #000 !important;
+      margin: 0 0 12px 0 !important;
+      padding: 0 !important;
+      text-transform: none !important;
+      white-space: pre-line !important;
+    }
+
+    /* 标题内部 richtext 段落不带额外边距，避免两行之间出现空隙 */
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-title div,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-title p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 32px !important;
+      line-height: normal !important;
+      color: #000 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      text-transform: none !important;
+      white-space: pre-line !important;
+    }
+
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-doctor-title,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-doctor-title div,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-doctor-title p,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-doctor-title br {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      white-space: normal !important;
+      word-wrap: break-word !important;
+    }
+
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-quote,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-quote div,
+    .jingva-sidebar__modal-content .jingva-sidebar__modal-quote p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      line-height: normal !important;
+      color: rgba(0, 0, 0, 0.60) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-style: normal !important;
+      word-wrap: break-word !important;
+    }
+
+    .jingva-sidebar__modal-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 24px !important;
+      line-height: 28px !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      text-transform: none !important;
+      white-space: pre-line !important;
+    }
+
+    .jingva-sidebar__modal-doctor-name {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 18px !important;
+      line-height: 21.6px !important;
+      color: #0a0a0a !important;
+      margin: 0 0 24px 0 !important;
+    }
+
+    .jingva-sidebar__modal-doctor-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 14px !important;
+      line-height: 16.8px !important;
+      color: #0a0a0a !important;
+      margin: 0 0 12px 0 !important;
+      white-space: normal !important;
+      word-wrap: break-word !important;
+    }
+
+    .jingva-sidebar__modal-quote {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 12px !important;
+      line-height: 14.4px !important;
+      color: rgba(26, 26, 26, 0.6) !important;
+      margin: 0 !important;
+      font-style: normal !important;
+      word-wrap: break-word !important;
+    }
+
+    /* Richtext 内部 p 标签样式 */
+    .jingva-sidebar__modal-content p {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* Mobile 显示 mobile 弹窗 */
+    .jingva-sidebar__modal-overlay--mobile {
+      display: none !important;
+    }
+
+    .jingva-sidebar__modal-overlay--mobile.active {
+      display: flex !important;
+    }
+
+    .jingva-sidebar__modal-overlay--desktop {
+      display: none !important;
+    }
+
+    .jingva-sidebar__modal-overlay--desktop.active {
+      display: none !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      /* 弹窗显示控制 - PAD 显示 desktop 弹窗 */
+      .jingva-sidebar__modal-overlay--mobile {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--mobile.active {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--desktop {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--desktop.active {
+        display: flex !important;
+      }
+
+      .jingva-sidebar__modal {
+        border-radius: 8px !important;
+        padding: 48px !important;
+        gap: 48px !important;
+        max-width: 1200px !important;
+        width: auto !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+      }
+
+      .jingva-sidebar__modal-close {
+        top: 24px !important;
+        right: 24px !important;
+        width: 32px !important;
+        height: 32px !important;
+        background: transparent !important;
+        border: 2px solid #0a0a0a !important;
+      }
+
+      .jingva-sidebar__modal-avatar {
+        width: 300px !important;
+        height: 300px !important;
+      }
+
+      .jingva-sidebar__modal-content {
+        text-align: left !important;
+        gap: 12px !important;
+        padding-top: 0 !important;
+        max-width: 720px !important;
+      }
+
+      .jingva-sidebar__modal-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 32px !important;
+        line-height: 38px !important;
+        text-transform: none !important;
+        white-space: pre-line !important;
+      }
+
+      .jingva-sidebar__modal-doctor-name {
+        font-size: 18px !important;
+        line-height: 21.6px !important;
+        font-weight: 700 !important;
+      }
+
+      .jingva-sidebar__modal-doctor-title {
+        font-size: 14px !important;
+        line-height: 16.8px !important;
+        color: #0a0a0a !important;
+        font-weight: 500 !important;
+        word-wrap: break-word !important;
+      }
+
+      .jingva-sidebar__modal-quote {
+        font-size: 12px !important;
+        line-height: 14.4px !important;
+        color: rgba(26, 26, 26, 0.6) !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        word-wrap: break-word !important;
+      }
+    }
+
+    /* === PC: 1440~2560 === */
+    @media screen and (min-width: 1440px) {
+      /* 弹窗显示控制 - PC 显示 desktop 弹窗 */
+      .jingva-sidebar__modal-overlay--mobile {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--mobile.active {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--desktop {
+        display: none !important;
+      }
+
+      .jingva-sidebar__modal-overlay--desktop.active {
+        display: flex !important;
+      }
+
+      .jingva-sidebar__modal {
+        border-radius: 12px !important;
+        padding: 70px 162px 69px !important;
+        gap: 85px !important;
+        max-width: 1200px !important;
+        width: auto !important;
+        flex-direction: row !important;
+        align-items: flex-start !important;
+      }
+
+      .jingva-sidebar__modal-close {
+        top: 24px !important;
+        right: 24px !important;
+        width: 32px !important;
+        height: 32px !important;
+        background: transparent !important;
+        border: 2px solid #0a0a0a !important;
+      }
+
+      .jingva-sidebar__modal-avatar-wrap {
+        width: 341px !important;
+        height: 341px !important;
+      }
+
+      .jingva-sidebar__modal-avatar {
+        width: 341px !important;
+        height: 341px !important;
+      }
+
+      .jingva-sidebar__modal-content {
+        text-align: left !important;
+        gap: 12px !important;
+        padding-top: 0 !important;
+        max-width: 720px !important;
+      }
+
+      .jingva-sidebar__modal-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 32px !important;
+        line-height: 38px !important;
+        text-transform: none !important;
+        white-space: pre-line !important;
+      }
+
+      .jingva-sidebar__modal-doctor-name {
+        font-size: 24px !important;
+        line-height: normal !important;
+        font-weight: 700 !important;
+        color: #000 !important;
+      }
+
+      .jingva-sidebar__modal-doctor-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 16px !important;
+        line-height: normal !important;
+        color: #0a0a0a !important;
+        font-weight: 500 !important;
+        word-wrap: break-word !important;
+      }
+
+      .jingva-sidebar__modal-content .jingva-sidebar__modal-quote,
+      .jingva-sidebar__modal-content div.jingva-sidebar__modal-quote,
+      .jingva-sidebar__modal-content p.jingva-sidebar__modal-quote {
+        font-size: 14px !important;
+        line-height: normal !important;
+        color: rgba(0, 0, 0, 0.60) !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        word-wrap: break-word !important;
+        margin-top: 12px !important;
+      }
+    }
+
+    /* 移动端样式调整 (mob: 375-1279px) */
+    @media screen and (max-width: 1279px) {
+      .jingva-sidebar__modal-overlay {
+        padding: 0 !important;
+      }
+
+      .jingva-sidebar__modal {
+        padding: 33px 24px 31px !important;
+        gap: 24px !important;
+      }
+
+      .jingva-sidebar {
+        right: 16px !important;
+        bottom: 40px !important;
+      }
+
+      .jingva-sidebar__avatar-wrap {
+        gap: 4px !important;
+      }
+
+      .jingva-sidebar__modal-avatar-wrap {
+        margin: 0 !important;
+      }
+
+      .jingva-sidebar__avatar-circle {
+        width: 48px !important;
+        height: 48px !important;
+        background: #DFF0FF !important;
+      }
+
+      .jingva-sidebar__modal-content .jingva-sidebar__modal-title {
+        margin-bottom: 12px !important;
+      }
+
+      .jingva-sidebar__modal-content .jingva-sidebar__modal-title p {
+        color: #000 !important;
+        font-family: Gabarito !important;
+        font-size: 24px !important;
+        font-style: normal !important;
+        font-weight: 700 !important;
+        line-height: normal !important;
+      }
+
+      .jingva-sidebar__modal-content p.jingva-sidebar__modal-doctor-name {
+        margin-bottom: 24px !important;
+      }
+
+      .jingva-sidebar__modal-content div.jingva-sidebar__modal-doctor-title,
+      .jingva-sidebar__modal-content p.jingva-sidebar__modal-doctor-title {
+        color: #000 !important;
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 14px !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        line-height: normal !important;
+        margin-bottom: 12px !important;
+      }
+
+      .jingva-sidebar__modal-content div.jingva-sidebar__modal-quote,
+      .jingva-sidebar__modal-content p.jingva-sidebar__modal-quote {
+        color: rgba(0, 0, 0, 0.60) !important;
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 12px !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        line-height: normal !important;
+      }
+
+      .jingva-sidebar__avatar-label {
+        font-family: "OPPO Sans", sans-serif !important;
+        font-size: 12px !important;
+        line-height: 14.4px !important;
+        font-weight: 700 !important;
+        color: #000000 !important;
+        text-shadow:
+          -1px -1px 0 #FFFFFF,
+           0   -1px 0 #FFFFFF,
+           1px -1px 0 #FFFFFF,
+           1px  0   0 #FFFFFF,
+           1px  1px 0 #FFFFFF,
+           0    1px 0 #FFFFFF,
+          -1px  1px 0 #FFFFFF,
+          -1px  0   0 #FFFFFF !important;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: geometricPrecision !important;
+        text-align: center !important;
+        text-transform: none !important;
+      }
+
+      .jingva-sidebar__avatar-label p {
+        font-size: 12px !important;
+        line-height: 14.4px !important;
+        font-weight: 700 !important;
+        font-family: "OPPO Sans", sans-serif !important;
+        color: inherit !important;
+        text-align: center !important;
+        text-transform: none !important;
+      }
+
+      .jingva-sidebar__btn {
+        width: 32.4px !important;
+        height: 32.4px !important;
+        min-width: 32.4px !important;
+        min-height: 32.4px !important;
+        padding: 2.7px !important;
+        box-shadow: 0 2.7px 8.1px rgba(0, 0, 0, 0.08) !important;
+      }
+
+      .jingva-sidebar__btn img {
+        width: 16.2px !important;
+        height: 16.2px !important;
+      }
+
+      #jingva-sidebar-cart img,
+      #jingva-sidebar-chat img {
+        width: 13.5px !important;
+        height: 13.5px !important;
+      }
+    }
+  {% endstyle %}
+
+  <!-- 头像区域 -->
+  <div class="jingva-sidebar__avatar-wrap" id="jingva-sidebar-avatar" role="button" tabindex="0" aria-label="Contact specialist">
+    <div class="jingva-sidebar__avatar-circle">
+      {% if section.settings.avatar_image %}
+        <img src="{{ section.settings.avatar_image | img_url: 'master' }}" alt="Specialist" loading="lazy">
+      {% else %}
+        <img src="{{ 'sidebar-avatar.png' | asset_url }}" alt="Specialist" loading="lazy">
+      {% endif %}
+    </div>
+    <span class="jingva-sidebar__avatar-label">
+      {% if section.settings.avatar_label_line1 != blank %}
+        <p>{{ section.settings.avatar_label_line1 }}</p>
+      {% endif %}
+      {% if section.settings.avatar_label_line2 != blank %}
+        <p>{{ section.settings.avatar_label_line2 }}</p>
+      {% endif %}
+    </span>
+  </div>
+
+  <!-- 功能按钮组 -->
+  <div class="jingva-sidebar__slot">
+    <!-- 返回顶部 -->
+    <button class="jingva-sidebar__btn" id="jingva-sidebar-top" aria-label="Back to top">
+      <img src="{{ 'sidebar-icon-top.svg' | asset_url }}" alt="Back to top" loading="lazy">
+    </button>
+
+    <!-- 购物车 -->
+    <a href="/cart" class="jingva-sidebar__btn" id="jingva-sidebar-cart" aria-label="Cart">
+      <img src="{{ 'sidebar-icon-cart.svg' | asset_url }}" alt="Cart" loading="lazy">
+    </a>
+
+    <!-- 聊天 -->
+    <button class="jingva-sidebar__btn" id="jingva-sidebar-chat" aria-label="Chat">
+      <img src="{{ 'sidebar-icon-chat.svg' | asset_url }}" alt="Chat" loading="lazy">
+    </button>
+  </div>
+</div>
+
+<!-- 头像弹窗 - Mobile -->
+<div class="jingva-sidebar__modal-overlay jingva-sidebar__modal-overlay--mobile" id="jingva-sidebar-modal-mobile">
+  <div class="jingva-sidebar__modal">
+    <button class="jingva-sidebar__modal-close" id="jingva-sidebar-modal-close-mobile" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M19.5553 18.0009L24.4028 22.8485L22.8477 24.4035L18.0002 19.556L13.1526 24.4035L11.5975 22.8485L16.4451 18.0009L11.5975 13.1534L13.1526 11.5983L18.0002 16.4458L22.8477 11.5983L24.4028 13.1534L19.5553 18.0009Z" fill="black"/>
+      </svg>
+    </button>
+    <div class="jingva-sidebar__modal-avatar-wrap">
+      {% if section.settings.modal_avatar_mobile %}
+        <img src="{{ section.settings.modal_avatar_mobile | img_url: 'master' }}" alt="{{ section.settings.modal_doctor_name_mobile | default: 'Doctor' }}" class="jingva-sidebar__modal-avatar">
+      {% else %}
+        <img src="{{ 'sidebar-avatar.png' | asset_url }}" alt="{{ section.settings.modal_doctor_name_mobile | default: 'Doctor' }}" class="jingva-sidebar__modal-avatar">
+      {% endif %}
+    </div>
+    <div class="jingva-sidebar__modal-content">
+      {% if section.settings.modal_title_mobile %}
+        <div class="jingva-sidebar__modal-title">{{ section.settings.modal_title_mobile }}</div>
+      {% else %}
+        <h2 class="jingva-sidebar__modal-title">AutoFull Ergonomics
+Advisory Board</h2>
+      {% endif %}
+      <p class="jingva-sidebar__modal-doctor-name">{{ section.settings.modal_doctor_name_mobile | default: 'Dr. Dennis Miller' }}</p>
+      {% if section.settings.modal_doctor_title_mobile %}
+        <div class="jingva-sidebar__modal-doctor-title">{{ section.settings.modal_doctor_title_mobile }}</div>
+      {% else %}
+        <p class="jingva-sidebar__modal-doctor-title">Chiropractor of the International Chiropractic Association (ICA)
+Doctor of Medicine of Palmer College of Chiropractic Care</p>
+      {% endif %}
+      {% if section.settings.modal_quote_mobile %}
+        <div class="jingva-sidebar__modal-quote">{{ section.settings.modal_quote_mobile }}</div>
+      {% else %}
+        <p class="jingva-sidebar__modal-quote">"As a chiropractor, I find AutoFull M6 Series has laudable design. Its back design mitigates pressure on the back, while neck pillow supports the neck and reduces burden on the spine. For gamers and others spending hours sitting every day, it is conducive for maintaining their spinal health."</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<!-- 头像弹窗 - Desktop (PAD & PC) -->
+<div class="jingva-sidebar__modal-overlay jingva-sidebar__modal-overlay--desktop" id="jingva-sidebar-modal-desktop">
+  <div class="jingva-sidebar__modal">
+    <button class="jingva-sidebar__modal-close" id="jingva-sidebar-modal-close-desktop" aria-label="Close">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M19.5553 18.0009L24.4028 22.8485L22.8477 24.4035L18.0002 19.556L13.1526 24.4035L11.5975 22.8485L16.4451 18.0009L11.5975 13.1534L13.1526 11.5983L18.0002 16.4458L22.8477 11.5983L24.4028 13.1534L19.5553 18.0009Z" fill="black"/>
+      </svg>
+    </button>
+    <div class="jingva-sidebar__modal-avatar-wrap">
+      {% if section.settings.modal_avatar_desktop %}
+        <img src="{{ section.settings.modal_avatar_desktop | img_url: 'master' }}" alt="{{ section.settings.modal_doctor_name_desktop | default: 'Doctor' }}" class="jingva-sidebar__modal-avatar">
+      {% else %}
+        <img src="{{ 'sidebar-avatar.png' | asset_url }}" alt="{{ section.settings.modal_doctor_name_desktop | default: 'Doctor' }}" class="jingva-sidebar__modal-avatar">
+      {% endif %}
+    </div>
+    <div class="jingva-sidebar__modal-content">
+      {% if section.settings.modal_title_desktop %}
+        <div class="jingva-sidebar__modal-title">{{ section.settings.modal_title_desktop }}</div>
+      {% else %}
+        <h2 class="jingva-sidebar__modal-title">AutoFull Ergonomics
+Advisory Board</h2>
+      {% endif %}
+      <p class="jingva-sidebar__modal-doctor-name">{{ section.settings.modal_doctor_name_desktop | default: 'Dr. Dennis Miller' }}</p>
+      {% if section.settings.modal_doctor_title_desktop %}
+        <div class="jingva-sidebar__modal-doctor-title">{{ section.settings.modal_doctor_title_desktop }}</div>
+      {% else %}
+        <p class="jingva-sidebar__modal-doctor-title">Chiropractor of the International Chiropractic Association (ICA)
+Doctor of Medicine of Palmer College of Chiropractic Care</p>
+      {% endif %}
+      {% if section.settings.modal_quote_desktop %}
+        <div class="jingva-sidebar__modal-quote">{{ section.settings.modal_quote_desktop }}</div>
+      {% else %}
+        <p class="jingva-sidebar__modal-quote">"As a chiropractor, I find AutoFull M6 Series has laudable design. Its back design mitigates pressure on the back, while neck pillow supports the neck and reduces burden on the spine. For gamers and others spending hours sitting every day, it is conducive for maintaining their spinal health."</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // 延迟执行确保 DOM 完全加载
+    setTimeout(function() {
+      console.log('[Jingva Sidebar] Checking sidebar visibility...');
+
+      var sidebar = document.getElementById('jingva-sidebar');
+      if (sidebar) {
+        console.log('[Jingva Sidebar] ✓ Sidebar element found');
+        console.log('[Jingva Sidebar] Computed styles:', window.getComputedStyle(sidebar).display, window.getComputedStyle(sidebar).visibility);
+
+        // 强制显示
+        sidebar.style.setProperty('display', 'flex', 'important');
+        sidebar.style.setProperty('visibility', 'visible', 'important');
+        sidebar.style.setProperty('opacity', '1', 'important');
+      } else {
+        console.error('[Jingva Sidebar] ✗ Sidebar element NOT found in DOM');
+      }
+
+      var chatBtn = document.getElementById('jingva-sidebar-chat');
+      if (chatBtn) {
+        console.log('[Jingva Sidebar] ✓ Chat button found');
+        console.log('[Jingva Sidebar] Chat button styles:', window.getComputedStyle(chatBtn).display, window.getComputedStyle(chatBtn).visibility);
+
+        // 强制显示聊天按钮
+        chatBtn.style.setProperty('display', 'flex', 'important');
+        chatBtn.style.setProperty('visibility', 'visible', 'important');
+        chatBtn.style.setProperty('opacity', '1', 'important');
+      } else {
+        console.error('[Jingva Sidebar] ✗ Chat button NOT found');
+      }
+
+      var topBtn = document.getElementById('jingva-sidebar-top');
+      if (topBtn) {
+        console.log('[Jingva Sidebar] ✓ Top button found');
+      }
+
+      var cartBtn = document.getElementById('jingva-sidebar-cart');
+      if (cartBtn) {
+        console.log('[Jingva Sidebar] ✓ Cart button found');
+      }
+    }, 500);
+
+    // 自动调整侧边栏 bottom 位置以响应 g7-custom-sticky-cart 的显示/隐藏
+    function adjustSidebarBottom() {
+      var sidebar = document.getElementById('jingva-sidebar');
+      var stickyCart = document.querySelector('.g7-custom-sticky-cart');
+
+      if (!sidebar) return;
+
+      var isMobile = window.innerWidth < 1280;
+      var defaultBottom = isMobile ? 40 : 48;
+
+      if (stickyCart) {
+        var stickyCartStyles = window.getComputedStyle(stickyCart);
+        var isVisible = stickyCartStyles.display !== 'none' &&
+                       stickyCartStyles.visibility !== 'hidden' &&
+                       parseFloat(stickyCartStyles.opacity) > 0;
+
+        if (isVisible) {
+          var stickyCartHeight = stickyCart.offsetHeight;
+          var newBottom = defaultBottom + stickyCartHeight + 12;
+          sidebar.style.setProperty('bottom', newBottom + 'px', 'important');
+        } else {
+          sidebar.style.setProperty('bottom', defaultBottom + 'px', 'important');
+        }
+      } else {
+        sidebar.style.setProperty('bottom', defaultBottom + 'px', 'important');
+      }
+    }
+
+    // 使用 MutationObserver 监听 DOM 变化
+    var observer = new MutationObserver(function(mutations) {
+      adjustSidebarBottom();
+    });
+
+    // 开始观察
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['style', 'class']
+    });
+
+    // 初始调整
+    adjustSidebarBottom();
+    setTimeout(adjustSidebarBottom, 100);
+    setTimeout(adjustSidebarBottom, 500);
+    setTimeout(adjustSidebarBottom, 1000);
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', function() {
+      adjustSidebarBottom();
+    });
+
+    // 监听滚动事件
+    var scrollTimer;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(adjustSidebarBottom, 100);
+    }, { passive: true });
+    
+    // 判断是否为移动端
+    function isMobile() {
+      return window.innerWidth < 1280;
+    }
+
+    // 获取当前应该显示的弹窗
+    function getCurrentModal() {
+      if (isMobile()) {
+        return {
+          overlay: document.getElementById('jingva-sidebar-modal-mobile'),
+          close: document.getElementById('jingva-sidebar-modal-close-mobile')
+        };
+      } else {
+        return {
+          overlay: document.getElementById('jingva-sidebar-modal-desktop'),
+          close: document.getElementById('jingva-sidebar-modal-close-desktop')
+        };
+      }
+    }
+
+    // 关闭所有弹窗
+    function closeAllModals() {
+      var modalMobile = document.getElementById('jingva-sidebar-modal-mobile');
+      var modalDesktop = document.getElementById('jingva-sidebar-modal-desktop');
+      if (modalMobile) modalMobile.classList.remove('active');
+      if (modalDesktop) modalDesktop.classList.remove('active');
+    }
+
+    // 头像弹窗
+    var avatarBtn = document.getElementById('jingva-sidebar-avatar');
+    if (avatarBtn) {
+      avatarBtn.addEventListener('click', function() {
+        closeAllModals();
+        var modal = getCurrentModal();
+        if (modal.overlay) {
+          modal.overlay.classList.add('active');
+        }
+      });
+    }
+
+    // Mobile 弹窗关闭
+    var modalMobile = document.getElementById('jingva-sidebar-modal-mobile');
+    var modalCloseMobile = document.getElementById('jingva-sidebar-modal-close-mobile');
+    if (modalMobile) {
+      if (modalCloseMobile) {
+        modalCloseMobile.addEventListener('click', function() {
+          modalMobile.classList.remove('active');
+        });
+      }
+      modalMobile.addEventListener('click', function(e) {
+        if (e.target === modalMobile) {
+          modalMobile.classList.remove('active');
+        }
+      });
+    }
+
+    // Desktop 弹窗关闭
+    var modalDesktop = document.getElementById('jingva-sidebar-modal-desktop');
+    var modalCloseDesktop = document.getElementById('jingva-sidebar-modal-close-desktop');
+    if (modalDesktop) {
+      if (modalCloseDesktop) {
+        modalCloseDesktop.addEventListener('click', function() {
+          modalDesktop.classList.remove('active');
+        });
+      }
+      modalDesktop.addEventListener('click', function(e) {
+        if (e.target === modalDesktop) {
+          modalDesktop.classList.remove('active');
+        }
+      });
+    }
+
+    // 返回顶部
+    var topBtn = document.getElementById('jingva-sidebar-top');
+    if (topBtn) {
+      topBtn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 聊天：自定义 icon = 唯一入口；再次点击关闭（系统悬浮球由 theme 侧隐藏）
+    var chatBtn = document.getElementById('jingva-sidebar-chat');
+    if (chatBtn) {
+      chatBtn.addEventListener('click', function () {
+        var inboxHost = document.getElementById('ShopifyChat');
+        if (!inboxHost) {
+          var w = document.getElementById('shopify-chat');
+          if (w) inboxHost = w.querySelector('inbox-online-store-chat');
+        }
+        if (
+          inboxHost &&
+          inboxHost.getAttribute('is-open') === 'true' &&
+          window.__jingvaAllowInboxOpen
+        ) {
+          if (typeof window.jingvaCloseShopifyInbox === 'function') {
+            window.jingvaCloseShopifyInbox();
+          }
+          return;
+        }
+        if (typeof window.jingvaOpenShopifyInbox === 'function') {
+          window.jingvaOpenShopifyInbox();
+        } else {
+          window.__jingvaAllowInboxOpen = true;
+          window.__jingvaInboxOpenRequestedAt = Date.now();
+          var el = document.getElementById('ShopifyChat');
+          if (!el) {
+            var wrapper = document.getElementById('shopify-chat');
+            if (wrapper) el = wrapper.querySelector('inbox-online-store-chat');
+          }
+          if (el) {
+            document.documentElement.classList.add('jingva-inbox-panel-open');
+            el.setAttribute('is-open', 'true');
+            window.__jingvaInboxHasBeenOpened = true;
+            el.style.setProperty('position', 'fixed', 'important');
+            if (typeof window.jingvaApplyInboxDockLayout === 'function') {
+              window.jingvaApplyInboxDockLayout(el);
+            } else {
+              el.style.setProperty('right', '132px', 'important');
+              el.style.setProperty('bottom', '52px', 'important');
+            }
+            el.style.setProperty('opacity', '1', 'important');
+            el.style.setProperty('visibility', 'visible', 'important');
+            el.style.setProperty('pointer-events', 'auto', 'important');
+            el.style.setProperty('z-index', '2147483647', 'important');
+          }
+        }
+      });
+    }
+
+    /* ───────── 滚动渐隐渐显：向下滚动淡出，停下 1s 后淡入（PC/MOB 同步） ───────── */
+    (function initScrollFade() {
+      var sidebarEl = document.getElementById('jingva-sidebar');
+      if (!sidebarEl) return;
+
+      var IDLE_DELAY = 1000;       // 停止滚动 1s 后淡入
+      var DOWN_THRESHOLD = 4;      // 单帧向下位移超过该阈值视为有效向下滚动
+      var lastY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var idleTimer = 0;
+      var rafId = 0;
+      var hidden = false;
+
+      // 用 inline style 覆盖：上方有 setProperty('opacity','1','important')，必须以同等优先级写入
+      function applyHidden() {
+        sidebarEl.style.setProperty('opacity', '0', 'important');
+        sidebarEl.style.setProperty('pointer-events', 'none', 'important');
+        // 不改 visibility，避免抢占其它逻辑；opacity 0 已视觉隐藏
+      }
+      function applyVisible() {
+        sidebarEl.style.setProperty('opacity', '1', 'important');
+        sidebarEl.style.setProperty('pointer-events', 'auto', 'important');
+      }
+
+      function showSoon() {
+        if (idleTimer) clearTimeout(idleTimer);
+        idleTimer = setTimeout(function () {
+          idleTimer = 0;
+          if (hidden) {
+            hidden = false;
+            applyVisible();
+          }
+        }, IDLE_DELAY);
+      }
+
+      function onScroll() {
+        rafId = 0;
+        var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+        var delta = y - lastY;
+        lastY = y;
+
+        if (delta > DOWN_THRESHOLD) {
+          if (!hidden) {
+            hidden = true;
+            applyHidden();
+          }
+          showSoon();
+        }
+      }
+
+      window.addEventListener('scroll', function () {
+        if (rafId) return;
+        rafId = window.requestAnimationFrame(onScroll);
+      }, { passive: true });
+    })();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Sidebar",
+  "class": "shopify-section--jingva-sidebar",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Avatar Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "avatar_image",
+      "label": "Avatar Image",
+      "info": "Image for the sidebar avatar"
+    },
+    {
+      "type": "header",
+      "content": "Avatar Label"
+    },
+    {
+      "type": "text",
+      "id": "avatar_label_line1",
+      "label": "Label Line 1"
+    },
+    {
+      "type": "text",
+      "id": "avatar_label_line2",
+      "label": "Label Line 2"
+    },
+    {
+      "type": "header",
+      "content": "Modal - Mobile"
+    },
+    {
+      "type": "image_picker",
+      "id": "modal_avatar_mobile",
+      "label": "Modal Avatar (Mobile)"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_title_mobile",
+      "label": "Modal Title (Mobile)",
+      "default": "<p>AutoFull Ergonomics<br>Advisory Board</p>"
+    },
+    {
+      "type": "text",
+      "id": "modal_doctor_name_mobile",
+      "label": "Doctor Name (Mobile)",
+      "default": "Dr. Dennis Miller"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_doctor_title_mobile",
+      "label": "Doctor Title (Mobile)",
+      "default": "<p>Chiropractor of the International Chiropractic Association (ICA)<br>Doctor of Medicine of Palmer College of Chiropractic Care</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_quote_mobile",
+      "label": "Quote (Mobile)",
+      "default": "<p>\"As a chiropractor, I find AutoFull M6 Series has laudable design. Its back design mitigates pressure on the back, while neck pillow supports the neck and reduces burden on the spine. For gamers and others spending hours sitting every day, it is conducive for maintaining their spinal health.\"</p>"
+    },
+    {
+      "type": "header",
+      "content": "Modal - Desktop (PAD & PC)"
+    },
+    {
+      "type": "image_picker",
+      "id": "modal_avatar_desktop",
+      "label": "Modal Avatar (Desktop)"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_title_desktop",
+      "label": "Modal Title (Desktop)",
+      "default": "<p>AutoFull Ergonomics<br>Advisory Board</p>"
+    },
+    {
+      "type": "text",
+      "id": "modal_doctor_name_desktop",
+      "label": "Doctor Name (Desktop)",
+      "default": "Dr. Dennis Miller"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_doctor_title_desktop",
+      "label": "Doctor Title (Desktop)",
+      "default": "<p>Chiropractor of the International Chiropractic Association (ICA)<br>Doctor of Medicine of Palmer College of Chiropractic Care</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "modal_quote_desktop",
+      "label": "Quote (Desktop)",
+      "default": "<p>\"As a chiropractor, I find AutoFull M6 Series has laudable design. Its back design mitigates pressure on the back, while neck pillow supports the neck and reduces burden on the spine. For gamers and others spending hours sitting every day, it is conducive for maintaining their spinal health.\"</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Sidebar",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

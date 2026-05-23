@@ -1,0 +1,407 @@
+{% liquid
+  assign sid = section.id
+%}
+
+{% capture default_sid %}.jingva-best-sellers-{{ sid }}{% endcapture %}
+
+<section class="jingva-best-sellers {{ section.settings.section_css }} jingva-best-sellers-{{ sid }}">
+
+  {% style %}
+  {{ default_sid }} {
+    --bg: {{ section.settings.background | default: '#000000' }};
+    --text: {{ section.settings.text_color | default: '#ffffff' }};
+    --card-bg: #1F1F1F;
+    --muted: #CFCFCF;
+    --accent: #E1040F;
+    padding: 26px;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+ 
+
+  {{ default_sid }} .container{ max-width: var(--container-max-width); margin: 0 auto;  }
+  {{ default_sid }} .heading{ font-size: 68px; font-weight: bold; margin: 0 0 18px 0; font-family: 'D-DINCondensed-Bold'; font-style: normal;}
+
+  {{ default_sid }} .product-row{position:relative; display:grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: center; background: var(--card-bg);  padding: 26px; }
+  {{ default_sid }} .product-row + .product-row{ margin-top: 28px; }
+  {{ default_sid }} .media{ background:#0f0f0f; border-radius: 6px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  {{ default_sid }} .media img{ width:100%; height:auto; object-fit:contain; user-select:none; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; -webkit-user-drag:none; -webkit-touch-callout:none; }
+  {{ default_sid }} .media .swiper{ width:100%; height:100%; }
+  {{ default_sid }} .media .swiper, {{ default_sid }} .media .swiper *{ -webkit-tap-highlight-color: transparent; }
+  {{ default_sid }} .media .swiper-slide{ display:flex; align-items:center; justify-content:center; background:transparent; }
+  {{ default_sid }} .media .swiper-slide img{ width:100%; height:auto; object-fit:contain; }
+  {{ default_sid }} .media .swiper-button-prev,
+  {{ default_sid }} .media .swiper-button-next{
+    color:#000; width:38px; height:38px; border:1px solid #000; border-radius: 50%;
+    cursor:point;
+    backdrop-filter: blur(2px);
+    transition: opacity .2s ease, visibility .2s ease;
+    opacity:0; visibility:hidden;
+  }
+  {{ default_sid }} .media:hover .swiper-button-prev,
+  {{ default_sid }} .media:hover .swiper-button-next{
+    opacity:1; visibility:visible;
+  }
+  {{ default_sid }} .media .swiper-button-prev:after,
+  {{ default_sid }} .media .swiper-button-next:after{ font-size:16px; }
+
+  {{ default_sid }} .info .title{ font-size: 36px; font-weight: bold; margin: 0 0 8px 0;display: inline-block; max-width: 380px;line-height: 1.5; }
+  {{ default_sid }} .info{
+    align-self:flex-end;
+  }
+  {{ default_sid }} .price-line{ display:flex; align-items:flex-end; gap:10px; margin: 20px 0 15px; }
+  {{ default_sid }} .price{ font-size: 36px; font-weight: bold;line-height: 1.1; }
+  {{ default_sid }} .compare{ color:#AAAAAA; text-decoration: line-through; font-size: 16px; }
+  {{ default_sid }} .badge-off{ background: var(--accent); color:#fff; font-size: 16px;font-weight: bold; padding: 2px 8px; clip-path: polygon(0% 5px, 5px 0%, calc(100% - 5px) 0%, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0% calc(100% - 5px)); }
+  {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale{width: 81px; height: 91px;gap:4px; }
+  {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .on-save,
+  {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .save,
+  {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .off{font-size: 24px; }
+
+  {{ default_sid }} .swatches{ display:flex; gap:18px; margin:10px 0 14px; }
+  {{ default_sid }} .swatch{ width:22px; height:22px; border-radius:50%; cursor:pointer; position:relative; border:none; outline: none;  box-shadow: 0 0 0 4px #2d2d2d, 0 0 0 5px #323232;; transition: box-shadow .2s ease, transform .1s ease; }
+  {{ default_sid }} .swatch:hover{ transform: scale(1.05); }
+  {{ default_sid }} .swatch[aria-selected="true"]{ box-shadow: 0 0 0 4px #2d2d2d, 0 0 0 5px #989898; }
+
+  {{ default_sid }} .features{ color: var(--muted); font-size: 18px; line-height:1.5; }
+  {{ default_sid }} .features li{ list-style:none; margin: 6px 0; }
+  {{ default_sid }} .features-title{ font-size: 20px; font-weight: bold; margin: 21px 0 9px 0; }
+
+  {{ default_sid }} .actions{ display:flex; gap:12px; align-items:center;margin-top: 31px; }
+  {{ default_sid }} .btn-box{ flex:1;width:100%; display:flex; align-items:center; justify-content:center; gap:12px;}
+  {{ default_sid }} .qty{ max-width: 150px;display:flex; align-items:center; gap:0; background:#0e0e0e; height:44px; box-shadow: inset 0 0 1px 1px #fff; border-radius: 12px; clip-path: polygon(0% 8px, 8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px)); }
+  {{ default_sid }} .qty button{ width:38px; height:44px; color:#fff; background:transparent; border:none; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center;    }
+  {{ default_sid }} .qty input{ width:48px; height:44px; text-align:center; background:transparent; border:none; color:#fff;transform:translateX(20%); }
+  {{ default_sid }} .btn{ flex:1;height:45.5px; padding:0 26px; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer; border-radius:7px; }
+  {{ default_sid }} .btn--primary{ color:#fff; background:#E1040F; clip-path: polygon(0% 8px, 8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px)); background-image: linear-gradient(to top, #ed1c22 0%, #ed1c22 100%); background-size: 100% 0%; background-position: 0 100%; background-repeat:no-repeat; transition: background-size .3s ease, color .3s ease; }
+  {{ default_sid }} .btn--primary:hover{ background-size: 100% 100%; color:#fff; }
+  {{ default_sid }} .btn--outline{ color:#fff; background:transparent; border-radius: 12px;box-shadow: inset 0 0 1px 1px #fff; clip-path: polygon(0% 8px, 8px 0%, calc(100% - 8px) 0%, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 0% calc(100% - 8px));}
+  {{ default_sid }} .js-add-to-cart{background-image:linear-gradient(to top,#E1040F 0%,#E1040F 100%);background-size:100% 0%;background-position:0 100%;background-repeat:no-repeat;transition:background-size .3s ease,border-color .3s ease,color .3s ease,opacity .3s !important;}
+  {{ default_sid }} .js-add-to-cart:hover{background-size:100% 100%;border:1px solid #E1040F;box-shadow: inset 0 0 1px 1px #E1040F}
+
+  {{ default_sid }} .flag{ position:absolute; top:0px; right:70px; color:#fff; font-size:12px; line-height:1.1; border-radius:2px; padding:6px 6px; }
+
+  @media (max-width: 1024px){
+    {{ default_sid }} .flag{top:12px; right:12px; }
+    {{ default_sid }} .product-row{ grid-template-columns: 1fr; padding: 12px; }
+  }
+
+  @media (max-width: 768px){
+    {{ default_sid }} .heading{ font-size: 28px; }
+    {{ default_sid }} .product-row{ grid-template-columns: 1fr;gap: 20px; }
+    {{ default_sid }} .info .title{ font-size: 22px; }
+    {{ default_sid }} .price{ font-size: 24px; }
+    {{ default_sid }} .compare{ font-size: 14px; }
+    {{ default_sid }} .badge-off{ font-size: 12px; padding: 3px 6px; }
+    {{ default_sid }} .swatches{ gap:15px; }
+    {{ default_sid }} .features{ font-size: 16px; }
+    {{ default_sid }} .features-title{ font-size: 18px; margin: 18px 0 9px 0; }
+    {{ default_sid }} .features li{ font-size: 14px; }
+    {{ default_sid }} .actions{ margin-top: 21px;flex-direction: column; }
+    {{ default_sid }} .num-box{ width: 100%; }
+    {{ default_sid }} .qty{ height:36px; }
+    {{ default_sid }} .btn{ height:36px; padding:0; }
+    {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale{width: 58px; height: 60px;gap:3px; }
+    {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .on-save,
+    {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .save,
+    {{ default_sid }} .flag .product-card__badge-list.custom-sale-badges on-sale-badge.badge.badge--on-sale .off{font-size: 15px; }
+   
+  }
+
+  {% endstyle %}
+
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <h2 class="heading">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% assign items = section.settings.products | default: section.settings.collection.products %}
+    {% for product in items limit: section.settings.limit %}
+      {% assign first_variant = product.selected_or_first_available_variant %}
+      {% assign price = first_variant.price %}
+      {% assign compare_at = first_variant.compare_at_price %}
+      {% assign off = 0 %}
+      {% if compare_at > price %}
+        {% assign off = 100 | times: price | divided_by: compare_at | minus: 100 | abs %}
+      {% endif %}
+
+        <article class="product-row" data-product-id="{{ product.id }}" data-url="{{ product.url }}">
+          
+          <div class="media">
+            <div class="swiper js-gallery">
+              <div class="swiper-wrapper">
+                {% assign gallery_items = product.media %}
+                {% if gallery_items.size > 0 %}
+                  {% for m in gallery_items %}
+                    {% if m.media_type == 'image' %}
+                      <div class="swiper-slide" data-image="{{ m | image_url: width: 1200 }}">
+                        {{ m | image_url: width: 1200 | image_tag: widths: '360,560,720,900,1200', loading: 'lazy' }}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                {% else %}
+                  {% assign fallback_img = first_variant.featured_media | default: first_variant.image | default: product.featured_media %}
+                  {% if fallback_img %}
+                    <div class="swiper-slide" data-image="{{ fallback_img | image_url: width: 1200 }}">
+                      {{ fallback_img | image_url: width: 1200 | image_tag: widths: '360,560,720,900,1200', class: 'js-main-img', loading: 'lazy' }}
+                    </div>
+                  {% endif %}
+                {% endif %}
+              </div>
+              <div class="swiper-button-prev js-prev" aria-label="Previous"></div>
+              <div class="swiper-button-next js-next" aria-label="Next"></div>
+            </div>
+          </div>
+          <div class="info">
+            {% if compare_at > price %}
+              <div class="flag">
+                  {% comment %} {{ off | round }}%<br>OFF {% endcomment %}
+                  {%- render 'kiks-product-badges', product: product, context: 'card', class: 'product-card__badge-list custom-sale-badges' -%}
+              </div>
+            {% endif %}
+            <a href="{{ product.url }}" class="title">{{ product.title }}</a>
+            <div class="price-line">
+              <div class="price js-price" data-price-cents="{{ price }}">{{ price | money }}</div>
+              {% if compare_at > price %}
+                <div class="compare js-compare">{{ compare_at | money }}</div>
+                <div class="badge-off js-off">Save {{ off | round }}%</div>
+              {% else %}
+                <div class="compare js-compare" style="display:none"></div>
+                <div class="badge-off js-off" style="display:none"></div>
+              {% endif %}
+            </div>
+
+            {% comment %} Color swatches from variants {% endcomment %}
+            {% assign color_option_index = -1 %}
+            {% for option in product.options_with_values %}
+              {% if option.name contains 'Color' or option.name contains 'colour' or option.name contains 'COLOR' %}
+                {% assign color_option_index = forloop.index0 %}
+              {% endif %}
+            {% endfor %}
+            {% if color_option_index != -1 %}
+            <div class="swatches" role="listbox">
+              {% for v in product.variants %}
+                {% assign c = v.options[color_option_index] %}
+                {% assign color_code = v.metafields.custom.color_code | default: c %}
+                {% assign v_img = v.featured_media | default: v.image %}
+                {% if v_img == blank and v.metafields.custom.images and v.metafields.custom.images.value and v.metafields.custom.images.value.size > 0 %}
+                  {% assign v_img = v.metafields.custom.images.value.first %}
+                {% endif %}
+                <button type="button" class="swatch jingva-color-item" aria-selected="{% if v.id == first_variant.id %}true{% else %}false{% endif %}"
+                  title="{{ c }}"
+                  data-variant-id="{{ v.id }}"
+                  data-price="{{ v.price }}"
+                  data-compare="{{ v.compare_at_price }}"
+                  data-image="{% if v_img %}{{ v_img | image_url: width: 1200 }}{% endif %}"
+                  style="background: {{ color_code | downcase }}">
+                </button>
+              {% endfor %}
+            </div>
+            {% endif %}
+
+            {% assign features = product.metafields.custom.selling_points_titles.value %}
+            {% if features != blank %}
+          <div class="features-title">Key Features</div>
+            <ul class="features">
+              {% for f in features limit: 6 %}
+                <li>- {{ f }}</li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            <form class="actions js-atc-form" action="/cart/add" method="post">
+              <input type="hidden" name="id" value="{{ first_variant.id }}">
+              <div class="num-box">
+                  <div class="qty">
+                      <button type="button" class="js-minus" aria-label="-">−</button>
+                      <input type="number" class="js-qty" name="quantity" value="1" min="1">
+                      <button type="button" class="js-plus" aria-label="+">+</button>
+                  </div>
+              </div>
+              <div class="btn-box">
+                  <button type="button" class="btn btn--primary js-buy-now">Buy Now</button>
+                  <button type="submit" class="btn btn--outline js-add-to-cart">Add to Cart</button>
+              </div>
+
+            </form>
+          </div>
+          
+        </article>
+     
+    {% endfor %} 
+  </div>
+
+  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function(){
+    var root = document.querySelector('.jingva-best-sellers-{{ sid }}');
+    if(!root) return;
+    var MONEY_FORMAT = {{ shop.money_format | json }};
+    function formatMoney(cents, format){
+      if(cents == null || cents === '') return '';
+      if(typeof cents === 'string'){ cents = cents.replace(/\./g,''); }
+      var formatString = format || MONEY_FORMAT || '{{amount}}';
+      function formatWithDelimiters(number, precision, thousands, decimal){
+        thousands = thousands || ','; decimal = decimal || '.';
+        if(isNaN(number) || number == null){ return '0'; }
+        number = (number/100).toFixed(precision);
+        var parts = number.split('.');
+        var dollars = parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1'+thousands);
+        var centsPart = parts[1] ? (decimal + parts[1]) : '';
+        return dollars + centsPart;
+      }
+      var value='';
+      var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+      var match = formatString.match(placeholderRegex);
+      switch(match && match[1]){
+        case 'amount': value = formatWithDelimiters(cents, 2); break;
+        case 'amount_no_decimals': value = formatWithDelimiters(cents, 0); break;
+        case 'amount_with_comma_separator': value = formatWithDelimiters(cents, 2, '.', ','); break;
+        case 'amount_no_decimals_with_comma_separator': value = formatWithDelimiters(cents, 0, '.', ','); break;
+        case 'amount_no_decimals_with_space_separator': value = formatWithDelimiters(cents, 0, ' '); break;
+        default: value = formatWithDelimiters(cents, 2); break;
+      }
+      return formatString.replace(placeholderRegex, value);
+    }
+
+    root.querySelectorAll('.product-row').forEach(function(row){
+      var form = row.querySelector('.js-atc-form');
+      var qtyInput = form.querySelector('.js-qty');
+      var mainImg = row.querySelector('.js-main-img');
+      var galleryEl = row.querySelector('.js-gallery');
+      if(galleryEl && window.Swiper){
+        try{
+          row.__gallery = new Swiper(galleryEl, {
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: true,
+            navigation: {
+              nextEl: row.querySelector('.js-next'),
+              prevEl: row.querySelector('.js-prev')
+            }
+          });
+        }catch(e){}
+      }
+      function setImage(el, url){
+        if(!el || !url) return;
+        try{
+          el.setAttribute('src', url);
+          el.setAttribute('srcset', url);
+          el.removeAttribute('data-src');
+          el.removeAttribute('data-srcset');
+          el.removeAttribute('data-widths');
+          var pic = el.closest('picture');
+          if(pic){
+            pic.querySelectorAll('source').forEach(function(s){ s.setAttribute('srcset', url); });
+          }
+        }catch(e){}
+      }
+
+      function selectSwatch(btn){
+        row.querySelectorAll('.swatch').forEach(function(b){ b.setAttribute('aria-selected','false'); });
+        btn.setAttribute('aria-selected','true');
+        var variantId = btn.getAttribute('data-variant-id');
+        form.querySelector('input[name="id"]').value = variantId;
+        var priceCents = parseInt(btn.getAttribute('data-price')||'0',10);
+        var compareCents = parseInt(btn.getAttribute('data-compare')||'0',10);
+        var priceEl = row.querySelector('.js-price');
+        var compareEl = row.querySelector('.js-compare');
+        var badgeElSave = row.querySelector('.flag .save');
+        var offEl = row.querySelector('.js-off');
+        if(priceCents){ priceEl.innerHTML = formatMoney(priceCents, MONEY_FORMAT); priceEl.dataset.priceCents = priceCents; }
+        if(compareCents && compareCents>priceCents){
+          compareEl.style.display='';
+          compareEl.innerHTML = formatMoney(compareCents, MONEY_FORMAT);
+          var off = Math.round(100 - (priceCents/compareCents*100));
+          offEl.style.display='';
+          offEl.innerHTML = 'Save ' + off + '%';
+          badgeElSave.innerHTML = off + '%';
+        }else{
+          compareEl.style.display='none';
+          offEl.style.display='none';
+        }
+        var img = btn.getAttribute('data-image');
+        if(img){
+          if(row.__gallery){
+            try{
+              var slides = row.querySelectorAll('.js-gallery .swiper-slide');
+              var targetIndex = -1;
+              slides.forEach(function(s, i){
+                if(s.getAttribute('data-image') === img){ targetIndex = i; }
+              });
+              if(targetIndex >= 0){
+                row.__gallery.slideTo(targetIndex);
+              }
+            }catch(e){}
+          }
+          if(mainImg){ setImage(mainImg, img); }
+        }
+      }
+
+      // swatch click (event delegation) -> set variant id & price
+      var swatches = row.querySelectorAll('.swatch');
+      
+      row.addEventListener('click', function(e){
+        var minus = e.target.closest('.js-minus');
+        var plus  = e.target.closest('.js-plus');
+        if(minus || plus){
+          e.preventDefault();
+          var v = parseInt(qtyInput.value||'1',10);
+          if(isNaN(v) || v < 1) v = 1;
+          if(minus) v = Math.max(1, v-1); else v = v+1;
+          qtyInput.value = v;
+          return;
+        }
+        var btn = e.target.closest('.swatch');
+        if(btn && row.contains(btn)){
+          e.preventDefault();
+          selectSwatch(btn);
+          return;
+        }
+        // row-level navigation: ignore clicks on interactive elements
+        var interactive = e.target.closest('a, button, input, select, .swiper-button-prev, .swiper-button-next');
+        if(interactive) return;
+        var url = row.getAttribute('data-url');
+        if(url){
+          window.location.href = url;
+        }
+      });
+
+      // default: use preselected swatch; fallback to first
+      var initial = row.querySelector('.swatch[aria-selected="true"]') || swatches[0];
+      if(initial){ selectSwatch(initial); }
+
+      // buy now -> go to cart with quantity
+      form.querySelector('.js-buy-now').addEventListener('click', function(){
+        var id = form.querySelector('input[name="id"]').value;
+        var q = parseInt(qtyInput.value||'1',10);
+        window.location.href = '/cart/' + id + ':' + q;
+      });
+    });
+
+  });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Best Sellers",
+  "class": "shopify-section--jingva-best-sellers",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "section_css", "label": "自定义CSS类名" },
+    { "type": "text", "id": "title", "label": "标题", "default": "BEST SELLERS" },
+    { "type": "product_list", "id": "products", "label": "选择产品" },
+    { "type": "collection", "id": "collection", "label": "或选择集合(备用)" },
+    { "type": "range", "id": "limit", "label": "显示数量", "min": 1, "max": 10, "step": 1, "default": 2 },
+    { "type": "color", "id": "background", "label": "背景色", "default": "#000000" },
+    { "type": "color", "id": "text_color", "label": "文本颜色", "default": "#ffffff" }
+  ],
+  "presets": [
+    { "name": "Jingva Best Sellers" }
+  ]
+}
+{% endschema %}
+
+

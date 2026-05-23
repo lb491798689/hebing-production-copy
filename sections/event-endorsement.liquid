@@ -1,0 +1,302 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .swiper-button-next::after,
+  #{{ section.id }} .swiper-button-prev::after {
+    content: none;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+{%- assign disable_desktop_swiper = false -%}
+{%- if section.blocks.size <= 3 -%}
+  {%- assign disable_desktop_swiper = true -%}
+{%- endif -%}
+
+<section
+  id="{{ section.id }}"
+  class="event-endorsement tw:overflow-hidden tw:bg-white tw:font-gabarito tw:text-[#0a0a0a]"
+>
+  <div class="tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4">
+    {%- if section.settings.title != blank -%}
+      <h2
+        class="
+          tw:m-0 tw:text-center tw:font-orbitron tw:text-[48px] tw:font-black tw:leading-[normal] tw:uppercase
+          tw:max-md:text-left tw:max-md:text-[32px] tw:max-md:font-black tw:max-md:leading-[1.2]
+        "
+      >
+        {{ section.settings.title | escape | newline_to_br }}
+      </h2>
+    {%- endif -%}
+  </div>
+
+  <div class="swiper tw:mt-12 tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4 tw:max-md:mt-8">
+    <div class="swiper-wrapper tw:flex{% if disable_desktop_swiper %} tw:md:justify-center{% endif %}">
+      {%- for block in section.blocks -%}
+        <div
+          class="
+            swiper-slide tw:w-[432px]! tw:pr-3
+            tw:max-md:w-[252px]!
+          "
+          {{ block.shopify_attributes }}
+        >
+          <article class="tw:flex tw:w-full tw:flex-col tw:items-start">
+            <div
+              class="
+                tw:relative tw:flex tw:h-[180px] tw:w-full tw:items-center
+                tw:justify-center tw:overflow-hidden tw:rounded-xl tw:bg-[#f0f0f0] tw:max-md:h-[111px]
+                tw:max-md:rounded-[8px]
+              "
+            >
+              {%- if block.settings.logo_image != blank -%}
+                {{
+                  block.settings.logo_image
+                  | image_url: width: 840
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '120,160,220,280,360,420,840',
+                    sizes: '(min-width: 769px) 420px, 840px',
+                    class: 'tw:size-full tw:object-contain',
+                    alt: block.settings.logo_image.alt
+                }}
+              {%- else -%}
+                <div class="tw:flex tw:h-full tw:w-full tw:items-center tw:justify-center tw:text-[24px] tw:font-semibold tw:text-black/30 tw:max-md:text-[18px]">
+                  logo
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="tw:flex tw:w-full tw:flex-col tw:gap-3 tw:overflow-hidden tw:pb-6 tw:max-md:pb-0 tw:pr-6 tw:pt-3 tw:capitalize tw:leading-[1.2] tw:max-md:pr-4 tw:max-md:pt-2">
+              {%- if block.settings.title != blank -%}
+                <h3
+                  class="
+                    tw:m-0 tw:text-[24px] tw:font-medium tw:leading-[1.2]
+                    tw:text-[#0a0a0a] tw:max-md:text-[20px] tw:font-gabarito
+                  "
+                >
+                  {{ block.settings.title | escape }}
+                </h3>
+              {%- endif -%}
+
+              {%- if block.settings.description != blank -%}
+                <div class="tw:text-[16px] tw:font-normal tw:leading-[1.2] tw:text-[rgba(26,26,26,0.6)] tw:max-md:text-[14px]">
+                  {{ block.settings.description | newline_to_br }}
+                </div>
+              {%- endif -%}
+            </div>
+          </article>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="tw:flex tw:gap-4 tw:pt-6 tw:max-md:gap-2 tw:max-md:pt-4{% if disable_desktop_swiper %} tw:md:hidden{% endif %}">
+      <button
+        class="
+          swiper-button-prev tw:pointer-events-auto tw:bg-[#FAFAFA] tw:rounded-[12px]
+          tw:mt-0 tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10!
+           tw:active:opacity-80  tw:border tw:border-[#0A0A0A]
+          tw:hover:bg-[#DBDBDB] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#0A0A0A]
+        "
+        data-prev
+      >
+        <svg
+          class="tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+      <button
+        class="
+          swiper-button-next tw:pointer-events-auto tw:bg-[#FAFAFA] tw:rounded-[12px]
+          tw:mt-0 tw:aspect-square tw:md:w-12! tw:max-md:w-10! tw:h-12! tw:max-md:h-10! tw:flex tw:items-center
+          tw:justify-center tw:active:opacity-80 tw:border tw:border-[#0A0A0A]
+          tw:hover:bg-[#DBDBDB] tw:hover:border-transparent tw:transition-all tw:duration-200 tw:text-[#0A0A0A]
+        "
+        data-next
+      >
+        <svg
+          class="tw:rotate-180 tw:leading-none tw:block tw:size-full "
+          viewBox="0 0 48 48"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof Swiper === 'undefined') {
+      return;
+    }
+
+    var swiper = null;
+    var desktopQuery = window.matchMedia('(min-width: 769px)');
+    var disableDesktopSwiper = {{ disable_desktop_swiper | json }};
+
+    function shouldInitSwiper() {
+      return !disableDesktopSwiper || !desktopQuery.matches;
+    }
+
+    function initSwiper() {
+      if (swiper || !shouldInitSwiper()) {
+        return;
+      }
+
+      swiper = new Swiper('#{{ section.id }} .swiper', {
+        slidesPerView: 'auto',
+        navigation: {
+          nextEl: '#{{ section.id }} .swiper-button-next',
+          prevEl: '#{{ section.id }} .swiper-button-prev',
+        },
+      });
+    }
+
+    function destroySwiper() {
+      if (!swiper || shouldInitSwiper()) {
+        return;
+      }
+
+      swiper.destroy(true, true);
+      swiper = null;
+    }
+
+    function syncSwiper() {
+      initSwiper();
+      destroySwiper();
+    }
+
+    syncSwiper();
+
+    if (desktopQuery.addEventListener) {
+      desktopQuery.addEventListener('change', syncSwiper);
+    } else {
+      desktopQuery.addListener(syncSwiper);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Event endorsement",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "media endorsement"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "endorsement_item",
+      "name": "Endorsement item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "@IGN"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event endorsement",
+      "blocks": [
+        {
+          "type": "endorsement_item",
+          "settings": {
+            "title": "@IGN",
+            "description": "The Cheerble Wicked Ball is a delightful toy that captivates cats for hours with its surprising movements and safe design.The Cheerble Wicked Ball is a delightful toy that captivates cats for hours with its surprising movements and safe design."
+          }
+        },
+        {
+          "type": "endorsement_item",
+          "settings": {
+            "title": "@Inside Digital",
+            "description": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        },
+        {
+          "type": "endorsement_item",
+          "settings": {
+            "title": "@WinFuture",
+            "description": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        },
+        {
+          "type": "endorsement_item",
+          "settings": {
+            "title": "@MEiNMM",
+            "description": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

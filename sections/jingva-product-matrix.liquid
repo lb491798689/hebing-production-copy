@@ -1,0 +1,978 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+-%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background-color: #121212 !important;
+      /* PC端：与上方 jingva-product-series 间距 140px，与下方 jingva-influencer 间距 140px */
+      padding: 140px 0 140px !important;
+      overflow: hidden !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      /* Tab→卡片间距改由 .jingva-matrix-content margin-top 控制，避免 gap 与主题 div margin 叠加成 ~49px */
+      gap: 0 !important;
+      row-gap: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* PC 稿：标题 → Tab 28px（用 header 的 flex gap，避免 h2 默认 margin 与 margin-top 叠加） */
+    {{ default_sid }} .jingva-matrix-wrapper .jingva-matrix-header,
+    {{ default_sid }} .jingva-matrix-header.jingva-matrix-header,
+    {{ default_sid }} .jingva-matrix-header {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 15px !important;
+      row-gap: 15px !important;
+      width: 100% !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      /* 全大写标题：略紧行高，减少最后一行下方「空行感」 */
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
+      margin-block: 0 !important;
+      margin-inline: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      /* 首次进入视口下沉载入动效（与 jingva-m6-recline / jingva-product-series 一致） */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-matrix-title.aos-animate {
+      transform: translateY(0);
+    }
+    
+    {{ default_sid }} .jingva-matrix-tabs {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+      width: 100% !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-tab-btn {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin: 0 !important;
+      padding: 12px 24px !important;
+      height: 56px !important;
+      border-radius: 12px !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 20px !important;
+      line-height: 1.2 !important;
+      text-transform: none !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      white-space: nowrap !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* 选中仅换色：保留与未选中相同的 1px 描边占位，避免 border:none 导致盒宽变化 */
+    {{ default_sid }} .jingva-matrix-tab-btn.active {
+      background: #FFFFFF !important;
+      color: #0A0A0A !important;
+      border: 1px solid transparent !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-tab-btn.active:hover {
+      background: #E0E0E0 !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-tab-btn:not(.active) {
+      background: transparent !important;
+      color: #FFFFFF !important;
+      border: 1px solid #FFFFFF !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-tab-btn:not(.active):hover {
+      background: #2A2A2A !important;
+      border: 1px solid transparent !important;
+    }
+    
+    /* Figma 1393:147826 — 卡片列 gap 16px；PC 稿：Tab 行底 → 白卡片顶 48px */
+    {{ default_sid }} .jingva-matrix-content {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      gap: 16px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      margin-top: 48px !important;
+      margin-bottom: 0 !important;
+      padding-top: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-content::-webkit-scrollbar {
+      display: none !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-tab-panel {
+      display: none !important;
+      flex-direction: row !important;
+      gap: 16px !important;
+      width: 100% !important;
+      justify-content: center !important;
+      align-items: stretch !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-tab-panel.active {
+      display: flex !important;
+    }
+    
+    /* Figma 1393:147827 — 389.333× 白底卡片，内边距 24、列 gap 24 */
+    {{ default_sid }} .jingva-matrix-product-card {
+      flex: 1 !important;
+      max-width: 389.333px !important;
+      min-height: 483px !important;
+      background: #FFFFFF !important;
+      padding: 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-product-image-wrapper {
+      width: 240px !important;
+      height: 240px !important;
+      overflow: hidden !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-product-image {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      pointer-events: none !important;
+    }
+    
+    /* 标题最多 2 行 + 固定两行槽高度，保证多卡底部按钮对齐 */
+    {{ default_sid }} .jingva-matrix-product-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      text-transform: none !important;
+      color: #0A0A0A !important;
+      text-align: center !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+      max-width: 231px !important;
+      word-wrap: break-word !important;
+      white-space: normal !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      min-height: calc(1.2em * 2) !important;
+      max-height: calc(1.2em * 2) !important;
+      height: calc(1.2em * 2) !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* Figma 1393:147830 — 星条 83×14.647，与文案间距 12px；gy2 + 下划线 */
+    {{ default_sid }} .jingva-matrix-product-meta {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      gap: 12px !important;
+      flex-shrink: 0 !important;
+      width: 100% !important;
+      min-height: 14.647px !important;
+      text-align: center !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget {
+      width: auto !important;
+      max-width: 100% !important;
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: wrap !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget img,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget svg {
+      height: 14.647px !important;
+      width: auto !important;
+      max-height: 14.647px !important;
+      vertical-align: middle !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Figma：整段「5999 Reviews」同一条下划线；Reviews 词首字母大写（Trustoo 常在 span 内，不能只样式 a） */
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: normal !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      text-decoration-skip-ink: none !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(:has(*)) {
+      text-decoration: underline !important;
+      text-decoration-style: solid !important;
+      text-underline-offset: 2px !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(:has(*)) {
+      text-transform: none !important;
+    }
+
+    /*
+      Figma 1393:147837：underline + solid + skip-ink none + Gabarito 14 + gy2。
+      Trustoo 常内联 text-decoration:none，仅用 underline 不可靠；用底边框模拟单条下划线（视觉等同）。
+    */
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-review-underline {
+      display: inline-block !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: normal !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      text-decoration: none !important;
+      border-bottom: 1px solid rgba(26, 26, 26, 0.8) !important;
+      padding-bottom: 1px !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-product-buttons {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 12px !important;
+      width: 100% !important;
+      max-width: 341.33px !important;
+      flex-shrink: 0 !important;
+      margin-top: auto !important;
+    }
+    
+    {{ default_sid }} .jingva-matrix-product-btn {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 8px !important;
+      padding: 12px 20px !important;
+      height: 48px !important;
+      border-radius: 12px !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: 1.2 !important;
+      text-transform: none !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      text-decoration: none !important;
+      flex: 1 !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+    }
+    
+    /* 常规：实黑底白字 → Hover 深灰实底 */
+    {{ default_sid }} .jingva-matrix-product-btn.primary {
+      background: #0a0a0a !important;
+      color: #ffffff !important;
+      border: 1px solid transparent !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-btn.primary:hover {
+      background: #333333 !important;
+      color: #ffffff !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-btn.primary:active {
+      transform: scale(0.98);
+    }
+
+    /* KV Buy Now：白底黑框 → Hover 品牌红实底白字 */
+    {{ default_sid }} .jingva-matrix-product-btn.secondary {
+      background: #ffffff !important;
+      color: #0a0a0a !important;
+      border: 1px solid #0a0a0a !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-btn.secondary:hover {
+      background: #d6000d !important;
+      color: #ffffff !important;
+      border-color: #d6000d !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-btn.secondary:active {
+      transform: scale(0.98);
+    }
+    
+    /*
+      Figma 1769:5817（390 宽画板）元数据：1769:5818 / 1769:5825 均为 x=16 → 水平栅格 16px（非 48）。
+      1769:5820 Tab 行宽 564 超出父级，须与 1769:5825 卡片行一致向右贴屏可横向滚动。
+      1769:5825：卡间距 12（第二卡 x=332=320+12），单卡 320×423。
+    */
+    @media screen and (max-width: 1279px) {
+      /* 手机端：与上方 jingva-product-series 间距 70px，与下方 jingva-influencer 间距 64px */
+      {{ default_sid }} {
+        padding: 64px 16px 64px !important;
+        box-sizing: border-box !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-wrapper {
+        padding: 0 !important;
+        max-width: 100% !important;
+        align-items: stretch !important;
+        /* 移动端稿：Tab→卡片 30px 由 .jingva-matrix-content margin-top 单独承担 */
+        gap: 0 !important;
+        row-gap: 0 !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-wrapper .jingva-matrix-header,
+      {{ default_sid }} .jingva-matrix-header.jingva-matrix-header,
+      {{ default_sid }} .jingva-matrix-header {
+        align-items: flex-start !important;
+        gap: 20px !important;
+        row-gap: 20px !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-title {
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+        text-align: left !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 800 !important;
+        margin: 0 !important;
+        margin-bottom: -12px !important;
+        padding: 0 !important;
+      }
+
+      /*
+        选中 Tab 加宽后，首颗更占宽，第三颗起始右移，易裁掉「E」— 用略小 gap + 略多贴右，换第三颗可视。
+      */
+      {{ default_sid }} .jingva-matrix-tabs {
+        margin-top: 0 !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        align-content: flex-start !important;
+        gap: 8px !important;
+        row-gap: 8px !important;
+        column-gap: 8px !important;
+        width: calc(100% + 24px) !important;
+        max-width: calc(100% + 24px) !important;
+        margin-left: 0 !important;
+        margin-right: -24px !important;
+        padding-left: 0 !important;
+        /* 尾部留白：否则最后一枚 Tab 无法完全滚入可视区 */
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+        overscroll-behavior-x: contain !important;
+        scroll-padding-inline-end: 16px !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-tabs::-webkit-scrollbar {
+        display: none !important;
+        height: 0 !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-tab-btn {
+        display: inline-flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+        width: auto !important;
+        min-width: 0 !important;
+        height: 48px !important;
+        min-height: 48px !important;
+        max-height: 48px !important;
+        padding: 12px 12px !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
+        line-height: 1.15 !important;
+        letter-spacing: 0.02em !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+      }
+
+      /* 选中与默认同一 padding（12px 16px），只改底色与字色 */
+      {{ default_sid }} .jingva-matrix-tab-btn.active {
+        border: 1px solid transparent !important;
+        background: #FAFAFA !important;
+        color: #0A0A0A !important;
+      }
+
+      {{ default_sid }} .jingva-matrix-tab-btn:not(.active) {
+        border: 1px solid #FFFFFF !important;
+        background: transparent !important;
+        color: #FFFFFF !important;
+      }
+      
+      /* 移动端稿：Tab 行底 → 卡片列顶 30px */
+      {{ default_sid }} .jingva-matrix-content {
+        display: block !important;
+        width: calc(100% + 16px) !important;
+        max-width: calc(100% + 16px) !important;
+        min-width: 0 !important;
+        margin-top: 30px !important;
+        margin-left: 0 !important;
+        margin-right: -16px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        overflow-y: visible !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        -ms-overflow-style: none !important;
+        scroll-snap-type: x proximity !important;
+        scroll-padding-left: 0 !important;
+        scroll-padding-right: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-matrix-content::-webkit-scrollbar {
+        display: none !important;
+        height: 0 !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-tab-panel {
+        width: max-content !important;
+        max-width: none !important;
+        justify-content: flex-start !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        flex-wrap: nowrap !important;
+        /* 与 section 右内边距对齐，最后一张卡可完全滑入视区 */
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-product-card {
+        flex: 0 0 320px !important;
+        width: 320px !important;
+        min-width: 320px !important;
+        max-width: 320px !important;
+        min-height: 423px !important;
+        padding: 12px 25px 24px !important;
+        gap: 16px !important;
+        overflow: visible !important;
+        scroll-snap-align: start !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-product-image-wrapper {
+        width: 100% !important;
+        max-width: 220px !important;
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-product-title {
+        font-size: 24px !important;
+        max-width: 100% !important;
+        line-height: 1.2 !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        min-height: calc(1.2em * 2) !important;
+        max-height: calc(1.2em * 2) !important;
+        height: calc(1.2em * 2) !important;
+        padding: 0 12px !important;
+      }
+
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span {
+        color: #000000 !important;
+      }
+
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-review-underline {
+        color: #000000 !important;
+        border-bottom-color: #000000 !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-product-buttons {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: visible !important;
+        flex-direction: row !important;
+        gap: 12px !important;
+        padding: 0 12px !important;
+      }
+      
+      {{ default_sid }} .jingva-matrix-product-btn {
+        height: 44px !important;
+        font-size: 14px !important;
+        line-height: normal !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+        flex: 1 !important;
+      }
+    }
+  {% endstyle %}
+
+  {%- comment -%}
+    间距强制：部分主题/加载顺序会压过 {% style %}，用区块根 #shopify-section-* 提高优先级（PC：标题→Tab 25px、Tab→卡片 48px；移动：20px / 30px）
+  {%- endcomment -%}
+  <style>
+    /* 标题↔Tab：最高优先级选择器，确保任何情况下都生效 */
+    html body #shopify-section-{{ section.id }} .jingva-matrix-wrapper .jingva-matrix-header,
+    html body #shopify-section-{{ section.id }} .jingva-matrix-header,
+    html body [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-wrapper .jingva-matrix-header,
+    html body [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-header,
+    #shopify-section-{{ section.id }} .jingva-matrix-wrapper .jingva-matrix-header,
+    #shopify-section-{{ section.id }} .jingva-matrix-header,
+    [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-wrapper .jingva-matrix-header,
+    [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-header {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 15px !important;
+      row-gap: 15px !important;
+    }
+    html body #shopify-section-{{ section.id }} h2.jingva-matrix-title,
+    html body [data-jingva-matrix="{{ section.id }}"] h2.jingva-matrix-title,
+    #shopify-section-{{ section.id }} h2.jingva-matrix-title,
+    [data-jingva-matrix="{{ section.id }}"] h2.jingva-matrix-title {
+      margin-top: 0 !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      margin-bottom: 0 !important;
+      padding: 0 !important;
+    }
+    html body #shopify-section-{{ section.id }} div.jingva-matrix-tabs,
+    html body [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-tabs,
+    #shopify-section-{{ section.id }} div.jingva-matrix-tabs,
+    [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-tabs {
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    html body #shopify-section-{{ section.id }} div.jingva-matrix-content,
+    html body [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-content,
+    #shopify-section-{{ section.id }} div.jingva-matrix-content,
+    [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-content {
+      margin-top: 48px !important;
+    }
+    @media screen and (max-width: 1279px) {
+      html body #shopify-section-{{ section.id }} .jingva-matrix-wrapper .jingva-matrix-header,
+      html body #shopify-section-{{ section.id }} .jingva-matrix-header,
+      html body [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-wrapper .jingva-matrix-header,
+      html body [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-header,
+      #shopify-section-{{ section.id }} .jingva-matrix-wrapper .jingva-matrix-header,
+      #shopify-section-{{ section.id }} .jingva-matrix-header,
+      [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-wrapper .jingva-matrix-header,
+      [data-jingva-matrix="{{ section.id }}"] .jingva-matrix-header {
+        align-items: flex-start !important;
+        gap: 20px !important;
+        row-gap: 20px !important;
+      }
+      html body #shopify-section-{{ section.id }} div.jingva-matrix-content,
+      html body [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-content,
+      #shopify-section-{{ section.id }} div.jingva-matrix-content,
+      [data-jingva-matrix="{{ section.id }}"] div.jingva-matrix-content {
+        margin-top: 30px !important;
+      }
+      html body #shopify-section-{{ section.id }} h2.jingva-matrix-title,
+      html body [data-jingva-matrix="{{ section.id }}"] h2.jingva-matrix-title,
+      #shopify-section-{{ section.id }} h2.jingva-matrix-title,
+      [data-jingva-matrix="{{ section.id }}"] h2.jingva-matrix-title {
+        margin-bottom: -12px !important;
+      }
+    }
+  </style>
+
+  <div class="jingva-matrix-wrapper jingva-matrix-spacing-root" data-jingva-matrix="{{ section.id }}">
+    <div class="jingva-matrix-header">
+      <h2 class="jingva-matrix-title" style="padding:0;">{{ se_stts.title | default: 'See Our Latest Innovations' }}</h2>
+      
+      <div class="jingva-matrix-tabs">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'tab' -%}
+            <button 
+              class="jingva-matrix-tab-btn {% if forloop.first %}active{% endif %}"
+              data-tab="tab-{{ block.id }}"
+              type="button"
+            >
+              {{ block.settings.tab_title }}
+            </button>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <div class="jingva-matrix-content">
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'tab' -%}
+          <div 
+            id="tab-{{ block.id }}" 
+            class="jingva-matrix-tab-panel {% if forloop.first %}active{% endif %}"
+          >
+            {%- for product in block.settings.products -%}
+              {%- liquid
+                # 读取产品 metafield；URL 类型可能返回对象，统一转字符串后判空
+                assign learn_more_url = product.metafields.custom.learn_more_link | default: '' | append: ''
+                assign buy_now_url = product.metafields.custom.buy_now_link | default: '' | append: ''
+                if learn_more_url == blank
+                  assign learn_more_url = product.url
+                endif
+                if buy_now_url == blank
+                  assign buy_now_url = product.url
+                endif
+              -%}
+              <div class="jingva-matrix-product-card">
+                <div class="jingva-matrix-product-image-wrapper">
+                  {%- if product.featured_image != blank -%}
+                    <img 
+                      src="{{ product.featured_image | image_url: width: 480 }}" 
+                      alt="{{ product.title }}"
+                      class="jingva-matrix-product-image"
+                      width="240"
+                      height="240"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </div>
+
+                <h3 class="jingva-matrix-product-title">{{ product.title }}</h3>
+                {%- comment -%}
+                  与商品详情页同源：Trustoo「Star Rating」非商品页用法
+                  https://help.trustoo.io/docs/reviewAPI/review-widget/ （Other Pages: data-product-id）
+                  需在主题编辑器中开启 Trustoo 的 App embed；未开启时需按该文档引入脚本。
+                {%- endcomment -%}
+                <div class="jingva-matrix-product-meta">
+                  <div
+                    class="custom-vstar-rating-widget jingva-matrix-trustoo-rating"
+                    data-product-id="{{ product.id }}"
+                  ></div>
+                </div>
+                
+                <div class="jingva-matrix-product-buttons">
+                  <a 
+                    href="{{ learn_more_url }}" 
+                    class="jingva-matrix-product-btn primary"
+                  >
+                    Learn More
+                  </a>
+                  <a 
+                    href="{{ buy_now_url }}" 
+                    class="jingva-matrix-product-btn secondary"
+                  >
+                    Buy Now
+                  </a>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  {{ 'jingva-product-matrix.css' | asset_url | stylesheet_tag }}
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-section-container-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-matrix-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+<script>
+  (function() {
+    const sectionId = '{{ sid }}';
+    const root = document.querySelector('.jingva-section-container-' + sectionId);
+    if (!root) return;
+
+    /** 稿面间距：用 JS setProperty(…,'important') 兜底，防止主题/CSS 加载顺序导致不生效 */
+    function applyJingvaMatrixSpacing() {
+      var wrap = root.querySelector('.jingva-matrix-spacing-root') || root.querySelector('[data-jingva-matrix]');
+      if (!wrap) return;
+      var header = wrap.querySelector('.jingva-matrix-header');
+      var content = wrap.querySelector('.jingva-matrix-content');
+      var title = wrap.querySelector('h2.jingva-matrix-title');
+      var tabs = wrap.querySelector('.jingva-matrix-tabs');
+      var isMobile = window.matchMedia('(max-width: 1279px)').matches;
+      if (header) {
+        header.style.setProperty('display', 'flex', 'important');
+        header.style.setProperty('flex-direction', 'column', 'important');
+        header.style.setProperty('gap', isMobile ? '20px' : '15px', 'important');
+        header.style.setProperty('row-gap', isMobile ? '20px' : '15px', 'important');
+        header.style.setProperty('align-items', isMobile ? 'flex-start' : 'center', 'important');
+      }
+      if (content) {
+        content.style.setProperty('margin-top', isMobile ? '30px' : '48px', 'important');
+      }
+      if (title) {
+        title.style.setProperty('padding', '0', 'important');
+        title.style.setProperty('margin-top', '0', 'important');
+        title.style.setProperty('margin-left', '0', 'important');
+        title.style.setProperty('margin-right', '0', 'important');
+        title.style.setProperty('margin-bottom', isMobile ? '-7px' : '0', 'important');
+      }
+      if (tabs) {
+        tabs.style.setProperty('margin-top', '0', 'important');
+        tabs.style.setProperty('margin-bottom', '0', 'important');
+      }
+    }
+    applyJingvaMatrixSpacing();
+    window.addEventListener('resize', applyJingvaMatrixSpacing);
+
+    const ratingOne = {{ 'product.rating_count' | t: count: 1 | json }};
+    const ratingTpl = {{ 'product.rating_count' | t: count: 987654321 | json }};
+
+    /** 与 Figma 一致：英文 review / reviews 词首大写（主题翻译多为小写） */
+    function titleCaseReviewWords(str) {
+      return String(str).replace(/\b(review|reviews)\b/gi, function(w) {
+        return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+      });
+    }
+
+    function formatReviewCount(n) {
+      var num = parseInt(n, 10);
+      if (isNaN(num)) return titleCaseReviewWords(String(n));
+      var s;
+      if (num === 1) s = ratingOne;
+      else s = String(ratingTpl).split('987654321').join(String(num));
+      return titleCaseReviewWords(s);
+    }
+
+    /** Figma 1393:147837：与稿一致的下划线（内联 + 底边框，防 Trustoo 覆盖） */
+    function applyForcedReviewUnderline(el) {
+      var lineColor = window.matchMedia('(max-width: 1279px)').matches
+        ? '#000000'
+        : 'rgba(26, 26, 26, 0.8)';
+      el.classList.add('jingva-matrix-review-underline');
+      el.style.setProperty('text-decoration', 'none', 'important');
+      el.style.setProperty('border-bottom', '1px solid ' + lineColor, 'important');
+      el.style.setProperty('display', 'inline-block', 'important');
+      el.style.setProperty('padding-bottom', '1px', 'important');
+      el.style.setProperty('color', lineColor, 'important');
+    }
+
+    function markReviewUnderlineTargets(widget) {
+      widget.querySelectorAll('.jingva-matrix-review-underline').forEach(function(el) {
+        el.classList.remove('jingva-matrix-review-underline');
+        ['text-decoration', 'border-bottom', 'display', 'padding-bottom', 'color'].forEach(function(p) {
+          el.style.removeProperty(p);
+        });
+      });
+
+      var norm = function(s) {
+        return String(s || '').replace(/\s+/g, ' ').trim();
+      };
+      var isReviewLabelText = function(txt) {
+        if (!txt || txt.length < 4 || txt.length > 96) return false;
+        if (!/[\d]/.test(txt) || !/\breviews?\b/i.test(txt)) return false;
+        return true;
+      };
+
+      widget.querySelectorAll('a').forEach(function(el) {
+        if (isReviewLabelText(norm(el.textContent))) applyForcedReviewUnderline(el);
+      });
+
+      widget.querySelectorAll('span, p, div').forEach(function(el) {
+        if (el.closest('a.jingva-matrix-review-underline')) return;
+        if (el.children && el.children.length) return;
+        if (isReviewLabelText(norm(el.textContent))) applyForcedReviewUnderline(el);
+      });
+    }
+
+    function fixTrustooReviewCopyInSection() {
+      root.querySelectorAll('.jingva-matrix-product-meta .custom-vstar-rating-widget').forEach(function(widget) {
+        var tw = document.createTreeWalker(widget, NodeFilter.SHOW_TEXT, null);
+        var node;
+        while ((node = tw.nextNode())) {
+          var t = node.textContent;
+          if (!t) continue;
+          var next = t;
+          if (/\(\d+\)/.test(next)) {
+            next = next.replace(/\((\d+)\)/g, function(_, d) {
+              return formatReviewCount(d);
+            });
+          } else if (/\breviews?\b/i.test(next)) {
+            next = titleCaseReviewWords(next);
+          }
+          if (next !== t) node.textContent = next;
+        }
+        markReviewUnderlineTargets(widget);
+      });
+    }
+
+    var ratingMo = new MutationObserver(function() {
+      fixTrustooReviewCopyInSection();
+    });
+    ratingMo.observe(root, { childList: true, subtree: true, characterData: true });
+
+    fixTrustooReviewCopyInSection();
+    [100, 500, 1500, 3000].forEach(function(ms) {
+      setTimeout(fixTrustooReviewCopyInSection, ms);
+    });
+
+    var tabButtons = root.querySelectorAll('.jingva-matrix-tab-btn');
+    var tabPanels = root.querySelectorAll('.jingva-matrix-tab-panel');
+
+    tabButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        tabButtons.forEach(function(btn) { btn.classList.remove('active'); });
+        tabPanels.forEach(function(panel) { panel.classList.remove('active'); });
+
+        button.classList.add('active');
+        var tabId = button.dataset.tab;
+        var targetPanel = document.getElementById(tabId);
+        if (targetPanel) {
+          targetPanel.classList.add('active');
+          setTimeout(function() {
+            window.dispatchEvent(new Event('resize'));
+            fixTrustooReviewCopyInSection();
+          }, 100);
+        }
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Product Matrix",
+  "class": "shopify-section--jingva-product-matrix",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "产品矩阵设置"
+    },
+    {
+      "type": "paragraph",
+      "content": "卡片星级与条数使用 Trustoo（TrustWILL）与商品详情页相同的星级组件：请在 在线商店 → 主题 → 自定义 → App embed 中开启 Trustoo，详见 https://help.trustoo.io/docs/reviewAPI/review-widget/"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "模块标题",
+      "default": "See Our Latest Innovations"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "产品标签",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tab_title",
+          "label": "标签标题",
+          "default": "Most Popular"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "产品列表",
+          "info": "选择要在此标签中显示的产品",
+          "limit": 10
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Product Matrix",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "Most Popular"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "M-Series"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "G-Series"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "tab_title": "A-Series"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

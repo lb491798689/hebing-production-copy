@@ -1,0 +1,717 @@
+{%- if link.links.size > 0 -%}
+  <style>
+    img.mega-menu__image {
+        width: 80px;
+        height: 80px;
+        border-radius: 8px;
+    }
+    .kik_collections_title_text_span{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .kik_collection_title_image{
+      height:50px;
+      width:50px;
+      padding:10px;
+    }
+    .kik_collection_title_image img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+    }
+    #mega-menu-{{ mega_menu_block.id }} .kik_pro_small_desk{
+      text-align:center;
+      font-size:14px;
+      margin-top:10px;
+      color:#5a5a5a;
+    }
+    #mega-menu-{{ mega_menu_block.id }} .kik_pro_badge{
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #e90202;
+      background: #ffffff;
+      border: 1px solid #e90202;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 2;
+      text-transform: uppercase;
+    }
+    #mega-menu-{{ mega_menu_block.id }} .kik_pro_badge.hot{
+      background:#E1040F;
+      color: #ffffff;
+      border-color: #E1040F;
+    }
+
+    
+    @media screen and (min-width: 1150px) {
+      #mega-menu-{{ mega_menu_block.id }} {
+        --mega-menu-nav-column-max-width: {% if mega_menu_block.settings.submenu_style == 'bold_text' %}{% if link.links.size <= 2 %}240px{% else %}200px{% endif %}{% else %}{% if link.links.size <= 2 %}180px{% else %}160px{% endif %}{% endif %};
+        --mega-menu-justify-content: {% if mega_menu_block.settings.collections %}flex-start{% elsif link.links.size == 0 or mega_menu_block.settings.layout == 'horizontal_center' and mega_menu_block.settings.stretch_promo == false %}center{% else %}space-between{% endif %};
+        --mega-menu-nav-gap: {% if mega_menu_block.settings.stretch_promo %}var(--spacing-12){% else %}var(--spacing-8){% endif %};
+
+        {% if link.links.size > 3 %}
+          --column-list-max-width: 75%;
+        {% endif %}
+      }
+    }
+
+    @media screen and (min-width: 1400px) {
+      #mega-menu-{{ mega_menu_block.id }} {
+        --mega-menu-nav-column-max-width: {% if mega_menu_block.settings.submenu_style == 'bold_text' %}{% if link.links.size == 1 %}260px{% elsif link.links.size == 2 %}240px{% else %}210px{% endif %}{% else %}{% if link.links.size == 1 %}220px{% elsif link.links.size == 2 %}200px{% else %}180px{% endif %}{% endif %};
+        --mega-menu-nav-gap: {% if mega_menu_block.settings.layout == 'horizontal_center' %}var(--spacing-12){% else %}var(--spacing-16){% endif %};
+
+        {% if link.links.size > 4 %}
+          --column-list-max-width: 75%;
+        {% else %}
+          --column-list-max-width: max-content;
+        {% endif %}
+      }
+    }
+
+    @media screen and (min-width: 1600px) {
+      #mega-menu-{{ mega_menu_block.id }} {
+        --mega-menu-nav-gap: var(--spacing-16);
+      }
+    }
+
+    @media screen and (min-width: 1800px) {
+      #mega-menu-{{ mega_menu_block.id }} {
+        --mega-menu-nav-gap: var(--spacing-20);
+      }
+    }
+
+    {%- comment -%}
+      Collections mega：布局必须跟 snippet 走，不能只依赖 header 里 enbale_custom 样式；
+      否则主题 .mega-menu（flex + justify-content:center）会把唯一子块压成窄条，商品只能竖排。
+    {%- endcomment -%}
+    {% if mega_menu_block.settings.collections %}
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-start !important;
+      align-items: flex-start !important;
+      --mega-menu-justify-content: flex-start !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      background: #f0f0f0 !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections > .kik_mega_collections_wrap {
+      display: flex !important;
+      flex-direction: column !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      min-width: 0 !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+      flex: 1 1 100% !important;
+      box-sizing: border-box !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections > .kik_mega_collections_wrap > .kik_mains_nav_collections {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: flex-start !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      gap: 24px !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_title {
+      flex: 0 0 240px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+      min-width: 0 !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_main {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_list {
+      flex: 1 1 auto !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      position: relative !important;
+    }
+    /* 必须与 header 双双生效：仅显示当前系列，否则会叠出两行 6 个 SKU */
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection:not(.active) {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      pointer-events: none !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection.active {
+      display: block !important;
+      visibility: visible !important;
+      height: auto !important;
+      overflow: visible !important;
+      pointer-events: auto !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection_item > .kik_menu_product:nth-child(n+4) {
+      display: none !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection_item {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 12px !important;
+      width: 100% !important;
+      align-items: start !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product {
+      min-width: 0 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      background: #ffffff !important;
+      border-radius: 12px !important;
+      padding: 16px 24px 24px 24px !important;
+      box-sizing: border-box !important;
+      text-align: center !important;
+      position: relative !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_link {
+      position: relative !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_media {
+      position: relative !important;
+      aspect-ratio: 1 !important;
+      width: 100% !important;
+      max-width: 252px !important;
+      margin-inline: auto !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 8px !important;
+      overflow: visible !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections img.kik_menu_product_image {
+      width: 100% !important;
+      max-width: 252px !important;
+      height: auto !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
+      margin-inline: auto !important;
+      transition: transform 0.3s ease !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_link:hover img.kik_menu_product_image {
+      transform: scale(1.05) !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_body {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 8px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_title {
+      margin: 0 !important;
+      font-family: 'Gabarito', 'HarmonyOS Sans SC', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 20px !important;
+      line-height: 24px !important;
+      color: #0a0a0a !important;
+      text-align: center !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 2 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+      transition: text-decoration 0.3s ease !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_link:hover .kik_menu_product_title {
+      text-decoration: underline !important;
+      text-decoration-color: #0a0a0a !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_product_price_row {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      align-items: baseline !important;
+      gap: 8px !important;
+      font-size: 16px !important;
+      line-height: 1.2 !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_price_sale {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      font-size: 16px !important;
+      line-height: 19.2px !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_price_compare {
+      position: relative !important;
+      display: inline-block !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      color: #999999 !important;
+      text-decoration: none !important;
+      font-size: 16px !important;
+      line-height: 19.2px !important;
+      vertical-align: baseline !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_price_compare::after {
+      content: '' !important;
+      position: absolute !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: 50% !important;
+      height: 1px !important;
+      margin-top: -0.5px !important;
+      background: #999999 !important;
+      pointer-events: none !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_pro_badge {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 2 !important;
+      display: flex !important;
+      height: 22px !important;
+      padding: 4px !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 10px !important;
+      border-radius: 4px !important;
+      border: 1px solid #E90202 !important;
+      background: #ffffff !important;
+      color: #E90202 !important;
+      text-align: center !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 14px !important;
+      font-style: normal !important;
+      font-weight: 600 !important;
+      line-height: normal !important;
+      letter-spacing: normal !important;
+      text-transform: uppercase !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_pro_badge.hot {
+      background: #e90202 !important;
+      color: #ffffff !important;
+      border-color: #e90202 !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collection_title_image {
+      display: none !important;
+    }
+    /* Figma 1438:17621 */
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_title_text.active {
+      background: #e90202 !important;
+      border: 2px solid #e90202 !important;
+      color: #f4f4f4 !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_title_text:not(.active) {
+      background: #fafafa !important;
+      border: 1px solid #0a0a0a !important;
+      color: #0a0a0a !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_title_text {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      min-height: 56px !important;
+      margin: 0 !important;
+      padding: 12px 24px !important;
+      border-radius: 12px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      cursor: pointer !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 20px !important;
+      font-weight: 700 !important;
+      line-height: 1.2 !important;
+      letter-spacing: 0.02em !important;
+      text-transform: uppercase !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_series_footer {
+      width: 100% !important;
+      margin-top: 24px;
+      padding-top: 0 !important;
+      padding-right: 0 !important;
+      border-top: none !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_footer_btn {
+      display: flex !important;
+      width: 320px !important;
+      height: 48px !important;
+      padding: 12px 16px !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex: 0 1 320px !important;
+      max-width: 100% !important;
+      border-radius: 999px !important;
+      text-align: center !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 16px !important;
+      font-style: normal !important;
+      font-weight: 700 !important;
+      line-height: 120% !important;
+      letter-spacing: normal !important;
+      text-transform: uppercase !important;
+      text-decoration: none !important;
+      box-sizing: border-box !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_footer_btn--primary {
+      background: #0a0a0a !important;
+      color: #ffffff !important;
+      border: 2px solid #0a0a0a !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_footer_btn--outline {
+      background: #F0F0F0 !important;
+      color: #E90202 !important;
+      border: 1px solid #E90202 !important;
+      transition: all 0.3s ease !important;
+    }
+    #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_footer_btn--outline:hover {
+      background: #DBDBDB !important;
+      color: #E90202 !important;
+      border-color: transparent !important;
+    }
+    @media screen and (max-width: 989px) {
+      #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection_item {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
+      #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_collections_title {
+        flex-basis: 200px !important;
+      }
+    }
+    @media screen and (max-width: 699px) {
+      #mega-menu-{{ mega_menu_block.id }}.mega_collections > .kik_mega_collections_wrap > .kik_mains_nav_collections {
+        flex-direction: column !important;
+      }
+      #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_menu_collection_item {
+        grid-template-columns: 1fr !important;
+      }
+      #mega-menu-{{ mega_menu_block.id }}.mega_collections .kik_mega_footer_btn {
+        flex: 1 1 auto !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+    }
+    {% endif %}
+  </style>
+{%- endif -%}
+
+<div id="mega-menu-{{ mega_menu_block.id }}" class="mega-menu {% if link.links.size == 0 %}justify-center{% endif %} {% if mega_menu_block.settings.collections %} mega_collections {% endif %}" style="top: {% if mega_menu_block.settings.collections %}100%{% else %}calc(100% + 4px){% endif %} !important;">
+  {%- if link.links.size > 0 -%}
+    {% if mega_menu_block.settings.collections %}
+        <div class="kik_mega_collections_wrap">
+        <div class="kik_mains_nav_collections">
+          <div class="kik_collections_title">
+            {%- for sub_link in link.links -%}
+              {% assign link_icon = "sub_link_image" | append : forloop.index %}
+                <div class="kik_collections_title_text {% if forloop.first %} active{% endif %}" data-open="{{ forloop.index }}">
+                  <span class="kik_collections_title_text_span">
+                    {% if mega_menu_block.settings[link_icon] != blank %}
+                    <div class="kik_collection_title_image">
+                        <img src="{{ mega_menu_block.settings[link_icon] | img_url:"50x50" }}" loading="lazy">
+                    </div>
+                    {% endif %}
+                    {{ sub_link.title }}
+                  </span>
+                  <span>
+                    <svg role="presentation" focusable="false" width="7" height="10" class="icon icon-chevron-right reverse-icon" viewBox="0 0 7 10">
+                      <path d="m1 9 4-4-4-4" fill="none" stroke="currentColor" stroke-width="2"></path>
+                    </svg>
+                  </span>
+                </div>
+            {% endfor %}
+          </div>
+          {%- comment -%}
+            Figma 644:9403：右侧栏为 flex-col gap 24 — 上块 3 商品横排，下块 Compare + Learn（无 View all）。
+            非 active 系列面板必须隐藏，否则多个 panel 叠出 6 张卡。
+          {%- endcomment -%}
+          <div class="kik_collections_main">
+          <div class="kik_collections_list">
+            {%- for sub_link in link.links -%}
+              {%- liquid
+                assign idx = forloop.index
+                assign learn_url_key = 'mega_footer_learn_url' | append: idx
+                assign learn_label_key = 'mega_footer_learn_label' | append: idx
+                assign series_learn_url = mega_menu_block.settings[learn_url_key]
+                assign series_learn_label = mega_menu_block.settings[learn_label_key]
+                if series_learn_url == blank
+                  assign series_learn_url = mega_menu_block.settings.mega_footer_learn_url
+                endif
+                if series_learn_label == blank
+                  assign series_learn_label = mega_menu_block.settings.mega_footer_learn_label
+                endif
+                if series_learn_label == blank
+                  assign series_learn_label = 'Learn more'
+                endif
+                assign compare_url = mega_menu_block.settings.mega_footer_compare_url
+                assign compare_label = mega_menu_block.settings.mega_footer_compare_label | default: 'Compare option'
+              -%}
+              <div class="kik_menu_collection {% if forloop.first %} active{% endif %}" data-open="{{ idx }}" data-series-panel>
+                <div class="kik_menu_collection_item">
+                  {% if sub_link.links.size > 0 %}
+                    {% assign kik_card_n = 0 %}
+                    {% for product_link in sub_link.links %}
+                      {% if kik_card_n >= 3 %}
+                        {% break %}
+                      {% endif %}
+                      {% comment %}必须仅为商品链接：collection 曾被当成 object 渲染，导致数量/样式异常{% endcomment %}
+                      {% if product_link.type == 'product_link' and product_link.object %}
+                        {% assign pro = product_link.object %}
+                        {% render 'kiks-mega-menu-product-card', pro: pro %}
+                        {% assign kik_card_n = kik_card_n | plus: 1 %}
+                      {% endif %}
+                    {% endfor %}
+                  {% elsif sub_link.type == 'collection_link' and sub_link.object != blank %}
+                    {% for pro in sub_link.object.products limit: 3 %}
+                      {% render 'kiks-mega-menu-product-card', pro: pro %}
+                    {% endfor %}
+                  {% endif %}
+                </div>
+
+                {%- if compare_url != blank or series_learn_url != blank -%}
+                  <div class="kik_mega_series_footer">
+                    {%- if compare_url != blank -%}
+                      <a href="{{ compare_url }}" class="kik_mega_footer_btn kik_mega_footer_btn--primary">
+                        <span class="kik_mega_footer_btn__label">{{ compare_label }}</span>
+                        <span class="kik_mega_footer_btn__suffix">(3)</span>
+                        <svg class="kik_mega_footer_btn__compare-ico" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="7" height="14" rx="1" stroke="currentColor" stroke-width="2"/><rect x="13" y="5" width="7" height="14" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+                      </a>
+                    {%- endif -%}
+                    {%- if series_learn_url != blank -%}
+                      <a href="{{ series_learn_url }}" class="kik_mega_footer_btn kik_mega_footer_btn--outline">
+                        <span>{{ series_learn_label }}</span>
+                        <svg class="kik_mega_footer_btn__chev" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2"/></svg>
+                      </a>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+              </div>
+            {% endfor %}
+          </div>
+          </div>{%- comment -%} /.kik_collections_main {%- endcomment -%}
+        </div>
+
+        </div>{%- comment -%} /.kik_mega_collections_wrap {%- endcomment -%}
+
+        <style>
+          .kik_mains_promo{
+
+          /* 这个是海报 展示不需要 */
+            display:none;
+            flex: 0 0 25%;
+            position: relative;
+            height: auto;
+            align-self: stretch;
+            border-radius: 8px; 
+            overflow: hidden;
+          }
+          .kik_promo_image{
+            position:absolute;
+            width:100%;
+          height:100%;
+          }
+          .kik_promo_image_img{
+          height:100%;
+          width:100%;
+          object-fit: cover;
+                    }
+          .kik_promo_image_text{
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            align-items: flex-end;
+          }
+          .kik_promo_badge_text{
+            padding:0px 10px;
+            border-radius:8px;
+            position:absolute;
+            top:20px;
+            left:20px;
+          }
+          .kik_promo_image_link{
+            position:absolute;
+            top:0;
+            left:0;
+            height:100%;
+            width:100%;
+          }
+        </style>
+        <div class="kik_mains_promo">
+          {% if mega_menu_block.settings.image_1 != blank %}
+         <div class="kik_promo_image">
+          <img src="{{ mega_menu_block.settings.image_1 | img_url: "300x" }}" alt="{{ mega_menu_block.settings.image_heading_1 }}" loading="lazy" class="kik_promo_image_img">
+        </div>
+          <div class="kik_promo_image_text" style="color:{{ mega_menu_block.settings.image_text_color_1 }}">
+            <div class="kik_promo_badge">
+            <span class="kik_promo_badge_text" style="background:{{ mega_menu_block.settings.badge_color_1 }}">{{ mega_menu_block.settings.badge_text_1 }}</span>
+            <h3 class="kik_promo_image_heading">{{ mega_menu_block.settings.image_heading_1 }}</h3>
+            <p class="kik_promo_text">{{ mega_menu_block.settings.image_text_1 }}</p>
+            {% if mega_menu_block.settings.image_link_1 != blank %}
+              <a href="{{ mega_menu_block.settings.image_link_1 }}" class="kik_promo_image_link"></a>
+            {% endif %}
+         </div>
+         </div>
+          {% endif %}
+        </div>
+    {% else %}
+        <ul class="mega-menu__nav custom-class" role="list">
+          {%- for sub_link in link.links -%}
+            {% assign matched_image = '' %}
+
+            {% comment %} Loop through predefined sub_link_ids and check for a match {% endcomment %}
+            {% for i in (1..8) %}
+              {% assign sub_link_id = 'target_sub_link' | append: i %}
+              {% assign sub_image_id = 'sub_link_image' | append: i %}
+              {% assign current_sub_link = mega_menu_block.settings[sub_link_id] %}
+              {% assign current_sub_image = mega_menu_block.settings[sub_image_id] %}
+
+              {% if sub_link.title == current_sub_link %}
+                {% assign matched_image = current_sub_image %}
+              {% endif %}
+            {% endfor %}
+            <li class="v-stack gap-4 justify-items-start" data-title-subLink="{{ sub_link.title }}">
+              {% comment %} image here {% endcomment %}
+              {% if matched_image != blank %}
+                  {{ matched_image | image_url: width: 300 | image_tag: loading: 'lazy', sizes: image_sizes, widths: '200,300,400,500,600,800,1000', class: "mega-menu__image zoom-image" }}
+                {% endif %}
+              <a {% if sub_link.url != '#' %}href="{{ sub_link.url }}"{% endif %} class="{% if mega_menu_block.settings.submenu_style == 'bold_heading' %}bold{% endif %}" {% if sub_link.current %}aria-current="page"{% endif %}>
+                <span {% if sub_link.url != '#' %}class="{% if mega_menu_block.settings.submenu_style == 'bold_text' %}link-faded{% else %}reversed-link hover:show{% endif %}"{% endif %}>
+                  {{- sub_link.title -}}
+                </span>
+              </a>
+
+              {%- if sub_link.levels > 0 -%}
+                <ul class="v-stack gap-2 justify-items-start" role="list">
+                  {%- for sub_sub_link in sub_link.links -%}
+                    <li>
+                      <a href="{{ sub_sub_link.url }}" class="{% if mega_menu_block.settings.submenu_style == 'bold_text' %}h5{% else %}link-faded{% endif %}">
+                        <span {% if mega_menu_block.settings.submenu_style == 'bold_text' %}class="reversed-link hover:show"{% endif %}>{{- sub_sub_link.title -}}</span>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+          {%- render 'navigation-promo-block', mega_menu_block: mega_menu_block, force_carousel_mode: force_carousel_mode -%}
+        </ul>
+    {% endif %}
+  {%- endif -%}
+  {% if link.links.size == 0 and link.title == 'NEW RELEASES' or link.title == 'New Arrival' %}
+    <style>
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases{
+        justify-content: center;
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases .navigation-promo{
+        display: flex;
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a{
+        position: relative;
+        border-radius: 0px;
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a img{
+        aspect-ratio: 692 / 350;
+        object-fit: cover;
+        width: 100% !important;
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a .new-releases-a-content{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 30px;
+        width: 100%;
+        font-family: "RBNo3.1-BlackItalic";
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a .new-releases-a-content p{
+        font-size: 16px;
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a .new-releases-a-content .new-r-btn{
+        background: #fff;
+        color: #000;
+        width:120px;
+        height: 30px;
+        margin-top: 18px;
+        font-size: 13px;
+        transition: all 0.3s ease-in-out;
+        border-radius: 1px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-family: "HarmonyOS-Sans-SC";
+      }
+      div.mega-menu ul.mega-menu__nav.custom-class.new-releases a .new-releases-a-content .new-r-btn:hover{
+        background: #E1040F;
+        color: #fff;
+      }
+    </style>
+    <ul class="mega-menu__nav custom-class new-releases" role="list">
+      {%- render 'navigation-promo-block',link:link, mega_menu_block: mega_menu_block, force_carousel_mode: force_carousel_mode -%}
+    </ul>
+  {% endif %}
+
+  {% liquid
+    # To maximize space, we force a carousel mode depending on the actual content
+
+    assign promo_item_count = 0
+    assign use_carousel_fallback_until = ''
+
+    for i in (1..3)
+      assign image_setting = 'image_' | append: i
+
+      if mega_menu_block.settings[image_setting] != blank
+        assign promo_item_count = promo_item_count | plus: 1
+      endif
+    endfor
+
+    if mega_menu_block.settings.product != blank
+      assign promo_item_count = promo_item_count | plus: 1
+    endif
+
+    if link.links.size > 0 and promo_item_count == 4 or mega_menu_block.settings.promo_content_layout == 'carousel'
+      assign force_carousel_mode = true
+    else
+      if link.links.size == 2
+        if promo_item_count == 3 and mega_menu_block.settings.layout == 'grid'
+          assign use_carousel_fallback_until = 'xl'
+        endif
+      elsif link.links.size >= 3 and promo_item_count == 3
+        if use_promo_collage
+          assign use_carousel_fallback_until = 'xl'
+        else
+          assign use_carousel_fallback_until = '2xl'
+        endif
+      endif
+    endif
+  %}
+
+</div>

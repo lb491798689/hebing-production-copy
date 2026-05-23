@@ -1,0 +1,308 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign pc_image = se_stts.pc_image
+  assign mob_image = se_stts.mob_image
+  assign pad_top_pc = se_stts.padding_top_pc | default: 160 | plus: 0
+  assign pad_bottom_pc = se_stts.padding_bottom_pc | default: 0 | plus: 0
+  assign pad_top_mob = se_stts.padding_top_mobile | default: 96 | plus: 0
+  assign pad_bottom_mob = se_stts.padding_bottom_mobile | default: 0 | plus: 0
+-%}
+{% capture default_sid %}.jingva-product-info-{{ sid }}{% endcapture %}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-section-container jingva-product-info jingva-product-info-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1200px, node 2373:1653) 详细参数:
+     * ========================================
+     *   section: w:1200, flex column, gap:48px, bg:transparent, padding: 150px 0 185px 0
+     *   title: Gabarito SemiBold 600 48px line-height:58.5px letter-spacing:0 #000000 center
+     *   image container: w:1200, h:695, borderRadius:12px
+     *
+     * ========================================
+     * Figma MOB (390px, node 2812:3991) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:32px, bg:transparent, padding: 75px 0 70px 0
+     *   title: Gabarito SemiBold 600 32px line-height:39px letter-spacing:0 #000000 center
+     *   image container: w:358, h:276, borderRadius:12px
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: transparent !important;
+      padding: {{ pad_top_pc }}px 0 {{ pad_bottom_pc }}px 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-product-info-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding: 0 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-product-info-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 48px !important;
+      line-height: 1.22 !important;
+      letter-spacing: 0 !important;
+      color: #000000 !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-product-info-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-product-info-image-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      height: 695px !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-product-info-image {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-product-info-wrapper {
+        max-width: 1280px !important;
+        padding: 0 40px !important;
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-product-info-title {
+        font-size: 40px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-product-info-image-container {
+        height: 580px !important;
+      }
+    }
+
+    /* === MID: 768~1279 === */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-product-info-wrapper {
+        padding: 0 32px !important;
+        gap: 40px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-product-info-title {
+        font-size: 40px !important;
+        max-width: 100% !important;
+        line-height: 1.22 !important;
+      }
+
+      {{ default_sid }} .jingva-product-info-image-container {
+        height: 580px !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* === MOB: 375~767 === */
+    @media screen and (max-width: 767px) {
+      {{ default_sid }} {
+        padding: {{ pad_top_mob }}px 0 {{ pad_bottom_mob }}px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-product-info-wrapper {
+        padding: 0 16px !important;
+        gap: 32px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-product-info-title {
+        font-size: 32px !important;
+        max-width: 358px !important;
+        line-height: 1.22 !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-product-info-image-container {
+        height: 276px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-product-info-wrapper">
+    {% if title != blank %}
+      <h2 class="jingva-product-info-title">{{ title }}</h2>
+    {% endif %}
+
+    {% if pc_image != blank or mob_image != blank %}
+      <div class="jingva-product-info-image-container">
+        <picture class="jingva-product-info-image">
+          {% if pc_image != blank %}
+            <source media="(min-width: 1280px)" srcset="{{ pc_image | image_url: width: 1920 }}">
+          {% endif %}
+          {% if mob_image != blank %}
+            <img
+              src="{{ mob_image | image_url: width: 780 }}"
+              alt="{{ title | escape }}"
+              loading="lazy"
+              width="780"
+              height="276"
+            />
+          {% elsif pc_image != blank %}
+            <img
+              src="{{ pc_image | image_url: width: 1920 }}"
+              alt="{{ title | escape }}"
+              loading="lazy"
+              width="1920"
+              height="695"
+            />
+          {% endif %}
+        </picture>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-product-info-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-product-info-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Product Info",
+  "class": "shopify-section--jingva-product-info",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Product Information"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. HTML id for subnav anchor links (no #)."
+    },
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (desktop ≥1280)",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (desktop ≥1280)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (mobile ≤767)",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (mobile ≤767)",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Product Info"
+    }
+  ]
+}
+{% endschema %}

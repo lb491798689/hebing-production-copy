@@ -1,0 +1,584 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      background-color: #121212 !important;
+      /* PC: 顶 150px（与上方组件间距），底 0（与下方 product-matrix 间距由 matrix 顶 150px 承担） */
+      padding: 140px 0 0 !important;
+    }
+
+    /* Aggressive override for theme default section spacing */
+    html body #shopify-section-{{ section.id }},
+    html body #shopify-section-{{ section.id }} .section,
+    html body #shopify-section-{{ section.id }} .shopify-section,
+    #shopify-section-{{ section.id }},
+    #shopify-section-{{ section.id }} .section,
+    #shopify-section-{{ section.id }} .shopify-section {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-series-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+    }
+    
+    {{ default_sid }} .jingva-series-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
+      width: 100% !important;
+      /* 首次进入视口下沉载入动效（与 jingva-m6-recline 一致） */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-series-title.aos-animate {
+      transform: translateY(0);
+    }
+    
+    {{ default_sid }} .jingva-series-cards {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: stretch !important;
+      align-items: stretch !important;
+      gap: 16px !important;
+      width: 100% !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card {
+      position: relative !important;
+      width: 100% !important;
+      height: 640px !important;
+      flex: 1 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: flex-end !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+    
+    /* 与 jingva-flagship-product 一致：背景层叠 + opacity 0.5s ease 交叉淡入淡出 */
+    {{ default_sid }} .jingva-series-card-media {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      z-index: 1 !important;
+      overflow: hidden !important;
+      pointer-events: none !important;
+    }
+
+    {{ default_sid }} .jingva-series-card-slide {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      transition: opacity 0.5s ease !important;
+      pointer-events: none !important;
+      background-repeat: no-repeat !important;
+      background-size: cover !important;
+      background-position: center 61% !important;
+    }
+
+    {{ default_sid }} .jingva-series-card-slide.active {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-overlay {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(to bottom, rgba(26, 26, 26, 0), rgba(51, 51, 51, 1)) !important;
+      z-index: 2 !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-content {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 3 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 32px 0 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      {{ default_sid }} .jingva-series-card-slide {
+        transition: none !important;
+      }
+      {{ default_sid }} .jingva-series-card-slide:first-of-type {
+        opacity: 1 !important;
+      }
+      {{ default_sid }} .jingva-series-card-slide:not(:first-of-type) {
+        opacity: 0 !important;
+        visibility: hidden !important;
+      }
+    }
+    
+    {{ default_sid }} .jingva-series-card-name {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 48px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-btn {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: 1.2 !important;
+      text-transform: none !important;
+      text-align: center !important;
+      color: #37F !important;
+      padding: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      cursor: pointer !important;
+      text-decoration: none !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-btn:hover {
+      opacity: 1 !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-btn span {
+      text-decoration: none !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-btn:hover span {
+      text-decoration: underline !important;
+      text-decoration-color: #3377FF !important;
+      text-underline-offset: 3px !important;
+      text-decoration-thickness: 1px !important;
+    }
+    
+    {{ default_sid }} .jingva-series-card-btn svg {
+      width: 14px !important;
+      height: 14px !important;
+      fill: #37F !important;
+      flex-shrink: 0 !important;
+    }
+    
+    @media screen and (max-width: 1279px) {
+      /* Mobile: 按 Figma 数据还原 */
+      {{ default_sid }} {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      /* 移动端优先使用 --bg-mob（未设置时回退 --bg-pc） */
+      {{ default_sid }} .jingva-series-card-slide {
+        background-image: var(--bg-mob, var(--bg-pc)) !important;
+      }
+
+      /* Aggressive override for theme default section spacing */
+      html body #shopify-section-{{ section.id }},
+      html body #shopify-section-{{ section.id }} .section,
+      html body #shopify-section-{{ section.id }} .shopify-section,
+      #shopify-section-{{ section.id }},
+      #shopify-section-{{ section.id }} .section,
+      #shopify-section-{{ section.id }} .shopify-section {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-series-wrapper {
+        gap: 32px !important;
+        max-width: none !important;
+        width: 100% !important;
+        padding: 32px 16px 0 !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-series-title {
+        font-size: 28px !important;
+        width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-series-cards {
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-series-card {
+        height: 320px !important;
+        min-height: 320px !important;
+        width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-media {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        left: 0 !important;
+        top: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-slide {
+        position: absolute !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        left: 0 !important;
+        top: 0 !important;
+        background-size: cover !important;
+        background-position: center center !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-overlay {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-content {
+        padding: 24px 0 !important;
+        gap: 12px !important;
+        bottom: auto !important;
+        top: 206px !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 358px !important;
+        margin: 0 auto !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-name {
+        font-size: 28px !important;
+        color: #FFFFFF !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-btn {
+        gap: 4px !important;
+        font-size: 14px !important;
+        text-transform: none !important;
+        color: #37F !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-btn svg {
+        fill: #37F !important;
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
+
+    /* 过渡区：768~1279（仍属 mob 断点，但避免沿用 390 的窄内容布局） */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-series-wrapper {
+        gap: 40px !important;
+        padding: 40px 40px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-series-title {
+        font-size: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-series-cards {
+        flex-direction: row !important;
+        gap: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-series-card {
+        height: 520px !important;
+        min-height: 520px !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-slide {
+        background-size: cover !important;
+        background-position: center center !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-content {
+        top: auto !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 24px 24px 32px !important;
+      }
+
+      {{ default_sid }} .jingva-series-card-name {
+        font-size: 40px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-series-wrapper">
+    <h2 class="jingva-series-title">{{ se_stts.series_title | default: 'Ergonomic Seating solutions' }}</h2>
+    
+    <div class="jingva-series-cards">
+      {% for block in section.blocks %}
+        {% if block.type == 'series_card' %}
+          <a href="{{ block.settings.card_link | default: '#' }}" class="jingva-series-card">
+            {% if block.settings.card_bg %}
+              {%- liquid
+                assign bg1_pc = block.settings.card_bg
+                assign bg1_mob = block.settings.card_bg_mob
+                assign bg2_pc = block.settings.card_bg_2
+                assign bg2_mob = block.settings.card_bg_2_mob
+                assign bg3_pc = block.settings.card_bg_3
+                assign bg3_mob = block.settings.card_bg_3_mob
+              -%}
+              <div
+                class="jingva-series-card-media"
+                data-slide-interval-sec="{{ block.settings.card_slide_interval | default: 5 }}"
+              >
+                <div
+                  class="jingva-series-card-slide active"
+                  style="--bg-pc: url('{{ bg1_pc | image_url: width: 2560 }}');{% if bg1_mob != blank %} --bg-mob: url('{{ bg1_mob | image_url: width: 1280 }}');{% endif %} background-image: var(--bg-pc);"
+                  role="img"
+                  aria-label="{{ block.settings.card_name | escape }}"
+                  aria-hidden="false"
+                ></div>
+                {% if bg2_pc != blank %}
+                  <div
+                    class="jingva-series-card-slide"
+                    style="--bg-pc: url('{{ bg2_pc | image_url: width: 2560 }}');{% if bg2_mob != blank %} --bg-mob: url('{{ bg2_mob | image_url: width: 1280 }}');{% endif %} background-image: var(--bg-pc);"
+                    aria-hidden="true"
+                  ></div>
+                {% endif %}
+                {% if bg3_pc != blank %}
+                  <div
+                    class="jingva-series-card-slide"
+                    style="--bg-pc: url('{{ bg3_pc | image_url: width: 2560 }}');{% if bg3_mob != blank %} --bg-mob: url('{{ bg3_mob | image_url: width: 1280 }}');{% endif %} background-image: var(--bg-pc);"
+                    aria-hidden="true"
+                  ></div>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            <div class="jingva-series-card-content">
+              <h3 class="jingva-series-card-name">{{ block.settings.card_name | default: 'M Series' }}</h3>
+              
+              <div class="jingva-series-card-btn">
+                <span>{{ block.settings.card_btn_text | default: 'for pro gamers' }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="8" height="13" viewBox="0 0 8 13" fill="none">
+                  <path d="M7.60156 6.42188L1.17871 12.8447L0 11.666L5.24414 6.42188L0 1.17773L1.17871 0L7.60156 6.42188Z" fill="currentColor"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var root = document.getElementById('shopify-section-{{ section.id }}');
+      if (!root) return;
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      root.querySelectorAll('.jingva-series-card').forEach(function (card) {
+        var media = card.querySelector('.jingva-series-card-media');
+        if (!media) return;
+        var slides = media.querySelectorAll('.jingva-series-card-slide');
+        
+        if (slides.length <= 1) return;
+        if (reduceMotion) return;
+
+        var currentIndex = 0;
+        var autoPlayTimer = null;
+        var sec = parseInt(media.getAttribute('data-slide-interval-sec'), 10);
+        if (!sec || sec < 1) sec = 5;
+        
+        function showSlide(index) {
+          slides.forEach(function (slide, i) {
+            var isActive = i === index;
+            slide.classList.toggle('active', isActive);
+            slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+          });
+        }
+
+        function nextSlide() {
+          currentIndex = (currentIndex + 1) % slides.length;
+          showSlide(currentIndex);
+        }
+
+        function startAutoPlay() {
+          stopAutoPlay();
+          autoPlayTimer = window.setInterval(nextSlide, sec * 1000);
+        }
+
+        function stopAutoPlay() {
+          if (autoPlayTimer) {
+            window.clearInterval(autoPlayTimer);
+            autoPlayTimer = null;
+          }
+        }
+
+        card.addEventListener('mouseenter', stopAutoPlay);
+        card.addEventListener('mouseleave', startAutoPlay);
+        startAutoPlay();
+      });
+    })();
+  </script>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-section-container-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-series-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Product Series",
+  "class": "shopify-section--jingva-product-series",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "产品系列"
+    },
+    {
+      "type": "text",
+      "id": "series_title",
+      "label": "模块标题",
+      "default": "Ergonomic Seating solutions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "series_card",
+      "name": "系列卡片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "card_bg",
+          "label": "卡片背景图 (PC)"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_bg_mob",
+          "label": "卡片背景图 (Mobile)",
+          "info": "可选；未上传时移动端使用 PC 背景图。"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_bg_2",
+          "label": "背景图 2 (PC) （可选，多图时轮播切换）"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_bg_2_mob",
+          "label": "背景图 2 (Mobile)",
+          "info": "可选；未上传时移动端使用 PC 图 2。"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_bg_3",
+          "label": "背景图 3 (PC) （可选）"
+        },
+        {
+          "type": "image_picker",
+          "id": "card_bg_3_mob",
+          "label": "背景图 3 (Mobile)",
+          "info": "可选；未上传时移动端使用 PC 图 3。"
+        },
+        {
+          "type": "range",
+          "id": "card_slide_interval",
+          "min": 3,
+          "max": 12,
+          "step": 1,
+          "unit": "s",
+          "label": "多图轮播间隔",
+          "default": 5,
+          "info": "仅当上传 2 张及以上背景图时生效；单图无轮播。"
+        },
+        {
+          "type": "text",
+          "id": "card_name",
+          "label": "系列名称",
+          "default": "M Series"
+        },
+        {
+          "type": "text",
+          "id": "card_btn_text",
+          "label": "按钮文字",
+          "default": "for pro gamers"
+        },
+        {
+          "type": "url",
+          "id": "card_link",
+          "label": "卡片链接"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Product Series",
+      "blocks": [
+        {
+          "type": "series_card"
+        },
+        {
+          "type": "series_card"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,66 @@
+/**
+ * jingva-product-matrix：区块内间距（与 section 内联样式双保险，避免主题覆盖）
+ * PC：标题↔Tab 28px；Tab↔卡片 48px
+ * ≤1279px：标题↔Tab 20px；Tab↔卡片 30px
+ */
+html body .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-header,
+.jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-header {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 28px !important;
+  row-gap: 28px !important;
+  column-gap: 0 !important;
+}
+
+html body .jingva-matrix-spacing-root.jingva-matrix-wrapper h2.jingva-matrix-title,
+.jingva-matrix-spacing-root.jingva-matrix-wrapper h2.jingva-matrix-title {
+  /* 勿用 margin 简写：会压掉移动端 margin-bottom:-7px（抵消多行行高多出的约 7px，使标题底→Tab≈20px） */
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+html body .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-tabs,
+.jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-tabs {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+html body .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-content,
+.jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-content {
+  margin-top: 48px !important;
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+@media screen and (max-width: 1279px) {
+  html body .jingva-matrix-spacing-root.jingva-matrix-wrapper h2.jingva-matrix-title,
+  .jingva-matrix-spacing-root.jingva-matrix-wrapper h2.jingva-matrix-title {
+    margin-bottom: -7px !important;
+  }
+
+  html body .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-header,
+  .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-header {
+    align-items: flex-start !important;
+    gap: 20px !important;
+    row-gap: 20px !important;
+  }
+
+  html body .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-content,
+  .jingva-matrix-spacing-root.jingva-matrix-wrapper .jingva-matrix-content {
+    margin-top: 30px !important;
+  }
+
+  /* Figma 1769:5817：Tab 行横向溢出可滑动；具体裁切与圆角见 section 内联样式 */
+  html body .jingva-matrix-spacing-root .jingva-matrix-tabs,
+  .jingva-matrix-spacing-root .jingva-matrix-tabs {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+}

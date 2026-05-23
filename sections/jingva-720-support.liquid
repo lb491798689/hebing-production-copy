@@ -1,0 +1,351 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign theme = se_stts.theme | default: 'dark'
+  if theme == 'light'
+    assign theme_bg = '#FFFFFF'
+    assign theme_title_color = '#0A0A0A'
+    assign theme_desc_color = 'rgba(26, 26, 26, 0.60)'
+  else
+    assign theme_bg = '#000000'
+    assign theme_title_color = '#FFFFFF'
+    assign theme_desc_color = 'rgba(255, 255, 255, 0.6)'
+  endif
+
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign bg_color = se_stts.bg_color | default: theme_bg
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+  assign title_color = se_stts.title_color | default: theme_title_color
+  assign description_color = se_stts.description_color | default: theme_desc_color
+  assign padding_top = se_stts.padding_top
+  assign padding_bottom = se_stts.padding_bottom
+  assign padding_top_mob = se_stts.padding_top_mob
+  assign padding_bottom_mob = se_stts.padding_bottom_mob
+
+  assign pc_img = se_stts.pc_img
+  assign mob_img = se_stts.mob_img
+  assign specs_text = se_stts.specs_text
+-%}
+{% capture default_sid %}.jingva-720-support-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-720-support-{{ sid }}" data-section-id="{{ sid }}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: theme_bg }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding-top: {{ padding_top | default: 180 }}px !important;
+      padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-content {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 1.254 !important;
+      color: {{ title_color | default: theme_title_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-720-support-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-720-support-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 24px !important;
+      line-height: 1.2em !important;
+      color: {{ description_color | default: theme_desc_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1080px !important;
+      margin-bottom: 24px !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-image-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-image {
+      width: 100% !important;
+      max-width: 1200px !important;
+      height: 640px !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-720-support-specs {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 24px !important;
+      line-height: 1.2em !important;
+      color: {{ description_color | default: theme_desc_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1080px !important;
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: {{ bg_color_mob | default: theme_bg }} !important;
+      }
+
+      {{ default_sid }} .jingva-720-support-wrapper {
+        padding-top: {{ padding_top_mob | default: 96 }}px !important;
+        padding-bottom: {{ padding_bottom_mob | default: 0 }}px !important;
+      }
+
+      {{ default_sid }} .jingva-720-support-content {
+        align-items: flex-start !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-720-support-title {
+        font-size: 32px !important;
+        line-height: 1.254 !important;
+        text-align: left !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-720-support-description {
+        font-size: 16px !important;
+        line-height: 1.2em !important;
+        text-align: left !important;
+        max-width: 100% !important;
+        word-break: break-word !important;
+      }
+
+      {{ default_sid }} .jingva-720-support-image {
+        height: auto !important;
+        aspect-ratio: 390 / 488 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-720-support-specs {
+        display: none !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-720-support-wrapper">
+    <div class="jingva-720-support-content">
+      {%- assign desc_raw = description | default: '3D adjustable armrests support multi-directional movement (up/down, forward/backward, left/right). Whether typing, gaming intensely, or watching movies, your arms receive perfect support from elbows to shoulders for total relaxation. Every adjustment delivers personalized ergonomic support.' -%}
+      {%- assign desc_formatted = desc_raw | replace: '/', '/<wbr>' -%}
+      <h2 class="jingva-720-support-title">{{ title | default: 'Full 720° Multi-Directional Support' }}</h2>
+      <p class="jingva-720-support-description">{{ desc_formatted }}</p>
+    </div>
+
+    <div class="jingva-720-support-image-wrapper">
+      {% if pc_img %}
+        <img class="jingva-720-support-image" src="{{ pc_img | img_url: '1920x' }}" alt="{{ title | default: 'Full 720° Multi-Directional Support' }}">
+      {% else %}
+        <div class="jingva-720-support-image"></div>
+      {% endif %}
+      <p class="jingva-720-support-specs">{{ specs_text | default: 'Height adjustment: 6 levels, 70mm travel; Front/back: 6 levels, 60mm; Surface rotation: 20 levels, 360°; Armrest rotation: 20 levels, 360°; Surface tilt: 4 levels, 39°.' }}</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-720-support-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-720-support-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva 720 Support",
+  "tag": "section",
+  "class": "jingva-720-support-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Theme",
+      "options": [
+        { "value": "dark", "label": "Dark" },
+        { "value": "light", "label": "Light" }
+      ],
+      "default": "dark",
+      "info": "Light: bg #FFF, title #0A0A0A, text rgba(26,26,26,.6). Dark: black bg, white title. Style fields below override theme when filled."
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Full 720° Multi-Directional Support"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "3D adjustable armrests support multi-directional movement (up/down, forward/backward, left/right). Whether typing, gaming intensely, or watching movies, your arms receive perfect support from elbows to shoulders for total relaxation. Every adjustment delivers personalized ergonomic support."
+    },
+    {
+      "type": "textarea",
+      "id": "specs_text",
+      "label": "Specifications Text",
+      "default": "Height adjustment: 6 levels, 70mm travel; Front/back: 6 levels, 60mm; Surface rotation: 20 levels, 360°; Armrest rotation: 20 levels, 360°; Surface tilt: 4 levels, 39°."
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_img",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_img",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "text",
+      "id": "bg_color",
+      "label": "PC Background Color (override theme)",
+      "info": "Leave blank for theme default (#000 dark / #FFF light). Hex or rgba."
+    },
+    {
+      "type": "text",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color (override theme)",
+      "info": "Leave blank to match PC background or theme default. Hex or rgba."
+    },
+    {
+      "type": "text",
+      "id": "title_color",
+      "label": "Title Color (override theme)",
+      "info": "Leave blank for theme default (#FFF dark / #0A0A0A light). Hex or rgba."
+    },
+    {
+      "type": "text",
+      "id": "description_color",
+      "label": "Description & specs color (override theme)",
+      "info": "Leave blank for theme default. Applies to description and specifications line (PC). Hex or rgba."
+    },
+    {
+      "type": "header",
+      "content": "PC Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Mobile Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Mobile Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva 720 Support",
+      "category": "Jingva"
+    }
+  ]
+}
+{% endschema %}

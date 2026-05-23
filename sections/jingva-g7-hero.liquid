@@ -1,0 +1,740 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign hero_image = se_stts.hero_image
+  assign hero_mobile_image = se_stts.hero_mobile_image
+  assign pc_video = se_stts.pc_video
+  assign mob_video = se_stts.mob_video
+
+  if pc_video == blank and mob_video != blank
+    assign pc_video = mob_video
+  endif
+  if mob_video == blank and pc_video != blank
+    assign mob_video = pc_video
+  endif
+
+  assign title = se_stts.title
+  assign desktop_subtitle = se_stts.desktop_subtitle
+  assign mobile_subtitle = se_stts.mobile_subtitle
+  assign desktop_price_text = se_stts.desktop_price_text
+  assign mobile_price_text = se_stts.mobile_price_text
+  assign button_text = se_stts.button_text
+  assign button_url = se_stts.button_url
+-%}
+{% capture default_sid %}.jingva-g7-hero-{{ sid }}{% endcapture %}
+
+<section class="jingva-g7-hero jingva-g7-hero-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    {%- comment -%}
+      不再写全局 .announcement-bar / .shopify-section--announcement-bar（已在 theme.css + announcement-bar section 统一处理）。
+      此处曾影响含本 hero 的页面与 header 的叠层顺序，导致仅在这些页面出现公告与导航间细缝。
+    {%- endcomment -%}
+    .shopify-section--jingva-g7-hero {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    {{ default_sid }} {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      margin: 0 !important;
+      /* margin-top: calc(var(--header-height, 0px) * -1) !important; */
+      z-index: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      background-color: #000000 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-bg {
+      position: relative !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-bg-img {
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      display: block !important;
+      transition: opacity 0.45s ease !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-bg.is-video-ready .jingva-g7-hero-bg-img {
+      opacity: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-vid {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      display: block !important;
+      pointer-events: none !important;
+      z-index: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-bg-desktop {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-bg-mobile {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-content {
+      position: absolute !important;
+      top: 0 !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      height: 100% !important;
+      z-index: 10 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      padding-top: 104px !important;
+      gap: 12px !important;
+      padding-left: 48px !important;
+      padding-right: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-style: normal !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 0.4s ease 0.1s, transform 0.5s ease-out 0.1s;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-title.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-heading-desktop {
+      display: block !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-style: normal !important;
+      margin: 0 !important;
+      max-width: 900px !important;
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 0.4s ease 0.15s, transform 0.5s ease-out 0.15s;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-heading-desktop.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-heading-mobile {
+      display: none !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 32px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-style: normal !important;
+      margin: 0 !important;
+      max-width: 100% !important;
+      opacity: 0;
+      transform: translateY(-28px);
+      transition: opacity 0.4s ease 0.15s, transform 0.5s ease-out 0.15s;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-heading-mobile.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-price-desktop {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-style: normal !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      display: block !important;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.4s ease 0.2s, transform 0.5s ease-out 0.2s;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-price-desktop.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-price-mobile {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      text-align: center !important;
+      font-style: normal !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      display: none !important;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.4s ease 0.2s, transform 0.5s ease-out 0.2s;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-price-mobile.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-button {
+      background-color: #E8000B !important;
+      border-radius: 12px !important;
+      padding: 12px 20px !important;
+      height: 48px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      text-decoration: none !important;
+      transition: background-color 0.3s ease !important;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.4s ease 0.25s, transform 0.5s ease-out 0.25s, background-color 0.3s ease;
+      will-change: opacity, transform;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-button.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-hero-button:hover {
+      background-color: #F74557 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-hero-button-text {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: 120% !important;
+      color: #F4F4F4 !important;
+      text-align: center !important;
+      text-transform: none !important;
+      font-style: normal !important;
+      margin: 0 !important;
+    }
+
+    /* === PC 非 1920：版心弹性 + 长标题换行（1920 仍仅走上方默认固定稿） === */
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+      {{ default_sid }} .jingva-g7-hero-content {
+        max-width: 1200px !important;
+      }
+    }
+
+    @media screen and (min-width: 1921px) and (max-width: 2560px) {
+      {{ default_sid }} .jingva-g7-hero-content {
+        max-width: 1200px !important;
+      }
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        height: 900px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg,
+      {{ default_sid }} .jingva-g7-hero-bg-img,
+      {{ default_sid }} .jingva-g7-hero-vid {
+        object-fit: contain !important;
+        object-position: center center !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-content {
+        max-width: 960px !important;
+        padding: 64px 32px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-desktop {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-mobile {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-title {
+        font-size: 18px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-heading-mobile {
+        max-width: 600px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-button {
+        height: 48px !important;
+        padding: 14px 24px !important;
+      }
+    }
+
+    /* === MID: 768~1279 === */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} {
+        height: 640px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg,
+      {{ default_sid }} .jingva-g7-hero-bg-img,
+      {{ default_sid }} .jingva-g7-hero-vid {
+        object-fit: cover !important;
+        object-position: center center !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-content {
+        max-width: 768px !important;
+        padding: 64px 32px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-mobile {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-heading-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-heading-mobile {
+        display: block !important;
+        max-width: 600px !important;
+      }
+    }
+
+    /* === MOB: 375~767 === */
+    @media screen and (max-width: 767px) {
+      .shopify-section--jingva-g7-hero {
+        margin: 0 !important;
+        padding: 0 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-bg.jingva-g7-hero-bg-mobile {
+        display: block !important;
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      /* 让封面图 + 视频都铺满 640px section，避免下方出现黑色空白 */
+      {{ default_sid }} .jingva-g7-hero-bg-mobile .jingva-g7-hero-bg-img,
+      {{ default_sid }} .jingva-g7-hero-bg-mobile .jingva-g7-hero-vid {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center center !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-content {
+        max-width: 100% !important;
+        gap: 12px !important;
+        padding: 104px 16px 48px!important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-title {
+        font-weight: 500 !important;
+        font-size: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-heading-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-heading-mobile {
+        display: block !important;
+        max-width: 352px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-price-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-price-mobile {
+        display: block !important;
+        text-transform: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-button {
+        height: 48px !important;
+        padding: 14px 30px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-hero-button-text {
+        color: #FFF !important;
+        text-align: center !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        font-weight: 700 !important;
+        line-height: normal !important;
+        text-transform: none !important;
+      }
+
+      {{ default_sid }} {
+        position: relative !important;
+        margin: 0 !important;
+        /* margin-top: calc(var(--header-height, 0px) * -1) !important; */
+        z-index: 0 !important;
+        width: 100% !important;
+        height: 640px !important;
+        overflow: hidden !important;
+        background-color: #000000 !important;
+      }
+    }
+
+    /* === MOB Small: 375~430 === */
+    @media screen and (max-width: 430px) {
+      .shopify-section--jingva-g7-hero {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
+
+  {% endstyle %}
+
+  {% if hero_image %}
+    <div class="jingva-g7-hero-bg jingva-g7-hero-bg-desktop">
+      <img
+        class="jingva-g7-hero-bg-img"
+        src="{{ hero_image | image_url }}"
+        alt="{{ section.settings.title | escape }}"
+        loading="eager"
+        decoding="async"
+      />
+      {% if pc_video != blank %}
+        {{
+          pc_video
+          | video_tag:
+            class: 'jingva-g7-hero-vid',
+            image_size: '1920x',
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true
+        }}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if hero_mobile_image %}
+    <div class="jingva-g7-hero-bg jingva-g7-hero-bg-mobile">
+      <img
+        class="jingva-g7-hero-bg-img"
+        src="{{ hero_mobile_image | image_url: width: 828 }}"
+        srcset="{{ hero_mobile_image | image_url: width: 480 }} 480w,
+                {{ hero_mobile_image | image_url: width: 828 }} 828w,
+                {{ hero_mobile_image | image_url: width: 1242 }} 1242w,
+                {{ hero_mobile_image | image_url: width: 1536 }} 1536w"
+        sizes="100vw"
+        alt="{{ section.settings.title | escape }}"
+        loading="eager"
+        decoding="async"
+      />
+      {% if mob_video != blank %}
+        {{
+          mob_video
+          | video_tag:
+            class: 'jingva-g7-hero-vid',
+            image_size: '780x',
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true
+        }}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="jingva-g7-hero-content">
+    {% if title != blank %}
+      <h1 class="jingva-g7-hero-title">{{ title }}</h1>
+    {% endif %}
+    {% if desktop_subtitle != blank %}
+      <div class="jingva-g7-hero-heading-desktop">{{ desktop_subtitle | safe }}</div>
+    {% endif %}
+    {% if mobile_subtitle != blank %}
+      <div class="jingva-g7-hero-heading-mobile">{{ mobile_subtitle | safe }}</div>
+    {% endif %}
+    {% if desktop_price_text != blank %}
+      <p class="jingva-g7-hero-price-desktop">{{ desktop_price_text }}</p>
+    {% endif %}
+    {% if mobile_price_text != blank %}
+      <p class="jingva-g7-hero-price-mobile">{{ mobile_price_text }}</p>
+    {% endif %}
+    {% if button_text != blank and button_url != blank %}
+      <a 
+        class="jingva-g7-hero-button"
+        href="{{ button_url }}"
+        aria-label="{{ button_text | escape }}"
+      >
+        <span class="jingva-g7-hero-button-text">{{ button_text }}</span>
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function() {
+  var hero = document.querySelector('.jingva-g7-hero-{{ sid }}');
+  if (!hero) return;
+
+  function setHeights() {
+    var announcementBar = document.querySelector('.shopify-section--announcement-bar');
+    var headerSection = document.querySelector('.shopify-section--header');
+
+    var announcementHeight = 0;
+    var headerHeight = 0;
+
+    var isMobile = window.innerWidth < 768;
+
+    if (announcementBar) {
+      // 使用 getBoundingClientRect 获取实际渲染高度，包含所有间距
+      var rect = announcementBar.getBoundingClientRect();
+      if (rect.height > 0) {
+        announcementHeight = Math.round(rect.height);
+      }
+    }
+
+    if (headerSection) {
+      var headerRect = headerSection.getBoundingClientRect();
+      if (headerRect.height > 0) {
+        headerHeight = Math.round(headerRect.height);
+      }
+    }
+
+    // PC 和移动端都只向上偏移 header 的高度
+    hero.style.marginTop = (-headerHeight) + 'px';
+
+    hero.style.setProperty('--announcement-bar-height', announcementHeight + 'px');
+    hero.style.setProperty('--header-height', headerHeight + 'px');
+  }
+
+  // 视频加载完成后淡出封面图
+  hero.querySelectorAll('.jingva-g7-hero-bg').forEach(function (group) {
+    var video = group.querySelector('video');
+    if (!video) return;
+    function reveal() {
+      group.classList.add('is-video-ready');
+    }
+    if (video.readyState >= 2) {
+      reveal();
+    } else {
+      video.addEventListener('loadeddata', reveal, { once: true });
+      video.addEventListener('canplay', reveal, { once: true });
+      video.addEventListener('playing', reveal, { once: true });
+      video.addEventListener('error', function () {
+        group.classList.remove('is-video-ready');
+      });
+    }
+    var p = video.play && video.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+  });
+
+  // 触发文字下沉载入动画
+  function triggerAnimations() {
+    var title = hero.querySelector('.jingva-g7-hero-title');
+    var headingDesktop = hero.querySelector('.jingva-g7-hero-heading-desktop');
+    var headingMobile = hero.querySelector('.jingva-g7-hero-heading-mobile');
+    var priceDesktop = hero.querySelector('.jingva-g7-hero-price-desktop');
+    var priceMobile = hero.querySelector('.jingva-g7-hero-price-mobile');
+    var button = hero.querySelector('.jingva-g7-hero-button');
+
+    // 按顺序触发动画，带延迟
+    if (title) {
+      setTimeout(function() {
+        title.classList.add('aos-animate');
+      }, 50);
+    }
+
+    if (headingDesktop && headingDesktop.style.display !== 'none') {
+      setTimeout(function() {
+        headingDesktop.classList.add('aos-animate');
+      }, 100);
+    }
+
+    if (headingMobile && headingMobile.style.display !== 'none') {
+      setTimeout(function() {
+        headingMobile.classList.add('aos-animate');
+      }, 100);
+    }
+
+    if (priceDesktop && priceDesktop.style.display !== 'none') {
+      setTimeout(function() {
+        priceDesktop.classList.add('aos-animate');
+      }, 150);
+    }
+
+    if (priceMobile && priceMobile.style.display !== 'none') {
+      setTimeout(function() {
+        priceMobile.classList.add('aos-animate');
+      }, 150);
+    }
+
+    if (button) {
+      setTimeout(function() {
+        button.classList.add('aos-animate');
+      }, 200);
+    }
+  }
+
+  // 延迟执行以确保 DOM 完全渲染
+  setTimeout(setHeights, 100);
+  setHeights();
+  window.addEventListener('resize', setHeights);
+  window.addEventListener('load', setHeights);
+
+  // 触发动画
+  setTimeout(triggerAnimations, 150);
+  window.addEventListener('load', triggerAnimations);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Hero",
+  "class": "shopify-section--jingva-g7-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Section Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Background Image (PC)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_mobile_image",
+      "label": "Hero Background Image (Mobile)"
+    },
+    {
+      "type": "header",
+      "content": "Video (Optional)"
+    },
+    {
+      "type": "video",
+      "id": "pc_video",
+      "label": "Hero Video (PC)",
+      "info": "\u4e0a\u4f20\u540e\u7528\u4f5c\u80cc\u666f\u3002\u56fe\u7247\u5145\u5f53\u5c01\u9762\uff0c\u89c6\u9891\u52a0\u8f7d\u5b8c\u6210\u540e\u81ea\u52a8\u663e\u793a\u3002"
+    },
+    {
+      "type": "video",
+      "id": "mob_video",
+      "label": "Hero Video (Mobile)",
+      "info": "\u53ef\u9009\uff1b\u672a\u4e0a\u4f20\u65f6\u4f7f\u7528 PC \u89c6\u9891\u3002"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Title",
+      "default": "AutoFull G7 gaming chair"
+    },
+    {
+      "type": "richtext",
+      "id": "desktop_subtitle",
+      "label": "Heading Subtitle (Desktop - 2 lines)",
+      "default": "<p>REBUILD YOUR IDEAL SEATING<br>EXPERIENCE</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "mobile_subtitle",
+      "label": "Heading Subtitle (Mobile - 3 lines)",
+      "default": "<p>REBUILD YOUR IDEAL<br>SEATING<br>EXPERIENCE</p>"
+    },
+    {
+      "type": "text",
+      "id": "desktop_price_text",
+      "label": "Price Text (Desktop)",
+      "default": "From $49/month, or 3 payments at 0% interest with Klarna"
+    },
+    {
+      "type": "text",
+      "id": "mobile_price_text",
+      "label": "Price Text (Mobile)",
+      "default": "From $49/month, or 3 payments at 0% interest with Klarna"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "buy"
+    },
+    {
+      "type": "text",
+      "id": "button_url",
+      "label": "Button URL",
+      "default": "/"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Hero",
+      "settings": {
+        "title": "AutoFull G7 gaming chair",
+        "desktop_subtitle": "<p>REBUILD YOUR IDEAL SEATING<br>EXPERIENCE</p>",
+        "mobile_subtitle": "<p>REBUILD YOUR IDEAL<br>SEATING<br>EXPERIENCE</p>",
+        "desktop_price_text": "From $49/month, or 3 payments at 0% interest with Klarna",
+        "mobile_price_text": "From $49/month, or 3 payments at 0% interest with Klarna",
+        "button_text": "buy",
+        "button_url": "/"
+      }
+    }
+  ]
+}
+{% endschema %}

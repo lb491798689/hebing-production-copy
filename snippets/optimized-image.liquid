@@ -1,0 +1,84 @@
+{%- comment -%}
+Optimized image loading snippet with improved mobile handling and compression
+Usage: {% render 'optimized-image' with image: image_object, mobile_image: mobile_image_object, class: 'optional-class', sizes: 'optional-sizes', priority: 'optional-priority' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign loading = 'lazy'
+  assign fetchpriority = 'low'
+  assign default_sizes = '(max-width: 699px) 100vw, 800px'
+  assign max_width = 1400
+  assign mobile_max_width = 600
+  
+  if priority == 'high'
+    assign loading = 'eager'
+    assign fetchpriority = 'high'
+  endif
+  
+  assign sizes = sizes | default: default_sizes
+  assign desktop_widths = '400,600,800,1000,1200,1400'
+  assign mobile_widths = '300,400,600'
+-%}
+
+{%- if image != blank -%}
+  <picture>
+    {%- if mobile_image != blank -%}
+      <source
+        media="(max-width: 699px)"
+        srcset="{{ mobile_image | image_url: width: 300, format: 'webp' }} 300w,
+                {{ mobile_image | image_url: width: 400, format: 'webp' }} 400w,
+                {{ mobile_image | image_url: width: 600, format: 'webp' }} 600w"
+        type="image/webp"
+        width="{{ mobile_image.width }}"
+        height="{{ mobile_image.height }}"
+      >
+      <source
+        media="(max-width: 699px)"
+        srcset="{{ mobile_image | image_url: width: 300 }} 300w,
+                {{ mobile_image | image_url: width: 400 }} 400w,
+                {{ mobile_image | image_url: width: 600 }} 600w"
+        width="{{ mobile_image.width }}"
+        height="{{ mobile_image.height }}"
+      >
+    {%- elsif image.width > mobile_max_width -%}
+      <source
+        media="(max-width: 699px)"
+        srcset="{{ image | image_url: width: 300, format: 'webp' }} 300w,
+                {{ image | image_url: width: 400, format: 'webp' }} 400w,
+                {{ image | image_url: width: 600, format: 'webp' }} 600w"
+        type="image/webp"
+        width="{{ mobile_max_width }}"
+        height="{{ mobile_max_width | divided_by: image.aspect_ratio | round }}"
+      >
+      <source
+        media="(max-width: 699px)"
+        srcset="{{ image | image_url: width: 300 }} 300w,
+                {{ image | image_url: width: 400 }} 400w,
+                {{ image | image_url: width: 600 }} 600w"
+        width="{{ mobile_max_width }}"
+        height="{{ mobile_max_width | divided_by: image.aspect_ratio | round }}"
+      >
+    {%- endif -%}
+    
+    <source
+      srcset="{{ image | image_url: width: 400, format: 'webp' }} 400w,
+              {{ image | image_url: width: 600, format: 'webp' }} 600w,
+              {{ image | image_url: width: 800, format: 'webp' }} 800w,
+              {{ image | image_url: width: 1000, format: 'webp' }} 1000w,
+              {{ image | image_url: width: 1200, format: 'webp' }} 1200w,
+              {{ image | image_url: width: 1400, format: 'webp' }} 1400w"
+      type="image/webp"
+      sizes="{{ sizes }}"
+    >
+    
+    {{- image | image_url: width: image.width | image_tag: 
+      loading: loading,
+      fetchpriority: fetchpriority,
+      sizes: sizes,
+      widths: desktop_widths,
+      class: class,
+      height: image.height,
+      width: image.width
+    -}}
+  </picture>
+{%- endif -%} 

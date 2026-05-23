@@ -1,0 +1,15 @@
+{%- comment -%}
+  G7/M6 PDP 数量步进 — Figma 矢量 path，fill 使用 currentColor。
+  按钮 :disabled 时 color = rgba(26,26,26,.2)；否则 #0A0A0A（由样式表控制）。
+  参数：step — minus | plus
+{%- endcomment -%}
+{%- assign step = step | default: 'plus' | strip -%}
+{%- if step == 'minus' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" class="quantity-step-svg" aria-hidden="true" focusable="false">
+    <path d="M22.5015 16.25L7.50146 16.2622L7.49902 13.7622L22.499 13.75L22.5015 16.25Z" fill="currentColor"/>
+  </svg>
+{%- else -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none" class="quantity-step-svg" aria-hidden="true" focusable="false">
+    <path d="M16.2502 13.7549L22.499 13.75L22.5015 16.25L16.2502 16.2549V22.5H13.7502V16.2561L7.50146 16.2622L7.49902 13.7622L13.7502 13.7561V7.5H16.2502V13.7549Z" fill="currentColor"/>
+  </svg>
+{%- endif -%}

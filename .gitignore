@@ -1,0 +1,6 @@
+node_modules/
+.DS_Store
+
+# 由 *.css.liquid 在 Shopify 端生成；勿提交静态副本，否则 theme push/dev 会报「无法覆盖生成的资产」
+assets/theme.css
+assets/country-flags.css

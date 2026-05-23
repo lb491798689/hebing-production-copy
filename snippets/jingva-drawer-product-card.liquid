@@ -1,0 +1,26 @@
+{%- comment -%}
+  Mobile drawer product tile — Figma 765：每个系列一行 3 列；具体尺寸由 header / theme 的 .jingva-drawer-pcard* 控制
+{%- endcomment -%}
+<article class="jingva-drawer-pcard">
+  <a href="{{ product.url }}" class="jingva-drawer-pcard__link">
+    <div class="jingva-drawer-pcard__media">
+      {% if product.metafields.custom.badges != blank %}
+        <span class="jingva-drawer-pcard__badge">{{ product.metafields.custom.badges.value }}</span>
+      {% elsif product.tags contains 'New' or product.tags contains 'new' %}
+        <span class="jingva-drawer-pcard__badge">NEW</span>
+      {% endif %}
+      {% if product.featured_image != blank %}
+        {{ product.featured_image | image_url: width: 300, height: 300 | image_tag: alt: product.title, loading: 'lazy', class: 'jingva-drawer-pcard__img', width: 300, height: 300 }}
+      {% endif %}
+    </div>
+    <div class="jingva-drawer-pcard__body">
+      <span class="jingva-drawer-pcard__title">{{ product.title }}</span>
+      <div class="jingva-drawer-pcard__price">
+        <span class="jingva-drawer-pcard__sale">{{ product.price | money }}</span>
+        {% if product.compare_at_price != blank and product.compare_at_price > product.price %}
+          <span class="jingva-drawer-pcard__compare">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+</article>

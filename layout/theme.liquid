@@ -1,0 +1,848 @@
+{%- comment -%}
+  ------------------------------------------------------------------------------------------------------------------------
+  NOTE TO DEVELOPERS: welcome to Impact theme! We hope that you will enjoy editing this theme as much as we did for
+    developing it. We have put a lot of work to make this theme as developer friendly as possible by offering you
+    hooks to integrate into critical parts of the theme. You will find the complete technical documentation (including
+    all events, dependencies...) in the "documentation.txt" file, located in the Assets folder.
+  ------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<!doctype html>
+
+<html lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
+  <script>eval(function(e,t,n,a,r,o){if(r=function(e){return(e<t?"":r(parseInt(e/t)))+(35<(e%=t)?String.fromCharCode(e+29):e.toString(36))},!"".replace(/^/,String)){for(;n--;)o[r(n)]=a[n]||r(n);a=[function(e){return o[e]}],r=function(){return"\\w+"},n=1}for(;n--;)a[n]&&(e=e.replace(new RegExp("\\b"+r(n)+"\\b","g"),a[n]));return e}('l(r.O=="P y"){i j=[],s=[];u Q(a,b=R){S c;T(...d)=>{U(c),c=V(()=>a.W(X,d),b)}}2.m="Y"+(2.z||"")+"Z";2.A="10"+(2.z||"")+"11";12{i a=r[2.m],e=r[2.A];2.k=(e.B(\'y\')>-1&&a.B(\'13\')<0),2.m="!1",c=C}14(d){2.k=!1;i c=C;2.m="!1"}2.k=k;l(k)i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(e.4("f-3",e.3),e.g("3"),e.15="16/17")})})}),p=0,q=K;18 i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(s.w&&s.8(t=>{e.3.h(t)&&(e.4("f-3",e.3),e.g("3"))}),e.9.h("x")&&(e.9=e.9.L("l(2.M)","N.19(\'1a\',u(1b){x();});l(2.M)").1c(", x",", u(){}")),(e.9.h("1d")||e.9.h("1e"))&&(e.9=e.9.L("1f","1g")))})})}),p=0,q=K;v.1h(N.1i,{1j:!0,1k:!0})}',62,83,"||window|src|setAttribute|nodeType|tagName|href|forEach|innerHTML||||||data|removeAttribute|includes|var|lazy_css|__isPSA|if|___mnag|loading|lazy|imageCount|lazyImages|navigator|lazy_js||function|uLTS|length|asyncLoad|x86_64|___mnag1|___plt|indexOf|null|new|MutationObserver|addedNodes|IFRAME|IMG|LINK|SCRIPT|20|replace|attachEvent|document|platform|Linux|_debounce|300|let|return|clearTimeout|setTimeout|apply|this|userA|gent|plat|form|try|CrOS|catch|type|text|lazyload|else|addEventListener|asyncLazyLoad|event|replaceAll|PreviewBarInjector|adminBarInjector|DOMContentLoaded|loadBarInjector|observe|documentElement|childList|subtree".split("|"),0,{}))</script>
+  
+  <head>
+
+</script>
+    <script src="https://t.contentsquare.net/uxa/ca0d2e0171fa5.js"></script>
+    <meta charset="utf-8">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0"
+    >
+    <meta name="theme-color" content="{{ settings.header_background }}">
+
+    <title>
+      {% if page_title == blank -%}
+        {{- shop.name -}}
+      {%- else -%}
+        {{- page_title -}}
+        {%- if current_page != 1 %} &ndash; {{ 'general.page' | t: page: current_page }}{% endif -%}
+      {%- endif %}
+    </title>
+
+    {%- if page_description -%}
+      <meta name="description" content="{{ page_description | escape }}">
+    {%- endif -%}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 96 }}">
+      <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180 }}">
+    {%- endif -%}
+
+    <!-- Performance optimizations -->
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.shopify.com">
+
+    <!-- Preload critical assets -->
+    {%- if template == 'index' -%}
+      {%- for block in sections['kiks-slideshow'].blocks limit: 1 -%}
+        {%- if block.settings.image != blank -%}
+          <link rel="preload" href="{{ block.settings.image | image_url: width: 1600 }}" as="image">
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- if template contains 'product' -%}
+      {%- if product.featured_media -%}
+        <link
+          rel="preload"
+          as="image"
+          href="{{ product.featured_media | image_url: width: 800, format: 'webp' }}"
+          type="image/webp"
+          fetchpriority="high"
+        >
+        <link
+          rel="preload"
+          as="image"
+          href="{{ product.featured_media | image_url: width: 800 }}"
+          fetchpriority="high"
+        >
+      {%- endif -%}
+    {%- endif -%}
+
+    <!-- Critical CSS -->
+    <style>
+      /* 与 Figma 抗锯齿口径一致，避免 Chrome/Safari macOS 默认子像素渲染让文字视觉偏粗 */
+      html {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      /* 禁用浏览器字体合成，防止可变字体未完全就位时合成粗体导致 400 看起来像 600 */
+      body {
+        font-synthesis: none;
+        -webkit-font-synthesis: none;
+        /* 与 Figma letterSpacing:0 一致，显式 0 而非默认 normal */
+        letter-spacing: 0;
+        /* 开启 kerning + 合字（Figma 默认开），避免字与字之间看起来偏松 */
+        font-kerning: normal;
+        font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+        font-variant-ligatures: common-ligatures contextual;
+        /* 可变字体的视觉尺寸轴自动匹配（如字体含 opsz 轴） */
+        font-optical-sizing: auto;
+      }
+      .content-over-media {
+        opacity: 1;
+        transition: opacity 0.3s ease-in-out;
+      }
+      .content-over-media img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .content-over-media picture {
+        display: block;
+      }
+    </style>
+
+    {%- comment -%}Few prefetch to increase performance on commonly used third-parties{%- endcomment -%}
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
+    <link rel="preload" href="{{ 'kikstart-custom.css' | asset_url }}" as="style">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="{{ 'slick-theme.min.css'|asset_url }}"/>
+    {%- unless settings.heading_font.system? -%}
+      <link rel="preload" href="{{ settings.heading_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+    {%- unless settings.text_font.system? -%}
+      <link rel="preload" href="{{ settings.text_font | font_url }}" as="font" type="font/woff2" crossorigin>
+    {%- endunless -%}
+
+     <link rel="preload" href="{{ "RBNo3.1-BlackItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
+       <link rel="preload" href="{{ "RBNo3.1-BookItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
+           <link rel="preload" href="{{ "RBNo3.1-LightItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
+    {%- render 'social-meta-tags' -%}
+    {%- render 'microdata-schema' -%}
+    {%- render 'css-variables' -%}
+    {%- render 'js-variables' -%}
+
+    <script>
+      if (!(HTMLScriptElement.supports && HTMLScriptElement.supports('importmap'))) {
+        const importMapPolyfill = document.createElement('script');
+        importMapPolyfill.async = true;
+        importMapPolyfill.src = "{{ 'es-module-shims.min.js' | asset_url }}";
+
+        document.head.appendChild(importMapPolyfill);
+      }
+    </script>
+
+    <script type="importmap">
+      {%- comment -%}On Safari 16.3 and lower, a polyfill is used to load importmap{%- endcomment -%}
+      {
+        "imports": {
+          "vendor": "{{ 'vendor.min.js' | asset_url }}",
+          "theme": "{{ 'theme.js' | asset_url }}",
+          "photoswipe": "{{ 'photoswipe.min.js' | asset_url }}"
+        }
+      }
+    </script>
+    {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> {% endcomment %}
+    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
+    
+    <script type="module" src="{{ 'vendor.min.js' | asset_url }}"></script>
+    <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
+
+
+    
+    <!-- Plyr JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js"></script>
+    <!-- Slick JS -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+
+
+    {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
+    {%- if settings.custom_typography -%}
+      {{- 'kiks-typography.css' | asset_url | stylesheet_tag: preload: true -}}
+      <noscript><link rel="stylesheet" href="{{ 'kiks-typography.css' | asset_url }}"></noscript>
+    {%- endif -%}
+    <noscript><link rel="stylesheet" href="{{ 'kiks-global-custom.css' | asset_url }}"></noscript>
+
+    {%- style -%}
+         button,
+       .button,
+      a.button {
+        text-transform: {{ settings.button_transform }} !important;
+      }
+    {%- endstyle -%}
+    {% if template.name == 'collection' %}
+      <style>
+                  .product-card{
+                 display: flex;
+            overflow: hidden;
+            flex-direction: column;
+              }
+              .kik_selling_points{
+                padding: 24px;
+                border-top: 1px solid #EAEAEA;
+                background: #fafafa;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 16px;
+                flex: 1;
+                align-content: flex-start;
+                min-height: 100%;
+              }
+              .kik_selling_points__item{
+                display: flex;
+                column-gap: 10px;
+                width: calc(50% - 8px);
+                height:fit-content;
+              }
+              .kik_selling_points__icon{
+                width: 24px;
+                height: 24px;
+                object-fit:contain;
+              }
+              .kik_selling_points__text p{
+                   font-size: 16px;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 0px;
+              }
+              .kik_selling_points__text span{
+                  font-size: 14px;
+                  color: #666;
+                line-height:1;
+              }
+            .kik_selling_points__text{
+              height:fit-content;
+            }
+              @media (max-width: 640px) {
+                .kik_selling_points {
+            flex-wrap: nowrap;
+            overflow: scroll;
+                  width: 100%;
+                  padding:24px 0;
+           
+        }
+                .kik_selling_points__item{
+                  width: 100%;
+                  flex:0 0 80%;
+                  padding: 0 24px;
+                }
+              }
+      </style>
+    {% endif %}
+    {% comment %}theme-check-disable{% endcomment %}
+    {% comment %} {{ content_for_header }} {% endcomment %}
+    <!-- Kikstart Content For Header BEG -->
+    {%- capture kik_content_for_header -%}{{ content_for_header }}{%- endcapture -%}
+    {% liquid
+      assign kik_content_for_header_script_tags = kik_content_for_header | split: '<script'
+
+      for kik_content_for_header_script_tag in kik_content_for_header_script_tags
+        assign kik_content_for_header_script = kik_content_for_header_script_tag | split: 'script>' | first | append: 'script>' | prepend: '<script'
+        assign shopify_asyncload_function_identifier = 'function asyncLoad()'
+        if kik_content_for_header_script contains shopify_asyncload_function_identifier
+          assign shopify_asyncload_function = kik_content_for_header_script
+          break
+        endif
+      endfor
+      assign kik_content_for_header = kik_content_for_header | replace: 's.src = urls[i];', 'if (urls[i] === "")return; s.src = urls[i];'
+    %}
+    {{ kik_content_for_header }}
+    <!-- Kikstart Content For Header END -->
+    {% comment %}theme-check-enable{% endcomment %}
+
+    <script type="text/javascript">
+      window.shopifyAsyncloadFunctionVars = `{{ shopify_asyncload_function | strip_newlines | strip | remove: '  ' | remove: '  ' | split: 'var urls = [' | last | split: '];for' | first }}`;
+      window.kikLazyScripts = window.kikLazyScripts || [];
+      window.kikLazyLinks = window.kikLazyLinks || [];
+    </script>
+    <link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"> 
+    <link rel="stylesheet" href="{{ 'tailwind-output.css' | asset_url }}">
+
+    <link rel="stylesheet" href="{{ 'kikstart-custom.css' | asset_url }}">
+
+    {% comment %} Custom Added by Jerome  {% endcomment %}
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    {%- if settings.custom_typography -%}
+      {{- 'kiks-typography.css' | asset_url | stylesheet_tag: preload: true -}}
+      <noscript><link rel="stylesheet" href="{{ 'kiks-typography.css' | asset_url }}"></noscript>
+    {%- endif -%}
+
+    {% comment %}
+      {{- 'kiks-comparison.css' | asset_url | stylesheet_tag: preload: true -}}
+      <noscript><link rel="stylesheet" href="{{ 'kiks-comparison.css' | asset_url }}"></noscript>
+    {% endcomment %}
+
+    {% comment %} {% include 'pagefly-app-header' %} {% endcomment %}
+
+
+    <!-- Kikstart Collect Lazy Assets -->
+    <script type="text/javascript">
+      {{- 'kik-collect-lazy-assets.min.js' | inline_asset_content -}}
+    </script>
+    <!-- End Kikstart Collect Lazy Assets -->
+
+    <!-- Hotjar Tracking Code for Site 6500509 (name missing) -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:6500509,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+  <!-- Gabarito + Orbitron font for navigation -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- 使用离散权重请求静态切片（与 Figma fontPostScriptName 一致，如 Gabarito-SemiBold / Montserrat-SemiBold），
+       避免 variable font 在 600 位插值出与 Figma 静态 SemiBold 略有差异的字形 -->
+  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Hotjar Tracking Code for autofull US -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:6713861,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </head>
+
+  <body class="template-{{ template | handleize }} {% if settings.zoom_image_on_hover %}zoom-image--enabled{% endif %}">
+    {%- render 'shadow-dom-templates' -%}
+
+    <a href="#main" class="skip-to-content sr-only">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+    {%- if request.page_type != 'password' -%}
+      {%- sections 'header-group' -%}
+      {%- sections 'overlay-group' -%}
+
+      {%- if settings.cart_type == 'popover' -%}
+        <cart-notification-drawer open-from="bottom" class="quick-buy-drawer drawer"></cart-notification-drawer>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if request.page_type == 'customers/account'
+      or request.page_type == 'customers/order'
+      or request.page_type == 'customers/addresses'
+    -%}
+      {%- section 'account-banner' -%}
+    {%- endif -%}
+
+    <main role="main" id="main" class="anchor">
+      {{ content_for_layout }}
+
+      {%- comment -%}
+        IMPLEMENTATION NOTE: due to the very complex logic of margin/padding collapsing in Impact, the footer group is
+        added into the main element to ensure that dynamic sections added into the footer group are properly laid out.
+      {%- endcomment -%}
+      {%- if request.page_type != 'password' -%}
+        {%- sections 'footer-group' -%}
+      {%- endif -%}
+    </main>
+
+    {%- comment -%} 全局悬浮侧栏：所有页面都显示 {%- endcomment -%}
+    {%- if request.page_type != 'password' -%}
+      {% section 'jingva-sidebar' %}
+    {%- endif -%}
+
+    <!-- Stamped -->
+
+    <script>
+      function myInit(){ StampedFn.init({
+      apiKey: 'pubkey-l7hjt62lSmbECQ9U657QJ4Pw775V3a',
+      sId: '133553' }); }
+    </script>
+
+    <script
+      async
+      onload="myInit()"
+      type="text/javascript"
+      src="https://cdn1.stamped.io/files/widget.min.js"
+    ></script>
+
+    <!-- End Stamped -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@1.9.1/dist/model-viewer.js"></script>
+    {% comment %} <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> {% endcomment %}
+    {% comment %} <script src="{{ 'kiks-comparison.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+    {% comment %} <script src="{{ 'model-viewer.min.js' | asset_url }}" defer></script> {% endcomment %}
+    
+    <script type="module" src="{{ 'kiks-global-custom.js' | asset_url }}" defer></script>
+
+    {% if template.name == 'collection' %}
+      <h1 style="display:none">{{ collection.title }}</h1>
+    {% endif %}
+    {% comment %} Kikstart DEV by Jerome Start {% endcomment %}
+    {%- comment -%}
+      In order to use your custom javascript file at assets/custom.js
+      just cut this next line and paste it outside this comment:
+      <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
+    {%- endcomment -%}
+    <script src="{{ 'kikstart-custom.js' | asset_url }}" defer="defer"></script>
+
+    <!-- Kikstart Lazy Load Assets -->
+    <script type="text/javascript" defer>
+      {{- 'kik-load-lazy-assets.min.js' | inline_asset_content -}}
+    </script>
+    <!-- End Kikstart Lazy Load Assets -->
+
+    <!-- BEGIN: Google Customer Reviews badge -->
+    {% comment %}
+    <div id="google-customer-reviews-badge"></div>
+    <script src="https://www.googlecommerce.com/customerreviews/static/loader.js" async defer></script>
+    <script>
+      window.___gcfg = {
+        lang: 'en'
+      };
+      window.GOOGLE_CUSTOMER_REVIEWS_CONFIG = {
+        merchant_id: '440483302', // Your actual merchant ID
+        badge_position: 'BOTTOM_RIGHT' // or BOTTOM_LEFT
+      };
+    </script>
+    {%- endcomment -%}
+    <!-- END: Google Customer Reviews badge -->
+
+    <!-- Jingva: 收起 Inbox 默认气泡；仅当访客点击侧边栏等入口后才允许保持展开（避免误触发自动打开 / 关闭按钮被 CSS 误藏） -->
+    <script>
+      (function() {
+        window.__jingvaAllowInboxOpen = false;
+        window.__jingvaInboxHasBeenOpened = false;
+        window.__jingvaInboxOpenRequestedAt = 0;
+        window.__jingvaInboxExpandGraceUntil = 0;
+
+        function findInboxChatEl() {
+          var el = document.getElementById('ShopifyChat');
+          if (!el) {
+            var wrapper = document.getElementById('shopify-chat');
+            if (wrapper) el = wrapper.querySelector('inbox-online-store-chat');
+          }
+          return el || null;
+        }
+
+        /* 与 #jingva-sidebar 对齐：避免 Chat 叠在 DOCTOR SAY / 购物车一列上（原 right:20px 会压住侧栏） */
+        window.jingvaGetInboxDockLayout = function () {
+          var narrow = window.matchMedia('(max-width: 1279px)').matches;
+          if (narrow) {
+            return {
+              right: '78px',
+              bottom: '90px',
+              maxW: 'min(calc(100vw - 24px), calc(100vw - 92px))',
+              maxH: 'min(85vh, calc(100vh - 110px))',
+            };
+          }
+          return {
+            right: '132px',
+            bottom: '52px',
+            maxW: 'min(440px, calc(100vw - 176px))',
+            maxH: 'min(620px, calc(100vh - 96px))',
+          };
+        };
+
+        window.jingvaApplyInboxDockLayout = function (chatEl) {
+          if (!chatEl) return;
+          var L = window.jingvaGetInboxDockLayout();
+          chatEl.style.setProperty('right', L.right, 'important');
+          chatEl.style.setProperty('bottom', L.bottom, 'important');
+          chatEl.style.setProperty('left', 'auto', 'important');
+          chatEl.style.setProperty('top', 'auto', 'important');
+          chatEl.style.setProperty('max-width', L.maxW, 'important');
+          chatEl.style.setProperty('max-height', L.maxH, 'important');
+          chatEl.style.setProperty('box-sizing', 'border-box', 'important');
+        };
+
+        function injectHideLauncherWhenClosed(el) {
+          if (!el || !el.shadowRoot) return;
+          if (el.shadowRoot.querySelector('#jingva-hide-inbox-when-closed')) return;
+          var style = document.createElement('style');
+          style.id = 'jingva-hide-inbox-when-closed';
+          style.textContent =
+            ':host([is-open="false"]) button,' +
+            ':host([is-open="false"]) [role="button"],' +
+            ':host([is-open="false"]) [class*="chat-app"],' +
+            ':host([is-open="false"]) [class*="ChatApp"],' +
+            ':host([is-open="false"]) .chat-toggle {' +
+            'display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;' +
+            '}';
+          el.shadowRoot.appendChild(style);
+        }
+
+        var __jingvaLauncherAlwaysCss =
+          '.chat-toggle,' +
+          '[class*="chat-toggle"]' +
+          ',[class*="chat-app--launcher"]' +
+          ',[class*="chat-app__launcher"]' +
+          ',[class*="launcher-button"]' +
+          ',[class*="floating-bubble"]' +
+          ',[class*="FloatingBubble"]' +
+          ',[class*="ChatFab"]' +
+          ',[class*="chat-fab"]' +
+          ',button[aria-label*="Minimize"]' +
+          ',button[aria-label*="minimize"]' +
+          ' { display: none !important; visibility: hidden !important; opacity: 0 !important; ' +
+          'pointer-events: none !important; width: 0 !important; height: 0 !important; ' +
+          'overflow: hidden !important; clip-path: inset(50%) !important; ' +
+          'position: absolute !important; left: -9999px !important; }';
+
+        function injectHideLauncherAlways(el) {
+          if (!el || !el.shadowRoot) return;
+          if (window.__jingvaInboxExpandGraceUntil && Date.now() < window.__jingvaInboxExpandGraceUntil) return;
+          var sr = el.shadowRoot;
+          var style = sr.querySelector('#jingva-hide-launcher-always');
+          if (!style) {
+            style = document.createElement('style');
+            style.id = 'jingva-hide-launcher-always';
+            sr.appendChild(style);
+          }
+          /* 与 is-open 无关；勿用 MutationObserver：更新 style 会再次触发 shadow 变更 → 同步死循环卡死页面 */
+          if (style.textContent !== __jingvaLauncherAlwaysCss) {
+            style.textContent = __jingvaLauncherAlwaysCss;
+          }
+        }
+
+        function injectHideLauncherStyles(el) {
+          injectHideLauncherWhenClosed(el);
+          injectHideLauncherAlways(el);
+        }
+
+        function triggerInboxExpand(chatEl) {
+          var sr = chatEl && chatEl.shadowRoot;
+          if (!sr) return;
+          /* Shopify 社区常用：真正展开会话的是 .chat-app 内按钮，而不是只靠 is-open（见论坛 .chat-app>button） */
+          var primary = sr.querySelector('.chat-app > button, .chat-app button');
+          if (primary) {
+            try {
+              primary.click();
+              return;
+            } catch (e0) {}
+          }
+          var sel = [
+            '.chat-toggle',
+            '[class*="chat-toggle"]',
+            'button[aria-label="Chat"]',
+            'button[aria-label="Open chat"]',
+            'button[aria-label^="Chat with"]',
+            '[class*="ChatButton"]',
+            '[class*="chat-button"]',
+            '[data-testid="chat-button"]',
+            '[data-testid="chat-toggle"]',
+          ];
+          var i;
+          for (i = 0; i < sel.length; i++) {
+            var node = sr.querySelector(sel[i]);
+            if (node) {
+              try {
+                node.click();
+                return;
+              } catch (e) {}
+            }
+          }
+          var buttons = sr.querySelectorAll('button');
+          for (i = 0; i < buttons.length; i++) {
+            var lab = (buttons[i].getAttribute('aria-label') || '').toLowerCase();
+            if (lab.indexOf('close') !== -1) continue;
+            if (lab.indexOf('minimize') !== -1) continue;
+            if (lab.indexOf('send') !== -1) continue;
+            if (lab.indexOf('chat') !== -1 || lab.indexOf('message') !== -1) {
+              try {
+                buttons[i].click();
+                return;
+              } catch (e2) {}
+            }
+          }
+        }
+
+        function setInboxPanelOpenClass(on) {
+          var root = document.documentElement;
+          if (on) root.classList.add('jingva-inbox-panel-open');
+          else root.classList.remove('jingva-inbox-panel-open');
+        }
+
+        function hideInboxButton() {
+          var el = findInboxChatEl();
+          if (!el) return;
+
+          injectHideLauncherStyles(el);
+
+          var isOpen = el.getAttribute('is-open') === 'true';
+
+          /* 访客点了打开但脚本尚在等 Inbox 注入：勿强制收起，也不要清掉授权 */
+          if (window.__jingvaAllowInboxOpen && !isOpen && !window.__jingvaInboxHasBeenOpened) {
+            if (Date.now() - (window.__jingvaInboxOpenRequestedAt || 0) < 15000) {
+              return;
+            }
+            window.__jingvaAllowInboxOpen = false;
+          }
+
+          /* 访客已打开过会话又关掉：收回授权并收起 */
+          if (window.__jingvaAllowInboxOpen && window.__jingvaInboxHasBeenOpened && !isOpen) {
+            window.__jingvaAllowInboxOpen = false;
+            window.__jingvaInboxHasBeenOpened = false;
+          }
+
+          /* 只有访客主动点了侧边栏等入口后才维持会话窗；否则即便组件短暂 is-open=true 也会立刻收起 */
+          if (isOpen && window.__jingvaAllowInboxOpen) {
+            setInboxPanelOpenClass(true);
+            var wrap = document.getElementById('shopify-chat');
+            if (wrap) {
+              wrap.style.setProperty('opacity', '1', 'important');
+              wrap.style.setProperty('pointer-events', 'auto', 'important');
+              wrap.style.setProperty('z-index', '2147483647', 'important');
+              wrap.style.setProperty('visibility', 'visible', 'important');
+              wrap.style.setProperty('position', 'fixed', 'important');
+              wrap.style.setProperty('right', '0', 'important');
+              wrap.style.setProperty('bottom', '0', 'important');
+            }
+            el.style.setProperty('position', 'fixed', 'important');
+            window.jingvaApplyInboxDockLayout(el);
+            el.style.setProperty('opacity', '1', 'important');
+            el.style.setProperty('visibility', 'visible', 'important');
+            el.style.setProperty('pointer-events', 'auto', 'important');
+            el.style.setProperty('z-index', '2147483647', 'important');
+            return;
+          }
+
+          setInboxPanelOpenClass(false);
+          window.__jingvaInboxExpandGraceUntil = 0;
+          el.setAttribute('is-open', 'false');
+          el.style.removeProperty('max-width');
+          el.style.removeProperty('max-height');
+          el.style.setProperty('right', '-9999px', 'important');
+          el.style.setProperty('opacity', '0', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('z-index', '-1', 'important');
+
+          var wrapClosed = document.getElementById('shopify-chat');
+          if (wrapClosed) {
+            ['opacity', 'pointer-events', 'z-index', 'visibility', 'right', 'bottom', 'left', 'top', 'position'].forEach(function (p) {
+              wrapClosed.style.removeProperty(p);
+            });
+          }
+        }
+
+        window.jingvaCloseShopifyInbox = function () {
+          window.__jingvaAllowInboxOpen = false;
+          window.__jingvaInboxHasBeenOpened = false;
+          window.__jingvaInboxExpandGraceUntil = 0;
+          setInboxPanelOpenClass(false);
+          var el = findInboxChatEl();
+          if (!el) return;
+          el.setAttribute('is-open', 'false');
+          el.style.removeProperty('max-width');
+          el.style.removeProperty('max-height');
+          el.style.setProperty('right', '-9999px', 'important');
+          el.style.setProperty('opacity', '0', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+          el.style.setProperty('visibility', 'hidden', 'important');
+          el.style.setProperty('z-index', '-1', 'important');
+          var wrapClosed = document.getElementById('shopify-chat');
+          if (wrapClosed) {
+            ['opacity', 'pointer-events', 'z-index', 'visibility', 'right', 'bottom', 'left', 'top', 'position'].forEach(function (p) {
+              wrapClosed.style.removeProperty(p);
+            });
+          }
+        };
+
+        window.jingvaOpenShopifyInbox = function () {
+          window.__jingvaAllowInboxOpen = true;
+          window.__jingvaInboxOpenRequestedAt = Date.now();
+
+          function applyOpen(chatEl) {
+            window.__jingvaInboxExpandGraceUntil = Date.now() + 1100;
+            setInboxPanelOpenClass(true);
+            var wrap = document.getElementById('shopify-chat');
+            if (wrap) {
+              wrap.style.setProperty('opacity', '1', 'important');
+              wrap.style.setProperty('pointer-events', 'auto', 'important');
+              wrap.style.setProperty('z-index', '2147483647', 'important');
+              wrap.style.setProperty('visibility', 'visible', 'important');
+              wrap.style.setProperty('position', 'fixed', 'important');
+              wrap.style.setProperty('right', '0', 'important');
+              wrap.style.setProperty('bottom', '0', 'important');
+              wrap.style.setProperty('left', 'auto', 'important');
+              wrap.style.setProperty('top', 'auto', 'important');
+            }
+            chatEl.setAttribute('is-open', 'true');
+            window.__jingvaInboxHasBeenOpened = true;
+            chatEl.style.setProperty('position', 'fixed', 'important');
+            window.jingvaApplyInboxDockLayout(chatEl);
+            chatEl.style.setProperty('opacity', '1', 'important');
+            chatEl.style.setProperty('visibility', 'visible', 'important');
+            chatEl.style.setProperty('pointer-events', 'auto', 'important');
+            chatEl.style.setProperty('z-index', '2147483647', 'important');
+            injectHideLauncherWhenClosed(chatEl);
+            triggerInboxExpand(chatEl);
+            setTimeout(function () {
+              triggerInboxExpand(chatEl);
+            }, 0);
+            setTimeout(function () {
+              triggerInboxExpand(chatEl);
+            }, 90);
+            setTimeout(function () {
+              triggerInboxExpand(chatEl);
+            }, 220);
+            setTimeout(function () {
+              triggerInboxExpand(chatEl);
+            }, 450);
+            setTimeout(function () {
+              triggerInboxExpand(chatEl);
+            }, 700);
+            setTimeout(function () {
+              window.__jingvaInboxExpandGraceUntil = 0;
+              injectHideLauncherAlways(chatEl);
+            }, 1120);
+          }
+
+          function tryOnce() {
+            var chatEl = findInboxChatEl();
+            if (chatEl) {
+              applyOpen(chatEl);
+              return true;
+            }
+            return false;
+          }
+
+          if (tryOnce()) return;
+          var n = 0;
+          var id = setInterval(function () {
+            n++;
+            if (tryOnce() || n >= 30) clearInterval(id);
+          }, 200);
+        };
+
+        setInterval(hideInboxButton, 400);
+      })();
+
+      (function removeOpIconsManager() {
+        function nuke(root) {
+          if (!root || !root.querySelectorAll) return;
+          var nodes = root.querySelectorAll('[class*="op_icons_manager"], [class*="op-icons-manager"], [id*="op_icons_manager"], [id*="op-icons-manager"]');
+          for (var i = 0; i < nodes.length; i++) {
+            var el = nodes[i];
+            if (el && el.parentNode) el.parentNode.removeChild(el);
+          }
+        }
+        function run() { nuke(document); }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', run);
+        } else {
+          run();
+        }
+        var mo = new MutationObserver(function (mutations) {
+          for (var i = 0; i < mutations.length; i++) {
+            var m = mutations[i];
+            for (var j = 0; j < m.addedNodes.length; j++) {
+              var n = m.addedNodes[j];
+              if (n && n.nodeType === 1) {
+                if (n.matches && n.matches('[class*="op_icons_manager"], [class*="op-icons-manager"], [id*="op_icons_manager"], [id*="op-icons-manager"]')) {
+                  if (n.parentNode) n.parentNode.removeChild(n);
+                } else {
+                  nuke(n);
+                }
+              }
+            }
+          }
+        });
+        try { mo.observe(document.documentElement, { childList: true, subtree: true }); } catch (e) {}
+        setInterval(run, 1000);
+      })();
+    </script>
+  </body>
+  <script>
+    AOS.init({
+      once: true,
+      duration: 800,
+      offset: 50,
+      easing: 'ease-out-cubic',
+      disable: false,
+      startEvent: 'DOMContentLoaded',
+      useClassNames: false,
+      disableMutationObserver: false,
+      debounceDelay: 50,
+      throttleDelay: 99
+    });
+    
+    // 修复 body overflow 被设置为 hidden 的问题
+    setTimeout(function() {
+      if (document.body.style.overflow === 'hidden') {
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+      }
+    }, 100);
+    
+    // 持续监听并修复
+    setInterval(function() {
+      if (document.body.style.overflow === 'hidden' && !document.querySelector('.modal-open, .drawer-open')) {
+        document.body.style.overflow = '';
+      }
+    }, 500);
+  </script>
+  <script>
+                  // Close button click
+        $(document).on('click', '.ecomsend-SpinWheel__Modal__CloseButton._closeBtn_rg2mi_33', function (e) {
+            e.preventDefault();
+            console.log("Close button clicked");
+            $('.spinWheelWrapper').removeClass('active');
+        });
+
+        // "No, thanks" text click
+        $(document).on('click', '.ecomsend-SpinWheel__Modal__CloseText._closeText_rg2mi_143', function (e) {
+            e.preventDefault();
+            console.log("No thanks clicked");
+            $('.spinWheelWrapper').removeClass('active');
+        });
+
+
+         $(document).on('click', '.sec.open-wheel-popup-buy', function (e) {
+            e.preventDefault();
+            console.log("popup clicked");
+            $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
+        });
+
+        $(document).on('click', '.slideshow a[href="#open_wheel"]', function(e) {
+      e.preventDefault();
+      console.log("spinner click");
+      $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
+    });
+  </script>
+
+  <style>
+    /* Trustoo Star Rating Widget Style Override - 只影响产品详情页 */
+    .template-product .custom-vstar-rating-widget svg path {
+      fill: #E90202 !important;
+      stroke: #E90202 !important;
+    }
+    .template-product .custom-vstar-rating-widget a,
+    .template-product .custom-vstar-rating-widget span {
+      color: rgba(26, 26, 26, 0.60) !important;
+      text-align: center;
+      font-family: Gabarito, inherit !important;
+      font-size: 14px !important;
+      font-style: normal !important;
+      font-weight: 400 !important;
+      line-height: normal !important;
+      text-transform: capitalize !important;
+      text-decoration-line: underline !important;
+      text-decoration-style: solid !important;
+      text-decoration-skip-ink: auto !important;
+      text-decoration-thickness: auto !important;
+      text-underline-offset: auto !important;
+      text-underline-position: from-font !important;
+    }
+  </style>
+</html>

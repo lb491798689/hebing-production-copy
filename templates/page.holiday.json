@@ -1,0 +1,398 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_FcVMi4": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "subheading_GzVxqw": {
+          "type": "subheading",
+          "settings": {
+            "text": "This special offer is only available in the USA until the 31st of January 2025!"
+          }
+        },
+        "heading_jedUaU": {
+          "type": "heading",
+          "settings": {
+            "text": "New Year Sales",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_XLdefe": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>This is the moment you’ve been waiting for—unprecedented prices that you won’t see again. But hurry, these incredible deals won’t last forever. Shop now ！</p>"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_GzVxqw",
+        "heading_jedUaU",
+        "richtext_XLdefe"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/20241218-152917.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 63
+      }
+    },
+    "featured_collection_Dr7gBK": {
+      "type": "featured-collection",
+      "settings": {
+        "collection": "merry-christmas-sales-20-off",
+        "products": [],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 6,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 3,
+        "subheading": "",
+        "title": "Grab Comfort With Our Deals!",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
+    "rich_text_L9rYwx": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_EmGLi3": {
+          "type": "heading",
+          "settings": {
+            "text": "We make the best ergonomic gaming chairs in the world",
+            "heading_tag": "h2",
+            "text_color": "#ed1c22",
+            "gradient": "linear-gradient(180deg, rgba(237, 28, 36, 1), rgba(215, 215, 215, 1) 100%)"
+          }
+        }
+      },
+      "block_order": [
+        "heading_EmGLi3"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "medium",
+        "text_position": "center",
+        "background": "#1a1a1a",
+        "background_gradient": "",
+        "text_color": "#ffffff"
+      }
+    },
+    "press_rLpRBh": {
+      "type": "press",
+      "blocks": {
+        "quote_ApEQy6": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/1_82350018-052e-48b4-9fc7-55f86e5c8720.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "AutoFull is a leading brand in professional esports gaming chairs.",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_wcrRFC": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/2_dc20135f-fcc3-4c9b-ae49-3698d80fa9a0.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "I highly recommend AutoFull to anyone looking for a gaming chair that excels in both work and play.",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_i7dgph": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/4_50d096d2-994c-4095-be42-0c221761c9d2.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "AutoFull is a leading brand in professional esports gaming chairs.",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_F6Tw6E": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/3_8b475d4c-7657-449a-80e4-cc957581d8fb.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "Whether you need an affordable gaming chair or one with advanced lumbar support, AutoFull is the best choice",
+            "show_rating": false,
+            "rating": 4
+          }
+        }
+      },
+      "block_order": [
+        "quote_ApEQy6",
+        "quote_wcrRFC",
+        "quote_i7dgph",
+        "quote_F6Tw6E"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_size": "medium",
+        "background": "#1a1a1a",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "heading_color": "",
+        "heading_gradient": "",
+        "logo_item_background": "",
+        "logo_item_border": ""
+      }
+    },
+    "text_with_icons_XTxaPe": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_8GBg6F": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-truck",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "#ed1c22",
+            "title": "Free Shipping",
+            "content": "<p>As an Autofull user, we will not charge you any shipping costs</p>"
+          }
+        },
+        "item_W6nbRj": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-validation",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "none",
+            "icon_background": "rgba(0,0,0,0)",
+            "icon_color": "#ed1c22",
+            "title": "After-sales guarantee",
+            "content": "<p>When you buy at Autofull, you will get an official three-year warranty</p>"
+          }
+        },
+        "item_P8mBf4": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-secure-profile",
+            "mobile_icon_width": 24,
+            "icon_width": 32,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "#ed1c22",
+            "title": "Officially certified",
+            "content": "<p>The products you purchase will be officially produced and shipped by Autofull</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_8GBg6F",
+        "item_W6nbRj",
+        "item_P8mBf4"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "Why Buy From Us?",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "image_link_blocks_rH4RGQ": {
+      "type": "image-link-blocks",
+      "blocks": {
+        "item_wAGMih": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/r38s628q_4322567b-6680-45ef-88f1-5ac4f85f91a2.png",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "item_9QEyqA": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/6syl9j2t_d8a7c9c1-958d-4fb7-ad47-8f30083ede16.png",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "item_kRJHe9": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/rp9tudv2.png",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "item_8Pqqxp": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/DSC06460_1.png",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "item_K4yYDX": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/2_12807856-ee16-4da3-8a04-7c9ba2f1f09a.png",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "item_A7jDnt": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/693480324d299747490194566b5d100f.jpg",
+            "stretch_image": true,
+            "link_text": "",
+            "link_url": "",
+            "background": "",
+            "text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "item_wAGMih",
+        "item_9QEyqA",
+        "item_kRJHe9",
+        "item_8Pqqxp",
+        "item_K4yYDX",
+        "item_A7jDnt"
+      ],
+      "settings": {
+        "full_width": true,
+        "block_size": "large",
+        "subheading": "",
+        "title": "Get inspired by AutoFull setups from our community",
+        "content": "<p>For a chance to be featured, tag @Autofull and #Autofull on Instagram</p>",
+        "link_url": "",
+        "link_text": "",
+        "background": "#1a1a1a",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "heading_color": "",
+        "heading_gradient": ""
+      }
+    },
+    "image_with_text_overlay_XLP6E3": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_8nRKWX": {
+          "type": "heading",
+          "settings": {
+            "text": "Don't Miss Out!",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_PVP8cf": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Shop the New Year Sale Now & Level Up Your Gaming Setup.</p>"
+          }
+        },
+        "button_bf6G4d": {
+          "type": "button",
+          "settings": {
+            "style": "fill",
+            "size": "lg",
+            "text": "Shop Our Holiday Deals",
+            "url": "shopify://collections/merry-christmas-sales-20-off",
+            "background": "",
+            "text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_8nRKWX",
+        "richtext_PVP8cf",
+        "button_bf6G4d"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "md",
+        "image": "shopify://shop_images/20240910-165928.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 63
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_FcVMi4",
+    "featured_collection_Dr7gBK",
+    "rich_text_L9rYwx",
+    "press_rLpRBh",
+    "text_with_icons_XTxaPe",
+    "image_link_blocks_rH4RGQ",
+    "image_with_text_overlay_XLP6E3"
+  ]
+}

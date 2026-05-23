@@ -1,0 +1,15 @@
+{% assign show_navigation = show_navigation | default: true %}
+{% if show_navigation == true %}
+<button
+  id="kik-prev-{{ section.id }}"
+  class="kik-prev kik-arrow-button"
+>
+  {% render 'icon-arrow-left' %}
+</button>
+<button
+  id="kik-next-{{ section.id }}"
+  class="kik-next kik-arrow-button"
+>
+  {% render 'icon-arrow-right' %}
+</button>
+{% endif %}

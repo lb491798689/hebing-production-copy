@@ -1,0 +1,187 @@
+{%- comment -%}
+  Kiks Discount Code – Ticket UI
+  Pixel-perfect rendering of Figma node 5276:2587.
+{%- endcomment -%}
+
+{%- liquid
+  assign disc_bg_start = block.settings.background
+  if disc_bg_start == blank
+    assign disc_bg_start = '#ED0014'
+  endif
+  assign disc_bg_end = block.settings.background_end
+  if disc_bg_end == blank
+    assign disc_bg_end = '#FF6A00'
+  endif
+  assign disc_text_color = block.settings.text_color
+  if disc_text_color == blank
+    assign disc_text_color = '#FFFFFF'
+  endif
+  assign page_bg = settings.background
+  if page_bg == blank
+    assign page_bg = '#FFFFFF'
+  endif
+  assign ends_label = block.settings.ends_label
+  if ends_label == blank
+    assign ends_label = 'Ends In'
+  endif
+  assign end_date = block.settings.end_date
+-%}
+
+{%- style -%}
+  [data-block-id="{{ block.id }}"] .kiks-ticket {
+    --ticket-bg-start: {{ disc_bg_start }};
+    --ticket-bg-end: {{ disc_bg_end }};
+    --ticket-color: {{ disc_text_color }};
+    --ticket-page-bg: {{ page_bg }};
+  }
+{%- endstyle -%}
+
+<div class="discount-container kiks-ticket-wrap">
+  {%- if block.settings.block_title != blank -%}
+    <div class="discount-title">
+      <h6 class="block-title">{{ block.settings.block_title }}</h6>
+    </div>
+  {%- endif -%}
+
+  {%- if block.settings.link != blank -%}
+    <a class="kiks-ticket" href="{{ block.settings.link }}">
+  {%- else -%}
+    <div class="kiks-ticket">
+  {%- endif -%}
+
+      <div class="kiks-ticket__left">
+        {%- if block.settings.dis_title != blank -%}
+          <span class="kiks-ticket__amount">{{ block.settings.dis_title }}</span>
+        {%- endif -%}
+      </div>
+
+      <div class="kiks-ticket__divider" aria-hidden="true">
+        <span class="kiks-ticket__notch kiks-ticket__notch--top"></span>
+        <span class="kiks-ticket__dash"></span>
+        <span class="kiks-ticket__notch kiks-ticket__notch--bottom"></span>
+      </div>
+
+      <div class="kiks-ticket__right">
+        {%- if block.settings.dis_code != blank -%}
+          <p class="kiks-ticket__row">
+            <span>Code: {{ block.settings.dis_code }}</span>
+            {%- if block.settings.btn_label != blank and block.settings.link == blank -%}
+              {%- assign copy_label = block.settings.btn_label -%}
+              {%- assign copied_label = 'Copied' -%}
+              {%- assign label_len = copy_label | size -%}
+              {%- assign copied_len = copied_label | size -%}
+              {%- if copied_len > label_len -%}
+                {%- assign ghost_label = copied_label -%}
+              {%- else -%}
+                {%- assign ghost_label = copy_label -%}
+              {%- endif -%}
+              <button
+                type="button"
+                class="kiks-ticket__copy"
+                data-kiks-ticket-copy
+                data-copy-value="{{ block.settings.dis_code | escape }}"
+                data-copy-label="{{ copy_label | escape }}"
+                data-copied-label="{{ copied_label | escape }}"
+              ><span class="kiks-ticket__copy-label">{{ copy_label }}</span><span class="kiks-ticket__copy-ghost" aria-hidden="true">{{ ghost_label }}</span></button>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+
+        {%- if end_date != blank -%}
+          <p class="kiks-ticket__row kiks-ticket__countdown">
+            <span>{{ ends_label }} </span>
+            <strong data-kiks-ticket-timer data-end="{{ end_date }}">--</strong>
+          </p>
+        {%- endif -%}
+      </div>
+
+  {%- if block.settings.link != blank -%}
+    </a>
+  {%- else -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<script>
+(function () {
+  if (window.__kiksTicketInit) return;
+  window.__kiksTicketInit = true;
+
+  function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+  function formatRemaining(ms) {
+    if (ms <= 0) return 'Expired';
+    var totalSec = Math.floor(ms / 1000);
+    var days = Math.floor(totalSec / 86400);
+    var hours = Math.floor((totalSec % 86400) / 3600);
+    var minutes = Math.floor((totalSec % 3600) / 60);
+    var seconds = totalSec % 60;
+    var dayPart = days > 0 ? days + (days === 1 ? ' Day ' : ' Days ') : '';
+    return dayPart + pad(hours) + ':' + pad(minutes) + ':' + pad(seconds);
+  }
+
+  function parseDate(value) {
+    if (!value) return null;
+    var v = String(value).trim();
+    var iso = v.replace(' ', 'T');
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) d = new Date(v);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function tickAll() {
+    var nodes = document.querySelectorAll('[data-kiks-ticket-timer]');
+    nodes.forEach(function (el) {
+      var end = el.__kiksEnd || parseDate(el.getAttribute('data-end'));
+      if (!end) return;
+      el.__kiksEnd = end;
+      el.textContent = formatRemaining(end.getTime() - Date.now());
+    });
+  }
+
+  function bindCopy() {
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest && e.target.closest('[data-kiks-ticket-copy]');
+      if (!btn) return;
+      e.preventDefault();
+      var value = btn.getAttribute('data-copy-value') || '';
+      var doneLabel = btn.getAttribute('data-copied-label') || 'Copied';
+      var origLabel = btn.getAttribute('data-copy-label') || '';
+      var labelEl = btn.querySelector('.kiks-ticket__copy-label') || btn;
+      var done = function () {
+        labelEl.textContent = doneLabel;
+        btn.classList.add('is-copied');
+        setTimeout(function () {
+          labelEl.textContent = origLabel;
+          btn.classList.remove('is-copied');
+        }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(done, done);
+      } else {
+        var ta = document.createElement('textarea');
+        ta.value = value;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (err) {}
+        document.body.removeChild(ta);
+        done();
+      }
+    });
+  }
+
+  function init() {
+    bindCopy();
+    tickAll();
+    setInterval(tickAll, 1000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>

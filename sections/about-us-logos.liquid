@@ -1,0 +1,319 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #{{ section.id }} .logo-wrapper {
+    position: relative;
+  }
+  #{{ section.id }} .logo-track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    height: 100%;
+    will-change: transform;
+    animation-name: about-us-logos-marquee-{{ section.id | replace: '-', '' | replace: '_', '' }};
+    animation-duration: var(--logo-duration, 20s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: var(--logo-direction, normal);
+  }
+  #{{ section.id }} .logo-list-item {
+    flex: 0 0 auto;
+    display: block;
+    width: auto;
+    max-width: none;
+    height: 100%;
+  }
+  #{{ section.id }} .logo-list,
+  #{{ section.id }} .logo-list-item img {
+    display: block;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    object-fit: cover;
+  }
+  @keyframes about-us-logos-marquee-{{ section.id | replace: '-', '' | replace: '_', '' }} {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(calc(var(--logo-item-width) * -1), 0, 0);
+    }
+  }
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+  }
+  #{{ section.id }} .swiper-button-next:after,
+  #{{ section.id }} .swiper-button-prev:after {
+    content: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #{{ section.id }} .logo-track {
+      animation: none;
+    }
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section class="tw:relative tw:z-2 tw:bg-[#131313] tw:text-white tw:font-gabarito" id="{{ section.id }}">
+  <h2
+    class="
+      tw:px-[calc((100%-1210px)/2)] tw:max-md:px-4 tw:text-[48px] tw:uppercase tw:text-white tw:leading-[calc(60px/48px)]
+      tw:font-black tw:font-orbitron tw:max-md:text-[24px] tw:mb-12 tw:max-md:mb-[48px] tw:text-center
+    "
+  >
+    {{ section.settings.section_title | newline_to_br }}
+  </h2>
+  <div class="tw:flex tw:gap-3 tw:flex-col">
+    {% for block in section.blocks %}
+      <div
+        class="tw:w-full tw:h-[160px] tw:overflow-hidden logo-wrapper tw:max-md:h-[72px]"
+        data-logo-direction="{{ block.settings.scroll_direction | default: 'rtl' }}"
+      >
+        {% assign desktop_image = block.settings.logo_list_image %}
+        {% assign mobile_image = block.settings.logo_list_image_mobile %}
+        {% if desktop_image == blank and mobile_image != blank %}
+          {% assign desktop_image = mobile_image %}
+        {% endif %}
+        {% if mobile_image == blank and desktop_image != blank %}
+          {% assign mobile_image = desktop_image %}
+        {% endif %}
+        {% if desktop_image != blank %}
+          <picture class="logo-list">
+            <source
+              srcset="{{ mobile_image | image_url }}"
+              media="(max-width: 768px)"
+            >
+            <img
+              src="{{ desktop_image | image_url }}"
+              alt="{{ desktop_image.alt | default: mobile_image.alt }}"
+              width="{{ desktop_image.width }}"
+              height="{{ desktop_image.height }}"
+              class="tw:h-full tw:object-cover tw:w-auto tw:max-w-[unset]!"
+            >
+          </picture>
+        {% else %}
+          <div class="tw:min-w-full tw:h-full tw:object-cover tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+            image
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="tw:mt-12">
+    <a
+      href="{{ section.settings.section_link }}"
+      class="
+        tw:text-white tw:text-[16px] tw:h-[48px] tw:w-fit tw:mx-auto
+        tw:leading-[calc(20px/16px)] tw:font-bold tw:uppercase tw:font-orbitron
+        tw:px-4 tw:bg-[#D6000D] tw:flex tw:items-center tw:justify-center tw:rounded-[4px]
+        tw:hover:bg-[#FF2020]  tw:transition-all tw:duration-200
+      "
+    >
+      {{ section.settings.section_link_text }}
+    </a>
+  </div>
+</section>
+
+<script>
+  (function () {
+    const sectionId = '{{ section.id }}';
+    const MIN_FAKE_NODES = 2;
+    const sectionDuration = Number({{ section.settings.scroll_duration | default: 20 | json }});
+
+    function setupMarquee(wrapper) {
+      if (wrapper.dataset.logoMarqueeReady === 'true') {
+        return;
+      }
+
+      const sourceMedia = wrapper.querySelector('.logo-list');
+      const sourceImage = sourceMedia ? sourceMedia.querySelector('img') : null;
+
+      if (!sourceMedia || !sourceImage) {
+        return;
+      }
+
+      function buildTrack() {
+        if (wrapper.dataset.logoMarqueeReady === 'true') {
+          return;
+        }
+
+        const wrapperWidth = Math.ceil(wrapper.getBoundingClientRect().width);
+        const logoWidth =
+          Math.ceil(sourceMedia.getBoundingClientRect().width) || Math.ceil(sourceImage.getBoundingClientRect().width);
+
+        if (!wrapperWidth || !logoWidth) {
+          return;
+        }
+
+        const fakeCount = Math.max(MIN_FAKE_NODES, Math.ceil((wrapperWidth * 2) / logoWidth));
+        const durationInSeconds = Math.max(1, sectionDuration);
+        const animationDirection = wrapper.dataset.logoDirection === 'ltr' ? 'reverse' : 'normal';
+        const track = document.createElement('div');
+
+        track.className = 'logo-track';
+        track.style.setProperty('--logo-item-width', logoWidth + 'px');
+        track.style.setProperty('--logo-duration', durationInSeconds.toFixed(2) + 's');
+        track.style.setProperty('--logo-direction', animationDirection);
+
+        const primaryNode = sourceMedia.cloneNode(true);
+        primaryNode.classList.add('logo-list-item');
+        track.appendChild(primaryNode);
+
+        for (let index = 0; index < fakeCount; index += 1) {
+          const fakeNode = sourceMedia.cloneNode(true);
+          const fakeImage = fakeNode.querySelector('img');
+          fakeNode.classList.add('logo-list-item');
+          fakeNode.setAttribute('aria-hidden', 'true');
+          if (fakeImage) {
+            fakeImage.alt = '';
+            fakeImage.setAttribute('role', 'presentation');
+          }
+          track.appendChild(fakeNode);
+        }
+
+        wrapper.replaceChildren(track);
+        wrapper.dataset.logoMarqueeReady = 'true';
+      }
+
+      if (sourceImage.complete && sourceImage.naturalWidth > 0) {
+        buildTrack();
+        return;
+      }
+
+      sourceImage.addEventListener('load', buildTrack, { once: true });
+    }
+
+    function initSection() {
+      const section = document.getElementById(sectionId);
+
+      if (!section) {
+        return;
+      }
+
+      const wrappers = section.querySelectorAll('.logo-wrapper');
+      wrappers.forEach(setupMarquee);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSection);
+    } else {
+      initSection();
+    }
+
+    document.addEventListener('shopify:section:load', initSection);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "About Us Logos",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "We've teamed up with a diverse array of partners extending our reach beyond esports into various industries"
+    },
+    {
+      "type": "url",
+      "id": "section_link",
+      "label": "Section Link"
+    },
+    {
+      "type": "text",
+      "id": "section_link_text",
+      "label": "Section Link Text",
+      "default": "Esport ZONE"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "scroll_duration",
+      "label": "Scroll Duration",
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "unit": "s",
+      "default": 50
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_list_item",
+      "name": "Logo List Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_list_image",
+          "label": "Logo List Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_list_image_mobile",
+          "label": "Logo List Image Mobile"
+        },
+        {
+          "type": "select",
+          "id": "scroll_direction",
+          "label": "Scroll Direction",
+          "default": "rtl",
+          "options": [
+            {
+              "value": "rtl",
+              "label": "Right to Left"
+            },
+            {
+              "value": "ltr",
+              "label": "Left to Right"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Logos"
+    }
+  ]
+}
+{% endschema %}

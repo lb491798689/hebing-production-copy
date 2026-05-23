@@ -1,0 +1,962 @@
+
+
+  {%- comment -%}
+  ------------------------------------------------------------------------------------------------------------------------
+  CSS
+  ------------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  <style>
+    .safe-guard-{{ section.id }} .s-g-content{
+        display: grid;
+        grid-template-columns: calc(25% - 18px) 50% calc(25% - 18px);
+        grid-template-rows: repeat(1, 1fr);
+        gap: 18px;
+    }
+    .safe-guard-{{ section.id }} .s-g-content .left-c-box{
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        justify-content: space-between;
+    }
+    .safe-guard-{{ section.id }} .s-g-content .left-c-box .l-c-b-content{
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    
+    .safe-guard-{{ section.id }} .s-g-content .right-c-box{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(1, 1fr);
+        gap: 18px;
+    }
+    .safe-guard-{{ section.id }} .s-g-content .right-c-box .r-c-b-content{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    
+    .safe-guard-{{ section.id }} .l-item,
+    .safe-guard-{{ section.id }} .r-item{
+        position: relative;
+        transition: all 0.3s ease-in-out;
+        flex-grow: 1;
+    }
+    .safe-guard-{{ section.id }} .l-item:hover,
+    .safe-guard-{{ section.id }} .r-item:hover{
+        transform: scale(1.02);
+    }
+    .safe-guard-{{ section.id }} .l-item .l-primary-content{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        color: #fff;
+        width: 90%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .safe-guard-{{ section.id }} .s-g-content .primary-img{
+      height: 380px;
+      max-width: 340px;
+      width: 100%;
+      object-fit: cover;
+    }
+
+
+    .safe-guard-{{ section.id }} .l-item .l-primary-content h3{
+
+      font-size: 46px;
+
+    }
+    .safe-guard-{{ section.id }} .l-item .l-primary-content p{
+
+      font-size: 20px;
+      margin-top: 61px;
+    
+    }
+
+    .safe-guard-{{ section.id }} .link-item{
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      height: 240px;
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .safe-guard-{{ section.id }} .img-asp{
+      max-height: 240px;
+    }
+    
+
+    .safe-guard-{{ section.id }} .item-content{
+        position: absolute;
+        top: 20px;
+        left: 18px;
+        display: inline-block;
+        width: calc(100% - 36px);
+    }
+    .safe-guard-{{ section.id }} .item-content h3{ 
+      font-style: normal;
+      font-family: 'HarmonyOS-Sans-SC';
+      font-size: 20px;
+      line-height: 1.2;
+    }
+    .safe-guard-{{ section.id }} .item-content p{
+      font-size: 15px;
+      margin-top: 12px;
+      line-height: 1.2;
+      font-family: 'HarmonyOS-Sans-SC';
+    }
+    .safe-guard-{{ section.id }} .s-g-content img{
+      border-radius: 8px;
+    }
+    .safe-guard-{{ section.id }} .l-item .l-primary-content img{
+        width: 327px;
+      }
+
+    .jingva-lg{
+      display: block;
+    }
+    .jingva-md{
+      display: none;
+    }
+
+
+    @media screen and (max-width: 990px) {
+      .jingva-lg{
+        display: none;
+      }
+      .jingva-md{
+        display: block;
+      }
+
+      .safe-guard-{{ section.id }} .s-g-content{
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+  
+      }
+      .safe-guard-{{ section.id }} .l-item .l-primary-content{
+        width: 100%;
+      }
+      .safe-guard-{{ section.id }} .l-item .l-primary-content img{
+        width: 199px;
+        margin: 0 auto;
+      }
+      .safe-guard-{{ section.id }} .l-item .l-primary-content p{
+        font-size: 20px;
+        font-family: 'HarmonyOS-Sans-SC';
+        margin-top: 26px;
+        
+      }
+      .safe-guard-{{ section.id }} .item-content{
+        left: 8px;
+        top: 8px;
+        width: 90%;
+      }
+      .safe-guard-{{ section.id }} .item-content h3{
+        font-size: 16px;
+      }
+      .safe-guard-{{ section.id }} .item-content p{
+        font-size: 12px;
+      }
+        
+    }
+
+    .safe-guard-{{ section.id }} .des-br-hid{
+      display: none;
+    }
+     @media screen and (max-width: 768px) {
+        .safe-guard-{{ section.id }} .img-asp{
+          /* aspect-ratio: 3 / 3; */
+        }
+      .safe-guard-{{ section.id }} .r-item .primary-img{
+        aspect-ratio: auto !important; 
+      }
+      .safe-guard-{{ section.id }} .s-g-content{
+        grid-template-rows: 1fr;
+        gap: 10px;
+      }
+      .safe-guard-{{ section.id }} .s-g-content .right-c-box .r-c-b-content,
+      .safe-guard-{{ section.id }} .s-g-content .right-c-box,
+      .safe-guard-{{ section.id }} .s-g-content .left-c-box .l-c-b-content,
+      .safe-guard-{{ section.id }} .s-g-content .left-c-box{
+        gap: 10px;
+      }
+      
+      .safe-guard-{{ section.id }} .l-item,
+      .safe-guard-{{ section.id }} .r-item{
+        min-height: 170px;
+        background-color: #fff;
+        border-radius: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-end;
+      }
+
+      .safe-guard-{{ section.id }} .r-item.r-item-long{
+        min-height: 287px;
+        background-color: #f2f2f2;
+      }
+
+      .safe-guard-{{ section.id }} .mb-br-hid{
+        display: none;
+      }
+    .safe-guard-{{ section.id }} .des-br-hid{
+      display: block;
+    }
+      
+      
+     }
+   
+    </style>
+
+  <!-- 移动端轮播样式 -->
+  <style>
+    .jingva-lg{
+      display: block;
+    }
+    .jingva-md{
+      display: none;
+    }
+
+    /* 移动端轮播样式 */
+    .safe-guard-{{ section.id }} .mobile-carousel {
+      position: relative;
+      width: 100%;
+      
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-track {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+      height: 100%;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-slide {
+      min-width: 100%;
+      height: 100%;
+      position: relative;
+      background: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-slide a {
+      display: block;
+      height: 100%;
+      text-decoration: none;
+      color: inherit;
+      width: 100%;
+    }
+
+    .safe-guard-{{ section.id }} .slide-icon {
+      width: 75px;
+      height: 75px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .safe-guard-{{ section.id }} .slide-content h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+      line-height: 1.3;
+      font-family: 'HarmonyOS-Sans-SC';
+     
+    }
+
+    .safe-guard-{{ section.id }} .slide-content h3 .red-text {
+      color: #e1040f;
+    }
+
+    .safe-guard-{{ section.id }} .slide-content p {
+      font-size: 13px;
+      color: #545454;
+      line-height: 1.4;
+    }
+
+    .safe-guard-{{ section.id }} .play-button {
+      width: 16px;
+      height: 13px;
+      border: 1.5px solid #e1040f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+
+    /* 导航箭头 */
+    .safe-guard-{{ section.id }} .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s ease;
+      color: #929292;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-nav:hover {
+      background: #ffffff;
+      color: #000000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .safe-guard-{{ section.id }} .carousel-prev {
+      left: 10px;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-next {
+      right: 10px;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-nav:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    /* 分页指示器 */
+    .safe-guard-{{ section.id }} .carousel-dots {
+      /* display: flex; */
+      display: none;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-dots .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: none;
+      background: #d0d0d0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .safe-guard-{{ section.id }} .carousel-dots .dot.active {
+      background: #e1040f;
+      transform: scale(1.2);
+    }
+
+    .safe-guard-{{ section.id }} .carousel-dots .dot:hover {
+      background: #ff6666;
+    }
+
+    @media screen and (max-width: 990px) {
+      .jingva-lg{
+        display: none;
+      }
+      .jingva-md{
+        display: block;
+      }
+
+      .safe-guard-{{ section.id }} .carousel-container {
+        height: 260px;
+      }
+    }
+  </style>
+
+  {%- comment -%}
+  ------------------------------------------------------------------------------------------------------------------------
+  LIQUID
+  ------------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  {%  liquid 
+    assign ss_st = section.settings
+  %}
+  <div {% render 'section-properties' %}>
+    <div class="safe-guard-{{ section.id }} jingva-lg">
+        <div class="s-g-content">
+          <div class="right-c-box">
+                <div class="r-c-b-content">
+                  <div class="r-item r-item-long">
+                    <a href="{{ ss_st.right_item1_link }}">
+                      <img class="primary-img" style="aspect-ratio: 3 / 4;" src="{{ ss_st.right_item1_image | img_url:'original' }}" >
+                      <div class="item-content">
+                        <h3>{{ ss_st.right_item1_name }}</h3>
+                        <p>{{ ss_st.right_item1_desc }}</p>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="r-item ">
+                    <a href="{{ ss_st.right_item2_link }}" class="link-item">
+                      <img class="img-asp" src="{{ ss_st.right_item2_image | img_url:'original' }}" alt="" >
+                      <div class="item-content">
+                        <h3>{{ ss_st.right_item2_name }}</h3>
+                        <p>{{ ss_st.right_item2_desc }}</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+            </div>
+            <div class="left-c-box">
+                <div class="l-item ">
+                  <a href="{{ ss_st.primary_link }}">
+                    <img class="primary-img" style="aspect-ratio: 14 / 9;max-width: 100%;" src="{{ ss_st.primary_image | img_url:'original' }}" alt="">
+                    <div class="l-primary-content">
+                      <h3>{{ ss_st.primary_title }}</h3>
+                      
+                      <p>{{ ss_st.primary_desc }}</p>
+                    </div>
+                  </a>
+                  
+                </div>
+                <div class="l-c-b-content">
+                  <div class="l-item">
+                  <a href="{{ ss_st.left_item1_link }}" class="link-item">
+                    <img class="img-asp" src="{{ ss_st.left_item1_image | img_url:'original' }}" alt="">
+                    <div class="item-content">
+                      <h3>{{ ss_st.left_item1_name }}</h3>
+                      <p>{{ ss_st.left_item1_desc }}</p>
+                    </div>
+                  </a>
+                </div>
+                <div class="l-item">
+                  <a href="{{ ss_st.left_item2_link }}" class="link-item">
+                      <img class="img-asp" src="{{ ss_st.left_item2_image | img_url:'original' }}" alt="" >
+                      <div class="item-content">
+                        <h3>{{ ss_st.left_item2_name }}</h3>
+                        <p>{{ ss_st.left_item2_desc }}</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                
+            </div>
+            <div class="right-c-box">
+                <div class="r-c-b-content">
+                  <div class="r-item">
+                    <a href="{{ ss_st.right_item3_link }}" class="link-item">
+                      <img class="img-asp" src="{{ ss_st.right_item3_image | img_url:'original' }}" alt="" >
+                      <div class="item-content">
+                        <h3>{{ ss_st.right_item3_name }}</h3>
+                        <p>{{ ss_st.right_item3_desc }}</p>
+                      </div>
+                    </a>    
+                  </div>
+                  <div class="r-item r-item-long">
+                    <a href="{{ ss_st.right_item4_link }}">
+                      <img class="primary-img" style="aspect-ratio: 3 / 4;" src="{{ ss_st.right_item4_image | img_url:'original' }}" alt="" >
+                      <div class="item-content">
+                        <h3>{{ ss_st.right_item4_name }}</h3>
+                        <p>{{ ss_st.right_item4_desc }}</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+     <div class="safe-guard-{{ section.id }} jingva-md">
+       <div class="s-g-inner">
+         <!-- 移动端轮播 -->
+         <div class="mobile-carousel">
+           <div class="carousel-container">
+             <div class="carousel-track">
+              
+              <div class="carousel-slide">
+                <a href="{{ ss_st.right_item3_link | default: '#' }}">
+                  <div class="slide-icon">
+                  <img src="{{ ss_st.right_item3_image | img_url:'original' }}" alt="">
+                  </div>
+                  <div class="slide-content">
+                    <h3>{{ ss_st.right_item3_name }}</h3>
+                    <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                    </svg>
+                    </div>
+                    <p>{{ ss_st.right_item3_desc }}</p>
+                  </div>
+                </a>
+              </div>
+          
+               <!-- Slide 1: WE ARE HERE TO HELP -->
+               <div class="carousel-slide">
+                 <a href="{{ ss_st.left_item1_link | default: '#' }}">
+                   <div class="slide-icon">
+                    <img src="{{ ss_st.left_item1_image | img_url:'original' }}" alt="">
+                   </div>
+                   <div class="slide-content">
+                     <h3>{{ ss_st.left_item1_name }}</h3>
+                     <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                     </svg>
+                     </div>
+                     <p>{{ ss_st.left_item1_desc }}</p>
+                     
+                   </div>
+                 </a>
+               </div>
+
+               <div class="carousel-slide">
+                 <a href="{{ ss_st.right_item2_link | default: '#' }}">
+                   <div class="slide-icon">
+                    <img src="{{ ss_st.right_item2_image | img_url:'original' }}" alt="">
+                   </div>
+                   <div class="slide-content">
+                     <h3>{{ ss_st.right_item2_name }}</h3>
+                     <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                     </svg>
+                     </div>
+                     <p>{{ ss_st.right_item2_desc }}</p>
+                   </div>
+                 </a>
+               </div>
+
+               <div class="carousel-slide">
+                 <a href="{{ ss_st.left_item2_link | default: '#' }}">
+                   <div class="slide-icon">
+                    <img src="{{ ss_st.left_item2_image | img_url:'original' }}" alt="">
+                   </div>
+                   <div class="slide-content">
+                     <h3>{{ ss_st.left_item2_name }}</h3>
+                     <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                     </svg>
+                     </div>
+                     <p>{{ ss_st.left_item2_desc }}</p>
+                     
+                   </div>
+                 </a>
+               </div>
+
+               <div class="carousel-slide">
+                <a href="{{ ss_st.right_item4_link | default: '#' }}">
+                  <div class="slide-icon">
+                   <img src="{{ ss_st.right_item4_image_mobile | img_url:'original' }}" alt="">
+                  </div>
+                  <div class="slide-content">
+                    <h3>{{ ss_st.right_item4_name }}</h3>
+                    <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                    </svg>
+                    </div>
+                    <p>{{ ss_st.right_item4_desc }}</p>
+                  </div>
+                </a>
+              </div>
+               <div class="carousel-slide">
+                 <a href="{{ ss_st.right_item1_link | default: '#' }}">
+                   <div class="slide-icon">
+                    <img src="{{ ss_st.right_item1_image_mobile | img_url:'original' }}" alt="">
+                   </div>
+                   <div class="slide-content">
+                     <h3>{{ ss_st.right_item1_name }}</h3>
+                     <div class="play-button"><svg width="4" height="7" viewBox="0 0 4 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+                     <path d="M1 1L3 3.50054L1 6" stroke="#e1040f" stroke-width="1.5" stroke-miterlimit="10"/>
+                     </svg>
+                     </div>
+                     <p>{{ ss_st.right_item1_desc }}</p>
+                   </div>
+                 </a>
+               </div>
+               
+
+               
+
+               
+        
+             </div>
+           </div>
+
+           <!-- 导航箭头 -->
+           <button class="carousel-nav carousel-prev" aria-label="Previous slide">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+               <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+           </button>
+           <button class="carousel-nav carousel-next" aria-label="Next slide">
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+               <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+             </svg>
+           </button>
+
+           <!-- 分页指示器 -->
+           <div class="carousel-dots">
+             <button class="dot active" data-slide="0" aria-label="Go to slide 1"></button>
+             <button class="dot" data-slide="1" aria-label="Go to slide 2"></button>
+             <button class="dot" data-slide="2" aria-label="Go to slide 3"></button>
+             <button class="dot" data-slide="3" aria-label="Go to slide 4"></button>
+             <button class="dot" data-slide="4" aria-label="Go to slide 5"></button>
+             <button class="dot" data-slide="5" aria-label="Go to slide 6"></button>
+           </div>
+         </div>
+       </div>
+     </div>
+  </div>
+
+{% schema %}
+{
+    "name": "Safeguard mechanism",
+    "class": "shopify-section--safeguard-mechanism",
+    "tag": "section",
+      "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "primary_image",
+      "label": "primary image"
+    },
+    {
+      "type": "html",
+      "id": "primary_title",
+      "label": "primary title",
+      "default": "Dr. Dennis Miller"
+    },
+    {
+      "type": "html",
+      "id": "primary_desc",
+      "label": "primary desc",
+      "default": "Chiropractor of the International Chiropractic Association (ICA) Doctor of Medicine of Palmer College of Chiropractic"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "primary link"
+    },
+
+    {
+      "type": "header",
+      "content": "Left 2Item Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_item1_image",
+      "label": "Left item1 image"
+    },
+    {
+      "type": "html",
+      "id": "left_item1_name",
+      "label": "Left item1 name"
+    },
+    {
+      "type": "html",
+      "id": "left_item1_desc",
+      "label": "Left item1 desc"
+    },
+    {
+      "type": "url",
+      "id": "left_item1_link",
+      "label": "Left item1 link"
+    },
+    
+    {
+      "type": "image_picker",
+      "id": "left_item2_image",
+      "label": "Left item2 image"
+    },
+    {
+      "type": "html",
+      "id": "left_item2_name",
+      "label": "Left item2 name"
+    },
+    
+    {
+      "type": "html",
+      "id": "left_item2_desc",
+      "label": "Left item2 desc"
+    },
+    {
+      "type": "url",
+      "id": "left_item2_link",
+      "label": "Left item2 link"
+    },
+    {
+      "type": "header",
+      "content": "Right 4Item Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item1_image",
+      "label": "Right item1 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item1_image_mobile",
+      "label": "Right item1 image mobile"
+    },
+    {
+      "type": "html",
+      "id": "right_item1_name",
+      "label": "Right item1 name"
+    },
+    {
+      "type": "html",
+      "id": "right_item1_desc",
+      "label": "Right item1 desc"
+    },
+    {
+      "type": "url",
+      "id": "right_item1_link",
+      "label": "Right item1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item2_image",
+      "label": "Right item2 image"
+    },
+    {
+      "type": "html",
+      "id": "right_item2_name",
+      "label": "Right item2 name"
+    },
+    {
+      "type": "html",
+      "id": "right_item2_desc",
+      "label": "Right item2 desc"
+    },
+    {
+      "type": "url",
+      "id": "right_item2_link",
+      "label": "Right item2 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item3_image",
+      "label": "Right item3 image"
+    },
+    {
+      "type": "html",
+      "id": "right_item3_name",
+      "label": "Right item3 name"
+    },
+    {
+      "type": "html",
+      "id": "right_item3_desc",
+      "label": "Right item3 desc"
+    },
+    {
+      "type": "url",
+      "id": "right_item3_link",
+      "label": "Right item3 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item4_image",
+      "label": "Right item4 image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_item4_image_mobile",
+      "label": "Right item4 image mobile"
+    },
+    {
+      "type": "html",
+      "id": "right_item4_name",
+      "label": "Right item4 name"
+    },
+    {
+      "type": "html",
+      "id": "right_item4_desc",
+      "label": "Right item4 desc"
+    },
+    {
+      "type": "url",
+      "id": "right_item4_link",
+      "label": "Right item4 link"
+    },
+   
+    {
+      "type": "header",
+      "content": "Bg color",
+      "info": "Gradient replaces solid colors when set. Gradient text outline and gradient background cannot be combined."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    }
+   
+  ],
+    "presets": [
+        {
+            "name": "Safeguard mechanism",
+            "settings": {
+                "full_width": true
+            }
+            
+        }
+    ]
+  }
+  {% endschema %}
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+  
+  <!-- Swiper JS -->
+  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+
+  <!-- 移动端轮播JavaScript -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 检查是否在移动端
+    function isMobile() {
+      return window.innerWidth <= 990;
+    }
+
+    // 初始化轮播
+    function initCarousel() {
+      const carousel = document.querySelector('.safe-guard-{{ section.id }} .mobile-carousel');
+      if (!carousel || !isMobile()) return;
+
+      const track = carousel.querySelector('.carousel-track');
+      const slides = carousel.querySelectorAll('.carousel-slide');
+      const prevBtn = carousel.querySelector('.carousel-prev');
+      const nextBtn = carousel.querySelector('.carousel-next');
+      const dots = carousel.querySelectorAll('.carousel-dots .dot');
+
+      let currentSlide = 0;
+      const totalSlides = slides.length;
+
+      // 更新轮播位置
+      function updateCarousel() {
+        const translateX = -currentSlide * 100;
+        track.style.transform = `translateX(${translateX}%)`;
+        
+        // 更新分页指示器
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index === currentSlide);
+        });
+
+        // 更新导航按钮状态
+        if (prevBtn) prevBtn.disabled = currentSlide === 0;
+        if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+      }
+
+      // 下一张
+      function nextSlide() {
+        if (currentSlide < totalSlides - 1) {
+          currentSlide++;
+          updateCarousel();
+        }
+      }
+
+      // 上一张
+      function prevSlide() {
+        if (currentSlide > 0) {
+          currentSlide--;
+          updateCarousel();
+        }
+      }
+
+      // 跳转到指定slide
+      function goToSlide(slideIndex) {
+        currentSlide = slideIndex;
+        updateCarousel();
+      }
+
+      // 事件监听
+      if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+      if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+      // 分页指示器点击事件
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToSlide(index));
+      });
+
+      // 触摸滑动支持
+      let startX = 0;
+      let startY = 0;
+      let isDragging = false;
+
+      track.addEventListener('touchstart', function(e) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isDragging = true;
+      });
+
+      track.addEventListener('touchmove', function(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+      });
+
+      track.addEventListener('touchend', function(e) {
+        if (!isDragging) return;
+        isDragging = false;
+
+        const endX = e.changedTouches[0].clientX;
+        const endY = e.changedTouches[0].clientY;
+        const diffX = startX - endX;
+        const diffY = startY - endY;
+
+        // 确保是水平滑动而不是垂直滑动
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+          if (diffX > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+        }
+      });
+
+      // 键盘导航支持
+      carousel.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          prevSlide();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+        }
+      });
+
+      // 初始化
+      updateCarousel();
+    }
+
+    // 初始化轮播
+    initCarousel();
+
+    // 窗口大小改变时重新初始化
+    window.addEventListener('resize', function() {
+      setTimeout(initCarousel, 100);
+    });
+  });
+  </script>
+

@@ -1,0 +1,341 @@
+{%- if section.blocks.size > 0 -%}
+  {%- comment -%}
+  ------------------------------------------------------------------------------------------------------------------------
+  CSS
+  ------------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+  <style>
+    :root {
+      --sticky-announcement-bar-enabled: {%- if section.settings.enable_sticky -%}1{% else %}0{% endif %};
+    }
+
+    {%- comment -%}
+      整条区块（aside + height-observer）与内层同色，避免 theme.css 里 .announcement-bar 的 padding 在某些宽度下
+      挤占可视高度后，仅内层涂色导致上下露出底色（白条）。
+    {%- endcomment -%}
+    {%- if section.settings.background_gradient != blank -%}
+      #shopify-section-{{ section.id }} {
+        background: {{ section.settings.background_gradient }};
+      }
+    {%- elsif section.settings.background != blank and section.settings.background != 'rgba(0,0,0,0)' -%}
+      #shopify-section-{{ section.id }} {
+        background-color: rgb({{ section.settings.background.rgb }});
+      }
+    {%- endif -%}
+
+    #shopify-section-{{ section.id }} {
+      margin: 0;
+      padding: 0;
+      position: relative;
+      z-index: 22;
+    }
+
+    #shopify-section-{{ section.id }} height-observer {
+      display: block;
+      width: 100%;
+    }
+
+    {%- if section.settings.enable_sticky -%}
+      #shopify-section-{{ section.id }} {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+
+      .shopify-section--header ~ #shopify-section-{{ section.id }} {
+        top: calc(var(--sticky-header-enabled, 0) * var(--header-height, 0px));
+      }
+    {%- endif -%}
+
+    /* AF Announcement Bar：盖过 theme.css 的全局 padding（含 ≥700px），保证背景铺满 40px */
+    #shopify-section-{{ section.id }} .announcement-bar {
+      box-sizing: border-box;
+      height: 40px;
+      min-height: 40px;
+      max-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-block: 0 !important;
+      background-clip: border-box;
+    }
+
+    /* 隐藏左右切换箭头按钮，不影响任何布局和切换逻辑 */
+    #shopify-section-{{ section.id }} .announcement-bar__wrapper button[is="prev-button"],
+    #shopify-section-{{ section.id }} .announcement-bar__wrapper button[is="next-button"] {
+      display: none !important;
+    }
+
+    /* 关闭按钮样式 */
+    #shopify-section-{{ section.id }} .announcement-bar__close {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      width: 24px;
+      height: 24px;
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__close:hover {
+      opacity: 0.7;
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__close svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+    }
+
+    /* 隐藏公告栏 */
+    #shopify-section-{{ section.id }}.announcement-bar--hidden {
+      display: none;
+    }
+
+    /* 文字样式 */
+    #shopify-section-{{ section.id }} .announcement-bar__static-list p,
+    #shopify-section-{{ section.id }} .announcement-bar__static-list p a,
+    #shopify-section-{{ section.id }} .announcement-bar__scrolling-list p,
+    #shopify-section-{{ section.id }} .announcement-bar__scrolling-list p a {
+      font-family: 'Gabarito', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: 0;
+      color: #ffffff;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    #shopify-section-{{ section.id }} .announcement-bar__static-list p a:hover {
+      text-decoration: underline;
+      color: #ffffff;
+    }
+
+    @media screen and (max-width: 430px) {
+      #shopify-section-{{ section.id }} .announcement-bar__static-list p,
+      #shopify-section-{{ section.id }} .announcement-bar__static-list p a,
+      #shopify-section-{{ section.id }} .announcement-bar__scrolling-list p,
+      #shopify-section-{{ section.id }} .announcement-bar__scrolling-list p a {
+        font-size: 12px;
+      }
+    }
+  </style>
+
+  {%- comment -%}
+  ------------------------------------------------------------------------------------------------------------------------
+  LIQUID
+  ------------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  {%- liquid
+    assign af_ann_strip_style = ''
+    if section.settings.background_gradient != blank
+      assign af_ann_strip_style = 'background:' | append: section.settings.background_gradient | append: ';'
+    elsif section.settings.background != blank and section.settings.background != 'rgba(0,0,0,0)'
+      assign af_ann_strip_style = 'background-color:rgb(' | append: section.settings.background.rgb | append: ');'
+    endif
+  -%}
+  {%- comment -%} 内联底色：不依赖 CSS 加载顺序/缓存，保证整带高度可见区域着色 {%- endcomment -%}
+  <div class="af-announcement-strip" style="{{ af_ann_strip_style }}min-height:40px;width:100%;display:block;margin:0;padding:0;overflow:hidden;">
+  <height-observer variable="announcement-bar">
+    <div {% render 'surface', class: 'announcement-bar', background_gradient: section.settings.background_gradient, background: section.settings.background, text_color: section.settings.text_color %}>
+      <button class="announcement-bar__close" aria-label="Close announcement" onclick="this.closest('#shopify-section-{{ section.id }}').classList.add('announcement-bar--hidden'); sessionStorage.setItem('announcement-bar-closed', 'true');">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      {%- if section.settings.navigation_mode == 'scrolling' -%}
+        <marquee-text scrolling-speed="{{ section.settings.scrolling_speed }}" class="announcement-bar__scrolling-list">
+          {%- capture content -%}
+            {%- for block in section.blocks -%}
+              <p class="bold {{ section.settings.text_size }}" {{ block.shopify_attributes }}>
+                {%- if block.settings.url != blank -%}
+                  <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
+                {%- else -%}
+                  {{ block.settings.text | escape }}
+                {%- endif -%}
+              </p>
+
+              <span class="shape-circle shape--sm"></span>
+            {%- endfor -%}
+          {%- endcapture -%}
+
+          {%- for i in (1..10) -%}
+            <span class="announcement-bar__item" {% unless forloop.first %}aria-hidden="true"{% endunless %}>
+              {{- content -}}
+            </span>
+          {%- endfor -%}
+        </marquee-text>
+      {%- else -%}
+        <div class="container">
+          <div class="announcement-bar__wrapper justify-center">
+            {%- if section.blocks.size > 1 -%}
+              <button class="tap-area" is="prev-button" aria-controls="announcement-bar" aria-label="{{ 'general.accessibility.previous' | t }}">
+                {%- render 'icon' with 'chevron-left', direction_aware: true -%}
+              </button>
+            {%- endif -%}
+
+            <announcement-bar swipeable {% if section.settings.autoplay %}autoplay="{{ section.settings.cycle_speed }}"{% endif %} id="announcement-bar" class="announcement-bar__static-list">
+              {%- for block in section.blocks -%}
+                <p class="bold {{ section.settings.text_size }} {% unless forloop.first %}reveal-invisible{% endunless %}" {{ block.shopify_attributes }}>
+                  {%- if block.settings.url != blank -%}
+                    <a href="{{ block.settings.url }}">{{ block.settings.text | escape }}</a>
+                  {%- else -%}
+                    {{ block.settings.text | escape }}
+                  {%- endif -%}
+                </p>
+              {%- endfor -%}
+            </announcement-bar>
+
+            {%- if section.blocks.size > 1 -%}
+              <button class="tap-area" is="next-button" aria-controls="announcement-bar" aria-label="{{ 'general.accessibility.next' | t }}">
+                {%- render 'icon' with 'chevron-right', direction_aware: true -%}
+              </button>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </height-observer>
+  </div>
+
+  <script>
+    (function() {
+      if (sessionStorage.getItem('announcement-bar-closed') === 'true') {
+        document.getElementById('shopify-section-{{ section.id }}').classList.add('announcement-bar--hidden');
+      }
+    })();
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "shopify-section--announcement-bar",
+  "tag": "aside",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Announce something here"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky bar",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "Auto rotate between messages",
+      "info": "Ignored when using auto-scrolling.",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "cycle_speed",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "unit": "sec",
+      "label": "Change messages every",
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "text_size",
+      "label": "Text size",
+      "options": [
+        {
+          "value": "text-xxs",
+          "label": "X-Small"
+        },
+        {
+          "value": "text-xs",
+          "label": "Small"
+        },
+        {
+          "value": "text-base",
+          "label": "Medium"
+        },
+        {
+          "value": "text-lg",
+          "label": "Large"
+        }
+      ],
+      "default": "text-xs"
+    },
+    {
+      "type": "select",
+      "id": "navigation_mode",
+      "label": "Multiple message navigation",
+      "options": [
+        {
+          "value": "arrows",
+          "label": "Arrows"
+        },
+        {
+          "value": "scrolling",
+          "label": "Auto-scrolling"
+        }
+      ],
+      "default": "arrows"
+    },
+    {
+      "type": "range",
+      "id": "scrolling_speed",
+      "label": "Scrolling speed",
+      "min": 10,
+      "max": 30,
+      "unit": "s",
+      "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    }
+  ]
+}
+{% endschema %}

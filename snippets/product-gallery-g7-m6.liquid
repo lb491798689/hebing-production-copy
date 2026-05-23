@@ -1,0 +1,1418 @@
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+PRODUCT GALLERY COMPONENT
+----------------------------------------------------------------------------------------------------------------------
+
+This component is used to show the product gallery (used in product page and featured product section)
+
+********************************************
+Supported variables
+********************************************
+
+* product: the product to render (if empty, renders placeholder content)
+* product_form_id: the product form id
+{%- endcomment -%}
+
+{%- assign default_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media -%}
+{%- capture product_gallery_id -%}product-gallery-{{ product.id }}-{{ section.id }}{%- endcapture -%}
+
+{%- comment -%}
+IMPLEMENTATION NOTE: Shopify does not natively offer a way to create a set of images per variant. This is often
+pretty limited when you have a lot of colors and would like to only see the images specific to a given color. To
+goes around that, Impact offers a hack using alt tags whose usage is described here: https://support.maestrooo.com/article/187-product-creating-variant-image-set
+The implementation is rather complex and inefficient due to a lot of string parsings, but it is, unfortunately, the
+only way to do it on Shopify right now.
+{%- endcomment -%}
+{% assign image_size = 0 %}
+{% assign video_size = 0 %}
+{% assign model_size = 0 %}
+{%- liquid
+  assign filtered_indexes = '' | split: ''
+
+  if product.variants.size > 1
+    for media in product.media
+      if media.alt contains '#' and media.alt != product.title
+        assign alt_parts = media.alt | split: '#'
+
+        assign media_group_parts = alt_parts.last | split: '_'
+        assign option = product.options_by_name[media_group_parts.first]
+        assign option_value = option.selected_value | downcase
+
+        assign downcase_group_value = media_group_parts.last | strip | downcase
+
+        if option and option_value != downcase_group_value and media != default_media
+          assign media_position = media.position | append: '' | split: ','
+          assign filtered_indexes = filtered_indexes | concat: media_position
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+{%- liquid
+  assign g7_has_360 = false
+  if custom_metafield != blank
+    assign g7_has_360 = true
+  endif
+  if g7_has_360 == false
+    for m in product.media
+      if m.media_type == 'model'
+        assign g7_has_360 = true
+      endif
+    endfor
+  endif
+  assign g7_first_model = product.media | where: 'media_type', 'model' | first
+-%}
+
+<product-gallery form="{{ product_form_id }}" filtered-indexes="{{ filtered_indexes | json }}" {%- if section.settings.enable_image_zoom -%}allow-zoom="{{ section.settings.max_image_zoom_level }}"{% endif %} class="product-gallery {% if section.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %} {% if section.settings.desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %} {% if section.settings.desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %} {% if section.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}">
+
+  <style>
+    /* ========== G7-M6 产品图片组件 - 严格对照 Figma ========== */
+
+    /* 确保 product-gallery 元素不限制宽度 - 填满左列 */
+    product-gallery {
+      width: 100% !important;
+      max-width: none !important;
+      display: block !important;
+    }
+
+    /* Figma: 媒体橱窗 → Frame 1973771384: bg rgba(240,240,240,1.0), r=12, padding 24/0/24/0
+       超大屏下容器跟随左列自适应宽度，图片固定 607.69 居中 */
+    .jingva-product-gallery-box {
+      position: relative !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      background-color: rgba(240, 240, 240, 1.0) !important;
+      border: none !important;
+      border-radius: 12px !important;
+      padding: 24px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Figma: Frame 1973771402: padding 0/40/0/40 */
+    .product-gallery__media-list-wrapper {
+      position: relative !important;
+      padding: 0 40px !important;
+      margin-bottom: 0 !important;
+    }
+
+    /* Figma: product image 607.69x607.69 @ 1920 设计稿；保持 1:1。
+       用 min(56vh, 32vw) 让 ≥1920 的大屏（如 2560/4K）按视口等比放大，
+       矮屏（vh 小）也不会撑爆。
+       1920x1080 → min(605, 614) ≈ 607（还原 Figma）
+       2560x1440 → min(806, 819) = 806（按比例放大）*/
+    .product-gallery__media-list {
+      margin: 0 auto !important;
+      max-width: 100% !important;
+    }
+
+    .product-gallery__media {
+      width: 100% !important;
+      height: calc(70vh - 54px) !important;
+      border-radius: 0 !important;
+      margin: 0 auto !important;
+    }
+    .product-gallery__media img,
+    .product-gallery__media video {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+    }
+
+    /* 隐藏原始导航箭头 */
+    .product-gallery__nav { display: none !important; }
+
+    /* Figma: Frame 1973771420: 控制条, horizontal, gap=24, h=56 */
+    .jingva-gallery-controls-bar {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 24px !important;
+      height: 56px !important;
+      padding: 0 20px !important;
+      margin-top: 16px !important;
+      position: relative !important;
+    }
+
+    /* Figma: 内容 408x56, border 1px #1A1A1A, padding 0/24/0/24, gap=16 */
+    .jingva-gallery-controls-inner {
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+      border-radius: 0 !important;
+      padding: 0 24px !important;
+      height: 56px !important;
+      width: 408px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Figma: function Botton kit 40x40, bg #E90202, r=8, padding 6 */
+    .jingva-gallery-arrow-btn {
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 8px !important;
+      border: none !important;
+      background: #E90202 !important;
+      color: #fff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      padding: 6px !important;
+      flex-shrink: 0 !important;
+    }
+    .jingva-gallery-arrow-btn:hover { background: #C51100 !important; }
+    .jingva-gallery-arrow-btn svg { width: 7px !important; height: 11px !important; }
+
+    /* Figma: Frame 1973771590 缩略图容器, horizontal, gap=8, width 248px */
+    .jingva-gallery-thumbnails {
+      display: flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      width: 248px !important;
+      scroll-behavior: smooth !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+    .jingva-gallery-thumbnails::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    /* Figma: 缩略图 56x56, r=8, border 1px #1A1A1A */
+    .jingva-gallery-thumbnail {
+      width: 56px !important;
+      height: 56px !important;
+      border-radius: 8px !important;
+      border: 1px solid transparent !important;
+      overflow: hidden !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
+      background: #fff !important;
+    }
+    .jingva-gallery-thumbnail:hover { border-color: #E51300 !important; }
+    .jingva-gallery-thumbnail.active,
+    .jingva-gallery-thumbnail[aria-current="true"] { border-color: #E51300 !important; }
+    .jingva-gallery-thumbnail img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    /* Figma: Base Botton Kit 40x40, bg #0A0A0A, 圆形 */
+    /* PC 端先隐藏 rotate 按钮（按用户要求） */
+    .jingva-gallery-rotate-btn {
+      display: none !important;
+      width: 40px !important;
+      height: 40px !important;
+      border-radius: 50% !important;
+      background: #0A0A0A !important;
+      color: #fff !important;
+      border: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
+      position: absolute !important;
+      right: 20px !important;
+    }
+    .jingva-gallery-rotate-btn:hover { background: #333 !important; }
+    .jingva-gallery-rotate-btn svg { width: 20px !important; height: 20px !important; }
+
+    /* Figma: Frame 1973771401: 1264x109, bg rgba(0,0,0,1.0), padding 16/0/16/0, gap=8 */
+    .jingva-gallery-benefits {
+      background-color: #F0F0F0 !important;
+      border-top: 1px solid rgba(26, 26, 26, 0.20) !important;
+      padding: 16px 0 !important;
+      display: flex;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 8px !important;
+      margin-top: 16px !important;
+    }
+
+    /* Figma: 权益 row: horizontal, gap=24, padding 8/40/8/40, h=40 */
+    .jingva-gallery-benefits__row {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 24px !important;
+      padding: 8px 40px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 权益 item: horizontal, gap=8 */
+    .jingva-gallery-benefits__item {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      white-space: nowrap !important;
+    }
+    .jingva-gallery-benefits__item svg {
+      width: 24px !important;
+      height: 24px !important;
+      flex-shrink: 0 !important;
+    }
+    .jingva-gallery-benefits__item span {
+      font-family: 'Gabarito', sans-serif !important;
+      font-size: 14px !important;
+      font-style: normal !important;
+      font-weight: 400 !important;
+      line-height: normal !important;
+      text-transform: capitalize !important;
+      text-align: center !important;
+      color: rgba(26, 26, 26, 0.80) !important;
+    }
+
+    /* Figma: 支付 row: horizontal, gap=6, h=29 */
+    .jingva-gallery-payments {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+    }
+    .jingva-gallery-payments img {
+      width: 34.76px !important;
+      height: 24px !important;
+      display: block !important;
+      object-fit: contain !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Figma 中不存在的元素，全部隐藏 */
+    .jingva-product-gallery-box .page-dots,
+    .jingva-product-gallery-box page-dots,
+    .jingva-product-gallery-box .product-gallery__zoom,
+    .jingva-product-gallery-box .product-gallery__cursor,
+    .jingva-product-gallery-box [data-shopify-xr] {
+      display: none !important;
+    }
+
+    /* 移动端 360 面板内允许 kiks-3d-product 显示（勿全局 display:none） */
+    .jingva-gallery-mobile-360-panel[hidden] {
+      display: none !important;
+    }
+
+    /*
+     * Image / 360° 切换 — 与 get_figma_data.py 拉取 AutoFull G7 (Copy) 节点一致：
+     * 5726:3770 Frame 1973771419：横向 itemSpacing 8。
+     * 5726:3771 Base Botton Kit（样式=品牌色, 尺寸=M）：h40、r8、pad12、gap6、字 Orbitron 14/700 lh120%、字色 #F4F4F4、填充 #E90202、无描边。
+     * 5726:3773 Base Botton Kit（样式=线框, 尺寸=M）：同上盒模型、无填充+描边 1 #0A0A0A、字 #0A0A0A。
+     * Hover：线框 5726:3015 填充 rgba(26,26,26,0.1) 且描边 hidden；品牌色 5726:3067 填充约 #FF1F0A。
+     */
+    .jingva-gallery-mobile-mode {
+      display: none;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 16px;
+      margin-top: 16px;
+      /* theme 里 button 为 color:inherit，父级不设色会继承到灰字；与 Figma gy1 一致 */
+      color: #0a0a0a;
+    }
+    .jingva-gallery-mobile-mode__track {
+      {% comment %} display: flex; {% endcomment %}
+      display: none;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      background: transparent;
+      border-radius: 0;
+      overflow: visible;
+      color: #0a0a0a;
+    }
+    .jingva-gallery-mobile-mode__btn {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      height: 40px;
+      min-height: 40px;
+      /* Figma layout 记 pad 12；与 h40 + 24px 图标叠合为竖直 8px + 横向 12px */
+      padding: 8px 12px;
+      gap: 6px;
+      margin: 0;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-align: center;
+      text-transform: uppercase;
+      border-radius: 8px;
+      border-style: solid;
+      border-width: 1px;
+      transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    /* 5726:3771 品牌色 M / 常规 */
+    .jingva-gallery-mobile-mode__btn.is-active {
+      background: #e90202;
+      color: #f4f4f4;
+      border-color: #e90202;
+    }
+    /* 5726:3773 线框 M / 常规：无填充（实现为白底）+ 1px gy1（!important 压过 theme 里 button 的 color:inherit 链） */
+    .jingva-gallery-mobile-mode__btn:not(.is-active) {
+      background: #ffffff;
+      color: #0a0a0a !important;
+      border-color: #0a0a0a !important;
+    }
+    .jingva-gallery-mobile-mode__btn:not(.is-active) span {
+      color: #0a0a0a !important;
+    }
+    /* 5726:3015 线框 M / hover */
+    .jingva-gallery-mobile-mode__btn:not(.is-active):not(:disabled):hover {
+      background: rgba(26, 26, 26, 0.1);
+      border-color: transparent;
+      color: #0a0a0a !important;
+    }
+    /* 5726:3067 品牌色 M / hover */
+    .jingva-gallery-mobile-mode__btn.is-active:not(:disabled):hover {
+      background: #ff1f0a;
+      border-color: #ff1f0a;
+      color: #f4f4f4;
+    }
+    .jingva-gallery-mobile-mode__btn:disabled,
+    .jingva-gallery-mobile-mode__btn.jingva-gallery-mobile-mode__btn--disabled {
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    /* 无 360 数据时仍保持 Figma gy1 #0A0A0A，勿用整钮 opacity 把字/图标洗灰 */
+    .jingva-gallery-mobile-mode__btn--360:disabled,
+    .jingva-gallery-mobile-mode__btn--360.jingva-gallery-mobile-mode__btn--disabled {
+      opacity: 1 !important;
+      color: #0a0a0a !important;
+      background: #ffffff !important;
+      border-color: #0a0a0a !important;
+    }
+    .jingva-gallery-mobile-mode__btn--360:disabled span,
+    .jingva-gallery-mobile-mode__btn--360.jingva-gallery-mobile-mode__btn--disabled span {
+      color: #0a0a0a !important;
+    }
+    .jingva-gallery-mobile-mode__btn svg {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .jingva-gallery-mobile-mode__btn svg path {
+      fill: currentColor;
+    }
+    .jingva-gallery-mobile-mode__btn--360:not(.is-active) svg path,
+    .jingva-gallery-mobile-mode__btn--360:disabled svg path,
+    .jingva-gallery-mobile-mode__btn--360.jingva-gallery-mobile-mode__btn--disabled svg path {
+      fill: #0a0a0a !important;
+    }
+
+    .jingva-gallery-mobile-360-panel {
+      display: none;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: min(100vw, 520px);
+      position: relative;
+      background: #f0f0f0;
+    }
+    .jingva-gallery__mobile-stage.is-g7-360-mode .product-gallery__media-list-wrapper {
+      display: none !important;
+    }
+    .jingva-gallery__mobile-stage.is-g7-360-mode .jingva-gallery-mobile-360-panel {
+      display: block !important;
+    }
+    .jingva-gallery-mobile-model-host {
+      width: 100%;
+      min-height: min(100vw, 520px);
+    }
+    .jingva-gallery-mobile-model-host model-media,
+    .jingva-gallery-mobile-model-host .model-viewer {
+      width: 100% !important;
+      min-height: min(100vw, 520px) !important;
+    }
+    .jingva-product-gallery-box.is-g7-360-mode .jingva-mobile-arrow {
+      display: none !important;
+    }
+
+    /* Figma 5726:3750～3751：主图底部居中「当前/总数」药丸 */
+    .jingva-gallery-mobile-counter {
+      display: none !important;
+    }
+    .jingva-gallery-mobile-counter[hidden] {
+      display: none !important;
+    }
+
+    /* 清除主题默认边框 */
+    .jingva-product-gallery-box,
+    .jingva-product-gallery-box.rounded-sm,
+    .jingva-product-gallery-box .product-gallery__ar-wrapper,
+    .jingva-product-gallery-box .product-gallery__media-list-wrapper,
+    product-gallery.product-gallery {
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    /* ========== 移动端: Figma 390x430 ========== */
+    @media screen and (max-width: 1279px) {
+      /* 确保画廊容器充满屏幕 */
+      product-gallery.product-gallery {
+        width: 100% !important;
+        max-width: none !important;
+      }
+      .jingva-product-gallery-box {
+        max-width: none !important;
+        width: 100% !important;
+        background-color: transparent !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .product-gallery__ar-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0 !important;
+        grid-template-columns: unset !important;
+      }
+      /* Figma 5726:3730 Frame 1973771402 — 移动图片容器：与 header 底边贴齐，不设顶部 padding（否则会多出 DevTools 里绿色那块空隙） */
+      .product-gallery__media-list-wrapper {
+        padding: 0 !important;
+        position: relative !important;
+        width: 100% !important;
+        margin: 0 !important;
+        max-width: none !important;
+        background-color: #f0f0f0 !important;
+        box-sizing: border-box !important;
+      }
+      media-carousel.product-gallery__media-list {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        max-width: none !important;
+      }
+      .product-gallery__media-list {
+        max-width: none !important;
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      /* 手机端图片：Figma mob 390 设计下图片是全宽方形（390x390）。
+         在更大的 mob 视口（如 1024）下用 max-width: 480px 卡住，避免图片像 1024x1024 那样
+         占满整屏，让滚动可以正常划过图片。绝对像素 cap，不受 vh/vw 影响。*/
+      .product-gallery__media-list,
+      media-carousel.product-gallery__media-list {
+        max-width: 480px !important;
+        margin: 0 auto !important;
+      }
+      /* 覆盖桌面规则 max-width: min(56vh, 32vw)，否则手机 390px 下 32vw≈125px，主图会被压成小块 */
+      .product-gallery__media {
+        width: 100% !important;
+        max-width: 100% !important;
+        /* MOB 端固定为 1:1 槽位（与 Figma 设计稿一致），让所有图等高，避免 16:10 等矮图底部留白 */
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+      }
+      .product-gallery__media img,
+      .product-gallery__media video,
+      .product-gallery__media video-media,
+      .product-gallery__media .product-media__img {
+        width: 100% !important;
+        height: 100% !important;
+        /* 用户反馈：MOB 端场景图填充容器（避免 16:10 图在 1:1 槽位下方留白） */
+        object-fit: cover !important;
+        object-position: center center !important;
+        aspect-ratio: auto !important;
+        display: block !important;
+      }
+      /* 移动端隐藏控制条和缩略图 */
+      .jingva-gallery-controls-bar { display: none !important; }
+      .jingva-gallery-thumbnails { display: none !important; }
+      .jingva-gallery-rotate-btn { display: none !important; }
+
+      /* 移动端隐藏桌面箭头 */
+      .jingva-desktop-arrow { display: none !important; }
+
+      /* 移动端箭头按钮定位到图片中间 */
+      .jingva-mobile-arrow {
+        position: absolute !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 6px !important;
+        padding: 6px !important;
+        z-index: 10 !important;
+        display: flex !important;
+      }
+      .jingva-mobile-arrow.jingva-gallery-arrow-prev {
+        left: 12px !important;
+      }
+      .jingva-mobile-arrow.jingva-gallery-arrow-next {
+        right: 12px !important;
+      }
+      /* Figma 节点 913-6778: 移动端权益区 - 单列垂直布局 */
+      .jingva-gallery-benefits--desktop { display: none !important; visibility: hidden !important; height: 0 !important; overflow: hidden !important; }
+      .jingva-gallery-benefits--mobile { display: flex !important; visibility: visible !important; height: auto !important; }
+      /* Figma 节点 5726-4016: 移动端 Frame 1973771412 strokeTopWeight=1, color rgba(26,26,26,0.20), 线宽 358（屏宽 390 内缩 16/16） */
+      .jingva-gallery-benefits {
+        background-color: transparent !important;
+        border-top: 1px solid rgba(26, 26, 26, 0.20) !important;
+        padding: 16px 0 0 !important;
+        margin: 32px 16px 0 !important;
+        display: flex;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+      }
+      .jingva-gallery-benefits__row {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        gap: 12px !important;
+        padding: 0 !important;
+        width: 100% !important;
+      }
+      .jingva-gallery-benefits__item {
+        justify-content: flex-start !important;
+        white-space: normal !important;
+      }
+      .jingva-gallery-benefits__item svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+      .jingva-gallery-benefits__item span {
+        font-size: 16px !important;
+        line-height: 19.2px !important;
+        letter-spacing: -0.32px !important;
+        text-align: left !important;
+        color: rgba(26, 26, 26, 0.80) !important;
+        text-transform: none !important;
+      }
+      .jingva-gallery-payments {
+        flex-wrap: wrap !important;
+        justify-content: flex-start !important;
+        gap: 6px !important;
+      }
+
+      /* Figma 5726-3727：Image / 360° 切换条 */
+      {% comment %} .jingva-gallery-mobile-mode {
+        display: block !important;
+      } {% endcomment %}
+      .jingva-gallery__mobile-stage {
+        position: relative;
+        width: 100%;
+      }
+      .jingva-gallery-mobile-360-panel kiks-3d-product.jingva-g7-3d-host,
+      .jingva-gallery-mobile-360-panel kiks-3d-product {
+        position: relative !important;
+        bottom: auto !important;
+        right: auto !important;
+        left: auto !important;
+        top: auto !important;
+        width: 100% !important;
+        min-height: min(100vw, 520px) !important;
+        display: block !important;
+        text-align: center !important;
+      }
+      .jingva-gallery-mobile-360-panel kiks-3d-product:before {
+        display: none !important;
+      }
+
+      .jingva-gallery-mobile-counter {
+        position: absolute !important;
+        left: 50% !important;
+        bottom: 16px !important;
+        transform: translateX(-50%) !important;
+        z-index: 6 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        padding: 4px 8px !important;
+        border-radius: 8px !important;
+        background: rgba(26, 26, 26, 0.6) !important;
+        pointer-events: none !important;
+        box-sizing: border-box !important;
+      }
+      .jingva-gallery-mobile-counter[hidden] {
+        display: none !important;
+      }
+      .jingva-gallery-mobile-counter__text {
+        margin: 0 !important;
+        padding: 0 !important;
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        font-style: normal !important;
+        line-height: 1.4 !important;
+        letter-spacing: 1.2px !important;
+        color: #fafafa !important;
+        white-space: nowrap !important;
+        text-align: center !important;
+      }
+      .jingva-gallery__mobile-stage.is-g7-360-mode .jingva-gallery-mobile-counter {
+        display: none !important;
+      }
+    }
+
+    /* PAD（1280–1439）：权益行换行 + 图片按列宽缩放，避免 nowrap 撑宽左列导致右侧溢出 */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      product-gallery,
+      .jingva-product-gallery-box {
+        min-width: 0 !important;
+        max-width: 100% !important;
+      }
+
+      .product-gallery__media-list-wrapper {
+        padding: 0 16px !important;
+      }
+
+      .product-gallery__media {
+        height: auto !important;
+        aspect-ratio: 1 / 1 !important;
+        max-height: min(56vw, 480px) !important;
+      }
+
+      .jingva-gallery-controls-inner {
+        width: min(408px, 100%) !important;
+      }
+
+      .jingva-gallery-benefits__row {
+        flex-wrap: wrap !important;
+        gap: 8px 16px !important;
+        padding: 8px 16px !important;
+      }
+
+      .jingva-gallery-benefits__item {
+        white-space: normal !important;
+        flex: 0 1 calc(50% - 8px) !important;
+        justify-content: flex-start !important;
+      }
+
+      .jingva-gallery-benefits__item span {
+        font-size: 12px !important;
+        text-align: left !important;
+      }
+    }
+
+    /* ========== 桌面端: 隐藏移动端箭头 ========== */
+    @media screen and (min-width: 1280px) {
+      .jingva-mobile-arrow { display: none !important; }
+      .jingva-gallery-benefits--desktop { display: flex !important; }
+      .jingva-gallery-benefits--mobile { display: none; }
+      .jingva-gallery-mobile-mode,
+      .jingva-gallery-mobile-360-panel,
+      .jingva-gallery-mobile-counter {
+        display: none !important;
+      }
+      .jingva-gallery__mobile-stage {
+        display: contents;
+      }
+    }
+  </style>
+  <div class="jingva-product-gallery-box rounded-sm">
+    <div class="product-gallery__ar-wrapper">
+      <div class="jingva-gallery__mobile-stage" data-g7-mobile-stage>
+      <div class="product-gallery__media-list-wrapper">
+
+
+      {%- comment -%}
+      --------------------------------------------------------------------------------------------------------------------
+      MEDIA LIST
+      --------------------------------------------------------------------------------------------------------------------
+      {%- endcomment -%}
+       {% assign has_variant_gallery = false %}
+       {% for v in product.variants %}
+         {% if v.metafields.custom.images and v.metafields.custom.images.value and v.metafields.custom.images.value.size > 0 %}
+           {% assign has_variant_gallery = true %}
+           {% break %}
+         {% endif %}
+       {% endfor %}
+       {% if section.settings.default_slider and has_variant_gallery %}
+        <media-carousel desktop-mode="{{ section.settings.desktop_media_layout }}"  initial-index="{{ default_media.position | minus: 1 }}" {% if section.settings.enable_video_autoplay %}autoplay{% endif %} id="{{ product_gallery_id }}" class="product-gallery__media-list {% if section.settings.mobile_media_size == 'expanded' %}full-bleed{% else %}bleed{% endif %} scroll-area md:unbleed">
+              {%- assign media_attached_to_variant = product.images | where: 'attached_to_variant?', true | map: 'src' -%}
+              {% for variant in product.variants %}
+                {% assign vpos = variant.featured_media.position | append: '' %}
+                <div class="product-gallery__media snap-center is-selected"  data-id="{{ variant.id }}" data-media-type="{{ variant.featured_media.media_type }}" data-media-id="{{ variant.featured_media.id }}" data-media-type="{{ variant.featured_media.media_type }}"  {% if filtered_indexes contains vpos and variant.featured_media != default_media %}hidden{% endif %}>
+                  {%- render 'media', media: variant.featured_media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
+                </div>
+                {% for image in variant.metafields.custom.images.value %}
+                      {% assign ipos = image.position | append: '' %}
+                      <div class="product-gallery__media snap-center is-selected"  data-id="{{ variant.id }}" data-media-type="{{ image.media_type }}" data-media-id="{{ image.id }}" data-media-type="{{ image.media_type }}"  {% if filtered_indexes contains ipos %}hidden{% endif %}>
+                  {%- render 'media', media: image, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
+                </div>
+                {% endfor %}
+                {% endfor %}
+            </media-carousel>
+      {% else %}
+      <media-carousel desktop-mode="{{ section.settings.desktop_media_layout }}" initial-index="{{ default_media.position | minus: 1 }}" {% if section.settings.enable_video_autoplay %}autoplay{% endif %} id="{{ product_gallery_id }}" class="product-gallery__media-list {% if section.settings.mobile_media_size == 'expanded' %}full-bleed{% else %}bleed{% endif %} scroll-area md:unbleed">
+        {%- assign media_attached_to_variant = product.images | where: 'attached_to_variant?', true | map: 'src' -%}
+
+        {%- for media in product.media -%}
+          {% assign pos = media.position | append: '' %}
+          {%- case section.settings.desktop_media_layout -%}
+            {%- when 'carousel_thumbnails_bottom' -%}
+              {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 1279px) calc(100vw - 64px), min(760px, 42vw){%- endcapture -%}
+
+            {%- when 'carousel_thumbnails_left' -%}
+              {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 1279px) calc(100vw - 64px), min(730px, 40vw){%- endcapture -%}
+
+            {%- when 'grid_one' -%}
+              {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 1279px) calc(100vw - 64px), min(1200px, 60vw){%- endcapture -%}
+
+            {%- when 'grid' -%}
+              {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 1279px) calc(100vw - 64px), min(580px, 30vw){%- endcapture -%}
+
+            {% when 'grid_highlight' %}
+              {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 1279px) calc(100vw - 64px), {% if forloop.first or media_attached_to_variant contains media.src %}min(1200px, 60vw){% else %}min(580px, 30vw){% endif %}{%- endcapture -%}
+          {%- endcase -%}
+
+          <div class="product-gallery__media {% if media.alt contains '@expand' %}product-gallery__media--expand{% endif %} {% if section.settings.mobile_carousel_control != 'free_scroll' %}snap-center{% endif %}" data-media-type="{{ media.media_type }}" data-media-id="{{ media.id }}" data-media-type="{{ media.media_type }}"  {% if filtered_indexes contains pos and media != default_media %}hidden{% endif %}>
+           {% if media.media_type == "image" %}
+            {% assign image_size = image_size | plus : 1 %}
+          {%  elsif media.media_type == "video" or media.type == "external_video" %}
+            {% assign video_size = video_size | plus : 1  %}
+          {%  elsif media.media_type == "model" %}
+            {% assign model_size = model_size | plus : 1  %}
+          {% endif %}
+            {%- if default_media == media -%}
+              {%- assign preload = true -%}
+            {%- else -%}
+              {%- assign preload = false -%}
+            {%- endif -%}
+
+           {% comment %} {%- render 'media', media: media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}  {% endcomment %}
+           {%- render 'kiks-media', media: media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%} 
+            {% comment %}  {%- render 'optimized-product-media' with 
+              media: media, 
+              sizes: sizes, 
+              priority: preload, 
+              group: 'product',
+              enable_zoom: section.settings.enable_image_zoom
+            -%} {% endcomment %}
+
+          </div>
+        {%- endfor -%}
+      </media-carousel>
+      {% endif %}
+
+      {%- liquid
+        assign g7_show_mobile_counter = false
+        if product.media.size > 1
+          assign g7_show_mobile_counter = true
+        endif
+        if section.settings.default_slider and has_variant_gallery
+          assign g7_show_mobile_counter = true
+        endif
+      -%}
+      {%- if g7_show_mobile_counter -%}
+        <div class="jingva-gallery-mobile-counter" data-g7-gallery-counter aria-live="polite" aria-atomic="true">
+          <p class="jingva-gallery-mobile-counter__text">1/{{ product.media.size }}</p>
+        </div>
+      {%- endif -%}
+
+      {% comment %}  https://cdn.shopify.com/3d/models/a20d28c8547cf4e8/KFU135silver.glb {% endcomment %}
+      </div>
+
+      {%- if product.media.size > 1 -%}
+        <button type="button" class="jingva-gallery-arrow-btn jingva-gallery-arrow-prev jingva-mobile-arrow" aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+            <path d="M0 5.1377L5.1377 10.2754L6.08105 9.33301L1.88574 5.1377L6.08105 0.942383L5.1377 0L0 5.1377Z" fill="white"/>
+          </svg>
+        </button>
+        <button type="button" class="jingva-gallery-arrow-btn jingva-gallery-arrow-next jingva-mobile-arrow" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+            <path d="M6.08105 5.1377L0.943359 10.2754L0 9.33301L4.19531 5.1377L0 0.942383L0.943359 0L6.08105 5.1377Z" fill="white"/>
+          </svg>
+        </button>
+      {%- endif -%}
+
+      {%- if g7_has_360 -%}
+        <div
+          id="jingva-g7-360-panel-{{ product.id }}-{{ section.id }}"
+          class="jingva-gallery-mobile-360-panel"
+          role="tabpanel"
+          aria-labelledby="jingva-g7-tab-360-{{ product.id }}-{{ section.id }}"
+          hidden
+        >
+          {%- if custom_metafield != blank -%}
+            <kiks-3d-product class="jingva-g7-3d-host" data-product-treeD-url="{{ custom_metafield | escape }}">
+              <button type="button" class="circle-button circle-button--fill ring trigger-zoom-button">
+                {%- render 'icon' with 'image-zoom' -%}
+              </button>
+              <button type="button" class="trigger-modal-button">{%- render 'icon' with '3D-icon' -%}</button>
+            </kiks-3d-product>
+          {%- elsif g7_first_model -%}
+            {%- capture g7_360_sizes -%}(max-width: 1279px) 100vw, 50vw{%- endcapture -%}
+            <div class="jingva-gallery-mobile-model-host">
+              {%- render 'kiks-media', media: g7_first_model, sizes: g7_360_sizes, preload: false, autoplay: false, loop: false, group: 'product' -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      </div>
+
+      {%- comment -%} Figma 5726-3727：移动端图片下方 Image / 360°（始终展示；无 360 数据时 360° 禁用）{%- endcomment -%}
+      <div class="jingva-gallery-mobile-mode" data-g7-mobile-mode data-g7-has-360="{% if g7_has_360 %}true{% else %}false{% endif %}">
+        <div class="jingva-gallery-mobile-mode__track" role="tablist" aria-label="Product gallery view">
+          <button
+            type="button"
+            class="jingva-gallery-mobile-mode__btn jingva-gallery-mobile-mode__btn--image is-active"
+            role="tab"
+            id="jingva-g7-tab-image-{{ product.id }}-{{ section.id }}"
+            aria-selected="true"
+            aria-controls="{{ product_gallery_id }}"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M13.002 7L6.41016 7.01465L6 7.41797V18.5859L6.41406 19H17.5859L18 18.5859V11H20V19.4141L18.4141 21H5.58594L4 19.4141V6.58105L5.58984 5.0166L12.998 5L13.002 7Z" fill="currentColor"/>
+              <path d="M17 16V17L16 18H8L7 17V16L8 15H16L17 16Z" fill="currentColor"/>
+              <path d="M17 4C18.6569 4 20 5.34315 20 7C20 8.65685 18.6569 10 17 10C15.3431 10 14 8.65685 14 7C14 5.34315 15.3431 4 17 4Z" fill="currentColor"/>
+            </svg>
+            <span>Image</span>
+          </button>
+          <button
+            type="button"
+            class="jingva-gallery-mobile-mode__btn jingva-gallery-mobile-mode__btn--360{% unless g7_has_360 %} jingva-gallery-mobile-mode__btn--disabled{% endunless %}"
+            role="tab"
+            id="jingva-g7-tab-360-{{ product.id }}-{{ section.id }}"
+            aria-selected="false"
+            {% if g7_has_360 %}aria-controls="jingva-g7-360-panel-{{ product.id }}-{{ section.id }}"{% else %}disabled aria-disabled="true"{% endif %}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 18C20 18 15.2203 17 12 17C8.77965 17 4 18 4 18V6C4 6 8.77965 7 12 7C15.2203 7 20 6 20 6V18ZM17.5166 8.47559C15.8973 8.729 13.7717 9 12 9C10.2283 9 8.10272 8.729 6.4834 8.47559C6.31769 8.44965 6.15642 8.42117 6 8.39551V15.6035C6.15638 15.5779 6.31774 15.5503 6.4834 15.5244C8.10272 15.271 10.2283 15 12 15C13.7717 15 15.8973 15.271 17.5166 15.5244C17.6823 15.5503 17.8436 15.5779 18 15.6035V8.39551C17.8436 8.42117 17.6823 8.44965 17.5166 8.47559Z" fill="currentColor"/>
+            </svg>
+            <span>360°</span>
+          </button>
+        </div>
+      </div>
+
+      {%- comment -%} 旧导航脚本已移除，使用下方 G7-M6 统一脚本 {%- endcomment -%}
+    </div>
+
+
+{% comment %} 图片视屏切换按钮 {% endcomment %}
+{%- assign image_size = 0 -%}
+{%- assign video_size = 0 -%}
+{%- assign model_size = 0 -%}
+
+{%- for variant in product.variants -%}
+  {%- if variant.metafields.custom.images -%}
+    {%- for media in variant.metafields.custom.images.value -%}
+      {%- case media.media_type -%}
+        {%- when 'image' -%}
+          {%- assign image_size = image_size | plus: 1 -%}
+        {%- when 'video' -%}
+          {%- assign video_size = video_size | plus: 1 -%}
+        {%- when 'external_video' -%}
+          {%- assign video_size = video_size | plus: 1 -%}
+        {%- when 'model' -%}
+          {%- assign model_size = model_size | plus: 1 -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{% if section.settings.type_switch %}
+  {% if image_size > 0 or video_size > 0 or model_size > 0 %}
+    {%- comment -%} Figma: 控制条隐藏，功能按钮已整合到下方控制条 {%- endcomment -%}
+  {% endif %}
+{% endif %}
+
+
+  {%- comment -%}
+  --------------------------------------------------------------------------------------------------------------------
+  DESKTOP CONTROLS - Figma 设计：图片下方横向控制条（功能按钮 + 缩略图 + 旋转按钮）
+  --------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+
+  {%- if product.media.size > 1 -%}
+    <div class="jingva-gallery-controls-bar">
+      <div class="jingva-gallery-controls-inner">
+        {%- comment -%} 左箭头: 40x40 红色 #E90202, radius 8px, 白色左箭头 {%- endcomment -%}
+        <button type="button" class="jingva-gallery-arrow-btn jingva-gallery-arrow-prev jingva-desktop-arrow" aria-label="Previous">
+          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="13" viewBox="0 0 8 13" fill="none">
+            <path d="M7.5 12.345L1.5 6.345L7.5 0.345001" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        {%- comment -%} 缩略图: 56x56, gap 8px {%- endcomment -%}
+        <div class="jingva-gallery-thumbnails">
+          {% if section.settings.default_slider and has_variant_gallery %}
+            {% for variant in product.variants %}
+              <button type="button" class="jingva-gallery-thumbnail" data-id="{{ variant.id }}" data-media-type="{{ variant.featured_media.media_type }}" {% assign vpos2 = variant.featured_media.position | append: '' %}{% if filtered_indexes contains vpos2 and variant.featured_media != default_media %}hidden{% endif %} aria-current="{% if variant.featured_media == default_media %}true{% else %}false{% endif %}" aria-label="{{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}">
+                {% if variant.featured_media and variant.featured_media.preview_image %}
+                  {{ variant.featured_media | image_url: width: 112 | image_tag: loading: 'lazy', sizes: '56px', widths: '56,112', class: 'jingva-thumbnail-img' }}
+                {% endif %}
+              </button>
+              {% for image in variant.metafields.custom.images.value %}
+                {% assign ipos = image.position | append: '' %}
+                <button type="button" data-id="{{ variant.id }}" class="jingva-gallery-thumbnail" data-media-type="{{ image.media_type }}" {% if filtered_indexes contains ipos %}hidden{% endif %} aria-current="{% if image == default_media %}true{% else %}false{% endif %}" aria-label="{{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}">
+                  {{ image | image_url: width: 112 | image_tag: loading: 'lazy', sizes: '56px', widths: '56,112', class: 'jingva-thumbnail-img' }}
+                </button>
+              {% endfor %}
+            {% endfor %}
+          {% else %}
+            {%- for media in product.media -%}
+              {% assign pos = media.position | append: '' %}
+              <button type="button" class="jingva-gallery-thumbnail" data-media-type="{{ media.media_type }}" {% if filtered_indexes contains pos and media != default_media %}hidden{% endif %} aria-current="{% if media == default_media %}true{% else %}false{% endif %}" aria-label="{{ 'general.accessibility.go_to_item' | t: index: forloop.index | escape }}">
+                {{ media | image_url: width: 112 | image_tag: loading: 'lazy', sizes: '56px', widths: '56,112', class: 'jingva-thumbnail-img' }}
+              </button>
+            {%- endfor -%}
+          {% endif %}
+        </div>
+
+        {%- comment -%} 右箭头: 40x40 红色 #E90202, radius 8px, 白色右箭头 {%- endcomment -%}
+        <button type="button" class="jingva-gallery-arrow-btn jingva-gallery-arrow-next jingva-desktop-arrow" aria-label="Next">
+          <svg xmlns="http://www.w3.org/2000/svg" width="8" height="13" viewBox="0 0 8 13" fill="none">
+            <path d="M0.5 0.345001L6.5 6.345L0.5 12.345" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      {%- comment -%} 旋转按钮: 40x40 黑色圆形按钮，显示在缩略图行右侧 {%- endcomment -%}
+      <button type="button" class="jingva-gallery-rotate-btn" aria-label="Rotate View">
+        <img src="{{ 'base-botton-kit.svg' | asset_url }}" alt="Rotate" width="40" height="40">
+      </button>
+
+      {%- comment -%} 旋转按钮: 40x40 黑色 #0A0A0A, 圆形 {%- endcomment -%}
+      {% if model_size > 0 or custom_metafield %}
+        <button type="button" class="jingva-gallery-rotate-btn" aria-label="360 View">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 100-16 8 8 0 000 16zm-5-7h3V8l5 5-5 5v-5H7v-2z" fill="currentColor"/>
+          </svg>
+        </button>
+      {% endif %}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} Figma: Frame 1973771401 - 权益+支付区域, border-top 1px #1A1A1A, padding 16/0, gap 8 {%- endcomment -%}
+  <div class="jingva-gallery-benefits jingva-gallery-benefits--desktop">
+    <div class="jingva-gallery-benefits__row">
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <g clip-path="url(#clip0_1156_254056)">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M3 4.65V12C3 19.35 12 22.5 12 22.5C12 22.5 21 19.35 21 12V4.65L12 1.5L3 4.65Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+            <path d="M8.17188 11.1712L11.0003 13.9996L16.6572 8.34277" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_1156_254056">
+              <rect width="24" height="24" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+        <span>3-Year Warranty</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M22 21L2 21M22 21L22 3L1.99997 3L2 21M22 21V15L2 15L2 21" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+          <path d="M8 2V6H16V2" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2"/>
+        </svg>
+        <span>Free Shipping & Returns</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M21.448 13C20.9483 17.7767 16.909 21.5 12 21.5C8.18227 21.5 4.89052 19.248 3.38065 16M2.5 20.5V15.5H5.5M2.55176 11C3.05145 6.22334 7.09079 2.5 11.9998 2.5C15.8175 2.5 19.1092 4.75197 20.6191 8M21.4998 3.5V8.5H18.4998" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+          <path d="M14.5 8H12M12 8H11C9.89543 8 9 8.89543 9 10C9 11.1046 9.89543 12 11 12H13C14.1046 12 15 12.8954 15 14C15 15.1046 14.1046 16 13 16H12M12 8V7M12 16H9.5M12 16V17" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+        <span>90-Day Money Back Guarantee</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.6624 3.04042 17.0817 4.73686 18.8737L3 22H12Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+          <path d="M12.0012 14.75V14.5C12.0012 13.3954 12.9886 12.5414 13.8563 11.8578C14.5535 11.3085 15.0012 10.4565 15.0012 9.5C15.0012 7.84315 13.658 6.5 12.0012 6.5C10.695 6.5 9.58371 7.33481 9.17188 8.5M12.001 17.75H12.0049V17.7539H12.001V17.75Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+        </svg>
+        <span>24/7 Support</span>
+      </div>
+    </div>
+    <div class="jingva-gallery-payments">
+      <img src="{{ 'pay-discover-v2.svg' | asset_url }}" alt="Discover" width="42" height="29">
+      <img src="{{ 'pay-jcb-v2.svg' | asset_url }}" alt="JCB" width="42" height="29">
+      <img src="{{ 'pay-paypal-v2.svg' | asset_url }}" alt="PayPal" width="42" height="29">
+      <img src="{{ 'pay-visa-v2.svg' | asset_url }}" alt="Visa" width="42" height="29">
+      <img src="{{ 'pay-maestro-v2.svg' | asset_url }}" alt="Maestro" width="42" height="29">
+      <img src="{{ 'pay-master-card-v2.svg' | asset_url }}" alt="Mastercard" width="42" height="29">
+      <img src="{{ 'pay-amex-v2.svg' | asset_url }}" alt="American Express" width="42" height="29">
+      <img src="{{ 'pay-diners-club-international-v2.svg' | asset_url }}" alt="Diners Club" width="42" height="29">
+    </div>
+  </div>
+
+  {%- comment -%} Figma 节点 913-6778: 移动端权益区 - 单列垂直布局 {%- endcomment -%}
+  <div class="jingva-gallery-benefits jingva-gallery-benefits--mobile">
+    <div class="jingva-gallery-benefits__row">
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1.77608 3.27614H7.27608C9.48522 3.27614 11.2761 5.06701 11.2761 7.27614C11.2761 9.48528 9.48522 11.2761 7.27608 11.2761L2.27608 11.2761M3.27608 5.60948L0.942749 3.27614L3.27608 0.94281" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+        </svg>
+        <span>90-day Home Trial</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="6" viewBox="0 0 8 6" fill="none">
+          <path d="M0.942749 2.82843L2.82837 4.71405L6.5996 0.94281" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+        </svg>
+        <span>3-Year Warranty</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M1.77608 3.27614H7.27608C9.48522 3.27614 11.2761 5.06701 11.2761 7.27614C11.2761 9.48528 9.48522 11.2761 7.27608 11.2761L2.27608 11.2761M3.27608 5.60948L0.942749 3.27614L3.27608 0.94281" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+        </svg>
+        <span>Free Shipping & Returns</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M14 14V2L2 2L2 14M14 14H2M14 14L14 10.3333H10.4728C10.0772 11.3106 9.11913 12 8 12C6.88087 12 5.92276 11.3106 5.52717 10.3333H2L2 14" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+          <path d="M6 6.33333L8 4.33333L10 6.33333M8 8.66666V4.83333" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+        </svg>
+        <span>90-day Money Back Guarantee</span>
+      </div>
+      <div class="jingva-gallery-benefits__item">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M7.33329 14C11.0152 14 14 11.0152 14 7.33334C14 3.65144 11.0152 0.666672 7.33329 0.666672C3.65139 0.666672 0.666626 3.65144 0.666626 7.33334C0.666626 9.10824 1.36024 10.7211 2.4912 11.9158L1.33329 14H7.33329Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="1.33333" stroke-linecap="square"/>
+        </svg>
+        <span>24/7 support</span>
+      </div>
+    </div>
+    <div class="jingva-gallery-payments">
+      <img src="{{ 'pay-discover-v2.svg' | asset_url }}" alt="Discover" width="42" height="29">
+      <img src="{{ 'pay-jcb-v2.svg' | asset_url }}" alt="JCB" width="42" height="29">
+      <img src="{{ 'pay-paypal-v2.svg' | asset_url }}" alt="PayPal" width="42" height="29">
+      <img src="{{ 'pay-visa-v2.svg' | asset_url }}" alt="Visa" width="42" height="29">
+      <img src="{{ 'pay-maestro-v2.svg' | asset_url }}" alt="Maestro" width="42" height="29">
+      <img src="{{ 'pay-master-card-v2.svg' | asset_url }}" alt="Mastercard" width="42" height="29">
+      <img src="{{ 'pay-amex-v2.svg' | asset_url }}" alt="American Express" width="42" height="29">
+      <img src="{{ 'pay-diners-club-international-v2.svg' | asset_url }}" alt="Diners Club" width="42" height="29">
+    </div>
+  </div>
+  </div>
+
+
+
+</product-gallery>
+
+{% if section.settings.type_switch %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // type_switch 功能暂时保留但不影响新布局
+});
+</script>
+{% endif %}
+
+<script>
+/* 移动端：把权益区移动到 product-info 末尾（即 Add-Ons 模块下方） */
+(function () {
+  function relocateBenefits() {
+    var benefitsMobile = document.querySelector('.jingva-gallery-benefits--mobile');
+    var benefitsDesktop = document.querySelector('.jingva-gallery-benefits--desktop');
+    var isMobile = window.matchMedia('(max-width: 1279px)').matches;
+    var productInfo = document.querySelector('safe-sticky.product-info') || document.querySelector('.product-info');
+    var galleryBox = document.querySelector('.jingva-product-gallery-box');
+
+    if (isMobile && productInfo && benefitsMobile) {
+      if (benefitsMobile.parentElement !== productInfo || benefitsMobile !== productInfo.lastElementChild) {
+        productInfo.appendChild(benefitsMobile);
+      }
+    } else if (!isMobile && galleryBox && benefitsDesktop) {
+      if (benefitsDesktop.parentElement !== galleryBox) {
+        galleryBox.appendChild(benefitsDesktop);
+      }
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', relocateBenefits);
+  } else {
+    relocateBenefits();
+  }
+  window.addEventListener('resize', relocateBenefits);
+})();
+</script>
+
+<script>
+// G7-M6 缩略图导航 + 左右箭头切换（统一脚本）
+document.addEventListener('DOMContentLoaded', function() {
+  const galleryEl = document.getElementById('{{ product_gallery_id }}');
+  if (!galleryEl) return;
+
+  const prevBtns = document.querySelectorAll('.jingva-gallery-arrow-prev');
+  const nextBtns = document.querySelectorAll('.jingva-gallery-arrow-next');
+  const counterEl = galleryEl.closest('.product-gallery__media-list-wrapper') && galleryEl.closest('.product-gallery__media-list-wrapper').querySelector('[data-g7-gallery-counter]');
+  const counterTextEl = counterEl && counterEl.querySelector('.jingva-gallery-mobile-counter__text');
+  let currentIndex = 0;
+  let isScrolling = false;
+
+  // ===== 移动端自动循环滚动（4s） =====
+  const AUTOPLAY_INTERVAL = 4000;
+  const AUTOPLAY_RESUME_DELAY = 6000;
+  let autoplayTimer = null;
+  let autoplayResumeTimer = null;
+
+  function isMobile() {
+    return window.matchMedia('(max-width: 1279px)').matches;
+  }
+
+  function isStageIn360Mode() {
+    const stage = galleryEl.closest('[data-g7-mobile-stage]');
+    return !!(stage && stage.classList.contains('is-g7-360-mode'));
+  }
+
+  function shouldAutoplay() {
+    if (!isMobile()) return false;
+    if (isStageIn360Mode()) return false;
+    if (getVisibleMedia().length <= 1) return false;
+    if (document.hidden) return false;
+    return true;
+  }
+
+  function startAutoplay() {
+    stopAutoplayTimer();
+    if (!shouldAutoplay()) return;
+    autoplayTimer = setInterval(() => {
+      if (!shouldAutoplay()) { stopAutoplayTimer(); return; }
+      goToIndex(currentIndex + 1, { loop: true });
+    }, AUTOPLAY_INTERVAL);
+  }
+
+  function stopAutoplayTimer() {
+    if (autoplayTimer) { clearInterval(autoplayTimer); autoplayTimer = null; }
+  }
+
+  function pauseAutoplay() {
+    stopAutoplayTimer();
+    if (autoplayResumeTimer) { clearTimeout(autoplayResumeTimer); }
+    autoplayResumeTimer = setTimeout(startAutoplay, AUTOPLAY_RESUME_DELAY);
+  }
+
+  function getVisibleMedia() {
+    return Array.from(galleryEl.querySelectorAll('.product-gallery__media')).filter(m => !m.hidden && m.offsetParent !== null);
+  }
+
+  function updateGalleryCounter(idx) {
+    if (!counterEl || !counterTextEl) return;
+    const visible = getVisibleMedia();
+    if (!visible || visible.length <= 1) {
+      counterEl.setAttribute('hidden', '');
+      return;
+    }
+    counterEl.removeAttribute('hidden');
+    counterTextEl.textContent = (idx + 1) + '/' + visible.length;
+  }
+  function getVisibleThumbnails() {
+    return Array.from(document.querySelectorAll('.jingva-gallery-thumbnail')).filter(t => !t.hidden && t.offsetParent !== null);
+  }
+
+  function updateThumbnails(idx) {
+    const visThumb = getVisibleThumbnails();
+    visThumb.forEach((t, i) => {
+      const isActive = i === idx;
+      t.classList.toggle('active', isActive);
+      t.setAttribute('aria-current', isActive ? 'true' : 'false');
+    });
+
+    // 缩略图轮播：固定显示 4 个，每次滚动一个位置（64px = 56px + 8px gap）
+    const thumbContainer = document.querySelector('.jingva-gallery-thumbnails');
+    if (thumbContainer && visThumb[idx]) {
+      const THUMB_WIDTH = 56;
+      const THUMB_GAP = 8;
+      const THUMB_STEP = THUMB_WIDTH + THUMB_GAP; // 64px
+      const VISIBLE_COUNT = 4; // 固定显示 4 个缩略图
+
+      // 计算当前应该显示的起始索引（每 4 个为一组）
+      const startIndex = Math.floor(idx / VISIBLE_COUNT) * VISIBLE_COUNT;
+
+      // 但如果当前索引在当前可见范围内，不需要滚动
+      const currentScrollLeft = thumbContainer.scrollLeft;
+      const currentStartIndex = Math.round(currentScrollLeft / THUMB_STEP);
+      const currentEndIndex = currentStartIndex + VISIBLE_COUNT - 1;
+
+      // 如果当前索引不在可见范围内，需要滚动
+      if (idx < currentStartIndex) {
+        // 向左滚动一个位置
+        thumbContainer.scrollTo({
+          left: (currentStartIndex - 1) * THUMB_STEP,
+          behavior: 'smooth'
+        });
+      } else if (idx > currentEndIndex) {
+        // 向右滚动一个位置
+        thumbContainer.scrollTo({
+          left: (currentStartIndex + 1) * THUMB_STEP,
+          behavior: 'smooth'
+        });
+      }
+    }
+    updateGalleryCounter(idx);
+  }
+
+  function goToIndex(idx, opts) {
+    const visible = getVisibleMedia();
+    if (visible.length === 0) return;
+    const allowLoop = !!(opts && opts.loop);
+    if (allowLoop) {
+      // 循环切换：最后 → 第一；第一 → 最后
+      if (idx < 0) idx = visible.length - 1;
+      else if (idx >= visible.length) idx = 0;
+    } else {
+      if (idx < 0) idx = 0;
+      if (idx >= visible.length) idx = visible.length - 1;
+    }
+    currentIndex = idx;
+
+    // 滚动主图到指定位置
+    isScrolling = true;
+    const el = visible[idx];
+    const target = el.offsetLeft - (galleryEl.clientWidth - el.clientWidth) / 2;
+    galleryEl.scrollTo({ left: target, behavior: 'smooth' });
+
+    // 立即更新缩略图 active 状态（不等滚动完成）
+    updateThumbnails(idx);
+
+    // 滚动完成后重置标记
+    setTimeout(() => { isScrolling = false; }, 600);
+  }
+
+  // 缩略图点击
+  document.querySelectorAll('.jingva-gallery-thumbnail').forEach((thumb, index) => {
+    thumb.addEventListener('click', function() {
+      pauseAutoplay();
+      const visThumb = getVisibleThumbnails();
+      const realIdx = visThumb.indexOf(this);
+      if (realIdx >= 0) {
+        currentIndex = realIdx;
+        updateThumbnails(realIdx);
+        
+        // 切换主图
+        const visible = getVisibleMedia();
+        if (visible[realIdx]) {
+          isScrolling = true;
+          const el = visible[realIdx];
+          const target = el.offsetLeft - (galleryEl.clientWidth - el.clientWidth) / 2;
+          galleryEl.scrollTo({ left: target, behavior: 'smooth' });
+          setTimeout(() => { isScrolling = false; }, 600);
+        }
+      }
+    });
+  });
+
+  // 左右箭头点击 → 切换主图 + 同步缩略图（支持移动端和桌面端多个按钮）
+  // 移动端支持循环切换：最后一张 → 第一张
+  prevBtns.forEach(btn => btn.addEventListener('click', () => {
+    pauseAutoplay();
+    goToIndex(currentIndex - 1, { loop: isMobile() });
+  }));
+  nextBtns.forEach(btn => btn.addEventListener('click', () => {
+    pauseAutoplay();
+    goToIndex(currentIndex + 1, { loop: isMobile() });
+  }));
+
+  // 监听主图滚动 → 同步缩略图（手动滑动时）
+  let scrollT;
+  galleryEl.addEventListener('scroll', function() {
+    if (isScrolling) return; // 忽略程序触发的滚动
+    clearTimeout(scrollT);
+    scrollT = setTimeout(() => {
+      const visible = getVisibleMedia();
+      const rect = galleryEl.getBoundingClientRect();
+      const center = rect.left + rect.width / 2;
+      let best = 0, minD = Infinity;
+      visible.forEach((m, i) => {
+        const mr = m.getBoundingClientRect();
+        const d = Math.abs(mr.left + mr.width / 2 - center);
+        if (d < minD) { minD = d; best = i; }
+      });
+      currentIndex = best;
+      updateThumbnails(best);
+    }, 100);
+  }, { passive: true });
+
+  // 初始化：设置第一张图为 active，缩略图容器保持在起始位置
+  requestAnimationFrame(() => {
+    currentIndex = 0;
+    updateThumbnails(0);
+    const thumbContainer = document.querySelector('.jingva-gallery-thumbnails');
+    if (thumbContainer) {
+      thumbContainer.scrollLeft = 0;
+    }
+  });
+
+  // 用户触摸/拖动 → 暂停自动播放，6s 后恢复
+  ['touchstart', 'pointerdown', 'mousedown', 'wheel'].forEach(evt => {
+    galleryEl.addEventListener(evt, pauseAutoplay, { passive: true });
+  });
+
+  // 标签页切换：隐藏时停止，显示时恢复
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopAutoplayTimer();
+    else startAutoplay();
+  });
+
+  // 视口变化（PC ↔ MOB 切换）时重新评估
+  window.addEventListener('resize', () => {
+    if (shouldAutoplay()) {
+      if (!autoplayTimer) startAutoplay();
+    } else {
+      stopAutoplayTimer();
+    }
+  });
+
+  // 监听 360° 模式切换：进入 360 模式时停止
+  const stageEl = galleryEl.closest('[data-g7-mobile-stage]');
+  if (stageEl && 'MutationObserver' in window) {
+    new MutationObserver(() => {
+      if (isStageIn360Mode()) stopAutoplayTimer();
+      else startAutoplay();
+    }).observe(stageEl, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // 启动自动播放
+  startAutoplay();
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var modeRoot = document.querySelector('[data-g7-mobile-mode]');
+  var stage = document.querySelector('[data-g7-mobile-stage]');
+  var box = document.querySelector('.jingva-product-gallery-box');
+  if (!modeRoot || !stage || !box) return;
+  var btnImage = modeRoot.querySelector('.jingva-gallery-mobile-mode__btn--image');
+  var btn360 = modeRoot.querySelector('.jingva-gallery-mobile-mode__btn--360');
+  var panel = document.getElementById('jingva-g7-360-panel-{{ product.id }}-{{ section.id }}');
+  var has360 = modeRoot.getAttribute('data-g7-has-360') === 'true';
+  if (!btnImage || !btn360) return;
+
+  function setMode(which) {
+    if (which === '360' && (!has360 || !panel)) return;
+    var is360 = which === '360';
+    stage.classList.toggle('is-g7-360-mode', is360);
+    box.classList.toggle('is-g7-360-mode', is360);
+    btnImage.classList.toggle('is-active', !is360);
+    btn360.classList.toggle('is-active', is360);
+    btnImage.setAttribute('aria-selected', is360 ? 'false' : 'true');
+    btn360.setAttribute('aria-selected', is360 ? 'true' : 'false');
+    if (panel) {
+      if (is360) panel.removeAttribute('hidden');
+      else panel.setAttribute('hidden', '');
+    }
+  }
+
+  btnImage.addEventListener('click', function () { setMode('image'); });
+  btn360.addEventListener('click', function () { if (!btn360.disabled) setMode('360'); });
+  window.addEventListener('resize', function () {
+    if (window.matchMedia('(min-width: 1280px)').matches) setMode('image');
+  });
+});
+</script>

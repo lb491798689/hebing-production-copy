@@ -1,0 +1,94 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_deMkJk": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_XDQ3ae": {
+          "type": "heading",
+          "settings": {
+            "text": "Get the Help You Need",
+            "heading_tag": "h1"
+          }
+        },
+        "subheading_Bay636": {
+          "type": "subheading",
+          "settings": {
+            "text": "If you have any questions about our products, payments, delivery, or returns, please feel free to contact us."
+          }
+        }
+      },
+      "block_order": [
+        "heading_XDQ3ae",
+        "subheading_Bay636"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/7_08b35929-f857-4323-b79c-c49da69eb4d5.png",
+        "mobile_image": "shopify://shop_images/6_2069de5c-7f34-4302-be50-e1c6cc4bd643.png",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "contact": {
+      "type": "contact",
+      "blocks": {
+        "text_qCbeVY": {
+          "type": "text",
+          "settings": {
+            "title": "Order Number",
+            "use_long_text": false,
+            "required": true
+          }
+        }
+      },
+      "block_order": [
+        "text_qCbeVY"
+      ],
+      "settings": {
+        "full_width": true,
+        "subheading": "",
+        "title": "Talk to us",
+        "content": "<p>We promise to respond to your message or call within 24 hours. Whenever you reach out to us, we are committed to providing prompt and dedicated assistance.</p>",
+        "text_position": "start",
+        "contact_form_size": "large",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "contact_background": "",
+        "contact_text_color": "",
+        "button_background": "",
+        "button_text_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_deMkJk",
+    "contact"
+  ]
+}

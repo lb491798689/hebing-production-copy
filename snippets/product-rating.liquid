@@ -1,0 +1,81 @@
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+PRODUCT RATING
+----------------------------------------------------------------------------------------------------------------------
+
+This component generates a review badge from the product metafields information.
+
+********************************************
+Supported variables
+********************************************
+
+* product: the product from which reviews are extracted
+* show_empty: if set to true, the theme shows a 0.0 if there are no rating yet
+* show_placeholder: if set to true, show random value (useful for the product card placeholder)
+* display_mode: either "rating" (e.g.: 3.5) or "count" (e.g.: 4 reviews). Default to "rating" if none is passed
+* class: extra class to add
+{%- endcomment -%}
+
+{%- assign rating_max = 5 -%}
+
+{%- if product.metafields.reviews.rating.value != blank -%}
+  {%- assign rating_value = product.metafields.reviews.rating.value.rating | round: 1 -%}
+  {%- assign rating_count = product.metafields.reviews.rating_count.value -%}
+  {%- assign rating_max = product.metafields.reviews.rating.value.scale_max -%}
+{%- elsif show_empty -%}
+  {%- assign rating_value = 0.0 -%}
+  {%- assign rating_count = 0 -%}
+{%- elsif show_placeholder -%}
+  {%- assign rating_value = 4.5 -%}
+  {%- assign rating_count = 2 -%}
+{%- else -%}
+  {%- assign hide_rating = true -%}
+{%- endif -%}
+
+{%- unless hide_rating -%}
+  {%- if request.page_type == 'product' -%}
+    {%- assign is_main_product = true -%}
+  {%- endif -%}
+
+  <a href="{% unless is_main_product %}{{ product.url }}{% endunless %}#shopify-product-reviews" class="rating {{ class }}" title="{{ 'product.rating_count' | t: count: rating_count }}" {{ block.shopify_attributes }}>
+
+    {% comment %} 隐藏第三方评分插件，使用自定义红色星星 {% endcomment %}
+    <style>
+      .stamped-product-reviews-badge,
+      .spr-badge,
+      span[data-score],
+      .stamped-starrating {
+        display: none !important;
+      }
+    </style>
+
+    {% comment %} 判断当前页面是不是产品详情页 {% endcomment %}
+    {% if is_main_product %}
+      <div class="rating__stars custom-rating-stars" role="img" aria-label="{{ 'general.rating.info' | t: rating_value: rating_value, rating_max: rating_max }}">
+        {%- for i in (1..5) -%}
+          {%- if i <= rating_value -%}
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" class="rating__star rating__star--filled">
+              <path d="M11.6121 4.22554L8.01478 3.67806L6.40666 0.264102C6.36274 0.170629 6.29048 0.0949613 6.20122 0.0489671C5.97736 -0.0667603 5.70532 0.0296792 5.59339 0.264102L3.98528 3.67806L0.38791 4.22554C0.288731 4.24038 0.198053 4.28934 0.128627 4.36352C0.0446959 4.45386 -0.00155415 4.57539 3.98784e-05 4.70142C0.0016339 4.82745 0.0509416 4.94766 0.137128 5.03563L2.73987 7.69291L2.12496 11.4452C2.11054 11.5324 2.11976 11.6222 2.15159 11.7043C2.18341 11.7864 2.23655 11.8575 2.305 11.9095C2.37344 11.9616 2.45444 11.9925 2.53882 11.9988C2.6232 12.0051 2.70757 11.9865 2.78238 11.9452L6.00003 10.1736L9.21768 11.9452C9.30553 11.9941 9.40754 12.0104 9.5053 11.9926C9.75183 11.9481 9.9176 11.7033 9.8751 11.4452L9.26019 7.69291L11.8629 5.03563C11.9338 4.96293 11.9805 4.86798 11.9947 4.76412C12.033 4.50447 11.8601 4.26412 11.6121 4.22554Z" fill="#E90202"/>
+            </svg>
+          {%- else -%}
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" class="rating__star rating__star--empty">
+              <path d="M7.5625 3.8916L7.67578 4.13184L7.93945 4.17285L11.4805 4.71094L8.90332 7.34277L8.72559 7.52344L8.7666 7.77344L9.37012 11.458L6.24121 9.73535L6 9.60254L5.75879 9.73535L2.62891 11.458L3.2334 7.77344L3.27441 7.52344L3.09668 7.34277L0.518555 4.71094L4.06055 4.17285L4.32422 4.13184L4.4375 3.8916L6 0.574219L7.5625 3.8916Z" stroke="#E90202" fill="none"/>
+            </svg>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {% if rating_count > 0 %}
+        <span class="text-xs custom-rating-text">{{ 'product.rating_count' | t: count: rating_count }}</span>
+      {%- endif -%}
+    {% else %}
+      <span class="text-xs">{{ rating_value }}</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" class="rating__star">
+        <path d="M11.6121 4.22554L8.01478 3.67806L6.40666 0.264102C6.36274 0.170629 6.29048 0.0949613 6.20122 0.0489671C5.97736 -0.0667603 5.70532 0.0296792 5.59339 0.264102L3.98528 3.67806L0.38791 4.22554C0.288731 4.24038 0.198053 4.28934 0.128627 4.36352C0.0446959 4.45386 -0.00155415 4.57539 3.98784e-05 4.70142C0.0016339 4.82745 0.0509416 4.94766 0.137128 5.03563L2.73987 7.69291L2.12496 11.4452C2.11054 11.5324 2.11976 11.6222 2.15159 11.7043C2.18341 11.7864 2.23655 11.8575 2.305 11.9095C2.37344 11.9616 2.45444 11.9925 2.53882 11.9988C2.6232 12.0051 2.70757 11.9865 2.78238 11.9452L6.00003 10.1736L9.21768 11.9452C9.30553 11.9941 9.40754 12.0104 9.5053 11.9926C9.75183 11.9481 9.9176 11.7033 9.8751 11.4452L9.26019 7.69291L11.8629 5.03563C11.9338 4.96293 11.9805 4.86798 11.9947 4.76412C12.033 4.50447 11.8601 4.26412 11.6121 4.22554Z" fill="#E90202"/>
+      </svg>
+    {% endif %}
+
+
+  </a>
+
+{%- endunless -%}

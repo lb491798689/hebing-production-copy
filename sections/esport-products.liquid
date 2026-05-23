@@ -1,0 +1,600 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+{% stylesheet %}
+  .esport-products {
+    --esport-products-container-width: 1200px;
+    --esport-products-card-bg: #f0f0f0;
+    --esport-products-card-text: #ffffff;
+    --esport-products-tab-border: #0a0a0a;
+    --esport-products-tab-text: #0a0a0a;
+    --esport-products-tab-active-bg: #0a0a0a;
+    --esport-products-tab-active-text: #ffffff;
+    --esport-products-primary: #0a0a0a;
+  }
+
+  .esport-products__inner {
+    width: min(100%, var(--esport-products-container-width));
+    margin-inline: auto;
+  }
+
+  .esport-products__tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    margin-top: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: center;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .esport-products__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .esport-products__tab {
+    flex: 0 0 auto;
+    padding-inline: 24px;
+    padding-block: 16px;
+    border: 1px solid var(--esport-products-tab-border);
+    border-radius: 12px;
+    background: transparent;
+    color: var(--esport-products-tab-text);
+    font-family: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .esport-products__button--secondary:hover {
+    background: #ff2020;
+    border-color: transparent;
+    color: #F4F4F4;
+  }
+  .esport-products__tab:hover {
+    background: #1a1a1a1a;
+    backdrop-filter: blur(8px);
+    border-color: transparent;
+  }
+
+  .esport-products__tab[aria-selected='true'] {
+    border-color: var(--esport-products-tab-active-bg);
+    background: var(--esport-products-tab-active-bg);
+    color: var(--esport-products-tab-active-text);
+  }
+
+  .esport-products__tab[aria-selected='true']:hover {
+    background: #333333;
+  }
+
+  .esport-products__tab:focus-visible,
+  .esport-products__button:focus-visible {
+    outline: 2px solid var(--esport-products-primary);
+    outline-offset: 2px;
+  }
+
+  .esport-products__panels {
+    margin-top: 48px;
+  }
+
+  .esport-products__panel[hidden] {
+    display: none;
+  }
+
+  .esport-products__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
+    width: 100%;
+    aspect-ratio: 1200 / 480;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--esport-products-card-bg);
+    color: var(--esport-products-card-text);
+  }
+
+  .esport-products__media {
+    position: relative;
+    min-width: 0;
+    background: #151515;
+  }
+
+  .esport-products__media img,
+  .esport-products__media-placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .esport-products__media img {
+    display: block;
+    object-fit: cover;
+  }
+
+  .esport-products__media-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2c2c2c;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .esport-products__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    color: #0a0a0a;
+  }
+
+  .esport-products__card-title {
+    margin: 0;
+    font-family: inherit;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1.2;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+  }
+
+  .esport-products__description {
+    margin: 0;
+    color: #1a1a1a99;
+    font-size: 16px;
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    margin-top: 8px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .esport-products__actions {
+    display: flex;
+    gap: 12px;
+  }
+
+  .esport-products__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 20px;
+    padding-block: 14px;
+    border: 1px solid var(--esport-products-primary);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .esport-products__button:hover {
+    opacity: 0.88;
+  }
+
+  .esport-products__button--primary {
+    background: var(--esport-products-primary);
+    color: #ffffff;
+  }
+
+  .esport-products__button--secondary {
+    background: transparent;
+    color: var(--esport-products-primary);
+  }
+
+  .esport-products__button[disabled] {
+    cursor: default;
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 768px) {
+    .esport-products__tabs {
+      gap: 8px;
+      justify-content: flex-start;
+      margin-top: 16px;
+    }
+
+    .esport-products__tab {
+      min-width: auto;
+      min-height: 48px;
+      padding-inline: 16px;
+      padding-block: 13px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    .esport-products__panels {
+      margin-top: 20px;
+    }
+
+    .esport-products__card {
+      grid-template-columns: 1fr;
+      aspect-ratio: auto;
+    }
+
+    .esport-products__media {
+      aspect-ratio: 358 / 280;
+    }
+
+    .esport-products__content {
+      padding-inline: 16px;
+      padding-block: 32px;
+    }
+
+    .esport-products__card-title {
+      font-size: 24px;
+    }
+
+    .esport-products__description {
+      font-size: 16px;
+    }
+
+    .esport-products__actions {
+    }
+
+    .esport-products__button {
+      padding-block: 11px;
+      padding-inline: 12px;
+      font-size: 14px;
+    }
+  }
+{% endstylesheet %}
+
+<section id="{{ section.id }}" class="esport-products tw:font-gabarito">
+  <div class="esport-products__inner">
+    <h2
+      class="
+        tw:text-[48px] tw:leading-[1.2] tw:uppercase tw:text-[#0A0A0A] tw:font-black tw:font-orbitron
+        tw:max-md:text-[24px] tw:text-center tw:px-4
+      "
+    >
+      {{ section.settings.title }}
+    </h2>
+
+    {% if section.blocks.size > 0 %}
+      <div
+        class="esport-products__tabs tw:px-4"
+        role="tablist"
+        aria-label="{{ section.settings.title | escape }}"
+        data-esport-products-tabs
+      >
+        {% for block in section.blocks %}
+          {% assign tab_title = block.settings.title | default: block.settings.product.title | default: 'Product' %}
+          <button
+            type="button"
+            class="esport-products__tab tw:font-orbitron tw:font-bold tw:uppercase!"
+            id="esport-products-tab-{{ section.id }}-{{ block.id }}"
+            role="tab"
+            aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="esport-products-panel-{{ section.id }}-{{ block.id }}"
+            tabindex="{% if forloop.first %}0{% else %}-1{% endif %}"
+            data-esport-products-tab
+            {{ block.shopify_attributes }}
+          >
+            {{ tab_title | escape }}
+          </button>
+        {% endfor %}
+      </div>
+
+      <div class="esport-products__panels tw:px-4" data-esport-products-panels>
+        {% for block in section.blocks %}
+          {% assign tab_title = block.settings.title | default: block.settings.product.title | default: 'Product' %}
+          {% assign learn_more_text = block.settings.learn_more_text | default: 'Learn more' %}
+          <div
+            class="esport-products__panel"
+            id="esport-products-panel-{{ section.id }}-{{ block.id }}"
+            role="tabpanel"
+            aria-labelledby="esport-products-tab-{{ section.id }}-{{ block.id }}"
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+            data-esport-products-panel
+          >
+            <div class="esport-products__card">
+              <div class="esport-products__media">
+                {% if block.settings.image != blank %}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 1200 }}"
+                    alt="{{ block.settings.image.alt | escape }}"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                  >
+                {% else %}
+                  <div class="esport-products__media-placeholder">Image</div>
+                {% endif %}
+              </div>
+
+              <div class="esport-products__content">
+                <h3 class="esport-products__card-title tw:font-orbitron">{{ tab_title | escape }}</h3>
+
+                {% if block.settings.description != blank %}
+                  <p class="esport-products__description">{{ block.settings.description | newline_to_br }}</p>
+                {% endif %}
+
+                <div class="esport-products__actions">
+                  {% if block.settings.learn_more_link != blank %}
+                    <a
+                      href="{{ block.settings.learn_more_link }}"
+                      class="esport-products__button tw:font-orbitron tw:font-bold esport-products__button--primary tw:uppercase!"
+                    >
+                      {{ learn_more_text | escape }}
+                    </a>
+                  {% else %}
+                    <span
+                      class="esport-products__button tw:font-orbitron tw:font-bold esport-products__button--primary tw:uppercase!"
+                      aria-disabled="true"
+                    >
+                      {{ learn_more_text | escape }}
+                    </span>
+                  {% endif %}
+
+                  <a
+                    href="{{ routes.cart_url }}/{{ block.settings.product.selected_or_first_available_variant.id }}:1?checkout"
+                    class="esport-products__button tw:font-orbitron tw:font-bold esport-products__button--secondary tw:uppercase!"
+                  >
+                    Buy now
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  (function () {
+    const sectionId = '{{ section.id }}';
+
+    function createTabs(section) {
+      const tabList = section.querySelector('[data-esport-products-tabs]');
+      const tabs = Array.from(section.querySelectorAll('[data-esport-products-tab]'));
+      const panels = Array.from(section.querySelectorAll('[data-esport-products-panel]'));
+
+      if (!tabList || !tabs.length || tabs.length !== panels.length) {
+        return null;
+      }
+
+      function centerTab(tab, shouldAnimate) {
+        const tabListWidth = tabList.clientWidth;
+        const maxScrollLeft = Math.max(0, tabList.scrollWidth - tabListWidth);
+        const targetScrollLeft = Math.min(
+          maxScrollLeft,
+          Math.max(0, tab.offsetLeft - (tabListWidth - tab.offsetWidth) / 2)
+        );
+
+        tabList.scrollTo({
+          left: targetScrollLeft,
+          behavior: shouldAnimate ? 'smooth' : 'auto',
+        });
+      }
+
+      function setActiveTab(nextIndex, shouldFocus) {
+        tabs.forEach((tab, index) => {
+          const isActive = index === nextIndex;
+
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+          panels[index].hidden = !isActive;
+
+          if (isActive && shouldFocus) {
+            tab.focus();
+          }
+        });
+
+        centerTab(tabs[nextIndex], true);
+      }
+
+      function handleClick(event) {
+        const nextIndex = tabs.indexOf(event.currentTarget);
+
+        if (nextIndex >= 0) {
+          setActiveTab(nextIndex, false);
+        }
+      }
+
+      function handleKeydown(event) {
+        const currentIndex = tabs.indexOf(event.currentTarget);
+
+        if (currentIndex < 0) {
+          return;
+        }
+
+        let nextIndex = null;
+
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+          nextIndex = (currentIndex + 1) % tabs.length;
+        } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        } else if (event.key === 'Home') {
+          nextIndex = 0;
+        } else if (event.key === 'End') {
+          nextIndex = tabs.length - 1;
+        }
+
+        if (nextIndex === null) {
+          return;
+        }
+
+        event.preventDefault();
+        setActiveTab(nextIndex, true);
+      }
+
+      function handleResize() {
+        const activeIndex = tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
+
+        if (activeIndex >= 0) {
+          centerTab(tabs[activeIndex], false);
+        }
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', handleClick);
+        tab.addEventListener('keydown', handleKeydown);
+      });
+
+      window.addEventListener('resize', handleResize);
+
+      requestAnimationFrame(() => {
+        const activeIndex = tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
+
+        if (activeIndex >= 0) {
+          centerTab(tabs[activeIndex], false);
+        }
+      });
+
+      return {
+        destroy() {
+          tabs.forEach((tab) => {
+            tab.removeEventListener('click', handleClick);
+            tab.removeEventListener('keydown', handleKeydown);
+          });
+
+          window.removeEventListener('resize', handleResize);
+        },
+      };
+    }
+
+    function initSection() {
+      const section = document.getElementById(sectionId);
+
+      if (!section) {
+        return;
+      }
+
+      if (section.esportProductsTabs) {
+        section.esportProductsTabs.destroy();
+      }
+
+      section.esportProductsTabs = createTabs(section);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initSection, { once: true });
+    } else {
+      initSection();
+    }
+
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.target && event.target.id === sectionId) {
+        initSection();
+      }
+    });
+
+    document.addEventListener('shopify:section:unload', (event) => {
+      if (event.target && event.target.id === sectionId && event.target.esportProductsTabs) {
+        event.target.esportProductsTabs.destroy();
+        event.target.esportProductsTabs = null;
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Esport Products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Text",
+      "default": "Same Model Used by Then"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Product Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "learn_more_text",
+          "label": "Learn More Text",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "learn_more_link",
+          "label": "Learn More Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Products"
+    }
+  ]
+}
+{% endschema %}

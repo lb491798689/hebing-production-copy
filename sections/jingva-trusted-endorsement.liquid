@@ -1,0 +1,763 @@
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+  assign banner_pc = s.banner_image_pc
+  assign banner_mob = s.banner_image_mobile
+  if banner_mob == blank and banner_pc != blank
+    assign banner_mob = banner_pc
+  endif
+  if banner_pc == blank and banner_mob != blank
+    assign banner_pc = banner_mob
+  endif
+
+  assign badge_pc = s.badge_image_pc
+  assign badge_mob = s.badge_image_mobile
+  if badge_mob == blank and badge_pc != blank
+    assign badge_mob = badge_pc
+  endif
+  if badge_pc == blank and badge_mob != blank
+    assign badge_pc = badge_mob
+  endif
+
+  assign portrait_pc = s.portrait_pc
+  assign portrait_mob = s.portrait_mobile
+  if portrait_mob == blank and portrait_pc != blank
+    assign portrait_mob = portrait_pc
+  endif
+  if portrait_pc == blank and portrait_mob != blank
+    assign portrait_pc = portrait_mob
+  endif
+
+  assign has_banner = false
+  if banner_pc != blank or banner_mob != blank
+    assign has_banner = true
+  endif
+  assign has_badge = false
+  if badge_pc != blank or badge_mob != blank
+    assign has_badge = true
+  endif
+  assign has_portrait = false
+  if portrait_pc != blank or portrait_mob != blank
+    assign has_portrait = true
+  endif
+
+  assign padding_top_pc = s.padding_top_pc | default: 140
+  assign padding_bottom_pc = s.padding_bottom_pc | default: 140
+  assign padding_top_mob = s.padding_top_mob | default: 68
+  assign padding_bottom_mob = s.padding_bottom_mob | default: 68
+-%}
+
+<section
+  class="jingva-trusted-endorsement jingva-trusted-endorsement--{{ sid }}"
+  data-section-id="{{ sid }}"
+>
+  <style>
+    /*
+     * Figma PC  5390:2692 | MOB 5738:4942
+     * develop.md: MOB≤1279 | PAD 1280–1439 | PC≥1440 | 版心 1200
+     */
+    .jingva-trusted-endorsement--{{ sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background: #ffffff !important;
+      padding: {{ padding_top_pc }}px 48px {{ padding_bottom_pc }}px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-inner {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* —— 统计横幅 —— */
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner {
+      position: relative !important;
+      width: 100% !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      {% comment %} min-height: 380px ; {% endcomment %}
+      background: #0f1629 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__media {
+      {% comment %} position: absolute !important;
+      inset: 0 !important;
+      margin: 0 !important; {% endcomment %}
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__media img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__overlay {
+      position: absolute;
+      top: 0;
+      z-index: 1 !important;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      min-height: 380px !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      pointer-events: none !important;
+    }
+
+    /* Figma: Copy 框 643×380，贴横幅左边，内部 padding 72/48/72/48，内容居中 */
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__copy {
+      pointer-events: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      width: 643px !important;
+      max-width: 643px !important;
+      min-height: 380px !important;
+      padding: 48px 72px !important;
+      box-sizing: border-box !important;
+      text-align: center !important;
+      color: #ffffff !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__label,
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__sub {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      margin: 0 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__stat {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 64px !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      background: linear-gradient(
+        -9.27deg,
+        rgb(180, 180, 180) 7.67%,
+        rgb(255, 255, 255) 57.16%,
+        rgb(164, 164, 164) 91.94%
+      ) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      color: transparent !important;
+    }
+
+    /* Figma: badge 81×80，right:126 top:51 */
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge {
+      pointer-events: auto !important;
+      position: absolute !important;
+      right: 126px !important;
+      top: 51px !important;
+      width: 81px !important;
+      height: auto !important;
+      flex-shrink: 0 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge picture,
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge img {
+      width: 100% !important;
+      height: auto !important;
+      display: block !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge--empty {
+      display: none !important;
+    }
+
+    /* —— 背书区 PC：左文 | 右图 —— */
+    .jingva-trusted-endorsement--{{ sid }} .jte-endorse {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      gap: 12px !important;
+      min-height: 480px !important;
+      width: 100% !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-quote-card {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      background: #f4f6f6 !important;
+      border-radius: 12px !important;
+      padding: 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-quote-text {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 22px !important;
+      line-height: 1.2 !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      white-space: pre-wrap !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-quote-foot {
+      border-top: 1px solid rgba(26, 26, 26, 0.2) !important;
+      padding-top: 24px !important;
+      margin-top: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4px !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-expert-name {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 32px !important;
+      line-height: normal !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-expert-role {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 20px !important;
+      line-height: normal !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      margin: 0 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-role-line {
+      margin: 0 !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-portrait {
+      flex: 0 0 480px !important;
+      width: 480px !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      background: #d1dbe8 !important;
+      position: relative !important;
+    }
+
+    .jingva-trusted-endorsement--{{ sid }} .jte-portrait picture,
+    .jingva-trusted-endorsement--{{ sid }} .jte-portrait img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    /* 手机背书卡：头像行 + 文案（PC 隐藏内部头像条） */
+    .jingva-trusted-endorsement--{{ sid }} .jte-mob-head {
+      display: none !important;
+    }
+
+    /* === PAD === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      .jingva-trusted-endorsement--{{ sid }} {
+        padding: {{ padding_top_pc }}px 40px {{ padding_bottom_pc }}px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__overlay {
+        padding: 0 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__copy {
+        width: 560px !important;
+        max-width: 560px !important;
+        padding: 40px 56px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge {
+        right: 104px !important;
+        top: 44px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-quote-card {
+        padding: 40px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-quote-text {
+        font-size: 20px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-expert-name {
+        font-size: 28px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-expert-role {
+        font-size: 18px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-portrait {
+        flex-basis: 420px !important;
+        width: 420px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__stat {
+        font-size: 56px !important;
+      }
+    }
+
+    /* === MOB ≤1279 === */
+    @media screen and (max-width: 1279px) {
+      .jingva-trusted-endorsement--{{ sid }} {
+        padding: {{ padding_top_mob }}px 16px {{ padding_bottom_mob }}px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner {
+        {% comment %} min-height: 380px !important; {% endcomment %}
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__overlay {
+        {% comment %} flex-direction: column !important;
+        align-items: center !important;
+        padding: 24px 16px !important; {% endcomment %}
+        min-height: 380px !important;
+       display:none!important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__copy {
+        width: auto !important;
+        max-width: 358px !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__label,
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__sub {
+        font-size: 20px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__stat {
+        font-size: 32px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-banner__badge {
+        position: absolute !important;
+        right: 16px !important;
+        top: 24px !important;
+        width: 59px !important;
+      }
+
+      /* 背书：单列卡片 */
+      .jingva-trusted-endorsement--{{ sid }} .jte-endorse {
+        flex-direction: column !important;
+        min-height: 0 !important;
+        gap: 0 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-quote-card {
+        padding: 24px 16px !important;
+        gap: 16px !important;
+        background: #f0f0f0 !important;
+        justify-content: flex-start !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-quote-text {
+        font-size: 16px !important;
+        font-weight: 400 !important;
+        order: 3 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-quote-foot {
+        display: none !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-portrait {
+        display: none !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-head {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 8px !important;
+        width: 100% !important;
+        padding-bottom: 16px !important;
+        margin-bottom: 0 !important;
+        border-bottom: 1px solid rgba(26, 26, 26, 0.2) !important;
+        order: 1 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-avatar {
+        flex-shrink: 0 !important;
+        width: 60px !important;
+        height: 60px !important;
+        border-radius: 999px !important;
+        overflow: hidden !important;
+        background: #d1dbe8 !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-avatar img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        display: block !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-meta {
+        flex: 1 !important;
+        min-width: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 4px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-meta .jte-expert-name {
+        font-size: 20px !important;
+      }
+
+      .jingva-trusted-endorsement--{{ sid }} .jte-mob-meta .jte-expert-role {
+        font-size: 14px !important;
+      }
+    }
+  </style>
+
+  <div class="jte-inner">
+    {%- if s.trusted_label != blank or s.stat_number != blank or s.trusted_subtitle != blank or has_banner -%}
+      <div class="jte-banner">
+        {%- if has_banner -%}
+          <picture class="jte-banner__media">
+            {%- if banner_pc != blank -%}
+              <source media="(min-width: 1280px)" srcset="{{ banner_pc | image_url: width: 2400 }}">
+            {%- endif -%}
+            {%- if banner_mob != blank -%}
+              <img
+                src="{{ banner_mob | image_url: width: 1200 }}"
+                alt=""
+                width="{{ banner_mob.width | default: 780 }}"
+                height="{{ banner_mob.height | default: 400 }}"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- elsif banner_pc != blank -%}
+              <img
+                src="{{ banner_pc | image_url: width: 2400 }}"
+                alt=""
+                width="{{ banner_pc.width | default: 1600 }}"
+                height="{{ banner_pc.height | default: 500 }}"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- endif -%}
+          </picture>
+        {%- endif -%}
+
+        <div class="jte-banner__overlay">
+          <div class="jte-banner__copy">
+            {%- if s.trusted_label != blank -%}
+              <p class="jte-banner__label">{{ s.trusted_label }}</p>
+            {%- endif -%}
+            {%- if s.stat_number != blank -%}
+              <p class="jte-banner__stat">{{ s.stat_number }}</p>
+            {%- endif -%}
+            {%- if s.trusted_subtitle != blank -%}
+              <p class="jte-banner__sub">{{ s.trusted_subtitle }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if has_badge -%}
+            <div class="jte-banner__badge">
+              <picture>
+                {%- if badge_pc != blank -%}
+                  <source media="(min-width: 1280px)" srcset="{{ badge_pc | image_url: width: 320 }}">
+                {%- endif -%}
+                {%- if badge_mob != blank -%}
+                  <img
+                    src="{{ badge_mob | image_url: width: 200 }}"
+                    alt="{{ s.badge_alt | default: 'Badge' | escape }}"
+                    width="{{ badge_mob.width | default: 120 }}"
+                    height="{{ badge_mob.height | default: 120 }}"
+                    loading="lazy"
+                  >
+                {%- elsif badge_pc != blank -%}
+                  <img
+                    src="{{ badge_pc | image_url: width: 320 }}"
+                    alt="{{ s.badge_alt | default: 'Badge' | escape }}"
+                    width="{{ badge_pc.width | default: 160 }}"
+                    height="{{ badge_pc.height | default: 160 }}"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </picture>
+            </div>
+          {%- else -%}
+            <div class="jte-banner__badge jte-banner__badge--empty" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    {%- if s.quote != blank or has_portrait or s.expert_name != blank -%}
+      <div class="jte-endorse">
+        <article class="jte-quote-card">
+          {%- comment -%} 手机：头像 + 姓名职称 {%- endcomment -%}
+          {%- if has_portrait -%}
+            <div class="jte-mob-head">
+              <div class="jte-mob-avatar">
+                <picture>
+                  {%- if portrait_pc != blank -%}
+                    <source media="(min-width: 1280px)" srcset="{{ portrait_pc | image_url: width: 120 }}">
+                  {%- endif -%}
+                  {%- if portrait_mob != blank -%}
+                    <img
+                      src="{{ portrait_mob | image_url: width: 240 }}"
+                      alt="{{ s.expert_name | escape }}"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  {%- elsif portrait_pc != blank -%}
+                    <img
+                      src="{{ portrait_pc | image_url: width: 240 }}"
+                      alt="{{ s.expert_name | escape }}"
+                      width="120"
+                      height="120"
+                      loading="lazy"
+                    >
+                  {%- endif -%}
+                </picture>
+              </div>
+              <div class="jte-mob-meta">
+                {%- if s.expert_name != blank -%}
+                  <p class="jte-expert-name">{{ s.expert_name }}</p>
+                {%- endif -%}
+                <div class="jte-expert-role">
+                  {%- if s.expert_role_line1 != blank -%}
+                    <p class="jte-role-line">{{ s.expert_role_line1 }}</p>
+                  {%- endif -%}
+                  {%- if s.expert_role_line2 != blank -%}
+                    <p class="jte-role-line">{{ s.expert_role_line2 }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- elsif s.expert_name != blank -%}
+            <div class="jte-mob-head">
+              <div class="jte-mob-meta">
+                <p class="jte-expert-name">{{ s.expert_name }}</p>
+                <div class="jte-expert-role">
+                  {%- if s.expert_role_line1 != blank -%}
+                    <p class="jte-role-line">{{ s.expert_role_line1 }}</p>
+                  {%- endif -%}
+                  {%- if s.expert_role_line2 != blank -%}
+                    <p class="jte-role-line">{{ s.expert_role_line2 }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if s.quote != blank -%}
+            <div class="jte-quote-text">{{ s.quote | escape }}</div>
+          {%- endif -%}
+
+          <div class="jte-quote-foot">
+            {%- if s.expert_name != blank -%}
+              <p class="jte-expert-name">{{ s.expert_name }}</p>
+            {%- endif -%}
+            <div class="jte-expert-role">
+              {%- if s.expert_role_line1 != blank -%}
+                <p class="jte-role-line">{{ s.expert_role_line1 }}</p>
+              {%- endif -%}
+              {%- if s.expert_role_line2 != blank -%}
+                <p class="jte-role-line">{{ s.expert_role_line2 }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+
+        {%- if has_portrait -%}
+          <div class="jte-portrait" aria-hidden="false">
+            <picture>
+              {%- if portrait_pc != blank -%}
+                <source media="(min-width: 1280px)" srcset="{{ portrait_pc | image_url: width: 960 }}">
+              {%- endif -%}
+              {%- if portrait_mob != blank -%}
+                <img
+                  src="{{ portrait_mob | image_url: width: 960 }}"
+                  alt="{{ s.expert_name | escape }}"
+                  width="{{ portrait_mob.width | default: 480 }}"
+                  height="{{ portrait_mob.height | default: 640 }}"
+                  loading="lazy"
+                  decoding="async"
+                >
+              {%- elsif portrait_pc != blank -%}
+                <img
+                  src="{{ portrait_pc | image_url: width: 960 }}"
+                  alt="{{ s.expert_name | escape }}"
+                  width="{{ portrait_pc.width | default: 480 }}"
+                  height="{{ portrait_pc.height | default: 640 }}"
+                  loading="lazy"
+                  decoding="async"
+                >
+              {%- endif -%}
+            </picture>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Trust Expert",
+  "class": "shopify-section--jingva-trusted-endorsement",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "label": "Padding top (PC / Pad, ≥1280px)",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "default": 140,
+      "unit": "px",
+      "info": "Applies to ≥1440 default and 1280–1439 pad horizontal inset variants."
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "label": "Padding bottom (PC / Pad, ≥1280px)",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "default": 140,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Padding top (Mobile, ≤1279px)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 68,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Padding bottom (Mobile, ≤1279px)",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "default": 68,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "统计横幅（Trusted by …）"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_pc",
+      "label": "横幅底图（PC）",
+      "info": "深色场景 + 产品氛围；与 jingva-product-info 相同，建议宽 2400px+。留空则仅显示纯色底 #0f1629。"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_mobile",
+      "label": "横幅底图（手机）",
+      "info": "留空则使用 PC 图。"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image_pc",
+      "label": "右上角徽章（PC）"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image_mobile",
+      "label": "右上角徽章（手机）",
+      "info": "留空则使用 PC 徽章。"
+    },
+    {
+      "type": "text",
+      "id": "badge_alt",
+      "label": "徽章图片 alt",
+      "default": "Global users"
+    },
+    {
+      "type": "text",
+      "id": "trusted_label",
+      "label": "上文案",
+      "default": "Trusted by over"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "数字",
+      "default": "3,000,000"
+    },
+    {
+      "type": "text",
+      "id": "trusted_subtitle",
+      "label": "下文案",
+      "default": "users worldwide"
+    },
+    {
+      "type": "header",
+      "content": "专家背书"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "引用全文",
+      "default": "As a spine expert, I believe the M6 chair's design is truly commendable. Its massage system effectively relieves lower back pressure, and the neck pillow provides essential support, reducing strain on the spine. This chair is particularly beneficial for people who sit for extended periods, such as E-sports players, as it helps maintain proper spine health."
+    },
+    {
+      "type": "text",
+      "id": "expert_name",
+      "label": "姓名",
+      "default": "Dr. Dennis Miller"
+    },
+    {
+      "type": "text",
+      "id": "expert_role_line1",
+      "label": "职称第 1 行",
+      "default": "International Chiropractic Association"
+    },
+    {
+      "type": "text",
+      "id": "expert_role_line2",
+      "label": "职称第 2 行",
+      "default": "(ICA) Doctor of Chiropractic Care"
+    },
+    {
+      "type": "image_picker",
+      "id": "portrait_pc",
+      "label": "专家肖像（PC 右侧大图）"
+    },
+    {
+      "type": "image_picker",
+      "id": "portrait_mobile",
+      "label": "专家肖像（手机头像与可选大图）",
+      "info": "留空则沿用 PC 图；手机卡片顶部圆头像与 PC 右侧为同一素材时可只传一张。"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Trust Expert",
+      "category": "Jingva"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+<section
+  class="
+    tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4 tw:text-center tw:max-md:text-left
+    tw:pb-[140px] tw:pt-[70px] tw:max-md:pt-[32px] tw:max-md:pb-[64px]
+    tw:max-md:flex tw:max-md:flex-col-reverse tw:max-md:gap-4
+    tw:relative tw:z-2 tw:bg-[#131313] tw:font-gabarito svg-bg-image
+  "
+>
+  <div class="tw:text-[20px] tw:leading-[1.4] tw:max-md:text-[16px] tw:text-white/60 tw:[&_strong]:text-white tw:[&_strong]:font-bold">
+    {{ section.settings.section_desc }}
+  </div>
+  <div class="tw:aspect-1200/480 tw:max-md:aspect-390/240 tw:w-full tw:relative tw:md:mt-[24px]">
+    {% if section.settings.section_image != blank %}
+      <img
+        src="{{ section.settings.section_image | image_url }}"
+        alt="{{ section.settings.section_image.alt }}"
+        class="tw:absolute tw:top-0 tw:left-0 tw:w-full tw:h-full tw:object-cover"
+        width="{{ section.settings.section_image.width }}"
+        height="{{ section.settings.section_image.height }}"
+      >
+    {% else %}
+      <div
+        class="
+          tw:absolute tw:size-full tw:inset-0 tw:object-cover tw:bg-gray-400
+          tw:flex tw:items-center tw:justify-center
+        "
+      >
+        image
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Us Media Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "section_desc",
+      "label": "Section Desc",
+      "default": "<p>We've set up a lab to ensure our products meet top industry standards. Our designs are rooted in health research and ergonomics, focusing on advanced ergonomic technology and high-quality materials. Our goal is to deliver professional, health-conscious esports products and solutions to gamers worldwide.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_image",
+      "label": "Section Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Media Text"
+    }
+  ]
+}
+{% endschema %}

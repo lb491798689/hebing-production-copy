@@ -1,0 +1,672 @@
+{%- unless section.settings.full_width -%}
+    {%- render 'section-spacing-collapsing' -%}
+  {%- endunless -%}
+  {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+  {% comment %} {%- assign  desktop_gap = section.settings.desktop_gap | append:'px' -%}
+  {%- assign  mobile_gap = section.settings.mobile_gap | append:'px' -%}
+  {%- assign  overlay_width = section.settings.overlay_width | append:'px' -%}
+  {%- assign  enable_custom_width = section.settings.enable_custom_width -%} {% endcomment %}
+  <style>
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.full_width -%}
+        --section-outer-spacing-block: 0;
+      {%- endif -%}
+  
+      --content-over-media-overlay: {{ section.settings.overlay_color.rgb }} / {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  
+      {%- if section.settings.allow_transparent_header -%}
+        margin-block-start: calc(-1 * var(--header-height) * var(--section-is-first));
+      {%- endif -%}
+    }
+    
+    .kiks-banner-with-logo image-banner {
+        position: relative !important;
+    }
+    .kiks-banner-with-logo kiks-reveal-items {
+        display: flex;
+        position: absolute;
+        /* bottom: 0; */
+        bottom: 60px;
+        left: 0;
+        width: 100%;
+        scroll-snap-type: unset !important;
+        overscroll-behavior-x: auto;
+        overflow-x: auto;
+    }
+    .kiks-banner-with-logo kiks-reveal-items .logo-list__item {
+        padding: 0;
+        background: transparent;
+        transition: transform 0.2s;
+    }
+    .kiks-banner-with-logo kiks-reveal-items .swiper-wrapper {
+        display: flex;
+        transition-timing-function: linear !important;
+        will-change: transform;
+    }
+  </style>
+      {%  assign overlay_gradient = section.settings.overlay_gradient %}
+      {%  assign overlay_gradient_mobile = section.settings.overlay_gradient_mobile %}
+      {%  assign enable_gradient_mobile = section.settings.enable_gradient_mobile %}
+  {%- style -%}
+
+      {% if section.settings.enable_gradient %}
+      
+        {{ section_identifier }} image-banner.bg_gradient_custom:before {
+            content: "";
+            background: {{ overlay_gradient }}!important;
+            border-radius: inherit;
+            z-index: 1;
+            pointer-events: none;
+            transition: background .2s ease-in-out;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+        }
+      
+      {% endif %}
+    {% if enable_gradient_mobile %}
+      {% if overlay_gradient_mobile != blank %}
+        {%  assign overlay_gradient_mobile = section.settings.overlay_gradient_mobile %} 
+          {% else %} 
+        {%  assign overlay_gradient_mobile = 'rgb(var(--content-over-media-overlay))' %} 
+        {% endif %} 
+          @media only screen and (max-width: 699px){
+            {{ section_identifier }} image-banner.bg_gradient_custom:before {
+                background: {{ overlay_gradient_mobile }} !important;
+            }
+          }
+      {% endif %}
+  {%- endstyle -%}
+  
+  <div {% render 'section-properties' %} {% if section.settings.allow_transparent_header %}allow-transparent-header{% endif %}>
+    {%- capture class -%}content-over-media content-over-media--{{ section.settings.image_size }} {% if section.settings.full_width %}full-bleed{% else %}shadow-block rounded-lg{% endif %} {% if section.settings.enable_gradient %}bg_gradient_custom{% endif %} {%- endcapture -%}
+  
+    <image-banner reveal-on-scroll="true" {% if section.settings.enable_parallax %}parallax="0.3"{% endif %} {% render 'surface', class: class, text_color: section.settings.text_color %}>
+      {%- if section.settings.image != blank -%}
+        {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
+        
+        {%- render 'optimized-image' with 
+          image: section.settings.image,
+          mobile_image: section.settings.mobile_image,
+          class: 'banner-image',
+          sizes: sizes,
+          priority: 'high'
+        -%}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' | replace: '<svg', '<svg preserveAspectRatio="xMinYMin slice"' }}
+      {%- endif -%}
+  
+      {%- if section.blocks.size > 0 -%}
+        <div class="{{ section.settings.mobile_text_position }} {{ section.settings.desktop_text_position }}">
+          <div class="prose">
+
+                  {%- if section.settings.text_subheading != blank -%}
+                    <p class="bold" {{ section.shopify_attributes }}>{{ section.settings.text_subheading | escape }}</p>
+                  {%- endif -%}
+  
+                  {%- if section.settings.text_heading != blank -%}
+                    <p class="{{ section.settings.heading_tag }}" data-aos="fade-up" data-aos-easing="ease-in-out" {% if settings.heading_apparition != 'none' %}reveal-on-scroll="true"{% endif %} {{ section.shopify_attributes }} style="color: {{ section.settings.heading_color }}; font-style: {{ section.settings.font_style }};">
+                      {%- render 'styled-text', content: section.settings.text_heading, apparition_effect: true -%}
+                    </p>
+                  {%- endif -%}
+  
+                  {%- if section.settings.content != blank -%}
+                    <div {{ section.shopify_attributes }}>
+                      {{- section.settings.content -}}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if section.settings.text_btn != blank -%}
+                    {% render 'button', content: section.settings.text_btn, href: section.settings.url, size: section.settings.size, style: section.settings.style, background: section.settings.background, text_color: section.settings.text_color_btn, section: section %}
+                  {%- endif -%}
+
+          </div>
+        </div>
+      {%- endif -%}
+    </image-banner>
+    <kiks-reveal-items class="swiper-logo logo-list {% unless section.settings.stack_mobile %}scroll-area bleed sm:unbleed{% endunless %}" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-delay="300" data-loop="{{ section.settings.enable_loop }}" data-slide-speed="{{ section.settings.speed_slider }}" data-auto-slide="{{ section.settings.auto_slide }}" data-navigation="false">
+      <div class="swiper-wrapper">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign loading_strategy = nil
+
+          if section.index > 3 or forloop.index > 3
+            assign loading_strategy = 'lazy'
+          endif
+        -%}
+
+        {%- capture block_content -%}
+          {%- if block.settings.logo != blank -%}
+            {%- capture sizes -%}{{ block.settings.logo_width }}px{%- endcapture -%}
+            {%- capture widths -%}{{ block.settings.logo_width }}, {{ block.settings.logo_width | times: 2 | at_most: block.settings.logo.width }}{%- endcapture -%}
+            {%- capture max_width -%}--logo-list-image-max-width: {{ block.settings.logo_width }}px{%- endcapture -%}
+            {{- block.settings.logo | image_url: width: block.settings.logo.width | image_tag: style: max_width, loading: loading_strategy, widths: widths, class: 'logo-list__image', sizes: sizes -}}
+          {%- else -%}
+            {{- 'image' | placeholder_svg_tag: 'logo-list__image' -}}
+          {%- endif -%}
+        {%- endcapture -%}
+
+        {% capture item_attribute %}
+        {%- render 'surface', class: 'swiper-slide logo-list__item', background: section.settings.logo_item_background, background_fallback: 'bg-secondary' -%}
+        {%- endcapture -%}
+
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" {{ item_attribute }} {{ block.shopify_attributes }}>
+            {{- block_content -}}
+          </a>
+        {%- else -%}
+          <div {{ item_attribute }} {{ block.shopify_attributes }}>
+            {{- block_content -}}
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+      </div>
+    </kiks-reveal-items>
+  </div>
+  
+  {% schema %}
+  {
+    "name": "Kiks Banner with logo",
+    "class": "shopify-section--kiks-banner-with-logo kiks-banner-with-logo",
+    "tag": "section",
+    "disabled_on": {
+      "templates": ["password"],
+      "groups": ["header", "custom.overlay"]
+    },
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_transparent_header",
+        "label": "Allow transparent header",
+        "info": "This setting only applies when this section is the first one.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_parallax",
+        "label": "Enable parallax effect",
+        "info": "Parallax crops images.",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Original image ratio"
+          },
+          {
+            "value": "sm",
+            "label": "Small"
+          },
+          {
+            "value": "md",
+            "label": "Medium"
+          },
+          {
+            "value": "lg",
+            "label": "Large"
+          },
+          {
+            "value": "fill",
+            "label": "Fill screen"
+          }
+        ],
+        "info": "Choose \"Original image ratio\" to avoid image cropping. [Learn more](https://help.shopify.com/en/manual/online-store/images/theme-images#best-practices-for-slideshows-and-full-widtw-images)",
+        "default": "auto"
+      },
+      {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "3200 x 1600px .jpg recommended"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile image",
+        "info": "1300 x 1500px .jpg recommended. Default to desktop image."
+      },
+      {
+        "type": "header",
+        "content": "Slider Settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_loop",
+        "label": "Loop item",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "auto_slide",
+        "label": "Auto Slide",
+        "default": true
+      },
+      {
+        "type": "number",
+        "id": "speed_slider",
+        "label": "Speed Slider",
+        "info": "Speed Slider (5000) is = to 5seconds",
+        "default": 3000
+      },
+      {
+        "type": "header",
+        "content": "Overlay Content"
+      },
+      {
+        "type": "text",
+        "id": "text_subheading",
+        "label": "Subheading",
+        "default": "Subheading"
+      },
+      {
+        "type": "text",
+        "id": "text_heading",
+        "label": "Text",
+        "default": "Heading"
+      },
+      {
+        "type": "select",
+        "id": "font_style",
+        "label": "Font Style",
+        "options": [
+          {
+            "value": "italic",
+            "label": "Italic"
+          },
+          {
+            "value": "normal",
+            "label": "Normal"
+          }
+        ],
+        "default": "italic"
+      },
+      {
+        "type": "color",
+        "id": "heading_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "select",
+        "id": "heading_tag",
+        "label": "Style",
+        "options": [
+          {
+            "value": "h0",
+            "label": "XX-Large"
+          },
+          {
+            "value": "h1",
+            "label": "X-Large"
+          },
+          {
+            "value": "h2",
+            "label": "Large"
+          },
+          {
+            "value": "h3",
+            "label": "Medium"
+          },
+          {
+            "value": "h4",
+            "label": "Small"
+          },
+          {
+            "value": "h5",
+            "label": "X-Small"
+          },
+          {
+            "value": "h6",
+            "label": "XX-Small"
+          }
+        ],
+        "default": "h1"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content",
+        "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+      },
+      {
+        "type": "select",
+        "id": "style",
+        "label": "Style",
+        "options": [
+          {
+            "value": "outline",
+            "label": "Outline"
+          },
+          {
+            "value": "fill",
+            "label": "Fill"
+          }
+        ],
+        "default": "fill"
+      },
+      {
+        "type": "select",
+        "id": "size",
+        "label": "Size",
+        "options": [
+          {
+            "value": "sm",
+            "label": "Small"
+          },
+          {
+            "value": "base",
+            "label": "Medium"
+          },
+          {
+            "value": "lg",
+            "label": "Large"
+          },
+          {
+            "value": "xl",
+            "label": "X-Large"
+          }
+        ],
+        "default": "lg"
+      },
+      {
+        "type": "text",
+        "id": "text_btn",
+        "label": "Button Label",
+        "default": "Button text"
+      },
+      {
+        "type": "url",
+        "id": "url",
+        "label": "Link"
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "text_color_btn",
+        "label": "Text"
+      },
+      {
+        "type": "header",
+        "content": "Extended Settings"
+      },
+      {
+        "type": "select",
+        "id": "mobile_text_position",
+        "label": "Mobile content position",
+        "options": [
+          {
+            "value": "place-self-start text-start",
+            "label": "Top left"
+          },
+          {
+            "value": "place-self-start-center text-center",
+            "label": "Top center"
+          },
+          {
+            "value": "place-self-start-end text-end",
+            "label": "Top right"
+          },
+          {
+            "value": "place-self-center-start text-start",
+            "label": "Middle left"
+          },
+          {
+            "value": "place-self-center text-center",
+            "label": "Middle center"
+          },
+          {
+            "value": "place-self-center-end text-end",
+            "label": "Middle right"
+          },
+          {
+            "value": "place-self-end-start text-start",
+            "label": "Bottom left"
+          },
+          {
+            "value": "place-self-end-center text-center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "place-self-end text-end",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "place-self-center text-center"
+      },
+      {
+        "type": "select",
+        "id": "desktop_text_position",
+        "label": "Desktop content position",
+        "options": [
+          {
+            "value": "sm:place-self-start sm:text-start",
+            "label": "Top left"
+          },
+          {
+            "value": "sm:place-self-start-center sm:text-center",
+            "label": "Top center"
+          },
+          {
+            "value": "sm:place-self-start-end sm:text-end",
+            "label": "Top right"
+          },
+          {
+            "value": "sm:place-self-center-start sm:text-start",
+            "label": "Middle left"
+          },
+          {
+            "value": "sm:place-self-center sm:text-center",
+            "label": "Middle center"
+          },
+          {
+            "value": "sm:place-self-center-end sm:text-end",
+            "label": "Middle right"
+          },
+          {
+            "value": "sm:place-self-end-start sm:text-start",
+            "label": "Bottom left"
+          },
+          {
+            "value": "sm:place-self-end-center sm:text-center",
+            "label": "Bottom center"
+          },
+          {
+            "value": "sm:place-self-end sm:text-end",
+            "label": "Bottom right"
+          }
+        ],
+        "default": "sm:place-self-center sm:text-center"
+      },
+      {
+        "type": "select",
+        "id": "news_position",
+        "label": "Newsletter Position",
+        "options": [
+            {
+                "value": "flex-start",
+                "label": "Left"
+            },
+            {
+                "value": "center",
+                "label": "Center"
+            },
+            {
+                 "value": "flex-end",
+                "label": "Right"
+            }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_custom_width",
+        "label": "Allow Custom Width",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "overlay_width",
+        "label": "Overlay Width",
+        "min": 0,
+        "max": 1000,
+        "step": 10,
+        "unit": "px",
+        "default": 780
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width_content",
+        "label": "Full width Overlay",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_gap",
+        "label": "Enable Gap",
+        "default": false
+      },
+      {
+        "type": "range",
+        "id": "desktop_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Destop Gap Overlay Container",
+        "default": 100
+      },
+      {
+        "type": "range",
+        "id": "mobile_gap",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Mobile Gap Overlay Container",
+        "default": 48
+      },
+      {
+        "type": "header",
+        "content": "Overlay Gradient"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_gradient",
+        "label": "Enable Gradient",
+        "info": "Make sure you don't have other background overlay.",
+        "default": false
+      },
+      {
+        "type": "color_background",
+        "id": "overlay_gradient",
+        "label": "Overlay Gradient"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_gradient_mobile",
+        "label": "Enable Gradient Mobile",
+        "info": "Enable this if you design is changing on mobile.",
+        "default": false
+      },
+      {
+        "type": "color_background",
+        "id": "overlay_gradient_mobile",
+        "label": "Overlay Gradient Mobile"
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 30
+      }
+      
+    ],
+    "blocks": [
+      {
+        "type": "logo",
+        "name": "Logo",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "logo",
+            "label": "Logo",
+            "info": "300 x 90px .jpg recommended"
+          },
+          {
+            "type": "range",
+            "id": "logo_width",
+            "min": 50,
+            "max": 300,
+            "unit": "px",
+            "step": 10,
+            "label": "Logo width",
+            "default": 140
+          },
+          {
+            "type": "url",
+            "id": "link",
+            "label": "Link"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Kiks Banner with logo",
+        "blocks": [
+          {
+            "type": "logo"
+          },
+          {
+            "type": "logo"
+          },
+          {
+            "type": "logo"
+          },
+          {
+            "type": "logo"
+          },
+          {
+            "type": "logo"
+          }
+        ]
+      }
+    ]
+  }
+  {% endschema %}

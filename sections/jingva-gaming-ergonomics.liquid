@@ -1,0 +1,799 @@
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+
+  assign hero_pc = s.hero_image_pc
+  assign hero_mob = s.hero_image_mobile
+  if hero_mob == blank and hero_pc != blank
+    assign hero_mob = hero_pc
+  endif
+  if hero_pc == blank and hero_mob != blank
+    assign hero_pc = hero_mob
+  endif
+-%}
+
+<section
+  class="jingva-gaming-ergonomics jingva-gaming-ergonomics--{{ sid }}"
+  data-section-id="{{ sid }}"
+>
+  <style>
+    /*
+     * Figma PC 5487:2551 | MOB 5738:5013
+     * develop.md: MOB≤1279 | PAD 1280–1439 | PC≥1440 | 版心 1200
+     */
+    .jingva-gaming-ergonomics--{{ sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background: #f4f6f6 !important;
+      padding: 140px 48px 140px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-inner {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* —— 上：左文右图 —— */
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-row {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      min-height: 480px !important;
+      width: 100% !important;
+      background: #ffffff !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-copy {
+      flex: 0 0 708px !important;
+      width: 708px !important;
+      max-width: 100% !important;
+      padding: 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-sizing: border-box !important;
+      background: #ffffff !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-copy-top {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-heading {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 40px !important;
+      line-height: 1.2 !important;
+      letter-spacing: -0.8px !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-heading.aos-animate {
+      transform: translateY(0);
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-body {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 20px !important;
+      line-height: 1.4 !important;
+      letter-spacing: -0.4px !important;
+      color: rgba(26, 26, 26, 0.6) !important;
+      margin: 0 !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-certs {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 24px !important;
+      padding-top: 12px !important;
+      border-top: 1px solid rgba(26, 26, 26, 0.2) !important;
+      box-sizing: border-box !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+
+    /* PC 单个 cert：按 Figma 5487:2559 各自原始尺寸（不裁不拉伸） */
+    .jingva-gaming-ergonomics--{{ sid }} .jge-cert {
+      display: block !important;
+      flex: 0 0 auto !important;
+      object-fit: contain !important;
+    }
+    .jingva-gaming-ergonomics--{{ sid }} .jge-cert--1 {
+      width: 186px !important;
+      height: 48px !important;
+    }
+    .jingva-gaming-ergonomics--{{ sid }} .jge-cert--2 {
+      width: 72px !important;
+      height: 72px !important;
+    }
+    .jingva-gaming-ergonomics--{{ sid }} .jge-cert--3 {
+      width: 125px !important;
+      height: 32px !important;
+    }
+    .jingva-gaming-ergonomics--{{ sid }} .jge-cert--4 {
+      width: 98px !important;
+      height: 48px !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-visual {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      min-height: 480px !important;
+      position: relative !important;
+      background: #ffffff !important;
+      overflow: hidden !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-visual picture {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-hero-visual img {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: min(90%, 360px) !important;
+      max-height: 316px !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    /* —— 下：四权益 —— */
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefits {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      gap: 12px !important;
+      width: 100% !important;
+      align-items: stretch !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefit {
+      flex: 1 1 0 !important;
+      min-width: 0 !important;
+      background: #ffffff !important;
+      border-radius: 12px !important;
+      padding: 48px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefit-icon {
+      width: 48px !important;
+      height: 48px !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefit-icon img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      display: block !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefit-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: normal !important;
+      color: #0a0a0a !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    .jingva-gaming-ergonomics--{{ sid }} .jge-benefit-title-line {
+      margin: 0 !important;
+    }
+
+    /* —— MOB 专用结构 —— */
+    .jingva-gaming-ergonomics--{{ sid }} .jge-mob-stack {
+      display: none !important;
+    }
+
+    /* === PAD === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      .jingva-gaming-ergonomics--{{ sid }} {
+        padding: 120px 40px 120px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-hero-copy {
+        flex-basis: 560px !important;
+        width: 560px !important;
+        padding: 40px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-heading {
+        font-size: 36px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-body {
+        font-size: 18px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefit {
+        padding: 40px 20px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefit-title {
+        font-size: 22px !important;
+      }
+
+      /* PAD certs：等比缩到约 0.8 以适应较窄的 hero-copy */
+      .jingva-gaming-ergonomics--{{ sid }} .jge-certs {
+        gap: 16px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-cert--1 {
+        width: 149px !important;
+        height: 38px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-cert--2 {
+        width: 58px !important;
+        height: 58px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-cert--3 {
+        width: 100px !important;
+        height: 26px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-cert--4 {
+        width: 78px !important;
+        height: 38px !important;
+      }
+    }
+
+    /* === MOB ≤1279 === */
+    @media screen and (max-width: 1279px) {
+      .jingva-gaming-ergonomics--{{ sid }} {
+        padding: 68px 16px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-inner {
+        gap: 12px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-hero-row,
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefits {
+        display: none !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-stack {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-card {
+        background: #ffffff !important;
+        border-radius: 12px !important;
+        padding: 24px 16px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 36px !important;
+        box-sizing: border-box !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-top {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 12px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-visual-wrap {
+        width: 74px !important;
+        height: 86px !important;
+        position: relative !important;
+        flex-shrink: 0 !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-visual-wrap img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-card .jge-heading {
+        font-size: 24px !important;
+        letter-spacing: -0.48px !important;
+        text-align: center !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-hero-card .jge-body {
+        font-size: 14px !important;
+        letter-spacing: -0.28px !important;
+        text-align: center !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        justify-content:space-between;
+        align-items: center !important;
+        gap: 16px !important;
+        overflow-x: auto !important;
+        width: 100% !important;
+        padding-top: 0 !important;
+        border-top: none !important;
+      }
+
+      /* MOB 单个 cert：按 Figma 5738:5021 各自原始尺寸 */
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs .jge-cert {
+        flex: 0 0 auto !important;
+        height: auto !important;
+        width: auto !important;
+        max-height: none !important;
+        max-width: none !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs .jge-cert--1 {
+        width: 104px !important;
+        height: 27px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs .jge-cert--2 {
+        width: 40px !important;
+        height: 40px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs .jge-cert--3 {
+        width: 67px !important;
+        height: 17px !important;
+      }
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-certs .jge-cert--4 {
+        width: 55px !important;
+        height: 27px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-mob-benefits-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefit--mob {
+        padding: 24px 8px !important;
+        gap: 12px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefit--mob .jge-benefit-icon {
+        width: 40px !important;
+        height: 40px !important;
+      }
+
+      .jingva-gaming-ergonomics--{{ sid }} .jge-benefit--mob .jge-benefit-title {
+        font-size: 16px !important;
+      }
+    }
+  </style>
+
+  <div class="jge-inner">
+    {%- comment -%} PC / PAD：左右分栏 + 横排四卡 {%- endcomment -%}
+    <div class="jge-hero-row">
+      <div class="jge-hero-copy">
+        <div class="jge-hero-copy-top">
+          {%- if s.heading != blank -%}
+            <h2 class="jge-heading">{{ s.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.body != blank -%}
+            <p class="jge-body">{{ s.body | escape }}</p>
+          {%- endif -%}
+        </div>
+        {%- if s.cert_logo_1 != blank or s.cert_logo_2 != blank or s.cert_logo_3 != blank or s.cert_logo_4 != blank -%}
+          <div class="jge-certs">
+            {%- if s.cert_logo_1 != blank -%}
+              <img class="jge-cert jge-cert--1" src="{{ s.cert_logo_1 | image_url: width: 400 }}" alt="" loading="lazy" width="186" height="48">
+            {%- endif -%}
+            {%- if s.cert_logo_2 != blank -%}
+              <img class="jge-cert jge-cert--2" src="{{ s.cert_logo_2 | image_url: width: 200 }}" alt="" loading="lazy" width="72" height="72">
+            {%- endif -%}
+            {%- if s.cert_logo_3 != blank -%}
+              <img class="jge-cert jge-cert--3" src="{{ s.cert_logo_3 | image_url: width: 300 }}" alt="" loading="lazy" width="125" height="32">
+            {%- endif -%}
+            {%- if s.cert_logo_4 != blank -%}
+              <img class="jge-cert jge-cert--4" src="{{ s.cert_logo_4 | image_url: width: 240 }}" alt="" loading="lazy" width="98" height="48">
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="jge-hero-visual">
+        {%- if hero_pc != blank or hero_mob != blank -%}
+          <picture>
+            {%- if hero_pc != blank -%}
+              <source media="(min-width: 1280px)" srcset="{{ hero_pc | image_url: width: 1200 }}">
+            {%- endif -%}
+            {%- if hero_mob != blank -%}
+              <img
+                src="{{ hero_mob | image_url: width: 800 }}"
+                alt="{{ s.heading | default: 'Gaming ergonomics' | escape }}"
+                width="{{ hero_mob.width | default: 273 }}"
+                height="{{ hero_mob.height | default: 316 }}"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- elsif hero_pc != blank -%}
+              <img
+                src="{{ hero_pc | image_url: width: 1200 }}"
+                alt="{{ s.heading | default: 'Gaming ergonomics' | escape }}"
+                width="{{ hero_pc.width | default: 400 }}"
+                height="{{ hero_pc.height | default: 460 }}"
+                loading="lazy"
+                decoding="async"
+              >
+            {%- endif -%}
+          </picture>
+        {%- else -%}
+          <img
+            class="jge-hero-visual-fallback"
+            src="{{ 'jge-hero-privacy.svg' | asset_url }}"
+            alt=""
+            width="273"
+            height="316"
+            loading="lazy"
+            decoding="async"
+          >
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <div class="jge-benefits">
+        {%- for block in section.blocks -%}
+          <div class="jge-benefit" {{ block.shopify_attributes }}>
+            <div class="jge-benefit-icon">
+              {%- if block.settings.icon != blank -%}
+                <img
+                  src="{{ block.settings.icon | image_url: width: 96 }}"
+                  alt=""
+                  width="48"
+                  height="48"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {%- case forloop.index -%}
+                  {%- when 1 -%}
+                    <img src="{{ 'jge-icon-lifetime.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                  {%- when 2 -%}
+                    <img src="{{ 'jge-icon-shipping.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                  {%- when 3 -%}
+                    <img src="{{ 'jge-icon-return.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                  {%- when 4 -%}
+                    <img src="{{ 'jge-icon-warranty.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                  {%- else -%}
+                    <img src="{{ 'jge-icon-lifetime.svg' | asset_url }}" alt="" width="48" height="48" loading="lazy">
+                {%- endcase -%}
+              {%- endif -%}
+            </div>
+            <div class="jge-benefit-text jge-benefit-text--pc">
+              {%- assign l1 = block.settings.title_pc_line1 -%}
+              {%- assign l2 = block.settings.title_pc_line2 -%}
+              {%- if l1 != blank and l2 != blank -%}
+                <div class="jge-benefit-title">
+                  <p class="jge-benefit-title-line">{{ l1 | escape }}</p>
+                  <p class="jge-benefit-title-line">{{ l2 | escape }}</p>
+                </div>
+              {%- elsif l1 != blank -%}
+                <p class="jge-benefit-title">{{ l1 | escape }}</p>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} MOB：上图下文卡 + 2×2 权益（顺序由 mobile_slot 控制） {%- endcomment -%}
+    <div class="jge-mob-stack">
+      <div class="jge-mob-hero-card">
+        <div class="jge-mob-hero-top">
+          <div class="jge-mob-hero-visual-wrap">
+            {%- if hero_mob != blank or hero_pc != blank -%}
+              {%- assign hm = hero_mob | default: hero_pc -%}
+              <img
+                src="{{ hm | image_url: width: 400 }}"
+                alt="{{ s.heading | default: 'Gaming ergonomics' | escape }}"
+                width="{{ hm.width | default: 148 }}"
+                height="{{ hm.height | default: 172 }}"
+                loading="lazy"
+              >
+            {%- else -%}
+              <img
+                src="{{ 'jge-hero-privacy.svg' | asset_url }}"
+                alt=""
+                width="74"
+                height="86"
+                loading="lazy"
+              >
+            {%- endif -%}
+          </div>
+          {%- if s.heading != blank -%}
+            <h2 class="jge-heading">{{ s.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if s.body != blank -%}
+            <p class="jge-body">{{ s.body | escape }}</p>
+          {%- endif -%}
+        </div>
+        {%- if s.cert_logo_1 != blank or s.cert_logo_2 != blank or s.cert_logo_3 != blank or s.cert_logo_4 != blank -%}
+          <div class="jge-mob-certs">
+            {%- if s.cert_logo_1 != blank -%}
+              <img class="jge-cert jge-cert--1" src="{{ s.cert_logo_1 | image_url: width: 240 }}" alt="" loading="lazy" width="104" height="27">
+            {%- endif -%}
+            {%- if s.cert_logo_2 != blank -%}
+              <img class="jge-cert jge-cert--2" src="{{ s.cert_logo_2 | image_url: width: 120 }}" alt="" loading="lazy" width="40" height="40">
+            {%- endif -%}
+            {%- if s.cert_logo_3 != blank -%}
+              <img class="jge-cert jge-cert--3" src="{{ s.cert_logo_3 | image_url: width: 200 }}" alt="" loading="lazy" width="67" height="17">
+            {%- endif -%}
+            {%- if s.cert_logo_4 != blank -%}
+              <img class="jge-cert jge-cert--4" src="{{ s.cert_logo_4 | image_url: width: 160 }}" alt="" loading="lazy" width="55" height="27">
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div class="jge-mob-benefits-grid">
+          {%- for block in section.blocks -%}
+            {%- liquid
+              assign mob_ord = block.settings.mobile_slot
+              if mob_ord == blank
+                assign mob_ord = forloop.index
+              endif
+            -%}
+            <div
+              class="jge-benefit jge-benefit--mob"
+              style="order: {{ mob_ord }};"
+              {{ block.shopify_attributes }}
+            >
+              <div class="jge-benefit-icon">
+                {%- if block.settings.icon != blank -%}
+                  <img
+                    src="{{ block.settings.icon | image_url: width: 80 }}"
+                    alt=""
+                    width="40"
+                    height="40"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {%- case forloop.index -%}
+                    {%- when 1 -%}
+                      <img src="{{ 'jge-icon-lifetime.svg' | asset_url }}" alt="" width="40" height="40" loading="lazy">
+                    {%- when 2 -%}
+                      <img src="{{ 'jge-icon-shipping.svg' | asset_url }}" alt="" width="40" height="40" loading="lazy">
+                    {%- when 3 -%}
+                      <img src="{{ 'jge-icon-return.svg' | asset_url }}" alt="" width="40" height="40" loading="lazy">
+                    {%- when 4 -%}
+                      <img src="{{ 'jge-icon-warranty.svg' | asset_url }}" alt="" width="40" height="40" loading="lazy">
+                    {%- else -%}
+                      <img src="{{ 'jge-icon-lifetime.svg' | asset_url }}" alt="" width="40" height="40" loading="lazy">
+                  {%- endcase -%}
+                {%- endif -%}
+              </div>
+              <div class="jge-benefit-text">
+                {%- assign m1 = block.settings.title_mobile_line1 | default: block.settings.title_pc_line1 -%}
+                {%- assign m2 = block.settings.title_mobile_line2 | default: block.settings.title_pc_line2 -%}
+                {%- if m1 != blank and m2 != blank -%}
+                  <div class="jge-benefit-title">
+                    <p class="jge-benefit-title-line">{{ m1 | escape }}</p>
+                    <p class="jge-benefit-title-line">{{ m2 | escape }}</p>
+                  </div>
+                {%- elsif m1 != blank -%}
+                  <p class="jge-benefit-title">{{ m1 | escape }}</p>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-gaming-ergonomics--{{ sid }}');
+  if (!section) return;
+
+  var titles = section.querySelectorAll('.jge-heading');
+  if (!titles.length) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  titles.forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Gaming Ergo",
+  "class": "shopify-section--jingva-gaming-ergonomics",
+  "tag": "section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "Professional gaming ergonomics"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "正文",
+      "default": "Designed with ergonomics at its core, every chair is engineered to keep your body supported during marathon sessions. Expert-Backed Design: Developed with top specialists from ICA (American Institute of Chiropractic) and ISAKOS (International Sports Medicine Association). Certified Comfort: Meets IGR certification and US ergonomic standards for professional gaming and long-term posture support."
+    },
+    {
+      "type": "header",
+      "content": "主视觉（右侧 / 手机顶部）"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_pc",
+      "label": "主视觉图（PC）"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "主视觉图（手机）",
+      "info": "留空则使用 PC 图。"
+    },
+    {
+      "type": "header",
+      "content": "认证 Logo（横向排列）"
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_logo_1",
+      "label": "认证 Logo 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_logo_2",
+      "label": "认证 Logo 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_logo_3",
+      "label": "认证 Logo 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "cert_logo_4",
+      "label": "认证 Logo 4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "权益项",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "图标",
+          "info": "留空则使用主题内置 SVG：第1–4项对应 lifetime / shipping / return / warranty。"
+        },
+        {
+          "type": "text",
+          "id": "title_pc_line1",
+          "label": "PC 标题第 1 行",
+          "default": "Lifetime Frame Warranty"
+        },
+        {
+          "type": "text",
+          "id": "title_pc_line2",
+          "label": "PC 标题第 2 行",
+          "info": "单行标题可留空"
+        },
+        {
+          "type": "text",
+          "id": "title_mobile_line1",
+          "label": "手机标题第 1 行",
+          "info": "留空则沿用 PC 第 1 行"
+        },
+        {
+          "type": "text",
+          "id": "title_mobile_line2",
+          "label": "手机标题第 2 行",
+          "info": "留空则沿用 PC 第 2 行"
+        },
+        {
+          "type": "range",
+          "id": "mobile_slot",
+          "label": "手机网格顺序（1–4）",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 1,
+          "info": "TL=1, TR=2, BL=3, BR=4。与 Figma 手机 2×2 顺序对齐时可调整。"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Gaming Ergo",
+      "category": "Jingva",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title_pc_line1": "Lifetime Frame Warranty",
+            "title_mobile_line1": "Lifetime warranty on the frame",
+            "mobile_slot": 1
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title_pc_line1": "Free Fast",
+            "title_pc_line2": "Shipping",
+            "title_mobile_line1": "Parts are exchanged, not repaired",
+            "mobile_slot": 4
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title_pc_line1": "30-Day Worry-free Returns",
+            "title_mobile_line1": "30-day return and exchange policy",
+            "mobile_slot": 2
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title_pc_line1": "3-Year",
+            "title_pc_line2": "Warranty",
+            "title_mobile_line1": "3-year",
+            "title_mobile_line2": "parts warranty",
+            "mobile_slot": 3
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

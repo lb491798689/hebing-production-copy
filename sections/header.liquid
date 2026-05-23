@@ -1,0 +1,3504 @@
+{%- comment -%}
+IMPLEMENTATION NOTE: Impact header with all the menu is an extremely complex piece of code. Due to requirements from design
+team, we had to cover over hundred of potential combinations. As a consequence, this part (and all the menu snippets) are
+extremely sensitive code that should (if possible) not be touched unless you have spend enough time to study and understand
+the underlying logic of the menu.
+{%- endcomment -%}
+{%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+{%- comment -%}
+  Header 透明底规范：
+  - 透明（rgba(0,0,0,0.8) + blur）：index / page.product-detail / page.product-detail-m6；
+    滚过 hero 后由脚本加 .is-filled 切换为纯 #000。
+  - 其他模板：始终纯 #000。
+{%- endcomment -%}
+{%- assign is_transparent_header = false -%}
+{%- if template == 'index' or template.suffix == 'product-detail' or template.suffix == 'product-detail-m6' -%}
+  {%- assign is_transparent_header = true -%}
+{%- endif -%}
+{%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+  {%- assign will_show_country_selector = true -%}
+{%- endif -%}
+
+{%- if section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
+  {%- assign will_show_locale_selector = true -%}
+{%- endif -%}
+
+<style>
+  :root {
+    --sticky-header-enabled: {%- if section.settings.enable_sticky -%}1{% else %}0{% endif %};
+  }
+
+  #shopify-section-{{ section.id }} {
+    --header-grid-template: "main-nav logo secondary-nav" / minmax(0, 1fr) auto minmax(0, 1fr);
+    --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-3){% else %}var(--spacing-4-5){% endif %};
+    
+    --header-background-blur-radius: {{ section.settings.background_blur_radius }}px;
+    --header-transparent-text-color: {{ section.settings.transparent_header_text_color.rgb }};
+
+    {%- if section.settings.logo != blank -%}
+      --header-logo-width: {{ section.settings.logo_mobile_max_width }}px;
+      --header-logo-height: {{ section.settings.logo_mobile_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
+    {%- endif -%}
+
+    position: {% if section.settings.enable_sticky %}sticky{% else %}relative{% endif %};
+    top: 0;
+    z-index: 103;
+    --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
+
+    {% if is_transparent_header %}
+      --header-background-opacity: 0;
+      --text-color: 255 255 255;
+      {%- comment -%}
+        勿再用 height:0：区块高度为 0 时与公告条 sibling 之间易透出 body/首屏底色缝。
+        实际占位高度在下方 max-width:1279 / min-width:1280 中与 .header__wrapper（56px / 64px）对齐。
+      {%- endcomment -%}
+      margin: 0 !important;
+      padding: 0 !important;
+    {% endif %}
+  
+  }
+  #shopify-section-{{ section.id }}  .header__wrapper{
+    {% if is_transparent_header %}
+      --text-color: 255 255 255;
+      background: rgba(0, 0, 0, 0.8) !important;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      position: absolute !important;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 103;
+    {% else %}
+      background: #000 !important;
+    {% endif %}
+  }
+  {% if is_transparent_header %}
+   #shopify-section-{{ section.id }}  .header__logo-image--transparent{
+    opacity: 1;
+   }
+   #shopify-section-{{ section.id }}  .header__wrapper:hover .header__logo-image--transparent{
+    opacity: 0;
+   }
+
+   /* 首页的时候导航栏是隐藏 */
+
+
+  {% else %}
+  /* 非透明 Header 模板（collection 等）：Logo 始终可见，不受首屏 allow-transparent-header 区块影响 */
+  #shopify-section-{{ section.id }} .header .header__logo-image {
+    --header-logo-opacity: 1;
+    opacity: 1 !important;
+  }
+  #shopify-section-{{ section.id }} .header:not(.is-filled) {
+    --header-logo-opacity: 1;
+    --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
+  }
+  {% if section.settings.enable_sticky %}
+  #shopify-section-{{ section.id }} {
+    position: sticky !important;
+    top: 0 !important;
+  }
+  {% endif %}
+  {% endif %}
+  {% if is_transparent_header %}
+  #shopify-section-{{ section.id }} .header__wrapper:hover {
+    --text-color: 255, 255, 255;
+    --header-background-opacity: 1;
+    background: #000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  {% endif %}
+
+  /* 滚过首屏 KV 后主导航背景纯黑 #000（首页 + 产品页 / Page 等同脚本加 is-filled 的模板） */
+  #shopify-section-{{ section.id }} .header.is-filled .header__wrapper,
+  #shopify-section-{{ section.id }} .header.is-filled .header__wrapper:hover {
+    background: #000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+  }
+
+  /* 菜单展开（mega menu hover 打开）时 header 也保持纯 #000，避免 hover 时背景色变动 */
+  #shopify-section-{{ section.id }} .header:has(details[open]) .header__wrapper,
+  #shopify-section-{{ section.id }} .header:has(details[open]) .header__wrapper:hover {
+    background: #000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border-bottom: none !important;
+  }
+  /* theme.css .header:has([open]) { --header-background-opacity: 1 } — 避免与子元素其它 [open] 叠加把变量拉满 */
+  #shopify-section-{{ section.id }} .header:has(details[open]) {
+    --header-background-opacity: {{ section.settings.background_opacity | divided_by: 100.0 }};
+  }
+
+  /* AF Header — 规范：PC/PAD 64px，Mobile 56px；Figma 节点 1391:123637 (PC) / 1769:5779 (Mobile) */
+  
+  /* Mobile (375~1279px): 高度 56px，padding 8px 16px */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__wrapper {
+      height: 56px;
+      min-height: 56px;
+      padding: 8px 16px;
+      margin: 0 !important;
+      {%- if is_transparent_header -%}
+        background: transparent;
+      {%- else -%}
+        background: #000 !important;
+      {%- endif -%}
+    }
+
+    #shopify-section-{{ section.id }} {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    /* 全站：header 区块占位与 .header__wrapper 同高，避免 aside 与导航之间透出底色（首页曾 height:0；其它模板如 page + view=product-detail 也会缝） */
+    #shopify-section-{{ section.id }} {
+      min-height: 56px;
+      height: auto;
+      box-sizing: border-box;
+    }
+
+    #shopify-section-{{ section.id }} .header.is-filled .header__wrapper,
+    #shopify-section-{{ section.id }} .header.is-filled .header__wrapper:hover {
+      background: #000 !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-bottom: none !important;
+    }
+
+    /*
+      手机全屏菜单打开时：仅顶栏条改为纯黑；下方抽屉内容仍为 theme 浅灰稿（勿把整页菜单打成黑底）。
+      抽屉宿主在 body 下，故用 body:has(#header-sidebar-menu[open]) 选中。
+    */
+    body:has(#header-sidebar-menu[open]) #shopify-section-{{ section.id }} .header__wrapper,
+    body:has(#header-sidebar-menu[open]) #shopify-section-{{ section.id }} .header__wrapper:hover {
+      background: #000 !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      border-bottom: none !important;
+      --header-background-opacity: 1 !important;
+    }
+  }
+  
+  /* PAD + PC (1280px+): 高度 64px，padding 0 48px */
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} .header__wrapper {
+      height: 64px;
+      min-height: 64px;
+      padding: 0 48px;
+      {%- if is_transparent_header -%}
+        background: transparent;
+      {%- else -%}
+        background: #000 !important;
+      {%- endif -%}
+    }
+
+    #shopify-section-{{ section.id }} {
+      min-height: 64px;
+      height: auto;
+      box-sizing: border-box;
+    }
+
+    {%- if section.settings.logo != blank -%}
+    #shopify-section-{{ section.id }} .header__logo-image {
+      width: 150px !important;
+      max-width: 150px !important;
+      max-height: 26px !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+    {%- endif -%}
+  }
+
+  /* 移动端 Logo 尺寸 118.75×20px */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.logo != blank -%}
+        --header-logo-width: {{ section.settings.logo_mobile_max_width }}px;
+        --header-logo-height: {{ section.settings.logo_mobile_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
+      {%- endif -%}
+    }
+    #shopify-section-{{ section.id }} .header__logo-image {
+      width: 118.75px !important;
+      height: auto !important;
+      max-width: 118.75px !important;
+      max-height: none !important;
+      object-fit: contain !important;
+    }
+  }
+
+  {%- if section.settings.logo_mobile != blank -%}
+  /* 手机端独立 Logo 显示控制 */
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} .header__logo-image--mobile {
+      display: none !important;
+    }
+  }
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__logo-image--pc {
+      display: none !important;
+    }
+  }
+  {%- endif -%}
+
+  /* 移动端主导航区图标按钮 40×40，图标 20×20 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__main-nav .header__icon-list .tap-area {
+      width: 40px;
+      height: 40px;
+    }
+    #shopify-section-{{ section.id }} .header__main-nav .header__icon-list svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  {%- if section.settings.enable_sticky -%}
+    .shopify-section--announcement-bar ~ #shopify-section-{{ section.id }} {
+      top: calc(var(--sticky-announcement-bar-enabled, 0) * var(--announcement-bar-height, 0px));
+    }
+  {%- endif -%}
+
+  {%- if section.settings.opening_from == 'left' -%}
+    /* develop.md: MOB 375~1279（原 699 为遗留 Dawn sm 断点） */
+    @media screen and (max-width: 1279px) {
+      .navigation-drawer {
+        --drawer-content-max-height: 100vh;
+        padding: 0;
+        width:80vw;
+      }
+    }
+  {%- endif -%}
+
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.logo != blank -%}
+        --header-logo-width: {{ section.settings.logo_max_width }}px;
+        --header-logo-height: {{ section.settings.logo_max_width | divided_by: section.settings.logo.aspect_ratio | round }}px;
+      {%- endif -%}
+
+      --header-padding-block: {% if section.settings.reduce_padding %}var(--spacing-6){% else %}12px{% endif %};
+    }
+  }
+
+
+  {%- if section.settings.layout contains 'logo_left' -%}
+    @media screen and (min-width: 1150px) {
+      {%- if section.settings.secondary_menu != blank or will_show_country_selector or will_show_locale_selector -%}
+        {%- assign max_percent = '55%' -%}
+      {%- else -%}
+        {%- assign max_percent = '70%' -%}
+      {%- endif -%}
+
+      #shopify-section-{{ section.id }} {
+        --header-grid-template: "logo main-nav secondary-nav" / {% if section.settings.layout == 'logo_left_navigation_inline' %}auto minmax(0, 1fr) minmax(0, max-content){% else %}minmax(0, 1fr) fit-content({{ max_percent }}) minmax(0, 1fr){% endif %};
+      }
+    }
+  {%- endif -%}
+
+  {%- if is_transparent_header -%}
+  /* 抵消透明 header 区块 min-height，避免首屏 KV 整体下移 */
+  @media screen and (max-width: 1279px) {
+    body.template-index main#main > .shopify-section:first-child,
+    body.template-page-product-detail main#main > .shopify-section:first-child,
+    body.template-page-product-detail-m6 main#main > .shopify-section:first-child {
+      margin-top: -56px !important;
+    }
+  }
+  @media screen and (min-width: 1280px) {
+    body.template-index main#main > .shopify-section:first-child,
+    body.template-page-product-detail main#main > .shopify-section:first-child,
+    body.template-page-product-detail-m6 main#main > .shopify-section:first-child {
+      margin-top: -64px !important;
+    }
+  }
+  {%- endif -%}
+
+</style>
+{% if section.settings.enbale_custom %}
+{%- style -%}
+   ul.mega-menu__nav.custom-class li a.h5 {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: normal;
+  }
+  ul.mega-menu__nav.custom-class li a:hover {
+    color : #ED1C24;
+  }
+  ul.mega-menu__nav.custom-class li:hover img.mega-menu__image.zoom-image,
+  img.mega-menu__image.zoom-image:hover {
+      transform: scale(1.06) !important;
+  }
+  ul.mega-menu__nav.custom-class li ul li a.link-faded {
+      font-size: 16px;
+      line-height: normal;
+      font-weight: 400;
+      opacity: 1;
+      color: #1F1F1F;
+  }
+  div.mega-menu ul.mega-menu__nav.custom-class {
+      max-width: 100%;
+      justify-content: space-between;
+  }
+  div.mega-menu ul.mega-menu__nav.custom-class li {
+      flex: 1;
+      min-width: 262px;
+  }
+  
+  .panel.gap-8.panel-two .navigation-promo__wrapper .navigation-promo img.zoom-image,
+  div.mega-menu ul.mega-menu__nav.custom-class .navigation-promo__wrapper .navigation-promo img.zoom-image {
+      width: 307px;
+      height: auto;
+      position: unset;
+  }
+  .panel.gap-8.panel-two .navigation-promo__wrapper .navigation-promo a.content-over-media,
+  div.mega-menu ul.mega-menu__nav.custom-class .navigation-promo__wrapper .navigation-promo a.content-over-media {
+      display: flex;
+      flex-direction: column;
+  }
+ div.mega-menu ul.mega-menu__nav.custom-class .navigation-promo__wrapper .navigation-promo a.content-over-media{
+width:100%;
+  }
+  .panel.gap-8.panel-two .navigation-promo__wrapper .navigation-promo a.content-over-media .place-self-end-start.text-custom,
+  div.mega-menu ul.mega-menu__nav.custom-class .navigation-promo__wrapper .navigation-promo a.content-over-media .place-self-end-start.text-custom {
+      color: #000;
+      max-width: 100% !important;
+      min-width: 100% !important;
+      width: 100% !important;
+      
+  }
+  .panel.gap-8.panel-two .navigation-promo__wrapper .navigation-promo a.content-over-media .place-self-end-start.text-custom p.bold,
+  div.mega-menu ul.mega-menu__nav.custom-class .navigation-promo__wrapper .navigation-promo a.content-over-media .place-self-end-start.text-custom p.bold {
+      width: 100%;
+      font-size: 20px !important;
+  }
+  
+  /* Mobile */
+  ul.sub-link-container.has-promo  {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #E5E5E5;
+}
+
+ul.sub-link-container.has-promo > li:first-child {
+    grid-column: span 2; /* First item spans both columns */
+}
+ul.sub-link-container.has-promo li.sub-link-items.custom-css-mobile {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: normal;
+}
+ul.sub-link-container.has-promo li.sub-link-items.custom-css-mobile ul {
+    gap: 6px;
+}
+ul.sub-link-container li.sub-link-items.custom-css-mobile ul li {
+    font-size: 14px;
+    line-height: normal;
+    font-weight: 400;
+    padding: 16px 0;
+}
+ul.sub-link-container li.sub-link-items.custom-css-mobile ul li:first-child {
+    padding-top: 32px;
+}
+.panel.panel-one .panel__scroller ul li button, .panel.panel-one .panel__scroller ul li a {
+    font-size: 16px;
+    line-height: normal;
+    font-family: "HarmonyOS-Sans-SC";
+    font-weight: 700;
+}
+ul.sub-link-container li:first-child button.text-with-icon.h6.text-subdued {
+    color: #1F1F1F;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+ul.sub-link-container.has-promo li.lg\:hidden button.text-with-icon.h6.text-subdued {
+    margin-bottom: 0px;
+}
+ul.sub-link-container li.sub-link-items.custom-css-mobile {
+    font-size: 24px;
+    line-height: normal;
+    font-weight: 700;
+} 
+ul.sub-link-container {
+    gap: 0;
+}
+
+.kiks_nav_fam,
+.kiks_nav_fam span{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.kiks_nav_fam img{
+  width:24px;
+  height:24px;
+}
+
+/* 隐藏导航菜单向下箭头 */
+.kiks_nav_fam svg.icon,
+.header__link-list summary svg.icon,
+.header__link-list .icon-chevron-bottom,
+.header__link-list svg[class*="chevron"] {
+  display: none !important;
+}
+
+/* 导航菜单项间距 32px（规范），每项 padding 0 8px；栏高 PC/PAD 64px / Mobile 56px */
+.header__link-list {
+  gap: 32px !important;
+}
+/* DOM 为 nav > ul.contents > li（非 nav > li），必须用 ul.contents 否则选择器永远不命中 */
+.header__link-list > ul.contents > li > a,
+.header__link-list > ul.contents > li > details > summary {
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile (375~1279px): 导航项高度 56px */
+@media screen and (max-width: 1279px) {
+  .header__link-list > ul.contents > li > a,
+  .header__link-list > ul.contents > li > details > summary {
+    height: 56px;
+  }
+}
+
+/* PAD + PC (1280px+): 导航项高度 64px */
+@media screen and (min-width: 1280px) {
+  .header__link-list > ul.contents > li > a,
+  .header__link-list > ul.contents > li > details > summary {
+    height: 64px;
+  }
+
+  /*
+    PC 主导航交互（Figma）：
+    - 悬浮：不改背景、不改字色、不减透明度（覆盖 theme .link-faded-reverse:hover opacity:.7）
+    - 纯链接一级菜单：底部红线（与 details 的 .red-line-pc 一致）
+    - 仅指向 .header__main-nav / .header__secondary-nav 下顶层 li > a，避免命中下拉内链接
+  */
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.link-faded-reverse:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.link-faded-reverse:focus-visible,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a.link-faded-reverse:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a.link-faded-reverse:focus-visible {
+    opacity: 1 !important;
+  }
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list details > summary.link-faded-reverse:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list details > summary.link-faded-reverse:focus-visible,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list details > summary.link-faded-reverse:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list details > summary.link-faded-reverse:focus-visible {
+    opacity: 1 !important;
+  }
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a {
+    position: relative;
+    z-index: 1;
+    background-color: transparent !important;
+    color: #ffffff !important;
+  }
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam:focus-visible,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a:hover,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a:focus-visible {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    opacity: 1 !important;
+  }
+  /* 纯文字一级链接：header 底边红线（主栏 .kiks_nav_fam + 次栏 .bold 等任意顶层 a） */
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam::after,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: #D6000C;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transform: scaleX(0.6);
+    transform-origin: center;
+    transition: none;
+  }
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam:hover::after,
+  #shopify-section-{{ section.id }} .header__wrapper .header__main-nav .header__link-list > ul.contents > li > a.kiks_nav_fam:focus-visible::after,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a:hover::after,
+  #shopify-section-{{ section.id }} .header__wrapper .header__secondary-nav .header__link-list > ul.contents > li > a:focus-visible::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* 右侧功能区 gap 16px（规范） */
+.header__secondary-nav {
+  gap: 16px !important;
+}
+
+/* 右侧图标列表 gap 16px（规范：图标间距 16px，图标尺寸 24px）*/
+.header__icon-list {
+  gap: 16px !important;
+}
+
+  /* —— Figma 1391:123637 仅本 Header section，不影响页脚/抽屉内 localization —— */
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector button.af-nav-locale-btn {
+    box-sizing: border-box;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    background: #292929 !important;
+    border: none !important;
+    border-radius: 9999px !important;
+    padding: 8px 12px !important;
+    gap: 8px !important;
+    min-height: 40px;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 700 !important;
+    line-height: normal !important;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-locale-code {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-globe-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+    opacity: 1;
+  }
+  /* 单语言静态胶囊 */
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-locale-static {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #292929;
+    border-radius: 9999px;
+    padding: 8px 12px;
+    gap: 8px;
+    min-height: 40px;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-locale-static .af-nav-locale-code {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+    color: rgba(255, 255, 255, 0.4);
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-locale-static .af-nav-globe-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-tools__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-tools__row > .tap-area {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-icon-wrapper {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-tools__row .af-nav-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    object-fit: contain;
+  }
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-nav-cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    background: #F72136;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  /* develop.md: MOB 375~1279。flex 布局 + 图标 40×40 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__wrapper {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      grid-template-columns: unset !important;
+      grid-template-areas: unset !important;
+    }
+    #shopify-section-{{ section.id }} .header__main-nav {
+      order: 1;
+      grid-area: unset;
+    }
+    #shopify-section-{{ section.id }} .header__logo {
+      order: 1;
+      grid-area: unset;
+      margin: 0;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      order: 2;
+      grid-area: unset;
+    }
+  }
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      gap: 16px !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list {
+      gap: 8px !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-mobile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-icon {
+      width: 20px;
+      height: 20px;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-icon-wrapper {
+      position: relative;
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 7px;
+      height: 7px;
+      background: #E90202;
+      border-radius: 50%;
+    }
+  /* 移动端 < 1279px：改用 flex 布局，Logo 靠左 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__wrapper {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      grid-template-columns: unset !important;
+      grid-template-areas: unset !important;
+    }
+    #shopify-section-{{ section.id }} .header__main-nav {
+      display: none !important;
+    }
+    #shopify-section-{{ section.id }} .header__logo {
+      order: 1;
+      grid-area: unset;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      order: 2;
+      grid-area: unset;
+      gap: 16px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list {
+      gap: 8px !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-mobile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-icon {
+      width: 20px;
+      height: 20px;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-icon-wrapper {
+      position: relative;
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .af-nav-cart-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 7px;
+      height: 7px;
+      background: #E90202;
+      border-radius: 50%;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list svg {
+      width: 20px;
+      height: 20px;
+    }
+    /* theme.css .tap-area:before 默认向外扩展 --spacing-2-5(10px)，40px 图标热区变成 60px 并越过 header 顶边；导航栏内收至按钮盒内 */
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list .tap-area::before {
+      inset: 0;
+    }
+  }
+  /* 移动端抽屉内图标样式 */
+  #shopify-section-{{ section.id }} .panel__title_content .search-cart-box {
+    display: none;
+    gap: 8px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .panel__title_content .search-cart-box .tap-area {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+  }
+  #shopify-section-{{ section.id }} .panel__title_content .search-cart-box .af-nav-icon-wrapper {
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+  #shopify-section-{{ section.id }} .panel__title_content .search-cart-box .af-nav-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+  #shopify-section-{{ section.id }} .panel__title_content .search-cart-box .af-nav-cart-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 7px;
+    height: 7px;
+    background: #E90202;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+/* 主导航：悬浮不再减淡字色（原 0.7 白的会与主题 link-faded-reverse opacity 叠成「灰块」观感） */
+
+
+
+
+  /* Product mega（Figma PC 4:11377 / PAD 644:9404 / MOB 719 侧栏内列表）
+     关键：商品图必须 max-width:100%，grid 使用 minmax(0,1fr)，否则会竖排独占一行。
+     theme.css .product 的全局 grid 若在 DOM 中相邻误选，下方用 mega 容器内重置。 */
+  /*
+   Impact 主题 .mega-menu 为 flex + justify-content: var(--mega-menu-justify-content)。
+   horizontal_center 时变量为 center，单一子元素 .kik_mains_nav_collections 会按内容宽度收缩 → 整列居中变窄。
+   Collections 布局必须 flex-start，且子项 flex:1 + width:100% 拉满一行。
+  */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections {
+    --mega-menu-justify-content: flex-start !important;
+    --kik-mega-max: 1200px;
+    --kik-mega-gutter: max(24px, calc((100vw - var(--kik-mega-max)) / 2));
+    background: #f0f0f0 !important;
+    border-radius: 0 0 12px 12px;
+    padding: 24px var(--kik-mega-gutter) 64px;
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 0 !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections > .kik_mega_collections_wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    max-width: var(--kik-mega-max) !important;
+    min-width: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections > .kik_mega_collections_wrap > .kik_mains_nav_collections {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 24px !important;
+  }
+
+  /* 稿面：系列仅为文字 pill；侧栏缩略图关闭以免挤版 */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collection_title_image {
+    display: none !important;
+  }
+
+  /* Figma 1438:17621 / Base Button：选中 #e90202 + 反色字 #f4f4f4；未选浅底 #fafafa + 黑框 */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text.active {
+    background: #e90202 !important;
+    border: 2px solid #e90202 !important;
+    color: #f4f4f4 !important;
+    font-weight: 700 !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text:not(.active) {
+    background: #fafafa !important;
+    border: 2px solid #0a0a0a !important;
+    color: #0a0a0a !important;
+    font-weight: 700 !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text:not(.active):hover {
+    border-color: #e90202 !important;
+    color: #0a0a0a !important;
+    background: #fafafa !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title {
+    flex: 0 0 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text {
+    box-sizing: border-box;
+    min-height: 56px;
+    margin: 0;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text > span:last-child {
+    display: none;
+  }
+
+  /* Figma 644:9413：右侧主列 flex-col gap 24（产品区 + 底栏按钮） */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_main {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_list {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection:not(.active) {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    padding: 0;
+    border: none;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection.active {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+  }
+
+  /* 兜底：同一 DOM 内多系列叠放时最多只显示 3 张卡 */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection_item > .kik_menu_product:nth-child(n+4) {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection_item {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .product {
+    display: block !important;
+    grid: none !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-items: stretch !important;
+    column-gap: unset !important;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product {
+    min-width: 0;
+    margin: 0;
+    padding: 16px 24px 24px 24px;
+    background: #ffffff !important;
+    border-radius: 12px;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_link {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Figma：标题区内部 gap 8（644:9419） */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    background: #FBCACA;
+    border-radius: 8px;
+    overflow: visible;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_image,
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product img {
+    width: 100%;
+    max-width: 252px;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    display: block;
+    margin-inline: auto;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_pro_badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    height: 22px;
+    padding: 4px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    border: 1px solid #E90202;
+    background: #ffffff;
+    color: #E90202;
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_pro_badge.hot {
+    background: #e90202;
+    color: #ffffff;
+    border-color: #e90202;
+  }
+
+  /* Figma 卡片内「NEW」：红框 + 红字（非填充） */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_pro_badge--outline {
+    background: #ffffff !important;
+    color: #e90202 !important;
+    border: 1px solid #e90202 !important;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 4px;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_title {
+    margin: 0;
+    font-family: 'Gabarito', 'HarmonyOS Sans SC', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #0a0a0a;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_price_row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 16px;
+    line-height: 1.2;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_price_sale {
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 500;
+    color: rgba(26, 26, 26, 0.8);
+    line-height: 19.2px;
+  }
+
+  /* 伪元素划线：避免 line-through 与字母重叠处线条堆叠变粗 */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_price_compare {
+    position: relative;
+    display: inline-block;
+    font-family: 'Gabarito', sans-serif;
+    font-weight: 400;
+    color: #999999 !important;
+    text-decoration: none !important;
+    font-size: 16px;
+    line-height: 19.2px;
+    vertical-align: baseline;
+  }
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_price_compare::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    margin-top: -0.5px;
+    background: #999999;
+    pointer-events: none;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_pro_small_desk {
+    margin-top: 0;
+    font-size: 13px;
+    color: #5a5a5a;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .sublink_view_all {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .sublink_view_all_link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: 2px solid #0a0a0a;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #0a0a0a;
+  }
+
+  /* 底部 Compare / Learn more（Figma 644:9442：与商品区间距仅由父级 gap 24 承担） */
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_series_footer {
+    width: 100%;
+    margin-top: 0;
+    padding-top: 0;
+    padding-right: 138px;
+    border-top: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    flex: 0 1 320px;
+    width: 320px;
+    max-width: 100%;
+    padding: 12px 20px;
+    border-radius: 999px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn--primary {
+    background: #0a0a0a;
+    color: #ffffff;
+    border: 2px solid #0a0a0a;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn--primary:hover {
+    background: #333333;
+    border-color: #333333;
+    color: #ffffff;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn--outline {
+    background: #F0F0F0;
+    color: #E90202;
+    border: 1px solid #E90202;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn--outline:hover {
+    background: #DBDBDB;
+    color: #E90202;
+    border-color: transparent;
+  }
+
+  #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn__chev {
+    flex-shrink: 0;
+  }
+
+  /* PAD：1280 画板边距 40px；列间距略收 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections {
+      --kik-mega-gutter: 40px;
+      padding-bottom: 48px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection_item {
+      gap: 16px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text {
+      font-size: 16px;
+      min-height: 52px;
+      padding: 10px 18px;
+    }
+  }
+
+  /* 窄屏平板：两列商品（仍保持左侧系列） */
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection_item {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title {
+      flex: 0 0 200px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_product_title {
+      font-size: 16px;
+    }
+  }
+
+  /* develop.md: MOB 375~1279。系列换行 + 商品单列 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections {
+      --kik-mega-gutter: 16px;
+      padding-bottom: 32px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections > .kik_mega_collections_wrap > .kik_mains_nav_collections {
+      flex-direction: column;
+      gap: 16px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title {
+      flex: none;
+      width: 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_collections_title_text {
+      flex: 1 1 calc(50% - 4px);
+      min-width: 140px;
+      min-height: 48px;
+      font-size: 14px;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_menu_collection_item {
+      grid-template-columns: 1fr;
+    }
+    #shopify-section-{{ section.id }} .mega-menu.mega_collections .kik_mega_footer_btn {
+      flex: 1 1 auto;
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+/* 手机全屏抽屉 #header-sidebar-menu：一级排版由 theme.css Figma793 处理；勿在此处用 HarmonyOS 覆盖 Orbitron */
+@media screen and (min-width: 700px) {
+.menu-list-box{
+  border-top: 2px solid #e5e5e5;
+}
+.menu-list-box>li>a,
+.menu-list-box>li>.link1-nav__wrapper>.link-nav-title{
+      font-weight: 700;
+       font-family:"HarmonyOS-Sans-Bold"!important;
+}
+.link1-nav-li .link1-nav__wrapper .link-nav-title{
+  font-size:16px;
+  font-family: "HarmonyOS-Sans-SC";
+  line-height:1.5;
+}
+}
+/* 移除旧的 link1-nav-li padding */
+.link1-nav-li{
+  padding: 0 !important;
+}
+ 
+/* 旧样式已移除 - 使用 theme.css.liquid 中的统一样式
+.link1-nav-li{
+  padding: var(--spacing-4) 0;
+}
+*/
+.link1-nav-li .link1-nav__wrapper.active:not(.jingva-drawer-product) .link-nav-title{
+  color:#E1040F;
+}
+.link1-nav-li .link1-nav__wrapper .link1-nav__content .link2-nav-a{
+  font-size:14px;
+  font-weight:400;
+  font-family: "HarmonyOS-Sans-SC";
+  color:#000;
+}
+.link1-nav-li .link1-nav__wrapper .link1-nav__content {
+  opacity:0;
+  height:0;
+  overflow:hidden;
+  transition:all 0.3s ease-in-out;
+}
+/* 旧侧栏抽屉展开区（非手机全屏菜单） */
+.link1-nav-li .link1-nav__wrapper:not(.jingva-drawer-product) .link-nav-title.active + .link1-nav__content{
+  opacity:1;
+  height:auto;
+  background:#F7F7F7;
+  width:calc(74vw + var(--drawer-body-padding));
+  padding:12px var(--drawer-body-padding);
+  margin-left:calc(-1 * var(--drawer-body-padding));
+  transform:scale(1);
+  margin-top:12px;
+  padding-left: calc(var(--drawer-body-padding) + 4px);
+}
+.link1-nav-li .link1-nav__wrapper.jingva-drawer-product .link-nav-title.active + .link1-nav__content{
+  opacity:1;
+  height:auto;
+  background:transparent;
+  width:100%;
+  max-width:100%;
+  padding:0;
+  margin-left:0;
+  margin-top:8px;
+  transform:none;
+}
+.link1-nav-li .link1-nav__chevron{
+  transition:all 0.3s ease-in-out;
+  margin-right:var(--drawer-body-padding);
+}
+@media screen and (min-width: 700px) {
+.link1-nav-li .link1-nav__wrapper:not(.product-list-box) .link-nav-title.active .link1-nav__chevron{
+  transform:rotate(90deg);
+}
+}
+/* 手机 Jingva 抽屉（develop.md: MOB 375~1279） */
+@media screen and (max-width: 1279px) {
+  #header-sidebar-menu .link1-nav__wrapper:not(.jingva-drawer-product) .link-nav-title.active .link1-nav__chevron,
+  #header-sidebar-menu .link1-nav__wrapper:not(.jingva-drawer-product) .link-nav-title:not(.active) .link1-nav__chevron {
+    transform: none !important;
+  }
+}
+.link1-nav__wrapper .link1-nav__content .link2-nav-li{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+/* 产品轮播图列表样式 */
+
+
+.link1-nav__wrapper.product-list-box .link2-nav-li{
+  flex-direction:column;
+  gap:0;
+}
+
+.link1-nav__wrapper.product-list-box .link-nav-title2{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  font-size:14px;
+  font-weight:400;
+  
+  font-family: "HarmonyOS-Sans-SC";
+  color:#000;
+  line-height:1.5;
+  padding: 10px 0;
+}
+
+.link1-nav__wrapper.product-list-box .link-nav-title2.active{
+  font-weight: 700;
+  font-family:"HarmonyOS-Sans-Bold"!important;
+}
+
+.link1-nav__wrapper.product-list-box .product-list-box-content{
+  gap:0px;
+}
+
+.link1-nav__wrapper.product-list-box .product-swiper-box{
+  display:none;
+  opacity:0;
+  width:70vw;
+  height:0;
+  overflow:hidden;
+  transition:all 0.3s ease-in-out;
+}
+.link1-nav__wrapper.product-list-box .link-nav-title2.active + .product-swiper-box{
+  opacity:1;
+  height:auto;
+  display:block;
+  overflow:visible;
+}
+
+.link1-nav-li .link1-nav__wrapper.product-list-box .product-swiper-box .link1-nav__chevron{
+  margin-right:0px !important;
+}
+.link1-nav-li .link1-nav__wrapper.product-list-box .product-swiper-box .product-swiper-item-view-all-link{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  width:100%;
+  margin-top:18px;
+  font-size:10px;
+  font-weight:700;
+  color:#000;
+}
+.link1-nav__wrapper.product-list-box .product-swiper-box .product-swiper-item-title{
+  font-size:13px;
+  font-weight:400;
+ 
+  font-family: "HarmonyOS-Sans-SC";
+  color:#000;
+  display:block;
+  line-height:1.5;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width:100%;
+  margin-top:10px;
+}
+.link1-nav__wrapper.product-list-box .product-swiper-box .product-swiper-item-view-all-link{margin-right:0px;}
+.link1-nav__wrapper.product-list-box .product-swiper-box .product-swiper-item-view-all-link svg{
+  width:5px;
+  margin-left:3px;
+}
+
+
+.link1-nav__wrapper.product-list-box .product-swiper-box .kik_pro_badge{
+  position:static;
+  font-size:8px;
+  width:fit-content;
+}
+.link1-nav__wrapper.product-list-box .link-nav-title2 svg{
+  width:9px;
+}
+.link1-nav__wrapper.product-list-box .link-nav-title2 .link1-nav__minus{
+  display:none;
+}
+.link1-nav__wrapper.product-list-box .link-nav-title2.active .link1-nav__plus{
+  display:none;
+}
+
+.link1-nav__wrapper.product-list-box .link-nav-title2.active .link1-nav__minus{
+  display:block;
+}
+
+/* banner-content */
+.link1-nav__content.banner-content .navigation-promo__wrapper{
+ width:70vw;
+}
+.link1-nav__content.banner-content .navigation-promo__wrapper .new-r-btn{
+  background: #fff;
+  color: #000;
+  padding: 2px 5px;
+  font-size: 10px;
+}
+.link1-nav__content.banner-content .navigation-promo__wrapper .new-releases-a-content{
+  width:100%;
+}
+.link1-nav__content.banner-content .navigation-promo__wrapper .new-releases-a-content p {
+  font-size: 16px !important;
+}
+
+
+
+
+
+
+.footer-login-box{
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-login-box a{
+  font-size:16px;
+  font-weight:400;
+  font-style:normal;
+  margin-left:0;
+  border:2px solid #E1040F;
+  color:#E1040F;
+  border-radius:8px;
+  width:100%;
+  padding:6px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.footer-login-box a:first-child{
+  background:#E1040F;
+  color:#fff;
+}
+/* .footer-login-box a:nth-child(2){
+  font-weight:700;
+} */
+
+/* 语言部分 */
+.jingva-localization-selector{
+  width:100%
+}
+.jingva-localization-selector .jingva-lang-btn{
+  justify-content: space-between;
+  width:100%
+}
+/* 二级导航按钮盒子 */
+.link2-sub-btn-box{
+  display:flex;
+  gap:10px;
+  justify-content: space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:9;
+}
+.link2-sub-btn-box .link2-sub-btn{
+  font-size:14px;
+  color:#000;
+  font-style:italic;
+}
+
+.navigation-drawer button[is=close-button]{
+  border:none;
+}
+
+/* 二级导航样式 */
+.sub-link2-content{
+  opacity:0;
+  height:0;
+  overflow:hidden;
+  transition:all 0.3s ease-in-out;
+}
+.jingva-sub-link2-item{
+  width:100%;
+  padding:25px 0;
+  border-bottom:1px solid #E5E5E5;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content{
+  opacity:1;
+  height:auto;
+}
+  
+.jingva-sub-link2-item .text-with-icon{
+  font-style:italic;
+  font-size:16px;
+}
+.jingva-sub-link2-item.sub-active .text-with-icon{
+  color:#E1040F;
+
+}
+.jingva-sub-link2-item.sub-active .circle-chevron{
+  transform:rotate(90deg);
+  background:#E1040F;
+  color:#fff;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content{
+  position:relative;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content .jingva-more-btn{
+
+  border:1px solid #E1040F;
+  color:#E1040F;
+  font-size:11px;
+  padding:6px 10px;
+  min-width:80px;
+  justify-content:center;
+  align-items:center;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content li a{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  font-size:14px;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content li a .title-box{
+  display:flex;
+  flex-direction:column;
+}
+.jingva-sub-link2-item.sub-active .sub-link2-content li a .title-box .tag{
+  font-size:11px;
+  font-weight:400;
+  font-style:normal;
+  padding:2px 6px;
+  background:#E1040F;
+  color:#fff;
+}
+
+.panel__title_content {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
+  padding-right:24px;
+  padding-left:10px;
+}
+
+/* 弹出框的搜索和购物车 */
+.panel__title_content .search-cart-box{
+  display:none;
+  gap:10px;
+  align-items:center;
+
+}
+
+  /* （MOB 侧栏黑底样式已移到 enbale_custom 条件外，确保无条件生效） */
+
+{%- endstyle -%}
+{% endif %}
+
+{%- style -%}
+  /* 移动端汉堡按钮 hamburger ↔ close 切换（跟随 aria-expanded）。放在 enbale_custom 条件外，始终生效 */
+  .af-nav-mobile-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .af-nav-mobile-toggle__hamburger,
+  .af-nav-mobile-toggle__close {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 0 !important;
+  }
+  /* 锁定 SVG 精确尺寸（Figma 节点数据），防止父级 flex/stroke 拉伸 */
+  .af-nav-mobile-toggle__hamburger svg {
+    width: 13.334px !important;
+    height: 11.666px !important;
+    flex-shrink: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+  .af-nav-mobile-toggle__close svg {
+    width: 11.178px !important;
+    height: 11.178px !important;
+    flex-shrink: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+  }
+  .af-nav-mobile-toggle__close {
+    display: none !important;
+  }
+  .af-nav-mobile-toggle[aria-expanded="true"] .af-nav-mobile-toggle__hamburger {
+    display: none !important;
+  }
+  .af-nav-mobile-toggle[aria-expanded="true"] .af-nav-mobile-toggle__close {
+    display: inline-flex !important;
+  }
+
+  /*
+    手机顶栏图标（汉堡/关闭、搜索、购物车）：点击后浏览器会给 button/a 画焦点环（常见为浅色描边），并非随意加的 border。
+    去掉默认 outline/box-shadow，避免在黑底上出现「白圈」。键盘导航可用系统默认别处补足。
+  */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .header__icon-list .af-nav-mobile-icon:focus,
+    #shopify-section-{{ section.id }} .header__icon-list .af-nav-mobile-icon:focus-visible,
+    #shopify-section-{{ section.id }} .header__icon-list .af-nav-mobile-toggle:focus,
+    #shopify-section-{{ section.id }} .header__icon-list .af-nav-mobile-toggle:focus-visible {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+
+  /* 滚动重新出现的导航栏：背景 #000（与滚过 KV 后 .header.is-filled 一致） */
+  #shopify-section-{{ section.id }}.is-revealed .header__wrapper,
+  #shopify-section-{{ section.id }}.is-revealed .header__wrapper:hover {
+    background: #000 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    --header-background-opacity: 1 !important;
+    border-bottom: none !important;
+  }
+
+  /* ========================================
+     develop.md: MOB 375~1279 / PAD 1280~1439 / PC 1440~2560
+     Tailwind 原生 sm=700、lg=1024 不匹配 develop.md 的 MOB 上界 1279。
+     在 700~1279 区间强制：移动图标显示、PC 图标/工具隐藏、抽屉可展开
+     ======================================== */
+  @media screen and (min-width: 700px) and (max-width: 1279px) {
+    /* Tailwind sm:hidden 默认在 >=700 时 display:none，这里针对 header 内移动图标恢复显示 */
+    #shopify-section-{{ section.id }} .header__secondary-nav li.sm\:hidden {
+      display: list-item !important;
+    }
+    /* 隐藏 PC 才用到的 locale 选择器和工具栏 */
+    #shopify-section-{{ section.id }} .header__secondary-nav li.hidden.sm\:block,
+    #shopify-section-{{ section.id }} .header__secondary-nav li.hidden.sm\:flex {
+      display: none !important;
+    }
+    /* 汉堡按钮/抽屉容器使用 lg:hidden（默认 1024+ 隐藏），扩展到 1279 也可见 */
+    #shopify-section-{{ section.id }} .header__secondary-nav li.lg\:hidden {
+      display: list-item !important;
+    }
+    navigation-drawer.lg\:hidden {
+      display: block !important;
+    }
+  }
+
+  /* ─────────────── 全局导航遮罩：product 下拉 / 搜索下拉打开时显示 ─────────────── */
+  /* 关闭 mega-menu 自带的全屏 box-shadow，避免与遮罩叠加变得过暗 */
+  .header__wrapper .mega-menu {
+    box-shadow: none !important;
+  }
+
+  .af-nav-overlay {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: 0 !important;
+    background: rgba(0, 0, 0, 0.4) !important;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+    z-index: 102;
+  }
+
+  .af-nav-overlay.is-active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.2s ease, visibility 0s linear 0s !important;
+  }
+
+  /*
+    PAD（1280~1439）：Figma 仅缩小 logo↔菜单、菜单↔右侧工具区间距；菜单项间距 32px、字号 16px 不变。
+    禁止 flex-wrap 避免 ABOUT US / 语言切换被挤到第二行。
+  */
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list.wrap {
+      flex-wrap: nowrap !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav {
+      flex-wrap: nowrap !important;
+    }
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__link-list,
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__icon-list {
+      flex-wrap: nowrap !important;
+    }
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list > ul.contents > li > a,
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list > ul.contents > li > details > summary,
+    #shopify-section-{{ section.id }} .header__secondary-nav .header__link-list > ul.contents > li > a {
+      white-space: nowrap;
+    }
+  }
+
+  @media screen and (min-width: 1280px) and (max-width: 1439px) {
+    {%- if section.settings.layout contains 'logo_left' -%}
+    #shopify-section-{{ section.id }} {
+      --header-grid-template: "logo main-nav secondary-nav" / auto minmax(0, 1fr) auto;
+    }
+    {%- endif -%}
+
+    #shopify-section-{{ section.id }} .header {
+      --header-part-gap: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .header__wrapper {
+      padding-left: 40px !important;
+      padding-right: 40px !important;
+      gap: 16px !important;
+    }
+
+    #shopify-section-{{ section.id }} .header__main-nav,
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list {
+      overflow: visible !important;
+    }
+  }
+{%- endstyle -%}
+<height-observer variable="header">
+  <store-header class="header{% unless is_transparent_header %} is-filled{% endunless %}" {% if section.settings.enable_sticky %}sticky{% endif %}{% if is_transparent_header %} allow-transparency data-transparent-header{% endif %} hide-on-scroll="48">
+    <div class="header__wrapper">
+      {%- comment -%}
+      --------------------------------------------------------------------------------------------------------------------
+      MAIN NAV AREA
+      --------------------------------------------------------------------------------------------------------------------
+      {%- endcomment -%}
+
+      <div class="header__main-nav">
+        <div class="header__icon-list">
+          {%- if section.settings.layout != 'drawer' and section.settings.menu.links.size > 0 -%}
+            <nav class="header__link-list {% if section.settings.layout == 'logo_left_navigation_center' %}justify-center{% endif %} wrap" role="navigation">
+              <ul class="contents" role="list">
+                {%- for link in section.settings.menu.links -%}
+                  {% liquid
+                    assign link_title_downcase = link.title | strip | downcase
+                    assign mega_menu_block = ''
+
+                    comment
+                      仅 mega_menu 区块参与匹配。常见坑：后台填「Products」主导航为「Product」→ 永不命中 mega。
+                      额外accept：product ↔ products。
+                    endcomment
+                    for block in section.blocks
+                      if block.type == 'mega_menu'
+                        assign menu_item_downcase = block.settings.menu_item | strip | downcase
+                        assign menu_matches = false
+                        if menu_item_downcase != '' and menu_item_downcase == link_title_downcase
+                          assign menu_matches = true
+                        elsif menu_item_downcase == 'products' and link_title_downcase == 'product'
+                          assign menu_matches = true
+                        elsif menu_item_downcase == 'product' and link_title_downcase == 'products'
+                          assign menu_matches = true
+                        endif
+                        if menu_matches
+                          assign mega_menu_block = block
+                          break
+                        endif
+                      endif
+                    endfor
+
+                    assign has_grandchild_links = false
+                    if mega_menu_block == ''
+                      for sub_link in link.links
+                        if sub_link.links.size > 0
+                          assign has_grandchild_links = true
+                          break
+                        endif
+                      endfor
+                    endif
+
+                    comment
+                      仍有三级导航但未命中名称时：menu_item 留空通配；或 Header 内仅一个 mega_menu 时作为默认。
+                    endcomment
+                    if mega_menu_block == '' and has_grandchild_links
+                      assign mega_blocks_count = 0
+                      assign sole_mega_menu_block = ''
+                      assign wildcard_mega_menu_block = ''
+                      for block in section.blocks
+                        if block.type == 'mega_menu'
+                          assign mega_blocks_count = mega_blocks_count | plus: 1
+                          if sole_mega_menu_block == ''
+                            assign sole_mega_menu_block = block
+                          endif
+                          if block.settings.menu_item == blank and wildcard_mega_menu_block == ''
+                            assign wildcard_mega_menu_block = block
+                          endif
+                        endif
+                      endfor
+                      if wildcard_mega_menu_block != ''
+                        assign mega_menu_block = wildcard_mega_menu_block
+                      elsif mega_blocks_count == 1
+                        assign mega_menu_block = sole_mega_menu_block
+                      endif
+                    endif
+                  %}
+                  {% assign header_icon = "header_icon_" | append : forloop.index %}
+
+                  <li>
+                    {%- if link.levels == 0 and mega_menu_block == '' -%}
+                      <a href="{{ link.url }}" class="kiks_nav_fam link-faded-reverse" {% if link.current %}aria-current="page"{% endif %}>{% if section.settings[header_icon] != blank %}<span><img src="{{ section.settings[header_icon] |  img_url: '24x24' }}" loading="lazy" style="object-fit:contain"></span>{% endif %} <span>{{- link.title -}}</span></a>
+                    {%- else -%}
+                      {%- if mega_menu_block != '' -%}
+                        {%- comment -%}
+                        Implementation note: the designers had the desire to show a lot of different kind of menus in Impact: one standard
+                        mega menu but also a kind of "sidebar" mode when the mega-menu appears in a drawer. Unfortunately, this comes with
+                        a lot of extra complexity as we have to go through two different code path: a "details" element for the standard
+                        menu, and a full drawer for the other one.
+                        {%- endcomment -%}
+                        {%- unless mega_menu_block.settings.layout == 'drawer' -%}
+                          <details is="mega-menu-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}" {{ mega_menu_block.shopify_attributes }}>
+                            <summary class="text-with-icon gap-2.5 kiks_nav_fam link-faded-reverse" style="position: relative;" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
+                            {% if section.settings[header_icon] != blank %}<span><img src="{{ section.settings[header_icon] |  img_url: '24x24' }}" loading="lazy" style="object-fit:contain"></span>{% endif %}<span>{{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}</span>
+                            <span class="menu-red-line" style="display: none; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background-color: #D6000C; z-index: 1000;"></span>
+                            </summary>
+                                {% if section.settings.enbale_custom %}
+                                  {%- render 'kiks-mega-menu-horizontal', 
+                                        link: link, 
+                                        mega_menu_block: mega_menu_block,
+                                        target_sub_link1: mega_menu_block.settings.target_sub_link1,
+                                        sub_link_image1: mega_menu_block.settings.sub_link_image1,
+                                        target_sub_link2: mega_menu_block.settings.target_sub_link2,
+                                        sub_link_image2: mega_menu_block.settings.sub_link_image2,
+                                        target_sub_link3: mega_menu_block.settings.target_sub_link3,
+                                        sub_link_image3: mega_menu_block.settings.sub_link_image3,
+                                        target_sub_link4: mega_menu_block.settings.target_sub_link4,
+                                        sub_link_image4: mega_menu_block.settings.sub_link_image4,
+                                        target_sub_link5: mega_menu_block.settings.target_sub_link5,
+                                        sub_link_image5: mega_menu_block.settings.sub_link_image5,
+                                        target_sub_link6: mega_menu_block.settings.target_sub_link6,
+                                        sub_link_image6: mega_menu_block.settings.sub_link_image6,
+                                        target_sub_link7: mega_menu_block.settings.target_sub_link7,
+                                        sub_link_image7: mega_menu_block.settings.sub_link_image7,
+                                        target_sub_link8: mega_menu_block.settings.target_sub_link8,
+                                        sub_link_image8: mega_menu_block.settings.sub_link_image8
+                                    -%}                                
+                                  {%  else %}
+                                  {%- render 'mega-menu-horizontal', link: link, mega_menu_block: mega_menu_block -%} 
+                                {% endif %}
+                          </details>
+                        {%- else -%}
+                          <button aria-controls="navigation-drawer-{{ forloop.index }}" aria-expanded="false" class="text-with-icon gap-2.5 bold link-faded-reverse">
+                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
+                          </button>
+
+                          <navigation-drawer class="navigation-drawer drawer lg-max:hidden" id="navigation-drawer-{{ forloop.index }}" open-from="left" mega-menu>
+                            {% if section.settings.enbale_custom %}
+                              {%- render 'kiks-navigation-panel', navigation_layout: section.settings.layout, main_menu: link, is_mega_menu: true, mega_menu_block: mega_menu_block, sub_link_images: mega_menu_block.settings
+                              -%}
+                              {%  else %}
+                            {%- render 'navigation-panel', navigation_layout: section.settings.layout, main_menu: link, is_mega_menu: true, mega_menu_block: mega_menu_block, sub_link_images: mega_menu_block.settings
+                            -%}
+                          {% endif %}
+                          </navigation-drawer>
+                        {%- endunless -%}
+                      {%- else -%}
+                        <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
+                          <summary class="text-with-icon gap-2.5 kiks_nav_fam link-faded-reverse" {% if link.url != '#' %}data-url="{{ link.url | escape }}"{% endif %}>
+                            {{- link.title -}} {%- render 'icon' with 'chevron-bottom' -%}
+                          </summary>
+
+                          <div class="dropdown-menu {% if link.levels <= 1 %}dropdown-menu--restrictable{% endif %}">
+                            <ul class="contents" role="list">
+                              {%- for sub_link in link.links -%}
+                                <li>
+                                  {%- if sub_link.levels == 0 -%}
+                                    <a href="{{ sub_link.url }}" class="dropdown-menu__item group" {% if sub_link.current %}aria-current="page"{% endif %}>
+                                      <span><span class="reversed-link">{{ sub_link.title }}</span></span>
+                                    </a>
+                                  {%- else -%}
+                                    <details class="relative" is="dropdown-disclosure" trigger="{{ section.settings.menu_open_trigger | escape }}">
+                                      <summary class="dropdown-menu__item group" {% if sub_link.url != '#' %}data-url="{{ sub_link.url | escape }}"{% endif %}>
+                                        <span><span class="reversed-link">{{- sub_link.title -}}</span></span>
+                                        {%- render 'icon' with 'chevron-right' -%}
+                                      </summary>
+
+                                      <div class="dropdown-menu">
+                                        <ul class="contents" role="list">
+                                          {%- for sub_sub_link in sub_link.links -%}
+                                            <li>
+                                              <a href="{{ sub_sub_link.url }}" class="dropdown-menu__item group" {% if sub_sub_link.current %}aria-current="page"{% endif %}>
+                                                <span><span class="reversed-link">{{ sub_sub_link.title }}</span></span>
+                                              </a>
+                                            </li>
+                                          {%- endfor -%}
+                                        </ul>
+                                      </div>
+                                    </details>
+                                  {%- endif -%}
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                          </div>
+                        </details>
+                      {%- endif -%}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%}
+      --------------------------------------------------------------------------------------------------------------------
+      LOGO AREA
+      --------------------------------------------------------------------------------------------------------------------
+      {%- endcomment -%}
+
+      {%- capture logo_content -%}
+        {%- if section.settings.logo -%}
+          {%- capture sizes -%}{{ section.settings.logo_max_width }}px{%- endcapture -%}
+          {%- capture widths -%}{{ section.settings.logo_max_width | times: 2 | at_most: section.settings.logo.width }}, {{ section.settings.logo_max_width | times: 3 | at_most: section.settings.logo.width }}{%- endcapture -%}
+          <span class="sr-only">{{ shop.name }}</span>
+          
+          {%- if section.settings.logo_mobile != blank -%}
+            {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image header__logo-image--pc' -}}
+            {%- capture mobile_sizes -%}{{ section.settings.logo_mobile_max_width }}px{%- endcapture -%}
+            {%- capture mobile_widths -%}{{ section.settings.logo_mobile_max_width | times: 2 | at_most: section.settings.logo_mobile.width }}, {{ section.settings.logo_mobile_max_width | times: 3 | at_most: section.settings.logo_mobile.width }}{%- endcapture -%}
+            {{- section.settings.logo_mobile | image_url: width: section.settings.logo_mobile.width | image_tag: sizes: mobile_sizes, widths: mobile_widths, class: 'header__logo-image header__logo-image--mobile' -}}
+          {%- else -%}
+            {{- section.settings.logo | image_url: width: section.settings.logo.width | image_tag: sizes: sizes, widths: widths, class: 'header__logo-image' -}}
+          {%- endif -%}
+        {%- else -%}
+          <span class="header__logo-text h4">{{ shop.name }}</span>
+        {%- endif -%}
+      {%- endcapture -%}
+
+      {%- if request.page_type == 'index' -%}
+        <h2 class="header__logo">
+          <a href="{{ routes.root_url }}">{{ logo_content }}</a>
+        </h2>
+      {% else %}
+        <a href="{{ routes.root_url }}" class="header__logo">{{ logo_content }}</a>
+      {% endif %}
+
+      {%- comment -%}
+      --------------------------------------------------------------------------------------------------------------------
+      SECONDARY NAV AREA
+      --------------------------------------------------------------------------------------------------------------------
+      {%- endcomment -%}
+
+      <div class="header__secondary-nav">
+        {%- if section.settings.header != 'drawer' and section.settings.secondary_menu.links.size > 0 -%}
+          <nav class="header__link-list" role="navigation">
+            <ul class="contents">
+              {%- for link in section.settings.secondary_menu.links -%}
+                <li>
+                  <a href="{{ link.url }}" class="bold link-faded-reverse">{{ link.title }}</a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+
+        <ul class="header__icon-list">
+          {%- comment -%}移动端：搜索 + 购物车 + 汉堡，PC：语言 + 搜索 + 购物车 + 账户{%- endcomment -%}
+          
+          {%- comment -%}移动端搜索（<700px 显示）{%- endcomment -%}
+          <li class="sm:hidden">
+            <a href="{{ routes.search_url }}" class="tap-area af-nav-mobile-icon" aria-controls="search-drawer">
+              <span class="sr-only">{{ 'header.general.search' | t }}</span>
+              <img src="{{ 'af-nav-search.svg' | asset_url }}" alt="" width="20" height="20" class="af-nav-icon" loading="lazy">
+            </a>
+          </li>
+
+          {%- comment -%}移动端购物车（<700px 显示）{%- endcomment -%}
+          <li class="sm:hidden">
+            <a href="{{ routes.cart_url }}" data-no-instant class="relative tap-area af-nav-mobile-icon" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+              <span class="sr-only">{{ 'header.general.cart' | t }}</span>
+              <span class="af-nav-icon-wrapper">
+                <img src="{{ 'af-nav-bag.svg' | asset_url }}" alt="" width="20" height="20" class="af-nav-icon" loading="lazy">
+                <cart-count class="af-nav-cart-badge {% if cart.item_count == 0 %}opacity-0{% endif %}">
+                  <span class="sr-only">{{ 'cart.general.item_count' | t: count: cart.item_count }}</span>
+                </cart-count>
+              </span>
+            </a>
+          </li>
+
+          {%- comment -%}移动端汉堡菜单（<1150px 显示）。打开抽屉时 JS 会给按钮加 aria-expanded="true"，用 CSS 切换 hamburger↔close。{%- endcomment -%}
+          <li class="{% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}">
+            <button type="button" class="tap-area af-nav-mobile-icon af-nav-mobile-toggle" aria-controls="header-sidebar-menu">
+              <span class="sr-only">{{ 'header.general.menu' | t }}</span>
+              <span class="af-nav-mobile-toggle__hamburger" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="13.334" height="11.666" viewBox="0 0 14 12" fill="none" focusable="false" role="presentation">
+                  <path d="M13.334 11.666H0V10H13.334V11.666ZM13.334 6.66602H0V5H13.334V6.66602ZM13.334 1.66602H0V0H13.334V1.66602Z" fill="#FAFAFA"/>
+                </svg>
+              </span>
+              <span class="af-nav-mobile-toggle__close" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11.178" height="11.178" viewBox="0 0 12 12" fill="none" focusable="false" role="presentation">
+                  <path d="M11.1784 1.17839L6.76758 5.58919L11.1784 10L10 11.1784L5.58919 6.76758L1.17839 11.1784L0 10L4.41081 5.58919L0 1.17839L1.17839 0L5.58919 4.41081L10 0L11.1784 1.17839Z" fill="#FAFAFA"/>
+                </svg>
+              </span>
+            </button>
+          </li>
+
+          {%- comment -%}
+            自定义 EN 按钮（globe icon + 语言码）触发 country 选择器；
+            优先级：多国家时用 country compact 按钮；否则若多语言用 locale compact 按钮；否则静态胶囊
+          {%- endcomment -%}
+          {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
+            <li class="hidden md:block shrink-0">
+              {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'end', nav_compact: true, mobile_popover_near_trigger: true, popover_id_suffix: 'nav' -%}
+            </li>
+          {%- elsif section.settings.show_locale_selector -%}
+            <li class="hidden sm:block shrink-0">
+              {%- if localization.available_languages.size > 1 -%}
+                {%- render 'localization-selector', type: 'locale', popover_vertical_position: 'end', nav_compact: true, mobile_popover_near_trigger: true, popover_id_suffix: 'nav' -%}
+              {%- else -%}
+                {%- comment -%}单语言时显示静态胶囊（无交互）{%- endcomment -%}
+                <div class="af-nav-locale-static">
+                  {%- render 'af-nav-globe-icon' -%}
+                  <span class="af-nav-locale-code">{{ localization.language.iso_code | split: '-' | first | upcase }}</span>
+                </div>
+              {%- endif -%}
+            </li>
+          {%- endif -%}
+
+          <li class="hidden sm:flex af-nav-tools shrink-0">
+            <div class="af-nav-tools__row">
+              <a href="{{ routes.search_url }}" class="tap-area" aria-controls="search-drawer">
+                <span class="sr-only">{{ 'header.general.search' | t }}</span>
+                <img src="{{ 'af-nav-search.svg' | asset_url }}" alt="" width="24" height="24" class="af-nav-icon" loading="lazy">
+              </a>
+              <a href="{{ routes.cart_url }}" data-no-instant class="relative block tap-area" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+                <span class="sr-only">{{ 'header.general.cart' | t }}</span>
+                <span class="af-nav-icon-wrapper">
+                  <img src="{{ 'af-nav-bag.svg' | asset_url }}" alt="" width="24" height="24" class="af-nav-icon" loading="lazy">
+                  <cart-count class="af-nav-cart-badge {% if cart.item_count == 0 %}opacity-0{% endif %}">
+                    <span class="sr-only">{{ 'cart.general.item_count' | t: count: cart.item_count }}</span>
+                  </cart-count>
+                </span>
+              </a>
+              {%- if shop.customer_accounts_enabled -%}
+                <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="tap-area">
+                  <span class="sr-only">{% if customer %}{{ 'header.general.account' | t }}{% else %}{{ 'header.general.login' | t }}{% endif %}</span>
+                  <img src="{{ 'af-nav-user.svg' | asset_url }}" alt="" width="24" height="24" class="af-nav-icon" loading="lazy">
+                </a>
+              {%- endif -%}
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </store-header>
+</height-observer>
+
+{%- comment -%} 全局导航遮罩：在 product mega-menu 或 search-drawer 打开时显示 {%- endcomment -%}
+<div class="af-nav-overlay" id="af-nav-overlay" aria-hidden="true"></div>
+
+<script>
+(function () {
+  var overlay = document.getElementById('af-nav-overlay');
+  if (!overlay) return;
+
+  // 把遮罩挂到 body 末尾，避免被父级 stacking context 限制
+  if (overlay.parentElement !== document.body) {
+    document.body.appendChild(overlay);
+  }
+
+  function show() { overlay.classList.add('is-active'); }
+  function hide() { overlay.classList.remove('is-active'); }
+
+  function isSearchOpen() {
+    var sd = document.getElementById('search-drawer');
+    return !!(sd && sd.open);
+  }
+  function isAnyMegaOpen() {
+    return !!document.querySelector('.header__wrapper details[is="mega-menu-disclosure"][open]');
+  }
+  function syncState() {
+    if (isAnyMegaOpen() || isSearchOpen()) show();
+    else hide();
+  }
+
+  // 1) 给每个 mega-menu details 直接绑 toggle（toggle 事件不冒泡）
+  function bindMegaMenus() {
+    document.querySelectorAll('.header__wrapper details[is="mega-menu-disclosure"]').forEach(function (d) {
+      if (d._afOverlayBound) return;
+      d._afOverlayBound = true;
+      d.addEventListener('toggle', syncState);
+    });
+  }
+
+  // 2) search-drawer：CustomEvent('toggle', { bubbles: true }) 能冒泡到 document
+  document.addEventListener('toggle', function (e) {
+    var t = e.target;
+    if (!t) return;
+    if (t.id === 'search-drawer' ||
+        (t.matches && t.matches && t.matches('details[is="mega-menu-disclosure"]'))) {
+      // 异步一帧让 [open] 属性先更新
+      requestAnimationFrame(syncState);
+    }
+  }, true);
+
+  bindMegaMenus();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bindMegaMenus);
+  }
+  window.addEventListener('load', bindMegaMenus);
+  document.addEventListener('shopify:section:load', bindMegaMenus);
+
+  // 3) 点击遮罩 → 关闭一切并隐藏
+  overlay.addEventListener('click', function () {
+    document.querySelectorAll('.header__wrapper details[is="mega-menu-disclosure"][open]').forEach(function (d) {
+      d.removeAttribute('open');
+    });
+    var sd = document.getElementById('search-drawer');
+    if (sd && sd.open && typeof sd.hide === 'function') sd.hide();
+    syncState();
+  });
+})();
+</script>
+
+{%- comment -%}
+  --------------------------------------------------------------------------------------------------------------------
+  NAVIGATION MENU DRAWER
+  --------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+{%- assign main_menu = section.settings.sidebar_menu | default: section.settings.menu -%}
+{%- assign secondary_menu = section.settings.secondary_menu -%}
+
+{%- if main_menu.links.size > 0 or secondary_menu.links.size > 0 -%}
+  <navigation-drawer mobile-opening="{{ section.settings.opening_from }}" open-from="left" id="header-sidebar-menu" class="navigation-drawer drawer {% if section.settings.layout != 'drawer' %}lg:hidden{% endif %}" {% if request.design_mode %}handle-section-events{% endif %}>
+    
+    <div class="panel__title_content">
+      <button class="top-close-btn" is="close-button" aria-label="{{ 'general.accessibility.close' | t | escape }}" {%- if section.settings.opening_from == 'bottom' -%}class="sm-max:hidden"{%- endif -%}>
+        {%- render 'icon' with 'close', width: 19, height: 19 -%}
+      </button>
+
+      <div class="search-cart-box">
+        <a href="{{ routes.search_url }}" class="tap-area" aria-controls="search-drawer">
+            <span class="sr-only">{{ 'header.general.search' | t }}</span>
+            <img src="{{ 'af-nav-search.svg' | asset_url }}" alt="" width="20" height="20" class="af-nav-icon" loading="lazy">
+        </a>
+        <a href="{{ routes.cart_url }}" data-no-instant class="relative block tap-area" {% if settings.cart_type != 'page' and request.page_type != 'cart' %}aria-controls="cart-drawer"{% endif %}>
+          <span class="sr-only">{{ 'header.general.cart' | t }}</span>
+          <span class="af-nav-icon-wrapper">
+            <img src="{{ 'af-nav-bag.svg' | asset_url }}" alt="" width="20" height="20" class="af-nav-icon" loading="lazy">
+            <cart-count class="af-nav-cart-badge {% if cart.item_count == 0 %}opacity-0{% endif %}">
+              <span class="sr-only">{{ 'cart.general.item_count' | t: count: cart.item_count }}</span>
+            </cart-count>
+          </span>
+        </a>
+      </div>
+    </div>
+    {% if section.settings.enbale_custom %}
+      {%- render 'kiks-navigation-panel',
+      is_mega_menu: false,
+      main_menu: main_menu,
+      secondary_menu: secondary_menu,
+      mobile_opening: section.settings.opening_from,
+      layout: section.settings.layout,
+      show_social_media: section.settings.show_social_media,
+      show_country_selector: section.settings.show_country_selector,
+      show_country_name: section.settings.show_country_name,
+      show_country_flag: section.settings.show_country_flag,
+      show_locale_selector: section.settings.show_locale_selector -%}
+      {%  else %}
+    {%- render 'navigation-panel',
+      is_mega_menu: false,
+      main_menu: main_menu,
+      secondary_menu: secondary_menu,
+      mobile_opening: section.settings.opening_from,
+      layout: section.settings.layout,
+      show_social_media: section.settings.show_social_media,
+      show_country_selector: section.settings.show_country_selector,
+      show_country_name: section.settings.show_country_name,
+      show_country_flag: section.settings.show_country_flag,
+      show_locale_selector: section.settings.show_locale_selector -%}
+    {% endif %}
+  </navigation-drawer>
+{%- endif -%}
+
+<script>
+  (function () {
+    var sec = document.getElementById('shopify-section-{{ section.id }}');
+    if (!sec) return;
+    var wrap = sec.querySelector('.header__wrapper');
+    var h = 0;
+    if (wrap) {
+      h = Math.round(wrap.getBoundingClientRect().height);
+    }
+    if (!h) {
+      h = Math.round(sec.clientHeight);
+    }
+    document.documentElement.style.setProperty('--header-height', h + 'px');
+  })();
+</script>
+<script>
+  (function () {
+    var mq = window.matchMedia('(max-width: 1279px)');
+    var drawer = document.getElementById('header-sidebar-menu');
+    if (!drawer) return;
+
+    /** Figma：主导航栏底边到首项菜单之间的固定空隙（原实现约 14px） */
+    var GAP_PX = 14;
+
+    function syncMobileNavPanelOffset() {
+      if (!mq.matches || !drawer.open) return;
+      var hdr = document.querySelector('.shopify-section--header');
+      if (!hdr) return;
+      /* margin-top 在抽屉内部：须减去抽屉自身 top（公告存在时抽屉从公告下方开始），否则会重复计入公告高度 */
+      var hdrBottom = hdr.getBoundingClientRect().bottom;
+      var drawerTop = drawer.getBoundingClientRect().top;
+      var margin = hdrBottom + GAP_PX - drawerTop;
+      document.documentElement.style.setProperty(
+        '--mobile-nav-panel-offset',
+        Math.round(margin) + 'px'
+      );
+    }
+
+    drawer.addEventListener('dialog:after-show', function () {
+      syncMobileNavPanelOffset();
+      requestAnimationFrame(syncMobileNavPanelOffset);
+    });
+    drawer.addEventListener('dialog:after-hide', function () {
+      document.documentElement.style.removeProperty('--mobile-nav-panel-offset');
+    });
+
+    window.addEventListener('resize', syncMobileNavPanelOffset);
+
+    if (typeof mq.addEventListener === 'function') {
+      mq.addEventListener('change', syncMobileNavPanelOffset);
+    } else if (mq.addListener) {
+      mq.addListener(syncMobileNavPanelOffset);
+    }
+
+    var hdrSec = document.querySelector('.shopify-section--header');
+    var annSec = document.querySelector('.shopify-section--announcement-bar');
+    if (window.ResizeObserver) {
+      var ro = new ResizeObserver(syncMobileNavPanelOffset);
+      if (hdrSec) ro.observe(hdrSec);
+      if (annSec) ro.observe(annSec);
+    }
+  })();
+</script>
+<style>
+  /* PC 菜单红线 + hover 命中区 + 弹窗位置修正 */
+  @media screen and (min-width: 1280px) {
+    /* summary 提层：让红线浮出在 mega-menu 之上 */
+    .header__wrapper details[is="mega-menu-disclosure"] > summary,
+    .header__wrapper details[is="dropdown-disclosure"] > summary {
+      position: relative;
+      z-index: 100;
+    }
+    /* hover 命中区：覆盖整条 header 垂直高度 */
+    .header__wrapper details[is="mega-menu-disclosure"] > summary::after,
+    .header__wrapper details[is="dropdown-disclosure"] > summary::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(-1 * var(--summary-top-gap, 0px));
+      bottom: calc(-1 * var(--menu-gap, 0px));
+      z-index: 0;
+      background: transparent;
+    }
+    /* 红线（高 specificity 防被 summary 子元素规则覆盖） */
+    .header__wrapper details > summary > .red-line-pc {
+      position: absolute !important;
+      left: 0 !important;
+      right: 0 !important;
+      height: 2px !important;
+      background: #D6000C !important;
+      top: 100% !important;
+      margin-top: var(--menu-gap, 0px) !important;
+      pointer-events: none !important;
+      z-index: 2 !important;
+      opacity: 0;
+      transform: scaleX(.6);
+      transform-origin: center;
+      transition: none;
+    }
+    .header__wrapper details[open] > summary > .red-line-pc,
+    .header__wrapper details:hover > summary > .red-line-pc {
+      opacity: 1 !important;
+      transform: scaleX(1) !important;
+    }
+    /* 切换悬浮时：强制立即隐藏兄弟红线（覆盖 details[open] / :hover 的显示规则） */
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > details > summary > .red-line-pc,
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > a.kiks_nav_fam::after,
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > a::after {
+      opacity: 0 !important;
+      transform: scaleX(0.6) !important;
+    }
+    /* 同步立即隐藏被抑制项的下拉/大菜单内容（不动 [open] 状态机，仅视觉隐藏） */
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > details[open] > .mega-menu,
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > details[open] > .dropdown-menu,
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > details[open] > [slot="content"],
+    #shopify-section-{{ section.id }} .header__wrapper li.kik-redline-suppress > details[open] > div {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transition: none !important;
+    }
+    /* 隐藏 theme.css 自带的 ::before 红线（避免重复 / 错位） */
+    .header__wrapper details[is="mega-menu-disclosure"][open] > summary::before {
+      display: none !important;
+    }
+    /* summary hover 不变色不变透明（排除 .red-line-pc 避免擦掉红线背景）
+       勿用 color:inherit：会继承 body/--text-color 深灰，覆盖 .kiks_nav_fam 白字，仅 details 项变黑 */
+    .header__wrapper details[is="mega-menu-disclosure"] > summary,
+    .header__wrapper details[is="mega-menu-disclosure"] > summary:hover,
+    .header__wrapper details[is="dropdown-disclosure"] > summary,
+    .header__wrapper details[is="dropdown-disclosure"] > summary:hover {
+      color: #ffffff !important;
+      background-color: transparent !important;
+      text-decoration: none !important;
+      opacity: 1 !important;
+    }
+    .header__wrapper details[is="mega-menu-disclosure"] > summary > *:not(.red-line-pc),
+    .header__wrapper details[is="dropdown-disclosure"] > summary > *:not(.red-line-pc),
+    .header__wrapper details[is="mega-menu-disclosure"] > summary:hover > *:not(.red-line-pc),
+    .header__wrapper details[is="dropdown-disclosure"] > summary:hover > *:not(.red-line-pc) {
+      color: #ffffff !important;
+      background-color: transparent !important;
+      text-decoration: none !important;
+      opacity: 1 !important;
+    }
+    /* 非 PRODUCT dropdown 弹窗容器样式 */
+    .header__wrapper details[is="dropdown-disclosure"] > .dropdown-menu {
+      display: inline-flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      padding: 8px !important;
+      gap: 4px !important;
+      border-radius: 12px !important;
+      background: #F0F0F0 !important;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .08) !important;
+      width: max-content !important;
+      max-width: 350px !important;
+    }
+    /* dropdown 内 ul 也用 column flex 布局 */
+    .header__wrapper details[is="dropdown-disclosure"] > .dropdown-menu > ul.contents {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 4px !important;
+    }
+    /* dropdown item 默认样式 */
+    .header__wrapper details[is="dropdown-disclosure"] .dropdown-menu__item {
+      display: flex !important;
+      padding: 4px 8px !important;
+      align-items: center !important;
+      gap: 10px !important;
+      align-self: stretch !important;
+      border-radius: 8px !important;
+      background: transparent !important;
+      color: #0A0A0A !important;
+      font-family: Gabarito, sans-serif !important;
+      font-size: 16px !important;
+      font-style: normal !important;
+      font-weight: 500 !important;
+      line-height: normal !important;
+      opacity: 1 !important;
+      transition: background-color .15s ease !important;
+    }
+    /* dropdown item hover */
+    .header__wrapper details[is="dropdown-disclosure"] .dropdown-menu__item:hover,
+    .header__wrapper details[is="dropdown-disclosure"] [open] > .dropdown-menu__item {
+      background: rgba(26, 26, 26, 0.10) !important;
+      color: #0A0A0A !important;
+    }
+    /* item 内 span 文字也强制颜色一致 */
+    .header__wrapper details[is="dropdown-disclosure"] .dropdown-menu__item *,
+    .header__wrapper details[is="dropdown-disclosure"] .dropdown-menu__item:hover * {
+      color: #0A0A0A !important;
+    }
+  }
+</style>
+<script>
+  // PC 菜单：注入红线 + 计算 --menu-gap / --summary-top-gap
+  (function() {
+    if (window.innerWidth < 1280) return;
+
+    function fixMenu() {
+      const header = document.querySelector('.header__wrapper');
+      if (!header) return;
+      const headerRect = header.getBoundingClientRect();
+
+      document.querySelectorAll('details[is="mega-menu-disclosure"], details[is="dropdown-disclosure"]').forEach(function(details) {
+        const summary = details.querySelector('summary');
+        if (!summary) return;
+
+        const summaryRect = summary.getBoundingClientRect();
+        const gap = Math.max(0, Math.round(headerRect.bottom - summaryRect.bottom));
+        const topGap = Math.max(0, Math.round(summaryRect.top - headerRect.top));
+
+        summary.style.setProperty('--menu-gap', gap + 'px');
+        summary.style.setProperty('--summary-top-gap', topGap + 'px');
+
+        /* 仅顶级主导航（summary 与 header 条带相交）；mega 内嵌套下拉不能用 header 底对齐 */
+        const overlapsHeader =
+          summaryRect.top < headerRect.bottom && summaryRect.bottom > headerRect.top;
+
+        if (!summary.querySelector('.red-line-pc')) {
+          const redLine = document.createElement('div');
+          redLine.className = 'red-line-pc';
+          summary.appendChild(redLine);
+        }
+
+        const redLineEl = summary.querySelector('.red-line-pc');
+        if (redLineEl) {
+          if (overlapsHeader) {
+            const sr = summary.getBoundingClientRect();
+            var redTop = Math.round(headerRect.bottom - sr.top - 2);
+            redLineEl.style.setProperty('top', redTop + 'px', 'important');
+            redLineEl.style.setProperty('margin-top', '0', 'important');
+          } else {
+            redLineEl.style.removeProperty('top');
+            redLineEl.style.removeProperty('margin-top');
+          }
+        }
+
+        const megaPanel = details.querySelector(':scope > .mega-menu');
+        if (megaPanel && details.matches('[is="mega-menu-disclosure"]') && redLineEl && overlapsHeader) {
+          const detailsRectMega = details.getBoundingClientRect();
+          var rbMega = redLineEl.getBoundingClientRect();
+          /* mega_collections（PRODUCT）紧贴 header 底部，无 4px 间隔；其他 mega-menu 保留 4px */
+          var extraGap = megaPanel.classList.contains('mega_collections') ? 0 : 4;
+          var megaTopPx = Math.round(rbMega.bottom - detailsRectMega.top + extraGap);
+          megaPanel.style.setProperty('top', megaTopPx + 'px', 'important');
+          megaPanel.style.setProperty('margin-top', '0', 'important');
+        } else if (megaPanel && details.matches('[is="mega-menu-disclosure"]') && !overlapsHeader) {
+          megaPanel.style.removeProperty('top');
+          megaPanel.style.removeProperty('margin-top');
+        }
+
+        const dropdown = details.querySelector(':scope > .dropdown-menu');
+        if (dropdown && details.matches('[is="dropdown-disclosure"]')) {
+          if (overlapsHeader) {
+            const detailsRect = details.getBoundingClientRect();
+            const redLine = summary.querySelector('.red-line-pc');
+            var topPx;
+            if (redLine) {
+              var rb = redLine.getBoundingClientRect();
+              topPx = rb.height > 0 ? Math.round(rb.bottom - detailsRect.top + 4) : Math.round(headerRect.bottom - detailsRect.top + 4);
+            } else {
+              topPx = Math.round(headerRect.bottom - detailsRect.top + 4);
+            }
+            dropdown.style.setProperty('top', topPx + 'px', 'important');
+            dropdown.style.setProperty('margin-top', '0', 'important');
+          } else {
+            dropdown.style.removeProperty('top');
+            dropdown.style.removeProperty('margin-top');
+          }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() { setTimeout(fixMenu, 50); });
+    } else {
+      setTimeout(fixMenu, 50);
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function() {
+        if (window.innerWidth >= 1280) fixMenu();
+      }, 120);
+    });
+
+    if (window.ResizeObserver) {
+      const header = document.querySelector('.header__wrapper');
+      if (header) {
+        new ResizeObserver(function() {
+          if (window.innerWidth >= 1280) fixMenu();
+        }).observe(header);
+      }
+    }
+  })();
+
+  /* PC 顶部导航：切换悬浮时立即视觉抑制兄弟红线，避免出现同时两条红线 */
+  (function() {
+    function bind() {
+      if (window.innerWidth < 1280) return;
+      var navs = document.querySelectorAll(
+        '#shopify-section-{{ section.id }} .header__main-nav .header__link-list > ul.contents,' +
+        '#shopify-section-{{ section.id }} .header__secondary-nav .header__link-list > ul.contents'
+      );
+      navs.forEach(function(ul) {
+        if (ul.dataset.kikInstantSwitch === '1') return;
+        ul.dataset.kikInstantSwitch = '1';
+        function setActive(li) {
+          for (var i = 0; i < ul.children.length; i++) {
+            var sib = ul.children[i];
+            if (sib === li) sib.classList.remove('kik-redline-suppress');
+            else sib.classList.add('kik-redline-suppress');
+          }
+        }
+        function clearAll() {
+          for (var i = 0; i < ul.children.length; i++) {
+            ul.children[i].classList.remove('kik-redline-suppress');
+          }
+        }
+        ul.addEventListener('mouseover', function(e) {
+          var node = e.target;
+          while (node && node.parentNode !== ul) node = node.parentNode;
+          if (!node || node.tagName !== 'LI') return;
+          setActive(node);
+          /* 1280+ 桌面导航：悬浮当前项时立即展开（与 theme.js hover trigger 一致） */
+          if (window.innerWidth >= 1280) {
+            var activeDetails = node.querySelector(':scope > details[is="mega-menu-disclosure"], :scope > details[is="dropdown-disclosure"]');
+            if (activeDetails && activeDetails.getAttribute('trigger') === 'hover') {
+              activeDetails.open = true;
+            }
+          }
+          /* fb5abc2：强制立即关闭兄弟 details，绕过 Shopify 500ms mouseOverDelayTolerance */
+          for (var i = 0; i < ul.children.length; i++) {
+            var sib = ul.children[i];
+            if (sib === node) continue;
+            var d = sib.querySelector(':scope > details[open]');
+            if (!d) continue;
+            if (d._hoverTimer) { clearTimeout(d._hoverTimer); d._hoverTimer = null; }
+            d.open = false;
+          }
+        });
+        ul.addEventListener('mouseleave', clearAll);
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', bind);
+    } else {
+      bind();
+    }
+    window.addEventListener('resize', bind);
+  })();
+
+
+  
+  document.querySelectorAll('#shopify-section-{{ section.id }} .mega-menu.mega_collections').forEach(function (mega) {
+    function activateSeries(item) {
+      if (item.classList.contains('active')) return;
+      mega.querySelectorAll('.kik_collections_title_text').forEach(function (el) {
+        el.classList.remove('active');
+      });
+      mega.querySelectorAll('.kik_menu_collection').forEach(function (el) {
+        el.classList.remove('active');
+      });
+      item.classList.add('active');
+      var collectionId = item.getAttribute('data-open');
+      var panel = mega.querySelector('.kik_menu_collection[data-open="' + collectionId + '"]');
+      if (panel) panel.classList.add('active');
+    }
+
+    // 仅在能精确指向（PC 鼠标）时启用 hover 切换；触摸端依旧靠 click
+    var supportsHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+    mega.querySelectorAll('.kik_collections_title_text').forEach(function (item) {
+      item.addEventListener('click', function () {
+        activateSeries(item);
+      });
+      if (supportsHover) {
+        item.addEventListener('mouseenter', function () {
+          activateSeries(item);
+        });
+      }
+    });
+  });
+
+  // 控制移动端置顶的关闭按钮显示和隐藏closeButton
+  const navigationDrawer = document.querySelector('navigation-drawer');
+  const closeButtonLink2 = navigationDrawer.querySelectorAll('button.link2-close-btn');  //关闭按钮
+  const closeButtonSub = navigationDrawer.querySelectorAll('button.link2-sub-btn'); //返回按钮
+  const topContent = navigationDrawer.querySelector('.panel__title_content');
+  navigationDrawer.querySelectorAll('.link1-nav-li').forEach((item) => {
+
+    if (item.querySelector('.link1-nav__wrapper') == null && item.querySelector('a') == null) {
+      item.addEventListener('click', function() {
+        topContent.style.display = 'none';
+      });
+    }
+
+  });
+  closeButtonSub.forEach((item) => {
+    item.onclick = function() {
+      topContent.style.display = 'flex';
+    }
+  })
+  closeButtonLink2.forEach((item) => {
+    item.onclick = function() {
+      topContent.style.display = 'flex';
+    }
+  })
+
+  // 控制二级菜单显示或隐藏
+  document.querySelectorAll('.jingva-sub-link2-item').forEach((item) => {
+    item.addEventListener('click', function() {
+      item.classList.toggle('sub-active');
+    });
+  });
+
+  // 优化后的产品列表显示与样式控制逻辑
+  document.querySelectorAll('.link1-nav-li .link1-nav__wrapper .link-nav-title').forEach((item) => {
+    item.addEventListener('click', function() {
+      // 切换当前点击项的“active”类
+      item.classList.toggle('active');
+      var reversed = item.querySelector('.reversed-link');
+      var isJingvaDrawerProduct = item.closest('.jingva-drawer-product');
+      var inHeaderSidebarMenu = item.closest('#header-sidebar-menu');
+      if (reversed) {
+        if (inHeaderSidebarMenu) {
+          reversed.style.removeProperty('color');
+        } else if (isJingvaDrawerProduct) {
+          reversed.style.color = '#1a1a1a';
+        } else if (item.classList.contains('active')) {
+          reversed.style.color = '#e1040f';
+        } else {
+          reversed.style.color = '#000';
+        }
+      }
+
+      // 查找当前二级产品盒子
+      const proBox = item.closest('.product-list-box');
+      if (!proBox) return;
+
+      // 找到父级.link1-nav-li元素
+      const parent = proBox.closest('.link1-nav-li');
+      if (!parent) return;
+
+      // 通过class判断和直接设置样式
+      if (item.classList.contains('active')) {
+        parent.style.paddingBottom = '0';
+       
+      } else {
+      
+        // 使用getComputedStyle安全获取变量
+        const rootStyle = window.getComputedStyle(document.documentElement);
+        let paddingValue = rootStyle.getPropertyValue('--spacing-4');
+        // 如果未定义变量，提供后备值
+        paddingValue = paddingValue || '16px';
+        parent.style.paddingBottom = paddingValue.trim();
+        
+      }
+    });
+  });
+
+  document.querySelectorAll('.link1-nav-li .link1-nav__wrapper .link-nav-title2').forEach((item) => {
+    item.addEventListener('click', function() {
+      item.classList.toggle('active');
+    });
+  });
+
+
+  {% comment %}首页滚动变实心由下方 is-filled class 统一处理，此处无需额外逻辑{% endcomment %}
+</script>
+
+{%- comment -%}
+  说明：原来此处有一段「向下滚动隐藏一级 nav」的脚本，会无条件作用于所有页面（含首页、移动端），
+  并通过 inline transform/opacity 与 sticky + height:0 叠加导致首页公告条与 nav 之间出现视觉间隙。
+  根据需求 #48：只有出现次级导航且该 subnav 固定贴顶（documentElement 上 data-jingva-subnav-fixed）时，
+  才允许通过向下滚动收起一级 nav（theme.js → StoreHeader._onScroll + hide）。
+  jingva-g7-subnav / jingva-m6-subnav 在固定时设置该属性并 force 收起主导航；无 subnav 的页面不会触发收起。
+{%- endcomment -%}
+
+{%- comment -%}
+  滚过首屏 KV 后导航变实心（.header.is-filled）。
+  触发区块：
+  - 首页（index）：.jingva-section-container（jingva-slideshow_hero.liquid）
+  - 产品页 / Page：.jingva-g7-hero（jingva-g7-hero.liquid），兜底 .shopify-section--main-product
+  - Contact 页：.jingva-contact-hero-section（jingva-contact-hero.liquid）
+{%- endcomment -%}
+{% if template == 'index' or request.page_type == 'product' or request.page_type == 'page' %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var header = document.querySelector('.header');
+    if (!header) return;
+
+    var isIndex = {{ template | json }} === 'index';
+    var heroSection;
+
+    if (isIndex) {
+      // 首页：以 jingva-slideshow_hero.liquid 的容器为基准
+      heroSection = document.querySelector('.jingva-section-container');
+    } else {
+      // 产品页 / 自定义 Page：以 jingva-g7-hero.liquid 为基准
+      heroSection = document.querySelector('.jingva-g7-hero');
+      if (!heroSection) {
+        // Contact 页：以 jingva-contact-hero 为基准
+        heroSection = document.querySelector('.jingva-contact-hero-section');
+      }
+      if (!heroSection) {
+        heroSection = document.querySelector('.shopify-section--main-product');
+      }
+    }
+
+    function getThreshold() {
+      if (!heroSection) return 0;
+      var hh = header.offsetHeight;
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      var top = heroSection.getBoundingClientRect().top + y;
+      var bottom = top + heroSection.offsetHeight;
+      return Math.max(0, bottom - hh);
+    }
+
+    function checkScroll() {
+      if (window.scrollY > getThreshold()) {
+        header.classList.add('is-filled');
+      } else {
+        header.classList.remove('is-filled');
+      }
+    }
+
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll, { passive: true });
+    checkScroll();
+  });
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "shopify-section--header",
+  "tag": "header",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_on_scroll",
+      "label": "Hide on scroll",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Image",
+      "info": "PC 导航约 150×26px（Figma）；可用透明底 PNG/SVG"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_mobile",
+      "label": "Mobile logo image",
+      "info": "手机端专用 Logo（≤1279px），不填则沿用 PC Logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 40,
+      "max": 300,
+      "step": 5,
+      "unit": "px",
+      "label": "Image width",
+      "default": 150
+    },
+    {
+      "type": "range",
+      "id": "logo_mobile_max_width",
+      "min": 25,
+      "max": 170,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile image width",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "sidebar_menu",
+      "label": "Drawer menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "Secondary menu",
+      "info": "This menu won't show dropdown items. For best results, limit the number of links to 1 or 2."
+    },
+    {
+      "type": "select",
+      "id": "menu_open_trigger",
+      "label": "Open dropdown items on...",
+      "info": "Click mode is forced on touch devices.",
+      "options": [
+        {
+          "value": "hover",
+          "label": "Hover"
+        },
+        {
+          "value": "click",
+          "label": "Click"
+        }
+      ],
+      "default": "click"
+    },
+    {
+      "type": "header",
+      "content": "Mobile navigation"
+    },
+    {
+      "type": "select",
+      "id": "opening_from",
+      "label": "Opening from",
+      "info": "Top：自上方展开全屏（Figma MOB 719:3876）。Bottom：自底部抽屉。",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top (full screen)"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "header",
+      "content": "Desktop"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "info": "When centering navigation, you should limit your links to 5.",
+      "options": [
+        {
+          "value": "logo_left_navigation_inline",
+          "label": "Logo left, navigation inline"
+        },
+        {
+          "value": "logo_left_navigation_center",
+          "label": "Logo left, navigation center"
+        },
+        {
+          "value": "logo_center_navigation_inline",
+          "label": "Logo center, navigation inline"
+        },
+        {
+          "value": "drawer",
+          "label": "Drawer"
+        }
+      ],
+      "default": "logo_left_navigation_inline"
+    },
+    {
+      "type": "header",
+      "content": "Social media",
+      "info": "This will only show in the drawer navigation."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_media",
+      "label": "Show social media",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Language selector",
+      "info": "To add a language, go to your [language settings.](/admin/settings/languages)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_locale_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Country/region selector",
+      "info": "To add a country/region, go to your [markets settings.](/admin/settings/markets). For best user experience, we recommend to keep this setting off and to use the free [Shopify Geolocation app](https://apps.shopify.com/geolocation)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Show country/region selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_flag",
+      "label": "Show country flag",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_name",
+      "label": "Show country name",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Transparent header",
+      "info": "Add a section on first position which allows transparent header such as slideshow or image with text overlay."
+    },
+    {
+      "type": "color",
+      "id": "transparent_header_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "transparent_logo",
+      "label": "Logo image",
+      "info": "Use the same dimensions as main logo."
+    },
+    {
+      "type": "header",
+      "content": "Appearance"
+    },
+    {
+      "type": "checkbox",
+      "id": "reduce_padding",
+      "label": "Reduce padding",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "background_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "label": "Background opacity",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "background_blur_radius",
+      "min": 0,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "label": "Background blur radius",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "enbale_custom",
+      "label": "Custom Layout",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "header_icon_1",
+      "label": "Menu link 1 icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_icon_2",
+      "label": "Menu link 2 icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_icon_3",
+      "label": "Menu link 3 icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_icon_4",
+      "label": "Menu link 4 icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_icon_5",
+      "label": "Menu link 5 icon"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_menu",
+      "name": "Mega menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item",
+          "label": "Menu item",
+          "info": "Enter menu item to apply a mega menu dropdown. [Learn more](https://support.maestrooo.com/article/180-navigation-enabling-and-configuring-mega-navigation)."
+        },
+        {
+          "type": "select",
+          "id": "layout",
+          "label": "Layout",
+          "options": [
+            {
+              "value": "horizontal",
+              "label": "Horizontal"
+            },
+            {
+              "value": "horizontal_center",
+              "label": "Horizontal (centered)"
+            },
+            {
+              "value": "drawer",
+              "label": "Drawer"
+            }
+          ],
+          "default": "horizontal"
+        },
+        {
+          "type": "checkbox",
+          "id": "collections",
+          "label": "Collections",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "submenu_style",
+          "label": "Submenu",
+          "options": [
+            {
+              "value": "bold_text",
+              "label": "Bold - text only"
+            },
+            {
+              "value": "bold_heading",
+              "label": "Bold - headings only"
+            }
+          ],
+          "default": "bold_heading"
+        },
+        {
+          "type": "header",
+          "content": "Image 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "html",
+          "id": "image_heading_1",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "image_text_1",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "image_link_1",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "badge_text_1",
+          "label": "Badge Text",
+          "default": "New"
+        },
+        {
+          "type": "color",
+          "id": "badge_color_1",
+          "label": "Badge color",
+          "default": "#ED1C24"
+        },
+        {
+          "type": "color",
+          "id": "image_text_color_1",
+          "label": "Heading",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "image_heading_2",
+          "label": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "image_link_2",
+          "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "image_text_color_2",
+          "label": "Heading",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image",
+          "info": "1200 x 1200px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "image_heading_3",
+          "label": "Heading"
+        },
+        {
+          "type": "url",
+          "id": "image_link_3",
+          "label": "Link"
+        },
+        {
+          "type": "color",
+          "id": "image_text_color_3",
+          "label": "Heading",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "SubLink Images"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link1",
+          "label": "Heading 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image1",
+          "label": "Image 1",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link2",
+          "label": "Heading 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image2",
+          "label": "Image 2",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link3",
+          "label": "Heading 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image3",
+          "label": "Image 3",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link4",
+          "label": "Heading 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image4",
+          "label": "Image 4",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link5",
+          "label": "Heading 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image5",
+          "label": "Image 5",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link6",
+          "label": "Heading 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image6",
+          "label": "Image 6",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link7",
+          "label": "Heading 7"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image7",
+          "label": "Image 7",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "text",
+          "id": "target_sub_link8",
+          "label": "Heading 8"
+        },
+        {
+          "type": "image_picker",
+          "id": "sub_link_image8",
+          "label": "Image 8",
+          "info": "80px x 80px .jpg recommended"
+        },
+        {
+          "type": "header",
+          "content": "Featured product"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "color",
+          "id": "product_card_background",
+          "label": "Card background"
+        },
+        {
+          "type": "color",
+          "id": "product_card_text_color",
+          "label": "Card text"
+        },
+        {
+          "type": "header",
+          "content": "Product mega footer（Collections 布局）"
+        },
+        {
+          "type": "paragraph",
+          "content": "底部双按钮对齐设计稿：黑底 Compare + 红描边 Learn more。对比款数量最多 3 个，与上方商品卡一致。"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_compare_label",
+          "label": "Compare 按钮文案",
+          "default": "Compare option"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_compare_url",
+          "label": "Compare 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label",
+          "label": "Learn more 按钮文案",
+          "default": "Learn more"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url",
+          "label": "Learn more 链接（默认/兜底）",
+          "info": "下方各系列若未单独配置则使用此链接。"
+        },
+        {
+          "type": "header",
+          "content": "Mobile 抽屉单一按钮（手机端整个 PRODUCT 仅显示一组按钮）"
+        },
+        {
+          "type": "paragraph",
+          "content": "手机端不再按系列重复显示 Learn more / Compare，仅在 PRODUCT 面板底部显示一组。留空则回退到上方默认值。"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_mobile_compare_label",
+          "label": "Mobile - Compare 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_mobile_compare_url",
+          "label": "Mobile - Compare 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_mobile_learn_label",
+          "label": "Mobile - Learn more 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_mobile_learn_url",
+          "label": "Mobile - Learn more 链接"
+        },
+        {
+          "type": "header",
+          "content": "各系列 Learn more 链接（按导航子菜单顺序 1-8）"
+        },
+        {
+          "type": "paragraph",
+          "content": "对应左侧系列 Tab 1-8（M-Series / G-Series / Gaming Desk 等），任一为空则回退到上方默认 Learn more 链接/文案。"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label1",
+          "label": "系列 1 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url1",
+          "label": "系列 1 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label2",
+          "label": "系列 2 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url2",
+          "label": "系列 2 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label3",
+          "label": "系列 3 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url3",
+          "label": "系列 3 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label4",
+          "label": "系列 4 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url4",
+          "label": "系列 4 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label5",
+          "label": "系列 5 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url5",
+          "label": "系列 5 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label6",
+          "label": "系列 6 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url6",
+          "label": "系列 6 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label7",
+          "label": "系列 7 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url7",
+          "label": "系列 7 - Learn more 链接"
+        },
+        {
+          "type": "text",
+          "id": "mega_footer_learn_label8",
+          "label": "系列 8 - 按钮文案"
+        },
+        {
+          "type": "url",
+          "id": "mega_footer_learn_url8",
+          "label": "系列 8 - Learn more 链接"
+        },
+        {
+          "type": "header",
+          "content": "Appearance"
+        },
+        {
+          "type": "select",
+          "id": "promo_content_layout",
+          "label": "Promotional content layout",
+          "info": "To improve readability, layout can be changed automatically depending on the screen size, menu column count and promotional content. [Learn more](https://support.maestrooo.com/article/296-navigation-understanding-impact-mega-menu-strategy)",
+          "options": [
+            {
+              "value": "grid",
+              "label": "Grid"
+            },
+            {
+              "value": "collage",
+              "label": "Collage"
+            },
+            {
+              "value": "carousel",
+              "label": "Carousel"
+            }
+          ],
+          "default": "grid"
+        },
+        {
+          "type": "checkbox",
+          "id": "stretch_promo",
+          "label": "Stretch to fill",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "drawer_link_image",
+          "label": "Drawer link image",
+          "options": [
+            {
+              "value": "hide",
+              "label": "Hide"
+            },
+            {
+              "value": "show",
+              "label": "Show product image"
+            }
+          ],
+          "default": "hide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

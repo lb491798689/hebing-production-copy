@@ -1,0 +1,564 @@
+{%- if section.blocks.size > 0 -%}
+  {%- render 'section-spacing-collapsing' -%}
+  {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+  {%- assign  padding_top = section.settings.padding_top | append:'px' -%}
+  {%- assign  padding_bottom = section.settings.padding_bottom | append:'px' -%}
+  
+  {%- assign padding_mobile_top = section.settings.padding_top_mob | append: 'px' -%}
+  {%- assign padding_mobile_bottom = section.settings.padding_bottom_mob | append: 'px' -%}
+  
+  {% style %}
+   {{ section_identifier }} .section{
+      padding-top: {{padding_top}};
+      padding-bottom: {{padding_bottom}};
+    }
+  .kiks-multi-column-swiper-logo .swiper-pagination {
+      position:relative;
+      z-index: 1;
+      width:auto !important;
+  }
+  .kiks-multi-column-swiper-logo .swiper-pagination span.swiper-pagination-bullet{
+    height:6.5px;
+    width:6.5px;
+    border-radius:50%;
+    margin:0 5px;
+  }
+   @media only screen and (max-width: 430px) {
+      {{ section_identifier }} .section{
+        padding-top: {{ padding_mobile_top }};
+        padding-bottom: {{ padding_mobile_bottom }};
+      }
+    }
+    .kiks-top-content {
+          display: flex;
+    }
+    .kiks-top-content .kiks-section-text {
+          flex: 1;
+     }
+     .kiks-top-content .kiks-section-text .prose h2, .kiks-top-content .kiks-section-text .prose p {
+          margin: 0;
+      }
+     kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide.multi-column__item img {
+          width: 75%;
+          height: auto;
+          object-fit: cover;   
+          margin: 0 auto;
+          margin-bottom: 10px;
+     }
+     .jingva-btn-box{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:20px;
+      margin-top: 30px;
+     }
+    .jingva-btn-box .swiper-button-next-logo, 
+    .jingva-btn-box .swiper-button-prev-logo {
+          position:absolute;
+          height:48px;
+          width:48px;
+          color: #000;
+          border-radius: 50%;
+          overflow: hidden;
+          top:50%;
+          transform: translateY(-50%);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 3;
+      }
+      .jingva-btn-box .swiper-button-next-logo{
+        right: -120px;
+      }
+      .jingva-btn-box .swiper-button-prev-logo {
+        left: -120px;
+      }
+ 
+
+      .jingva-btn-box .swiper-button-next-logo:hover,
+      .jingva-btn-box .swiper-button-prev-logo:hover {
+          /* background-color: rgb(var(--button-background-primary)) !important; Change background to black on hover */
+          background-color: #000;
+          color: #fff;
+      }
+
+      .jingva-section-stack{
+        overflow: hidden;
+        padding-bottom: 100px;
+      }
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo{
+        position: relative;
+        max-width: calc(var(--container-max-width) - 250px);
+        margin: 0 auto;
+      }
+      
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-pagination span.swiper-pagination-bullet {
+            background: #BABABA;
+      }
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-pagination span.swiper-pagination-bullet.swiper-pagination-bullet-active {
+          background: #E1040F;
+      }
+
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::before,
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::after{
+        display: none;
+        width: 45px;
+        height: 45px;
+        content: '';
+        position: absolute;
+        top: 50%;
+        transition: 300ms ease-in-out;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+      }
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::before {
+          left:-55px;
+          background: url('https://cdn.shopify.com/s/files/1/0615/6684/5144/files/left.png?v=1756891161') no-repeat;
+      }
+      kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::after {
+          right:-55px;
+          background: url('https://cdn.shopify.com/s/files/1/0615/6684/5144/files/right.png?v=1756891161') no-repeat;
+      }
+
+    .kiks-section-text .section-header .prose h2{
+    font-style: italic;
+    }
+     
+      
+      @media screen and (max-width: 1150px) {
+        kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo{
+          max-width: 100%;
+         
+        }
+      }
+      
+      @media screen and (max-width: 768px) {
+        kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo{
+          height: 80%;
+        }
+          .kiks-multi-column-swiper-logo .swiper-pagination span.swiper-pagination-bullet{
+              height:4.5px;
+              width:4.5px;
+              margin:0 3px;
+          }
+          .jingva-btn-box .swiper-button-next-logo, 
+          .jingva-btn-box .swiper-button-prev-logo{
+            position: relative;
+    
+          }
+          .jingva-btn-box .swiper-button-next-logo{
+            right: 0;
+          }
+          .jingva-btn-box .swiper-button-prev-logo{
+            left: 0;
+          }
+          .jingva-btn-box{
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            margin-top: 0;
+          }
+          .jingva-btn-box .swiper-button-group-logo{
+            display: flex;
+            gap: 12px;
+          }
+          
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .jingva-text-box{
+            width:80%;
+            margin: 0 auto;
+            margin-top: 45px;
+          }
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::before,
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::after{
+              width:26px;
+              height:26px;
+              top:65%;
+              display: block;
+          }
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::before {
+            left:0;
+          }
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide-active::after {
+            right:0;
+          }
+          .jingva-btn-box .swiper-button-next-logo, 
+          .jingva-btn-box .swiper-button-prev-logo {
+              width:32px;
+              height:32px;
+              border:1px solid #000;
+          }   
+          kiks-multi-column-swiper-logo.kiks-multi-column-swiper-logo .swiper-slide.multi-column__item img{
+            width:75%;
+            margin: 0 auto;
+          }
+
+          .kiks-section-text .section-header{
+            justify-content: {{ section.settings.title_alignment_mobile }};
+          }
+          .kiks-section-text .section-header .prose h2{
+            line-height: 1.2;
+            text-align: {{ section.settings.title_alignment_mobile }};
+          }
+
+          .jingva-section-stack{
+            padding-bottom: 48px;
+          }
+      }
+     
+  {% endstyle %}
+
+  <div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %}{% render 'section-properties' %} >
+    <div class="section-stack jingva-section-stack" >
+     <div class="kiks-top-content">
+          <div class="kiks-section-text">
+              {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content, text_alignment: section.settings.text_alignment -%}
+          </div>
+          
+     </div>
+      <kiks-multi-column-swiper-logo class="kiks-multi-column-swiper-logo">
+          <div class="swiper-wrapper multi-column">
+          {%- for block in section.blocks -%}
+              {%- liquid
+              assign loading_strategy = nil
+      
+              if section.index > 3 or forloop.index > 3
+                  assign loading_strategy = 'lazy'
+              endif
+              -%}
+  
+              {%- case block.type -%}
+              {%- when 'item' -%}
+                  <div class="swiper-slide multi-column__item justify-{{ section.settings.text_alignment }}"  {{ block.shopify_attributes }}>
+                  {%- if block.settings.video != blank -%}
+                      <video-media autoplay style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}">
+                      {{ block.settings.video | video_tag: playsinline: true, muted: true, loop: true, preload: 'metadata', class: 'rounded' }}
+                      </video-media>
+                  {%- elsif block.settings.image != blank -%}
+                      {%- capture sizes -%}(max-width: 699px) calc(73vw - 40px), (max-width: 999px) calc(38vw - 64px), calc(min({{ settings.page_width }}px, 100vw) / {{ block.settings.column_size }}){%- endcapture -%}
+                      {{- block.settings.image | image_url: width: block.settings.image.width | image_tag: loading: loading_strategy, sizes: sizes, widths: '300,400,500,600,800,1000,1200,1400,1600,1800', class: 'rounded' -}}
+                  {%- endif -%}
+  
+                  {%- if block.settings.title != blank or block.settings.content != blank or block.settings.link_text != blank -%}
+                      <div class="jingva-text-box v-stack gap-4 text-{{ section.settings.text_alignment }}">
+                      {%- if block.settings.title != blank -%}
+                          <p class="{{ block.settings.heading_tag }}">{{ block.settings.title | escape }}</p>
+                      {%- endif -%}
+  
+                      {%- if block.settings.content != blank or block.settings.link_text != blank -%}
+                          <div class="prose">
+                          {{- block.settings.content -}}
+  
+                          {%- if block.settings.link_text != blank -%}
+                              <div>
+                              {%- if block.settings.link_style == 'link' -%}
+                                  <a href="{{ block.settings.link_url }}" class="link">{{ block.settings.link_text | escape }}</a>
+                              {%- else -%}
+                                  {%- render 'button', href: block.settings.link_url, content: block.settings.link_text, size: 'lg' -%}
+                              {%- endif -%}
+                              </div>
+                          {%- endif -%}
+                          </div>
+                      {%- endif -%}
+                      </div>
+                  {%- endif -%}
+                  </div>
+              {%- endcase -%}
+          {%- endfor -%}
+          </div>
+          
+        
+          <div class="jingva-btn-box">
+            
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-group-logo">
+              <div class="swiper-button-prev-logo">
+                {% render 'icon-arrow-left' %}
+              </div>
+              <div class="swiper-button-next-logo">
+                {% render 'icon-arrow-right' %}
+              </div>
+            </div>
+          </div>
+      </kiks-multi-column-swiper-logo>
+       
+    </div>
+  </div>
+{%- endif -%}
+
+<script>
+
+</script>
+
+{% schema %}
+{
+  "name": "Kiks Slider Multi logo",
+  "class": "shopify-section-kiks-slider-multi-column",
+  "tag": "section",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same (id or name) in the (Kiks Section Navigation) section."
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "About"
+    },
+
+    
+    {
+      "type": "select",
+      "id": "title_alignment_mobile",
+      "label": "Title alignment mobile",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "html",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured content"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content",
+      "default": "<p>Organize content into multiple columns to share useful information to your customers about your products, values...</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+        "type": "header",
+        "content": "Kikstart Spacing Settings"
+    },
+    {
+        "type": "range",
+        "id": "padding_top",
+        "min": 30,
+        "max": 140,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding top",
+        "default": 65
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom",
+        "min": 30,
+        "max": 140,
+        "step": 5,
+        "unit": "px",
+        "label": "Padding Bottom",
+        "default": 65
+      },
+      {
+        "type": "range", 
+        "id": "padding_top_mob",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "For Mobile Padding top",
+        "default": 48
+      },
+      {
+        "type": "range",
+        "id": "padding_bottom_mob",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "For Mobile Padding Bottom",
+        "default": 48
+      }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "16:9 aspect ratio recommended"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video",
+          "info": "Video are muted automatically and will autoplay."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Column title"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading style",
+          "options": [
+            {
+              "value": "h1",
+              "label": "X-Large"
+            },
+            {
+              "value": "h2",
+              "label": "Large"
+            },
+            {
+              "value": "h3",
+              "label": "Medium"
+            },
+            {
+              "value": "h4",
+              "label": "Small"
+            },
+            {
+              "value": "h5",
+              "label": "X-Small"
+            },
+            {
+              "value": "h6",
+              "label": "XX-Small"
+            }
+          ],
+          "default": "h4"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link text"
+        },
+        {
+          "type": "select",
+          "id": "link_style",
+          "label": "Link style",
+          "options": [
+            {
+              "value": "link",
+              "label": "Link"
+            },
+            {
+              "value": "button",
+              "label": "Button"
+            }
+          ],
+          "default": "link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kiks Slider Multi logo",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": {}
+        },
+        {
+          "type": "item",
+          "settings": {}
+        },
+        {
+          "type": "item",
+          "settings": {}
+        },
+        {
+          "type": "item",
+          "settings": {}
+        },
+        {
+          "type": "item",
+          "settings": {}
+        },
+        {
+          "type": "item",
+          "settings": {}
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+

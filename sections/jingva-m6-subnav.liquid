@@ -1,0 +1,818 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign product_name = se_stts.product_name
+  assign buy_url = se_stts.buy_url
+  assign sticky_offset = se_stts.sticky_offset | default: 64
+  assign has_buy = false
+  if buy_url != blank
+    assign has_buy = true
+  endif
+-%}
+{% capture default_sid %}.jingva-m6-subnav-{{ sid }}{% endcapture %}
+
+{%- comment -%}
+  jingva-m6-subnav.liquid
+  ─────────────────────────────────────────────────────────
+  Figma PC node 3123:1358 (file Py17WjwzO8BvwZWIgb9hCL) — M6 次级导航：
+    · 1920 设计尺寸: 宽 1920 × 高 72
+    · 容器: bg #121212, padding: 12 48, flex HORIZ SPACE_BETWEEN items-center
+    · 左侧标题: "autofull M6 Ultra gaming chair" Gabarito SemiBold 600 24px #ffffff UPPER
+    · 右侧 HORIZ gap 24:
+        · 导航链接组 HORIZ gap 24：Gabarito Medium 500 18px #ffffff capitalize
+        · BUY NOW: 150x48 radius 12 bg #e90202 padding 14/30/14/30
+            内文本 "buy now" Orbitron Bold 700 16px #ffffff UPPER
+    · Active 态：bold 600（Figma 未显式区分颜色，沿用 G7 交互逻辑以示选中）
+  ─────────────────────────────────────────────────────────
+  Sticky 实现同 G7：scroll + fixed + 占位符；固定即 top:0，无过渡动效。
+{%- endcomment -%}
+
+{{- "" -}}
+<div
+  class="jingva-m6-subnav-{{ sid }}{% unless has_buy %} subnav--no-buy{% endunless %}"
+  data-section-id="{{ sid }}"
+  id="jingva-m6-subnav-{{ sid }}"
+>
+  {% style %}
+    /* 去掉 Shopify 外层包裹（.shopify-section）的默认背景，
+       防止 fixed 后外层仍在文档流自带 var(--background) → 第二条 bg。 */
+    #shopify-section-{{ section.id }},
+    [id$="__{{ section.id }}"],
+    .shopify-section--jingva-m6-subnav {
+      background: transparent !important;
+      background-color: transparent !important;
+      min-height: 0 !important;
+      height: auto !important;
+    }
+
+    #shopify-section-{{ section.id }}:has({{ default_sid }}.jingva-subnav--fixed) {
+      height: 0 !important;
+      overflow: visible !important;
+    }
+
+    /* MOB：内层 subnav 默认高度为 0，收紧外层 section，避免主题 section 间距叠出白条 */
+    @media screen and (max-width: 1279px) {
+      #shopify-section-{{ section.id }},
+      [id$="__{{ section.id }}"],
+      .shopify-section--jingva-m6-subnav {
+        margin-block: 0 !important;
+        padding-block: 0 !important;
+      }
+    }
+
+    /* ── 全尺寸通用基底 ───────────────────────────────────────── */
+    {{ default_sid }} {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      z-index: 1000;
+      background-color: #111111;
+      /* 默认隐形且不占版面高度（与 jingva-g7-subnav 一致）。fixed 后由 .jingva-subnav--fixed 恢复高度。 */
+      min-height: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+      will-change: opacity, transform;
+    }
+    {{ default_sid }}.jingva-subnav--fixed {
+      height: auto !important;
+      overflow: visible !important;
+    }
+    {{ default_sid }}.jingva-subnav--visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+      pointer-events: auto;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0s;
+    }
+    #jingva-m6-subnav-placeholder-{{ sid }} {
+      display: none;
+      width: 100%;
+    }
+    {{ default_sid }} .subnav-inner {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       MOB ≤1279px — 两行结构 (390×96)
+       ───────────────────────────────────────────────────────── */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: #000000 !important;
+      }
+      {{ default_sid }}.jingva-subnav--fixed {
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        transform: none !important;
+        z-index: 1001 !important;
+        min-height: 96px !important;
+      }
+
+      /* Figma 6193:4582: 无 buy now 时移动端为单行结构 (390×48)，隐藏行 1，仅保留菜单链接行 */
+      {{ default_sid }}.jingva-subnav--fixed.subnav--no-buy {
+        min-height: 48px !important;
+      }
+      {{ default_sid }}.subnav--no-buy .subnav-row--top {
+        display: none !important;
+      }
+
+      {{ default_sid }} .subnav-inner {
+        flex-direction: column !important;
+      }
+
+      /* 行 1 / 行 2 共同 48px 行容器，左右 16，上下 12 */
+      {{ default_sid }} .subnav-row {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        height: 48px !important;
+        padding: 12px 16px !important;
+        box-sizing: border-box !important;
+        background-color: #000000 !important;
+      }
+
+      /* Figma 6193:4332 行 1 strokeBottomWeight=1, rgba(204,204,204,0.20) — 双行模式下的中间分割线 */
+      {{ default_sid }} .subnav-row--top {
+        border-bottom: 1px solid rgba(204, 204, 204, 0.20) !important;
+      }
+
+      /* 行 1: 标题 Gabarito 500 / 16px / normal / Capitalize / #fff + 小 BUY NOW (91×28) */
+      {{ default_sid }} .subnav-row--top .subnav-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        line-height: normal !important;
+        letter-spacing: 0 !important;
+        color: #FFFFFF !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        text-decoration: none !important;
+      }
+      {{ default_sid }} .subnav-row--top .subnav-btn {
+        height: 28px !important;
+        padding: 0 12px !important;
+        border-radius: 6px !important;
+      }
+      {{ default_sid }} .subnav-row--top .subnav-btn__text {
+        font-size: 12px !important;
+      }
+      /* 行 1 仅显示 标题 + 小 BUY NOW；菜单链接放到行 2，避免重复 */
+      {{ default_sid }} .subnav-row--top .subnav-links {
+        display: none !important;
+      }
+      {{ default_sid }} .subnav-row--top .subnav-right {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0 !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* 行 2: 仅显示菜单（横向滚动），按钮在行 1 已展示 -> 这里隐藏 */
+      {{ default_sid }} .subnav-row--bottom {
+        justify-content: flex-start !important;
+        /* 右侧不留 padding：让菜单一直铺到视口右边缘，下一项可"露头"提示可滚动（Figma 规范） */
+        padding-right: 0 !important;
+      }
+      {{ default_sid }} .subnav-row--bottom .subnav-title,
+      {{ default_sid }} .subnav-row--bottom .subnav-btn {
+        display: none !important;
+      }
+      {{ default_sid }} .subnav-row--bottom .subnav-links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 24px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        white-space: nowrap !important;
+      }
+      {{ default_sid }} .subnav-row--bottom .subnav-links::-webkit-scrollbar {
+        display: none !important;
+      }
+      {{ default_sid }} .subnav-link {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 400 !important;
+        font-size: 16px !important;
+        line-height: 1.2em !important;
+        letter-spacing: 0 !important;
+        color: rgba(255, 255, 255, 0.40) !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
+        transition: color 0.22s ease, font-weight 0.22s ease !important;
+      }
+      {{ default_sid }} .subnav-link.is-active {
+        color: #ffffff !important;
+        font-weight: 400 !important;
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────
+       PC ≥1280px — 1920×56 单行
+       ───────────────────────────────────────────────────────── */
+    @media screen and (min-width: 1280px) {
+      {{ default_sid }} {
+        background-color: #111111 !important;
+      }
+
+      {{ default_sid }}.jingva-subnav--fixed {
+        min-height: 56px !important;
+      }
+
+      {{ default_sid }} .subnav-inner {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        height: 56px !important;
+        padding: 12px 48px !important;
+      }
+
+      /* 行 1 在 PC 等同 inner 主体；行 2 隐藏 */
+      {{ default_sid }} .subnav-row {
+        display: contents !important;
+      }
+      {{ default_sid }} .subnav-row--bottom {
+        display: none !important;
+      }
+
+      /* 左侧产品名称 — Gabarito 600 / 18px / Capitalize / #fff */
+      {{ default_sid }} .subnav-row--top .subnav-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 18px !important;
+        line-height: 1.2em !important;
+        letter-spacing: 0 !important;
+        color: #ffffff !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        text-decoration: none !important;
+      }
+
+      /* 右侧: 菜单组 + 按钮 gap 24 */
+      {{ default_sid }} .subnav-right {
+        display: flex !important;
+        align-items: center !important;
+        gap: 24px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* 菜单链接组 gap 24 — 在 PC 顶行展示 */
+      {{ default_sid }} .subnav-row--top .subnav-links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 24px !important;
+      }
+      {{ default_sid }} .subnav-row--bottom .subnav-links {
+        display: none !important;
+      }
+
+      /* 菜单项 — Gabarito 400 / 14px / capitalize；未激活 40% 白，激活 #fff */
+      {{ default_sid }} .subnav-link {
+        font-family: 'Gabarito', sans-serif !important;
+        font-weight: 400 !important;
+        font-size: 14px !important;
+        line-height: 1.2em !important;
+        letter-spacing: 0 !important;
+        color: rgba(255, 255, 255, 0.40) !important;
+        text-transform: none !important;
+        white-space: nowrap !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        position: relative !important;
+        transition: color 0.22s ease, font-weight 0.22s ease !important;
+      }
+      {{ default_sid }} .subnav-link:hover {
+        color: rgba(255, 255, 255, 0.85) !important;
+      }
+      {{ default_sid }} .subnav-link.is-active {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+      }
+
+      /* BUY NOW: 122×40, bg #EF000E, radius 8, padding 8 16 */
+      {{ default_sid }} .subnav-row--top .subnav-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 40px !important;
+        padding: 8px 16px !important;
+        border-radius: 8px !important;
+      }
+      {{ default_sid }} .subnav-row--top .subnav-btn__text {
+        font-size: 16px !important;
+      }
+    }
+
+    /* ── BUY NOW 公共样式 ─────────────────────────────────── */
+    {{ default_sid }} .subnav-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #EF000E;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: background-color 0.22s ease;
+      white-space: nowrap;
+      box-sizing: border-box;
+    }
+    {{ default_sid }} .subnav-btn:hover {
+      background-color: #F74557;
+    }
+    {{ default_sid }} .subnav-btn__text {
+      color: #FAFAFA;
+      text-align: center;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 120%;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+  {% endstyle %}
+
+  {%- capture nav_links -%}
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'nav_item' -%}
+        <a
+          class="subnav-link"
+          href="#{{ block.settings.anchor_id | escape }}"
+          data-anchor="{{ block.settings.anchor_id | escape }}"
+          {{ block.shopify_attributes }}
+        >{{ block.settings.label | escape }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+
+  {%- capture buy_btn -%}
+    {%- if buy_url != blank -%}
+      <a href="{{ buy_url }}" class="subnav-btn" aria-label="Buy Now">
+        <span class="subnav-btn__text">Buy Now</span>
+      </a>
+    {%- endif -%}
+  {%- endcapture -%}
+
+  <div class="subnav-inner">
+    {%- comment -%} 行 1: PC 整行(标题+菜单+按钮); MOB 仅(标题+小按钮) {%- endcomment -%}
+    <div class="subnav-row subnav-row--top">
+      <span class="subnav-title">{{ product_name | escape }}</span>
+
+      <div class="subnav-right">
+        <nav class="subnav-links" aria-label="{{ product_name | escape }} navigation">
+          {{ nav_links }}
+        </nav>
+        {{ buy_btn }}
+      </div>
+    </div>
+
+    {%- comment -%} 行 2: 仅 MOB 显示 — 横向滚动菜单 {%- endcomment -%}
+    <div class="subnav-row subnav-row--bottom">
+      <nav class="subnav-links" aria-label="{{ product_name | escape }} navigation (mobile)">
+        {{ nav_links }}
+      </nav>
+    </div>
+  </div>
+</div>
+
+{{- "" -}}
+<div id="jingva-m6-subnav-placeholder-{{ sid }}" aria-hidden="true"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var subnav      = document.getElementById('jingva-m6-subnav-{{ sid }}');
+  var placeholder = document.getElementById('jingva-m6-subnav-placeholder-{{ sid }}');
+  if (!subnav || !placeholder) return;
+
+  var isFixed     = false;
+  var originalTop = 0;
+  /** 固定瞬间占位符顶边的 viewport Y，用于解除固定（header visibility:hidden 后不能再依赖 live headerH） */
+  var pinnedChromeBottom = -1;
+  var UNSTICK_HYSTERESIS_PX = 14;
+  var STICK_ENTER_PX = 2;
+  var lastWinScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+  var CLS_FIXED   = 'jingva-subnav--fixed';
+  var CLS_VISIBLE = 'jingva-subnav--visible';
+  var FADE_MS     = 300;
+  var pendingUnfixTimer = 0;
+
+  var SUBNAV_LOCKS_HEADER_ATTR = 'data-jingva-subnav-fixed';
+
+  function getHeaderHeight() {
+    var headerSection = document.querySelector('.shopify-section--header');
+    if (headerSection) {
+      var cs = window.getComputedStyle(headerSection);
+      if (cs.visibility === 'hidden' || cs.display === 'none') return 0;
+      var bottom = headerSection.getBoundingClientRect().bottom;
+      if (bottom > 0) return Math.round(bottom);
+    }
+    var ann = document.querySelector('.shopify-section--announcement-bar');
+    var hdrInner = document.querySelector('.shopify-section--header .header__wrapper, .header__wrapper');
+    var sum = 0;
+    if (ann && ann.offsetHeight > 0) sum += ann.offsetHeight;
+    if (hdrInner && hdrInner.offsetHeight > 0) sum += hdrInner.offsetHeight;
+    if (sum > 0) return sum;
+
+    var candidates = [
+      '.shopify-section-group-header-group',
+      'sticky-header',
+      '.header-wrapper',
+      'header[role="banner"]',
+      'header'
+    ];
+    for (var i = 0; i < candidates.length; i++) {
+      var el = document.querySelector(candidates[i]);
+      if (el && el.offsetHeight > 0) return el.offsetHeight;
+    }
+    return {{ sticky_offset }};
+  }
+
+  /* 锚点滚动偏移：当前顶栏占位 + subnav 高度 */
+  function getStickyChromeOffset() {
+    var subnavH = subnav.offsetHeight || 72;
+    return getHeaderHeight() + subnavH;
+  }
+
+  /* 固定：data 标记 + store-header.hide(true)；解除固定时 show()。 */
+  function lockHeaderForSubnav() {
+    document.documentElement.setAttribute(SUBNAV_LOCKS_HEADER_ATTR, '');
+    var hdr = document.querySelector('store-header');
+    if (hdr && typeof hdr.hide === 'function') hdr.hide(true);
+  }
+
+  function unlockHeaderForSubnav() {
+    document.documentElement.removeAttribute(SUBNAV_LOCKS_HEADER_ATTR);
+    var hdr = document.querySelector('store-header');
+    if (hdr && typeof hdr.show === 'function') hdr.show();
+  }
+
+  function calcOriginalTop() {
+    var ref = isFixed ? placeholder : subnav;
+    return ref.getBoundingClientRect().top + window.pageYOffset;
+  }
+
+  function makeFixed() {
+    /* 若处于"等待淡出后解固"的状态，取消解固，重新显示 */
+    if (pendingUnfixTimer) {
+      clearTimeout(pendingUnfixTimer);
+      pendingUnfixTimer = 0;
+    }
+    if (isFixed) {
+      subnav.classList.add(CLS_VISIBLE);
+      return;
+    }
+    isFixed = true;
+
+    /* 文档流内默认 height:0，offsetHeight 可能为 0 — 用 inner 或设计稿回退 */
+    var innerEl = subnav.querySelector('.subnav-inner');
+    var navH = subnav.offsetHeight;
+    if (!navH && innerEl) navH = innerEl.offsetHeight;
+    if (!navH) {
+      navH = window.matchMedia && window.matchMedia('(max-width: 1279px)').matches
+        ? (subnav.classList.contains('subnav--no-buy') ? 48 : 96)
+        : 56;
+    }
+
+    placeholder.style.height  = navH + 'px';
+    placeholder.style.display = 'block';
+
+    pinnedChromeBottom = placeholder.getBoundingClientRect().top;
+
+    lockHeaderForSubnav();
+
+    subnav.style.position = 'fixed';
+    subnav.style.top      = '0';
+    subnav.style.left     = '0';
+    subnav.style.right    = '0';
+    subnav.style.width    = '100%';
+    subnav.style.zIndex   = '1000';
+    subnav.classList.add(CLS_FIXED);
+
+    /* 强制 reflow 后再加 visible 类，确保过渡生效 */
+    void subnav.offsetWidth;
+    subnav.classList.add(CLS_VISIBLE);
+  }
+
+  function makeRelative() {
+    if (!isFixed) return;
+    if (pendingUnfixTimer) return;
+
+    /* 先触发淡出（移除 visible 类），等过渡结束再真正解除 fixed 定位 */
+    subnav.classList.remove(CLS_VISIBLE);
+
+    pendingUnfixTimer = setTimeout(function () {
+      pendingUnfixTimer = 0;
+      isFixed = false;
+
+      unlockHeaderForSubnav();
+
+      pinnedChromeBottom = -1;
+
+      placeholder.style.height  = '0';
+      placeholder.style.display = 'none';
+
+      subnav.classList.remove(CLS_FIXED);
+      subnav.style.position = '';
+      subnav.style.top      = '';
+      subnav.style.left     = '';
+      subnav.style.right    = '';
+      subnav.style.width    = '';
+      subnav.style.zIndex   = '';
+    }, FADE_MS);
+  }
+
+  function onScroll() {
+    var scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var scrollingUp = scrollY < lastWinScrollY - 0.5;
+    lastWinScrollY = scrollY;
+
+    var headerH = getHeaderHeight();
+    if (!isFixed) {
+      var subnavTop = subnav.getBoundingClientRect().top;
+      if (subnavTop <= headerH - STICK_ENTER_PX) {
+        makeFixed();
+        originalTop = placeholder.getBoundingClientRect().top + window.pageYOffset;
+      }
+    } else {
+      var phTop = placeholder.getBoundingClientRect().top;
+      var releaseThreshold = pinnedChromeBottom >= 0 ? pinnedChromeBottom : headerH;
+      if (scrollingUp && phTop >= releaseThreshold + UNSTICK_HYSTERESIS_PX) {
+        makeRelative();
+      }
+    }
+  }
+
+  var fixRaf = 0;
+  function onScrollRaf() {
+    if (fixRaf) return;
+    fixRaf = window.requestAnimationFrame(function () {
+      fixRaf = 0;
+      onScroll();
+    });
+  }
+
+  originalTop = calcOriginalTop();
+  /* 仅在浏览器恢复了滚动位置时立即判定；fresh load (scrollY=0) 跳过，
+     避免 hero 图未加载时其高度为 0 导致 subnav 误判贴顶。 */
+  if ((window.pageYOffset || document.documentElement.scrollTop || 0) > 0) {
+    onScroll();
+  }
+
+  window.addEventListener('scroll', onScrollRaf, { passive: true });
+  window.addEventListener('load', function () {
+    if (!isFixed) originalTop = calcOriginalTop();
+  });
+  window.addEventListener('resize', function () {
+    if (!isFixed) originalTop = calcOriginalTop();
+    onScroll();
+  });
+
+  var links = subnav.querySelectorAll('.subnav-link[data-anchor]');
+  if (!links.length) return;
+
+  function resolveTarget(anchorId) {
+    if (!anchorId) return null;
+    /* 1) id 完全匹配 */
+    var el = document.getElementById(anchorId);
+    if (el) return el;
+    /* 2) Shopify section 包裹层 id 完全匹配 */
+    el = document.getElementById('shopify-section-' + anchorId);
+    if (el) return el;
+    /* 3) data-anchor-id 自定义属性 */
+    el = document.querySelector('[data-anchor-id="' + anchorId + '"]');
+    if (el) return el;
+    /* 4) data-section-id 完全匹配 */
+    el = document.querySelector('[data-section-id="' + anchorId + '"]');
+    if (el) return el;
+    /* 5) id 模糊匹配（兼容 Theme Editor 预览的 "template--XXX__" 前缀） */
+    try {
+      var idQ = '[id$="' + anchorId + '"]';
+      el = document.querySelector(idQ);
+      if (el) return el;
+    } catch (e) {}
+    /* 6) data-section-id 模糊匹配 */
+    try {
+      el = document.querySelector('[data-section-id$="' + anchorId + '"]');
+      if (el) return el;
+    } catch (e) {}
+    /* 7) class 包含 slug 兜底（下划线自动转连字符） */
+    try {
+      var safe = anchorId.replace(/_/g, '-').replace(/[^a-z0-9-]/gi, '');
+      if (safe) {
+        el = document.querySelector('[class*="' + safe + '"]');
+        if (el) return el;
+      }
+    } catch (e) {}
+    /* 8) 字符串包含 anchor 的 class 兜底（不转下划线） */
+    try {
+      el = document.querySelector('[class*="' + anchorId + '"]');
+      if (el) return el;
+    } catch (e) {}
+    if (window.console) console.warn('[m6-subnav] anchor target not found:', anchorId);
+    return null;
+  }
+
+  function buildSections() {
+    var arr = [];
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i];
+      var anchorId = link.getAttribute('data-anchor');
+      var el = resolveTarget(anchorId);
+      if (el) arr.push({ id: anchorId, element: el, link: link });
+    }
+    return arr;
+  }
+
+  var sectionList = buildSections();
+
+  var clickLockUntil = 0;
+  var clickLockedLink = null;
+
+  links.forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var anchorId = this.getAttribute('data-anchor');
+      var target = resolveTarget(anchorId);
+      if (!target) return;
+      e.preventDefault();
+
+      var offset  = getStickyChromeOffset();
+      var targetY = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
+
+      clickLockedLink = link;
+      clickLockUntil  = Date.now() + 1200;
+      setActive(link);
+    });
+  });
+
+  function setActive(link) {
+    for (var i = 0; i < links.length; i++) {
+      if (links[i] === link) links[i].classList.add('is-active');
+      else                   links[i].classList.remove('is-active');
+    }
+  }
+
+  function updateActiveLink() {
+    if (Date.now() < clickLockUntil) return;
+
+    if (!sectionList.length) sectionList = buildSections();
+    if (!sectionList.length) return;
+
+    var triggerLine = getStickyChromeOffset() + 1;
+    var scrollY  = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight;
+    var winHeight = window.innerHeight;
+    var atBottom  = scrollY + winHeight >= docHeight - 2;
+
+    var active = null;
+
+    if (atBottom) {
+      active = sectionList[sectionList.length - 1];
+    } else {
+      for (var i = sectionList.length - 1; i >= 0; i--) {
+        var rectTop = sectionList[i].element.getBoundingClientRect().top;
+        if (rectTop <= triggerLine) {
+          active = sectionList[i];
+          break;
+        }
+      }
+      if (!active) active = sectionList[0];
+    }
+
+    if (active) setActive(active.link);
+  }
+
+  var rafId = 0;
+  function onScrollHighlight() {
+    if (rafId) return;
+    rafId = window.requestAnimationFrame(function () {
+      rafId = 0;
+      updateActiveLink();
+    });
+  }
+
+  window.requestAnimationFrame(updateActiveLink);
+  setTimeout(updateActiveLink, 300);
+  setTimeout(function () { sectionList = buildSections(); updateActiveLink(); }, 1500);
+
+  window.addEventListener('scroll', onScrollHighlight, { passive: true });
+  window.addEventListener('resize', onScrollHighlight, { passive: true });
+  window.addEventListener('load',   function () { sectionList = buildSections(); updateActiveLink(); });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva M6 Subnav",
+  "class": "shopify-section--jingva-m6-subnav",
+  "tag": "div",
+  "settings": [
+    {
+      "type": "header",
+      "content": "M6 Sub Navigation Bar"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Product Name (Left)",
+      "default": "AutoFull M6 Ultra Gaming Chair"
+    },
+    {
+      "type": "url",
+      "id": "buy_url",
+      "label": "BUY NOW Button Link"
+    },
+    {
+      "type": "number",
+      "id": "sticky_offset",
+      "label": "Sticky Top Offset (px)",
+      "default": 64,
+      "info": "Fallback header height when auto-detection fails. Default: 64px."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_item",
+      "name": "Navigation Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Lumbar Support"
+        },
+        {
+          "type": "text",
+          "id": "anchor_id",
+          "label": "Anchor ID",
+          "info": "The id attribute of the target section element (without #)",
+          "default": "lumbar-support"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva M6 Subnav",
+      "blocks": [
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Get The Highlight",
+            "anchor_id": "get-the-highlight"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Lumbar Support",
+            "anchor_id": "lumbar-support"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Cloud Neck",
+            "anchor_id": "cloud-neck"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "160° Recline",
+            "anchor_id": "recline-160"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "label": "Specs",
+            "anchor_id": "specs"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

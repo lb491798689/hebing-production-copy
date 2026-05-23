@@ -1,0 +1,464 @@
+{%- render 'section-spacing-collapsing' -%}
+{%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+<style>
+  {{ section_identifier }} .product-scrolling-desktop__content-list .product-scrolling__content .prose.product-info price-list.price-list compare-at-price span.money {
+      text-decoration: line-through;
+  }
+{{ section_identifier }} .product-scrolling__content .prose.product-info .kiks-group-price {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+{{ section_identifier }} .product-scrolling__content .prose.product-info .kiks-group-price .product-info__badge-list {
+    margin-block-start: 0;
+}
+
+{{ section_identifier }} .product-scrolling-mobile__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+{{ section_identifier }} .product-scrolling__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: var(--spacing-4);
+}
+
+  #shopify-section-{{ section.id }} {
+    --images-scrolling-block-count: {{ section.blocks.size }};
+    --images-scrolling-image-ratio: {{ section.blocks.first.settings.image.aspect_ratio | default: 1 }};
+  }
+  {{ section_identifier }} .product-info__description h2 {
+      display: none;
+  }
+  {%- if section.settings.show_counter_line -%}
+    {%- else -%}
+    {{ section_identifier }} .product-scrolling__content span.product-scrolling__counter:before {
+      display: none;
+    }
+  {%- endif -%}
+
+  @media screen and (max-width: 740px) {
+    #shopify-section-{{ section.id }} {
+      --images-scrolling-grid: {% if section.settings.stack_on_mobile %}none{% else %}auto / auto-flow 73vw{% endif %};
+    }
+  }
+
+  @media screen and (min-width: 741px) {
+    #shopify-section-{{ section.id }} {
+      --images-scrolling-grid-template-columns: {% if section.settings.image_position == 'start' %}[media] minmax(0, 1fr) [content] minmax(0, 0.8fr){% else %}[content] minmax(0, 0.8fr) [media] minmax(0, 1fr){% endif %};
+    }
+  }
+</style>
+
+<div {% render 'section-properties', narrow: true %}>
+  {%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  MOBILE VARIATION
+  ----------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+  <images-with-text-scrolling class="images-scrolling-mobile scroll-area bleed sm:unbleed">
+    {%- for block in section.blocks -%}
+      <div class="product-scrolling-mobile__item images-scrolling-mobile__item snap-start" {{ block.shopify_attributes }}>
+        {%- if block.settings.custom_image != blank -%}
+          {{- block.settings.custom_image | image_url: width: block.settings.custom_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 100vw, 650px', widths: '200,300,400,600,800,1000,1200,1400,1600', class: 'rounded-sm' -}}
+        {%- elsif block.settings.product.featured_image != blank -%}
+          {{- block.settings.product.featured_image | image_url: width: block.settings.product.featured_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 100vw, 650px', widths: '200,300,400,600,800,1000,1200,1400,1600', class: 'rounded-sm' -}}
+        {%- else -%}
+          {%- capture image_placeholder -%}product-{%- cycle '1', '2', '3', '4' -%}{%- endcapture -%}
+          {{- image_placeholder | placeholder_svg_tag: 'placeholder' -}}
+        {%- endif -%}    
+
+        <div class="product-scrolling__content images-scrolling__content">
+          {%- if section.settings.show_counter -%}
+            <span class="product-scrolling__counter images-scrolling__counter bold">
+              {%- if block.settings.custom_count != blank -%}
+                {{ block.settings.custom_count }}
+                {%- else -%}
+                {{ forloop.index | prepend: '00' | slice: -2, 2 }}
+              {%- endif -%}
+              </span>
+          {%- endif -%}
+
+          <div class="prose product-info">
+            {%- if block.settings.enable_title -%}
+              {%- if block.settings.enable_title_link -%}
+                <a class="product-link" href="{{ block.settings.product.url }}">
+              {%- endif -%}
+                <{{ block.settings.heading_tag }} class="product-info__title {{ block.settings.heading_tag }}" {{ block.shopify_attributes }}>
+                {{ block.settings.product.title }}
+              </{{ block.settings.heading_tag }}>
+             {%- if block.settings.enable_title_link -%}
+              </a>
+            {%- endif -%}
+              {%- else -%}
+                {%- if block.settings.enable_title_link -%}
+                  <a class="product-link" href="{{ block.settings.product.url }}">
+                {%- endif -%}
+                  <{{ block.settings.heading_tag }} class="product-info__title {{ block.settings.heading_tag }}" {{ block.shopify_attributes }}>
+                  {{ block.settings.title }}
+                </{{ block.settings.heading_tag }}>
+              {%- if block.settings.enable_title_link -%}
+                </a>
+              {%- endif -%}
+            {%- endif -%}
+
+          
+            <div class="rating-with-text">
+              <div class="kiks-group-price">
+                {%- render 'price-list', product: block.settings.product, size: 'lg' -%}
+                {%- render 'product-badges', types: 'sold_out, discount', product: block.settings.product, context: 'product', class: 'product-info__badge-list' -%}
+              </div>
+                {%- render 'product-rating', product:  block.settings.product, show_empty: next_block.settings.show_empty, block: next_block -%}
+            </div>
+
+          
+            <div class="product-info__description" {{ block.shopify_attributes }}>
+              {% if block.settings.enable_description %}
+                {{ block.settings.product.description }}
+                {%- else -%}
+                {{- block.settings.content -}}
+              {% endif %}
+            </div>
+            <div class="product-info__buy-buttons" {{ block.shopify_attributes }}>
+                  {%- render 'buy-buttons', product: block.settings.product, form_id: product_form_id, show_payment_button: block.settings.show_payment_button, show_gift_card_recipient: block.settings.show_gift_card_recipient, atc_button_background: block.settings.atc_button_background, atc_button_text_color: block.settings.atc_button_text_color, payment_button_background: block.settings.payment_button_background, payment_button_text_color: block.settings.payment_button_text_color  -%} 
+              </div>
+          </div>
+        </div>
+      </div>
+    {%- endfor -%}
+  </images-with-text-scrolling>
+
+  {%- comment -%}
+  ----------------------------------------------------------------------------------------------------------------------
+  DESKTOP VARIATION
+  ----------------------------------------------------------------------------------------------------------------------
+  {%- endcomment -%}
+  <images-with-text-scrolling scrolling-experience="{{ section.settings.desktop_image_effect }}" class="product-scrolling-desktop images-scrolling-desktop">
+    <div class="product-scrolling-desktop__content-list images-scrolling-desktop__content-list">
+      {%- for block in section.blocks -%}
+        <div class="product-scrolling__content images-scrolling__content{% unless forloop.first %} opacity-0{% endunless %}">
+          {%- if section.settings.show_counter -%}
+            <span class="product-scrolling__counter images-scrolling__counter bold">
+              {%- if block.settings.custom_count != blank -%}
+                {{ block.settings.custom_count }}
+                {%- else -%}
+                {{ forloop.index | prepend: '00' | slice: -2, 2 }}
+              {%- endif -%}
+              </span>
+          {%- endif -%}
+
+          <div class="prose product-info">
+          {%- if block.settings.enable_title -%}
+            {%- if block.settings.enable_title_link -%}
+              <a class="product-link" href="{{ block.settings.product.url }}">
+            {%- endif -%}
+              <{{ block.settings.heading_tag }} class="product-info__title {{ block.settings.heading_tag }}" {{ block.shopify_attributes }}>
+              {{ block.settings.product.title }}
+            </{{ block.settings.heading_tag }}>
+           {%- if block.settings.enable_title_link -%}
+            </a>
+          {%- endif -%}
+            {%- else -%}
+              {%- if block.settings.enable_title_link -%}
+                <a class="product-link" href="{{ block.settings.product.url }}">
+              {%- endif -%}
+                <{{ block.settings.heading_tag }} class="product-info__title {{ block.settings.heading_tag }}" {{ block.shopify_attributes }}>
+                {{ block.settings.title }}
+              </{{ block.settings.heading_tag }}>
+            {%- if block.settings.enable_title_link -%}
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+
+          
+            <div class="rating-with-text">
+              <div class="kiks-group-price">
+                {%- render 'price-list', product: block.settings.product, size: 'lg' -%}
+                {%- render 'product-badges', types: 'sold_out, discount', product: block.settings.product, context: 'product', class: 'product-info__badge-list' -%}
+              </div>
+                {%- render 'product-rating', product:  block.settings.product, show_empty: next_block.settings.show_empty, block: next_block -%}
+            </div>
+
+          
+            <div class="product-info__description" {{ block.shopify_attributes }}>
+              {% if block.settings.enable_description %}
+                {{ block.settings.product.description }}
+                {%- else -%}
+                {{- block.settings.content -}}
+              {% endif %}
+            </div>
+            
+            <div class="product-info__buy-buttons" {{ block.shopify_attributes }}>
+                  {%- render 'buy-buttons', product: block.settings.product, form_id: product_form_id, show_payment_button: block.settings.show_payment_button, show_gift_card_recipient: block.settings.show_gift_card_recipient, atc_button_background: block.settings.atc_button_background, atc_button_text_color: block.settings.atc_button_text_color, payment_button_background: block.settings.payment_button_background, payment_button_text_color: block.settings.payment_button_text_color  -%} 
+              </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="images-scrolling-desktop__media-wrapper">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.custom_image != blank -%}
+          {{- block.settings.custom_image | image_url: width: block.settings.custom_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 100vw, 650px', widths: '200,300,400,600,800,1000,1200,1400,1600', class: 'rounded-sm' -}}
+        {%- elsif block.settings.product.featured_image != blank -%}
+          {{- block.settings.product.featured_image | image_url: width: block.settings.product.featured_image.width | image_tag: loading: 'lazy', sizes: '(max-width: 740px) 100vw, 650px', widths: '200,300,400,600,800,1000,1200,1400,1600', class: 'rounded-sm' -}}
+        {%- else -%}
+          {%- capture image_placeholder -%}product-{%- cycle '1', '2', '3', '4' -%}{%- endcapture -%}
+          {{- image_placeholder | placeholder_svg_tag: 'placeholder' -}}
+        {%- endif -%}        
+      {%- endfor -%}
+    </div>
+  </images-with-text-scrolling>
+</div>
+
+{% schema %}
+{
+  "name": "Kiks product Scrolling",
+  "tag": "section",
+  "class": "shopify-section--kiks-product-scrolling",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header", "custom.overlay"]
+  },
+  "max_blocks": 15,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_on_mobile",
+      "label": "Stack on mobile",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter",
+      "label": "Show counter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counter_line",
+      "label": "Show counter line",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_effect",
+      "label": "Desktop image transition",
+      "options": [
+        {
+          "value": "reveal",
+          "label": "Reveal"
+        },
+        {
+          "value": "fade",
+          "label": "Fade"
+        }
+      ],
+      "default": "reveal"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "end"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Product Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "custom_count",
+          "label": "Custom Count"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Product Info"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Image (Optional)",
+          "info": "1200 x 1600px .jpg recommended"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_title",
+          "label": "Enable Product Title",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_title_link",
+          "label": "Enable Product Link",
+          "info": "Enable this will add url link on the title.",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading Style",
+          "options": [
+            {
+              "value": "h1",
+              "label": "X-Large"
+            },
+            {
+              "value": "h2",
+              "label": "Large"
+            },
+            {
+              "value": "h3",
+              "label": "Medium"
+            },
+            {
+              "value": "h4",
+              "label": "Small"
+            },
+            {
+              "value": "h5",
+              "label": "X-Small"
+            },
+            {
+              "value": "h6",
+              "label": "XX-Small"
+            }
+          ],
+          "default": "h2"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_description",
+          "label": "Enable Product Description",
+          "default": false
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Short Description",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Buy Button Settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_payment_button",
+          "label": "Show dynamic checkout button",
+          "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "label": "Show recipient information form for gift cards",
+          "info": "Allow buyers to send gift cards along with a personal message. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/add-gift-card-recipient-fields)",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "atc_button_background",
+          "label": "Add to cart background"
+        },
+        {
+          "type": "color",
+          "id": "atc_button_text_color",
+          "label": "Add to cart color"
+        },
+        {
+          "type": "color",
+          "id": "payment_button_background",
+          "label": "Buy now button background"
+        },
+        {
+          "type": "color",
+          "id": "payment_button_text_color",
+          "label": "Buy now button color"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kiks product Scrolling",
+      "blocks": [
+        {
+          "type": "product_item",
+          "settings": {
+            
+          }
+        },
+        {
+          "type": "product_item",
+          "settings": {
+           
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

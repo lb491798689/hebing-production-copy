@@ -1,0 +1,77 @@
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+SECTION HEADER
+----------------------------------------------------------------------------------------------------------------------
+
+This component renders a section header, which is a pattern in many sections of the theme.
+
+********************************************
+Supported variables
+********************************************
+
+* subheading: the subheading (if any)
+* heading: the heading to show
+* heading_color: the color heading
+* heading_gradient: the optional gradient to use for the heading
+* content: an optional content to show
+* text_alignment: can be "start", "center" or "end" (default to start, which is a left alignment on LTR environment)
+* link_text: the text of the link
+* link_url: the link URL
+{%- endcomment -%}
+{%- style -%}
+
+  section-header.section-header.custom-section-header {
+      display: flex;
+      flex-direction: {{ layout_alignment }};
+    justify-content: {{ text_alignment }};
+    text-align: {{ text_alignment }};
+}
+section-header.section-header.custom-section-header .prose{
+    width: 100%;
+}
+section-header.section-header.custom-section-header .custom-btn-container.column,
+section-header.section-header.custom-section-header .prose.column {
+    width: 100%;
+    text-align: {{ text_alignment }};
+}
+section-header.section-header.custom-section-header .custom-btn-container.column a.text-with-icon {
+    justify-content: {{ text_alignment }};
+}
+section-header.section-header.custom-section-header .custom-btn-container.row,
+section-header.section-header.custom-section-header .prose.row {
+    width: auto;
+}
+/* section-header.section-header.custom-section-header .custom-btn-container.row{
+    width: unset;
+} */
+{%- endstyle -%}
+
+{% if subheading != blank or heading != blank or content != blank or link_text != blank %}
+<section-header class="section-header custom-section-header">
+    {%- if subheading != blank or heading != blank or content != blank -%}
+        <div class="prose {{ layout_alignment }}">
+          {%- if subheading != blank -%}
+            <p class="custom_font_family subheading">{{- subheading | escape -}}</p>
+          {%- endif -%}
+    
+          {%- if heading != blank -%}
+            <{{ style }} class="{{ style }}" {% if settings.heading_apparition != 'none' %}reveal-on-scroll="true"{% endif %}>
+              {%- render 'styled-text', content: heading, text_color: heading_color, gradient: heading_gradient, apparition_effect: true -%}
+            </{{ style }} >
+          {%- endif -%}
+    
+          {{- content -}}
+        </div>
+      {%- endif -%}
+ 
+
+  {%- if link_text != blank -%}
+    <div class="custom-btn-container {{ layout_alignment }}">
+        <a href="{{ link_url }}" class="text-with-icon group">
+            <span class="reversed-link">{{- link_text | escape -}}</span>
+            <span class="circle-chevron group-hover:colors">{%- render 'icon' with 'chevron-right-small', direction_aware: true -%}</span>
+          </a>
+    </div>
+  {%- endif -%}
+</section-header>
+{%- endif -%}

@@ -1,0 +1,452 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign mobile_title = se_stts.mobile_title
+  assign description = se_stts.description
+  assign pc_image = se_stts.pc_image
+  assign mob_image = se_stts.mob_image
+  assign pc_video = se_stts.pc_video
+  assign mob_video = se_stts.mob_video
+  assign bg_color = se_stts.bg_color
+  assign title_color = se_stts.title_color
+  assign padding_top = se_stts.padding_top
+  assign padding_bottom = se_stts.padding_bottom
+  assign padding_top_mob = se_stts.padding_top_mob
+  assign padding_bottom_mob = se_stts.padding_bottom_mob
+-%}
+{% capture default_sid %}.jingva-g7-recline-{{ sid }}{% endcapture %}
+
+<section id="recline" class="jingva-section-container jingva-g7-recline jingva-g7-recline-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, node 2373:1605) 详细参数:
+     * ========================================
+     *   section: w:1200, flex column, gap:48px, bg:#000000
+     *   title: Orbitron 900 64px line-height:1.2 letter-spacing:-2% #FFFFFF uppercase center, w:1200
+     *   content wrapper: column, gap:24px, center
+     *   image container: w:1200, h:640, borderRadius:12px
+     *   description: Gabarito 400 16px line-height:1.2 rgba(255,255,255,0.6) center, w:900
+     *
+     * ========================================
+     * Figma MOB (390px, node 2812:3798) 详细参数:
+     * ========================================
+     *   section: w:358, flex column, gap:32px, pt:68px, bg:#000000
+     *   title: Orbitron 900 28px line-height:1.2 letter-spacing:-2% #FFFFFF uppercase center
+     *   image container: w:358, h:439, borderRadius:12px
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121B2C' }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding-top: {{ padding_top | default: 160 }}px !important;
+      padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+      padding-left: 48px !important;
+      padding-right: 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-title {
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 1.2 !important;
+      letter-spacing: -0.02em !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-title.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-title-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-title-mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-content {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-image-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      height: 640px !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-image,
+    {{ default_sid }} .jingva-g7-recline-video {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1080px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-recline-description p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-g7-recline-wrapper {
+        max-width: 1280px !important;
+        padding-top: 120px !important;
+        padding-bottom: 0 !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-title {
+        font-size: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-content {
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-image-container {
+        height: 530px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-description,
+      {{ default_sid }} .jingva-g7-recline-description p {
+        font-size: 14px !important;
+        max-width: 1080px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 (基准 390, 内容随视口自适应; Grid.Padding=16) === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jingva-g7-recline-wrapper {
+        padding-top: {{ padding_top_mob | default: 96 }}px !important;
+        padding-bottom: {{ padding_bottom_mob | default: 0 }}px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        gap: 32px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-title {
+        font-size: 32px !important;
+        line-height: 1.2em !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-title-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-title-mob {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-content {
+        gap: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-image-container {
+        /* Figma mob 358x439 ≈ 0.816:1; 等比自适应, 中段视口封顶 768 居中 */
+        width: 100% !important;
+        max-width: 768px !important;
+        height: auto !important;
+        aspect-ratio: 358 / 439 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+      {{ default_sid }} .jingva-g7-recline-description {
+        display: none !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-recline-wrapper">
+    {% if title != blank %}
+      <h2 class="jingva-g7-recline-title jingva-g7-recline-title-pc">{{ title }}</h2>
+    {% endif %}
+    {% if mobile_title != blank %}
+      <h2 class="jingva-g7-recline-title jingva-g7-recline-title-mob">{{ mobile_title }}</h2>
+    {% elsif title != blank %}
+      <h2 class="jingva-g7-recline-title jingva-g7-recline-title-mob">{{ title }}</h2>
+    {% endif %}
+
+    <div class="jingva-g7-recline-content">
+      {% if pc_image != blank or mob_image != blank or pc_video != blank or mob_video != blank %}
+        <div class="jingva-g7-recline-image-container">
+          <!-- 如果有视频，显示视频 -->
+          {% if pc_video != blank or mob_video != blank %}
+            <video
+              class="jingva-g7-recline-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              {% if pc_image != blank %}poster="{{ pc_image | image_url: width: 1920 }}"{% elsif mob_image != blank %}poster="{{ mob_image | image_url: width: 1920 }}"{% endif %}
+            >
+              {% if pc_video != blank %}
+                {%- for source in pc_video.sources -%}
+                  {%- if source.mime_type == 'video/mp4' -%}
+                    <source src="{{- source.url -}}" type="{{- source.mime_type -}}" media="(min-width: 1280px)">
+                  {%- endif -%}
+                {%- endfor -%}
+              {% endif %}
+              {% if mob_video != blank %}
+                {%- for source in mob_video.sources -%}
+                  {%- if source.mime_type == 'video/mp4' -%}
+                    <source src="{{- source.url -}}" type="{{- source.mime_type -}}" media="(max-width: 1279px)">
+                  {%- endif -%}
+                {%- endfor -%}
+              {% endif %}
+              {% if pc_video != blank %}
+                {%- for source in pc_video.sources -%}
+                  {%- if source.mime_type == 'video/mp4' -%}
+                    <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+                  {%- endif -%}
+                {%- endfor -%}
+              {% elsif mob_video != blank %}
+                {%- for source in mob_video.sources -%}
+                  {%- if source.mime_type == 'video/mp4' -%}
+                    <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+                  {%- endif -%}
+                {%- endfor -%}
+              {% endif %}
+            </video>
+          <!-- 如果没有视频，只显示图片 -->
+          {% elsif pc_image != blank or mob_image != blank %}
+            <picture class="jingva-g7-recline-image">
+              {% if pc_image != blank %}
+                <source media="(min-width: 1280px)" srcset="{{ pc_image | image_url: width: 1920 }}">
+              {% endif %}
+              {% if mob_image != blank %}
+                <img
+                  src="{{ mob_image | image_url: width: 780 }}"
+                  alt="{{ title | escape }}"
+                  loading="lazy"
+                />
+              {% elsif pc_image != blank %}
+                <img
+                  src="{{ pc_image | image_url: width: 1920 }}"
+                  alt="{{ title | escape }}"
+                  loading="lazy"
+                />
+              {% endif %}
+            </picture>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if description != blank %}
+        <div class="jingva-g7-recline-description">{{ description }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-g7-recline-{{ sid }}');
+    if (!section) return;
+
+    var titles = section.querySelectorAll('.jingva-g7-recline-title');
+    if (!titles.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    titles.forEach(function(t) { observer.observe(t); });
+  })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva G7 Recline",
+  "class": "shopify-section--jingva-g7-recline",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title (PC)",
+      "default": "The Recline, Perfected."
+    },
+    {
+      "type": "text",
+      "id": "mobile_title",
+      "label": "Title (Mobile)",
+      "info": "Leave blank to use PC title on mobile"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>The backrest intuitively adjusts to your body weight and posture. Lean into it slightly, and it glides smoothly back with just the right resistance. Getting up is just as effortless. Lighter frames enjoy easy recline, while a solid build delivers even more stability. From sitting to leaning back to rising—every move feels natural, intuitive, and entirely your own.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "video",
+      "id": "pc_video",
+      "label": "PC Video (optional)",
+      "info": "Video will load after image and play automatically"
+    },
+    {
+      "type": "video",
+      "id": "mob_video",
+      "label": "Mobile Video (optional)",
+      "info": "Leave blank to use PC video on mobile"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "text",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121B2C",
+      "info": "Supports hex (#121B2C) or rgba (rgba(18, 27, 44, 1))"
+    },
+    {
+      "type": "text",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 1))"
+    },
+    {
+      "type": "header",
+      "content": "PC Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Mobile Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Mobile Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Recline"
+    }
+  ]
+}
+{% endschema %}

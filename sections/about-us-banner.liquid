@@ -1,0 +1,108 @@
+<style>
+  .shopify-section--about-us-banner {
+    position: sticky!important;
+    top: 0!important;
+    z-index: 0!important;
+  }
+</style>
+
+<section
+  class="tw:bg-[#0A0A0A] tw:font-gabarito"
+>
+  <div
+    class="
+      tw:h-[50vh] tw:relative tw:bg-gray-300 tw:overflow-hidden
+      tw:max-md:h-[175px]
+    "
+  >
+    {% if section.settings.video != blank %}
+      {{
+        section.settings.video
+        | video_tag:
+          playsinline: true,
+          muted: true,
+          loop: true,
+          controls: false,
+          preload: 'metadata',
+          autoplay: true,
+          loading: 'lazy',
+          class: 'tw:absolute tw:top-1/2 tw:left-1/2 tw:transform tw:-translate-x-1/2 tw:-translate-y-1/2 tw:size-full tw:object-cover',
+          image_size: '1920x1080'
+      }}
+    {% else %}
+      <div class="tw:absolute tw:size-full tw:inset-0 tw:object-cover tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+        video
+      </div>
+    {% endif %}
+    <div class="tw:absolute tw:bottom-0 tw:left-0 tw:size-full tw:bg-black/40 tw:z-2"></div>
+    {% if section.settings.logo_image != blank %}
+      <img
+        src="{{ section.settings.logo_image | image_url }}"
+        alt="{{ section.settings.logo_image.alt }}"
+        class="
+          tw:absolute tw:top-1/2 tw:left-1/2 tw:transform
+          tw:-translate-x-1/2 tw:-translate-y-1/2 tw:max-w-[720px] tw:h-auto
+          tw:max-md:hidden tw:z-3
+        "
+        width="{{ section.settings.logo_image.width }}"
+        height="{{ section.settings.logo_image.height }}"
+      >
+    {% endif %}
+  </div>
+  <div
+    class="tw:h-[436px] tw:max-md:h-[308px] tw:max-md:px-4 tw:max-md:pt-8"
+    style="background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0,  rgba(194, 0, 0, 0.2) 100%);"
+  >
+    {% if section.settings.logo_image != blank %}
+      <img
+        src="{{ section.settings.logo_image | image_url }}"
+        alt="{{ section.settings.logo_image.alt }}"
+        class="
+          tw:max-w-[303px] tw:h-auto
+          tw:md:hidden
+        "
+        width="{{ section.settings.logo_image.width }}"
+        height="{{ section.settings.logo_image.height }}"
+      >
+    {% endif %}
+    <div
+      class="
+        tw:text-[56px] tw:leading-[70px] tw:uppercase tw:text-white
+        tw:font-black tw:text-center tw:font-orbitron tw:pt-[48px] tw:max-w-[1106px] tw:mx-auto
+        tw:max-md:text-[24px] tw:max-md:leading-[30px] tw:max-md:text-left tw:max-md:pt-8 tw:max-md:text-balance
+      "
+    >
+      {{ section.settings.heading }}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About Us Banner",
+  "class": "shopify-section--about-us-banner",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Section Video"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Section Logo Image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "We make world-leading professional gaming gear for players everywhere"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Banner"
+    }
+  ]
+}
+{% endschema %}

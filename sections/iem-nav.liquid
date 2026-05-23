@@ -1,0 +1,390 @@
+{% liquid
+  assign background_color = section.settings['background-color'] | default: '#ffff09'
+%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    position: sticky;
+    top: {% if section.settings.cover_header %}0{% else %}calc(var(--header-height)){% endif %};
+    z-index: {% if section.settings.cover_header %}104{% else %}100{% endif %};
+    transition: top 0.2s ease;
+  }
+
+  #{{ section.id }} .iem-nav__scroller {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    font-size: {% if section.settings.cover_header %}18px{% else %}16px{% endif %};
+  }
+
+  #{{ section.id }} .iem-nav__scroller::-webkit-scrollbar {
+    display: none;
+  }
+
+  #{{ section.id }} .iem-nav__link {
+    color: {{ section.settings.text_color }};
+  }
+
+  #{{ section.id }} .iem-nav__link.is-active {
+    color: {{ section.settings.text_color_active }};
+  }
+
+  {% if section.settings.show_active_underline %}
+    #{{ section.id }} .iem-nav__link {
+      position: relative;
+      height: 100%;
+    }
+
+    #{{ section.id }} .iem-nav__link.is-active::after {
+      content: '';
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      height: 2px;
+      background: currentColor;
+    }
+  {% endif %}
+
+  #{{ section.id }} .iem-nav__link:focus-visible {
+    color: {{ section.settings.text_color_active }};
+    outline: 2px solid {{ section.settings.text_color_active }};
+    outline-offset: 3px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    #{{ section.id }} .iem-nav__link:hover {
+      color: {{ section.settings.text_color_active }};
+    }
+  }
+</style>
+
+<section
+  id="{{ section.id }}"
+  class="tw:bg-(--iem-nav-background)"
+  style="--iem-nav-background: {{ background_color }};"
+  data-iem-nav
+>
+  <nav
+    class="
+      iem-nav__scroller tw:flex tw:h-(--header-height) tw:w-full tw:items-center tw:justify-center
+      tw:overflow-x-auto tw:px-0 tw:font-gabarito tw:text-[16px] tw:font-medium
+       tw:leading-none tw:text-nowrap tw:max-md:justify-start tw:max-md:px-4
+    "
+    aria-label="Section navigation"
+    data-iem-nav-scroller
+  >
+    {% if section.blocks.size > 0 %}
+      <div class="tw:flex tw:h-full tw:min-w-full tw:flex-none tw:items-center tw:justify-center tw:gap-12 tw:max-md:gap-6">
+        {% for block in section.blocks %}
+          {% liquid
+            assign nav_title = block.settings.title | strip
+            assign target_id = block.settings.section_id | strip | remove_first: '#'
+          %}
+
+          {% if nav_title != blank %}
+            <a
+              href="{% if target_id != blank %}#{{ target_id | escape }}{% else %}#{% endif %}"
+              class="iem-nav__link tw:inline-flex tw:flex-none tw:items-center tw:no-underline tw:transition-colors tw:duration-200{% if forloop.first %} is-active{% endif %}"
+              data-iem-nav-link
+              data-target-id="{{ target_id | escape }}"
+              {% if forloop.first %}
+                aria-current="true"
+              {% endif %}
+              {{ block.shopify_attributes }}
+            >
+              {{ nav_title | escape }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </nav>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    const cssEscape = window.CSS && CSS.escape ? CSS.escape : (value) => value.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+
+    const getTarget = (targetId) => {
+      const cleanId = (targetId || '').trim().replace(/^#/, '');
+
+      if (!cleanId) {
+        return null;
+      }
+
+      return (
+        document.getElementById(cleanId) ||
+        document.getElementById(`shopify-section-${cleanId}`) ||
+        document.querySelector(`[data-anchor-id="${cssEscape(cleanId)}"]`) ||
+        document.querySelector(`[data-section-id="${cssEscape(cleanId)}"]`)
+      );
+    };
+
+    document.querySelectorAll('[data-iem-nav]').forEach((sectionEl) => {
+      const scrollerEl = sectionEl.querySelector('[data-iem-nav-scroller]');
+      const navItems = Array.from(sectionEl.querySelectorAll('[data-iem-nav-link]')).map((linkEl) => ({
+        linkEl,
+        targetId: linkEl.getAttribute('data-target-id') || '',
+        targetEl: null,
+      }));
+      let lockedItem = null;
+
+      const refreshTargets = () => {
+        navItems.forEach((item) => {
+          item.targetEl = getTarget(item.targetId);
+        });
+      };
+
+      const getOffset = () => {
+        const sectionWrapper = sectionEl.closest('.shopify-section') || sectionEl.parentElement || sectionEl;
+        const stickyTop = Number.parseFloat(window.getComputedStyle(sectionWrapper).top) || 0;
+
+        return sectionEl.getBoundingClientRect().height + stickyTop;
+      };
+
+      const scrollActiveIntoView = (activeLink, behavior = 'smooth') => {
+        if (!scrollerEl || !activeLink || scrollerEl.scrollWidth <= scrollerEl.clientWidth) {
+          return;
+        }
+
+        const scrollerRect = scrollerEl.getBoundingClientRect();
+        const activeRect = activeLink.getBoundingClientRect();
+        const activeCenter = activeRect.left - scrollerRect.left + activeRect.width / 2;
+        const scrollerCenter = scrollerEl.clientWidth / 2;
+        const maxScrollLeft = scrollerEl.scrollWidth - scrollerEl.clientWidth;
+        const nextScrollLeft = Math.max(
+          0,
+          Math.min(scrollerEl.scrollLeft + activeCenter - scrollerCenter, maxScrollLeft)
+        );
+
+        if (Math.abs(nextScrollLeft - scrollerEl.scrollLeft) < 1) {
+          return;
+        }
+
+        scrollerEl.scrollTo({
+          left: nextScrollLeft,
+          behavior,
+        });
+      };
+
+      const setActive = (activeLink, behavior = 'smooth') => {
+        if (!activeLink) {
+          return;
+        }
+
+        if (activeLink.classList.contains('is-active')) {
+          scrollActiveIntoView(activeLink, behavior);
+          return;
+        }
+
+        navItems.forEach((item) => {
+          item.linkEl.classList.remove('is-active');
+          item.linkEl.removeAttribute('aria-current');
+        });
+
+        activeLink.classList.add('is-active');
+        activeLink.setAttribute('aria-current', 'true');
+        scrollActiveIntoView(activeLink, behavior);
+      };
+
+      const clearLock = () => {
+        lockedItem = null;
+      };
+
+      const updateActive = () => {
+        if (lockedItem) {
+          setActive(lockedItem.linkEl);
+          return;
+        }
+
+        const offset = getOffset() + 1;
+        let activeItem = null;
+        let closestPastItem = null;
+        let closestPastDistance = Infinity;
+        let closestFutureItem = null;
+        let closestFutureDistance = Infinity;
+
+        navItems.forEach((item) => {
+          if (!item.targetEl) {
+            item.targetEl = getTarget(item.targetId);
+          }
+
+          if (!item.targetEl) {
+            return;
+          }
+
+          const rect = item.targetEl.getBoundingClientRect();
+
+          if (rect.top <= offset && rect.bottom > offset) {
+            activeItem = item;
+            return;
+          }
+
+          const distance = rect.top - offset;
+
+          if (distance <= 0 && Math.abs(distance) < closestPastDistance) {
+            closestPastDistance = Math.abs(distance);
+            closestPastItem = item;
+          }
+
+          if (distance > 0 && distance < closestFutureDistance) {
+            closestFutureDistance = distance;
+            closestFutureItem = item;
+          }
+        });
+
+        const nextActiveItem = activeItem || closestPastItem || closestFutureItem;
+
+        if (nextActiveItem) {
+          setActive(nextActiveItem.linkEl);
+        }
+      };
+
+      let ticking = false;
+      const requestUpdate = () => {
+        if (ticking) {
+          return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          ticking = false;
+          updateActive();
+        });
+      };
+
+      navItems.forEach((item) => {
+        item.linkEl.addEventListener('click', (event) => {
+          refreshTargets();
+
+          if (!item.targetEl) {
+            event.preventDefault();
+            return;
+          }
+
+          event.preventDefault();
+          const top = Math.max(0, item.targetEl.getBoundingClientRect().top + window.scrollY - getOffset());
+
+          setActive(item.linkEl);
+          lockedItem = item;
+          item.linkEl.blur();
+
+          window.scrollTo({
+            top,
+            behavior: 'smooth',
+          });
+        });
+      });
+
+      window.addEventListener('wheel', clearLock, { passive: true });
+      window.addEventListener(
+        'touchstart',
+        (event) => {
+          if (!sectionEl.contains(event.target)) {
+            clearLock();
+          }
+        },
+        { passive: true }
+      );
+      window.addEventListener('keydown', (event) => {
+        if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
+          clearLock();
+        }
+      });
+
+      refreshTargets();
+      updateActive();
+      window.addEventListener('scroll', requestUpdate, { passive: true });
+      window.addEventListener('resize', requestUpdate);
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "IEM Nav",
+  "class": "hbade-reset",
+  "settings": [
+    {
+      "type": "color",
+      "id": "background-color",
+      "label": "Background color",
+      "default": "#ffff09"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1A1A1A99"
+    },
+    {
+      "type": "color",
+      "id": "text_color_active",
+      "label": "Text color active",
+      "default": "#0a0a0a"
+    },
+    {
+      "type": "checkbox",
+      "id": "cover_header",
+      "label": "cover header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_active_underline",
+      "label": "Show active underline",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_item",
+      "name": "Nav item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "IEM Pro Series"
+        },
+        {
+          "type": "text",
+          "id": "section_id",
+          "label": "Section ID",
+          "info": "Enter the target section id without #. Supports a section id, shopify-section id, data-anchor-id, or data-section-id."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Nav",
+      "blocks": [
+        {
+          "type": "nav_item",
+          "settings": {
+            "title": "IEM Pro Series"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "title": "All Chairs"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "title": "Match Moments"
+          }
+        },
+        {
+          "type": "nav_item",
+          "settings": {
+            "title": "Reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,319 @@
+{% liquid
+  assign sid = section.id
+  assign title_size = section.settings.title_size | split: ";"
+  assign item_font_size = section.settings.item_font_size | split: ";"
+  assign items_gap = section.settings.items_gap | split: ";"
+%}
+
+{% capture default_sid %}.jingva-buy-more-{{ sid }}{% endcapture %}
+
+<section class="jingva-buy-more {{ section.settings.section_css }} jingva-buy-more-{{ sid }}">
+  {% style %}
+  {{ default_sid }} {
+    --bg: {{ section.settings.background | default: '#000000' }};
+    --title-color: {{ section.settings.title_color | default: '#ffffff' }};
+    --title-size: {{ title_size[0] | default: '36px' }};
+    --title-size-ipad: {{ title_size[1] | default: '24px' }};
+    --title-size-mb: {{ title_size[2] | default: '18px' }};
+    --padding-top: {{ section.settings.padding_top | default: '24px' }};
+    --padding-bottom: {{ section.settings.padding_bottom | default: '24px' }};
+
+    --gap: {{ items_gap[0] | default: '24px' }};
+    --gap-ipad: {{ items_gap[1] | default: '16px' }};
+    --gap-mb: {{ items_gap[2] | default: '12px' }};
+
+    --item-font-size: {{ item_font_size[0] | default: '14px' }};
+    --item-font-size-ipad: {{ item_font_size[1] | default: '14px' }};
+    --item-font-size-mb: {{ item_font_size[2] | default: '12px' }};
+
+    background: var(--bg);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    padding-left:var(--container-gutter);
+    padding-right:var(--container-gutter);
+  }
+
+  {{ default_sid }} .container {
+    max-width:  var(--container-max-width);
+    margin-left: auto;
+    margin-right: auto;
+    
+  }
+
+  {{ default_sid }} .title {
+    color: var(--title-color);
+    font-size: var(--title-size);
+    line-height: 1.2;
+    font-weight: 800;
+    text-align: {{ section.settings.title_align | default: 'center' }};
+    margin: 0 0 46px 0;
+    font-family: 'D-DINCondensed-Bold';
+  }
+
+  
+
+  {{ default_sid }} .items {
+    display: flex;
+    align-items: center;
+    justify-content: {{ section.settings.items_align | default: 'center' }};
+    gap: var(--gap);
+    flex-wrap: wrap;
+  }
+
+  {{ default_sid }} .item-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 19px 12px;
+    min-height: 34px;
+    border-radius: {{ section.settings.item_radius | default: 4 }}px;
+    text-decoration: none;
+    border: 0;
+    transition: background-color .2s ease, color .2s ease, box-shadow .2s ease, border-color .2s ease;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    flex: 1 1 0;
+    font-size: var(--item-font-size);
+  }
+
+  {{ default_sid }} .item-btn span{ pointer-events: none; }
+  
+  /* 每个item定制颜色 */
+  {% for block in section.blocks %}
+    {{ default_sid }} .btn-{{ block.id }} {
+      background: {{ block.settings.bg_color | default: '#5f0303' }};
+      color: {{ block.settings.text_color | default: '#ffffff' }};
+      border: 1px solid {{ block.settings.border_color | default: 'transparent' }};
+    }
+    {{ default_sid }} .btn-{{ block.id }}:hover {
+      background: {{ block.settings.bg_color_hover | default: '#7d0a0a' }};
+      color: {{ block.settings.text_color_hover | default: '#ffffff' }};
+      border-color: {{ block.settings.border_color_hover | default: 'transparent' }};
+    }
+  {% endfor %}
+
+  /* ipad端 */
+  @media (max-width: 1024px) {
+    {{ default_sid }} .title { font-size: var(--title-size-ipad); }
+    {{ default_sid }} .items {
+      gap: var(--gap-ipad);
+    }
+    {{ default_sid }} .item-btn {
+      font-size: var(--item-font-size-ipad);
+    }
+  }
+
+  /* 移动端 */
+  @media (max-width: 768px) {
+    {{ default_sid }} .title { font-size: var(--title-size-mb); margin: 0 0 24px 0; }
+    {{ default_sid }} .items {
+      gap: var(--gap-mb);
+    }
+    {{ default_sid }} .item-btn {
+      font-size: var(--item-font-size-mb);
+      padding: 12px 6px;
+    }
+  }
+
+
+  {% endstyle %}
+
+  <div class="container">
+    {% if section.settings.title != blank %}
+      <h2 class="title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    <div class="items">
+      {% for block in section.blocks %}
+        {% assign url = block.settings.link %}
+        {% if url != blank %}
+          <a class="item-btn btn-{{ block.id }}" href="{{ url }}" {{ block.shopify_attributes }}>
+            <span>{{ block.settings.label | escape }}</span>
+          </a>
+        {% else %}
+          <div class="item-btn btn-{{ block.id }}" {{ block.shopify_attributes }}>
+            <span>{{ block.settings.label | escape }}</span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "jingva coupon Group",
+  "class": "shopify-section--jingva-coupon-group",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_css",
+      "label": "自定义CSS类名"
+    },
+    {
+      "type": "html",
+      "id": "title",
+      "label": "标题",
+      "default": "Buy More, Save More!"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "标题颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "title_size",
+      "label": "标题字号",
+      "default": "36px;24px;18px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "select",
+      "id": "title_align",
+      "label": "标题对齐",
+      "options": [
+        { "value": "left", "label": "左对齐" },
+        { "value": "center", "label": "居中" },
+        { "value": "right", "label": "右对齐" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "背景色",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "padding_top",
+      "label": "上内边距",
+      "default": "32px"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom",
+      "label": "下内边距",
+      "default": "32px"
+    },
+    {
+      "type": "text",
+      "id": "item_font_size",
+      "label": "按钮字号",
+      "default": "14px;14px;12px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "text",
+      "id": "items_gap",
+      "label": "按钮间距",
+      "default": "16px;16px;16px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "range",
+      "id": "item_radius",
+      "label": "按钮圆角",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "items_align",
+      "label": "按钮对齐",
+      "options": [
+        { "value": "flex-start", "label": "左对齐" },
+        { "value": "center", "label": "居中" },
+        { "value": "flex-end", "label": "右对齐" },
+        { "value": "space-between", "label": "两端对齐" }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "优惠按钮",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "按钮文字",
+          "default": "Buy 2 save extra $30 OFF"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "链接"
+        },
+        {
+          "type": "color",
+          "id": "bg_color",
+          "label": "背景色",
+          "default": "#5f0303"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "文字颜色",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "边框颜色",
+          "default": "transparent"
+        },
+        {
+          "type": "header",
+          "content": "悬停样式"
+        },
+        {
+          "type": "color",
+          "id": "bg_color_hover",
+          "label": "背景色(悬停)",
+          "default": "#7d0a0a"
+        },
+        {
+          "type": "color",
+          "id": "text_color_hover",
+          "label": "文字颜色(悬停)",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "border_color_hover",
+          "label": "边框颜色(悬停)",
+          "default": "transparent"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "jingva coupon group",
+      "blocks": [
+        {
+          "type": "item",
+          "settings": { "label": "Buy 2 save extra $30 OFF" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Buy 3 save extra $60 OFF" }
+        },
+        {
+          "type": "item",
+          "settings": { "label": "Buy 5 save extra $100 OFF" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

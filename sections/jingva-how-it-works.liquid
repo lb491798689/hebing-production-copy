@@ -1,0 +1,409 @@
+{%- liquid
+  assign sid = section.id
+  assign s = section.settings
+
+  assign img_pc = s.image_pc
+  assign img_mob = s.image_mobile
+  if img_mob == blank and img_pc != blank
+    assign img_mob = img_pc
+  endif
+  if img_pc == blank and img_mob != blank
+    assign img_pc = img_mob
+  endif
+
+  assign video_url = s.video_url
+  if video_url == blank
+    assign video_url = 'https://www.youtube.com/watch?v=7njun9zEqSg'
+  endif
+
+  assign show_pc = false
+  if img_pc != blank
+    assign show_pc = true
+  endif
+  assign show_mob = false
+  if img_mob != blank
+    assign show_mob = true
+  endif
+-%}
+
+<section{% if s.anchor_id != blank %} id="{{ s.anchor_id | escape }}"{% endif %} class="jingva-how-it-works jingva-how-it-works--{{ sid }}" data-section-id="{{ sid }}">
+  <style>
+    .jingva-how-it-works--{{ sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background: #ffffff !important;
+      padding: 140px 48px 140px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-inner {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 48px !important;
+      line-height: normal !important;
+      color: #000000 !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      text-transform: none !important;
+      transform: translateY(-40px) !important;
+      transition: transform 0.55s ease !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-title.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-shell {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      border-radius: 15px !important;
+      overflow: hidden !important;
+      background: #b5b5b5 !important;
+      aspect-ratio: 1200 / 600 !important;
+      height: auto !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-still {
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+      pointer-events: none !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-play {
+      position: absolute !important;
+      left: 50% !important;
+      top: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      width: 72px !important;
+      height: 72px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      background: transparent !important;
+      cursor: pointer !important;
+      z-index: 4 !important;
+      transition: opacity 0.25s ease, transform 0.2s ease !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-play:hover {
+      transform: translate(-50%, -50%) scale(1.06) !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-play svg {
+      display: block !important;
+      width: 72px !important;
+      height: 72px !important;
+      filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.45)) !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-shell.no-video .jhiw-play {
+      display: none !important;
+    }
+
+    .jingva-how-it-works--{{ sid }} .jhiw-media--mob {
+      display: none !important;
+    }
+
+    /* === Modal: 弹窗播放外部视频 === */
+    .jhiw-modal--{{ sid }} {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 9999 !important;
+      background: rgba(0, 0, 0, 0.88) !important;
+      display: none !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 24px !important;
+      box-sizing: border-box !important;
+      opacity: 0 !important;
+      transition: opacity 0.25s ease !important;
+    }
+    .jhiw-modal--{{ sid }}.is-open {
+      display: flex !important;
+      opacity: 1 !important;
+    }
+    .jhiw-modal--{{ sid }} .jhiw-modal__inner {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      aspect-ratio: 16 / 9 !important;
+      background: #000 !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+    }
+    .jhiw-modal--{{ sid }} .jhiw-modal__media,
+    .jhiw-modal--{{ sid }} .jhiw-modal__media iframe,
+    .jhiw-modal--{{ sid }} .jhiw-modal__media video {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      border: 0 !important;
+      display: block !important;
+      background: #000 !important;
+    }
+    .jhiw-modal--{{ sid }} .jhiw-modal__close {
+      position: absolute !important;
+      top: -44px !important;
+      right: 0 !important;
+      width: 36px !important;
+      height: 36px !important;
+      padding: 0 !important;
+      border: 0 !important;
+      background: transparent !important;
+      cursor: pointer !important;
+      color: #fff !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    .jhiw-modal--{{ sid }} .jhiw-modal__close svg {
+      width: 28px !important;
+      height: 28px !important;
+      display: block !important;
+    }
+    @media screen and (max-width: 1279px) {
+      .jhiw-modal--{{ sid }} {
+        padding: 16px !important;
+      }
+      .jhiw-modal--{{ sid }} .jhiw-modal__close {
+        top: -36px !important;
+        width: 28px !important;
+        height: 28px !important;
+      }
+      .jhiw-modal--{{ sid }} .jhiw-modal__close svg {
+        width: 22px !important;
+        height: 22px !important;
+      }
+    }
+
+    /* === PAD: 1280~1439 (Grid.Padding=40) === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      .jingva-how-it-works--{{ sid }} {
+        padding: 120px 40px 120px !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-title {
+        font-size: 40px !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-shell {
+        aspect-ratio: 1200 / 520 !important;
+      }
+    }
+
+    /* === MOB: 375~1279 (基准 390, 内容随视口自适应; Grid.Padding=16) === */
+    @media screen and (max-width: 1279px) {
+      .jingva-how-it-works--{{ sid }} {
+        padding: 68px 16px 68px !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-inner {
+        gap: 32px !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-title {
+        font-size: 32px !important;
+        line-height: 1.2em !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-shell {
+        /* Figma mob 358x240 ≈ 3:2; 等比自适应, 中段视口封顶 768 居中 */
+        max-width: 768px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        aspect-ratio: 358 / 240 !important;
+        height: auto !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-media--pc {
+        display: none !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-media--mob {
+        display: block !important;
+      }
+      .jingva-how-it-works--{{ sid }} .jhiw-play,
+      .jingva-how-it-works--{{ sid }} .jhiw-play svg {
+        width: 72px !important;
+        height: 72px !important;
+      }
+    }
+  </style>
+
+  <div class="jhiw-inner">
+    {% if s.heading != blank %}
+      <h2 class="jhiw-title">{{ s.heading | escape }}</h2>
+    {% endif %}
+
+    {%- if show_pc -%}
+      <div class="jhiw-shell jhiw-media--pc">
+        <img
+          class="jhiw-still"
+          src="{{ img_pc | image_url: width: 2400 }}"
+          alt="{{ s.heading | escape }}"
+          width="{{ img_pc.width | default: 1200 }}"
+          height="{{ img_pc.height | default: 600 }}"
+          loading="lazy"
+          decoding="async"
+        >
+        <button type="button" class="jhiw-play" aria-label="Play video" data-jhiw-open="{{ sid }}"><svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true"><path d="M36 0C55.8823 0 72 16.1178 72 36C72 55.8823 55.8823 72 36 72C16.1178 72 0 55.8823 0 36C0 16.1178 16.1178 0 36 0ZM36 3.2002C17.8851 3.2002 3.2002 17.8851 3.2002 36C3.2002 54.1149 17.8851 68.7998 36 68.7998C54.1149 68.7998 68.7998 54.1149 68.7998 36C68.7998 17.8851 54.1149 3.2002 36 3.2002ZM27 24.876C27 23.3364 28.6667 22.3738 30 23.1436L51 35.2676C52.3333 36.0374 52.3333 37.9626 51 38.7324L30 50.8564C28.6667 51.6262 27 50.6636 27 49.124V24.876Z" fill="#ffffff"/></svg></button>
+      </div>
+    {%- endif -%}
+
+    {%- if show_mob -%}
+      <div class="jhiw-shell jhiw-media--mob">
+        <img
+          class="jhiw-still"
+          src="{{ img_mob | image_url: width: 1600 }}"
+          alt="{{ s.heading | escape }}"
+          width="{{ img_mob.width | default: 780 }}"
+          height="{{ img_mob.height | default: 240 }}"
+          loading="lazy"
+          decoding="async"
+        >
+        <button type="button" class="jhiw-play" aria-label="Play video" data-jhiw-open="{{ sid }}"><svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true"><path d="M36 0C55.8823 0 72 16.1178 72 36C72 55.8823 55.8823 72 36 72C16.1178 72 0 55.8823 0 36C0 16.1178 16.1178 0 36 0ZM36 3.2002C17.8851 3.2002 3.2002 17.8851 3.2002 36C3.2002 54.1149 17.8851 68.7998 36 68.7998C54.1149 68.7998 68.7998 54.1149 68.7998 36C68.7998 17.8851 54.1149 3.2002 36 3.2002ZM27 24.876C27 23.3364 28.6667 22.3738 30 23.1436L51 35.2676C52.3333 36.0374 52.3333 37.9626 51 38.7324L30 50.8564C28.6667 51.6262 27 50.6636 27 49.124V24.876Z" fill="#ffffff"/></svg></button>
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if video_url != blank -%}
+    <div class="jhiw-modal--{{ sid }}" data-jhiw-modal="{{ sid }}" role="dialog" aria-modal="true" aria-label="Video">
+      <div class="jhiw-modal__inner">
+        <button type="button" class="jhiw-modal__close" aria-label="Close" data-jhiw-close>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div class="jhiw-modal__media" data-jhiw-media data-video-url="{{ video_url | escape }}"></div>
+      </div>
+    </div>
+  {%- endif -%}
+</section>
+
+<script>
+(function() {
+  var root = document.querySelector('.jingva-how-it-works--{{ sid }}');
+  if (!root) return;
+
+  var title = root.querySelector('.jhiw-title');
+  if (title) {
+    var io = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px' });
+    io.observe(title);
+  }
+
+  var modal = root.querySelector('[data-jhiw-modal="{{ sid }}"]');
+  var mediaBox = modal && modal.querySelector('[data-jhiw-media]');
+  var openers = root.querySelectorAll('[data-jhiw-open="{{ sid }}"]');
+  var closer = modal && modal.querySelector('[data-jhiw-close]');
+
+  function buildEmbed(url) {
+    if (!url) return '';
+    // YouTube
+    var ytMatch = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{6,})/);
+    if (ytMatch) {
+      return '<iframe src="https://www.youtube.com/embed/' + ytMatch[1] + '?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+    }
+    // Vimeo
+    var vmMatch = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vmMatch) {
+      return '<iframe src="https://player.vimeo.com/video/' + vmMatch[1] + '?autoplay=1&playsinline=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+    }
+    // 直链
+    var safe = url.replace(/"/g, '&quot;');
+    return '<video src="' + safe + '" controls autoplay playsinline></video>';
+  }
+
+  function openModal() {
+    if (!modal || !mediaBox) return;
+    var url = mediaBox.getAttribute('data-video-url');
+    mediaBox.innerHTML = buildEmbed(url);
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal || !mediaBox) return;
+    modal.classList.remove('is-open');
+    mediaBox.innerHTML = '';
+    document.body.style.overflow = '';
+  }
+
+  openers.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (modal) openModal();
+    });
+  });
+  if (closer) closer.addEventListener('click', closeModal);
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal && modal.classList.contains('is-open')) closeModal();
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva How It Works",
+  "class": "shopify-section--jingva-how-it-works",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "How it works"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. HTML id for subnav anchor links (no #)."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_pc",
+      "label": "PC 图片"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "手机图片",
+      "info": "留空则使用 PC 图片。"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "视频链接 (站外)",
+      "info": "粘贴任意外链：YouTube / Vimeo / .mp4 直链。例: https://www.youtube.com/watch?v=7njun9zEqSg"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva How It Works",
+      "category": "Jingva"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1667 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign bg_color = se_stts.bg_color | default: '#121b2c'
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+  assign title_color = se_stts.title_color
+  assign padding_top_pc = se_stts.padding_top_pc | default: 160
+  assign padding_bottom_pc = se_stts.padding_bottom_pc | default: 0
+  assign padding_top_mob = se_stts.padding_top_mob | default: 96
+  assign padding_bottom_mob = se_stts.padding_bottom_mob | default: 0
+-%}
+{% capture default_sid %}.jingva-g7-highlight-{{ sid }}{% endcapture %}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-section-container jingva-g7-highlight-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color }} !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+      padding: {{ padding_top_pc }}px 0 {{ padding_bottom_pc }}px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-wrapper {
+      position: relative !important;
+      width: 1200px !important;
+      height: 788px !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-title {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: 1.254em !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      white-space: normal !important;
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-container {
+      position: absolute !important;
+      top: 108px !important;
+      left: 0 !important;
+      width: 1200px !important;
+      height: 680px !important;
+      border-radius: 24px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-mob.active {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-image {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      transition: opacity 0.5s ease-in-out !important;
+      opacity: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-image.active {
+      opacity: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-bg-pc.active {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tags-container {
+      position: absolute !important;
+      top: 50% !important;
+      left: 68px !important;
+      transform: translateY(-50%) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      width: 345px !important;
+      max-width: 345px !important;
+      z-index: 2 !important;
+      transition: min-height 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+    }
+
+    /* 测量期间临时关闭所有过渡，避免 measureTagSizes 时切 .active 触发动画/闪烁 */
+    {{ default_sid }}.jingva-g7-highlight--measuring .jingva-g7-highlight-tag-item,
+    {{ default_sid }}.jingva-g7-highlight--measuring .jingva-g7-highlight-tag-item * {
+      transition: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      padding: 12px !important;
+      background-color: rgba(255, 255, 255, 0.8) !important;
+      backdrop-filter: blur(50px) !important;
+      -webkit-backdrop-filter: blur(50px) !important;
+      border-radius: 200px !important;
+      width: var(--tag-collapsed-w, fit-content);
+      cursor: pointer !important;
+      /* 单一 transition 定义：所有长度类属性使用完全一致的时长与缓动，确保同步 */
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-radius 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  -webkit-backdrop-filter 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                  opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+      border: none !important;
+      max-height: 48px;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      transform: translateY(var(--explode-offset, 0)) translateZ(0) !important;
+      will-change: max-height, border-radius, width, transform !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+    }
+
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    /* 炸开动画的延迟：9 个位置依次对应 max-height/width/border-radius/background-color/backdrop-filter/-webkit-backdrop-filter/padding/opacity/transform。
+       前 7 个长度类属性始终 0 延迟（点击切换时同步起跑），最后两位 (opacity/transform) 是炸开效果的错峰延迟。 */
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(1) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(2) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.05s, 0.05s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(3) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.1s, 0.1s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(4) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.15s, 0.15s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(5) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.2s, 0.2s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(6) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.25s, 0.25s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(7) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.3s, 0.3s !important;
+    }
+    {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(8) {
+      transition-delay: 0s, 0s, 0s, 0s, 0s, 0s, 0s, 0.35s, 0.35s !important;
+    }
+
+    /* 点击展开后的样式：宽 / 高使用 JS 在 init 时测得的像素 CSS 变量，
+       这样所有长度类属性都是从一个像素值过渡到另一个像素值，浏览器会同步插值。 */
+    {{ default_sid }} .jingva-g7-highlight-tag-item.active {
+      border-radius: 12px !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      width: var(--tag-expanded-w, 100%);
+      justify-content: flex-end !important;
+      gap: 12px !important;
+      max-height: var(--tag-expanded-h, 1000px);
+      background: rgba(255, 255, 255, 0.80) !important;
+      backdrop-filter: blur(25px) !important;
+      -webkit-backdrop-filter: blur(25px) !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-header {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item.active .jingva-g7-highlight-tag-header {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-icon {
+      width: 24px !important;
+      height: 24px !important;
+      flex-shrink: 0 !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-text {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 16px !important;
+      line-height: 24px !important;
+      color: #000000 !important;
+      text-align: center !important;
+      margin: 0 !important;
+      white-space: nowrap !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item:first-child .jingva-g7-highlight-tag-text {
+      font-weight: 500 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item:nth-child(7) .jingva-g7-highlight-tag-text {
+      text-transform: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-description {
+      display: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: 1.2em !important;
+      color: #000000 !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      text-align: left !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-description p {
+      margin: 0 !important;
+      padding: 0 !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: normal !important;
+      color: #000000 !important;
+      text-align: left !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-description p:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item.active .jingva-g7-highlight-tag-description {
+      display: block !important;
+      visibility: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item.active.show-content .jingva-g7-highlight-tag-description {
+      visibility: visible !important;
+      animation: fadeInText 0.2s ease-out forwards !important;
+    }
+
+    /* 移除 show-content 时的淡出效果 */
+    {{ default_sid }} .jingva-g7-highlight-tag-item.active:not(.show-content) .jingva-g7-highlight-tag-description {
+      animation: fadeOutText 0.2s ease-out forwards !important;
+    }
+
+    @keyframes fadeInText {
+      from { opacity: 0 !important; }
+      to { opacity: 1 !important; }
+    }
+
+    @keyframes fadeOutText {
+      from { opacity: 1 !important; }
+      to { opacity: 0 !important; }
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-color-options {
+      display: none !important;
+      flex-direction: row !important;
+      gap: 12px !important;
+      width: 100% !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item:first-child.active .jingva-g7-highlight-color-options {
+      display: flex !important;
+      margin-top: 12px !important;
+      visibility: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item:first-child.active.show-content .jingva-g7-highlight-color-options {
+      visibility: visible !important;
+      animation: fadeInText 0.2s ease-out forwards !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-tag-item:first-child.active:not(.show-content) .jingva-g7-highlight-color-options {
+      animation: fadeOutText 0.2s ease-out forwards !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-color-option {
+      width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      cursor: pointer !important;
+      border: 2px solid transparent !important;
+      transition: border-color 0.2s ease !important;
+      flex-shrink: 0 !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-color-option img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      border-radius: 50% !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-color-option:hover,
+    {{ default_sid }} .jingva-g7-highlight-color-option.active {
+      border-color: #000000 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-highlight-expanded-container {
+      display: none !important;
+    }
+
+    /* PC 非 1920：版心弹性 + 长标题换行（1920 仍仅走上方默认固定稿） */
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+      {{ default_sid }} .jingva-g7-highlight-wrapper {
+        width: 100% !important;
+        max-width: 1200px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-container {
+        width: 100% !important;
+        max-width: 1200px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-title {
+        white-space: normal !important;
+        max-width: 100% !important;
+      }
+    }
+
+    @media screen and (min-width: 1921px) and (max-width: 2560px) {
+      {{ default_sid }} .jingva-g7-highlight-wrapper {
+        width: 100% !important;
+        max-width: 1200px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-container {
+        width: 100% !important;
+        max-width: 1200px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-title {
+        white-space: normal !important;
+        max-width: 100% !important;
+      }
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: {{ padding_top_mob }}px 0 {{ padding_bottom_mob }}px 0 !important;
+        background-color: {{ bg_color_mob }} !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-wrapper {
+        max-width: 100% !important;
+        padding: 0 !important;
+        height: auto !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-title {
+        position: relative !important;
+        font-size: 32px !important;
+        line-height: normal !important;
+        text-align: center !important;
+        margin: 0 0 32px 0 !important;
+        max-width: 100% !important;
+        padding: 0 16px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-container {
+        position: relative !important;
+        max-width: 100% !important;
+        border-radius: 0 !important;
+        top: auto !important;
+        left: auto !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-container::before {
+        content: "" !important;
+        display: block !important;
+        padding-bottom: 138.46% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-pc {
+        display: none !important;
+        opacity: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-pc.active {
+        display: none !important;
+        opacity: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-mob {
+        display: block !important;
+        opacity: 0 !important;
+        transition: opacity 0.5s ease-in-out !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-bg-mob.active {
+        display: block !important;
+        opacity: 1 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tags-container {
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        align-items: flex-end !important;
+        gap: 12px !important;
+        padding: 0 16px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        z-index: 10 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tags-container.hidden {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tags-container::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-item {
+        flex-shrink: 0 !important;
+        flex-direction: row !important;
+        border-radius: 200px !important;
+        width: auto !important;
+        max-width: none !important;
+        max-height: none !important;
+        overflow: visible !important;
+        border: none !important;
+        opacity: 0 !important;
+        transform: translateY(20px) scale(0.9) !important;
+        transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      }
+
+      /* 移动端动画触发 */
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+      }
+
+      /* 移动端标签延迟 */
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(1) {
+        transition-delay: 0s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(2) {
+        transition-delay: 0.08s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(3) {
+        transition-delay: 0.16s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(4) {
+        transition-delay: 0.24s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(5) {
+        transition-delay: 0.32s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(6) {
+        transition-delay: 0.4s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(7) {
+        transition-delay: 0.48s !important;
+      }
+      {{ default_sid }}.jingva-g7-highlight--animated .jingva-g7-highlight-tag-item:nth-child(8) {
+        transition-delay: 0.56s !important;
+      }
+
+
+
+      {{ default_sid }} .jingva-g7-highlight-tag-item.active {
+        flex-direction: column !important;
+        width: min(310px, calc(100vw - 32px)) !important;
+        max-width: min(310px, calc(100vw - 32px)) !important;
+        border-radius: 12px !important;
+        justify-content: flex-end !important;
+        gap: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-header {
+        opacity: 1 !important;
+        height: auto !important;
+        margin: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-item.active .jingva-g7-highlight-tag-header {
+        opacity: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-description {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-item.active .jingva-g7-highlight-tag-description {
+        display: block !important;
+        opacity: 1 !important;
+        max-height: 2000px !important;
+        overflow: visible !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-color-options {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-item:first-child.active .jingva-g7-highlight-color-options {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-icon {
+        width: 24px !important;
+        height: 24px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-tag-text {
+        font-size: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-container {
+        display: none !important;
+        position: absolute !important;
+        bottom: 22px !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: auto !important;
+        background-color: transparent !important;
+        z-index: 20 !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 4px !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-container.active {
+        display: flex !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-close {
+        position: absolute !important;
+        top: 19px !important;
+        right: 16px !important;
+        width: 24px !important;
+        height: 24px !important;
+        background-color: #ffffff !important;
+        border: none !important;
+        border-radius: 50% !important;
+        cursor: pointer !important;
+        z-index: 100 !important;
+        display: none !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-close.visible {
+        display: flex !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-nav {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-nav-btn {
+        flex-shrink: 0 !important;
+        width: 24px !important;
+        height: 24px !important;
+        background-color: #FFFFFF !important;
+        border: none !important;
+        border-radius: 12px !important;
+        cursor: pointer !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+        margin: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-nav-btn:disabled {
+        opacity: 0.5 !important;
+        cursor: not-allowed !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-nav-btn svg {
+        width: auto !important;
+        height: auto !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-content {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+        width: 100%;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-box {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: flex-end !important;
+        align-items: center !important;
+        gap: 12px !important;
+        padding: 12px !important;
+        background-color: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(50px) !important;
+        -webkit-backdrop-filter: blur(50px) !important;
+        border-radius: 12px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-description {
+        color: #000 !important;
+        text-align: center !important;
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: normal !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-colors {
+        display: none !important;
+        flex-direction: row !important;
+        gap: 12px !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        background-color: transparent !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-colors.active {
+        display: flex !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-color {
+        width: 24px !important;
+        height: 24px !important;
+        border-radius: 40px !important;
+        overflow: hidden !important;
+        border: 2px solid transparent !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
+                box-sizing: content-box;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-color.active {
+        border-color: #005EFF !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-color img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+      }
+
+      /* 左右切换时文字 / 色块淡出淡入过渡，避免硬切 */
+      {{ default_sid }} .jingva-g7-highlight-expanded-description,
+      {{ default_sid }} .jingva-g7-highlight-expanded-colors {
+        transition: opacity 0.22s ease, transform 0.22s ease !important;
+        will-change: opacity, transform;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-leaving-prev .jingva-g7-highlight-expanded-description,
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-leaving-prev .jingva-g7-highlight-expanded-colors {
+        opacity: 0 !important;
+        transform: translateX(16px) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-leaving-next .jingva-g7-highlight-expanded-description,
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-leaving-next .jingva-g7-highlight-expanded-colors {
+        opacity: 0 !important;
+        transform: translateX(-16px) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-entering-prev .jingva-g7-highlight-expanded-description,
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-entering-prev .jingva-g7-highlight-expanded-colors {
+        opacity: 0 !important;
+        transform: translateX(-16px) !important;
+        transition: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-entering-next .jingva-g7-highlight-expanded-description,
+      {{ default_sid }} .jingva-g7-highlight-expanded-box.is-entering-next .jingva-g7-highlight-expanded-colors {
+        opacity: 0 !important;
+        transform: translateX(16px) !important;
+        transition: none !important;
+      }
+    }
+
+  {% endstyle %}
+
+  <div class="jingva-g7-highlight-wrapper">
+    {% if title != blank %}
+      <h2 class="jingva-g7-highlight-title">{{ title }}</h2>
+    {% endif %}
+
+    <div class="jingva-g7-highlight-bg-container">
+      <button class="jingva-g7-highlight-expanded-close" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M13.9127 12.7452L17.3067 16.1391L16.1397 17.3061L12.7457 13.9122L9.34003 17.3179L8.17303 16.1509L11.5787 12.7452L8.18477 9.35118L9.35177 8.18418L12.7457 11.5782L16.1501 8.17382L17.3171 9.34082L13.9127 12.7452Z" fill="black"/>
+        </svg>
+      </button>
+      {% for block in section.blocks %}
+        {% if block.settings.video_pc != blank %}
+          <video
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-block-{{ forloop.index0 }}{% if forloop.first %} active{% endif %}"
+            {% if block.settings.bg_pc != blank %}poster="{{ block.settings.bg_pc | image_url: width: 2400 }}"{% endif %}
+            autoplay muted playsinline loop preload="auto" aria-label="{{ block.settings.title | default: 'Background' | escape }}"
+          >
+            {% for source in block.settings.video_pc.sources %}<source src="{{ source.url }}" type="{{ source.mime_type }}">{% endfor %}
+          </video>
+        {% elsif block.settings.bg_pc != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-block-{{ forloop.index0 }}{% if forloop.first %} active{% endif %}"
+            src="{{ block.settings.bg_pc | image_url: width: 2400 }}"
+            alt="{{ block.settings.title | default: 'Background' | escape }}"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if block.settings.video_mob != blank %}
+          <video
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-block-{{ forloop.index0 }}{% if forloop.first %} active{% endif %}"
+            {% if block.settings.bg_mob != blank %}poster="{{ block.settings.bg_mob | image_url: width: 800 }}"{% endif %}
+            autoplay muted playsinline loop preload="auto" aria-label="{{ block.settings.title | default: 'Background' | escape }}"
+          >
+            {% for source in block.settings.video_mob.sources %}<source src="{{ source.url }}" type="{{ source.mime_type }}">{% endfor %}
+          </video>
+        {% elsif block.settings.bg_mob != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-block-{{ forloop.index0 }}{% if forloop.first %} active{% endif %}"
+            src="{{ block.settings.bg_mob | image_url: width: 800 }}"
+            alt="{{ block.settings.title | default: 'Background' | escape }}"
+            loading="lazy"
+          />
+        {% endif %}
+      {% endfor %}
+
+      {% if section.blocks.size > 0 %}
+        {% assign first_block = section.blocks[0] %}
+        {% if first_block.settings.color_1_bg_pc != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-color-0"
+            src="{{ first_block.settings.color_1_bg_pc | image_url: width: 2400 }}"
+            alt="Color 1"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_1_bg_mob != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-color-0"
+            src="{{ first_block.settings.color_1_bg_mob | image_url: width: 800 }}"
+            alt="Color 1"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_2_bg_pc != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-color-1"
+            src="{{ first_block.settings.color_2_bg_pc | image_url: width: 2400 }}"
+            alt="Color 2"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_2_bg_mob != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-color-1"
+            src="{{ first_block.settings.color_2_bg_mob | image_url: width: 800 }}"
+            alt="Color 2"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_3_bg_pc != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-color-2"
+            src="{{ first_block.settings.color_3_bg_pc | image_url: width: 2400 }}"
+            alt="Color 3"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_3_bg_mob != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-color-2"
+            src="{{ first_block.settings.color_3_bg_mob | image_url: width: 800 }}"
+            alt="Color 3"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_4_bg_pc != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-pc jingva-g7-highlight-bg-color-3"
+            src="{{ first_block.settings.color_4_bg_pc | image_url: width: 2400 }}"
+            alt="Color 4"
+            loading="lazy"
+          />
+        {% endif %}
+        {% if first_block.settings.color_4_bg_mob != blank %}
+          <img
+            class="jingva-g7-highlight-bg-image jingva-g7-highlight-bg-mob jingva-g7-highlight-bg-color-3"
+            src="{{ first_block.settings.color_4_bg_mob | image_url: width: 800 }}"
+            alt="Color 4"
+            loading="lazy"
+          />
+        {% endif %}
+      {% endif %}
+
+      {%- liquid
+        assign highlight_first_has_colors = false
+        if section.blocks.size > 0
+          assign highlight_fb = section.blocks[0]
+          if highlight_fb.settings.color_1_icon != blank or highlight_fb.settings.color_2_icon != blank or highlight_fb.settings.color_3_icon != blank or highlight_fb.settings.color_4_icon != blank
+            assign highlight_first_has_colors = true
+          endif
+        endif
+      -%}
+
+      <div class="jingva-g7-highlight-tags-container">
+        {% for block in section.blocks %}
+          <div class="jingva-g7-highlight-tag-item" data-block-index="{{ forloop.index0 }}" data-has-colors="{% if forloop.first and highlight_first_has_colors %}true{% else %}false{% endif %}">
+            <div class="jingva-g7-highlight-tag-header">
+              <svg class="jingva-g7-highlight-tag-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <circle cx="12" cy="12" r="10" stroke="#000000" stroke-width="2"/>
+                <path d="M12 8V16M8 12H16" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <span class="jingva-g7-highlight-tag-text">{{ block.settings.title }}</span>
+            </div>
+            {% if block.settings.description != blank %}
+              <div class="jingva-g7-highlight-tag-description">{{ block.settings.description | safe }}</div>
+            {% endif %}
+            {% if forloop.first and highlight_first_has_colors %}
+              {% assign first_block = section.blocks[0] %}
+              <div class="jingva-g7-highlight-color-options">
+                {% if first_block.settings.color_1_icon != blank %}
+                  <div class="jingva-g7-highlight-color-option active" data-color-index="0">
+                    <img src="{{ first_block.settings.color_1_icon | image_url: width: 100 }}" alt="Color 1" />
+                  </div>
+                {% endif %}
+                {% if first_block.settings.color_2_icon != blank %}
+                  <div class="jingva-g7-highlight-color-option" data-color-index="1">
+                    <img src="{{ first_block.settings.color_2_icon | image_url: width: 100 }}" alt="Color 2" />
+                  </div>
+                {% endif %}
+                {% if first_block.settings.color_3_icon != blank %}
+                  <div class="jingva-g7-highlight-color-option" data-color-index="2">
+                    <img src="{{ first_block.settings.color_3_icon | image_url: width: 100 }}" alt="Color 3" />
+                  </div>
+                {% endif %}
+                {% if first_block.settings.color_4_icon != blank %}
+                  <div class="jingva-g7-highlight-color-option" data-color-index="3">
+                    <img src="{{ first_block.settings.color_4_icon | image_url: width: 100 }}" alt="Color 4" />
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="jingva-g7-highlight-expanded-container">
+        <button class="jingva-g7-highlight-expanded-nav-btn jingva-g7-highlight-expanded-nav-prev" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="10" viewBox="0 0 7 10" fill="none"> 
+            <path d="M4.94984 8.48528L1.41431 4.94975L4.94984 1.41422" stroke="black" stroke-width="2" stroke-linecap="square"/> 
+          </svg>
+        </button>
+        <div class="jingva-g7-highlight-expanded-content">
+          <div class="jingva-g7-highlight-expanded-box">
+            <div class="jingva-g7-highlight-expanded-description"></div>
+            <div class="jingva-g7-highlight-expanded-colors"></div>
+          </div>
+        </div>
+        <button class="jingva-g7-highlight-expanded-nav-btn jingva-g7-highlight-expanded-nav-next" type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="7" height="10" viewBox="0 0 7 10" fill="none"> 
+            <path d="M1.41431 1.41422L4.94984 4.94975L1.41431 8.48528" stroke="black" stroke-width="2" stroke-linecap="square"/> 
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      var sectionId = '{{ sid }}';
+      var section = document.querySelector('.jingva-g7-highlight-' + sectionId);
+      if (!section) return;
+
+      var tagItems = section.querySelectorAll('.jingva-g7-highlight-tag-item');
+      var colorOptions = section.querySelectorAll('.jingva-g7-highlight-color-option');
+      var bgImagesPc = section.querySelectorAll('.jingva-g7-highlight-bg-pc');
+      var bgImagesMob = section.querySelectorAll('.jingva-g7-highlight-bg-mob');
+      var tagsContainer = section.querySelector('.jingva-g7-highlight-tags-container');
+      var expandedContainer = section.querySelector('.jingva-g7-highlight-expanded-container');
+      var expandedClose = section.querySelector('.jingva-g7-highlight-expanded-close');
+      var expandedDescription = section.querySelector('.jingva-g7-highlight-expanded-description');
+      var expandedColors = section.querySelector('.jingva-g7-highlight-expanded-colors');
+      var expandedPrev = section.querySelector('.jingva-g7-highlight-expanded-nav-prev');
+      var expandedNext = section.querySelector('.jingva-g7-highlight-expanded-nav-next');
+      var currentActiveTagIndex = -1;
+      var currentActiveColorIndex = 0;
+      var currentExpandedIndex = -1;
+      var blocks = [];
+
+      {% for block in section.blocks %}
+        blocks.push({
+          index: {{ forloop.index0 }},
+          title: {{ block.settings.title | json }},
+          description: {{ block.settings.description | json }},
+          hasColors: {% if forloop.first and highlight_first_has_colors %}true{% else %}false{% endif %}
+        });
+      {% endfor %}
+
+      function isMobile() {
+        return window.innerWidth <= 1279;
+      }
+
+      function findElementByClass(elements, className) {
+        for (var i = 0; i < elements.length; i++) {
+          if (elements[i].classList.contains(className)) {
+            return elements[i];
+          }
+        }
+        return null;
+      }
+
+      function showBackground(type, index) {
+        var targetClass;
+        if (type === 'tag') {
+          targetClass = 'jingva-g7-highlight-bg-block-' + index;
+        } else if (type === 'color') {
+          targetClass = 'jingva-g7-highlight-bg-color-' + index;
+        }
+
+        var isMobileDevice = isMobile();
+        var bgImages = isMobileDevice ? bgImagesMob : bgImagesPc;
+
+        var hasTarget = findElementByClass(bgImages, targetClass) !== null;
+        
+        if (!hasTarget) {
+          targetClass = 'jingva-g7-highlight-bg-block-0';
+        }
+
+        function ensureVideoAutoplay(v) {
+          if (!v || v.tagName !== 'VIDEO') return;
+          // 强制确保自动播放属性（部分浏览器只认 property，不认 attribute）
+          v.muted = true;
+          v.defaultMuted = true;
+          v.playsInline = true;
+          v.setAttribute('muted', '');
+          v.setAttribute('playsinline', '');
+          v.setAttribute('autoplay', '');
+          var attempt = function () {
+            try {
+              var p = v.play();
+              if (p && typeof p.catch === 'function') p.catch(function(){});
+            } catch(_e){}
+          };
+          if (v.readyState >= 2) {
+            attempt();
+          } else {
+            // 视频还没拿到数据：load 触发并在 loadeddata/canplay 时再尝试一次
+            try { v.load(); } catch(_e){}
+            var onReady = function () {
+              attempt();
+              v.removeEventListener('loadeddata', onReady);
+              v.removeEventListener('canplay', onReady);
+            };
+            v.addEventListener('loadeddata', onReady);
+            v.addEventListener('canplay', onReady);
+            // 首帧立刻也尝试一次（autoplay 属性兜底）
+            attempt();
+          }
+        }
+
+        function syncMedia(el, isActive) {
+          if (isActive) {
+            el.classList.add('active');
+            if (el.tagName === 'VIDEO') {
+              try { if (el.readyState >= 2) el.currentTime = 0; } catch(_e){}
+              ensureVideoAutoplay(el);
+            }
+          } else {
+            el.classList.remove('active');
+            if (el.tagName === 'VIDEO') {
+              try { el.pause(); } catch(_e){}
+            }
+          }
+        }
+
+        bgImagesPc.forEach(function(img) {
+          syncMedia(img, img.classList.contains(targetClass));
+        });
+
+        bgImagesMob.forEach(function(img) {
+          syncMedia(img, img.classList.contains(targetClass));
+        });
+      }
+
+      function showFirstBackground() {
+        showBackground('tag', 0);
+      }
+
+      function openExpanded(index) {
+        currentExpandedIndex = index;
+        var block = blocks[index];
+        
+        expandedDescription.innerHTML = '';
+        expandedColors.innerHTML = '';
+        expandedColors.classList.remove('active');
+        
+        if (block.hasColors) {
+          {% assign first_block = section.blocks[0] %}
+          var colorOptionsData = [
+            {% if first_block.settings.color_1_icon != blank %}
+              { icon: {{ first_block.settings.color_1_icon | image_url: width: 200 | json }}, bg: 0 },
+            {% endif %}
+            {% if first_block.settings.color_2_icon != blank %}
+              { icon: {{ first_block.settings.color_2_icon | image_url: width: 200 | json }}, bg: 1 },
+            {% endif %}
+            {% if first_block.settings.color_3_icon != blank %}
+              { icon: {{ first_block.settings.color_3_icon | image_url: width: 200 | json }}, bg: 2 },
+            {% endif %}
+            {% if first_block.settings.color_4_icon != blank %}
+              { icon: {{ first_block.settings.color_4_icon | image_url: width: 200 | json }}, bg: 3 },
+            {% endif %}
+          ];
+
+          expandedDescription.innerHTML = block.description || block.title;
+
+          colorOptionsData.forEach(function(colorOpt, idx) {
+            var colorEl = document.createElement('div');
+            colorEl.className = 'jingva-g7-highlight-expanded-color' + (idx === 0 ? ' active' : '');
+            colorEl.innerHTML = '<img src="' + colorOpt.icon + '" alt="Color" />';
+            colorEl.dataset.bgIndex = colorOpt.bg;
+            colorEl.addEventListener('click', function() {
+              document.querySelectorAll('.jingva-g7-highlight-expanded-color').forEach(function(el) {
+                el.classList.remove('active');
+              });
+              this.classList.add('active');
+              showBackground('color', colorOpt.bg);
+            });
+            expandedColors.appendChild(colorEl);
+          });
+
+          expandedColors.classList.add('active');
+          showBackground('color', 0);
+        } else {
+          expandedDescription.innerHTML = block.description || block.title;
+          showBackground('tag', index);
+        }
+
+        updateNavButtons();
+        tagsContainer.classList.add('hidden');
+        expandedContainer.classList.add('active');
+        if (expandedClose) {
+          expandedClose.classList.add('visible');
+        }
+      }
+
+      function closeExpanded() {
+        currentExpandedIndex = -1;
+        tagsContainer.classList.remove('hidden');
+        expandedContainer.classList.remove('active');
+        if (expandedClose) {
+          expandedClose.classList.remove('visible');
+        }
+        var _box = section.querySelector('.jingva-g7-highlight-expanded-box');
+        if (_box) {
+          _box.classList.remove('is-leaving-prev', 'is-leaving-next', 'is-entering-prev', 'is-entering-next');
+        }
+        
+        // 还原所有标签状态
+        tagItems.forEach(function(tag) {
+          tag.classList.remove('active');
+          tag.classList.remove('show-content');
+        });
+        currentActiveTagIndex = -1;
+        currentActiveColorIndex = 0;
+
+        // 关闭后回到封面（首个 block 的初始背景）
+        showBackground('tag', 0);
+      }
+
+      function updateNavButtons() {
+        expandedPrev.disabled = currentExpandedIndex <= 0;
+        expandedNext.disabled = currentExpandedIndex >= blocks.length - 1;
+      }
+
+      var expandedBox = section.querySelector('.jingva-g7-highlight-expanded-box');
+      var isSwitching = false;
+      var SWITCH_DURATION = 220; // 与 CSS 中 transition 时长一致
+
+      function switchExpanded(targetIndex, direction) {
+        if (isSwitching) return;
+        if (targetIndex < 0 || targetIndex >= blocks.length) return;
+        if (targetIndex === currentExpandedIndex) {
+          openExpanded(targetIndex);
+          return;
+        }
+        if (!expandedBox) {
+          openExpanded(targetIndex);
+          return;
+        }
+
+        isSwitching = true;
+        var leaveClass = direction === 'prev' ? 'is-leaving-prev' : 'is-leaving-next';
+        var enterClass = direction === 'prev' ? 'is-entering-prev' : 'is-entering-next';
+
+        expandedBox.classList.remove('is-leaving-prev', 'is-leaving-next', 'is-entering-prev', 'is-entering-next');
+        expandedBox.classList.add(leaveClass);
+
+        setTimeout(function() {
+          expandedBox.classList.remove(leaveClass);
+          expandedBox.classList.add(enterClass);
+          openExpanded(targetIndex);
+
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              expandedBox.classList.remove(enterClass);
+              isSwitching = false;
+            });
+          });
+        }, SWITCH_DURATION);
+      }
+
+      function goToPrev() {
+        if (currentExpandedIndex > 0) {
+          switchExpanded(currentExpandedIndex - 1, 'prev');
+        }
+      }
+
+      function goToNext() {
+        if (currentExpandedIndex < blocks.length - 1) {
+          switchExpanded(currentExpandedIndex + 1, 'next');
+        }
+      }
+
+      var collapsedTagHeight = 48;
+      var wasMobile = isMobile();
+
+      function getTagByIndex(index) {
+        for (var i = 0; i < tagItems.length; i++) {
+          if (parseInt(tagItems[i].getAttribute('data-block-index'), 10) === index) {
+            return tagItems[i];
+          }
+        }
+        return null;
+      }
+
+      // 在 init/resize 时把每个 tag 的"展开宽 / 展开内容高"测出来，
+      // 写到 tag 自身的 CSS 变量上，这样 .active 切换时浏览器在长度→长度之间插值，
+      // max-height / width / border-radius / background 等所有属性就都能同步、平滑过渡。
+      function measureTagSizes() {
+        if (isMobile() || !tagItems.length) return;
+        // 临时关掉 transition，避免测量过程中触发动画导致闪烁
+        section.classList.add('jingva-g7-highlight--measuring');
+        tagItems.forEach(function(tag) {
+          var hadActive = tag.classList.contains('active');
+          // 先清掉之前测得的 CSS 变量，让 width/max-height 退回到 fallback (fit-content / 100% / 1000px)
+          tag.style.removeProperty('--tag-collapsed-w');
+          tag.style.removeProperty('--tag-expanded-w');
+          tag.style.removeProperty('--tag-expanded-h');
+
+          // 收起态宽度（fit-content 自然宽）
+          if (hadActive) tag.classList.remove('active');
+          void tag.offsetWidth;
+          var collapsedW = tag.offsetWidth;
+
+          // 展开态宽 / 高（width:100% 自然宽 / scrollHeight 自然内容高）
+          tag.classList.add('active');
+          void tag.offsetWidth;
+          var expandedW = tag.offsetWidth;
+          var expandedH = tag.scrollHeight;
+          if (!hadActive) tag.classList.remove('active');
+
+          tag.style.setProperty('--tag-collapsed-w', collapsedW + 'px');
+          tag.style.setProperty('--tag-expanded-w', expandedW + 'px');
+          tag.style.setProperty('--tag-expanded-h', expandedH + 'px');
+        });
+        // 强制 reflow 后再恢复 transition，确保 measuring 期间的 class 切换不会产生过渡
+        void section.offsetWidth;
+        section.classList.remove('jingva-g7-highlight--measuring');
+      }
+
+      // 极简切换：只 toggle .active class。
+      // 因为每个 tag 的展开宽 / 高已经被写成 CSS 变量，
+      // 浏览器会自动在两组完全是 length 的样式之间同步插值，
+      // max-height / width / border-radius / background-color / backdrop-filter 全部同时起跑、同时结束。
+      function activateDesktopTag(tagIndex) {
+        var nextTag = getTagByIndex(tagIndex);
+        if (!nextTag) return;
+
+        var currentTag = getTagByIndex(currentActiveTagIndex);
+        if (currentTag === nextTag) return;
+
+        if (currentTag) {
+          // 先移除 show-content，让内容淡出
+          currentTag.classList.remove('show-content');
+          
+          // 延迟后再移除 active，让高度收起有过渡
+          setTimeout(function() {
+            currentTag.classList.remove('active');
+          }, 200);
+        }
+        
+        // 立即展开新标签，与旧标签收起同步进行
+        nextTag.classList.add('active');
+        
+        // 延迟 350ms 后显示内容（等动画结束）
+        setTimeout(function() {
+          if (nextTag.classList.contains('active')) {
+            nextTag.classList.add('show-content');
+          }
+        }, 350);
+
+        currentActiveTagIndex = tagIndex;
+
+        if (tagIndex === 0 && blocks[0] && blocks[0].hasColors) {
+          showBackground('color', currentActiveColorIndex);
+        } else {
+          showBackground('tag', tagIndex);
+        }
+      }
+
+      function initDesktopAccordion() {
+        if (isMobile() || tagItems.length === 0) return;
+        // 重置所有标签为收起状态
+        currentActiveTagIndex = -1;
+        tagItems.forEach(function(tag) {
+          tag.classList.remove('active');
+          tag.style.maxHeight = '';
+          tag.style.width = '';
+        });
+        measureTagSizes();
+      }
+
+      function resetMobileExpanded() {
+        currentExpandedIndex = -1;
+        tagsContainer.classList.remove('hidden');
+        expandedContainer.classList.remove('active');
+      }
+
+      tagItems.forEach(function(tag) {
+        tag.addEventListener('click', function(e) {
+          var clickedTag = this;
+          var tagIndex = parseInt(clickedTag.getAttribute('data-block-index'), 10);
+          var isActive = clickedTag.classList.contains('active');
+          var isMobileDevice = isMobile();
+
+          if (isMobileDevice) {
+            openExpanded(tagIndex);
+          } else {
+            if (!isActive) {
+              activateDesktopTag(tagIndex);
+            }
+          }
+        });
+      });
+
+      colorOptions.forEach(function(colorOpt) {
+        colorOpt.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var colorIndex = parseInt(this.getAttribute('data-color-index'));
+          
+          colorOptions.forEach(function(opt) {
+            opt.classList.remove('active');
+          });
+          
+          this.classList.add('active');
+          currentActiveColorIndex = colorIndex;
+          showBackground('color', colorIndex);
+        });
+      });
+
+      expandedClose.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeExpanded();
+      });
+      expandedPrev.addEventListener('click', goToPrev);
+      expandedNext.addEventListener('click', goToNext);
+
+      var resizeTimer = null;
+      window.addEventListener('resize', function() {
+        var nowMobile = isMobile();
+
+        if (nowMobile !== wasMobile) {
+          if (nowMobile) {
+            resetMobileExpanded();
+          } else {
+            initDesktopAccordion();
+          }
+          wasMobile = nowMobile;
+          return;
+        }
+
+        // 同模式下窗口尺寸变化也需要重新测量，保持 CSS 变量与实际像素一致
+        if (!nowMobile) {
+          if (resizeTimer) clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(measureTagSizes, 120);
+        }
+      });
+
+      // 等字体加载完后再测量一次，避免初次测量时字体未就绪导致的宽 / 高偏差
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() {
+          if (!isMobile()) measureTagSizes();
+        });
+      }
+
+      showFirstBackground();
+      initDesktopAccordion();
+    })();
+
+    // Intersection Observer for scroll-triggered animation
+    (function() {
+      var section = document.querySelector('.jingva-g7-highlight-{{ sid }}');
+      if (!section) return;
+
+      var title = section.querySelector('.jingva-g7-highlight-title');
+      var tagItems = section.querySelectorAll('.jingva-g7-highlight-tag-item');
+      if (!title || !tagItems.length) return;
+
+      // 计算中间标签的索引
+      var totalTags = tagItems.length;
+      var middleIndex = Math.floor(totalTags / 2); // 中间位置
+      
+      // 为每个标签设置初始偏移，实现从中间向上下炸开的效果
+      tagItems.forEach(function(tag, index) {
+        var tagHeight = 48; // 标签高度
+        var gap = 12; // 间距
+        var itemSpacing = tagHeight + gap; // 每个标签占用的空间
+        
+        // 计算该标签到中间标签的距离
+        var distanceFromMiddle = middleIndex - index;
+        var initialOffset = distanceFromMiddle * itemSpacing;
+        
+        // 设置初始偏移量
+        tag.style.setProperty('--explode-offset', initialOffset + 'px');
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            // 标题动画
+            title.classList.add('aos-animate');
+            
+            // 延迟触发标签炸开动画
+            setTimeout(function() {
+              section.classList.add('jingva-g7-highlight--animated');
+            }, 200);
+            
+            // 只触发一次，之后停止观察
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '-50px 0px -50px 0px'
+      });
+
+      // 观察 section 而不是 title，确保整个组件进入视窗时触发
+      observer.observe(section);
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva G7 Highlight",
+  "class": "shopify-section--jingva-g7-highlight",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Highlight Section"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "get the highlight."
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. HTML id for subnav anchor links (no #)."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "PC Background Color",
+      "default": "#121b2c"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color",
+      "default": "#121b2c"
+    },
+    {
+      "type": "header",
+      "content": "Padding (PC)"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_pc",
+      "label": "Padding Top (PC)",
+      "default": "160"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom_pc",
+      "label": "Padding Bottom (PC)",
+      "default": "0"
+    },
+    {
+      "type": "header",
+      "content": "Padding (Mobile)"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_mob",
+      "label": "Padding Top (Mobile)",
+      "default": "96"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom_mob",
+      "label": "Padding Bottom (Mobile)",
+      "default": "0"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "highlight_item",
+      "name": "Highlight Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_pc",
+          "label": "PC Background (Cover)"
+        },
+        {
+          "type": "video",
+          "id": "video_pc",
+          "label": "PC Video"
+        },
+        {
+          "type": "image_picker",
+          "id": "bg_mob",
+          "label": "Mobile Background (Cover)"
+        },
+        {
+          "type": "video",
+          "id": "video_mob",
+          "label": "Mobile Video"
+        },
+        {
+          "type": "header",
+          "content": "Color Options (only for first item)"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_1_icon",
+          "label": "Color 1 Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_1_bg_pc",
+          "label": "Color 1 - PC Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_1_bg_mob",
+          "label": "Color 1 - Mobile Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_2_icon",
+          "label": "Color 2 Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_2_bg_pc",
+          "label": "Color 2 - PC Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_2_bg_mob",
+          "label": "Color 2 - Mobile Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_3_icon",
+          "label": "Color 3 Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_3_bg_pc",
+          "label": "Color 3 - PC Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_3_bg_mob",
+          "label": "Color 3 - Mobile Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_4_icon",
+          "label": "Color 4 Icon"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_4_bg_pc",
+          "label": "Color 4 - PC Background"
+        },
+        {
+          "type": "image_picker",
+          "id": "color_4_bg_mob",
+          "label": "Color 4 - Mobile Background"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Highlight",
+      "blocks": [
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "Colors"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "RGB Lighting (Optional)"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "Lumbar Support Adjustment"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "Headrest Adjustment"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "Armrest Adjustment"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "90° to 140°"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "user friendly"
+          }
+        },
+        {
+          "type": "highlight_item",
+          "settings": {
+            "title": "Immersive Experience"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

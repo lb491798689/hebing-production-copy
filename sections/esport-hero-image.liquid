@@ -1,0 +1,208 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito">
+  <h2
+    class="
+      tw:text-[72px] tw:leading-[1.2] tw:uppercase tw:text-[#0A0A0A] tw:font-black tw:font-orbitron
+      tw:max-md:text-[32px] tw:text-center tw:max-md:max-w-[358px] tw:mx-auto
+    "
+  >
+    {{ section.settings.title }}
+  </h2>
+
+  <div
+    class="
+      tw:grid tw:grid-cols-2 tw:gap-3 tw:mt-12
+      tw:md:px-[calc((100%-1200px)/2)] tw:md:h-[600px] tw:text-white
+      tw:max-md:grid-cols-1 tw:max-md:px-4
+    "
+  >
+    {% for block in section.blocks %}
+      <div
+        class="
+          tw:aspect-594/600 tw:h-full tw:relative
+          tw:bg-black tw:flex tw:flex-col tw:justify-end
+          tw:group tw:max-md:aspect-358/480 tw:max-md:w-full
+        "
+      >
+        {% if block.settings.image != blank %}
+          <img
+            src="{{ block.settings.image | image_url }}"
+            alt="{{ block.settings.image.alt }}"
+            class="tw:w-full tw:h-full tw:object-cover tw:absolute tw:top-0 tw:left-0"
+            width="{{ block.settings.image.width }}"
+            height="{{ block.settings.image.height }}"
+          >
+        {% else %}
+          <div class="tw:absolute tw:size-full tw:inset-0 tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+            image
+          </div>
+        {% endif %}
+
+        <div
+          class="
+            tw:relative tw:z-2 tw:px-6 tw:py-8
+            tw:overflow-hidden card-content
+            tw:max-md:px-4 tw:max-md:py-6
+          "
+        >
+          <div
+            class="
+              tw:grid tw:grid-rows-[auto_0fr] tw:gap-0
+              tw:max-md:grid-rows-[auto_1fr] tw:max-md:gap-6
+              tw:transition-all tw:duration-500 tw:ease-out
+              tw:group-hover:grid-rows-[auto_1fr] tw:group-hover:gap-6
+            "
+          >
+            <div class="tw:flex tw:items-center tw:justify-between card-content-text">
+              <div>
+                <div class="tw:text-[40px] tw:font-bold tw:leading-[1.4] tw:max-md:leading-[1.2] tw:max-md:text-[24px]">
+                  {{ block.settings.name }}
+                </div>
+                <div class="tw:text-[20px] tw:leading-[1.2] tw:mt-1 tw:max-md:text-[16px]">
+                  {{ block.settings.title }}
+                </div>
+              </div>
+              {% if block.settings.sign_image != blank %}
+                <img
+                  src="{{ block.settings.sign_image | image_url }}"
+                  alt="{{ block.settings.sign_image.alt }}"
+                  class="tw:max-h-[80px] tw:max-md:max-h-[40px]"
+                  style="aspect-ratio: {{ block.settings.sign_image.aspect_ratio }}"
+                  width="auto"
+                  height="100%"
+                >
+              {% endif %}
+            </div>
+            <div class="tw:overflow-hidden">
+              <a
+                href="{{ block.settings.link_url }}"
+                class="
+                  tw:flex tw:items-center tw:leading-[1.2] tw:gap-6
+                  tw:text-white/60 tw:opacity-0 tw:translate-y-full
+                  tw:max-md:opacity-100 tw:max-md:translate-y-0
+                  tw:transition-all tw:duration-500 tw:ease-out
+                  tw:group-hover:opacity-100 tw:group-hover:translate-y-0
+                  card-content-link tw:max-md:text-[14px]
+                "
+              >
+                <span>{{ block.settings.link_text }}</span>
+                <svg class="tw:shrink-0 tw:w-[48px] tw:max-md:w-[40px]" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M29.4141 24L21.707 31.707L20.293 30.293L26.5859 24L20.293 17.707L21.707 16.293L29.4141 24Z" fill="white"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script src="{{ 'motion.js' | asset_url }}" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {});
+</script>
+
+{% schema %}
+{
+  "name": "Esport Hero Image",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Our esports heroes"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 32
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hero_item",
+      "name": "Hero Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "sign_image",
+          "label": "Sign Image"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "John Doe"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "CS2 Legendary Player"
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "With its innovative features the AutoFull M6 has convinced me You should give it a try"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Hero Image"
+    }
+  ]
+}
+{% endschema %}

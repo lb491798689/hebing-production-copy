@@ -1,0 +1,369 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+-%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    /* ===== PC: KV2 外框 1920×780, padding 70px 上下 ===== */
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background-color: #ffffff !important;
+    }
+
+    {{ default_sid }} .jvh-outer {
+      width: 100% !important;
+      padding: 70px 0 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      background-color: #ffffff !important;
+    }
+
+    /* ===== PC: KV 视频框 1200×640, clipsContent ===== */
+    {{ default_sid }} .jvh-video-wrap {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      aspect-ratio: 1200 / 640 !important;
+      overflow: hidden !important;
+      margin: 0 auto !important;
+    }
+
+    {{ default_sid }} .jvh-video-wrap video,
+    {{ default_sid }} .jvh-video-wrap .jvh-poster {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    {{ default_sid }} .jvh-poster {
+      z-index: 1 !important;
+      transition: opacity 0.5s ease !important;
+    }
+
+    {{ default_sid }} .jvh-poster.hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* ===== 视频遮罩: 黑色 opacity 0.29 (PC) ===== */
+    {{ default_sid }} .jvh-overlay {
+      position: absolute !important;
+      inset: 0 !important;
+      background-color: rgba(0, 0, 0, 0.29) !important;
+      z-index: 2 !important;
+      pointer-events: none !important;
+    }
+
+    /* ===== PC: 内容层 padding: 40px, 垂直居中 ===== */
+    {{ default_sid }} .jvh-content {
+      position: absolute !important;
+      inset: 0 !important;
+      z-index: 3 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 0 40px !important;
+      box-sizing: border-box !important;
+      pointer-events: none !important;
+    }
+
+    /* ===== PC: 内容外框 width: 1121px (1201-40*2), gap: 24px ===== */
+    {{ default_sid }} .jvh-content-inner {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 16px !important;
+      width: 100% !important;
+      pointer-events: auto !important;
+    }
+
+    {{ default_sid }} .jvh-title { font-family: 'Orbitron', sans-serif !important; font-weight: 900 !important; font-size: 48px !important; line-height: 1.2 !important; color: #ffffff !important; margin: 0 !important; text-align: left !important; max-width: 100% !important; transform: translateY(-50px); transition: transform 0.5s ease-out; will-change: transform; }
+    {{ default_sid }} .jvh-title.aos-animate { transform: translateY(0) !important; }
+    {{ default_sid }} h2.jvh-title.jvh-title-pc { display: block !important; }
+    {{ default_sid }} h2.jvh-title.jvh-title-mobile { display: none !important; }
+
+    /* ===== 按钮容器 gap: 12px (PC) ===== */
+    {{ default_sid }} .jvh-buttons {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      gap: 12px !important;
+    }
+
+    /* KV / 商品卡片 Buy Now：白底 + 黑框 + 黑字 → Hover 实底品牌红 + 白字 */
+    {{ default_sid }} .jvh-btn-primary {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 12px 24px !important;
+      background-color: #ffffff !important;
+      color: #0a0a0a !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 20px !important;
+      line-height: 1.2 !important;
+      text-decoration: none !important;
+      text-transform: none !important;
+      border-radius: 12px !important;
+      cursor: pointer !important;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.15s ease !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jvh-btn-primary:hover {
+      background-color: #E8E8E8 !important;
+    }
+
+    {{ default_sid }} .jvh-btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    /* ========== 手机端 ========== */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jvh-outer {
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jvh-video-wrap {
+        max-width: none !important;
+        aspect-ratio: 390 / 560 !important;
+      }
+
+      {{ default_sid }} .jvh-overlay {
+        background-color: rgba(0, 0, 0, 0.26) !important;
+      }
+
+      {{ default_sid }} .jvh-content {
+        padding: 64px 16px !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+      }
+
+      {{ default_sid }} .jvh-content-inner {
+        align-items: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+
+      {{ default_sid }} .jvh-title {
+        font-family: 'Orbitron', sans-serif !important;
+        font-weight: 900 !important;
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+        color: #ffffff !important;
+        text-align: center !important;
+        margin: 0 !important;
+      }
+      {{ default_sid }} h2.jvh-title.jvh-title-pc { display: none !important; }
+      {{ default_sid }} h2.jvh-title.jvh-title-mobile { display: block !important; }
+
+      {{ default_sid }} .jvh-buttons {
+        gap: 8px !important;
+      }
+
+      {{ default_sid }} .jvh-btn-primary {
+        padding: 12px 16px !important;
+        font-size: 16px !important;
+        border-radius: 8px !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jvh-outer">
+    <div class="jvh-video-wrap" id="jvh-wrap-{{ sid }}">
+      {%- if se_stts.poster_image != blank -%}
+        <img
+          src="{{ se_stts.poster_image | image_url: width: 1920 }}"
+          alt="Video poster"
+          class="jvh-poster"
+          id="jvh-poster-{{ sid }}"
+          width="1920"
+          height="1024"
+        >
+      {%- endif -%}
+
+      {%- if se_stts.video != blank -%}
+        <video
+          id="jvh-video-{{ sid }}"
+          muted
+          playsinline
+          loop
+          preload="auto"
+        >
+          {%- for source in se_stts.video.sources -%}
+            {%- if source.mime_type == 'video/mp4' -%}
+              <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+            {%- endif -%}
+          {%- endfor -%}
+        </video>
+      {%- endif -%}
+
+      <div class="jvh-overlay"></div>
+
+      <div class="jvh-content">
+        <div class="jvh-content-inner">
+          <h2 class="jvh-title jvh-title-pc">{{ se_stts.title_pc | default: 'AUTOFULL' }}<br>{{ se_stts.title_pc_line2 | default: 'E-SPORTS ZONE' }}</h2>
+          <h2 class="jvh-title jvh-title-mobile">{{ se_stts.title_mobile_line1 | default: 'AUTOFULL E-SPORTS' }}<br>{{ se_stts.title_mobile_line2 | default: 'ZONE' }}</h2>
+
+          <div class="jvh-buttons">
+            {%- if se_stts.button_text != blank -%}
+              <a href="{{ se_stts.button_url | default: '#' }}" class="jvh-btn-primary">
+                {{ se_stts.button_text }}
+              </a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-section-container-{{ sid }}');
+    if (!section) return;
+
+    var titles = section.querySelectorAll('.jvh-title');
+    if (!titles.length) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    titles.forEach(function(t) { observer.observe(t); });
+  })();
+  </script>
+</section>
+
+<script>
+  (function() {
+    var sectionId = '{{ sid }}';
+    var video = document.getElementById('jvh-video-' + sectionId);
+    var poster = document.getElementById('jvh-poster-' + sectionId);
+
+    if (!video) return;
+
+    function startVideo() {
+      video.play().then(function() {
+        if (poster) poster.classList.add('hidden');
+      }).catch(function() {});
+    }
+
+    if (poster) {
+      if (poster.complete) {
+        startVideo();
+      } else {
+        poster.addEventListener('load', startVideo);
+        poster.addEventListener('error', startVideo);
+      }
+    } else {
+      startVideo();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Video Hero",
+  "class": "shopify-section--jingva-video-hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_id",
+      "label": "Section ID",
+      "info": "用于标识该 section 的唯一 ID"
+    },
+    {
+      "type": "header",
+      "content": "视频设置"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "视频文件"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster_image",
+      "label": "封面图片"
+    },
+    {
+      "type": "header",
+      "content": "内容设置"
+    },
+    {
+      "type": "text",
+      "id": "title_pc",
+      "label": "标题-PC端第一行",
+      "default": "AUTOFULL"
+    },
+    {
+      "type": "text",
+      "id": "title_pc_line2",
+      "label": "标题-PC端第二行",
+      "default": "E-SPORTS ZONE"
+    },
+    {
+      "type": "text",
+      "id": "title_mobile_line1",
+      "label": "标题-手机端第一行",
+      "default": "AUTOFULL E-SPORTS"
+    },
+    {
+      "type": "text",
+      "id": "title_mobile_line2",
+      "label": "标题-手机端第二行",
+      "default": "ZONE"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "按钮文字",
+      "default": "LEARN MORE"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "按钮链接"
+    },
+    {
+      "type": "header",
+      "content": "自定义CSS"
+    },
+    {
+      "type": "text",
+      "id": "section_css",
+      "label": "自定义CSS类名"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Video Hero",
+      "settings": {
+        "title_pc": "AUTOFULL",
+        "title_pc_line2": "E-SPORTS ZONE",
+        "title_mobile_line1": "AUTOFULL E-SPORTS",
+        "title_mobile_line2": "ZONE",
+        "button_text": "LEARN MORE"
+      }
+    }
+  ]
+}
+{% endschema %}

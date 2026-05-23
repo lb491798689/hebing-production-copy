@@ -1,0 +1,257 @@
+{% liquid
+  assign sid = section.id
+  assign padding_top = section.settings.padding_top | split: ';'
+  assign padding_bottom = section.settings.padding_bottom | split: ';'
+%}
+
+{% capture default_sid %}.jingva-rotate-banner-{{ sid }}{% endcapture %}
+
+<section class="jingva-rotate-banner {{ section.settings.section_css }} jingva-rotate-banner-{{ sid }}"
+  data-rotate="{{ section.settings.auto_rotate }}"
+  data-pause-on-hover="{{ section.settings.pause_on_hover }}">
+
+  {% style %}
+  {{ default_sid }}{
+    --bg-grad: {{ section.settings.background_gradient | default: 'linear-gradient(90deg, #EBD9E9 0%, #7B85F0 100%)' }};
+    --radius: {{ section.settings.radius | default: 24 }}px;
+    --pad-x: {{ section.settings.padding_x | default: 32 }}px;
+    --pad-y: {{ section.settings.padding_y | default: 32 }}px;
+    
+    --rotate-duration: {{ section.settings.rotate_seconds | default: 12 }}s;
+    --wheel-size: {{ section.settings.wheel_size | default: 520 }}px;
+    --wheel-size-mb: {{ section.settings.wheel_size_mb | default: 280 }}px;
+    color: {{ section.settings.text_color | default: '#0F0F0F' }};
+    background: {{ section.settings.background }};
+    
+  }
+
+  {{ default_sid }} .rb-outer{
+    display:flex;
+    justify-content:center;
+    padding:26px;
+    padding-top: {{ padding_top[0] | default: '0px' }};
+    padding-bottom: {{ padding_bottom[0] | default: '0px' }};
+  }
+  {{ default_sid }} .rb-container{
+    width: 100%;
+    max-width: var(--container-max-width);
+    background: var(--bg-grad);
+    border-radius: var(--radius);
+    padding: var(--pad-y) var(--pad-x);
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 48px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08) inset;
+  }
+
+  {{ default_sid }} .col--media{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    order: {% if section.settings.wheel_position == 'left' %}0{% else %}1{% endif %};
+  }
+  {{ default_sid }} .col--content{
+    order: {% if section.settings.wheel_position == 'left' %}1{% else %}0{% endif %};
+  }
+
+  {{ default_sid }} .wheel{
+    width: min(100%, var(--wheel-size));
+    aspect-ratio: 1/1;
+    position: relative;
+  }
+  {{ default_sid }} .wheel img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display:block;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+    pointer-events: none;
+    animation: rb-spin var(--rotate-duration) linear infinite;
+  }
+  {{ default_sid }}[data-rotate="false"] .wheel img{ animation: none; }
+  {{ default_sid }}[data-pause-on-hover="true"] .wheel:hover img{ animation-play-state: paused; }
+
+  @keyframes rb-spin{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
+  {{ default_sid }} .heading{
+    font-size: clamp(28px, 4vw, 54px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 12px 0;
+  }
+  {{ default_sid }} .sub{
+    font-size: clamp(14px, 1.6vw, 20px);
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    opacity: .9;
+  }
+  {{ default_sid }} .cta{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height: 56px;
+    padding: 0 28px;
+    background: {{ section.settings.button_bg | default: '#111111' }};
+    color: {{ section.settings.button_text | default: '#ffffff' }};
+    border-radius: 28px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform .15s ease, opacity .2s ease;
+    will-change: transform;
+  }
+  {{ default_sid }} .cta:hover{ transform: translateY(-1px); }
+
+  @media (max-width: 1024px){
+
+    {{ default_sid }} .rb-outer{
+      padding-top: {{ padding_top[1] | default: '0px' }};
+      padding-bottom: {{ padding_bottom[1] | default: '0px' }};
+    }
+    
+    {{ default_sid }} .rb-container{
+      grid-template-columns: 1fr;
+      gap: 24px;
+      text-align: center;
+    }
+    {{ default_sid }} .col--media{ order: 0; }
+    {{ default_sid }} .col--content{ order: 1; }
+    {{ default_sid }} .wheel{ width: var(--wheel-size-mb); margin: 0 auto; }
+  }
+
+  @media (max-width: 767px){
+      {{ default_sid }} .rb-outer{
+        padding-top: {{ padding_top[2] | default: '0px' }};
+        padding-bottom: {{ padding_bottom[2] | default: '0px' }};
+      }
+    }
+  {% endstyle %}
+
+  <div class="rb-outer">
+    <div class="rb-container">
+      <div class="col--media">
+        <div class="wheel">
+          {% if section.settings.wheel_image != blank %}
+            {{ section.settings.wheel_image | image_url: width: 1500 | image_tag: loading: 'lazy', widths: '480,720,960,1200,1500', alt: section.settings.wheel_alt }}
+          {% else %}
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                  <stop offset="0%" stop-color="#f5f5f5"/>
+                  <stop offset="100%" stop-color="#e1e1e1"/>
+                </linearGradient>
+              </defs>
+              <circle cx="100" cy="100" r="96" fill="url(#g)" stroke="#222" stroke-width="8"/>
+              <circle cx="100" cy="100" r="6" fill="#222"/>
+            </svg>
+          {% endif %}
+        </div>
+      </div>
+      <div class="col--content">
+        {% if section.settings.title != blank %}
+          <h2 class="heading">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.subtext != blank %}
+          <p class="sub">{{ section.settings.subtext }}</p>
+        {% endif %}
+        {% if section.settings.button_label != blank %}
+          <button class="button cta" id="jingva-rotate-banner-{{ sid }}-cta">{{ section.settings.button_label }}</button> 
+            <script> 
+                document.addEventListener('DOMContentLoaded', function() {
+                    function openOmnisendForm() {
+                      var formPopup = document.querySelector('#{{ section.settings.button_link_id }}');
+                      if (formPopup) {
+                        formPopup.click();
+                      }
+                    }
+
+                    document.body.addEventListener('click', function(event) {
+                       {% if section.settings.trigger_mode == 'button' %}
+                        if (event.target.id === 'jingva-rotate-banner-{{ sid }}-cta') {
+                          event.preventDefault();
+                          openOmnisendForm(); 
+                          return false;
+                        }
+                       {% endif %}
+                       {% if section.settings.trigger_mode == 'auto' %}
+                        if (event.target.id === 'jingva-rotate-banner-{{ sid }}-cta') {
+                          event.preventDefault();
+                          {{ section.settings.button_link_html }}
+                          return false;
+                        }
+                       {% endif %}
+                    });
+                });
+            </script>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Rotate Banner",
+  "class": "shopify-section--jingva-rotate-banner",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "section_css", "label": "自定义CSS类名" },
+    { "type": "text", "id": "padding_top", "label": "上内边距(px)", "default": "0px;0px;0px", "info": "格式: 桌面端;平板端;移动端" },
+    { "type": "text", "id": "padding_bottom", "label": "下内边距(px)", "default": "0px;0px;0px", "info": "格式: 桌面端;平板端;移动端" },
+    { "type": "color", "id": "background", "label": "背景色", "default": "#000" },
+    { "type": "text", "id": "background_gradient", "label": "背景渐变(支持任意CSS渐变)", "default": "linear-gradient(90deg, #EBD9E9 0%, #7B85F0 100%)" },
+    { "type": "range", "id": "radius", "min": 0, "max": 48, "step": 1, "label": "圆角(px)", "default": 24 },
+
+
+    { "type": "range", "id": "padding_x", "min": 0, "max": 80, "step": 2, "label": "左右内边距(px)", "default": 32 },
+    { "type": "range", "id": "padding_y", "min": 0, "max": 80, "step": 2, "label": "上下内边距(px)", "default": 32 },
+   
+
+    { "type": "text", "id": "title", "label": "标题", "default": "Spin the Wheel to Get A Free Order" },
+    { "type": "textarea", "id": "subtext", "label": "副标题", "default": "Give It a Spin! Win Extra Savings to Stack on Black Friday Offers." },
+    {
+      "type": "select",
+      "id": "trigger_mode",
+      "label": "触发方式",
+      "default": "button",
+      "options": [
+        { "value": "button", "label": "按钮触发" },
+        { "value": "auto", "label": "直接触发" }
+      ]
+    },
+    
+    { "type": "text", "id": "button_label", "label": "按钮文字", "default": "Spin and win" },
+    { "type": "text", "id": "button_link_id", "label": "按钮触发ID", "default": "omnisend-form-6916c63a2379ea4be162c71c-teaser-btn" },
+    { "type": "html", "id": "button_link_html", "label": "直接触发HTML", "default": " window.omnisend = window.omnisend || []; window.omnisend.push(['openForm', '67120b11b81fbf158e687d4f']);" },
+    { "type": "color", "id": "text_color", "label": "文字颜色", "default": "#0F0F0F" },
+    { "type": "color", "id": "button_bg", "label": "按钮背景色", "default": "#111111" },
+    { "type": "color", "id": "button_text", "label": "按钮文字颜色", "default": "#ffffff" },
+
+    { "type": "image_picker", "id": "wheel_image", "label": "转盘图片(上传PNG/JPG/SVG)" },
+    { "type": "text", "id": "wheel_alt", "label": "转盘图片替代文本", "default": "Lucky wheel" },
+    { "type": "select", "id": "wheel_position", "label": "转盘位置", "default": "left", "options": [
+      { "value": "left", "label": "左侧" },
+      { "value": "right", "label": "右侧" }
+    ]},
+    { "type": "range", "id": "wheel_size", "min": 200, "max": 700, "step": 10, "label": "转盘尺寸(桌面 px)", "default": 520 },
+    { "type": "range", "id": "wheel_size_mb", "min": 160, "max": 560, "step": 10, "label": "转盘尺寸(移动端 px)", "default": 280 },
+
+    { "type": "checkbox", "id": "auto_rotate", "label": "自动旋转", "default": true },
+    { "type": "range", "id": "rotate_seconds", "min": 4, "max": 60, "step": 1, "label": "旋转一圈时长(秒)", "default": 12 },
+    { "type": "checkbox", "id": "pause_on_hover", "label": "悬停暂停旋转", "default": false }
+  ],
+  "presets": [
+    { "name": "Jingva Rotate Banner" }
+  ]
+}
+{% endschema %}
+
+

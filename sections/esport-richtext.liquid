@@ -1,0 +1,76 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:px-4">
+  <div
+    class="
+      svg-border-2 svg-border-t-black
+      tw:max-w-[960px] tw:mx-auto tw:py-12 tw:px-24
+      tw:text-[24px] tw:leading-[1.4] tw:font-gabarito tw:font-medium
+      tw:text-center tw:text-[#0A0A0A] tw:[&_em]:text-[#E90202] tw:[&_em]:not-italic
+      tw:max-md:text-[16px] tw:max-md:px-8 tw:max-md:py-6
+    "
+  >
+    {{ section.settings.text }}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Esport Richtext",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Aofeng, a leader in esports chairs, has sponsored nearly 2,000 events, including LPL, VCT CN, and KPL. They support national leagues, university competitions, and women's events, ensuring a professional and comfortable experience for tournaments. Aofeng partners with event organizers to celebrate victories in esports.</p>"
+    },
+    {
+      "type": "header",
+      "content": "spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding Top Mobile",
+      "default": 32
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding Bottom Mobile",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Richtext"
+    }
+  ]
+}
+{% endschema %}

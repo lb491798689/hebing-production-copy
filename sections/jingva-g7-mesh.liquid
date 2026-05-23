@@ -1,0 +1,384 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign pc_image = se_stts.pc_image
+  assign mob_image = se_stts.mob_image
+  assign bg_color = se_stts.bg_color
+  assign title_color = se_stts.title_color
+  assign description_color = se_stts.description_color
+  assign padding_top = se_stts.padding_top
+  assign padding_bottom = se_stts.padding_bottom
+  assign padding_top_mob = se_stts.padding_top_mob
+  assign padding_bottom_mob = se_stts.padding_bottom_mob
+-%}
+{% capture default_sid %}.jingva-g7-mesh-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-g7-mesh jingva-g7-mesh-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * Figma PC (1920px, node 2373:1609):
+     *   flex column, gap:48px, center
+     *   title frame: w:1200px, gap:24px
+     *     - title: Orbitron Black 64px #FFFFFF uppercase
+     *     - description: Gabarito Medium 24px rgba(255,255,255,0.6), 蓝色文字 #003cff
+     *   image: h:960px, object-fit:cover
+     *
+     * Figma MOB (390px, node 2812:3854):
+     *   flex column, gap:24px, pt:68px
+     *   title frame: w:358px, gap:12px
+     *     - title: Orbitron Black 28px #FFFFFF uppercase
+     *     - description: Gabarito Medium 16px rgba(255,255,255,0.6), 蓝色文字 #005eff
+     *   image: h:540px, object-fit:cover
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121B2C' }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-content {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding-top: {{ padding_top | default: 160 }}px !important;
+      padding-bottom: {{ padding_bottom | default: 0 }}px !important;
+      padding-left: 48px !important;
+      padding-right: 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: normal !important;
+      color: {{ title_color | default: '#ffffff' }} !important;
+      text-align: center !important;
+      text-transform: none !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: normal !important;
+      color: {{ description_color | default: 'rgba(255, 255, 255, 0.6)' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-description p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: normal !important;
+      color: {{ description_color | default: 'rgba(255, 255, 255, 0.6)' }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-description strong {
+      color: #003cff !important;
+      font-weight: 500 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-image-container {
+      position: relative !important;
+      width: 100% !important;
+      /* height: 960px !important; */
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-mesh-image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-g7-mesh-wrapper {
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-content {
+        /* PAD 使用 PC 的 padding-top/bottom（shopify 后台 padding_top / padding_bottom），仅微调 gap */
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-title {
+        font-size: 48px !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-description,
+      {{ default_sid }} .jingva-g7-mesh-description p {
+        font-size: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-image-container {
+        /* height: 800px !important; */
+      }
+    }
+
+    /* === MOB + PAD: ≤1279（文字响应式；内容区左右 16px，不用固定 358 版心） === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jingva-g7-mesh-wrapper {
+        gap: 24px !important;
+        padding-top: {{ padding_top_mob | default: 96 }}px !important;
+        padding-bottom: {{ padding_bottom_mob | default: 0 }}px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-content {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        gap: 12px !important;
+        max-width: none !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-title {
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-description strong {
+        color: #005eff !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-image-container {
+        height: 540px !important;
+      }
+    }
+
+    /* 手机：Figma 390 基准约标题 28px / 正文 16px，随宽度连续缩放 */
+    @media screen and (max-width: 767px) {
+      {{ default_sid }} .jingva-g7-mesh-title {
+        font-size: 32px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-description,
+      {{ default_sid }} .jingva-g7-mesh-description p {
+        font-size: clamp(14px, 4.102564vw, 18px) !important;
+      }
+    }
+
+    /* 平板等：避免仅用 vw 在宽屏下过大，单独 clamp */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-g7-mesh-title {
+        font-size: clamp(30px, 2.8vw + 14px, 40px) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-mesh-description,
+      {{ default_sid }} .jingva-g7-mesh-description p {
+        font-size: clamp(16px, 1.2vw + 12px, 22px) !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-mesh-wrapper">
+    <div class="jingva-g7-mesh-content">
+      {% if title != blank %}
+        <h2 class="jingva-g7-mesh-title">{{ title }}</h2>
+      {% endif %}
+
+      {% if description != blank %}
+        <div class="jingva-g7-mesh-description">{{ description }}</div>
+      {% endif %}
+    </div>
+
+    {% if pc_image != blank or mob_image != blank %}
+      <div class="jingva-g7-mesh-image-container">
+        <picture>
+          {% if pc_image != blank %}
+            <source media="(min-width: 1280px)" srcset="{{ pc_image | image_url: width: 1920 }}">
+          {% endif %}
+          {% if mob_image != blank %}
+            <source media="(max-width: 1279px)" srcset="{{ mob_image | image_url: width: 780 }}">
+          {% endif %}
+          <img
+            class="jingva-g7-mesh-image"
+            src="{{ pc_image | default: mob_image | image_url: width: 1920 }}"
+            alt="{{ title | escape }}"
+            loading="lazy"
+          />
+        </picture>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-g7-mesh-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-g7-mesh-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Mesh",
+  "class": "shopify-section--jingva-g7-mesh",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Cloud Shock-Absorption Mesh"
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Gradient mesh with a stunning, high-aesthetic color way! Infused with anti-UV components, durability and elasticity are <strong>enhanced by 56%</strong>, while breathability is <strong>increased by 16.5%</strong>, keeping you fresh at all times.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "text",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#121B2C",
+      "info": "Supports hex (#121B2C) or rgba (rgba(18, 27, 44, 1))"
+    },
+    {
+      "type": "text",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 1))"
+    },
+    {
+      "type": "text",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "rgba(255, 255, 255, 0.6)",
+      "info": "Supports hex (#ffffff) or rgba (rgba(255, 255, 255, 0.6))"
+    },
+    {
+      "type": "header",
+      "content": "PC Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Mobile Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Mobile Padding Top (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Mobile Padding Bottom (px)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Mesh"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,453 @@
+<section
+  id="{{ section.id }}"
+  class="
+    event-countdown event-countdown--{{ section.settings.color_mode }}
+    tw:font-gabarito tw:px-0
+  "
+  style="
+    --event-countdown-padding-top: {{ section.settings.padding_top }}px;
+    --event-countdown-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --event-countdown-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
+    --event-countdown-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+  "
+>
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-center tw:gap-12
+      tw:max-md:max-w-none tw:max-md:gap-8 tw:max-md:px-4
+    "
+  >
+    {%- if section.settings.title != blank -%}
+      <h2
+        class="
+          event-countdown__title tw:m-0 tw:w-full tw:text-center tw:font-orbitron tw:text-[48px]
+          tw:font-black tw:leading-[normal] tw:uppercase tw:tracking-normal
+          tw:max-md:text-[32px]
+        "
+      >
+        {{ section.settings.title | escape | newline_to_br }}
+      </h2>
+    {%- endif -%}
+
+    <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-3 tw:max-md:gap-2">
+      <div
+        class="
+          event-countdown__panel tw:flex tw:w-full tw:flex-col tw:items-center tw:justify-center
+          tw:gap-6 tw:rounded-[12px] tw:p-12 tw:text-center
+          tw:max-md:px-4 tw:max-md:py-10
+        "
+        data-event-countdown
+        data-expiration-date="{{ section.settings.countdown_expiration_date | escape }}"
+      >
+        <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-3 tw:leading-[1.2] tw:max-md:gap-1">
+          {%- if section.settings.countdown_title != blank -%}
+            <h3
+              class="
+                event-countdown__countdown-title tw:font-gabarito tw:m-0 tw:text-[36px] tw:font-semibold tw:leading-[1.2]
+                tw:max-md:text-[26px]
+              "
+            >
+              {{ section.settings.countdown_title | escape | newline_to_br }}
+            </h3>
+          {%- endif -%}
+
+          {%- if section.settings.countdown_desc != blank -%}
+            <div
+              class="
+                event-countdown__countdown-desc tw:text-[24px] tw:font-medium tw:leading-[1.2]
+                tw:max-md:text-[18px]
+              "
+            >
+              {{ section.settings.countdown_desc | escape | newline_to_br }}
+            </div>
+          {%- endif -%}
+        </div>
+
+        <div
+          class="
+            tw:flex tw:h-[72px] tw:items-start tw:justify-center tw:gap-2
+            tw:max-md:h-[56px] tw:max-md:gap-1
+          "
+          aria-live="polite"
+        >
+          <div class="tw:flex tw:flex-col tw:items-center tw:gap-0.5 tw:max-md:gap-[1.5px]">
+            <div
+              class="
+                event-countdown__number-box tw:flex tw:size-[72px] tw:items-center tw:justify-center tw:rounded
+                tw:max-md:size-14
+              "
+            >
+              <span class="tw:text-[48px] tw:font-medium tw:leading-none tw:text-white tw:max-md:text-[32px]" data-countdown-days>00</span>
+            </div>
+            <span class="event-countdown__label tw:text-center tw:text-[16px] tw:font-normal tw:leading-normal tw:max-md:text-[14px]">day</span>
+          </div>
+
+          <span
+            class="
+              event-countdown__colon tw:flex tw:h-[72px] tw:w-[9px] tw:items-center tw:justify-center
+              tw:text-center tw:text-[32px] tw:font-medium tw:leading-none
+              tw:max-md:h-14 tw:max-md:w-[7px] tw:max-md:text-[24.889px]
+            "
+          >
+            :
+          </span>
+
+          <div class="tw:flex tw:flex-col tw:items-center tw:gap-0.5 tw:max-md:gap-[1.5px]">
+            <div
+              class="
+                event-countdown__number-box tw:flex tw:size-[72px] tw:items-center tw:justify-center tw:rounded
+                tw:max-md:size-14
+              "
+            >
+              <span class="tw:text-[48px] tw:font-medium tw:leading-none tw:text-white tw:max-md:text-[32px]" data-countdown-hours>00</span>
+            </div>
+            <span class="event-countdown__label tw:text-center tw:text-[16px] tw:font-normal tw:leading-normal tw:max-md:text-[14px]">hrs</span>
+          </div>
+
+          <span
+            class="
+              event-countdown__colon tw:flex tw:h-[72px] tw:w-[9px] tw:items-center tw:justify-center
+              tw:text-center tw:text-[32px] tw:font-medium tw:leading-none
+              tw:max-md:h-14 tw:max-md:w-[7px] tw:max-md:text-[24.889px]
+            "
+          >
+            :
+          </span>
+
+          <div class="tw:flex tw:flex-col tw:items-center tw:gap-0.5 tw:max-md:gap-[1.5px]">
+            <div
+              class="
+                event-countdown__number-box tw:flex tw:size-[72px] tw:items-center tw:justify-center tw:rounded
+                tw:max-md:size-14
+              "
+            >
+              <span class="tw:text-[48px] tw:font-medium tw:leading-none tw:text-white tw:max-md:text-[32px]" data-countdown-minutes>00</span>
+            </div>
+            <span class="event-countdown__label tw:text-center tw:text-[16px] tw:font-normal tw:leading-normal tw:max-md:text-[14px]">mins</span>
+          </div>
+
+          <span
+            class="
+              event-countdown__colon tw:flex tw:h-[72px] tw:w-[9px] tw:items-center tw:justify-center
+              tw:text-center tw:text-[32px] tw:font-medium tw:leading-none
+              tw:max-md:h-14 tw:max-md:w-[7px] tw:max-md:text-[24.889px]
+            "
+          >
+            :
+          </span>
+
+          <div class="tw:flex tw:flex-col tw:items-center tw:gap-0.5 tw:max-md:gap-[1.5px]">
+            <div
+              class="
+                event-countdown__number-box tw:flex tw:size-[72px] tw:items-center tw:justify-center tw:rounded
+                tw:max-md:size-14
+              "
+            >
+              <span class="tw:text-[48px] tw:font-medium tw:leading-none tw:text-white tw:max-md:text-[32px]" data-countdown-seconds>00</span>
+            </div>
+            <span class="event-countdown__label tw:text-center tw:text-[16px] tw:font-normal tw:leading-normal tw:max-md:text-[14px]">sconds</span>
+          </div>
+        </div>
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <div
+          class="
+            tw:grid tw:w-full tw:grid-cols-4 tw:gap-3
+            tw:max-md:grid-cols-2 tw:max-md:gap-2 tw:mb-2
+          "
+        >
+          {%- for block in section.blocks -%}
+            <div
+              class="
+                event-countdown__logo-card tw:flex tw:min-w-0 tw:flex-col tw:items-center tw:gap-2
+                tw:overflow-hidden tw:rounded-[12px] tw:px-4 tw:py-6 tw:text-center
+                tw:max-md:rounded-lg tw:max-md:p-4
+              "
+              {{ block.shopify_attributes }}
+            >
+              <div class="tw:relative tw:size-16 tw:overflow-hidden tw:max-md:size-12">
+                {%- if block.settings.image != blank -%}
+                  {{
+                    block.settings.image
+                    | image_url: width: 128
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '36,48,64,96,128',
+                      sizes: '(min-width: 1150px) 48px, 36px',
+                      class: 'tw:absolute tw:size-full tw:inset-0 tw:object-contain',
+                      alt: block.settings.image.alt
+                  }}
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.title != blank -%}
+                <div
+                  class="
+                    event-countdown__logo-title tw:text-center tw:text-[20px] tw:font-medium tw:leading-normal
+                    tw:max-md:text-[14px] tw:max-md:leading-[1.2]
+                  "
+                >
+                  {{ block.settings.title | escape | newline_to_br }}
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .event-countdown {
+    color: #0a0a0a;
+    background: #0a0227;
+    padding-block: var(--event-countdown-padding-top) var(--event-countdown-padding-bottom);
+  }
+
+  .event-countdown--light {
+    background: #ddefff;
+  }
+
+  .event-countdown--dark .event-countdown__title {
+    color: #ffffff;
+  }
+
+  .event-countdown--light .event-countdown__title,
+  .event-countdown__countdown-title {
+    color: #0a0a0a;
+  }
+
+  .event-countdown--dark .event-countdown__panel,
+  .event-countdown--dark .event-countdown__logo-card {
+    background: #ddefff;
+  }
+
+  .event-countdown--light .event-countdown__panel,
+  .event-countdown--light .event-countdown__logo-card {
+    background: #feffff;
+  }
+
+  .event-countdown__countdown-desc {
+    color: rgba(26, 26, 26, 0.8);
+  }
+
+  .event-countdown__number-box {
+    background: #2652ff;
+  }
+
+  .event-countdown__label {
+    color: #2652ff;
+  }
+
+  .event-countdown__colon {
+    color: rgba(38, 82, 255, 0.4);
+  }
+
+  .event-countdown__logo-title {
+    color: #1a1a1a;
+  }
+
+  @media screen and (max-width: 1149px) {
+    .event-countdown {
+      padding-block: var(--event-countdown-padding-top-mobile) var(--event-countdown-padding-bottom-mobile);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    const pad = (value) => String(Math.max(0, value)).padStart(2, '0');
+
+    const parseBeijingDate = (input) => {
+      const raw = String(input || '').trim();
+
+      if (!raw) {
+        return null;
+      }
+
+      if (/[zZ]|[+-]\d{2}:?\d{2}$/.test(raw)) {
+        const withZone = new Date(raw);
+        return Number.isNaN(withZone.getTime()) ? null : withZone;
+      }
+
+      const normalized = raw.replace('T', ' ').replace(/\./g, '-').replace(/\//g, '-');
+      const match = normalized.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:\s+(\d{1,2})(?::(\d{1,2})(?::(\d{1,2}))?)?)?$/);
+
+      if (!match) {
+        const fallback = new Date(raw);
+        return Number.isNaN(fallback.getTime()) ? null : fallback;
+      }
+
+      const year = Number(match[1]);
+      const month = Number(match[2]) - 1;
+      const day = Number(match[3]);
+      const hour = Number(match[4] || 0);
+      const minute = Number(match[5] || 0);
+      const second = Number(match[6] || 0);
+
+      return new Date(Date.UTC(year, month, day, hour - 8, minute, second));
+    };
+
+    document.querySelectorAll('[data-event-countdown]').forEach((root) => {
+      const expiration = parseBeijingDate(root.dataset.expirationDate);
+
+      if (!expiration) {
+        return;
+      }
+
+      const daysEl = root.querySelector('[data-countdown-days]');
+      const hoursEl = root.querySelector('[data-countdown-hours]');
+      const minutesEl = root.querySelector('[data-countdown-minutes]');
+      const secondsEl = root.querySelector('[data-countdown-seconds]');
+
+      const render = () => {
+        const remaining = Math.max(0, expiration.getTime() - Date.now());
+        const totalSeconds = Math.floor(remaining / 1000);
+        const days = Math.floor(totalSeconds / 86400);
+        const hours = Math.floor((totalSeconds % 86400) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+
+        daysEl.textContent = pad(days);
+        hoursEl.textContent = pad(hours);
+        minutesEl.textContent = pad(minutes);
+        secondsEl.textContent = pad(seconds);
+
+        if (remaining > 0) {
+          window.setTimeout(render, 1000 - (Date.now() % 1000));
+        }
+      };
+
+      render();
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Event countdown",
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_mode",
+      "label": "Color mode",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Dark"
+        },
+        {
+          "value": "light",
+          "label": "Light"
+        }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Official Chair of IEM 2026"
+    },
+    {
+      "type": "text",
+      "id": "countdown_title",
+      "label": "Countdown title",
+      "default": "Limited time free gift"
+    },
+    {
+      "type": "textarea",
+      "id": "countdown_desc",
+      "label": "Countdown description",
+      "default": "Headrest Pillow + Footrest($199 Value)"
+    },
+    {
+      "type": "text",
+      "id": "countdown_expiration_date",
+      "label": "Countdown expiration date",
+      "default": "2026-12-31 23:59:59",
+      "info": "请配置为当地活动结束时间（格式如：2026-12-31 23:59:59）"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo_item",
+      "name": "Logo item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+          "default": "Interest-Free\nPayments"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event countdown",
+      "blocks": [
+        {
+          "type": "logo_item",
+          "settings": {
+            "title": "Interest-Free\nPayments"
+          }
+        },
+        {
+          "type": "logo_item",
+          "settings": {
+            "title": "24-Hour\nCustomer Service"
+          }
+        },
+        {
+          "type": "logo_item",
+          "settings": {
+            "title": "7-Day\nFast Shipping"
+          }
+        },
+        {
+          "type": "logo_item",
+          "settings": {
+            "title": "30-Day\nPrice Protection"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

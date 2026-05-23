@@ -1,0 +1,823 @@
+<section
+  id="{{ section.id }}"
+  class="tw:relative tw:h-[400vh] tw:z-2 tw:bg-[#131313] tw:font-gabarito"
+>
+  <div
+    class="
+      tw:h-screen tw:w-full tw:sticky tw:top-0 tw:flex tw:items-center tw:justify-center tw:overflow-hidden
+      tw:max-md:items-end
+    "
+    style="
+      background: linear-gradient(180deg, rgba(61, 61, 61, 0.2) 73.52%, rgba(194, 0, 0, 0.2) 100%);
+      background-color: #000000;
+    "
+  >
+    <div
+      data-global-animation
+      class="
+        tw:md:w-[816px] tw:max-md:w-[510px] tw:aspect-square
+        tw:relative tw:md:-mr-[1100px] tw:max-md:-mb-[30vw] tw:max-md:scale-135
+      "
+    >
+      <div class="tw:absolute tw:inset-0 tw:size-full" data-global-animation-content>
+        {% render 'rotating-globe',
+          class: 'tw:absolute tw:top-1/2 tw:left-1/2 tw:-translate-x-1/2 tw:-translate-y-1/2 tw:size-full'
+        %}
+      </div>
+    </div>
+  </div>
+  <div class="tw:absolute tw:inset-0 tw:z-2">
+    <div class="tw:sticky tw:top-0 tw:h-screen tw:w-full tw:pointer-events-none" data-scene-stage>
+      <div class="tw:relative tw:h-full tw:w-full">
+        <div
+          class="tw:absolute tw:inset-0 tw:h-screen tw:w-full tw:px-[calc((100%-1200px)/2)]"
+          data-scene-1
+          data-scene-root
+          aria-hidden="true"
+          style="opacity:0;visibility:hidden;pointer-events:none;"
+        >
+          <div
+            class="tw:max-w-[720px] tw:flex tw:flex-col tw:md:justify-center tw:max-md:pt-[14.21vh] tw:gap-6 tw:h-full tw:max-md:px-4 tw:max-md:gap-8"
+            data-scene-panel
+          >
+            <div
+              class="
+                tw:text-[72px] tw:leading-[1.2] tw:uppercase tw:text-[#D6000D] tw:font-black tw:font-orbitron
+                tw:max-md:text-[32px]
+              "
+            >
+              {{ section.settings.section_title }}
+            </div>
+            <div class="tw:text-[20px] tw:leading-[1.4] tw:md:mt-6 tw:text-white/60 tw:max-md:text-[16px]">
+              {{ section.settings.section_desc }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="tw:absolute tw:inset-0 tw:h-screen tw:w-full tw:px-[calc((100%-1200px)/2)]"
+          data-scene-2
+          data-scene-root
+          aria-hidden="true"
+          style="opacity:0;visibility:hidden;pointer-events:none;"
+        >
+          <div
+            class="tw:max-w-[720px] tw:flex tw:flex-col tw:md:justify-center tw:max-md:pt-[14.21vh] tw:h-full tw:max-md:px-4"
+            data-scene-panel
+          >
+            <div
+              class="
+                tw:h-[128px] tw:max-md:h-[91px] tw:flex tw:flex-col tw:justify-center
+                tw:gap-2 svg-border svg-border-b tw:px-[32px]
+              "
+            >
+              <div class="tw:text-[32px] tw:max-md:text-[24px] tw:leading-[1.2] tw:uppercase tw:text-[#D6000D] tw:font-black tw:font-orbitron">
+                {{ section.settings.feature_title_1 }}
+              </div>
+              <div class="tw:text-[24px] tw:leading-[1.4] tw:text-white/80 tw:max-md:text-[16px]">
+                {{ section.settings.feature_desc_1 }}
+              </div>
+            </div>
+            <div
+              class="
+                tw:h-[128px] tw:max-md:h-[91px] tw:flex tw:flex-col tw:justify-center
+                tw:gap-2 svg-border svg-border-b tw:px-[32px]
+              "
+            >
+              <div class="tw:text-[32px] tw:max-md:text-[24px] tw:leading-[1.2] tw:uppercase tw:text-[#D6000D] tw:font-black tw:font-orbitron">
+                {{ section.settings.feature_title_2 }}
+              </div>
+              <div class="tw:text-[24px] tw:leading-[1.4] tw:text-white/80 tw:max-md:text-[16px]">
+                {{ section.settings.feature_desc_2 }}
+              </div>
+            </div>
+            <div
+              class="
+                tw:h-[128px] tw:max-md:h-[91px] tw:flex tw:flex-col tw:justify-center
+                tw:gap-2 svg-border svg-border-t tw:px-[32px]
+              "
+            >
+              <div class="tw:text-[32px] tw:max-md:text-[24px] tw:leading-[1.2] tw:uppercase tw:text-[#D6000D] tw:font-black tw:font-orbitron">
+                {{ section.settings.feature_title_3 }}
+              </div>
+              <div class="tw:text-[24px] tw:leading-[1.4] tw:text-white/80 tw:max-md:text-[16px]">
+                {{ section.settings.feature_desc_3 }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          data-scene-3
+          data-scene-root
+          aria-hidden="true"
+          class="
+            tw:absolute tw:inset-0 tw:h-screen tw:w-full tw:px-[calc((100%-1200px)/2)] tw:flex tw:items-center tw:justify-center
+            tw:max-md:px-5
+          "
+          style="opacity:0;visibility:hidden;pointer-events:none;"
+        >
+          <div class="tw:w-full tw:relative tw:pointer-events-auto" data-block-stage data-scene-panel>
+            <div class="tw:bg-white tw:md:h-[600px] tw:max-md:h-auto tw:w-full tw:flex tw:items-center tw:justify-center tw:max-md:flex-col tw:relative">
+              <div
+                class="tw:md:w-[560px] tw:md:h-full tw:max-md:h-auto tw:max-md:aspect-345/264 tw:max-md:w-full tw:bg-gray-400 tw:relative tw:overflow-hidden"
+                data-intro-image-track
+              >
+                {% for block in section.blocks %}
+                  <div
+                    class="tw:absolute tw:inset-0 tw:size-full"
+                    data-intro-image-item
+                    {% if forloop.first %}
+                      style="opacity:1;pointer-events:auto;"
+                    {% else %}
+                      style="opacity:0;pointer-events:none;"
+                    {% endif %}
+                  >
+                    {% if block.settings.intro_image != blank %}
+                      <img
+                        src="{{ block.settings.intro_image | image_url }}"
+                        alt="{{ block.settings.intro_image.alt }}"
+                        class="tw:size-full tw:object-cover tw:absolute tw:inset-0 tw:max-md:hidden"
+                        width="{{ block.settings.intro_image.width }}"
+                        height="{{ block.settings.intro_image.height }}"
+                      >
+                    {% else %}
+                      <div class="tw:absolute tw:size-full tw:inset-0 tw:object-cover tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+                        image
+                      </div>
+                    {% endif %}
+
+                    {% if block.settings.intro_image_mobile != blank %}
+                      <img
+                        src="{{ block.settings.intro_image_mobile | image_url }}"
+                        alt="{{ block.settings.intro_image_mobile.alt }}"
+                        class="tw:size-full tw:object-cover tw:absolute tw:inset-0 tw:md:hidden"
+                        width="{{ block.settings.intro_image_mobile.width }}"
+                        height="{{ block.settings.intro_image_mobile.height }}"
+                      >
+                    {% else %}
+                      <div class="tw:absolute tw:size-full tw:inset-0 tw:object-cover tw:bg-gray-400 tw:flex tw:items-center tw:justify-center">
+                        image
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="tw:flex-1 tw:min-w-0 tw:md:h-full tw:pt-[96px] tw:px-[48px] tw:max-md:py-[24px] tw:max-md:px-[18px] tw:relative">
+                <div class="tw:grid tw:w-full tw:min-w-0" data-intro-copy-track>
+                  {% for block in section.blocks %}
+                    <div
+                      class="tw:col-start-1 tw:row-start-1 tw:w-full tw:min-w-0"
+                      data-intro-copy-item
+                      {% if forloop.first %}
+                        style="opacity:1;pointer-events:auto;z-index:2;"
+                      {% else %}
+                        style="opacity:0;pointer-events:none;z-index:1;"
+                      {% endif %}
+                    >
+                      <div class="tw:text-[32px] tw:leading-none tw:text-[#0A0A0A] tw:font-semibold tw:max-md:text-[24px]">
+                        {{ block.settings.intro_title }}
+                      </div>
+                      <div class="tw:text-[24px] tw:leading-none tw:max-md:leading-[calc(19px/16px)] tw:max-md:text-[16px] tw:mt-2 tw:max-md:mt-1 tw:text-[#1A1A1A]/80">
+                        {{ block.settings.subheading }}
+                      </div>
+                      <div class="tw:text-[20px] tw:leading-[1.4] tw:max-md:text-[14px] tw:mt-6 tw:max-md:mt-[17px] tw:text-[#1A1A1A]/60">
+                        {{ block.settings.intro_desc }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+
+                <div
+                  class="tw:absolute tw:bottom-0 tw:left-0 tw:flex tw:gap-4 tw:max-md:gap-2 tw:p-12 tw:max-md:static tw:max-md:mt-[51px] tw:max-md:p-0"
+                  data-intro-controls
+                  {% if section.blocks.size <= 1 %}
+                    style="display:none;"
+                  {% endif %}
+                >
+                  <button
+                    class="
+                      tw:flex tw:items-center tw:justify-center tw:active:opacity-60 tw:border tw:rounded-[12px] tw:border-[#0A0A0A]
+                      tw:hover:bg-[#1A1A1A1A] tw:hover:border-transparent tw:transition-all tw:duration-200
+                    "
+                    data-prev
+                  >
+                    <svg
+                      viewBox="0 0 48 48"
+                      class="tw:w-[48px] tw:max-md:w-[40px]"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                    </svg>
+                  </button>
+                  <button
+                    class="
+                      tw:flex tw:items-center tw:justify-center tw:active:opacity-60 tw:border tw:rounded-[12px] tw:border-[#0A0A0A]
+                      tw:hover:bg-[#1A1A1A1A] tw:hover:border-transparent tw:transition-all tw:duration-200
+                    "
+                    data-next
+                  >
+                    <svg
+                      class="tw:rotate-180 tw:w-[48px] tw:max-md:w-[40px]"
+
+                      viewBox="0 0 48 48"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'motion.js' | asset_url }}" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('{{ section.id }}');
+    if (!section) {
+      return;
+    }
+
+    const motion = window.Motion || {};
+    const motionAnimate = motion.animate;
+    const motionScroll = motion.scroll;
+    const globalAnimationElement =
+      section.querySelector('[data-global-animation-content]') || section.querySelector('[data-global-animation]');
+    const scene1 = section.querySelector('[data-scene-1]');
+    const scene2 = section.querySelector('[data-scene-2]');
+    const scene3 = section.querySelector('[data-scene-3]');
+    const scenes = [scene1, scene2, scene3]
+      .map(function (sceneElement, index) {
+        if (!sceneElement) {
+          return null;
+        }
+
+        return {
+          index: index,
+          root: sceneElement,
+          panel: sceneElement.querySelector('[data-scene-panel]'),
+        };
+      })
+      .filter(Boolean);
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    let activeSceneIndex = -1;
+    const scene2StartProgress = 0.222;
+    const scene3StartProgress = 0.611;
+    let globalAnimationControl = null;
+    const sceneAnimationControls = [];
+
+    function shouldAnimateGlobal() {
+      return window.innerWidth >= 768;
+    }
+
+    function clampValue(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function getSectionProgress() {
+      const scrollDistance = section.offsetHeight - window.innerHeight;
+
+      if (scrollDistance <= 0) {
+        return 0;
+      }
+
+      const rect = section.getBoundingClientRect();
+      return clampValue(-rect.top / scrollDistance, 0, 1);
+    }
+
+    function stopSceneAnimations() {
+      while (sceneAnimationControls.length) {
+        const control = sceneAnimationControls.pop();
+
+        if (control && typeof control.stop === 'function') {
+          control.stop();
+        }
+      }
+    }
+
+    function clearGlobalTransform() {
+      if (!globalAnimationElement) {
+        return;
+      }
+
+      if (globalAnimationControl && typeof globalAnimationControl.stop === 'function') {
+        globalAnimationControl.stop();
+      }
+
+      globalAnimationControl = null;
+      globalAnimationElement.style.transform = '';
+      globalAnimationElement.style.opacity = '';
+      globalAnimationElement.style.willChange = '';
+    }
+
+    function setGlobalAnimationState(isVisible) {
+      if (!globalAnimationElement) {
+        return;
+      }
+
+      globalAnimationElement.style.transform = isVisible ? 'scale(1)' : 'scale(0.82)';
+      globalAnimationElement.style.opacity = isVisible ? '1' : '0';
+      globalAnimationElement.style.willChange = 'transform, opacity';
+    }
+
+    function setSceneState(scene, isActive) {
+      if (!scene || !scene.root || !scene.panel) {
+        return;
+      }
+
+      scene.root.style.opacity = isActive ? '1' : '0';
+      scene.root.style.visibility = isActive ? 'visible' : 'hidden';
+      scene.root.style.pointerEvents = isActive && scene.index === 2 ? 'auto' : 'none';
+      scene.root.style.willChange = 'opacity';
+      scene.root.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+
+      scene.panel.style.opacity = isActive ? '1' : '0';
+      scene.panel.style.transform = isActive ? 'translateY(0px)' : 'translateY(28px)';
+      scene.panel.style.filter = isActive ? 'blur(0px)' : 'blur(10px)';
+      scene.panel.style.willChange = 'transform, opacity, filter';
+    }
+
+    function hideAllScenes() {
+      stopSceneAnimations();
+
+      scenes.forEach(function (scene) {
+        setSceneState(scene, false);
+      });
+
+      activeSceneIndex = -1;
+      clearGlobalTransform();
+    }
+
+    function animateGlobalToScene3() {
+      if (!globalAnimationElement) {
+        return;
+      }
+
+      if (!shouldAnimateGlobal()) {
+        clearGlobalTransform();
+        return;
+      }
+
+      if (globalAnimationControl && typeof globalAnimationControl.stop === 'function') {
+        globalAnimationControl.stop();
+      }
+
+      if (!motionAnimate) {
+        setGlobalAnimationState(false);
+        return;
+      }
+
+      globalAnimationElement.style.willChange = 'transform, opacity';
+      globalAnimationControl = motionAnimate(
+        globalAnimationElement,
+        {
+          opacity: [1, 0],
+          scale: [1, 0.82],
+        },
+        {
+          duration: 0.34,
+          easing: [0.22, 1, 0.36, 1],
+          fill: 'forwards',
+        }
+      );
+    }
+
+    function animateGlobalToDefault() {
+      if (!globalAnimationElement) {
+        return;
+      }
+
+      if (!shouldAnimateGlobal()) {
+        clearGlobalTransform();
+        return;
+      }
+
+      if (globalAnimationControl && typeof globalAnimationControl.stop === 'function') {
+        globalAnimationControl.stop();
+      }
+
+      if (!motionAnimate) {
+        clearGlobalTransform();
+        return;
+      }
+
+      globalAnimationElement.style.willChange = 'transform, opacity';
+      globalAnimationControl = motionAnimate(
+        globalAnimationElement,
+        {
+          opacity: [0, 1],
+          scale: [0.82, 1],
+        },
+        {
+          duration: 0.34,
+          easing: [0.22, 1, 0.36, 1],
+          fill: 'forwards',
+        }
+      );
+    }
+
+    function syncGlobalAnimationWithScene(nextSceneIndex, previousSceneIndex) {
+      const isEnteringScene3 = nextSceneIndex === 2 && previousSceneIndex !== 2;
+      const isLeavingScene3 = nextSceneIndex !== 2 && previousSceneIndex === 2;
+
+      if (isEnteringScene3) {
+        animateGlobalToScene3();
+        return;
+      }
+
+      if (isLeavingScene3) {
+        animateGlobalToDefault();
+      }
+    }
+
+    function animateSceneIn(scene, direction) {
+      if (!scene || !scene.root || !scene.panel) {
+        return;
+      }
+
+      scene.root.style.visibility = 'visible';
+      scene.root.style.opacity = '0';
+      scene.root.style.pointerEvents = scene.index === 2 ? 'auto' : 'none';
+      scene.root.style.willChange = 'opacity';
+      scene.root.setAttribute('aria-hidden', 'false');
+
+      scene.panel.style.opacity = '0';
+      scene.panel.style.transform = 'translateY(40px)';
+      scene.panel.style.filter = 'blur(14px)';
+      scene.panel.style.willChange = 'transform, opacity, filter';
+
+      if (!motionAnimate) {
+        setSceneState(scene, true);
+        return;
+      }
+
+      sceneAnimationControls.push(
+        motionAnimate(scene.root, { opacity: [0, 1] }, { duration: 0.18, easing: 'linear', fill: 'forwards' }),
+        motionAnimate(
+          scene.panel,
+          { opacity: [0, 1], y: [`${direction * 100}%`, 0], filter: ['blur(14px)', 'blur(0px)'] },
+          { duration: 0.42, easing: [0.22, 1, 0.36, 1], fill: 'forwards' }
+        )
+      );
+    }
+
+    function animateSceneOut(scene, direction) {
+      if (!scene || !scene.root || !scene.panel) {
+        return;
+      }
+
+      scene.root.style.visibility = 'visible';
+      scene.root.style.pointerEvents = 'none';
+      scene.root.style.willChange = 'opacity';
+      scene.root.setAttribute('aria-hidden', 'true');
+
+      scene.panel.style.willChange = 'transform, opacity, filter';
+
+      if (!motionAnimate) {
+        setSceneState(scene, false);
+        return;
+      }
+
+      sceneAnimationControls.push(
+        motionAnimate(scene.root, { opacity: [1, 0] }, { duration: 0.2, easing: 'linear', fill: 'forwards' }),
+        motionAnimate(
+          scene.panel,
+          { opacity: [1, 0], y: [0, `${direction * 100}%`], filter: ['blur(0px)', 'blur(10px)'] },
+          { duration: 0.28, easing: [0.4, 0, 1, 1], fill: 'forwards' }
+        )
+      );
+    }
+
+    function getSceneIndexFromProgress(progress) {
+      if (progress < scene2StartProgress) {
+        return 0;
+      }
+
+      if (progress < scene3StartProgress) {
+        return 1;
+      }
+
+      return 2;
+    }
+
+    function activateScene(nextSceneIndex, immediate) {
+      if (nextSceneIndex === activeSceneIndex || nextSceneIndex < 0 || nextSceneIndex >= scenes.length) {
+        return;
+      }
+
+      const previousSceneIndex = activeSceneIndex;
+      const previousScene = activeSceneIndex >= 0 ? scenes[activeSceneIndex] : null;
+      const nextScene = scenes[nextSceneIndex];
+      const direction = nextSceneIndex > activeSceneIndex ? -1 : 1;
+
+      stopSceneAnimations();
+
+      if (previousScene) {
+        animateSceneOut(previousScene, direction);
+      } else {
+        scenes.forEach(function (scene) {
+          setSceneState(scene, false);
+        });
+      }
+
+      if (immediate || !motionAnimate) {
+        scenes.forEach(function (scene, index) {
+          setSceneState(scene, index === nextSceneIndex);
+        });
+      } else {
+        animateSceneIn(nextScene, -direction);
+      }
+
+      activeSceneIndex = nextSceneIndex;
+      syncGlobalAnimationWithScene(nextSceneIndex, previousSceneIndex);
+    }
+
+    function syncScenesFromScroll() {
+      const rect = section.getBoundingClientRect();
+      const scene1TriggerLine = window.innerHeight * 0.5;
+
+      if (rect.top >= window.innerHeight) {
+        hideAllScenes();
+        return;
+      }
+
+      if (rect.top >= scene1TriggerLine) {
+        hideAllScenes();
+        return;
+      }
+
+      const progress = getSectionProgress();
+      activateScene(getSceneIndexFromProgress(progress), false);
+    }
+
+    syncScenesFromScroll();
+
+    if (motionScroll) {
+      motionScroll(
+        function () {
+          syncScenesFromScroll();
+        },
+        {
+          target: section,
+          offset: ['start start', 'end end'],
+        }
+      );
+    } else {
+      window.addEventListener(
+        'scroll',
+        function () {
+          syncScenesFromScroll();
+        },
+        { passive: true }
+      );
+    }
+
+    window.addEventListener('resize', function () {
+      if (!shouldAnimateGlobal()) {
+        clearGlobalTransform();
+      } else if (activeSceneIndex === 2) {
+        setGlobalAnimationState(false);
+      } else {
+        clearGlobalTransform();
+      }
+
+      syncScenesFromScroll();
+    });
+
+    const imageItems = Array.from(section.querySelectorAll('[data-intro-image-item]'));
+    const copyItems = Array.from(section.querySelectorAll('[data-intro-copy-item]'));
+    const introControls = section.querySelector('[data-intro-controls]');
+    const itemCount = Math.min(imageItems.length, copyItems.length);
+
+    if (!itemCount) {
+      return;
+    }
+
+    if (introControls && itemCount <= 1) {
+      introControls.style.display = 'none';
+    }
+
+    function setImageState(item, isActive) {
+      item.style.opacity = isActive ? '1' : '0';
+      item.style.pointerEvents = isActive ? 'auto' : 'none';
+      item.style.transform = 'none';
+      item.style.zIndex = isActive ? '2' : '1';
+      item.style.willChange = 'transform, opacity';
+    }
+
+    function setCopyState(item, isActive) {
+      item.style.opacity = isActive ? '1' : '0';
+      item.style.pointerEvents = isActive ? 'auto' : 'none';
+      item.style.transform = 'none';
+      item.style.zIndex = isActive ? '2' : '1';
+      item.style.willChange = 'opacity';
+    }
+
+    function showItem(index) {
+      imageItems.forEach(function (item, itemIndex) {
+        setImageState(item, itemIndex === index);
+      });
+
+      copyItems.forEach(function (item, itemIndex) {
+        setCopyState(item, itemIndex === index);
+      });
+    }
+
+    showItem(currentIndex);
+
+    if (itemCount <= 1) {
+      return;
+    }
+
+    function goTo(nextIndex) {
+      if (isAnimating || nextIndex === currentIndex) {
+        return;
+      }
+
+      const currentImage = imageItems[currentIndex];
+      const nextImage = imageItems[nextIndex];
+      const currentCopy = copyItems[currentIndex];
+      const nextCopy = copyItems[nextIndex];
+
+      if (!currentImage || !nextImage || !currentCopy || !nextCopy) {
+        currentIndex = nextIndex;
+        showItem(currentIndex);
+        return;
+      }
+
+      isAnimating = true;
+
+      if (!motionAnimate) {
+        currentIndex = nextIndex;
+        showItem(currentIndex);
+        isAnimating = false;
+        return;
+      }
+
+      currentImage.style.zIndex = '2';
+      nextImage.style.zIndex = '3';
+      nextImage.style.opacity = '0';
+      nextImage.style.pointerEvents = 'none';
+      nextImage.style.transform = 'none';
+
+      currentCopy.style.zIndex = '2';
+      currentCopy.style.opacity = '1';
+      currentCopy.style.pointerEvents = 'none';
+      currentCopy.style.transform = 'none';
+
+      nextCopy.style.zIndex = '3';
+      nextCopy.style.opacity = '0';
+      nextCopy.style.pointerEvents = 'none';
+      nextCopy.style.transform = 'none';
+
+      Promise.all([
+        motionAnimate(
+          currentImage,
+          { opacity: [1, 0] },
+          { duration: 0.32, easing: [0.22, 1, 0.36, 1], fill: 'forwards' }
+        ).finished,
+        motionAnimate(nextImage, { opacity: [0, 1] }, { duration: 0.38, easing: [0.22, 1, 0.36, 1], fill: 'forwards' })
+          .finished,
+        motionAnimate(
+          currentCopy,
+          { opacity: [1, 0] },
+          { duration: 0.24, easing: [0.22, 1, 0.36, 1], fill: 'forwards' }
+        ).finished,
+        motionAnimate(nextCopy, { opacity: [0, 1] }, { duration: 0.34, easing: [0.22, 1, 0.36, 1], fill: 'forwards' })
+          .finished,
+      ])
+        .catch(function () {
+          // Ignore animation interruption and force final state.
+        })
+        .finally(function () {
+          currentIndex = nextIndex;
+          showItem(currentIndex);
+          isAnimating = false;
+        });
+    }
+
+    section.addEventListener('click', function (event) {
+      const prevButton = event.target.closest('[data-prev]');
+      const nextButton = event.target.closest('[data-next]');
+
+      if (!prevButton && !nextButton) {
+        return;
+      }
+
+      event.preventDefault();
+
+      const direction = prevButton ? -1 : 1;
+      const nextIndex = (currentIndex + direction + itemCount) % itemCount;
+
+      goTo(nextIndex);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "About Us Global",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "More Than Just a Chair"
+    },
+    {
+      "type": "text",
+      "id": "section_desc",
+      "label": "Section Desc",
+      "default": "At AutoFull, our chairs are designed to elevate your entire gaming experience. We focus on every detail to blend comfort, style, and performance, keeping youimmersed and in control. With our 3-year Extended Warranty and dedicated customer supportwe're here to make sure you're always ready to win."
+    },
+    {
+      "type": "text",
+      "id": "feature_title_1",
+      "label": "Feature Title 1",
+      "default": "2 Million+"
+    },
+    {
+      "type": "text",
+      "id": "feature_desc_1",
+      "label": "Feature Desc 1",
+      "default": "Sold Worldwide"
+    },
+    {
+      "type": "text",
+      "id": "feature_title_2",
+      "label": "Feature Title 2",
+      "default": "30+"
+    },
+    {
+      "type": "text",
+      "id": "feature_desc_2",
+      "label": "Feature Desc 2",
+      "default": "Supporting Gamers in"
+    },
+    {
+      "type": "text",
+      "id": "feature_title_3",
+      "label": "Feature Title 3",
+      "default": "10 years"
+    },
+    {
+      "type": "text",
+      "id": "feature_desc_3",
+      "label": "Feature Desc 3",
+      "default": "of Innovation and Iteration"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "intro_item",
+      "name": "Intro Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "intro_image",
+          "label": "Intro Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "intro_image_mobile",
+          "label": "Intro Image Mobile"
+        },
+        {
+          "type": "text",
+          "id": "intro_title",
+          "label": "Intro Title",
+          "default": "Dr. Dennis Miller"
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Intro Subheading",
+          "default": "International Chiropractic Association (ICA) Doctor of Chiropractic Care"
+        },
+        {
+          "type": "text",
+          "id": "intro_desc",
+          "label": "Intro Desc",
+          "default": "Chiropractor of the International Chiropractic Association (ICA) Doctor of Medicine of Palmer College of Chiropractic"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us Global"
+    }
+  ]
+}
+{% endschema %}

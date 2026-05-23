@@ -1,0 +1,238 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:text-white">
+  <div
+    class="
+      tw:mx-auto tw:w-full tw:max-w-[1200px] tw:relative
+      tw:md:aspect-1200/640 tw:md:overflow-hidden
+      tw:max-md:flex tw:max-md:flex-col tw:max-md:gap-3
+    "
+  >
+    <div
+      class="
+        tw:relative tw:overflow-hidden tw:bg-[#020202]
+        tw:md:absolute tw:md:inset-0
+        tw:max-md:order-2 tw:max-md:w-full tw:max-md:aspect-392/256 tw:max-md:rounded-[8px]
+      "
+    >
+      {% assign mobile_image = section.settings.mobile_image | default: section.settings.image %}
+
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: section.settings.image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '1200px',
+            widths: '768,960,1200,1440,1800,2400',
+            class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:max-md:hidden'
+        }}
+      {% endif %}
+
+      {% if mobile_image != blank %}
+        {{
+          mobile_image
+          | image_url: width: mobile_image.width
+          | image_tag:
+            loading: 'lazy',
+            sizes: '100vw',
+            widths: '392,600,768,960',
+            class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:md:hidden'
+        }}
+      {% endif %}
+
+      {% if section.settings.image == blank and mobile_image == blank %}
+        <div class="tw:absolute tw:inset-0 tw:size-full tw:bg-[#020202]"></div>
+      {% endif %}
+    </div>
+
+    <div
+      class="
+        tw:relative tw:z-2 tw:flex tw:flex-col tw:items-start tw:justify-center
+        tw:md:w-1/2 tw:md:h-full tw:md:px-12
+        tw:max-md:order-1 tw:max-md:w-full tw:max-md:px-4
+      "
+    >
+      {% if section.settings.title != blank %}
+        <h2
+          class="
+            tw:m-0 tw:w-full tw:font-orbitron tw:text-[48px] tw:font-black
+            tw:leading-[normal] tw:tracking-normal tw:uppercase
+            tw:max-md:text-[32px]
+          "
+        >
+          {{ section.settings.title | escape | newline_to_br }}
+        </h2>
+      {% endif %}
+
+      <div class="tw:mt-3 tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-3">
+        {% if section.settings.subtitle != blank %}
+          <div
+            class="
+              tw:w-full tw:text-[24px] tw:font-bold tw:leading-[normal]
+              tw:text-[#ffff09] tw:uppercase
+              tw:max-md:text-[20px]
+            "
+          >
+            {{ section.settings.subtitle | escape | newline_to_br }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.desc != blank %}
+          <div
+            class="
+              tw:w-full tw:text-[24px] tw:font-medium tw:leading-[normal]
+              tw:capitalize
+              tw:max-md:text-[16px] tw:max-md:font-normal
+            "
+          >
+            {{ section.settings.desc | escape | newline_to_br }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if section.settings.button_text != blank %}
+        <a
+          href="{% if section.settings.button_url != blank %}{{ section.settings.button_url }}{% else %}#{% endif %}"
+          class="
+            tw:mt-12 tw:inline-flex tw:h-14 tw:items-center tw:justify-center tw:gap-2
+            tw:rounded-[12px] tw:bg-[#ffff09] tw:px-6 tw:py-3
+            tw:font-orbitron tw:text-[20px] tw:font-bold tw:leading-[1.2]
+            tw:text-black tw:uppercase tw:transition-opacity tw:hover:opacity-85
+            tw:max-md:hidden
+          "
+        >
+          <span>{{ section.settings.button_text | escape }}</span>
+          <svg
+            class="tw:size-6 tw:shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.button_text != blank %}
+      <div class="tw:order-3 tw:w-full tw:px-4 tw:md:hidden">
+        <a
+          href="{% if section.settings.button_url != blank %}{{ section.settings.button_url }}{% else %}#{% endif %}"
+          class="
+            tw:flex tw:h-10 tw:w-full tw:items-center tw:justify-center tw:gap-2
+            tw:rounded-[8px] tw:bg-[#ffff09] tw:px-5 tw:py-3
+            tw:font-orbitron tw:text-[16px] tw:font-bold tw:leading-[1.2]
+            tw:text-black tw:uppercase tw:transition-opacity tw:hover:opacity-85
+          "
+        >
+          <span>{{ section.settings.button_text | escape }}</span>
+          <svg
+            class="tw:size-6 tw:shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M13 6L19 12L13 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "IEM Shop Now",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "16 Pro Teams.\nOne Chair."
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Now in Your Setup,\nUp to 40% OFF"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Official Chair Of IEM Atlanta 2026"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 68
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Shop Now"
+    }
+  ]
+}
+{% endschema %}

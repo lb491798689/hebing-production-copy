@@ -1,0 +1,438 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign pc_image = se_stts.pc_image
+  assign mob_image = se_stts.mob_image
+  assign pc_video = se_stts.pc_video
+  assign mob_video = se_stts.mob_video
+
+  if pc_video == blank and mob_video != blank
+    assign pc_video = mob_video
+  endif
+  if mob_video == blank and pc_video != blank
+    assign mob_video = pc_video
+  endif
+
+  assign mob_poster = mob_image | default: pc_image
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign use_video = false
+  if pc_video != blank or mob_video != blank
+    assign use_video = true
+  endif
+-%}
+{% capture default_sid %}.jingva-contact-hero-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-contact-hero-{{ sid }}" data-section-id="{{ sid }}">
+  {% style %}
+    .announcement-bar {
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+    }
+
+    .shopify-section--announcement-bar {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .shopify-section--jingva-contact-hero {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      max-width: none !important;
+      background-color: transparent !important;
+      padding: 0 !important;
+      margin: 0 auto !important;
+      margin-top: calc(var(--header-height, 0px) * -1) !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-content {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      width: 100% !important;
+      max-width: 998px !important;
+      padding: 0 48px !important;
+      box-sizing: border-box !important;
+      z-index: 2 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-title {
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: 1.25 !important;
+      color: #FFFFFF !important;
+      text-align: center !important;
+      margin: 0 0 12px 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-title.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: #FFFFFF !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-image {
+      width: 100% !important;
+      height: 520px !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-image.mob-image {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-video-group {
+      position: relative !important;
+      width: 100% !important;
+      height: 520px !important;
+      overflow: hidden !important;
+      background-color: #0a0f18 !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-video-group video {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-poster {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      z-index: 1 !important;
+      pointer-events: none !important;
+      transition: opacity 0.45s ease !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-poster.is-hidden {
+      opacity: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-video-group.pc-image {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-contact-hero-video-group.mob-image {
+      display: none !important;
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} .jingva-contact-hero-content {
+        padding: 0 16px !important;
+        max-width: 390px !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-image {
+        height: 468px !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-video-group {
+        height: 468px !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-title {
+        font-family: 'Orbitron', sans-serif !important;
+        font-size: 32px !important;
+        font-weight: 900 !important;
+        line-height: normal !important;
+        max-width: 358px !important;
+        margin: 0 auto 12px auto !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-description {
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        line-height: normal !important;
+        max-width: 358px !important;
+        margin: 0 auto !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-image.pc-image {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-image.mob-image {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-video-group.pc-image {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-contact-hero-video-group.mob-image {
+        display: block !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-contact-hero-wrapper">
+    {% if use_video %}
+      <div class="jingva-contact-hero-video-group pc-image">
+        {{
+          pc_video
+          | video_tag:
+            class: 'jingva-contact-hero-vid',
+            image_size: '1920x',
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true
+        }}
+        {% if pc_image != blank %}
+          <img
+            class="jingva-contact-hero-poster"
+            src="{{ pc_image | image_url: width: 1920 }}"
+            alt=""
+            width="1920"
+            height="520"
+            loading="eager"
+            decoding="async"
+          >
+        {% endif %}
+      </div>
+
+      <div class="jingva-contact-hero-video-group mob-image">
+        {{
+          mob_video
+          | video_tag:
+            class: 'jingva-contact-hero-vid',
+            image_size: '780x',
+            autoplay: true,
+            loop: true,
+            controls: false,
+            muted: true,
+            playsinline: true
+        }}
+        {% if mob_poster != blank %}
+          <img
+            class="jingva-contact-hero-poster"
+            src="{{ mob_poster | image_url: width: 780 }}"
+            alt=""
+            width="390"
+            height="468"
+            loading="eager"
+            decoding="async"
+          >
+        {% endif %}
+      </div>
+    {% else %}
+      {% if pc_image %}
+        <img class="jingva-contact-hero-image pc-image" src="{{ pc_image | image_url: width: 1920 }}" alt="Contact Us Hero" width="1920" height="520">
+      {% endif %}
+      {% if mob_image %}
+        <img class="jingva-contact-hero-image mob-image" src="{{ mob_image | image_url: width: 780 }}" alt="Contact Us Hero" width="390" height="468">
+      {% endif %}
+    {% endif %}
+
+    <div class="jingva-contact-hero-content">
+      {% if title %}
+        <h1 class="jingva-contact-hero-title">{{ title }}</h1>
+      {% endif %}
+      {% if description %}
+        <p class="jingva-contact-hero-description">{{ description }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if use_video %}
+    <script>
+      (function () {
+        var root = document.querySelector('.jingva-contact-hero-{{ sid }}');
+        if (!root) return;
+        root.querySelectorAll('.jingva-contact-hero-video-group').forEach(function (group) {
+          var video = group.querySelector('video');
+          var poster = group.querySelector('.jingva-contact-hero-poster');
+          if (!video) return;
+          function reveal() {
+            if (poster) poster.classList.add('is-hidden');
+          }
+          if (video.readyState >= 2) {
+            reveal();
+          } else {
+            video.addEventListener('loadeddata', reveal, { once: true });
+            video.addEventListener('canplay', reveal, { once: true });
+            video.addEventListener('playing', reveal, { once: true });
+            video.addEventListener('error', function () {
+              if (poster) poster.classList.remove('is-hidden');
+            });
+          }
+        });
+      })();
+    </script>
+  {% endif %}
+
+  <script>
+    (function() {
+      var hero = document.querySelector('.jingva-contact-hero-{{ sid }}');
+      if (!hero) return;
+
+      function setHeights() {
+        var announcementBar = document.querySelector('.shopify-section--announcement-bar');
+        var headerSection = document.querySelector('.shopify-section--header');
+
+        var announcementHeight = 0;
+        var headerHeight = 0;
+
+        if (announcementBar) {
+          var rect = announcementBar.getBoundingClientRect();
+          if (rect.height > 0) {
+            announcementHeight = Math.ceil(rect.height);
+          }
+        }
+
+        if (headerSection) {
+          var headerRect = headerSection.getBoundingClientRect();
+          if (headerRect.height > 0) {
+            headerHeight = Math.round(headerRect.height);
+          }
+        }
+
+        // 向上偏移 header 的高度，让组件直接和 announcement bar 接触
+        hero.style.marginTop = (-headerHeight) + 'px';
+
+        hero.style.setProperty('--announcement-bar-height', announcementHeight + 'px');
+        hero.style.setProperty('--header-height', headerHeight + 'px');
+      }
+
+      // 延迟执行以确保 DOM 完全渲染
+      setTimeout(setHeights, 100);
+      setHeights();
+      window.addEventListener('resize', setHeights);
+      window.addEventListener('load', setHeights);
+    })();
+  </script>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-contact-hero-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-contact-hero-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Contact Hero",
+  "tag": "section",
+  "class": "shopify-section--jingva-contact-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Get the Help You Need"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "If you have any questions about our products, payments, delivery, or returns, please feel free to contact us."
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video",
+      "id": "pc_video",
+      "label": "PC 视频"
+    },
+    {
+      "type": "video",
+      "id": "mob_video",
+      "label": "手机端视频",
+      "info": "可选；未上传时使用 PC 视频"
+    },
+    {
+      "type": "header",
+      "content": "Images（无视频时使用；有视频时作加载前占位图）"
+    },
+    {
+      "type": "image_picker",
+      "id": "pc_image",
+      "label": "PC 图片"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "手机端图片"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Contact Hero",
+      "category": "Jingva"
+    }
+  ]
+}
+{% endschema %}

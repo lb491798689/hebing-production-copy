@@ -1,0 +1,899 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign margin_top = se_stts.margin_top | split: ";"
+  assign margin_bottom = se_stts.margin_bottom | split: ";"
+  assign padding_top = se_stts.padding_top | split: ";"
+  assign padding_bottom = se_stts.padding_bottom | split: ";"
+  assign color = se_stts.color
+  assign color_mb = se_stts.color_mb
+  assign show_arrows = se_stts.show_arrows
+  assign show_dots = se_stts.show_dots
+  assign slide_height = se_stts.slide_height
+  assign slide_height_mb = se_stts.slide_height_mb
+%}
+
+{% capture default_sid %}.jingva-asymmetric-slide-{{ sid }}{% endcapture %}
+
+
+
+<section class="jingva-asymmetric-slide jingva-asymmetric-slide-{{sid}} {{section.settings.section_css}}">
+  {% style %}
+  {{ default_sid }} {
+    --margin-top: {{ margin_top[0] }};
+    --margin-bottom: {{ margin_bottom[0] }};
+    --padding-top: {{ padding_top[0] }};
+    --padding-bottom: {{ padding_bottom[0] }};
+    --background-color: {{ color }};
+    --slide-height: auto;
+  }
+  
+  @media screen and (max-width: 992px) {
+    {{ default_sid }} {
+      --margin-top: {{ margin_top[1] }};
+      --margin-bottom: {{ margin_bottom[1] }};
+      --padding-top: {{ padding_top[1] }};
+      --padding-bottom: {{ padding_bottom[1] }};
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    {{ default_sid }} {
+      --margin-top: {{ margin_top[2] }};
+      --margin-bottom: {{ margin_bottom[2] }};
+      --padding-top: {{ padding_top[2] }};
+      --padding-bottom: {{ padding_bottom[2] }};
+      --background-color: {{ color_mb }};
+      --slide-height: auto;
+    }
+  }
+  
+  {{ default_sid }} {
+    margin-top: var(--margin-top);
+    margin-bottom: var(--margin-bottom);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    background-color: var(--background-color);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 异形slide容器样式 */
+  {{ default_sid }} .asymmetric-swiper-container {
+    position: relative;
+    height: var(--slide-height);
+    overflow: visible !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 80px;
+    max-width: 1068px;
+  }
+
+  {{ default_sid }} .section-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+  }
+  
+  {{ default_sid }} .section-header-inner {
+    flex: 1;
+  }
+  
+  {{ default_sid }} .section-title {
+    font-size: 46px;
+    margin-bottom: 33px;
+    color: #FFFFFF;
+    line-height: 1.1;
+    text-align: {{ section.settings.title_alignment }};
+  }
+  
+  {{ default_sid }} .section-description {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: #FFFFFF;
+    line-height: 1.4;
+  }
+  
+  {{ default_sid }} .section-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: #FFFFFF;
+    font-weight: 900;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  {{ default_sid }} .section-button:hover {
+    background-color: transparent;
+    color: #FFFFFF;
+  }
+  
+  {{ default_sid }} .section-button .play-icon {
+    width: 42px;
+    height: 25px;
+    background-color: #E1040F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
+  }
+  
+  {{ default_sid }} .swiper {
+    padding: 0;
+    overflow: visible !important;
+  }
+  
+  {{ default_sid }} .swiper-slide {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    display: flex;
+    flex-direction: column;
+
+  }
+  
+  {{ default_sid }} .swiper-slide-active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  {{ default_sid }} .swiper-slide-prev,
+  {{ default_sid }} .swiper-slide-next {
+    transform: scale(1);
+  }
+  
+  /* 图片样式 */
+  {{ default_sid }} .slide-image {
+    width: 100%;
+    /* height: {{ slide_height }}px; */
+    height: 100%;
+    object-fit: cover;
+    margin:0 auto;
+  }
+  
+  /* 内容覆盖层 - 移到图片底部 */
+  {{ default_sid }} .slide-content {
+    margin-top: 49px;
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    
+  }
+  
+  {{ default_sid }} .slide-content-inner {
+    text-align: center;
+    color: white;
+    max-width: 80%;
+  }
+  
+  {{ default_sid }} .slide-title {
+    font-size: 28px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+  
+  {{ default_sid }} .slide-subtitle {
+    font-size: 18px;
+    color: #777777;
+    margin-bottom: 60px;
+  }
+  
+  {{ default_sid }} .slide-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #E1040F;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  {{ default_sid }} .slide-button:hover {
+    background-color: transparent;
+    border-color: #E1040F;
+    color: #E1040F;
+  }
+  
+  /* 导航箭头 - 移到底部 */
+  {{ default_sid }} .swiper-button-next,
+  {{ default_sid }} .swiper-button-prev {
+    width: 48px;
+    height: 48px; 
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+    top: auto;
+    bottom: -60px;
+    margin-top: 0;
+    border: 1px solid #FFFFFF;
+  }
+  
+  .swiper-button-next.swiper-button-disabled, 
+  .swiper-button-prev.swiper-button-disabled{
+    color: #D3D3D3;
+    opacity: 1;
+    pointer-events:auto;
+
+  }
+  
+  {{ default_sid }} .swiper-button-prev{
+    left: calc(50% - 60px);
+  }
+  
+  {{ default_sid }} .swiper-button-next{
+    right: calc(50% - 60px);
+  }
+  
+  {{ default_sid }} .swiper-button-next:hover,
+  {{ default_sid }} .swiper-button-prev:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+  }
+  
+  {{ default_sid }} .swiper-button-next:after,
+  {{ default_sid }} .swiper-button-prev:after {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  /* 分页点 */
+  {{ default_sid }} .swiper-pagination {
+    position: relative;
+
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet {
+    width: 6.5px !important;
+    height: 6.5px !important;
+    background-color: #616161 !important;
+    border-radius: 50%;
+    opacity: 1;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet-active {
+    background-color: #FFFFFF !important;
+    transform: scale(1);
+    width: 6.5px !important;
+    height: 6.5px !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet-dynamic {
+    width: 6.5px !important;
+    height: 6.5px !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet:hover {
+    background-color: #999999;
+  }
+  
+  {{ default_sid }} .pagination-text{
+    display: none !important;
+  }
+  
+  {{ default_sid }} .pagination-text .section-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #e1040f;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    font-style: italic;
+    font-size: 15px;
+  }
+  
+  
+
+    
+
+  
+  
+  /* 响应式设计 */
+  @media screen and (max-width: 1024px) {
+    {{ default_sid }} .swiper {
+      padding: 0 10%;
+    }
+    
+    {{ default_sid }} .slide-title {
+      font-size: 2rem;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-size: 2.5rem;
+    }
+    
+    {{ default_sid }} .section-description {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    /* 让整张 slide 撑满并让下方内容占剩余高度 */
+    {{ default_sid }} .swiper-slide { display:flex; flex-direction:column; height:auto; min-height: 0; background-color: {{ section.settings.color_slide_mb }}; }
+    {{ default_sid }} .slide-image { flex: 0 0 {{ slide_height_mb }}px; }
+    {{ default_sid }} .slide-content {
+      margin-top: 0;
+      justify-content: flex-start;
+      padding:16px;
+      padding-top:20px;
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      align-items: flex-start;
+    }
+    {{ default_sid }} .slide-content-inner {
+      max-width: 100%;
+      text-align: left;
+    }
+
+    {{ default_sid }} .swiper {
+      padding: 0;
+    }
+    
+    {{ default_sid }} .swiper-slide-active {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    {{ default_sid }} .slide-image {
+      height: {{ slide_height_mb }}px;
+    }
+    
+    {{ default_sid }} .slide-title {
+      font-size: 17px;
+      font-family: 'HarmonyOS-Sans-SC';
+
+    }
+    
+    {{ default_sid }} .slide-subtitle {
+      font-size: 14px;
+      margin-bottom: 0px;
+    }
+    
+    {{ default_sid }} .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom:33px;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-size: 26px;
+      margin-bottom: 0px;
+    }
+    
+    {{ default_sid }} .section-description {
+      font-size: 13px;
+    }
+    
+    {{ default_sid }} .section-header .section-button {
+      display: none !important;
+    }
+
+    {{ default_sid }} .swiper-button-next,
+    {{ default_sid }} .swiper-button-prev {
+      width: 32px;
+      height: 32px;
+      bottom: -50px;
+    }
+    {{ default_sid }} .swiper-button-next:after,
+    {{ default_sid }} .swiper-button-prev:after {
+      font-size: 16px;
+    }
+
+    {{ default_sid }} .swiper-button-prev{
+      left: unset;
+      right:47px;
+    }
+    
+    {{ default_sid }} .swiper-button-next{
+      right: 0px;
+      left:unset;
+    }
+ 
+    {{ default_sid }} .pagination-text .section-button svg {
+    width: 7px;
+    height: 11px;
+    stroke: #e1040f;
+    transition: stroke 0.3s ease;
+  }
+
+    {{ default_sid }} .asymmetric-swiper-container {
+      padding-left:var(--container-gutter);
+      padding-right:var(--container-gutter);  
+    }
+    
+    {{ default_sid }} .swiper-pagination {
+      bottom: -30px;
+    }
+    
+    {{ default_sid }} .swiper-pagination-bullet {
+      width: 4px !important;
+      height: 4px !important;
+    }
+    
+    {{ default_sid }} .pagination-text {
+      font-size: 15px;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    
+    
+  }
+  
+  @media screen and (max-width: 480px) {
+    {{ default_sid }} .swiper {
+      padding: 0;
+    }
+    
+
+  {% endstyle %}
+
+  <div class="container-box">
+    <!-- 顶部标题区域 -->
+    {% if se_stts.title != blank or se_stts.description != blank %}
+      <div class="section-header container">
+        <div class="section-header-inner">
+          {% if se_stts.title != blank %}
+            <h2 class="section-title">{{ se_stts.title }}</h2>
+          {% endif %}
+          
+          {% if se_stts.description != blank %}
+            <p class="section-description">{{ se_stts.description }}</p>
+          {% endif %}
+        </div>
+          <!-- PC端显示的按钮 -->
+          {% if se_stts.button_text != blank and se_stts.button_url != blank %}
+            <a href="{{ se_stts.button_url }}" class="section-button">
+              {{ se_stts.button_text }}
+              <div class="play-icon">
+                <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.32275 14.8087L7.81195 8.3195L1.32275 1.82227" stroke="white" stroke-width="3" stroke-miterlimit="10"/>
+                </svg>
+
+              </div>
+            </a>
+          {% endif %}
+      </div>
+    {% endif %}
+
+    <!-- 异形轮播容器 -->
+    <div class="asymmetric-swiper-container">
+      <div class="swiper asymmetric-swiper-{{sid}}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1920 }}" 
+                     alt="{{ block.settings.image.alt | escape }}"
+                     class="slide-image"
+                     width="1920"
+                     height="1080"
+                     >
+              {% endif %}
+              
+              <div class="slide-content">
+                <div class="slide-content-inner">
+                  {% if block.settings.title != blank %}
+                    <h3 class="slide-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  
+                  {% if block.settings.subtitle != blank %}
+                    <p class="slide-subtitle">{{ block.settings.subtitle }}</p>
+                  {% endif %}
+                  
+                  {% if block.settings.button_text != blank and block.settings.button_url != blank %}
+                    <a href="{{ block.settings.button_url }}" class="slide-button">
+                      {{ block.settings.button_text }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% for block in section.blocks %}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1920 }}" 
+                     alt="{{ block.settings.image.alt | escape }}"
+                     class="slide-image"
+                     width="1920"
+                     height="1080"
+                     >
+              {% endif %}
+              
+              <div class="slide-content">
+                <div class="slide-content-inner">
+                  {% if block.settings.title != blank %}
+                    <h3 class="slide-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  
+                  {% if block.settings.subtitle != blank %}
+                    <p class="slide-subtitle">{{ block.settings.subtitle }}</p>
+                  {% endif %}
+                  
+                  {% if block.settings.button_text != blank and block.settings.button_url != blank %}
+                    <a href="{{ block.settings.button_url }}" class="slide-button">
+                      {{ block.settings.button_text }}
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+          {% if show_arrows and section.blocks.size > 1 %}
+          <div class="swiper-button-next swiper-button-next-{{ section.id }}">
+                
+            </div>
+          <div class="swiper-button-prev swiper-button-prev-{{ section.id }}">
+                
+            </div>
+        {% endif %}
+        
+        {% if show_dots %}
+          <div class="swiper-pagination swiper-pagination-{{ section.id }}"></div>
+        {% endif %}
+        
+        
+
+      </div>
+    </div>
+    
+    <!--移动端显示的分页点下方文字 -->
+    {% if se_stts.button_text != blank and se_stts.button_url != blank %}
+      <div class="pagination-text">
+        <a href="{{ se_stts.button_url }}" class="section-button">
+            Learn More
+          <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 10.0662L5.53031 5.53593L1 1" stroke="#E1040F" stroke-width="1.5" stroke-miterlimit="10"/>
+          </svg>            
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiperContainer = document.querySelector('.asymmetric-swiper-{{sid}}');
+  if (swiperContainer) {
+    const swiper = new Swiper('.asymmetric-swiper-{{sid}}', {
+      // 基础配置
+      
+      loop: true,
+      slidesPerView: 1.3,
+      spaceBetween: 24,
+      allowTouchMove: true,
+      initialSlide: Math.floor({{ section.blocks.size }} / 2),
+      centeredSlides: true,
+      observer:true,
+      observeParents:true,
+      // 滑动
+      allowTouchMove: true,
+      // 导航箭头
+      {% if show_arrows %}
+       navigation: {
+        nextEl: '.swiper-button-next-{{ section.id }}',
+        prevEl: '.swiper-button-prev-{{ section.id }}',
+      },
+      {% endif %}
+      
+      // 分页点
+      {% if show_dots %}
+      pagination: {
+          el: '.swiper-pagination-{{ section.id }}',
+        clickable: true,
+        dynamicBullets: false,
+      },
+      {% endif %}
+      
+ 
+      
+      // 响应式断点
+      breakpoints: {
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 12,
+          centeredSlides: false,
+        },
+        768: {
+          slidesPerView: 1.4,
+          spaceBetween: 10,
+          centeredSlides: true,
+        },
+        1024: {
+          slidesPerView: 1.3,
+          spaceBetween: 24,
+          centeredSlides: true,
+        },
+      },
+      
+      // 事件回调
+      on: {
+        slideChange: function() {
+          // 可以在这里添加自定义的slide切换逻辑
+          console.log('Slide changed to:', this.activeIndex);
+        },
+        init: function() {
+          try{
+            var desiredInit = (window.innerWidth >= 1024) ? Math.floor({{ section.blocks.size }} / 2) : 0;
+            if(this.activeIndex !== desiredInit){
+              this.slideTo(desiredInit, 0, false);
+            }
+          }catch(e){}
+          console.log('Asymmetric Swiper initialized');
+        }
+      }
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "异形幻灯片 (Asymmetric Detail)",
+  "class": "shopify-section--jingva-asymmetric-slide",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "顶部标题设置"
+    },
+    
+    {
+      "type": "select",
+      "id": "title_alignment",
+      "label": "标题位置",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "居左"
+        },
+        {
+          "value": "center",
+          "label": "居中"
+        },
+        {
+          "value": "right",
+          "label": "居右"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "主标题",
+      "default": "Built for Esports"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "描述文字",
+      "default": "Supporting top esports events and over 100 pro teams"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "按钮文字",
+      "default": "AutoFull Story"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "按钮链接"
+    },
+    {
+      "type": "header",
+      "content": "轮播设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "自动播放",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "自动播放间隔 (毫秒)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+      
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "显示导航箭头",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "显示分页点",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "尺寸设置"
+    },
+    {
+      "type": "range",
+      "id": "slide_height",
+      "label": "轮播高度 (桌面端)",
+      "min": 400,
+      "max": 1000,
+      "step": 10,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "slide_height_mb",
+      "label": "轮播高度 (移动端)",
+      "min": 200,
+      "max": 500,
+      "step": 10,
+      "default": 200,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "间距设置"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "上边距",
+      "default": "0px;0px;0px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "下边距",
+      "default": "0px;0px;0px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_top",
+      "label": "内边距-上",
+      "default": "60px;40px;30px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom",
+      "label": "内边距-下",
+      "default": "60px;40px;30px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "header",
+      "content": "颜色设置"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "背景颜色 (桌面端)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_mb",
+      "label": "背景颜色 (移动端)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_slide_mb",
+      "label": "幻灯片slide背景颜色 (移动端)",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "自定义CSS"
+    },
+    {
+      "type": "text",
+      "id": "section_css",
+      "label": "自定义CSS类名"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "幻灯片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "幻灯片图片"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "幻灯片标题"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "幻灯片副标题"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "按钮文字"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "按钮链接"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "异形幻灯片 (Asymmetric Detail)",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "2025 DFI GRAND FINAL",
+            "subtitle": "Experience the ultimate esports championship",
+            "button_text": "Learn More"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Delta Force International",
+            "subtitle": "Join the elite gaming community",
+            "button_text": "Join Now"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Professional Gaming Gear",
+            "subtitle": "Designed for champions",
+            "button_text": "Shop Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

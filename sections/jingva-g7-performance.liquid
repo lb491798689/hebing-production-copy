@@ -1,0 +1,681 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign description = se_stts.description
+  assign icon1 = se_stts.icon1
+  assign icon2 = se_stts.icon2
+  assign icon3 = se_stts.icon3
+  assign icon4 = se_stts.icon4
+  assign icon1_mobile = se_stts.icon1_mobile
+  assign icon2_mobile = se_stts.icon2_mobile
+  assign icon3_mobile = se_stts.icon3_mobile
+  assign icon4_mobile = se_stts.icon4_mobile
+  assign title_color = se_stts.title_color | default: '#003cff'
+  assign pad_top_pc = se_stts.padding_top_pc | default: 208
+  assign pad_bottom_pc = se_stts.padding_bottom_pc | default: 0
+  assign pad_top_mob = se_stts.padding_top_mobile | default: 96
+  assign pad_bottom_mob = se_stts.padding_bottom_mobile | default: 0
+  assign gap_title_icons_pc = se_stts.gap_title_icons_pc | default: 48
+  assign gap_icons_desc_pc = se_stts.gap_icons_desc_pc | default: 24
+  assign gap_title_icons_mob = se_stts.gap_title_icons_mobile | default: 32
+  assign gap_icons_desc_mob = se_stts.gap_icons_desc_mobile | default: 24
+-%}
+{% capture default_sid %}.jingva-g7-performance-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-g7-performance-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * Figma PC (file Py17WjwzO8BvwZWIgb9hCL, node 2603:4660 区域) — 新版（绝对坐标实测）:
+     *   wrapper bg 2603:4660: 1200x640, radius 24
+     *   wrapper 纵向布局： padding-top 121, padding-bottom 121
+     *   title 2603:4662: Orbitron Black 900 48px lh:normal UPPER center, 543×120（2行），1920 基准固定宽 543px
+     *   title→icons: 48
+     *   icons row 总宽 ~681 h:74 gap:9.58(≈8/10)
+     *     icon1(IGR)  2603:4666: 188x74 r:8, 内图 Ebene_1 left:18.36 top:17.56 w:150 h:39
+     *     icon2(TUV)  2603:4673: 87x74  r:8, fill
+     *     icon3(SGS)  2603:4674: 188x74 r:8, fill
+     *     icon4(BIF)  ~188x74 r:8, fill
+     *   icons→description: 24
+     *   description 2603:4661: Gabarito Regular 400 18px lh:1.2 center, 921x132
+     *
+     * Figma MOB (file Py17WjwzO8BvwZWIgb9hCL, node 2734:27926) — 新版:
+     *   container: 358x507, padding T32 R16 B32 L16, VERTICAL gap 32, bg #000, radius 12
+     *   title 2344:1610: Orbitron Black 900 32px lh:1.254 UPPER LEFT (宽 326 auto)
+     *   inner frame 2734:27925: VERTICAL gap 24 (icons → description)
+     *   icons row 2734:27924: HORIZ gap 3 CENTER, h:37
+     *     icon1: 92x37 radius 4
+     *     icon2: 42x37 radius 4
+     *     icon3: 92x37 radius 4
+     *     icon4: 91x37 radius 4
+     *   description 2344:1623: Gabarito Regular 400 14px lh:1.2 LEFT, w:326
+     *
+     * develop.md 规范:
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   Wrapper: max-width=1296px(PC) / 1280px(PAD), padding对应
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     */
+
+    /* === PC: 1440~2560 (基准 1920) === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ section.settings.background_color_pc }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-outer {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding: {{ pad_top_pc }}px 48px {{ pad_bottom_pc }}px 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 121px 24px 112px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+      background: {{ section.settings.wrapper_background_color_pc | default: '#311414' }} !important;
+      border-radius: 24px !important;
+    }
+
+    /* 标题：全断点共用字体/字重/动画；尺寸与宽度按断点拆分 */
+    {{ default_sid }} .jingva-g7-performance-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-style: normal !important;
+      font-weight: 900 !important;
+      letter-spacing: 0 !important;
+      color: {{ title_color }} !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      opacity: 0;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+      will-change: transform, opacity;
+    }
+
+    /* PC ≥1440：Figma 1920 — width 543px、48px / lh normal / 居中（develop.md：PC 画板 1920 像素级对齐） */
+    @media screen and (min-width: 1440px) {
+      {{ default_sid }} .jingva-g7-performance-title {
+        font-size: 48px !important;
+        line-height: normal !important;
+        text-align: center !important;
+        margin: 0 auto {{ gap_title_icons_pc }}px auto !important;
+        width: 543px !important;
+        max-width: 543px !important;
+      }
+    }
+
+    {{ default_sid }} .jingva-g7-performance-title.aos-animate {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-performance-icons {
+      display: flex !important;
+      gap: 10px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      max-width: 681px !important;
+      height: 74px !important;
+      margin: 0 0 {{ gap_icons_desc_pc }}px 0 !important;
+      flex-shrink: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-icon-item {
+      position: relative !important;
+      width: 188px !important;
+      height: 74px !important;
+      flex-shrink: 0 !important;
+      background-color: {{ section.settings.icon_item_background_color }} !important;
+      backdrop-filter: blur(4px) !important;
+      -webkit-backdrop-filter: blur(4px) !important;
+      border-radius: 8px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(2) {
+      width: 87px !important;
+    }
+
+    /* icon1(IGR): Figma 6118:1565 — 内图 Ebene_1 150.09x39.12 @ left 18.36 top 17.56 (容器 188.41x74.25) → 百分比 */
+    {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(1) img {
+      position: absolute !important;
+      display: block !important;
+      left: 9.74% !important;
+      top: 23.73% !important;
+      width: 79.66% !important;
+      height: 52.86% !important;
+      max-width: none !important;
+      max-height: none !important;
+      object-fit: contain !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      color: {{ section.settings.description_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      max-width: 921px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-performance-description p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      color: {{ section.settings.description_color }} !important;
+      text-align: center !important;
+      margin: 0 !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-g7-performance-outer {
+        max-width: 1280px !important;
+        padding: {{ pad_top_pc }}px 40px {{ pad_bottom_pc }}px 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-wrapper {
+        padding: 96px 24px !important;
+      }
+
+      /* develop.md Headline 2：PAD 32；宽度随版心收敛，保持居中 */
+      {{ default_sid }} .jingva-g7-performance-title {
+        font-size: 32px !important;
+        line-height: normal !important;
+        text-align: center !important;
+        margin: 0 auto {{ gap_title_icons_pc }}px auto !important;
+        width: 100% !important;
+        max-width: min(543px, 100%) !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icons {
+        max-width: 681px !important;
+        height: 74px !important;
+        margin: 0 0 {{ gap_icons_desc_pc }}px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item {
+        width: 188px !important;
+        height: 74px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(2) {
+        width: 88px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-description,
+      {{ default_sid }} .jingva-g7-performance-description p {
+        font-size: 18px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 (基准 390, Grid.Padding=16) === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: {{ section.settings.background_color_mob }} !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-outer {
+        max-width: 100% !important;
+        padding: {{ pad_top_mob }}px 16px {{ pad_bottom_mob }}px 16px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-wrapper {
+        max-width: 100% !important;
+        width: 100% !important;
+        padding: 32px 16px !important;
+        margin: 0 auto !important;
+        background-color: {{ section.settings.wrapper_background_color_mob }} !important;
+        border-radius: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-title,
+      {{ default_sid }} .jingva-g7-performance-title.aos-animate {
+        font-size: 32px !important;
+        line-height: normal !important;
+        font-style: normal !important;
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 0 {{ gap_title_icons_mob }}px 0 !important;
+        padding: 0 !important;
+        text-align: left !important;
+        padding-right: 30px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icons {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 37px !important;
+        gap: 3px !important;
+        margin: 0 0 {{ gap_icons_desc_mob }}px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item {
+        flex: 92 1 0 !important;
+        min-width: 0 !important;
+        width: auto !important;
+        height: 37px !important;
+        background-color: {{ section.settings.icon_item_background_color_mob }} !important;
+        backdrop-filter: blur(4px) !important;
+        -webkit-backdrop-filter: blur(4px) !important;
+        border-radius: 4px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(2) {
+        flex: 42 1 0 !important;
+        width: auto !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(4) {
+        flex: 91 1 0 !important;
+      }
+
+      /* MOB icon1(IGR): Figma 5996:1598 — 容器 92x37, 内图 Ebene_1 78x21 @ left 7 top 9 → 百分比 */
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(1) img {
+        position: absolute !important;
+        display: block !important;
+        left: 7.61% !important;
+        top: 24.32% !important;
+        width: 84.78% !important;
+        height: 56.76% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+      }
+
+      /* MOB icon2/3/4 共用 PC 端的 imageTransform 百分比规则，无需重复 */
+
+      {{ default_sid }} .jingva-g7-performance-description,
+      {{ default_sid }} .jingva-g7-performance-description p {
+        color: {{ section.settings.description_color }} !important;
+        text-align: left !important;
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 16px !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: 1.2 !important;
+        max-width: 100% !important;
+      }
+    }
+
+    /* === Tablet 768~1279：MOB 媒体查询会让 logo 行 37px 高被横向拉伸，
+       此处单独恢复 PC 同款 74px 高 + 188/87 宽比例，避免 iPad 上 logo 被压扁 === */
+    @media screen and (min-width: 768px) and (max-width: 1279px) {
+      {{ default_sid }} .jingva-g7-performance-title,
+      {{ default_sid }} .jingva-g7-performance-title.aos-animate {
+        font-size: 32px !important;
+        line-height: normal !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: min(543px, 100%) !important;
+        margin: 0 auto {{ gap_title_icons_pc }}px auto !important;
+        padding: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icons {
+        max-width: 681px !important;
+        height: 74px !important;
+        gap: 10px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item {
+        flex: 188 1 0 !important;
+        height: 74px !important;
+        border-radius: 8px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(2) {
+        flex: 87 1 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(4) {
+        flex: 188 1 0 !important;
+      }
+
+      /* icon1(IGR) 内图回到 PC 百分比 */
+      {{ default_sid }} .jingva-g7-performance-icon-item:nth-child(1) img {
+        left: 9.74% !important;
+        top: 23.73% !important;
+        width: 79.66% !important;
+        height: 52.86% !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-performance-outer">
+  <div class="jingva-g7-performance-wrapper">
+    {% if title != blank %}
+      <h2 class="jingva-g7-performance-title">{{ title }}</h2>
+    {% endif %}
+
+    <div class="jingva-g7-performance-icons">
+      {% if icon1 != blank %}
+        <div class="jingva-g7-performance-icon-item">
+          <picture>
+            {% if icon1_mobile != blank %}
+              <source media="(max-width: 1023px)" srcset="{{ icon1_mobile | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ icon1 | image_url: width: 1200 }}"
+              alt="IGR"
+              width="188"
+              height="74"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      {% endif %}
+      {% if icon2 != blank %}
+        <div class="jingva-g7-performance-icon-item">
+          <picture>
+            {% if icon2_mobile != blank %}
+              <source media="(max-width: 1023px)" srcset="{{ icon2_mobile | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ icon2 | image_url: width: 800 }}"
+              alt="TUV"
+              width="87"
+              height="74"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      {% endif %}
+      {% if icon3 != blank %}
+        <div class="jingva-g7-performance-icon-item">
+          <picture>
+            {% if icon3_mobile != blank %}
+              <source media="(max-width: 1023px)" srcset="{{ icon3_mobile | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ icon3 | image_url: width: 1200 }}"
+              alt="SGS"
+              width="188"
+              height="74"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      {% endif %}
+      {% if icon4 != blank %}
+        <div class="jingva-g7-performance-icon-item">
+          <picture>
+            {% if icon4_mobile != blank %}
+              <source media="(max-width: 1023px)" srcset="{{ icon4_mobile | image_url: width: 800 }}">
+            {% endif %}
+            <img
+              src="{{ icon4 | image_url: width: 1200 }}"
+              alt="BIFMA"
+              width="188"
+              height="74"
+              loading="lazy"
+            />
+          </picture>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if description != blank %}
+      <div class="jingva-g7-performance-description">{{ description }}</div>
+    {% endif %}
+  </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-g7-performance-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-g7-performance-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Performance",
+  "class": "shopify-section--jingva-g7-performance",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Performance Section"
+    },
+    {
+      "type": "header",
+      "content": "区块外边距（版心 .outer）"
+    },
+    {
+      "type": "paragraph",
+      "content": "控制组件相对页面上下留白（PC 含 Pad 断点共用一组数值；手机单独一组）。"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top（PC / Pad）",
+      "default": 208
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "min": 0,
+      "max": 400,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom（PC / Pad）",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top（手机）",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom（手机）",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "标题 ↔ Logo 行、Logo ↔ 描述 间距"
+    },
+    {
+      "type": "paragraph",
+      "content": "标题下外边距 = 标题与 Logo 行间距；Logo 行下外边距 = Logo 与描述间距。PC/Pad 共用第一组；手机用第二组。"
+    },
+    {
+      "type": "range",
+      "id": "gap_title_icons_pc",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "标题 → Logo（PC / Pad）",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "gap_icons_desc_pc",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo → 描述（PC / Pad）",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "gap_title_icons_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "标题 → Logo（手机）",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap_icons_desc_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Logo → 描述（手机）",
+      "default": 24
+    },
+    {
+      "type": "color_background",
+      "id": "background_color_pc",
+      "label": "Background Color (PC)",
+      "default": "#000000"
+    },
+    {
+      "type": "color_background",
+      "id": "background_color_mob",
+      "label": "Background Color (Mobile)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#003cff"
+    },
+    {
+      "type": "color_background",
+      "id": "icon_item_background_color",
+      "label": "Icon Item Background Color (PC)",
+      "default": "rgba(59, 59, 59, 0.1)"
+    },
+    {
+      "type": "color_background",
+      "id": "icon_item_background_color_mob",
+      "label": "Icon Item Background Color (Mobile)",
+      "default": "rgba(59, 59, 59, 0.1)"
+    },
+    {
+      "type": "color_background",
+      "id": "wrapper_background_color_pc",
+      "label": "Wrapper Background Color (PC)",
+      "default": "#311414"
+    },
+    {
+      "type": "color_background",
+      "id": "wrapper_background_color_mob",
+      "label": "Wrapper Background Color (Mobile)",
+      "default": "transparent"
+    },
+    {
+      "type": "color_background",
+      "id": "description_color",
+      "label": "Description Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Packs powerful performance."
+    },
+    {
+      "type": "richtext",
+      "id": "description",
+      "label": "Description",
+      "default": "<p>Description text here</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon1",
+      "label": "Icon 1 (IGR) - PC"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon1_mobile",
+      "label": "Icon 1 (IGR) - Mobile (optional, fallback to PC)"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon2",
+      "label": "Icon 2 (TUV) - PC"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon2_mobile",
+      "label": "Icon 2 (TUV) - Mobile (optional, fallback to PC)"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon3",
+      "label": "Icon 3 (SGS) - PC"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon3_mobile",
+      "label": "Icon 3 (SGS) - Mobile (optional, fallback to PC)"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon4",
+      "label": "Icon 4 (BIFMA) - PC"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon4_mobile",
+      "label": "Icon 4 (BIFMA) - Mobile (optional, fallback to PC)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Performance"
+    }
+  ]
+}
+{% endschema %}

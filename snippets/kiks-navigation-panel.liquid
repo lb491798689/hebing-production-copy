@@ -1,0 +1,656 @@
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+MEGA MENU PANEL
+----------------------------------------------------------------------------------------------------------------------
+
+This component is used to show the different links in different panel for the menu drawer
+
+********************************************
+Supported variables
+********************************************
+
+* main_menu: the menu to show for the primary menu
+* secondary_menu: the secondary menu (shown on mobile)
+* mega_menu_block: use when mega menu is set to drawer
+* is_mega_menu: set to true if mega menu is set to drawer
+* layout
+{%- endcomment -%}
+
+<div class="panel-list__wrapper">
+  <div class="panel panel-one">
+    <div class="panel__wrapper" {% if mega_menu_block.settings.promo_content_layout == 'grid' or mega_menu_block.settings.promo_content_layout == 'collage' %}style="--panel-wrapper-justify-content: flex-start"{% endif %}>
+      <div class="panel__scroller v-stack gap-8">
+
+        {%- if is_mega_menu -%}
+           <button is="close-button" aria-label="{{ 'general.accessibility.close' | t | escape }}" {%- if section.settings.opening_from == 'bottom' -%}class="sm-max:hidden"{%- endif -%}>
+              {%- render 'icon' with 'close', width: 19, height: 19 -%}
+            </button>
+        {%- endif -%}
+
+        <ul class="v-stack menu-list-box">
+          {%- for link in main_menu.links -%}
+            {%- unless is_mega_menu -%}
+              {% liquid
+                assign link_title_downcase = link.title | strip | downcase
+                assign mega_menu_block = ''
+                assign is_image_shown = false
+
+                comment
+                  与 header.liquid 一致的容错匹配：
+                  - product ↔ products 互通
+                  - menu_item 留空作为通配
+                  - 仅 1 个 mega_menu 区块时直接使用
+                endcomment
+                for block in section.blocks
+                  if block.type == 'mega_menu'
+                    assign menu_item_downcase = block.settings.menu_item | strip | downcase
+                    assign menu_matches = false
+                    if menu_item_downcase != '' and menu_item_downcase == link_title_downcase
+                      assign menu_matches = true
+                    elsif menu_item_downcase == 'products' and link_title_downcase == 'product'
+                      assign menu_matches = true
+                    elsif menu_item_downcase == 'product' and link_title_downcase == 'products'
+                      assign menu_matches = true
+                    endif
+                    if menu_matches
+                      assign mega_menu_block = block
+                      if block.settings.drawer_link_image == 'show'
+                        assign is_image_shown = true
+                      endif
+                      break
+                    endif
+                  endif
+                endfor
+
+                assign has_grandchild_links = false
+                if mega_menu_block == ''
+                  for sub_link in link.links
+                    if sub_link.links.size > 0
+                      assign has_grandchild_links = true
+                      break
+                    endif
+                  endfor
+                endif
+
+                if mega_menu_block == '' and has_grandchild_links
+                  assign mega_blocks_count = 0
+                  assign sole_mega_menu_block = ''
+                  assign wildcard_mega_menu_block = ''
+                  for block in section.blocks
+                    if block.type == 'mega_menu'
+                      assign mega_blocks_count = mega_blocks_count | plus: 1
+                      if sole_mega_menu_block == ''
+                        assign sole_mega_menu_block = block
+                      endif
+                      if block.settings.menu_item == blank and wildcard_mega_menu_block == ''
+                        assign wildcard_mega_menu_block = block
+                      endif
+                    endif
+                  endfor
+                  if wildcard_mega_menu_block != ''
+                    assign mega_menu_block = wildcard_mega_menu_block
+                  elsif mega_blocks_count == 1
+                    assign mega_menu_block = sole_mega_menu_block
+                  endif
+                  if mega_menu_block != '' and mega_menu_block.settings.drawer_link_image == 'show'
+                    assign is_image_shown = true
+                  endif
+                endif
+              %}
+
+            {%- else -%}
+              {%- assign is_image_shown = false -%}
+
+              {%- if mega_menu_block.settings.drawer_link_image == 'show' -%}
+                {%- assign is_image_shown = true -%}
+              {%- endif -%}
+
+            {%- endunless -%}
+
+            <li class="h3 sm:h4 link1-nav-li ">
+              {%- if link.links.size > 0 and mega_menu_block != '' and is_mega_menu == false -%}
+                {%- comment -%} Figma 765:1870：一级展开后 = 多系列纵向排列 + 每系列横向滚动 3 卡 + Compare / Learn {%- endcomment -%}
+                <div class="link1-nav__wrapper product-list-box jingva-drawer-product">
+                  <div class="text-with-icon w-full group justify-between link-nav-title jingva-drawer-nav-row">
+                    <span><span class="reversed-link">{{ link.title }}</span></span>
+                    <span class="jingva-drawer-tab-icon" aria-hidden="true">
+                      <svg class="jingva-drawer-icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.833 9.17057L16.6647 9.16731L16.6663 10.834L10.833 10.8372V16.6673H9.16634V10.838L3.33464 10.8421L3.33301 9.17545L9.16634 9.17138V3.33398H10.833V9.17057Z" fill="#1A1A1A"/>
+                      </svg>
+                      <svg class="jingva-drawer-icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M16.667 10.8327L3.33366 10.8408L3.33203 9.17415L16.6654 9.16602L16.667 10.8327Z" fill="#1A1A1A"/>
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="link1-nav__content jingva-drawer-product__sheet">
+                    <div class="jingva-drawer-product__stack">
+                      {%- for sub_link in link.links -%}
+                        <div class="jingva-drawer-series">
+                          <p class="jingva-drawer-series__label">{{ sub_link.title | upcase }}</p>
+                          <div class="jingva-drawer-series__track">
+                            {% liquid
+                              assign jingva_m = 0
+                            %}
+                            {% if sub_link.links.size > 0 %}
+                              {% for product_link in sub_link.links %}
+                                {% if jingva_m < 3 and product_link.type == 'product_link' and product_link.object %}
+                                  {% render 'jingva-drawer-product-card', product: product_link.object %}
+                                  {% assign jingva_m = jingva_m | plus: 1 %}
+                                {% endif %}
+                              {% endfor %}
+                            {% elsif sub_link.type == 'collection_link' and sub_link.object != blank %}
+                              {% for card_product in sub_link.object.products limit: 3 %}
+                                {% render 'jingva-drawer-product-card', product: card_product %}
+                              {% endfor %}
+                            {% endif %}
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                    {%- liquid
+                      assign m_learn_url = mega_menu_block.settings.mega_footer_mobile_learn_url
+                      assign m_learn_label = mega_menu_block.settings.mega_footer_mobile_learn_label
+                      if m_learn_url == blank
+                        assign m_learn_url = mega_menu_block.settings.mega_footer_learn_url
+                      endif
+                      if m_learn_label == blank
+                        assign m_learn_label = mega_menu_block.settings.mega_footer_learn_label
+                      endif
+                      if m_learn_label == blank
+                        assign m_learn_label = 'Learn more'
+                      endif
+                      assign m_compare_url = mega_menu_block.settings.mega_footer_mobile_compare_url
+                      assign m_compare_label = mega_menu_block.settings.mega_footer_mobile_compare_label
+                      if m_compare_url == blank
+                        assign m_compare_url = mega_menu_block.settings.mega_footer_compare_url
+                      endif
+                      if m_compare_label == blank
+                        assign m_compare_label = mega_menu_block.settings.mega_footer_compare_label | default: 'Compare option'
+                      endif
+                    -%}
+                    {%- if m_compare_url != blank or m_learn_url != blank -%}
+                      <div class="jingva-drawer-product__actions jingva-drawer-product__actions--footer">
+                        {%- if m_compare_url != blank -%}
+                          <a href="{{ m_compare_url }}" class="jingva-drawer-pill jingva-drawer-pill--dark">
+                            <span>{{ m_compare_label }}</span>
+                            <span class="jingva-drawer-pill__suffix">(3)</span>
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="5" width="7" height="14" rx="1" stroke="currentColor" stroke-width="2"/><rect x="13" y="5" width="7" height="14" rx="1" stroke="currentColor" stroke-width="2"/></svg>
+                          </a>
+                        {%- endif -%}
+                        {%- if m_learn_url != blank -%}
+                          <a href="{{ m_learn_url }}" class="jingva-drawer-pill jingva-drawer-pill--outline">
+                            <span>{{ m_learn_label }}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.4141 12L9.70703 19.707L8.29297 18.293L14.5859 12L8.29297 5.70703L9.70703 4.29297L17.4141 12Z" fill="#E90202"/></svg>
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- elsif link.links.size == 0 and mega_menu_block != '' and is_mega_menu == false -%}
+                {% comment %} 这是banner {% endcomment %}
+                <div class="link1-nav__wrapper">
+                  <div class="text-with-icon w-full group justify-between link-nav-title">
+                    <span><span class="reversed-link">{{ link.title }}</span></span>
+                    <span class="link1-nav__chevron">{%- render 'icon' with 'chevron-right', direction_aware: true -%}</span>
+                  </div>
+                  <div class="link1-nav__content banner-content">
+                    {% comment %} 添加banner内容 {% endcomment %}
+                    {%- render 'navigation-promo-block',link:link, navigation_layout: layout, mega_menu_block: mega_menu_block, is_navigation_drawer: true, link_col: link.links.size -%}
+                  </div>
+                </div>
+              {%- elsif link.links.size > 0 -%}
+                <div class="link1-nav__wrapper">
+                  <div class="text-with-icon w-full group justify-between link-nav-title">
+                    <span><span class="reversed-link">{{ link.title }}</span></span>
+                    <span class="jingva-drawer-tab-icon" aria-hidden="true">
+                      <svg class="jingva-drawer-icon-plus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.833 9.17057L16.6647 9.16731L16.6663 10.834L10.833 10.8372V16.6673H9.16634V10.838L3.33464 10.8421L3.33301 9.17545L9.16634 9.17138V3.33398H10.833V9.17057Z" fill="#1A1A1A"/>
+                      </svg>
+                      <svg class="jingva-drawer-icon-minus" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M16.667 10.8327L3.33366 10.8408L3.33203 9.17415L16.6654 9.16602L16.667 10.8327Z" fill="#1A1A1A"/>
+                      </svg>
+                    </span>
+                  </div>
+                  <div class="link1-nav__content">
+                    <ul class="v-stack gap-4">
+                      {%- for sub_link in link.links -%}
+                        <li class="link2-nav-li">
+                          <a href="{{ sub_link.url }}" class="text-with-icon w-full group justify-between link2-nav-a">
+                            <span><span class="reversed-link">{{ sub_link.title }}</span></span>
+                            {% comment %} <span>{%- render 'icon' with 'chevron-right', direction_aware: true -%}</span> {% endcomment %}
+                          </a>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                </div>
+              {%- else -%}
+                <a href="{{ link.url }}" class="text-with-icon w-full group justify-between">
+                  <span><span class="reversed-link">{{ link.title }}</span></span>
+                  <span class="link1-nav__chevron" aria-hidden="true">
+                    <svg class="jingva-drawer-icon-chevron" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M7.60059 6.42285L1.17773 12.8457L0 11.667L5.24414 6.42285L0 1.17871L1.17773 0L7.60059 6.42285Z" fill="#0A0A0A"/>
+                    </svg>
+                  </span>
+                </a>
+              {%- endif -%}
+            </li>
+
+            {%- if link.links.size > 0 or mega_menu_block != '' and is_mega_menu == false -%}
+              {%- capture link_level_2 -%}
+                {{- link_level_2 -}}
+
+                <div class="panel__wrapper" {% if mega_menu_block.settings.promo_content_layout == 'grid' or mega_menu_block.settings.promo_content_layout == 'collage' %}style="--panel-wrapper-justify-content: flex-start"{% endif %} hidden>
+                    {% comment %} <ul class="v-stack {% if is_mega_menu and is_image_shown == 'show' %}gap-3{% else %}gap-4{% endif %}">
+                        <li class="{% if layout != 'drawer' %}lg:hidden{% endif %}">
+                            <button class="text-with-icon h6 text-subdued" data-panel="0">
+                              {%- render 'icon' with 'chevron-left', direction_aware: true -%} {{ link.title }}
+                            </button>
+                          </li>
+                    </ul> {% endcomment %}
+                    {% assign sub_ul_class = '' %}
+                      {% unless is_mega_menu %}
+                        {% if mega_menu_block != '' %}
+                          {% assign sub_ul_class = 'has-promo ' %}
+                        {% endif %}
+                      {% endunless %}
+                      {% style %}
+                        .close-button:not(.link2-close-btn){
+                          display: none;
+                        }
+                      {% endstyle %}
+                       <div class="link2-sub-btn-box">
+                          <button class="link2-sub-btn text-with-icon h6 text-subdued" data-panel="0">
+                            {%- render 'icon' with 'chevron-left', direction_aware: true -%} {{ link.title }}
+                          </button>
+                          <button class="link2-close-btn" is="close-button" aria-label="Close"><svg role="presentation" stroke-width="2" focusable="false" width="19" height="19" class="icon icon-close" viewBox="0 0 24 24">
+                            <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+                          </svg></button>
+                       </div>
+                    <ul class="{{ sub_ul_class }}sub-link-container v-stack {% if is_mega_menu and is_image_shown == 'show' %}gap-3{% endif %}
+                        {% if is_mega_menu %} is-mega-menu{% endif %}
+                        {% for sub_link in link.links %}
+                          {% assign matched_image = '' %}
+                          {% for i in (1..8) %}
+                            {% assign sub_link_id = 'target_sub_link' | append: i %}
+                            {% assign sub_image_id = 'sub_link_image' | append: i %}
+                            {% assign current_sub_link = mega_menu_block.settings[sub_link_id] %}
+                            {% assign current_sub_image = mega_menu_block.settings[sub_image_id] %}
+                            {% if sub_link.title == current_sub_link %}
+                              {% assign matched_image = current_sub_image %}
+                            {% endif %}
+                          {% endfor %}
+                          {% if matched_image != blank %}
+                            have-image
+                            {% break %}
+                          {% endif %}
+                        {% endfor %}
+                      ">
+                    
+                      {%- if link.links.size > 0 -%}
+                        {%- for sub_link in link.links -%}
+                        {% assign matched_image = '' %}  {%- comment -%} Reset before each sub_link iteration {%- endcomment -%}
+                      
+                        <li class="bold {% if is_mega_menu %}sm:h5{% else %}sm:h4{% endif %} jingva-sub-link2-item sub-link-items custom-css-mobile">
+                          {%- if sub_link.links.size > 0 -%}
+                            
+                            {% for i in (1..8) %}
+                              {% assign sub_link_id = 'target_sub_link' | append: i %}
+                              {% assign sub_image_id = 'sub_link_image' | append: i %}
+                              {% assign current_sub_link = mega_menu_block.settings[sub_link_id] %}
+                              {% assign current_sub_image = mega_menu_block.settings[sub_image_id] %}
+                      
+                              {% if sub_link.title == current_sub_link %}
+                                {% assign matched_image = current_sub_image %}
+                              {% endif %}
+                            {% endfor %}
+                            
+                            {% comment %} {% if matched_image != blank %}
+                              {{ matched_image | image_url: width: 300 | image_tag: loading: 'lazy', sizes: image_sizes, widths: '200,300,400,500,600,800,1000', class: "mega-menu__image zoom-image" }}
+                            {% endif %} {% endcomment %}
+                            
+                      
+                            <button class="text-with-icon w-full justify-between" aria-expanded="false" data-panel="2-{% increment level_2 %}">
+                              <span>{{ sub_link.title }}</span>
+                              <span class="circle-chevron group-hover:colors group-expanded:colors">{%- render 'icon' with 'chevron-right-small', direction_aware: true -%}</span>
+                            </button>
+                            {% comment %} Custom Added {% endcomment %}
+                            
+                            <ul class="sub-link2-content v-stack {% if is_image_shown %}gap-3{% else %}gap-4{% endif %}">
+                                  {% comment %} <li class="text-with-icon {% if layout != 'drawer' %}lg:hidden{% endif %}">
+                                  <button class="text-with-icon h6 text-subdued" data-panel="1">
+                                      {%- render 'icon' with 'chevron-left', direction_aware: true -%} {{ sub_link.title }}
+                                  </button>
+                                  </li> {% endcomment %}
+
+                                  {%- for sub_sub_link in sub_link.links -%}
+                                  <li class="{% if mobile_opening == 'left' %}h3{% else %}h5-unset{% endif %} sm:h5-unset">
+                                      
+                                    
+                                    <a class="group {% if is_image_shown %}h-stack gap-4{% else %}block w-full{% endif %}"
+                                      href="{{ sub_sub_link.url }}">
+
+
+                                      {%- if is_image_shown and sub_sub_link.object != blank -%}
+                                          {%- assign sub_sub_link_image = '' -%}
+
+                                          {%- case sub_sub_link.type -%}
+                                          {%- when 'collection_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.products.first.featured_media -%}
+
+                                          {%- when 'product_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.featured_media -%}
+
+                                          {%- when 'blog_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.articles.first.image -%}
+
+                                          {%- when 'article_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.image -%}
+                                          {%- endcase -%}
+
+                                          {%- if sub_sub_link_image != blank -%}
+                                          {{- sub_sub_link_image | image_url: width: 104 | image_tag: loading: 'lazy', sizes: '52px', widths: '52,104', class: 'panel-link__image rounded' -}}
+                                          {%- endif -%}
+                                      {%- endif -%}
+                                      {% comment %} 如果是产品链接 就显示一张产品图片 {% endcomment %}
+                                      {% if sub_sub_link.type == 'product_link' %}
+                                        {% comment %} <img src="{{ sub_sub_link.object.featured_media | image_url: width: 104 }}" alt="{{ sub_sub_link.object.title }}" /> {% endcomment %}
+                                        {{ sub_sub_link.object.featured_media | image_url: width: 70 | image_tag: loading: 'lazy', sizes: image_sizes, widths: '200,300,400,500,600,800,1000', class: "" }}
+                                      {% endif %}
+
+                                        <span class="title-box">
+                                          <span class="reversed-link">{{ sub_sub_link.title }}</span>
+                                          {% if sub_sub_link.object.tags.first %}
+                                            <span class="tag">{{ sub_sub_link.object.tags.first }}</span>
+                                          {% endif %}
+                                        </span>
+                                      </a>
+                                  </li>
+                                  {%- endfor -%}
+                                  <li class="{% if mobile_opening == 'left' %}h3{% else %}h5-unset{% endif %} sm:h5-unset">
+                                      <a class="jingva-more-btn" href="{{ sub_link.url }}">
+                                        View All
+                                      </a>
+                                  </li>
+                              </ul>
+                          {% comment %} Custom Added {% endcomment %}
+                            {%- else -%}
+                              <a class="group {% if is_image_shown and is_mega_menu %}h-stack gap-4{% else %}block w-full{% endif %}" href="{{ sub_link.url }}">
+                                {%- if is_image_shown and sub_link.object != blank and is_mega_menu -%}
+                                  {%- assign sub_link_image = '' -%}
+
+                                  {%- case sub_link.type -%}
+                                    {%- when 'collection_link' -%}
+                                      {%- assign sub_link_image = sub_link.object.products.first.featured_media -%}
+
+                                    {%- when 'product_link' -%}
+                                      {%- assign sub_link_image = sub_link.object.featured_media -%}
+
+                                    {%- when 'blog_link' -%}
+                                      {%- assign sub_link_image = sub_link.object.articles.first.image -%}
+
+                                    {%- when 'article_link' -%}
+                                      {%- assign sub_link_image = sub_link.object.image -%}
+                                  {%- endcase -%}
+
+                                  {%- if sub_link_image != blank -%}
+                                    {{- sub_link_image | image_url: width: 120 | image_tag: loading: 'lazy', sizes: '60px', widths: '120', class: 'panel-link__image rounded' -}}
+                                  {%- endif -%}
+                                {%- endif -%}
+
+                                <span><span class="reversed-link">{{ sub_link.title }}</span></span>
+                              </a>
+                            {%- endif -%}
+                          </li>
+
+                          {%- if sub_link.links.size > 0 -%}
+                            {%- capture link_level_3 -%}
+                              {{- link_level_3 -}}
+
+                              <div class="panel__wrapper" hidden>
+                                {% comment %} <ul class="v-stack {% if is_image_shown %}gap-3{% else %}gap-4{% endif %}">
+                                  <li class="text-with-icon {% if layout != 'drawer' %}lg:hidden{% endif %}">
+                                    <button class="text-with-icon h6 text-subdued" data-panel="1">
+                                      {%- render 'icon' with 'chevron-left', direction_aware: true -%} {{ sub_link.title }}
+                                    </button>
+                                  </li>
+
+                                  {%- for sub_sub_link in sub_link.links -%}
+                                    <li class="{% if mobile_opening == 'left' %}h3{% else %}h5{% endif %} sm:h5">
+                                      <a class="group {% if is_image_shown %}h-stack gap-4{% else %}block w-full{% endif %}"
+                                        href="{{ sub_sub_link.url }}">
+                                        {%- if is_image_shown and sub_sub_link.object != blank -%}
+                                          {%- assign sub_sub_link_image = '' -%}
+
+                                          {%- case sub_sub_link.type -%}
+                                            {%- when 'collection_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.products.first.featured_media -%}
+
+                                            {%- when 'product_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.featured_media -%}
+
+                                            {%- when 'blog_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.articles.first.image -%}
+
+                                            {%- when 'article_link' -%}
+                                              {%- assign sub_sub_link_image = sub_sub_link.object.image -%}
+                                          {%- endcase -%}
+
+                                          {%- if sub_sub_link_image != blank -%}
+                                            {{- sub_sub_link_image | image_url: width: 104 | image_tag: loading: 'lazy', sizes: '52px', widths: '52,104', class: 'panel-link__image rounded' -}}
+                                          {%- endif -%}
+                                        {%- endif -%}
+
+                                        <span><span class="reversed-link">{{ sub_sub_link.title }}</span></span>
+                                      </a>
+                                    </li>
+                                  {%- endfor -%}
+                                </ul> {% endcomment %}
+                              </div>
+                            {%- endcapture -%}
+                          {%- endif -%}
+                        {%- endfor -%}
+                      {%- endif -%}
+                    
+                  </ul>
+
+                  {%- unless is_mega_menu -%}
+                    {% comment %} 图片 {% endcomment %}
+                    {%- if mega_menu_block != '' -%}
+                      <style>
+                          .new-releases-md{
+                            justify-content: center;
+                          }
+                          .new-releases-md .navigation-promo{
+                            display: flex;
+                            flex-direction: column;
+                          }
+                          .new-releases-md a{
+                            position: relative;
+                            width: 100%;
+                          }
+                          .new-releases-md a img{
+                            aspect-ratio: 16 / 9;
+                            object-fit: cover;
+                            width: 100% !important;
+                          }
+                          .new-releases-md a .new-releases-a-content{
+                            position: absolute;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            left: 26px;
+                            width: 100%;
+                          }
+                          .new-releases-md a .new-releases-a-content p{
+                            font-size: 16px;
+                          }
+                          .new-releases-md a .new-releases-a-content .new-r-btn{
+                            background: #fff;
+                            color: #000;
+                            padding: 8px 16px;
+                            border-radius: 24px;
+                            margin-top: 18px;
+                            font-size: 12px;
+                            transition: all 0.3s ease-in-out;
+                          }
+                          .new-releases-md a .new-releases-a-content .new-r-btn:hover{
+                            background: #E1040F;
+                            color: #fff;
+                          }
+                        </style>
+                      <div class="new-releases-md">
+                        {%- render 'navigation-promo-block',link:link, navigation_layout: layout, mega_menu_block: mega_menu_block, is_navigation_drawer: true, link_col: link.links.size -%}
+                      </div>
+                      
+                    {%- endif -%}
+                  {%- endunless -%}
+                </div>
+              {%- endcapture -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+
+        {%- if secondary_menu != blank -%}
+          <ul class="v-stack gap-3">
+            {%- for link in secondary_menu.links -%}
+              <li>
+                <a href="{{ link.url }}" class="h6 group"><span><span class="reversed-link">{{ link.title }}</span></span></a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      {%- if is_mega_menu -%}
+        {%- render 'navigation-promo-block', navigation_layout: layout, mega_menu_block: mega_menu_block, is_navigation_drawer: true, link_col: link.links.size -%}
+      {%- else -%}
+        {%- comment -%}
+        ----------------------------------------------------------------------------------------------------------------
+        SOCIAL MEDIA + LOCALIZATION
+        ----------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+
+        {%- if section.settings.show_social_media -%}
+          {%- capture social_media -%}{%- render 'social-media' -%}{%- endcapture -%}
+        {%- endif -%}
+
+        {%- if show_country_selector and localization.available_countries.size > 1 -%}
+          {%- assign country_selector = true -%}
+        {%- endif -%}
+
+        {%- if show_locale_selector and localization.available_languages.size > 1 -%}
+          {%- assign locale_selector = true -%}
+        {%- endif -%}
+
+        <div class="panel-footer v-stack jingva-drawer-footer">
+
+          {%- if country_selector or locale_selector -%}
+            <div class="panel-footer__localization-wrapper jingva-drawer-footer__locale h-stack gap-6">
+              <span class="jingva-drawer-footer__locale-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0ZM7.95215 10C7.80944 11.5632 7.36409 13.0414 6.93457 14.1689C6.73992 14.6799 6.54536 15.1279 6.37695 15.4902C7.18721 15.818 8.07223 16 9 16C10.1517 16 11.2371 15.7193 12.1953 15.2266C12.015 14.9519 11.8234 14.6439 11.6318 14.3086C10.9812 13.1699 10.285 11.6396 10.0693 10H7.95215ZM2.07227 10C2.33056 11.8054 3.27739 13.3875 4.63867 14.4736C4.77059 14.1816 4.91955 13.839 5.06543 13.4561C5.44388 12.4626 5.80603 11.2444 5.94238 10H2.07227ZM12.0908 10C12.293 11.1719 12.8092 12.3382 13.3682 13.3164C13.5232 13.5878 13.6794 13.8389 13.8271 14.0664C14.937 13.0086 15.7001 11.5913 15.9277 10H12.0908ZM4.63867 3.52539C3.27714 4.61148 2.33059 6.19438 2.07227 8H5.94238C5.80603 6.75561 5.44388 5.53743 5.06543 4.54395C4.91941 4.16065 4.77068 3.81761 4.63867 3.52539ZM13.8271 3.93262C13.6793 4.16028 13.5234 4.41192 13.3682 4.68359C12.8092 5.66183 12.293 6.8281 12.0908 8H15.9277C15.7 6.40844 14.9373 4.99046 13.8271 3.93262ZM9 2C8.07236 2 7.18712 2.18109 6.37695 2.50879C6.54545 2.87129 6.73978 3.31975 6.93457 3.83105C7.36409 4.95855 7.80944 6.43677 7.95215 8H10.0693C10.285 6.36043 10.9812 4.83007 11.6318 3.69141C11.8236 3.35583 12.0148 3.0473 12.1953 2.77246C11.2372 2.27985 10.1515 2 9 2Z" fill="#0A0A0A"/>
+                </svg>
+              </span>
+              <span class="jingva-drawer-footer__locale-label">
+                {{- localization.language.iso_code | upcase -}}{%- if localization.country.currency.iso_code -%}/${{- localization.country.currency.iso_code -}}{%- endif -%}
+              </span>
+              <span class="jingva-drawer-footer__locale-chevron" aria-hidden="true">
+                <svg class="jingva-drawer-icon-chevron" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.60059 6.42285L1.17773 12.8457L0 11.667L5.24414 6.42285L0 1.17871L1.17773 0L7.60059 6.42285Z" fill="#0A0A0A"/>
+                </svg>
+              </span>
+              <div class="jingva-drawer-footer__locale-hidden">
+                {%- if country_selector -%}
+                  {%- render 'localization-selector', type: 'country', show_country_name: show_country_name, show_country_flag: show_country_flag, mobile_popover_adjacent: true, popover_id_suffix: 'drawer' -%}
+                {%- endif -%}
+                {%- if locale_selector -%}
+                  {%- render 'localization-selector', type: 'locale', mobile_popover_adjacent: true, popover_id_suffix: 'drawer' -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- else -%}
+            <div class="panel-footer__localization-wrapper jingva-drawer-footer__locale h-stack gap-6">
+              <span class="jingva-drawer-footer__locale-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0ZM7.95215 10C7.80944 11.5632 7.36409 13.0414 6.93457 14.1689C6.73992 14.6799 6.54536 15.1279 6.37695 15.4902C7.18721 15.818 8.07223 16 9 16C10.1517 16 11.2371 15.7193 12.1953 15.2266C12.015 14.9519 11.8234 14.6439 11.6318 14.3086C10.9812 13.1699 10.285 11.6396 10.0693 10H7.95215ZM2.07227 10C2.33056 11.8054 3.27739 13.3875 4.63867 14.4736C4.77059 14.1816 4.91955 13.839 5.06543 13.4561C5.44388 12.4626 5.80603 11.2444 5.94238 10H2.07227ZM12.0908 10C12.293 11.1719 12.8092 12.3382 13.3682 13.3164C13.5232 13.5878 13.6794 13.8389 13.8271 14.0664C14.937 13.0086 15.7001 11.5913 15.9277 10H12.0908ZM4.63867 3.52539C3.27714 4.61148 2.33059 6.19438 2.07227 8H5.94238C5.80603 6.75561 5.44388 5.53743 5.06543 4.54395C4.91941 4.16065 4.77068 3.81761 4.63867 3.52539ZM13.8271 3.93262C13.6793 4.16028 13.5234 4.41192 13.3682 4.68359C12.8092 5.66183 12.293 6.8281 12.0908 8H15.9277C15.7 6.40844 14.9373 4.99046 13.8271 3.93262ZM9 2C8.07236 2 7.18712 2.18109 6.37695 2.50879C6.54545 2.87129 6.73978 3.31975 6.93457 3.83105C7.36409 4.95855 7.80944 6.43677 7.95215 8H10.0693C10.285 6.36043 10.9812 4.83007 11.6318 3.69141C11.8236 3.35583 12.0148 3.0473 12.1953 2.77246C11.2372 2.27985 10.1515 2 9 2Z" fill="#0A0A0A"/>
+                </svg>
+              </span>
+              <span class="jingva-drawer-footer__locale-label">EN/$USD</span>
+              <span class="jingva-drawer-footer__locale-chevron" aria-hidden="true">
+                <svg class="jingva-drawer-icon-chevron" width="8" height="13" viewBox="0 0 8 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7.60059 6.42285L1.17773 12.8457L0 11.667L5.24414 6.42285L0 1.17871L1.17773 0L7.60059 6.42285Z" fill="#0A0A0A"/>
+                </svg>
+              </span>
+            </div>
+          {%- endif -%}
+
+          {%- if shop.customer_accounts_enabled -%}
+            <div class="jingva-drawer-footer__sign-wrap">
+              <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="jingva-drawer-footer__sign">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 17.5859V20H19V18.4141L17.5859 17H6.41406L5 18.4141V20H3V17.5859L5.58594 15H18.4141L21 17.5859ZM12 4C14.7614 4 17 6.23858 17 9C17 11.7614 14.7614 14 12 14C9.23858 14 7 11.7614 7 9C7 6.23858 9.23858 4 12 4ZM12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6Z" fill="#F4F4F4"/></svg>
+                <span>{% if customer %}{{ 'header.general.account' | t }}{% else %}Sign to AutoFUll{% endif %}</span>
+              </a>
+            </div>
+          {%- endif -%}
+
+          {%- comment -%} 与 product-gallery-g7-m6 / jingva-gallery-benefits--desktop 一致：4 项 + Figma 描边图标 {%- endcomment -%}
+          <div class="jingva-drawer-trust">
+            <div class="jingva-drawer-trust__row">
+              <span class="jingva-drawer-trust__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M3 4.65V12C3 19.35 12 22.5 12 22.5C12 22.5 21 19.35 21 12V4.65L12 1.5L3 4.65Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                  <path d="M8.17188 11.1712L11.0003 13.9996L16.6572 8.34277" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </span>
+              <span>3-Year Warranty</span>
+            </div>
+            <div class="jingva-drawer-trust__row">
+              <span class="jingva-drawer-trust__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22 21L2 21M22 21L22 3L1.99997 3L2 21M22 21V15L2 15L2 21" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                  <path d="M8 2V6H16V2" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2"/>
+                </svg>
+              </span>
+              <span>Free Shipping &amp; Returns</span>
+            </div>
+            <div class="jingva-drawer-trust__row">
+              <span class="jingva-drawer-trust__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M21.448 13C20.9483 17.7767 16.909 21.5 12 21.5C8.18227 21.5 4.89052 19.248 3.38065 16M2.5 20.5V15.5H5.5M2.55176 11C3.05145 6.22334 7.09079 2.5 11.9998 2.5C15.8175 2.5 19.1092 4.75197 20.6191 8M21.4998 3.5V8.5H18.4998" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                  <path d="M14.5 8H12M12 8H11C9.89543 8 9 8.89543 9 10C9 11.1046 9.89543 12 11 12H13C14.1046 12 15 12.8954 15 14C15 15.1046 14.1046 16 13 16H12M12 8V7M12 16H9.5M12 16V17" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </span>
+              <span>90-Day Money Back Guarantee</span>
+            </div>
+            <div class="jingva-drawer-trust__row">
+              <span class="jingva-drawer-trust__icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 14.6624 3.04042 17.0817 4.73686 18.8737L3 22H12Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                  <path d="M12.0012 14.75V14.5C12.0012 13.3954 12.9886 12.5414 13.8563 11.8578C14.5535 11.3085 15.0012 10.4565 15.0012 9.5C15.0012 7.84315 13.658 6.5 12.0012 6.5C10.695 6.5 9.58371 7.33481 9.17188 8.5M12.001 17.75H12.0049V17.7539H12.001V17.75Z" stroke="#1A1A1A" stroke-opacity="0.8" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </span>
+              <span>24/7 Support</span>
+            </div>
+          </div>
+
+          {%- if social_media != blank -%}
+            <div class="jingva-drawer-footer__social">{{- social_media -}}</div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if link_level_2 != blank -%}
+    <div class="panel gap-8 panel-two">
+      {{ link_level_2 }}
+    </div>
+  {%- endif -%}
+
+  {% comment %} {%- if link_level_3 != blank %}
+    <div class="panel panel-three">
+      {{ link_level_3 }}
+    </div>
+  {%- endif -%} {% endcomment %}
+</div>

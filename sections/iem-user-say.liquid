@@ -1,0 +1,345 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .swiper-button-next:after,
+  #{{ section.id }} .swiper-button-prev:after {
+    content: none;
+  }
+
+  #{{ section.id }} .swiper-button-disabled {
+    background: rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section
+  id="{{ section.id }}"
+  class="tw:overflow-hidden tw:font-gabarito tw:text-white"
+  data-iem-user-say
+>
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-start tw:gap-12
+      tw:max-md:px-4
+    "
+  >
+    {% if section.settings.title != blank %}
+      <h2
+        id="IemUserSayTitle-{{ section.id }}"
+        class="
+          tw:m-0 tw:w-full tw:text-center tw:font-orbitron tw:text-[48px]
+          tw:font-black tw:uppercase tw:leading-[1.2] tw:text-white
+          tw:max-md:text-left tw:max-md:text-[28px] tw:max-md:max-w-[358px]
+        "
+      >
+        {{ section.settings.title | escape }}
+      </h2>
+    {% endif %}
+
+    <div
+      class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-6"
+      role="region"
+      aria-roledescription="carousel"
+      {% if section.settings.title != blank %}
+        aria-labelledby="IemUserSayTitle-{{ section.id }}"
+      {% else %}
+        aria-label="Customer reviews"
+      {% endif %}
+    >
+      <div class="swiper tw:w-full tw:overflow-visible">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            {% liquid
+              assign rating = block.settings.rate_number | default: 5 | plus: 0
+              assign image_alt = block.settings.image.alt | default: block.settings.author | escape
+            %}
+
+            <article
+              class="swiper-slide tw:flex tw:h-[439px] tw:w-[320px]! tw:flex-col tw:items-center tw:gap-[34px] tw:bg-[#F0F0F0] tw:pb-6 tw:text-black"
+              {{ block.shopify_attributes }}
+            >
+              <div class="tw:relative tw:h-[238px] tw:w-full tw:shrink-0 tw:overflow-hidden">
+                {% if block.settings.image != blank %}
+                  {{
+                    block.settings.image
+                    | image_url: width: block.settings.image.width
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '320px',
+                      widths: '320,480,640,800,960',
+                      class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+                      alt: image_alt
+                  }}
+                {% else %}
+                  <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-400 tw:text-black">
+                    image
+                  </div>
+                {% endif %}
+              </div>
+
+              <div class="tw:flex tw:min-h-0 tw:w-[292px] tw:flex-1 tw:flex-col tw:items-start tw:gap-3">
+                <div class="tw:flex tw:w-full tw:items-center tw:justify-between tw:gap-3">
+                  <div class="tw:flex tw:min-w-0 tw:items-center tw:gap-1">
+                    {% if block.settings.author != blank %}
+                      <h3 class="tw:m-0 tw:truncate tw:text-[16px] tw:font-bold tw:leading-none tw:text-black tw:font-gabarito!">
+                        {{ block.settings.author | escape }}
+                      </h3>
+                    {% endif %}
+
+                    <svg
+                      class="tw:shrink-0 "
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                    >
+                      <path d="M13.0805 6.28557L11.796 5.43507C11.5685 5.28457 11.4565 5.01157 11.509 4.74207L11.8135 3.23007C11.8695 2.94657 11.782 2.65257 11.579 2.44607C11.3725 2.23957 11.082 2.15207 10.795 2.21157L9.28295 2.51607C9.01345 2.57207 8.74395 2.45657 8.58995 2.22907L7.73595 0.94457C7.57495 0.70307 7.30545 0.55957 7.01495 0.55957C6.72445 0.55957 6.45495 0.70307 6.29395 0.94457L5.43995 2.22907C5.28945 2.45657 5.01645 2.56857 4.74695 2.51607L3.23495 2.21157C2.95145 2.15557 2.65745 2.24307 2.45095 2.44607C2.24445 2.65257 2.15695 2.94307 2.21645 3.23007L2.52095 4.74207C2.57345 5.01157 2.46145 5.28107 2.23395 5.43507L0.949453 6.28907C0.707953 6.45007 0.564453 6.71957 0.564453 7.01007C0.564453 7.30057 0.707953 7.57007 0.949453 7.73107L2.23395 8.58507C2.46145 8.73557 2.57345 9.00857 2.52095 9.27807L2.21645 10.7901C2.16045 11.0736 2.24795 11.3676 2.45095 11.5741C2.65745 11.7806 2.94795 11.8681 3.23495 11.8086L4.74695 11.5041C5.01645 11.4481 5.28595 11.5636 5.43995 11.7911L6.29395 13.0756C6.45495 13.3171 6.72445 13.4606 7.01495 13.4606C7.30545 13.4606 7.57495 13.3171 7.73595 13.0756L8.58995 11.7911C8.74045 11.5636 9.01345 11.4516 9.28295 11.5041L10.795 11.8086C11.0785 11.8646 11.3725 11.7771 11.579 11.5741C11.7855 11.3676 11.873 11.0771 11.8135 10.7901L11.509 9.27807C11.4565 9.00857 11.5685 8.73907 11.796 8.58507L13.0805 7.73107C13.322 7.57007 13.4655 7.30057 13.4655 7.01007C13.4655 6.71957 13.322 6.44657 13.0805 6.28557ZM9.67145 5.98457L6.78045 8.92457C6.69995 9.00857 6.59145 9.05057 6.47945 9.05057C6.38145 9.05057 6.27995 9.01557 6.20295 8.94557L4.31295 7.27607C4.13795 7.12207 4.12395 6.85607 4.27445 6.68457C4.42845 6.50957 4.69445 6.49557 4.86595 6.64607L6.45845 8.05307L9.06945 5.39657C9.23045 5.23207 9.49645 5.22857 9.66445 5.39307C9.83245 5.55057 9.83245 5.81657 9.67145 5.98457Z" fill="#5396FF"/>
+                    </svg>
+                  </div>
+
+                  <div class="tw:flex tw:shrink-0 tw:items-center tw:gap-1" aria-label="{{ rating }} out of 5 stars">
+                    {% for i in (1..5) %}
+                      <svg
+                        class="tw:size-[10px] {% if i <= rating %}tw:text-[#F5A400]{% else %}tw:text-black/20{% endif %}"
+                        viewBox="0 0 10 10"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                        aria-hidden="true"
+                      >
+                        <g clip-path="url(#clip0_1038_3133)">
+                        <path d="M4.97839 0.347579L5.99476 2.43679C6.05122 2.60618 6.22062 2.71911 6.39001 2.71911L8.59215 3.0579C9.04387 3.11437 9.21327 3.67902 8.87448 4.01781L7.29345 5.6553C7.18052 5.76823 7.12406 5.93762 7.12406 6.16348L7.51931 8.47855C7.57578 8.93027 7.12406 9.26906 6.78527 9.0432L4.80899 7.97036C4.6396 7.9139 4.4702 7.9139 4.30081 7.97036L2.32453 9.0432C1.92927 9.26906 1.47755 8.93027 1.59048 8.47855L1.98574 6.16348C2.0422 5.99409 1.98574 5.82469 1.81634 5.6553L0.178857 3.96134C-0.159933 3.67902 0.00946187 3.11437 0.461182 3.0579L2.66332 2.71911C2.83271 2.71911 3.00211 2.60618 3.05858 2.43679L4.07495 0.347579C4.24434 -0.104141 4.80899 -0.104141 4.97839 0.347579Z" fill="#FFB300"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_1038_3133">
+                        <rect width="9.12409" height="9.12409" fill="white"/>
+                        </clipPath>
+                        </defs>
+                      </svg>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                {% if block.settings.desc != blank %}
+                  <p class="tw:m-0 tw:min-h-0 tw:w-full tw:overflow-hidden tw:text-[12px] tw:font-normal tw:leading-[1.2] tw:text-black">
+                    {{ block.settings.desc | escape }}
+                  </p>
+                {% endif %}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="tw:flex tw:items-center tw:gap-3">
+        <button
+          type="button"
+          class="
+            swiper-button-prev tw:pointer-events-auto tw:flex tw:size-12 tw:items-center
+            tw:justify-center tw:overflow-hidden tw:rounded-[12px] tw:bg-[#FAFAFA]
+            tw:p-3 tw:text-[#0A0A0A] tw:transition-all tw:duration-200
+            tw:hover:bg-[#DBDBDB] tw:focus-visible:outline tw:focus-visible:outline-2
+            tw:focus-visible:outline-offset-2 tw:focus-visible:outline-white
+            tw:active:opacity-80 tw:max-md:size-9 tw:max-md:rounded-[8px] tw:max-md:p-[6px]
+          "
+          aria-label="Previous review"
+          data-prev
+        >
+          <svg
+            class="tw:block tw:size-full tw:max-md:size-4!"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M14.5 17.5L9 12L14.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="
+            swiper-button-next tw:pointer-events-auto tw:flex tw:size-12 tw:items-center
+            tw:justify-center tw:overflow-hidden tw:rounded-[12px] tw:bg-[#FAFAFA]
+            tw:p-3 tw:text-[#0A0A0A] tw:transition-all tw:duration-200
+            tw:hover:bg-[#DBDBDB] tw:focus-visible:outline tw:focus-visible:outline-2
+            tw:focus-visible:outline-offset-2 tw:focus-visible:outline-white
+            tw:active:opacity-80 tw:max-md:size-9 tw:max-md:rounded-[8px] tw:max-md:p-[6px]
+          "
+          aria-label="Next review"
+          data-next
+        >
+          <svg
+            class="tw:block tw:size-full tw:max-md:size-4!"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M9.5 17.5L15 12L9.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-iem-user-say]').forEach((sectionEl) => {
+      const swiperEl = sectionEl.querySelector('.swiper');
+
+      if (!swiperEl) {
+        return;
+      }
+
+      new Swiper(swiperEl, {
+        slidesPerView: 'auto',
+        spaceBetween: 12,
+        navigation: {
+          nextEl: sectionEl.querySelector('[data-next]'),
+          prevEl: sectionEl.querySelector('[data-prev]'),
+        },
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "IEM User Say",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "What Our Customers Say"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 68
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Jorena"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "Auto M6 Ultra den krassesten Gaming Stuhl den ich auf diesem Planeten jemals gesehen habe. Ein riesen Paket und ich freue mich das mit euch zu oeffnen."
+        },
+        {
+          "type": "range",
+          "id": "rate_number",
+          "label": "Rate number",
+          "min": 0,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM User Say",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "author": "Jorena",
+            "desc": "Auto M6 Ultra den krassesten Gaming Stuhl den ich auf diesem Planeten jemals gesehen habe. Ein riesen Paket und ich freue mich das mit euch zu oeffnen.",
+            "rate_number": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Hall Of Tech",
+            "desc": "The AutoFull G7 ergonomic chair was tested and approved by an actual chiropractor. It has 22 adjustable features like auto lumbar support.",
+            "rate_number": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Frslush",
+            "desc": "My chair actually has heating, cooling and massage built in, which is crazy overkill, but I love it.",
+            "rate_number": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "ilke.iam",
+            "desc": "Der AutoFull M6 Ultra ist mit Abstand der krasseste Gaming Stuhl auf dem Markt.",
+            "rate_number": 5
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "author": "Ryan Mikael",
+            "desc": "AutoFull M6 Ultra, the ultimate gaming chair is here. From comfort and adjustability to heating, cooling, and massage functions.",
+            "rate_number": 5
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

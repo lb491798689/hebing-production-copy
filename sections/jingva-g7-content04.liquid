@@ -1,0 +1,424 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign padding_top_pc = se_stts.padding_top_pc | default: '140'
+  assign padding_top_mob = se_stts.padding_top_mob | default: '68'
+-%}
+{% capture default_sid %}.jingva-g7-content04-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-g7-content04-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, node 5320-5616) 详细参数:
+     * - 容器: 1920px 宽, 垂直布局, gap 48px, 居中
+     * - 标题区域: 1200px 宽, 垂直布局, gap 24px, 居中
+     * - 标题: Orbitron-Black 900 64px, #0A0A0A, uppercase, center, line-height 80.256px
+     * - 描述: Gabarito-Medium 500 24px, rgba(26,26,26,0.6), center
+     * - 图片/视频: 1200x600px, border-radius 16px
+     * ========================================
+     * Figma Mobile (390px, node 5765-3505) 详细参数:
+     * - 容器: 390px 宽, 垂直布局, gap 27px, 居中
+     * - 标题区域: 358px 宽, 垂直布局, gap 12px, 左对齐
+     * - 标题: Orbitron-Black 900 28px, #0A0A0A, uppercase, left, line-height 35.112px
+     * - 描述: Gabarito-Medium 500 16px, rgba(26,26,26,0.6), left
+     * - 图片/视频: 390x540px, padding: 468px 57px 24px
+     * ========================================
+     */
+    
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1920px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      padding-top: {{ padding_top_pc }}px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-title-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 24px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 64px !important;
+      line-height: 80.256px !important;
+      color: #0A0A0A !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-g7-content04-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: rgba(26, 26, 26, 0.6) !important;
+      text-align: center !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-image-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      aspect-ratio: 1200 / 600 !important;
+      height: auto !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-video-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-video-poster {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      transition: opacity 0.3s ease !important;
+      z-index: 2 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-video-poster.hidden {
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-video {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      z-index: 1 !important;
+    }
+
+    /* 默认 PC 端展示控制 */
+    {{ default_sid }} .jingva-g7-content04-image-pc,
+    {{ default_sid }} .jingva-g7-content04-video-wrapper-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-g7-content04-image-mob,
+    {{ default_sid }} .jingva-g7-content04-video-wrapper-mob {
+      display: none !important;
+    }
+
+    /* PC: 1440~2560 */
+    @media screen and (min-width: 1440px) {
+      {{ default_sid }} {
+        gap: 48px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+      }
+    }
+
+    /* PAD: 1280~1439 */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        gap: 40px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-title-container {
+        max-width: 1200px !important;
+        gap: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-title {
+        font-size: 56px !important;
+        line-height: 1.2em !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-description {
+        font-size: 20px !important;
+      }
+    }
+
+    /* MOB: 375~1279 */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        gap: 27px !important;
+        padding-top: {{ padding_top_mob }}px !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        border-radius: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-title-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+        box-sizing: border-box !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-title {
+        font-size: 28px !important;
+        line-height: 1.2em !important;
+        text-align: left !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-description {
+        font-size: 16px !important;
+        line-height: 1.4em !important;
+        text-align: left !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-image-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        aspect-ratio: 390 / 540 !important;
+        height: auto !important;
+      }
+
+      /* 移动端展示控制 */
+      {{ default_sid }} .jingva-g7-content04-image-pc,
+      {{ default_sid }} .jingva-g7-content04-video-wrapper-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-content04-image-mob,
+      {{ default_sid }} .jingva-g7-content04-video-wrapper-mob {
+        display: block !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-g7-content04-title-container">
+    {% if se_stts.title != blank %}
+      <h2 class="jingva-g7-content04-title">{{ se_stts.title }}</h2>
+    {% endif %}
+    {% if se_stts.description != blank %}
+      <p class="jingva-g7-content04-description">{{ se_stts.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="jingva-g7-content04-image-container">
+    {%- comment -%} PC 端媒体渲染 (优先渲染视频，如果没有视频再渲染图片) {%- endcomment -%}
+    {% if se_stts.video_pc != blank %}
+      <div class="jingva-g7-content04-video-wrapper jingva-g7-content04-video-wrapper-pc" data-video-type="pc">
+        {% if se_stts.image_pc != blank %}
+          <img 
+            class="jingva-g7-content04-video-poster"
+            src="{{ se_stts.image_pc | image_url: width: 1200 }}"
+            alt="{{ se_stts.image_pc.alt | default: se_stts.title }}"
+            loading="lazy"
+            width="1200"
+            height="600"
+          >
+        {% endif %}
+        <video 
+          class="jingva-g7-content04-video"
+          {% if se_stts.image_pc != blank %}poster="{{ se_stts.image_pc | image_url: width: 1200 }}"{% endif %}
+          muted loop playsinline autoplay
+        >
+          {%- for source in se_stts.video_pc.sources -%}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+          {%- endfor -%}
+        </video>
+      </div>
+    {% elsif se_stts.image_pc != blank %}
+      <img 
+        class="jingva-g7-content04-image jingva-g7-content04-image-pc"
+        src="{{ se_stts.image_pc | image_url: width: 1200 }}"
+        alt="{{ se_stts.image_pc.alt | default: se_stts.title }}"
+        loading="lazy"
+        width="1200"
+        height="600"
+      >
+    {% endif %}
+
+    {%- comment -%} 移动端媒体渲染 (优先渲染视频，如果没有视频再渲染图片) {%- endcomment -%}
+    {% if se_stts.video_mob != blank %}
+      <div class="jingva-g7-content04-video-wrapper jingva-g7-content04-video-wrapper-mob" data-video-type="mob">
+        {% if se_stts.image_mob != blank %}
+          <img 
+            class="jingva-g7-content04-video-poster"
+            src="{{ se_stts.image_mob | image_url: width: 390 }}"
+            alt="{{ se_stts.image_mob.alt | default: se_stts.title }}"
+            loading="lazy"
+            width="390"
+            height="540"
+          >
+        {% endif %}
+        <video 
+          class="jingva-g7-content04-video"
+          {% if se_stts.image_mob != blank %}poster="{{ se_stts.image_mob | image_url: width: 390 }}"{% endif %}
+          muted loop playsinline autoplay
+        >
+          {%- for source in se_stts.video_mob.sources -%}
+            <source src="{{ source.url }}" type="{{ source.mime_type }}">
+          {%- endfor -%}
+        </video>
+      </div>
+    {% elsif se_stts.image_mob != blank %}
+      <img 
+        class="jingva-g7-content04-image jingva-g7-content04-image-mob"
+        src="{{ se_stts.image_mob | image_url: width: 390 }}"
+        alt="{{ se_stts.image_mob.alt | default: se_stts.title }}"
+        loading="lazy"
+        width="390"
+        height="540"
+      >
+    {% endif %}
+  </div>
+
+</section>
+
+<script>
+  (function() {
+    const sectionId = '{{ sid }}';
+    const sectionEl = document.querySelector('.jingva-g7-content04-' + sectionId);
+    if (!sectionEl) return;
+
+    // 视频加载处理 - 当视频可以播放时平滑隐藏海报图
+    const videoWrappers = sectionEl.querySelectorAll('.jingva-g7-content04-video-wrapper');
+    videoWrappers.forEach(wrapper => {
+      const video = wrapper.querySelector('.jingva-g7-content04-video');
+      const poster = wrapper.querySelector('.jingva-g7-content04-video-poster');
+      
+      if (video && poster) {
+        video.addEventListener('playing', function() {
+          poster.classList.add('hidden');
+        }, { once: true });
+        
+        // 应对缓存导致的极速加载情况
+        if (video.readyState >= 3 && !video.paused) {
+          poster.classList.add('hidden');
+        }
+      }
+    });
+
+    // 标题的 AOS 动画观察器
+    const titleEl = sectionEl.querySelector('.jingva-g7-content04-title');
+    if (titleEl) {
+      const titleObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('aos-animate');
+            titleObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.01,
+        rootMargin: '0px 0px 0px 0px'
+      });
+      titleObserver.observe(titleEl);
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva G7 Content 04",
+  "tag": "section",
+  "class": "jingva-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "High-Quality Custom Mech"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "140° Dual-Axis Rotation | 50mm Front-to-Back Adjustment | 45mm Vertical Adjustment"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_pc",
+      "label": "Padding Top PC (px)",
+      "default": "140"
+    },
+    {
+      "type": "text",
+      "id": "padding_top_mob",
+      "label": "Padding Top Mobile (px)",
+      "default": "68"
+    },
+    {
+      "type": "header",
+      "content": "PC Media (1200x600px)"
+    },
+    {
+      "type": "video",
+      "id": "video_pc",
+      "label": "PC Video File",
+      "info": "Upload MP4 video. If configured, video takes priority over image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_pc",
+      "label": "PC Poster Image / Fallback Image",
+      "info": "Displayed while video loads, or as main image if no video is uploaded."
+    },
+    {
+      "type": "header",
+      "content": "Mobile Media (390x540px)"
+    },
+    {
+      "type": "video",
+      "id": "video_mob",
+      "label": "Mobile Video File",
+      "info": "Upload MP4 video. If configured, video takes priority over image."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mob",
+      "label": "Mobile Poster Image / Fallback Image",
+      "info": "Displayed while video loads, or as main image if no video is uploaded."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 Content 04"
+    }
+  ]
+}
+{% endschema %}

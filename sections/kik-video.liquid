@@ -1,0 +1,433 @@
+{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
+{%- unless section.settings.full_width -%}
+    {%- render 'section-spacing-collapsing' -%}
+  {%- endunless -%}
+  {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+  {%- assign overlay_width = section.settings.overlay_width | append: 'px' -%}
+  {%- assign enable_custom_width = section.settings.enable_custom_width -%}
+  
+  {% comment %} {{ 'kik-video-review.css' | asset_url | stylesheet_tag }} {% endcomment %}
+  
+  <style>
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.full_width -%}
+        --section-outer-spacing-block: 0;
+      {%- endif -%}
+      background:{{section.settings.background}};
+      --content-over-media-overlay: {{ section.settings.overlay_color.rgb }} / {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  
+      {%- if section.settings.allow_transparent_header -%}
+        margin-block-start: calc(-1 * var(--header-height) * var(--section-is-first));
+      {%- endif -%}
+    }
+  
+    {%- unless section.settings.full_width -%}
+      #shopify-section-{{ section.id }}:first-child .section[allow-transparent-header] {
+        padding-block-start: max(var(--section-inner-max-spacing-block), var(--header-height));
+      }
+    {%- endunless -%}
+    {% if enable_custom_width %}
+      {{ section_identifier }} .content-over-media>:not(img,video,iframe,svg,video-media,picture) {
+        max-width: {{ overlay_width }};
+      }
+      @media only screen and (max-width: 820px){
+        {{ section_identifier }} .content-over-media>:not(img,video,iframe,svg,video-media,picture) {
+          max-width: 100%;
+        }
+      }
+    {% endif %}
+    {{ section_identifier }} .kik_video_heading h1{
+        color:{{ section.settings.sec_color}};
+    }
+    .flex{
+        display:flex;
+    }
+    
+    /* Swiper specific styles */
+    {{ section_identifier }} .swiper {
+      width: 100%;
+      height: auto;
+      overflow: hidden;
+    }
+    
+    {{ section_identifier }} .swiper-wrapper {
+      display: flex;
+      align-items: stretch;
+    }
+    
+    {{ section_identifier }} .swiper-slide {
+      height: auto;
+      flex-shrink: 0;
+    }
+    
+    {{ section_identifier }} .swiper-pagination {
+      position: relative;
+      margin-top: 20px;
+    }
+    
+    {{ section_identifier }} .swiper-pagination-bullet {
+      background: #ccc;
+      opacity: 0.5;
+    }
+    
+    {{ section_identifier }} .swiper-pagination-bullet-active {
+      background: #000;
+      opacity: 1;
+    }
+  </style>
+  
+  <div
+    {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %}
+    class="kik_videos_slider"
+    {% if section.settings.allow_transparent_header %}
+      allow-transparent-header
+    {% endif %}
+  >
+    {%- capture class -%}content-over-media{%- endcapture -%}
+   
+      <div class="kik_video_heading section">
+        <div class="kik_h_content">
+           {% if section.settings.title != blank %}
+        <h2>{{ section.settings.title }}</h2>
+         {% endif %}
+         {% comment %} <h1>Review videos</h1> {% endcomment %}
+        {% if section.settings.content != blank %}
+          <p>{{ section.settings.content }}</p>
+        {% endif %}
+        </div>
+        <div class="kik_buttons">
+        {% render 'swiperjs-controls', section: section, show_navigation: true %}
+        </div>
+      </div>
+   
+  
+    <div class="slider_area">
+      <div class="swiper" id="swiper-{{  section.id }}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+              <div
+                  class="flex align-center justify-between section-boxed h-full swiper-slide"
+              >
+                  <div class="content_area">
+                      <div class="content_details">
+                          {% if block.settings.icon %}
+                              {{ block.settings.icon | image_url: width: block.settings.icon_width | image_tag  }}
+                          {% endif %}
+                          {% if block.settings.heading %}
+                              <h5>{{ block.settings.heading | escape }}</h5>
+                          {% endif %}
+                          {% if block.settings.description %}
+                              <p>{{ block.settings.description | escape }}</p>
+                          {% endif %}
+                      </div>
+                  </div>
+                  <div {% render 'surface', class: class, text_color: section.settings.text_color %}>
+                      {%- capture poster -%}
+                          {%- assign poster_image = block.settings.poster | default: block.settings.video.preview_image -%}
+                          
+                      
+                          {%- if poster_image != blank -%}
+                              {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
+                              {{- poster_image | image_url: width: poster_image.width | image_tag: sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200' -}}
+                          {%- endif -%}
+                      {%- endcapture -%}
+                      {%- if block.settings.video -%}
+  
+                          <video-media
+                          {% if block.settings.video_size == 'auto' %}
+                              style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}"
+                          {% endif %}
+                          >
+                          {{-
+                              block.settings.video
+                              | video_tag:
+                              playsinline: true,
+                              preload: 'metadata',
+                              controls: false,
+                              image_size: '800x'
+                          -}}
+                          {{- poster -}}
+                          </video-media>
+                      {%- else -%}
+                          <video-media
+                          host="{{ block.settings.external_video_url.type }}"
+                          >
+                          {{- poster -}}
+                  
+                          <template>
+                              {%- if block.settings.external_video_url.type == 'youtube' -%}
+                              <iframe
+                                  src="https://www.youtube.com/embed/{{ block.settings.external_video_url.id }}?playsinline=1&playlist={{ block.settings.external_video_url.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+                                  allow="autoplay; encrypted-media"
+                                  allowfullscreen="allowfullscreen"
+                              ></iframe>
+                              {%- elsif block.settings.external_video_url.type == 'vimeo' -%}
+                              <iframe
+                                  src="https://player.vimeo.com/video/{{ block.settings.external_video_url.id }}?autopause=1&transparent=0&responsive=1&portrait=0&title=0&byline=0&color={{ settings.text_color | remove_first: '#' }}"
+                                  allow="autoplay; encrypted-media;"
+                                  allowfullscreen="allowfullscreen"
+                              ></iframe>
+                              {%- endif -%}
+                          </template>
+                          </video-media>
+                      {%- endif -%}
+                      <button class="video-play-button" type="button" {{ block.shopify_attributes }}>
+                          <span class="sr-only">{{ 'general.accessibility.play_video' | t }}</span>
+                          {%- render 'icon' with 'play-button', width: 30, height: 30 -%}
+                      </button>
+                    </div>
+              </div>
+          {% endfor %}
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+        
+    </div>
+  </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Wait for Swiper to be loaded
+  function initVideoSwiper() {
+    if (typeof Swiper === 'undefined') {
+      console.log('Swiper not loaded yet, retrying...');
+      setTimeout(initVideoSwiper, 100);
+      return;
+    }
+
+    const swiperContainer = document.getElementById('swiper-{{ section.id }}');
+    if (!swiperContainer) {
+      console.error('Swiper container not found:', 'swiper-{{ section.id }}');
+      return;
+    }
+
+    console.log('Initializing Swiper for video section...');
+    
+    const swiper = new Swiper(swiperContainer, {
+      slidesPerView: 1,
+      spaceBetween: 40,
+      loop: false,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".kik-next.kik-arrow-button",
+        prevEl: ".kik-prev.kik-arrow-button",
+      },
+      breakpoints: { 
+        768: {
+          slidesPerView: 1.18,
+          centeredSlides: true,
+          spaceBetween: 40,
+        },
+        1024: {
+          slidesPerView: 1.5,
+          centeredSlides: true,
+          spaceBetween: 40,
+        }
+      },
+      on: {
+        init: function () {
+          console.log('Swiper initialized successfully');
+        },
+        slideChange: function () {
+          console.log('Slide changed to:', this.activeIndex);
+        }
+      }
+    });
+  }
+
+  // Initialize immediately and also after a delay to ensure everything is loaded
+  initVideoSwiper();
+  setTimeout(initVideoSwiper, 500);
+});
+</script>
+  {% schema %}
+  {
+    "name": "Video Reviews",
+    "class": "video-reviews",
+    "tag": "section",
+    "disabled_on": {
+      "groups": ["header", "custom.overlay"]
+    },
+    "settings": [
+       {
+        "type": "text",
+        "id": "section_id",
+        "label": "Section id",
+        "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same (id or name) in the (Kiks Section Navigation) section."
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "paragraph",
+        "content": "For best visual results and avoid platform branding, use a MP4 file."
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_transparent_header",
+        "label": "Allow transparent header",
+        "info": "This setting only applies when this section is the first one.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Autoplay",
+        "info": "Video are muted to allow autoplay. For best results, do not add any content on top of the video when autoplay is enabled.",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "sec_color",
+        "label": "Secondary color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 30
+      }
+    ],
+    "blocks": [
+      {
+        "type": "video",
+        "name": "Video Review",
+        "settings": [
+          {
+              "type": "header",
+              "content": "Review"
+          },
+          {
+              "type": "image_picker",
+              "id": "icon",
+              "label": "Icon"
+          },
+          {
+              "type": "range",
+              "id": "icon_width",
+              "label": "Icon width",
+              "default": 100,
+              "min": 20,
+              "max": 250,
+              "step":5
+          },
+          {
+              "type": "text",
+              "id":"heading",
+              "label": "Heading"
+          },
+          {
+              "type": "text",
+              "id":"description",
+              "label": "Description"
+          },
+          {
+              "type": "header",
+              "content": "Video Settings"
+          },
+          {
+            "type": "select",
+            "id": "video_size",
+            "label": "Video size",
+            "info": "Choose \"Original video ratio\" to avoid video cropping.",
+            "options": [
+              {
+                "value": "auto",
+                "label": "Original aspect ratio"
+              },
+              {
+                "value": "sm",
+                "label": "Small"
+              },
+              {
+                "value": "md",
+                "label": "Medium"
+              },
+              {
+                "value": "lg",
+                "label": "Large"
+              },
+              {
+                "value": "fill",
+                "label": "Fill screen"
+              }
+            ],
+            "default": "auto"
+          },
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video",
+            "info": "Replaces external video if both are set."
+          },
+          {
+            "type": "video",
+            "id": "mobile_video",
+            "label": "Mobile video",
+            "info": "Default to main video if none is set."
+          },
+          {
+            "type": "video_url",
+            "id": "external_video_url",
+            "accept": ["vimeo", "youtube"],
+            "label": "Video URL",
+            "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          },
+          {
+            "type": "image_picker",
+            "id": "poster",
+            "label": "Poster image",
+            "info": "3200 x 1600px .jpg recommended. Poster is not visible when autoplay is enabled."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Video Reviews"
+      }
+    ]
+  }
+  {% endschema %}
+  

@@ -1,0 +1,694 @@
+{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
+{%- unless section.settings.full_width -%}
+    {%- render 'section-spacing-collapsing' -%}
+  {%- endunless -%}
+  {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+  {%- assign overlay_width = section.settings.overlay_width | append: 'px' -%}
+  {%- assign enable_custom_width = section.settings.enable_custom_width -%}
+  {%- assign padding_top = section.settings.padding_top | split: ';' -%}
+  {%- assign padding_bottom = section.settings.padding_bottom | split: ';' -%}
+  {% comment %} {{ 'kik-video-review.css' | asset_url | stylesheet_tag }} {% endcomment %}
+  
+  <style>
+    {{ section_identifier }}.media-carousel-videos .section-full{
+      overflow: hidden;
+    }
+    #shopify-section-{{ section.id }} .section{
+      padding-top: {{ padding_top[0] }};
+      padding-bottom: {{ padding_bottom[0] }};
+    }
+    #shopify-section-{{ section.id }} {
+      {%- if section.settings.full_width -%}
+        --section-outer-spacing-block: 0;
+      {%- endif -%}
+      background:{{section.settings.background}};
+      --content-over-media-overlay: {{ section.settings.overlay_color.rgb }} / {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  
+      {%- if section.settings.allow_transparent_header -%}
+        margin-block-start: calc(-1 * var(--header-height) * var(--section-is-first));
+      {%- endif -%}
+    }
+  
+    {%- unless section.settings.full_width -%}
+      #shopify-section-{{ section.id }}:first-child .section[allow-transparent-header] {
+        padding-block-start: max(var(--section-inner-max-spacing-block), var(--header-height));
+      }
+    {%- endunless -%}
+    {% if enable_custom_width %}
+      {{ section_identifier }} .content-over-media>:not(img,video,iframe,svg,video-media,picture) {
+        max-width: {{ overlay_width }};
+      }
+      @media only screen and (max-width: 820px){
+        {{ section_identifier }} .content-over-media>:not(img,video,iframe,svg,video-media,picture) {
+          max-width: 100%;
+        }
+      }
+    {% endif %}
+    {{ section_identifier }} .content_area{
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+    }
+    {{ section_identifier }} .content_area .content_details p{
+      font-size: 13px;
+    }
+    {{ section_identifier }} .kik_video_heading{
+      justify-content: center;
+      align-items: center;
+    }
+    {{ section_identifier }} .kik_video_heading h2{
+        color:{{ section.settings.text_color}};
+        padding-bottom: 36px;
+        text-align: center;
+    }
+
+    {{ section_identifier }} .flex{
+        display:flex;
+        flex-direction:column;
+        border-radius: 0;
+        padding: 0;
+        margin-left: 0;
+        background: #F9F9F9;
+        box-shadow: none;
+    }
+    {{ section_identifier }} .kik_buttons{
+      display:flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .video-reviews .kik-arrow-button:hover {
+      transition: all 0.3s ease-in-out;
+      background: #ED1C22 !important;
+      border: 1px solid #ED1C22 !important;
+      color: #fff !important;
+    }
+    {{ section_identifier }} .kik_videos_slider{
+      padding-top: 3px;
+      padding-bottom: 3px;
+    }
+    {{ section_identifier }}.video-reviews{
+      margin-top: 0;
+    }
+    {{ section_identifier }} .swiper-container-carousel .jingva-img-box img{
+      width: 100%;
+      height: 100%;
+      /* aspect-ratio: 16 / 9; */
+      object-fit: cover;
+    }
+
+    .logo-list .logo-list__item:last-child,
+    .logo-list .logo-list__item:nth-last-child(2){
+        width: 40%;
+    }
+
+    {{ section_identifier }} .swiper-wrapper{
+      transition-timing-function: linear !important; /* 连续匀速关键 */
+      will-change: transform; /* 提示 GPU 合成，拖动更顺滑 */
+      cursor: pointer;
+    }
+    /* hover scale effect */
+    {{ section_identifier }} .swiper-container-carousel .swiper-slide{
+      transition: transform .2s ease, box-shadow .2s ease;
+      will-change: transform;
+    }
+    {{ section_identifier }} .swiper-container-carousel .swiper-slide:hover{
+      transform: scale(1.04);
+      z-index: 3;
+    }
+
+    /* image overlay */
+    {{ section_identifier }} .mc-image-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:9999;}
+    {{ section_identifier }} .mc-image-overlay.is-open{display:flex;}
+    {{ section_identifier }} .mc-image-overlay img{max-width:90vw;max-height:90vh;border-radius:4px;box-shadow:0 8px 40px rgba(0,0,0,.4);}
+    {{ section_identifier }} .mc-image-overlay .close{position:absolute;top:16px;right:16px;width:36px;height:36px;border:1px solid #fff;color:#fff;background:transparent;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;}
+    
+    @media screen and (max-width: 1024px) {
+      #shopify-section-{{ section.id }} .section{
+        padding-top: {{ padding_top[1] }};
+        padding-bottom: {{ padding_bottom[1] }};
+      }
+    }
+    @media screen and (max-width: 768px) {
+      #shopify-section-{{ section.id }} .section{
+        padding-top: {{ padding_top[2] }};
+        padding-bottom: {{ padding_bottom[2] }};  
+      }
+      {{ section_identifier }} .kik_video_heading h2{
+        text-align: left;
+        padding-top: 0;
+        margin-bottom: 0;
+      }
+    }
+    
+  </style>
+  <div {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %}{% render 'section-properties' %}>
+    <div
+        class="kik_videos_slider"
+        {% if section.settings.allow_transparent_header %}
+          allow-transparent-header
+        {% endif %}
+      >
+        {%- capture class -%}content-over-media{%- endcapture -%}
+          {% if section.settings.title != blank %}
+            <div class="kik_video_heading">
+              <div class="kik_h_content">
+
+                <h2>{{ section.settings.title }}</h2>
+
+                <p>{{ section.settings.content }}</p>
+          
+              </div>
+              
+            </div>
+          {% endif %}
+      
+      
+        <div class="slider_area">
+          <div class="swiper-container-carousel swiper-container-carousel-{{section.id}}" id="swiper-{{  section.id }}">
+            <div class="swiper-wrapper">
+              {% for block in section.blocks %}
+                  <div
+                      class="flex align-start justify-start section-boxed h-full swiper-slide"
+                  >
+                      {% comment %} 图片 {% endcomment %}
+                       {% if block.settings.icon %}
+                          <div class="jingva-img-box flex align-center justify-center">
+                             <img class="mc-zoomable" src="{{ block.settings.icon | img_url: 'original' }}" alt="">
+                          </div>
+                        {% else %}   
+                           {% comment %} 视频 {% endcomment %}
+                          <div {% render 'surface', class: class, text_color: section.settings.text_color %}>
+                            {%- capture poster -%}
+                                {%- assign poster_image = block.settings.poster | default: block.settings.video.preview_image -%}
+                                
+                            
+                                {%- if poster_image != blank -%}
+                                    {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
+                                {{- poster_image | image_url: width: poster_image.width | image_tag: sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', class: 'mc-zoomable' -}}
+                                {%- endif -%}
+                            {%- endcapture -%}
+                            {%- if block.settings.video -%}
+        
+                                <video-media
+                                {% if block.settings.video_size == 'auto' %}
+                                    style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}"
+                                {% endif %}
+                                >
+                                {{-
+                                    block.settings.video
+                                    | video_tag:
+                                    playsinline: true,
+                                    preload: 'metadata',
+                                    controls: false,
+                                    image_size: '800x'
+                                -}}
+                                {{- poster -}}
+                                </video-media>
+                            {%- else -%}
+                                <video-media
+                                host="{{ block.settings.external_video_url.type }}"
+                                >
+                                {{- poster -}}
+                        
+                                <template>
+                                    {%- if block.settings.external_video_url.type == 'youtube' -%}
+                                    <iframe
+                                        src="https://www.youtube.com/embed/{{ block.settings.external_video_url.id }}?playsinline=1&playlist={{ block.settings.external_video_url.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- elsif block.settings.external_video_url.type == 'vimeo' -%}
+                                    <iframe
+                                        src="https://player.vimeo.com/video/{{ block.settings.external_video_url.id }}?autopause=1&transparent=0&responsive=1&portrait=0&title=0&byline=0&color={{ settings.text_color | remove_first: '#' }}"
+                                        allow="autoplay; encrypted-media;"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- endif -%}
+                                </template>
+                                </video-media>
+                            {%- endif -%}
+                            <button class="video-play-button" type="button" {{ block.shopify_attributes }}>
+                                <span class="sr-only">{{ 'general.accessibility.play_video' | t }}</span>
+                                {%- render 'icon' with 'play-button', width: 30, height: 30 -%}
+                            </button>
+                          </div>
+                        {% endif %}
+                        
+                      <div class="content_area">
+                        <div class="content_details">
+                            {% if block.settings.heading %}
+                                <p>{{ block.settings.heading }}</p>
+                            {% endif %}
+
+                            {% if block.settings.description %}
+                              <p>{{ block.settings.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                  
+                  </div>
+              {% endfor %}
+              {% for block in section.blocks %}
+                  <div
+                      class="flex align-start justify-start section-boxed h-full swiper-slide"
+                  >
+                      {% comment %} 图片 {% endcomment %}
+                       {% if block.settings.icon %}
+                          <div class="jingva-img-box flex align-center justify-center">
+                             <img class="mc-zoomable" src="{{ block.settings.icon | img_url: 'original' }}" alt="">
+                          </div>
+                        {% else %}   
+                           {% comment %} 视频 {% endcomment %}
+                          <div {% render 'surface', class: class, text_color: section.settings.text_color %}>
+                            {%- capture poster -%}
+                                {%- assign poster_image = block.settings.poster | default: block.settings.video.preview_image -%}
+                                
+                            
+                                {%- if poster_image != blank -%}
+                                    {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
+                                {{- poster_image | image_url: width: poster_image.width | image_tag: sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', class: 'mc-zoomable' -}}
+                                {%- endif -%}
+                            {%- endcapture -%}
+                            {%- if block.settings.video -%}
+        
+                                <video-media
+                                {% if block.settings.video_size == 'auto' %}
+                                    style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}"
+                                {% endif %}
+                                >
+                                {{-
+                                    block.settings.video
+                                    | video_tag:
+                                    playsinline: true,
+                                    preload: 'metadata',
+                                    controls: false,
+                                    image_size: '800x'
+                                -}}
+                                {{- poster -}}
+                                </video-media>
+                            {%- else -%}
+                                <video-media
+                                host="{{ block.settings.external_video_url.type }}"
+                                >
+                                {{- poster -}}
+                        
+                                <template>
+                                    {%- if block.settings.external_video_url.type == 'youtube' -%}
+                                    <iframe
+                                        src="https://www.youtube.com/embed/{{ block.settings.external_video_url.id }}?playsinline=1&playlist={{ block.settings.external_video_url.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- elsif block.settings.external_video_url.type == 'vimeo' -%}
+                                    <iframe
+                                        src="https://player.vimeo.com/video/{{ block.settings.external_video_url.id }}?autopause=1&transparent=0&responsive=1&portrait=0&title=0&byline=0&color={{ settings.text_color | remove_first: '#' }}"
+                                        allow="autoplay; encrypted-media;"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- endif -%}
+                                </template>
+                                </video-media>
+                            {%- endif -%}
+                            <button class="video-play-button" type="button" {{ block.shopify_attributes }}>
+                                <span class="sr-only">{{ 'general.accessibility.play_video' | t }}</span>
+                                {%- render 'icon' with 'play-button', width: 30, height: 30 -%}
+                            </button>
+                          </div>
+                        {% endif %}
+                        
+                      <div class="content_area">
+                        <div class="content_details">
+                            {% if block.settings.heading %}
+                                <p>{{ block.settings.heading }}</p>
+                            {% endif %}
+
+                            {% if block.settings.description %}
+                              <p>{{ block.settings.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                  
+                  </div>
+              {% endfor %}
+              {% for block in section.blocks %}
+                  <div
+                      class="flex align-start justify-start section-boxed h-full swiper-slide"
+                  >
+                      {% comment %} 图片 {% endcomment %}
+                       {% if block.settings.icon %}
+                          <div class="jingva-img-box flex align-center justify-center">
+                             <img class="mc-zoomable" src="{{ block.settings.icon | img_url: 'original' }}" alt="">
+                          </div>
+                        {% else %}   
+                           {% comment %} 视频 {% endcomment %}
+                          <div {% render 'surface', class: class, text_color: section.settings.text_color %}>
+                            {%- capture poster -%}
+                                {%- assign poster_image = block.settings.poster | default: block.settings.video.preview_image -%}
+                                
+                            
+                                {%- if poster_image != blank -%}
+                                    {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
+                                {{- poster_image | image_url: width: poster_image.width | image_tag: sizes: sizes, widths: '200,300,400,500,600,700,800,900,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200', class: 'mc-zoomable' -}}
+                                {%- endif -%}
+                            {%- endcapture -%}
+                            {%- if block.settings.video -%}
+        
+                                <video-media
+                                {% if block.settings.video_size == 'auto' %}
+                                    style="--aspect-ratio: {{ block.settings.video.aspect_ratio }}"
+                                {% endif %}
+                                >
+                                {{-
+                                    block.settings.video
+                                    | video_tag:
+                                    playsinline: true,
+                                    preload: 'metadata',
+                                    controls: false,
+                                    image_size: '800x'
+                                -}}
+                                {{- poster -}}
+                                </video-media>
+                            {%- else -%}
+                                <video-media
+                                host="{{ block.settings.external_video_url.type }}"
+                                >
+                                {{- poster -}}
+                        
+                                <template>
+                                    {%- if block.settings.external_video_url.type == 'youtube' -%}
+                                    <iframe
+                                        src="https://www.youtube.com/embed/{{ block.settings.external_video_url.id }}?playsinline=1&playlist={{ block.settings.external_video_url.id }}&enablejsapi=1&rel=0&modestbranding=1&origin={{ 'https://' | append: request.host | url_encode }}"
+                                        allow="autoplay; encrypted-media"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- elsif block.settings.external_video_url.type == 'vimeo' -%}
+                                    <iframe
+                                        src="https://player.vimeo.com/video/{{ block.settings.external_video_url.id }}?autopause=1&transparent=0&responsive=1&portrait=0&title=0&byline=0&color={{ settings.text_color | remove_first: '#' }}"
+                                        allow="autoplay; encrypted-media;"
+                                        allowfullscreen="allowfullscreen"
+                                    ></iframe>
+                                    {%- endif -%}
+                                </template>
+                                </video-media>
+                            {%- endif -%}
+                            <button class="video-play-button" type="button" {{ block.shopify_attributes }}>
+                                <span class="sr-only">{{ 'general.accessibility.play_video' | t }}</span>
+                                {%- render 'icon' with 'play-button', width: 30, height: 30 -%}
+                            </button>
+                          </div>
+                        {% endif %}
+                        
+                      <div class="content_area">
+                        <div class="content_details">
+                            {% if block.settings.heading %}
+                                <p>{{ block.settings.heading }}</p>
+                            {% endif %}
+
+                            {% if block.settings.description %}
+                              <p>{{ block.settings.description }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                  
+                  </div>
+              {% endfor %}
+              </div>
+
+            </div>
+            
+        </div>
+
+      </div>
+    </div>
+
+  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // 丝滑无限匀速滚动 + 允许拖动（悬停/触摸时暂停，移开/松开恢复）
+  let swiper{{ section.id | slice: -3, 3 }} = new Swiper('.swiper-container-carousel-{{section.id}}', {
+    slidesPerView: 6,
+    spaceBetween: 15,
+    loop: true,
+    speed: 5000,
+    allowTouchMove: true,
+    autoplay: {
+      delay: 0,
+      reverseDirection: {{ section.settings.reverse_autoplay }},
+      stopOnLastSlide: false,
+    },
+    breakpoints: {
+      0: {
+        slidesPerView: 1.5,
+      },
+      768: {
+        slidesPerView: 4,
+      },
+      1024: {
+        slidesPerView: 6,
+      },
+    },
+    on: {
+      
+    }
+  });
+
+
+
+
+  // 图片大图弹窗
+  const overlayId = 'mc-image-overlay-{{ section.id }}';
+  const sectionRoot = document.getElementById('shopify-section-{{ section.id }}');
+  let overlay = sectionRoot ? sectionRoot.querySelector('#'+overlayId) : null;
+  if(!overlay && sectionRoot){
+    overlay = document.createElement('div');
+    overlay.id = overlayId;
+    overlay.className = 'mc-image-overlay';
+    overlay.innerHTML = '<button class="close" type="button">×</button><img alt="" />';
+    sectionRoot.appendChild(overlay);
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay || e.target.classList.contains('close')){
+        overlay.classList.remove('is-open');
+      }
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ overlay.classList.remove('is-open'); } });
+  }
+  // 使用事件委托，确保动态 slide 内图片也能响应
+  const swiperEl = document.getElementById('swiper-{{ section.id }}');
+  if(swiperEl && overlay){
+    swiperEl.addEventListener('click', function(e){
+      const img = e.target.closest('.mc-zoomable');
+      if(!img) return;
+      e.preventDefault();
+      const src = img.currentSrc || img.src;
+      const big = overlay.querySelector('img');
+      if(big){ big.src = src; }
+      overlay.classList.add('is-open');
+    });
+  }
+
+
+});
+
+
+
+</script>
+  {% schema %}
+  {
+    "name": "Media Carousel Videos",
+    "class": "media-carousel-videos",
+    "tag": "section",
+    "disabled_on": {
+      "groups": ["header", "custom.overlay"]
+    },
+    "settings": [
+       {
+        "type": "text",
+        "id": "section_id",
+        "label": "Section id",
+        "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same (id or name) in the (Kiks Section Navigation) section."
+      },
+      {
+        "type": "checkbox",
+        "id": "reverse_autoplay",
+        "label": "是否反向自动轮播",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading"
+      },
+      {
+        "type": "richtext",
+        "id": "content",
+        "label": "Content"
+      },
+      {
+        "type": "paragraph",
+        "content": "For best visual results and avoid platform branding, use a MP4 file."
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full width",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "allow_transparent_header",
+        "label": "Allow transparent header",
+        "info": "This setting only applies when this section is the first one.",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Autoplay",
+        "info": "Video are muted to allow autoplay. For best results, do not add any content on top of the video when autoplay is enabled.",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "background",
+        "label": "Background"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "sec_color",
+        "label": "Secondary color",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "overlay_color",
+        "label": "Overlay",
+        "default": "#000000"
+      },
+      {
+        "type": "range",
+        "id": "overlay_opacity",
+        "label": "Overlay opacity",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "default": 30
+      },
+      {
+        "type": "text",
+        "id": "padding_top",
+        "label": "Padding top",
+        "default": "0px;0px;0px",
+        "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+      },
+      {
+        "type": "text",
+        "id": "padding_bottom",
+        "label": "Padding bottom",
+        "default": "0px;0px;0px",
+        "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "video",
+        "name": "Video Review",
+        "settings": [
+          {
+              "type": "header",
+              "content": "Review"
+          },
+          {
+              "type": "image_picker",
+              "id": "icon",
+              "label": "Image"
+          },
+          {
+              "type": "text",
+              "id":"heading",
+              "label": "Heading"
+          },
+          {
+              "type": "text",
+              "id":"description",
+              "label": "Description"
+          },
+          {
+              "type": "header",
+              "content": "Video Settings"
+          },
+          {
+            "type": "select",
+            "id": "video_size",
+            "label": "Video size",
+            "info": "Choose \"Original video ratio\" to avoid video cropping.",
+            "options": [
+              {
+                "value": "auto",
+                "label": "Original aspect ratio"
+              },
+              {
+                "value": "sm",
+                "label": "Small"
+              },
+              {
+                "value": "md",
+                "label": "Medium"
+              },
+              {
+                "value": "lg",
+                "label": "Large"
+              },
+              {
+                "value": "fill",
+                "label": "Fill screen"
+              }
+            ],
+            "default": "auto"
+          },
+          {
+            "type": "video",
+            "id": "video",
+            "label": "Video",
+            "info": "Replaces external video if both are set."
+          },
+          {
+            "type": "video",
+            "id": "mobile_video",
+            "label": "Mobile video",
+            "info": "Default to main video if none is set."
+          },
+          {
+            "type": "video_url",
+            "id": "external_video_url",
+            "accept": ["vimeo", "youtube"],
+            "label": "Video URL",
+            "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+          },
+          {
+            "type": "image_picker",
+            "id": "poster",
+            "label": "Poster image",
+            "info": "3200 x 1600px .jpg recommended. Poster is not visible when autoplay is enabled."
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Media Carousel Videos"
+      }
+    ]
+  }
+  {% endschema %}
+  

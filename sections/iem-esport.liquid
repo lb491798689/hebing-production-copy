@@ -1,0 +1,255 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .swiper-button-next:after,
+  #{{ section.id }} .swiper-button-prev:after {
+    content: none;
+  }
+
+  #{{ section.id }} .swiper-button-disabled {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section
+  id="{{ section.id }}"
+  class="tw:font-gabarito tw:text-white tw:overflow-hidden"
+  data-iem-esport
+>
+  <div class="tw:flex tw:flex-col tw:items-center tw:gap-12 tw:px-0 tw:max-md:px-8">
+    {% if section.settings.title != blank %}
+      <h2
+        id="IemEsportTitle-{{ section.id }}"
+        class="
+          tw:m-0 tw:w-full tw:text-center tw:font-orbitron tw:text-[48px]
+          tw:font-black tw:uppercase tw:leading-[1.2] tw:text-white
+          tw:max-md:text-[28px]
+        "
+      >
+        {{ section.settings.title | escape }}
+      </h2>
+    {% endif %}
+
+    <div
+      class="tw:relative tw:w-full tw:max-w-[1200px] tw:max-md:max-w-[320px]"
+      role="region"
+      aria-roledescription="carousel"
+      {% if section.settings.title != blank %}
+        aria-labelledby="IemEsportTitle-{{ section.id }}"
+      {% else %}
+        aria-label="Esports gallery"
+      {% endif %}
+    >
+      <div class="swiper tw:overflow-visible">
+        <div class="swiper-wrapper">
+          {% for copy_index in (1..2) %}
+            {% for block in section.blocks %}
+              <div
+                class="swiper-slide tw:w-[1200px]! tw:max-md:w-[320px]!"
+                {% if copy_index == 1 %}
+                  {{ block.shopify_attributes }}
+                {% else %}
+                  aria-hidden="true"
+                {% endif %}
+              >
+                <div class="tw:relative tw:h-[540px] tw:w-full tw:overflow-hidden tw:max-md:h-[320px]">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: block.settings.image.width
+                      | image_tag:
+                        loading: 'lazy',
+                        sizes: '(max-width: 768px) 320px, 1200px',
+                        widths: '320,480,640,960,1200,1440,1800,2400',
+                        class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+                        alt: block.settings.image.alt
+                    }}
+                  {% else %}
+                    <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-500 tw:text-black">
+                      image
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div
+        class="
+          tw:pointer-events-none tw:absolute tw:left-1/2 tw:top-1/2 tw:z-10
+          tw:flex tw:w-full tw:-translate-x-1/2 tw:-translate-y-1/2
+          tw:items-center tw:justify-between tw:px-12
+          tw:max-md:px-4
+        "
+      >
+        <button
+          type="button"
+          class="
+            swiper-button-prev tw:pointer-events-auto tw:flex tw:size-12 tw:max-md:size-9 tw:items-center
+            tw:justify-center tw:overflow-hidden tw:rounded-[12px] tw:bg-[#FAFAFA]
+            tw:p-3 tw:text-[#0A0A0A] tw:transition-all tw:duration-200
+            tw:hover:bg-[#DBDBDB] tw:focus-visible:outline tw:focus-visible:outline-2
+            tw:focus-visible:outline-offset-2 tw:focus-visible:outline-white
+            tw:active:opacity-80 tw:max-md:rounded-[8px] tw:max-md:p-[6px]
+          "
+          aria-label="Previous slide"
+          data-prev
+        >
+          <svg
+            class="tw:block tw:size-full tw:max-md:size-4!"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M14.5 17.5L9 12L14.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="
+            swiper-button-next tw:pointer-events-auto tw:flex tw:size-12 tw:max-md:size-9 tw:items-center
+            tw:justify-center tw:overflow-hidden tw:rounded-[12px] tw:bg-[#FAFAFA]
+            tw:p-3 tw:text-[#0A0A0A] tw:transition-all tw:duration-200
+            tw:hover:bg-[#DBDBDB] tw:focus-visible:outline tw:focus-visible:outline-2
+            tw:focus-visible:outline-offset-2 tw:focus-visible:outline-white
+            tw:active:opacity-80 tw:max-md:rounded-[8px] tw:max-md:p-[6px]
+          "
+          aria-label="Next slide"
+          data-next
+        >
+          <svg
+            class="tw:block tw:size-full tw:max-md:size-4!"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <path d="M9.5 17.5L15 12L9.5 6.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-iem-esport]').forEach((sectionEl) => {
+      const swiperEl = sectionEl.querySelector('.swiper');
+
+      if (!swiperEl) {
+        return;
+      }
+
+      const slideCount = swiperEl.querySelectorAll('.swiper-slide').length;
+
+      new Swiper(swiperEl, {
+        slidesPerView: 'auto',
+        centeredSlides: true,
+        loop: slideCount > 1,
+        spaceBetween: 8,
+        navigation: {
+          nextEl: sectionEl.querySelector('[data-next]'),
+          prevEl: sectionEl.querySelector('[data-prev]'),
+        },
+        breakpoints: {
+          768: {
+            spaceBetween: 16,
+          },
+        },
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "IEM Esport",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Built for Esports"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "IEM Esport",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

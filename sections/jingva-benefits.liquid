@@ -1,0 +1,589 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign benefit_blocks = section.blocks
+  assign block_count = benefit_blocks | size
+  assign page_count = block_count | minus: 1 | divided_by: 3 | plus: 1
+-%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background-color: #ffffff !important;
+      padding: 140px 0 105px !important;
+      overflow: hidden !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-wrapper {
+      width: 100% !important;
+      max-width: 1296px !important;
+      margin: 0 auto !important;
+      padding: 0 48px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Figma 1391:123801 — headline-1 / Orbitron Black / gy1 */
+    {{ default_sid }} .jingva-benefits-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      width: 100% !important;
+      letter-spacing: normal !important;
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-benefits-title.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    /* PC: flexbox 自动换行，像素级还原 Figma */
+    {{ default_sid }} .jingva-benefits-grid {
+      width: 100% !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item {
+      position: relative !important;
+      background-color: #0a0a0a !important;
+      border-radius: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      box-sizing: border-box !important;
+      padding: 32px 24px !important;
+      height: 215px !important;
+    }
+
+    /* 每个卡片的精确宽度（Figma 数据）*/
+    {{ default_sid }} .jingva-benefits-item:nth-child(1) {
+      width: 435px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item:nth-child(2) {
+      width: 389px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item:nth-child(3) {
+      width: 344px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item:nth-child(4) {
+      width: 285px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item:nth-child(5) {
+      width: 441.5px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item:nth-child(6) {
+      width: 441.5px !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-item-content {
+      display: flex !important;
+      gap: 40px !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      flex-direction: row !important;
+      height: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-icon {
+      width: 48px !important;
+      height: 48px !important;
+      flex-shrink: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      order: 2 !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-icon img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+    }
+
+    /* Figma 1391:123810 — 左栏 flex-col + justify-between，不用固定 gap */
+    {{ default_sid }} .jingva-benefits-text {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      gap: 0 !important;
+      min-height: 0 !important;
+      height: 100% !important;
+      order: 1 !important;
+    }
+
+    /* 卡片标题：主题编辑器 richtext 输出，样式统一在下面 */
+    {{ default_sid }} .jingva-benefits-heading {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 20px !important;
+      line-height: normal !important;
+      color: #ffffff !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-heading p {
+      margin: 0 !important;
+      font-family: inherit !important;
+      font-weight: inherit !important;
+      font-size: inherit !important;
+      line-height: inherit !important;
+      color: inherit !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-heading p + p {
+      margin-top: 0 !important;
+    }
+
+    /* Figma 1391:123812 — Gabarito Regular 14px / 白 60% */
+    {{ default_sid }} .jingva-benefits-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: 16.8px !important;
+      color: rgba(255, 255, 255, 0.6) !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    /* 手机端轮播容器 - PC隐藏 */
+    {{ default_sid }} .jingva-benefits-mobile-carousel {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-benefits-scrollbar {
+      display: none !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} {
+        padding: 60px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-wrapper {
+        max-width: 1280px !important;
+        padding: 0 40px !important;
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-title {
+        font-size: 40px !important;
+      }
+
+      /* PAD 也用 flexbox，卡片宽度按比例缩放 */
+      {{ default_sid }} .jingva-benefits-item:nth-child(1) {
+        width: calc(435px * 1200 / 1200) !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-item:nth-child(2) {
+        width: calc(389px * 1200 / 1200) !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-item:nth-child(3) {
+        width: calc(344px * 1200 / 1200) !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-item:nth-child(4) {
+        width: calc(285px * 1200 / 1200) !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-item:nth-child(5) {
+        width: calc(441.5px * 1200 / 1200) !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-item:nth-child(6) {
+        width: calc(441.5px * 1200 / 1200) !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: 64px 0 40px !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-wrapper {
+        padding: 0 16px !important;
+        gap: 32px !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-title {
+        font-size: 28px !important;
+        line-height: 1.2 !important;
+      }
+
+      /* PC grid 隐藏 */
+      {{ default_sid }} .jingva-benefits-grid {
+        display: none !important;
+      }
+
+      /* 手机端轮播显示 */
+      {{ default_sid }} .jingva-benefits-mobile-carousel {
+        display: block !important;
+        position: relative !important;
+        width: 100% !important;
+        overflow: hidden !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-mobile-track {
+        display: flex !important;
+        gap: 24px !important;
+        transition: transform 0.4s ease !important;
+        will-change: transform !important;
+      }
+
+      /* 每一屏（page）: 100%宽, 内含3张卡片纵向排列 */
+      {{ default_sid }} .jingva-benefits-mobile-page {
+        min-width: 100% !important;
+        width: 100% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        box-sizing: border-box !important;
+      }
+
+      /* 手机端卡片样式 */
+      {{ default_sid }} .jingva-benefits-mobile-page .jingva-benefits-item {
+        width: 100% !important;
+        height: 180px !important;
+        padding: 32px 24px !important;
+        gap: 10px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-mobile-page .jingva-benefits-item-content {
+        flex-direction: row !important;
+        gap: 40px !important;
+        height: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-mobile-page .jingva-benefits-text {
+        gap: 0 !important;
+        justify-content: space-between !important;
+        height: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-mobile-page .jingva-benefits-icon {
+        width: 32px !important;
+        height: 32px !important;
+        align-self: flex-start !important;
+      }
+
+      /* 滚动条指示器 */
+      {{ default_sid }} .jingva-benefits-scrollbar {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 12px !important;
+        width: 100% !important;
+        padding-top: 32px !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-scrollbar-dot {
+        width: 32px !important;
+        height: 2px !important;
+        border-radius: 0 !important;
+        background-color: rgba(26, 26, 26, 0.6) !important;
+        transition: all 0.3s ease !important;
+        cursor: pointer !important;
+      }
+
+      {{ default_sid }} .jingva-benefits-scrollbar-dot.active {
+        background-color: #E90202 !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-benefits-wrapper">
+    {% if se_stts.title != blank %}
+      <h2 class="jingva-benefits-title">{{ se_stts.title }}</h2>
+    {% endif %}
+
+    {% if block_count > 0 %}
+      {%- comment -%} PC/PAD: 标准 grid {%- endcomment -%}
+      <div class="jingva-benefits-grid">
+        {% for block in benefit_blocks %}
+          <div class="jingva-benefits-item" {{ block.shopify_attributes }}>
+            <div class="jingva-benefits-item-content">
+              <div class="jingva-benefits-icon">
+                {% if block.settings.icon == 'star' %}
+                  <img src="{{ 'benefit-star.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% elsif block.settings.icon == 'help' %}
+                  <img src="{{ 'benefit-help.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% elsif block.settings.icon == 'delivery' %}
+                  <img src="{{ 'benefit-delivery.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% elsif block.settings.icon == 'return' %}
+                  <img src="{{ 'benefit-return.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% elsif block.settings.icon == 'warranty' %}
+                  <img src="{{ 'benefit-warranty.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% elsif block.settings.icon == 'creditcard' %}
+                  <img src="{{ 'creditcard.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                {% endif %}
+              </div>
+              <div class="jingva-benefits-text">
+                {% if block.settings.title != blank %}
+                  <div class="jingva-benefits-heading" role="heading" aria-level="3">{{ block.settings.title }}</div>
+                {% endif %}
+                {% if block.settings.description != blank %}<p class="jingva-benefits-description">{{ block.settings.description }}</p>{% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      {%- comment -%} MOB: 每3张一屏的轮播 {%- endcomment -%}
+      <div class="jingva-benefits-mobile-carousel" id="jingva-benefits-carousel-{{ sid }}">
+        <div class="jingva-benefits-mobile-track">
+          {% for block in benefit_blocks %}
+            {% assign mod = forloop.index0 | modulo: 3 %}
+            {% if mod == 0 %}
+              <div class="jingva-benefits-mobile-page">
+            {% endif %}
+
+            <div class="jingva-benefits-item" {{ block.shopify_attributes }}>
+              <div class="jingva-benefits-item-content">
+                <div class="jingva-benefits-icon">
+                  {% if block.settings.icon == 'star' %}
+                    <img src="{{ 'benefit-star.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% elsif block.settings.icon == 'help' %}
+                    <img src="{{ 'benefit-help.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% elsif block.settings.icon == 'delivery' %}
+                    <img src="{{ 'benefit-delivery.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% elsif block.settings.icon == 'return' %}
+                    <img src="{{ 'benefit-return.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% elsif block.settings.icon == 'warranty' %}
+                    <img src="{{ 'benefit-warranty.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% elsif block.settings.icon == 'creditcard' %}
+                    <img src="{{ 'creditcard.svg' | asset_url }}" alt="{{ block.settings.title | strip_html }}" width="48" height="48" loading="lazy">
+                  {% endif %}
+                </div>
+                <div class="jingva-benefits-text">
+                  {% if block.settings.title != blank %}
+                    <div class="jingva-benefits-heading" role="heading" aria-level="3">{{ block.settings.title }}</div>
+                  {% endif %}
+                  {% if block.settings.description != blank %}<p class="jingva-benefits-description">{{ block.settings.description }}</p>{% endif %}
+                </div>
+              </div>
+            </div>
+
+            {% assign next_index = forloop.index0 | plus: 1 %}
+            {% assign next_mod = next_index | modulo: 3 %}
+            {% if next_mod == 0 or forloop.last %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if page_count > 1 %}
+          <div class="jingva-benefits-scrollbar" id="jingva-benefits-scrollbar-{{ sid }}">
+            {% for i in (1..page_count) %}
+              <span class="jingva-benefits-scrollbar-dot{% if forloop.first %} active{% endif %}" data-page="{{ forloop.index0 }}"></span>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div style="width: 100%; padding: 60px; text-align: center; color: #999; font-size: 16px;">
+        请添加权益项
+      </div>
+    {% endif %}
+  </div>
+
+  {% if page_count > 1 %}
+    <script>
+      (function() {
+        var carousel = document.getElementById('jingva-benefits-carousel-{{ sid }}');
+        var scrollbar = document.getElementById('jingva-benefits-scrollbar-{{ sid }}');
+        if (!carousel || !scrollbar) return;
+
+        var track = carousel.querySelector('.jingva-benefits-mobile-track');
+        var dots = scrollbar.querySelectorAll('.jingva-benefits-scrollbar-dot');
+        var total = {{ page_count }};
+        var cur = 0;
+        var startX = 0, endX = 0;
+
+        var GAP = 24; // 与CSS中track的gap值一致
+
+        function go(p) {
+          cur = Math.max(0, Math.min(p, total - 1));
+          track.style.transition = 'transform 0.4s ease';
+          var pageWidth = carousel.offsetWidth;
+          track.style.transform = 'translateX(-' + (cur * (pageWidth + GAP)) + 'px)';
+          dots.forEach(function(d, i) { d.classList.toggle('active', i === cur); });
+        }
+
+        dots.forEach(function(d) {
+          d.addEventListener('click', function() { go(parseInt(this.getAttribute('data-page'))); });
+        });
+
+        carousel.addEventListener('touchstart', function(e) { startX = e.changedTouches[0].screenX; });
+        carousel.addEventListener('touchmove', function(e) { endX = e.changedTouches[0].screenX; });
+        carousel.addEventListener('touchend', function() {
+          var d = endX - startX;
+          if (d < -50) go(cur + 1);
+          else if (d > 50) go(cur - 1);
+        });
+      })();
+    </script>
+  {% endif %}
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-section-container-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-benefits-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Jingva Benefits",
+  "class": "shopify-section--jingva-benefits",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "权益模块设置"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Shop With Confidence at AutoFull"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "权益项",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "图标",
+          "options": [
+            {"value": "star", "label": "星星 (创新)"},
+            {"value": "help", "label": "帮助 (客服)"},
+            {"value": "delivery", "label": "配送 (物流)"},
+            {"value": "return", "label": "退货 (退款保证)"},
+            {"value": "warranty", "label": "保修 (质保)"},
+            {"value": "creditcard", "label": "Credit Card"}
+          ],
+          "default": "star"
+        },
+        {
+          "type": "richtext",
+          "id": "title",
+          "label": "标题",
+          "default": "<p>10 YEARS OF INNOVATION AND LTERATION</p>"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "描述",
+          "default": "Set up a lab to ensure our products meet high industry standards"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Benefits",
+      "settings": {
+        "title": "Shop With Confidence at AutoFull"
+      },
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "star",
+            "title": "<p>10 YEARS OF INNOVATION AND LTERATION</p>",
+            "description": "Set up a lab to ensure our products meet top industry"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "help",
+            "title": "<p>WE ARE HERE TO HELP</p>",
+            "description": "Contact our expert team via email or live chat"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "delivery",
+            "title": "<p>FAST, FREE DELIVERY</p>",
+            "description": "Free shipping in 3-7 days on all orders"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "star",
+            "title": "<p>PAY WITH EASE</p>",
+            "description": "Free shipping in 3-7 days on all orders"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "return",
+            "title": "<p>30-DAY MONEY-BACK GUARANTEE</p>",
+            "description": "Pay immediately or in installments with Klarna"
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "warranty",
+            "title": "<p>3-YEAR SHIELD</p>",
+            "description": "Return within 30 days for a full refund"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

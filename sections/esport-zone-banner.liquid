@@ -1,0 +1,704 @@
+<section class="esport-zone-banner tw:relative tw:min-h-[150vh] tw:bg-black" data-esport-zone-banner>
+  <div class="esport-zone-banner__sticky tw:sticky tw:top-0 tw:isolate tw:overflow-clip tw:h-screen tw:grid tw:place-items-center">
+    <div class="esport-zone-banner__media tw:absolute tw:inset-0" aria-hidden="true">
+      {% if section.settings.video != blank %}
+        {{
+          section.settings.video
+          | video_tag:
+            autoplay: true,
+            loop: true,
+            muted: true,
+            controls: false,
+            playsinline: true,
+            class: 'esport-zone-banner__video tw:w-full tw:h-full tw:object-cover'
+        }}
+      {% endif %}
+    </div>
+
+    <div
+      class="esport-zone-banner__overlay tw:absolute tw:inset-0 tw:z-1 tw:bg-[linear-gradient(to_bottom,rgba(0,0,0,0.4)_0%,rgba(0,0,0,0.6)_100%)]"
+    ></div>
+
+    <div
+      class="
+        esport-zone-banner__content
+        tw:absolute tw:inset-0 tw:z-2 tw:flex tw:flex-col tw:items-center
+         tw:justify-center tw:gap-8 tw:text-center tw:text-white tw:max-md:gap-3.5 tw:max-md:px-4
+      "
+    >
+      {% if section.settings.logo != blank %}
+        <div class="tw:w-[276px] tw:max-md:w-[138px]" data-esport-zone-content-logo>
+          {{
+            section.settings.logo
+            | image_url: width: 640
+            | image_tag:
+              class: 'tw:w-full tw:h-auto tw:max-w-full',
+              loading: 'lazy',
+              widths: '200, 320, 480, 640',
+              sizes: '(min-width: 750px) 320px, 45vw',
+              alt: section.settings.logo.alt
+          }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.title != blank %}
+        <div class="esport-zone-banner__content-clip tw:overflow-hidden">
+          <div
+            class="
+              tw:font-orbitron tw:text-[96px] tw:uppercase tw:leading-[calc(120px/96px)] tw:text-center tw:font-black
+              tw:max-md:text-[32px]
+            "
+            data-esport-zone-content-title
+          >
+            {{ section.settings.title | newline_to_br }}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="esport-zone-banner__content-clip tw:overflow-hidden">
+        <button
+          class="
+            tw:inline-flex tw:items-center tw:justify-center tw:h-[56px] tw:px-[24px] tw:bg-[#D6000D] tw:text-white tw:font-orbitron
+            tw:font-bold tw:rounded-[8px] tw:text-[20px] tw:leading-[1.2] tw:uppercase tw:active:opacity-60 tw:disabled:opacity-50 tw:disabled:cursor-not-allowed
+            tw:max-md:text-[18px] tw:hover:bg-[#FF2020]  tw:transition-all tw:duration-200
+          "
+          type="button"
+          data-esport-zone-content-button
+          data-esport-zone-modal-open
+          {% if section.settings.video == blank %}
+            disabled
+          {% endif %}
+        >
+          {{ section.settings.button_label | default: 'watch movie' | escape }}
+        </button>
+      </div>
+    </div>
+
+    {% if section.settings.mask_svg != blank %}
+      <div
+        class="esport-zone-banner__mask-wrap tw:absolute tw:inset-0 tw:z-[3] tw:pointer-events-none tw:grid tw:place-items-center"
+        data-esport-zone-mask
+        style="--esport-zone-mask-image: url('{{ section.settings.mask_svg | image_url: width: 2400 }}');"
+      >
+        <div
+          class="esport-zone-banner__mask-layer tw:absolute tw:inset-0 tw:bg-white"
+          data-esport-zone-mask-layer
+        ></div>
+        {{
+          section.settings.mask_svg
+          | image_url: width: 2400
+          | image_tag:
+            class: 'esport-zone-banner__mask-fallback tw:max-w-full',
+            loading: 'lazy',
+            widths: '800, 1200, 1600, 2000, 2400',
+            sizes: '100vw',
+            alt: section.settings.mask_svg.alt
+        }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div
+    class="esport-zone-banner__modal tw:fixed tw:inset-0 tw:z-30 tw:grid tw:place-items-center tw:p-4 tw:max-md:p-3 tw:opacity-0 tw:invisible tw:pointer-events-none tw:transition tw:duration-240 tw:ease-out"
+    data-esport-zone-modal
+    hidden
+  >
+    <div
+      class="esport-zone-banner__modal-backdrop tw:absolute tw:inset-0 tw:bg-black/80 tw:opacity-0 tw:cursor-pointer tw:transition tw:duration-240 tw:ease-out"
+      data-esport-zone-modal-close
+      aria-label="Close video"
+    ></div>
+    <div
+      class="esport-zone-banner__modal-dialog tw:relative tw:z-1 tw:w-[min(92vw,1100px)] tw:rounded-xl tw:overflow-hidden tw:bg-black tw:shadow-[0_25px_80px_rgba(0,0,0,0.55)] tw:opacity-0 tw:translate-y-[22px] tw:scale-[0.96] tw:transition tw:duration-240 tw:ease-[cubic-bezier(0.22,1,0.36,1)]"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Video player"
+    >
+      <button
+        type="button"
+        class="
+          esport-zone-banner__modal-close tw:absolute tw:top-[0.6rem] tw:right-[0.6rem] tw:max-md:top-[0.4rem]
+          tw:max-md:right-[0.4rem] tw:z-2 tw:w-[2.2rem] tw:h-[2.2rem] tw:max-md:w-2 tw:max-md:h-2
+          tw:border-0 tw:rounded-full tw:bg-black/60 tw:text-white tw:text-[1.6rem] tw:max-md:text-[1.4rem]
+           tw:leading-none tw:cursor-pointer
+           tw:flex tw:items-center tw:justify-center
+        "
+        data-esport-zone-modal-close
+        aria-label="Close video"
+      >
+        &times;
+      </button>
+      <div class="esport-zone-banner__modal-video-wrap tw:w-full tw:aspect-video tw:bg-black">
+        {% if section.settings.video != blank %}
+          {{
+            section.settings.video
+            | video_tag:
+              controls: true,
+              autoplay: false,
+              loop: false,
+              muted: false,
+              playsinline: true,
+              class: 'esport-zone-banner__modal-video tw:w-full tw:h-full tw:object-contain'
+          }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'motion.js' | asset_url }}" defer></script>
+
+{% stylesheet %}
+  .esport-zone-banner__modal.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .esport-zone-banner__modal.is-open .esport-zone-banner__modal-backdrop {
+    opacity: 1;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .esport-zone-banner__modal.is-open .esport-zone-banner__modal-dialog {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .esport-zone-banner-modal-open {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .esport-zone-banner__modal,
+    .esport-zone-banner__modal-backdrop,
+    .esport-zone-banner__modal-dialog {
+      transition-duration: 0.01ms;
+    }
+  }
+
+  .esport-zone-banner__mask-layer {
+    background: #fff;
+    opacity: 0;
+    transform: translateZ(0) scale(6);
+    transform-origin: center;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+    contain: paint;
+  }
+
+  .esport-zone-banner__mask-fallback {
+    inline-size: min(95vw, 1400px);
+    block-size: auto;
+    max-inline-size: 100%;
+    opacity: 0;
+    transform: translateZ(0) scale(6);
+    transform-origin: center;
+    will-change: opacity, transform;
+    backface-visibility: hidden;
+  }
+
+  @supports ((-webkit-mask-image: linear-gradient(#fff 0 0)) or (mask-image: linear-gradient(#fff 0 0))) {
+    .esport-zone-banner__mask-layer {
+      -webkit-mask-image: linear-gradient(#fff 0 0), var(--esport-zone-mask-image);
+      -webkit-mask-repeat: no-repeat, no-repeat;
+      -webkit-mask-position: center, center;
+      -webkit-mask-size: 100% 100%, min(95vw, 1400px) auto;
+      -webkit-mask-composite: xor;
+      mask-image: linear-gradient(#fff 0 0), var(--esport-zone-mask-image);
+      mask-repeat: no-repeat, no-repeat;
+      mask-position: center, center;
+      mask-size: 100% 100%, min(95vw, 1400px) auto;
+      mask-composite: exclude;
+    }
+
+    .esport-zone-banner__mask-fallback {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .esport-zone-banner__mask-fallback {
+      inline-size: 100vw;
+    }
+
+    @supports ((-webkit-mask-image: linear-gradient(#fff 0 0)) or (mask-image: linear-gradient(#fff 0 0))) {
+      .esport-zone-banner__mask-layer {
+        -webkit-mask-size: 100% 100%, 95vw auto;
+        mask-size: 100% 100%, 95vw auto;
+      }
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const GLOBAL_KEY = '__esportZoneBannerMotionBooted';
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const getSectionProgress = (section) => clamp(-section.getBoundingClientRect().top / (window.innerHeight * 2), 0, 1);
+    const TRIGGER_SHOW_THRESHOLD = 0.12;
+    const TRIGGER_RESET_THRESHOLD = 0.04;
+
+    const createTriggeredMaskController = (section, maskTarget, motion) => {
+      if (!maskTarget) {
+        return null;
+      }
+
+      const SCALE_FROM = 6;
+      const SCALE_TO = 1.01;
+      const EASING = [0.22, 1, 0.36, 1];
+      let animation = null;
+      let ticking = false;
+      let lastProgress = getSectionProgress(section);
+      let state = lastProgress >= TRIGGER_SHOW_THRESHOLD ? 'shown' : 'hidden';
+
+      const stopAnimation = () => {
+        if (!animation) {
+          return;
+        }
+
+        if (typeof animation.stop === 'function') {
+          animation.stop();
+        } else if (typeof animation.cancel === 'function') {
+          animation.cancel();
+        }
+
+        animation = null;
+      };
+
+      const setMaskState = (isShown) => {
+        maskTarget.style.opacity = isShown ? '1' : '0';
+        maskTarget.style.transform = 'translateZ(0) scale(' + (isShown ? SCALE_TO : SCALE_FROM) + ')';
+      };
+
+      setMaskState(state === 'shown');
+
+      const animateMask = (isShowing) => {
+        stopAnimation();
+
+        const keyframes = {
+          transform: [
+            'translateZ(0) scale(' + (isShowing ? SCALE_FROM : SCALE_TO) + ')',
+            'translateZ(0) scale(' + (isShowing ? SCALE_TO : SCALE_FROM) + ')',
+          ],
+          opacity: isShowing ? [0, 1] : [1, 0],
+        };
+
+        if (motion && motion.animate) {
+          animation = motion.animate(maskTarget, keyframes, {
+            duration: isShowing ? 0.72 : 0.42,
+            easing: EASING,
+            fill: 'forwards',
+          });
+          return;
+        }
+
+        if (maskTarget.animate) {
+          animation = maskTarget.animate(keyframes, {
+            duration: isShowing ? 720 : 420,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            fill: 'forwards',
+          });
+          return;
+        }
+
+        setMaskState(isShowing);
+      };
+
+      const triggerShow = () => {
+        if (state === 'shown') return;
+        state = 'shown';
+        animateMask(true);
+      };
+
+      const triggerHide = () => {
+        if (state === 'hidden') return;
+        state = 'hidden';
+        animateMask(false);
+      };
+
+      const update = () => {
+        const progress = getSectionProgress(section);
+        const direction = progress - lastProgress;
+
+        if (direction > 0 && progress >= TRIGGER_SHOW_THRESHOLD) {
+          triggerShow();
+        } else if (direction < 0 && progress <= TRIGGER_RESET_THRESHOLD) {
+          triggerHide();
+        }
+
+        lastProgress = progress;
+      };
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+
+      return {
+        stop: () => {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+          stopAnimation();
+        },
+      };
+    };
+
+    const createTriggeredContentController = (section, contentElements, motion) => {
+      const animationTargets = [
+        {
+          element: contentElements.logo,
+          distance: 0,
+          delay: 0,
+        },
+        {
+          element: contentElements.title,
+          distance: -110,
+          delay: 0.04,
+        },
+        {
+          element: contentElements.button,
+          distance: -72,
+          delay: 0.08,
+        },
+      ].filter((target) => target.element);
+
+      if (!animationTargets.length) {
+        return null;
+      }
+
+      const EASING = [0.22, 1, 0.36, 1];
+      const animations = [];
+      let state = 'shown';
+      let lastProgress = getSectionProgress(section);
+      let ticking = false;
+
+      const stopAnimations = () => {
+        animations.forEach((animation) => {
+          if (animation && typeof animation.stop === 'function') {
+            animation.stop();
+          } else if (animation && typeof animation.cancel === 'function') {
+            animation.cancel();
+          }
+        });
+        animations.length = 0;
+      };
+
+      const setContentState = (isShown) => {
+        animationTargets.forEach(({ element, distance }) => {
+          element.style.opacity = isShown ? '1' : '0';
+          element.style.transform = distance ? `translate3d(0, ${isShown ? 0 : distance}px, 0)` : 'none';
+          element.style.willChange = distance ? 'transform, opacity' : 'opacity';
+        });
+      };
+
+      const runContentAnimation = (isShowing) => {
+        stopAnimations();
+
+        animationTargets.forEach(({ element, distance, delay }) => {
+          const keyframes = {
+            opacity: isShowing ? [0, 1] : [1, 0],
+          };
+
+          if (distance) {
+            keyframes.transform = isShowing
+              ? [`translate3d(0, ${distance}px, 0)`, 'translate3d(0, 0, 0)']
+              : ['translate3d(0, 0, 0)', `translate3d(0, ${distance}px, 0)`];
+          }
+
+          if (motion && motion.animate) {
+            const control = motion.animate(element, keyframes, {
+              duration: 0.58,
+              easing: EASING,
+              fill: 'forwards',
+              delay,
+            });
+            animations.push(control);
+          } else if (element.animate) {
+            const control = element.animate(keyframes, {
+              duration: 580,
+              easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+              fill: 'forwards',
+              delay: delay * 1000,
+            });
+            animations.push(control);
+          } else {
+            element.style.opacity = isShowing ? '1' : '0';
+            if (distance) {
+              element.style.transform = isShowing ? 'translate3d(0, 0, 0)' : `translate3d(0, ${distance}px, 0)`;
+            }
+          }
+        });
+      };
+
+      if (lastProgress >= TRIGGER_SHOW_THRESHOLD) {
+        state = 'hidden';
+        setContentState(false);
+      } else {
+        setContentState(true);
+      }
+
+      const triggerHide = () => {
+        if (state === 'hidden') return;
+        state = 'hidden';
+        runContentAnimation(false);
+      };
+
+      const triggerShow = () => {
+        if (state === 'shown') return;
+        state = 'shown';
+        runContentAnimation(true);
+      };
+
+      const update = () => {
+        const progress = getSectionProgress(section);
+        const direction = progress - lastProgress;
+
+        if (direction > 0 && progress >= TRIGGER_SHOW_THRESHOLD) {
+          triggerHide();
+        } else if (direction < 0 && progress <= TRIGGER_RESET_THRESHOLD) {
+          triggerShow();
+        }
+
+        lastProgress = progress;
+      };
+
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      };
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+
+      return {
+        stop: () => {
+          window.removeEventListener('scroll', onScroll);
+          window.removeEventListener('resize', onScroll);
+          stopAnimations();
+        },
+      };
+    };
+
+    const setupSection = (section) => {
+      if (!section) return;
+
+      if (section.__esportZoneCleanup) {
+        section.__esportZoneCleanup();
+      }
+
+      const content = section.querySelector('.esport-zone-banner__content');
+      const maskLayer = section.querySelector('[data-esport-zone-mask-layer]');
+      const maskFallback = section.querySelector('.esport-zone-banner__mask-fallback');
+      const contentElements = {
+        logo: content ? content.querySelector('[data-esport-zone-content-logo]') : null,
+        title: content ? content.querySelector('[data-esport-zone-content-title]') : null,
+        button: content ? content.querySelector('[data-esport-zone-content-button]') : null,
+      };
+      const hasMaskLayer = maskLayer && getComputedStyle(maskLayer).display !== 'none';
+      const maskTarget = hasMaskLayer ? maskLayer : maskFallback;
+      const modal = section.querySelector('[data-esport-zone-modal]');
+      const openButton = section.querySelector('[data-esport-zone-modal-open]');
+      const closeButtons = modal ? Array.from(modal.querySelectorAll('[data-esport-zone-modal-close]')) : [];
+      const modalVideo = modal ? modal.querySelector('video') : null;
+
+      const motion = window.Motion || {};
+      const controls = [];
+
+      const maskTriggerControl = createTriggeredMaskController(section, maskTarget, motion);
+      if (maskTriggerControl) {
+        controls.push(maskTriggerControl);
+      }
+
+      const contentTriggerControl = createTriggeredContentController(section, contentElements, motion);
+      if (contentTriggerControl) {
+        controls.push(contentTriggerControl);
+      }
+
+      if (modal && openButton) {
+        let closeTimer = null;
+        const rootElement = document.documentElement;
+
+        const openModal = () => {
+          if (openButton.hasAttribute('disabled')) return;
+
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+            closeTimer = null;
+          }
+
+          modal.hidden = false;
+          requestAnimationFrame(() => {
+            modal.classList.add('is-open');
+          });
+
+          rootElement.classList.add('esport-zone-banner-modal-open');
+
+          if (modalVideo) {
+            modalVideo.muted = false;
+            modalVideo.controls = true;
+            modalVideo.currentTime = 0;
+            const playPromise = modalVideo.play();
+            if (playPromise && typeof playPromise.catch === 'function') {
+              playPromise.catch(() => {});
+            }
+          }
+        };
+
+        const closeModal = () => {
+          modal.classList.remove('is-open');
+          rootElement.classList.remove('esport-zone-banner-modal-open');
+
+          if (modalVideo) {
+            modalVideo.pause();
+          }
+
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+          }
+
+          closeTimer = window.setTimeout(() => {
+            modal.hidden = true;
+          }, 340);
+        };
+
+        const onKeydown = (event) => {
+          if (event.key === 'Escape' && !modal.hidden) {
+            closeModal();
+          }
+        };
+
+        openButton.addEventListener('click', openModal);
+        closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+        document.addEventListener('keydown', onKeydown);
+
+        controls.push(() => {
+          openButton.removeEventListener('click', openModal);
+          closeButtons.forEach((button) => button.removeEventListener('click', closeModal));
+          document.removeEventListener('keydown', onKeydown);
+          if (closeTimer) {
+            window.clearTimeout(closeTimer);
+          }
+          rootElement.classList.remove('esport-zone-banner-modal-open');
+          modal.classList.remove('is-open');
+          modal.hidden = true;
+          if (modalVideo) {
+            modalVideo.pause();
+          }
+        });
+      }
+
+      section.__esportZoneCleanup = () => {
+        controls.forEach((control) => {
+          if (typeof control === 'function') {
+            control();
+          } else if (control && typeof control.stop === 'function') {
+            control.stop();
+          }
+        });
+      };
+    };
+
+    const initAll = () => {
+      const sections = document.querySelectorAll('[data-esport-zone-banner]');
+      sections.forEach((section) => setupSection(section));
+    };
+
+    const boot = () => {
+      initAll();
+
+      if (!window.Motion || !window.Motion.animate) {
+        let retries = 0;
+        const timer = window.setInterval(() => {
+          retries += 1;
+
+          if (window.Motion && window.Motion.animate) {
+            window.clearInterval(timer);
+            initAll();
+            return;
+          }
+
+          if (retries >= 60) {
+            window.clearInterval(timer);
+          }
+        }, 100);
+      }
+
+      if (!window[GLOBAL_KEY]) {
+        window[GLOBAL_KEY] = true;
+
+        document.addEventListener('shopify:section:load', (event) => {
+          const target =
+            event.target && event.target.matches('[data-esport-zone-banner]')
+              ? event.target
+              : event.target
+              ? event.target.querySelector('[data-esport-zone-banner]')
+              : null;
+
+          if (target) {
+            setupSection(target);
+          }
+        });
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', boot);
+    } else {
+      boot();
+    }
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Esport Zone Banner",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background video"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Think to Win\nSit on AutoFull"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "watch movie"
+    },
+    {
+      "type": "image_picker",
+      "id": "mask_svg",
+      "label": "Mask SVG"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Esport Zone Banner"
+    }
+  ]
+}
+{% endschema %}

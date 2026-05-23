@@ -1,0 +1,1093 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign margin_top = se_stts.margin_top | split: ";"
+  assign margin_bottom = se_stts.margin_bottom | split: ";"
+  assign padding_top = se_stts.padding_top | split: ";"
+  assign padding_bottom = se_stts.padding_bottom | split: ";"
+  assign color = se_stts.color
+  assign color_mb = se_stts.color_mb
+  assign autoplay = se_stts.autoplay
+  assign autoplay_delay = se_stts.autoplay_delay | times: 1000
+  assign show_arrows = se_stts.show_arrows
+  assign show_dots = se_stts.show_dots
+  assign slide_height = se_stts.slide_height
+  assign slide_height_mb = se_stts.slide_height_mb
+%}
+
+{% capture default_sid %}.jingva-asymmetric-slide-{{ sid }}{% endcapture %}
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+
+<section  class="jingva-asymmetric-slide jingva-asymmetric-slide-{{sid}} {{section.settings.section_css}}">
+  {% style %}
+  {{ default_sid }} {
+    --margin-top: {{ margin_top[0] }};
+    --margin-bottom: {{ margin_bottom[0] }};
+    --padding-top: {{ padding_top[0] }};
+    --padding-bottom: {{ padding_bottom[0] }};
+    --background-color: {{ color }};
+    --slide-height: {{ slide_height }}px;
+  }
+  
+  @media screen and (max-width: 992px) {
+    {{ default_sid }} {
+      --margin-top: {{ margin_top[1] }};
+      --margin-bottom: {{ margin_bottom[1] }};
+      --padding-top: {{ padding_top[1] }};
+      --padding-bottom: {{ padding_bottom[1] }};
+    }
+  }
+  
+  @media screen and (max-width: 767px) {
+    {{ default_sid }} {
+      --margin-top: {{ margin_top[2] }};
+      --margin-bottom: {{ margin_bottom[2] }};
+      --padding-top: {{ padding_top[2] }};
+      --padding-bottom: {{ padding_bottom[2] }};
+      --background-color: {{ color_mb }};
+      --slide-height: {{ slide_height_mb }}px;
+    }
+  }
+  
+  {{ default_sid }} {
+    margin-top: var(--margin-top);
+    margin-bottom: var(--margin-bottom);
+    padding-top: var(--padding-top);
+    padding-bottom: var(--padding-bottom);
+    background-color: var(--background-color);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 限制整体内容最大宽度并居中 */
+  {{ default_sid }} .container-box .asymmetric-swiper-container{
+    max-width: 1230px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* 异形slide容器样式 */
+  {{ default_sid }} .asymmetric-swiper-container {
+    position: relative;
+    height: var(--slide-height);
+    overflow: visible !important;
+    padding-bottom: 27px;
+  }
+
+  {{ default_sid }} .section-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 60px;
+  }
+  
+  {{ default_sid }} .section-header-inner {
+    flex: 1;
+    width: 100%;
+  }
+  
+  {{ default_sid }} .section-title {
+    font-size: 46px;
+    font-weight: 700;
+    color: {{ section.settings.text_color }};
+    line-height: 1.2;
+    text-align:center;
+  }
+  
+  {{ default_sid }} .section-description {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: {{ section.settings.text_color }};
+    line-height: 1.4;
+  }
+  
+  {{ default_sid }} .section-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    color: {{ section.settings.text_color }};
+    font-weight: 900;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  
+  {{ default_sid }} .section-button:hover {
+    background-color: transparent;
+    color: {{ section.settings.text_color }};
+  }
+  
+  {{ default_sid }} .section-button .play-icon {
+    width: 42px;
+    height: 25px;
+    background-color: #ed1c22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
+    
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: background-color, transform, box-shadow;
+    box-shadow: 0 4px 18px 0 rgba(237,28,34,0.10);
+  }
+
+
+    {{ default_sid }} .section-button:hover .play-icon{
+      
+      margin-left:-5px;
+    }
+  
+  {{ default_sid }} .swiper {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    overflow: visible !important;
+  }
+  
+  {{ default_sid }} .swiper-slide {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    transform: scale(1);
+  }
+  
+  {{ default_sid }} .swiper-slide-active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  {{ default_sid }} .swiper-slide-prev,
+  {{ default_sid }} .swiper-slide-next {
+    transform: scale(1);
+
+  }
+  
+  /* 图片样式 */
+  {{ default_sid }} .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* 视频样式 */
+  {{ default_sid }} .video-box{position:absolute;inset:0;width:100%;height:100%;}
+  {{ default_sid }} .video-box video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+
+  
+  /* 内容覆盖层 */
+  {{ default_sid }} .slide-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  
+  {{ default_sid }} .slide-content-inner {
+    text-align: center;
+    color: white;
+    max-width: 80%;
+  }
+
+  /* 右下角按钮 */
+  {{ default_sid }} .slide-actions{position:absolute;right:16px;bottom:16px;display:flex;gap:8px;z-index:3;}
+  {{ default_sid }} .slide-actions .btn{width:136px;height:40px;line-height:1;display:inline-flex;align-items:center;justify-content:center;border-radius:4px;font-size:16px;}
+  {{ default_sid }} .slide-actions .btn-watch{
+    background:#000;color:#fff;border:1px solid #000;
+    clip-path: polygon(
+      calc(0% + 5px) 0%, 
+      calc(100% - 5px) 0%, 
+      100% calc(0% + 5px), 
+      100% calc(100% - 5px), 
+      calc(100% - 5px) 100%, 
+      calc(0% + 5px) 100%, 
+      0% calc(100% - 5px), 
+      0% calc(0% + 5px)
+    );
+    padding:0;
+    font-size:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-image: linear-gradient(to top, #ed1c22 0%, #ed1c22 100%);
+    background-size: 100% 0%;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .3s ease, border-color .3s ease, color .3s ease, opacity .3s !important;
+  }
+  {{ default_sid }} .slide-actions .btn-watch:hover{
+    background-size: 100% 100%;
+  }
+
+
+  {{ default_sid }} .slide-actions .btn-learn{
+    color:#fff;
+    padding:1px;
+    background:transparent;
+    clip-path: polygon(
+      calc(0% + 5px) 0%, 
+      calc(100% - 5px) 0%, 
+      100% calc(0% + 5px), 
+      100% calc(100% - 5px), 
+      calc(100% - 5px) 100%, 
+      calc(0% + 5px) 100%, 
+      0% calc(100% - 5px), 
+      0% calc(0% + 5px)
+    );
+    
+  }
+  {{ default_sid }} .slide-actions .btn-learn span{
+    box-shadow: 0px 0px 2px 1px #fff inset;
+    border-radius:7px;
+    clip-path: polygon(
+      calc(0% + 5px) 0%, 
+      calc(100% - 5px) 0%, 
+      100% calc(0% + 5px), 
+      100% calc(100% - 5px), 
+      
+      calc(100% - 5px) 100%, 
+      calc(0% + 5px) 100%, 
+      0% calc(100% - 5px), 
+      0% calc(0% + 5px)
+    );
+    display:inline-block;
+    width:100%;
+    height:100%;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background-image: linear-gradient(to top, #ed1c22 0%, #ed1c22 100%);
+    background-size: 100% 0%;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size .3s ease, border-color .3s ease, color .3s ease, opacity .3s !important;
+    
+  }
+
+  {{ default_sid }} .slide-actions .btn-learn span:hover{
+    background-size: 100% 100%;
+  }
+  /* mobile left-bottom prev/next */
+  {{ default_sid }} .mobile-nav-btns{position:absolute;right:20px;bottom:-59px;display:none;gap:15px;z-index:3;}
+  {{ default_sid }} .mobile-nav-btns .ctrl{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#000;border:1px solid #000;transition: background-color .2s ease, color .2s ease, border-color .2s ease;cursor: pointer;}
+  {{ default_sid }} .mobile-nav-btns .ctrl:hover{background:#000;color:#fff;border-color:#000;}
+  {{ default_sid }} .mobile-nav-btns .ctrl:disabled,
+  {{ default_sid }} .mobile-nav-btns .ctrl.is-disabled{background:#fff;color:#D3D3D3;border-color:#D3D3D3;cursor:not-allowed;}
+  /* mobile small controls */
+  {{ default_sid }} .slide-actions_btn_md{position:absolute;right:16px;bottom:16px;display:none;gap:12px;z-index:3;}
+  {{ default_sid }} .slide-actions_btn_md .ctrl{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:transparent;color:#fff;border:1px solid #fff;}
+  /* icon swap logic */
+  {{ default_sid }} .ctrl-play .ctrl-pause-icon{display:none;}
+  {{ default_sid }} .ctrl-play[data-playing="true"] .ctrl-play-icon{display:none;}
+  {{ default_sid }} .ctrl-play[data-playing="true"] .ctrl-pause-icon{display:inline;}
+  {{ default_sid }} .ctrl-mute .ctrl-unmute-icon{display:none;}
+  {{ default_sid }} .ctrl-mute[data-muted="false"] .ctrl-mute-icon{display:none;}
+  {{ default_sid }} .ctrl-mute[data-muted="false"] .ctrl-unmute-icon{display:inline;}
+
+  
+  {{ default_sid }} .slide-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  {{ default_sid }} .slide-subtitle {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+ 
+  }
+  
+  {{ default_sid }} .slide-button {
+    display: inline-block;
+    padding: 12px 30px;
+    background-color: #ed1c22;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  {{ default_sid }} .slide-button:hover {
+    background-color: transparent;
+    border-color: #ed1c22;
+    color: #ed1c22;
+  }
+  
+  /* 导航箭头 */
+  {{ default_sid }} .swiper-button-next,
+  {{ default_sid }} .swiper-button-prev {
+    width: 48px;
+    height: 48px; 
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+    z-index: 4;
+  }
+  {{ default_sid }} .swiper-button-next.swiper-button-disabled, 
+  {{ default_sid }} .swiper-button-prev.swiper-button-disabled{
+    cursor:pointer;
+    color: #D3D3D3;
+    opacity: 1;
+    pointer-events:auto;
+  }
+  {{ default_sid }} .swiper-button-prev{
+    left: 160px;
+  }
+  {{ default_sid }} .swiper-button-next{
+    right: 160px;
+  }
+  
+  {{ default_sid }} .swiper-button-next:hover,
+  {{ default_sid }} .swiper-button-prev:hover {
+
+    transform: scale(1.1);
+  }
+  
+  {{ default_sid }} .swiper-button-next:after,
+  {{ default_sid }} .swiper-button-prev:after {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  /* 分页点 */
+  {{ default_sid }} .swiper-pagination {
+    position: relative;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    z-index: 10;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet {
+    width: 6.5px !important;
+    height: 6.5px !important;
+    background-color: #616161 !important;
+    border-radius: 50%;
+    opacity: 1;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet-active {
+    background-color: #FFFFFF !important;
+    transform: scale(1);
+    width: 6.5px !important;
+    height: 6.5px !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet-dynamic {
+    width: 6.5px !important;
+    height: 6.5px !important;
+  }
+  
+  {{ default_sid }} .swiper-pagination-bullet:hover {
+    background-color: #999999;
+  }
+  
+  {{ default_sid }} .pagination-text{
+    display: none !important;
+  }
+  
+  {{ default_sid }} .pagination-text .section-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: #FF0000;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-style: italic;
+    font-size: 15px;
+  }
+  
+  {{ default_sid }} .pagination-text .section-button svg {
+    width: 7px;
+    height: 11px;
+    stroke: #FF0000;
+    transition: stroke 0.3s ease;
+  }
+  
+  {{ default_sid }} .asymmetric-swiper-container .swiper-pagination{
+    margin-top:30px;
+  }
+  
+  
+  /* 响应式设计 */
+  @media screen and (max-width: 1024px) {
+    {{ default_sid }} .swiper {
+      padding: 0 10%;
+    }
+    
+    {{ default_sid }} .slide-title {
+      font-size: 2rem;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-size: 2.5rem;
+    }
+    
+    {{ default_sid }} .section-description {
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    {{ default_sid }} .swiper {
+      padding: 0;
+    }
+    
+    {{ default_sid }} .swiper-slide-active {
+      transform: scale(1);
+      opacity: 1;
+    }
+    
+    
+    {{ default_sid }} .slide-title {
+      font-size: 1.5rem;
+    }
+    
+    {{ default_sid }} .slide-subtitle {
+      font-size: 1rem;
+    }
+    
+    {{ default_sid }} .section-header {
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 33px;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-size: 26px;
+      text-align: left;
+    }
+    
+    {{ default_sid }} .section-description {
+      font-size: 13px;
+    }
+
+    {{ default_sid }} .swiper-button-next,
+    {{ default_sid }} .swiper-button-prev {
+      display: none;
+    }
+    
+    {{ default_sid }} .asymmetric-swiper-container {
+      padding-bottom: 0px;
+    --container-inner-width: min((100vw - var(--scrollbar-width, 0px)) - var(--container-gutter) * 2, var(--container-max-width));
+    --container-outer-width: calc(((100vw - var(--scrollbar-width, 0px)) - var(--container-inner-width)) / 2);
+    margin-left: max(var(--container-gutter), 50% - var(--container-max-width) / 2)!important;
+    margin-right: max(var(--container-gutter), 50% - var(--container-max-width) / 2)!important;
+    }
+    
+    {{ default_sid }} .swiper-pagination {
+      bottom:-16px;
+    }
+    
+    {{ default_sid }} .swiper-pagination-bullet {
+      width: 4px !important;
+      height: 4px !important;
+    }
+    
+    {{ default_sid }} .pagination-text {
+      font-size: 15px;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+    }
+    {{ default_sid }} .slide-actions{left:12px;bottom:12px;}
+    {{ default_sid }} .slide-actions .btn-watch{
+      display:none;
+    }
+    {{ default_sid }} .slide-actions .btn-learn{
+      
+      clip-path: none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:12px;
+      background:transparent;
+      color:#fff;
+      border:1px solid #fff;
+      border-radius:0;
+      width:84px;
+      height:26px;
+      line-height:1;
+      font-weight:normal;
+    }
+    {{ default_sid }} .slide-actions .btn-learn span{
+      clip-path: none;
+      box-shadow: none;
+      border-radius:0;
+      font-size:12px;
+    }
+    {{ default_sid }} .slide-actions_btn_md{display:flex;}
+    {{ default_sid }} .mobile-nav-btns{display:flex;}
+    /* smaller size on mobile */
+    {{ default_sid }} .mobile-nav-btns .ctrl{width:34px;height:34px;}
+
+  }
+  
+  @media screen and (max-width: 480px) {
+    {{ default_sid }} .swiper {
+      padding: 0 20px;
+    }
+  }
+
+  {% endstyle %} 
+
+  <div class="container-box" {% if section.settings.section_id != blank %}id="{{ section.settings.section_id | downcase | replace: ' ', '_' }}" {% endif %}>
+    <!-- 顶部标题区域 -->
+    {% if se_stts.title != blank or se_stts.description != blank %}
+      <div class="section-header container">
+        <div class="section-header-inner">
+          {% if se_stts.title != blank %}
+            <h2 class="section-title">{{ se_stts.title }}</h2>
+          {% endif %}
+          
+          {% if se_stts.description != blank %}
+            <p class="section-description">{{ se_stts.description }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- 异形轮播容器 -->
+    <div class="asymmetric-swiper-container">
+      <div class="swiper asymmetric-swiper-{{sid}}">
+        <div class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <div class="swiper-slide" {{ block.shopify_attributes }}>
+              {% if block.settings.video != blank %}
+                <div class="video-box">                  
+                  <video
+                    class="video__player js-video"
+                    data-device="desktop"
+                    data-type="html"
+                    muted
+                    autoplay
+                    loop
+                    playsinline
+                    tabindex="0"
+                  >
+                    {%- for source in block.settings.video.sources -%}
+                      {%- if source.mime_type == 'video/mp4' -%}
+                        <source src="{{- source.url -}}" type="{{- source.mime_type -}}">
+                      {%- endif -%}
+                    {%- endfor -%}
+                  </video>
+                 
+                </div>
+              {% elsif block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 1920 }}" alt="{{ block.settings.image.alt | escape }}" class="slide-image" width="1920" height="1080" loading="lazy">
+              {% endif %}
+              
+              <div class="slide-content">
+                <div class="slide-content-inner">
+                  {% if block.settings.title != blank %}
+                    <h3 class="slide-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  
+                  {% if block.settings.subtitle != blank %}
+                    <p class="slide-subtitle">{{ block.settings.subtitle }}</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <div class="slide-actions">
+                {% if block.settings.external_video_url_desktop != blank %}
+                <button class="btn btn-watch" type="button" data-video-url="{{ block.settings.external_video_url_desktop }}">
+                  <span>Watch Now</span>
+                  </button>
+                {% endif %}
+                {% if block.settings.button_url != blank %}
+                  <a class="btn btn-learn" href="{{ block.settings.button_url }}">
+                    <span>{{ block.settings.button_text }}</span>
+                  </a>
+                {% endif %}
+              </div>
+
+              <div class="slide-actions_btn_md">
+                <button type="button" class="ctrl ctrl-play" aria-label="Play/Pause">
+                <svg class="ctrl-play-icon" width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg"style="margin-right:-1px;">
+                  <path d="M8.28082 4.20356L1.18612 0.107243C0.661407 -0.197005 0 0.182202 0 0.790697V8.98333C0 9.59182 0.656998 9.97103 1.18612 9.66678L8.28082 5.57047C8.80553 5.26622 8.80553 4.50781 8.28082 4.20356Z" fill="white"/>
+                </svg>
+                <svg class="ctrl-pause-icon" width="9" height="10" viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-right:-1px;">
+                  <rect x="0" y="0" width="3.5" height="10" fill="white"/>
+                  <rect x="5.5" y="0" width="3.5" height="10" fill="white"/>
+                </svg>
+                </button>
+                <button type="button" class="ctrl ctrl-mute" aria-label="Mute/Unmute">
+                  <svg class="ctrl-mute-icon" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.94825 0.0503029L3.21885 1.69059H0.656997C0.295428 1.69059 0 1.98602 0 2.34759V7.48452C0 7.83727 0.291019 8.12829 0.643769 8.12829H3.21885L5.94825 9.76417C6.16872 9.89204 6.4377 9.73771 6.4377 9.48638V0.323685C6.4377 0.0723498 6.16872 -0.0819782 5.94825 0.0458939V0.0503029Z" fill="white"/>
+                    <path d="M10.5644 4.91094L11.4727 4.00261C11.7241 3.75128 11.7241 3.34561 11.4727 3.09428C11.2214 2.84294 10.8157 2.84294 10.5644 3.09428L9.65606 4.00261L8.74332 3.08987C8.49198 2.83853 8.08632 2.83853 7.83499 3.08987C7.58365 3.3412 7.58365 3.75128 7.83499 3.9982L8.74773 4.91094L7.83499 5.82368C7.58365 6.07502 7.58365 6.48068 7.83499 6.73202C8.08632 6.98335 8.49639 6.98335 8.74332 6.73202L9.65606 5.81928L10.5644 6.72761C10.8157 6.97894 11.2214 6.97894 11.4727 6.72761C11.7241 6.47627 11.7241 6.07061 11.4727 5.81928L10.5644 4.91094Z" fill="white"/>
+                  </svg>
+                  <svg class="ctrl-unmute-icon" width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.94825 0.0503029L3.21885 1.69059H0.656997C0.295428 1.69059 0 1.98602 0 2.34759V7.48452C0 7.83727 0.291019 8.12829 0.643769 8.12829H3.21885L5.94825 9.76417C6.16872 9.89204 6.4377 9.73771 6.4377 9.48638V0.323685C6.4377 0.0723498 6.16872 -0.0819782 5.94825 0.0458939V0.0503029Z" fill="white"/>
+                    <path d="M9.249 3.5L11.5 5M9.249 6.5L11.5 5" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+                  </svg>
+                
+                </button>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        
+        {% if show_arrows and section.blocks.size > 1 %}
+          <div class="swiper-button-next swiper-button-next-{{ section.id }}">
+                
+            </div>
+          <div class="swiper-button-prev swiper-button-prev-{{ section.id }}">
+                
+            </div>
+        {% endif %}
+        
+        {% if show_dots %}
+          <div class="swiper-pagination swiper-pagination-{{ section.id }}"></div>
+        {% endif %}
+        
+        
+
+      </div>
+      <div class="mobile-nav-btns">
+        <button type="button" class="ctrl ctrl-prev" aria-label="Prev">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.5 1 2.5 5l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="ctrl ctrl-next" aria-label="Next">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.5 1 7.5 5l-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+    
+    <!--移动端显示的分页点下方文字 -->
+    {% if se_stts.button_text != blank and se_stts.button_url != blank %}
+      <div class="pagination-text">
+        <a href="{{ se_stts.button_url }}" class="section-button">
+            Learn More
+          <svg width="7" height="11" viewBox="0 0 7 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 10.0662L5.53031 5.53593L1 1" stroke="#ed1c22" stroke-width="1.5" stroke-miterlimit="10"/>
+          </svg>            
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- Swiper JS -->
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiperContainer = document.querySelector('.asymmetric-swiper-{{sid}}');
+  if (swiperContainer) {
+    const swiper = new Swiper('.asymmetric-swiper-{{sid}}', {
+      // 基础配置
+      loop: true,
+      slidesPerView: 1,
+      spaceBetween: 24,
+      allowTouchMove: true,
+      initialSlide: 0,
+      centeredSlides: false,
+                observer:true,
+             observeParents:true,
+      // 导航箭头
+      {% if show_arrows %}
+         navigation: {
+        nextEl: '.swiper-button-next-{{ section.id }}',
+        prevEl: '.swiper-button-prev-{{ section.id }}',
+      },
+      {% endif %}
+      
+      // 分页点
+      {% if show_dots %}
+      pagination: {
+        el: '.swiper-pagination-{{ section.id }}',
+        clickable: true,
+        dynamicBullets: false,
+      },
+      {% endif %}
+      
+      // 效果配置
+      effect: 'slide',
+      speed: 800,
+      
+      // 响应式断点
+      breakpoints: {
+        480: {
+          slidesPerView: 1.3,
+          spaceBetween: 10,
+          centeredSlides: false,
+          initialSlide: 0,
+        },
+        768: {
+          slidesPerView: 1.4,
+          spaceBetween: 10,
+          centeredSlides: false,
+          initialSlide: 0,
+        },
+        1024: {
+          slidesPerView: 1.3,
+          spaceBetween: 24,
+          centeredSlides: true,
+          initialSlide: Math.floor({{ section.blocks.size }} / 2),  
+        },
+      },
+      
+      // 事件回调
+      on: {
+        slideChange: function() {
+          // 可以在这里添加自定义的slide切换逻辑
+          console.log('Slide changed to:', this.activeIndex);
+        },
+        init: function() {
+          try{
+            var desiredInit = (window.innerWidth >= 1024) ? Math.floor({{ section.blocks.size }} / 2) : 0;
+            if(this.activeIndex !== desiredInit){
+              this.slideTo(desiredInit, 0, false);
+            }
+          }catch(e){}
+          console.log('Asymmetric Swiper initialized');
+        }
+      }
+    });
+  
+    // hook mobile nav buttons with states (default/hover/disabled)
+    const rootEl = document.querySelector('.jingva-asymmetric-slide-{{sid}}');
+    if(rootEl){
+      const prev = rootEl.querySelector('.mobile-nav-btns .ctrl-prev');
+      const next = rootEl.querySelector('.mobile-nav-btns .ctrl-next');
+      const updateMobileNavState = ()=>{
+        if(!prev || !next) return;
+        const atStart = swiper.isBeginning && !swiper.params.loop;
+        const atEnd = swiper.isEnd && !swiper.params.loop;
+        if(prev.toggleAttribute){
+          prev.toggleAttribute('disabled', atStart);
+          next.toggleAttribute('disabled', atEnd);
+        } else {
+          if(atStart){ prev.setAttribute('disabled',''); } else { prev.removeAttribute('disabled'); }
+          if(atEnd){ next.setAttribute('disabled',''); } else { next.removeAttribute('disabled'); }
+        }
+      };
+      prev && prev.addEventListener('click', ()=>{ if(!prev.disabled) swiper.slidePrev(); });
+      next && next.addEventListener('click', ()=>{ if(!next.disabled) swiper.slideNext(); });
+      updateMobileNavState();
+      swiper.on('slideChange', updateMobileNavState);
+      swiper.on('resize', updateMobileNavState);
+      swiper.on('init', updateMobileNavState);
+    }
+  }
+  // YouTube fullscreen overlay
+  const root = document.querySelector('.jingva-asymmetric-slide-{{sid}}');
+  if(root){
+    let overlay = root.querySelector('.yt-overlay');
+    if(!overlay){
+      overlay = document.createElement('div');
+      overlay.className = 'yt-overlay';
+      overlay.setAttribute('hidden','');
+      overlay.innerHTML = '<style>.yt-overlay{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:9999;} .yt-overlay[hidden]{display:none;} .yt-box{position:relative;width:min(90vw,1200px);height:min(80vh,675px);} .yt-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0;} .yt-close{position:absolute;top:-44px;right:0;background:#000;color:#fff;border:1px solid #fff;border-radius:50%;padding:6px 6px;cursor:pointer;width: 40px;height: 40px;display: flex;justify-content: center;align-items: center;}</style><div class=\"yt-box\"><button class=\"yt-close\" type=\"button\"> × </button><iframe allow=\"autoplay; encrypted-media\" allowfullscreen></iframe></div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', (e)=>{ if(e.target === overlay || e.target.classList.contains('yt-close')){ const f=overlay.querySelector('iframe'); f.src=''; overlay.setAttribute('hidden',''); }});
+    }
+    root.querySelectorAll('.btn-watch').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        const url = btn.getAttribute('data-video-url') || '';
+        let embed = '';
+        const ytMatch = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{6,})/);
+        if(ytMatch){
+          embed = 'https://www.youtube.com/embed/' + ytMatch[1] + '?autoplay=1&rel=0&modestbranding=1&playsinline=1';
+        } else {
+          window.open(url, '_blank');
+          return;
+        }
+        const iframe = overlay.querySelector('iframe');
+        iframe.src = embed;
+        overlay.removeAttribute('hidden');
+        // no F11 / no programmatic fullscreen
+      })
+    })
+    // mobile controls logic (play/pause, mute/unmute)
+    root.querySelectorAll('.swiper-slide').forEach(slide=>{
+      const v = slide.querySelector('video');
+      if(!v) return;
+      const playBtn = slide.querySelector('.ctrl-play');
+      const muteBtn = slide.querySelector('.ctrl-mute');
+      if(playBtn){
+        // init state
+        playBtn.setAttribute('data-playing', (!v.paused).toString());
+        playBtn.addEventListener('click', ()=>{
+          if(v.paused){ v.play(); playBtn.setAttribute('data-playing','true'); } else { v.pause(); playBtn.setAttribute('data-playing','false'); }
+        });
+      }
+      if(muteBtn){
+        // init state
+        muteBtn.setAttribute('data-muted', v.muted.toString());
+        muteBtn.addEventListener('click', ()=>{ v.muted = !v.muted; muteBtn.setAttribute('data-muted', v.muted.toString()); });
+      }
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "异形幻灯片 (Asymmetric video)",
+  "class": "shopify-section--jingva-asymmetric-slide",
+  "tag": "section",
+  "settings": [
+      {
+        "type": "text",
+        "id": "section_id",
+        "label": "Section ID",
+        "info": "This is used to identify the section if the you added this on the (Kiks Section Navigation) section. Make sure to use the same (id or name) in the (Kiks Section Navigation) section."
+      },
+    {
+      "type": "header",
+      "content": "顶部标题设置"
+    },
+    {
+      "type": "html",
+      "id": "title",
+      "label": "主标题",
+      "default": "Built for Esports"
+    },
+ 
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "描述文字",
+      "default": "Supporting top esports events and over 100 pro teams"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "字体颜色",
+      "default": "#000000"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "按钮文字",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "按钮链接"
+    },
+    {
+      "type": "header",
+      "content": "轮播设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "自动播放",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "自动播放间隔 (毫秒)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 3
+      
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "显示导航箭头",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "显示分页点",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "尺寸设置"
+    },
+    {
+      "type": "range",
+      "id": "slide_height",
+      "label": "轮播高度 (桌面端)",
+      "min": 400,
+      "max": 1000,
+      "step": 50,
+      "default": 600,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "slide_height_mb",
+      "label": "轮播高度 (移动端)",
+      "min": 200,
+      "max": 600,
+      "step": 25,
+      "default": 200,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "间距设置"
+    },
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "上边距",
+      "default": "0px;0px;0px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "下边距",
+      "default": "0px;0px;0px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_top",
+      "label": "内边距-上",
+      "default": "60px;40px;30px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom",
+      "label": "内边距-下",
+      "default": "60px;40px;30px",
+      "info": "格式: 桌面端;平板端;移动端"
+    },
+    {
+      "type": "header",
+      "content": "颜色设置"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "背景颜色 (桌面端)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "color_mb",
+      "label": "背景颜色 (移动端)",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "自定义CSS"
+    },
+    {
+      "type": "text",
+      "id": "section_css",
+      "label": "自定义CSS类名"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "幻灯片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "幻灯片图片"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "幻灯片视频"
+        },
+        {
+            "type": "video_url",
+            "accept": [
+              "youtube",
+              "vimeo"
+            ],
+            "id": "external_video_url_desktop",
+            "label": "Youtube/Vimeo desktop video url",
+            "default": "https://www.youtube.com/watch?v=2f6Nxzt7M54&t=97s",
+            "info": "Applicable to 'Youtube/Vimeo' media type."
+          },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "幻灯片标题"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "幻灯片副标题"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "按钮文字"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "按钮链接"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "异形幻灯片 (Asymmetric video)",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "title": "2025 DFI GRAND FINAL",
+            "subtitle": "Experience the ultimate esports championship",
+            "button_text": "Learn More"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Delta Force International",
+            "subtitle": "Join the elite gaming community",
+            "button_text": "Join Now"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "title": "Professional Gaming Gear",
+            "subtitle": "Designed for champions",
+            "button_text": "Shop Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

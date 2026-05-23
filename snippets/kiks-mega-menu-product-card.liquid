@@ -1,0 +1,38 @@
+{%- comment -%}
+  Single product tile for kiks-mega-menu-horizontal（Figma：248–252px 图区 + 标题 + 价格）
+  @param pro {Product} required
+{%- endcomment -%}
+<div class="kik_menu_product">
+  <a href="{{ pro.url }}" class="kik_menu_product_link">
+    {% if pro.metafields.custom.badges != blank %}
+      <div class="kik_pro_badge {% if pro.metafields.custom.badges.value == 'HOT' %}hot{% endif %}">{{ pro.metafields.custom.badges.value }}</div>
+    {% elsif pro.tags contains 'New' or pro.tags contains 'new' %}
+      <div class="kik_pro_badge kik_pro_badge--outline">NEW</div>
+    {% endif %}
+    <div class="kik_menu_product_media">
+      {% if pro.featured_image != blank %}
+        {{ pro.featured_image | image_url: width: 600 | image_tag:
+          alt: pro.title,
+          loading: 'lazy',
+          width: 600,
+          height: 600,
+          class: 'kik_menu_product_image',
+          widths: '252, 376, 504, 600, 752',
+          sizes: '(min-width: 1280px) 252px, (min-width: 700px) 33vw, 50vw'
+        }}
+      {% endif %}
+    </div>
+    <div class="kik_menu_product_body">
+      <span class="kik_menu_product_title">{{ pro.title }}</span>
+      <div class="kik_menu_product_price_row">
+        <span class="kik_price_sale">{{ pro.price | money }}</span>
+        {% if pro.compare_at_price != blank and pro.compare_at_price > pro.price %}
+          <span class="kik_price_compare">{{ pro.compare_at_price | money }}</span>
+        {% endif %}
+      </div>
+      {% if pro.metafields.custom.small_description != blank %}
+        <div class="kik_pro_small_desk">{{ pro.metafields.custom.small_description | truncate: 50 }}</div>
+      {% endif %}
+    </div>
+  </a>
+</div>

@@ -1,0 +1,813 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign endorsement_blocks = section.blocks
+  assign endorsement_count = endorsement_blocks | size
+-%}
+
+{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag -}}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-media-endorsement-new jingva-media-endorsement-new-{{ sid }}" data-section-id="{{ sid }}" style="--jme-pc-pt: {{ se_stts.pc_padding_top | default: 160 }}px; --jme-pc-pb: {{ se_stts.pc_padding_bottom | default: 0 }}px; --jme-mob-pt: {{ se_stts.mob_padding_top | default: 68 }}px; --jme-mob-pb: {{ se_stts.mob_padding_bottom | default: 0 }}px;">
+  <style>
+    /* === PC：≥1440（develop.md）=== */
+    .jingva-media-endorsement-new-{{ sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background-color: #ffffff !important;
+      padding: var(--jme-pc-pt, 160px) 48px var(--jme-pc-pb, 0px) 48px !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 48px !important;
+      line-height: 57.6px !important;
+      color: #0a0a0a !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px) !important;
+      transition: transform 0.5s ease-out !important;
+      will-change: transform !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-title.aos-animate {
+      transform: translateY(0) !important;
+    }
+
+    /* PC（≥1280）≤3 个 item：标题与卡片整列居中对齐 */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] {
+      align-items: center !important;
+    }
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .jingva-endorsement-new-title {
+      text-align: center !important;
+    }
+    /* PC（≥1280）≤3 个 item：销毁 Swiper，用静态 flex 轨道居中（避免 transform 与 Swiper 冲突） */
+    @media screen and (min-width: 1280px) {
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .swiper-wrapper {
+        justify-content: center !important;
+        gap: 12px !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .jingva-endorsement-new-swiper-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .swiper.jingva-endorsement-new-swiper-{{ sid }} {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        overflow: visible !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .swiper.jingva-endorsement-new-swiper-static-{{ sid }} .swiper-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        width: 100% !important;
+        gap: 12px !important;
+        transform: none !important;
+        transition-duration: 0ms !important;
+        box-sizing: border-box !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .swiper.jingva-endorsement-new-swiper-static-{{ sid }} .swiper-slide {
+        flex-shrink: 0 !important;
+        margin-right: 0 !important;
+      }
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-swiper-wrapper {
+      position: relative !important;
+      width: 100% !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .swiper.jingva-endorsement-new-swiper-{{ sid }} {
+      width: 100% !important;
+      overflow: visible !important;
+      margin-left: 0 !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .swiper-slide {
+      width: 420px !important;
+      height: auto !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 单列卡片：上图下文 */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-card {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    /* 媒体 icon 背景框：固定高宽比区域，内容区居中（Figma 图区 420×180） */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media {
+      {% comment %} position: relative !important;
+      width: 100% !important;
+      height: 0 !important;
+      padding-bottom: 42.857142% !important; /* 180/420 */
+      background-color: #f0f0f0 !important;
+      border-radius: 12px !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important; {% endcomment %}
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner {
+      {% comment %} position: absolute !important;
+      inset: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 16px !important;
+      box-sizing: border-box !important; {% endcomment %}
+    }
+
+    /* picture 包裹图：避免 flex 子项高度百分比失效导致「看不见图」 */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner picture {
+      {% comment %} display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important; {% endcomment %}
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-img,
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner img {
+      {% comment %} display: block !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: min(100%, 320px) !important;
+      /* 180px 稿区 icon：用固定上限，避免 % 在部分浏览器中解析为 0 */
+      max-height: 130px !important;
+      object-fit: contain !important;
+      object-position: center !important; {% endcomment %}
+      width: 100% !important;
+      border-radius: 12px !important;
+    }
+
+    /* PC 文案区 padding top right bottom left = 12 24 24 0 */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-body {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+      padding: 12px 24px 24px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-source {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 28.8px !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      text-transform: none !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-text {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 16px !important;
+      line-height: 120% !important;
+      color: rgba(26, 26, 26, 0.6) !important;
+      margin: 0 !important;
+      text-transform: none !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-navigation {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      gap: 16px !important;
+      /* PC Frame 1973771779：卡片区与导航纵向间距 24 */
+      margin-top: 24px !important;
+    }
+
+    /* PC（≥1280）≤3 个 item 时隐藏左右切换按钮 */
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-navigation[data-pc-hide] {
+      display: none !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 12px !important;
+      border: 1px solid #0A0A0A;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      transition: background-color 0.2s ease, opacity 0.2s ease !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn:hover:not(.swiper-button-disabled) {
+      background-color: #e5e5e5 !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn.swiper-button-disabled {
+      opacity: 0.4 !important;
+      cursor: not-allowed !important;
+    }
+
+    .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn svg {
+      width: 24px !important;
+      height: 24px !important;
+      display: block !important;
+    }
+
+    /* === PAD：1280～1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      .jingva-media-endorsement-new-{{ sid }} {
+        padding: var(--jme-pc-pt, 120px) 40px var(--jme-pc-pb, 120px) 40px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container {
+        gap: 40px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-title {
+        font-size: 40px !important;
+        line-height: 48px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .swiper-slide {
+        width: 420px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media {
+        {% comment %} padding-bottom: 42.857142% !important; {% endcomment %}
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner {
+        {% comment %} padding: 14px !important; {% endcomment %}
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-source {
+        font-size: 22px !important;
+        line-height: 26.4px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-text {
+        font-size: 15px !important;
+        line-height: 120% !important;
+        text-transform: none !important;
+      }
+    }
+
+    /* === MOB：≤1279 === */
+    @media screen and (max-width: 1279px) {
+      .jingva-media-endorsement-new-{{ sid }} {
+        padding: var(--jme-mob-pt, 68px) 16px var(--jme-mob-pb, 0px) 16px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container {
+        gap: 32px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-title {
+        font-size: 24px !important;
+        line-height: 28.8px !important;
+      }
+
+      /* 卡片列与 swiper 可视：滑块宽 240，gap 12（稿 Frame gap） */
+      .jingva-media-endorsement-new-{{ sid }} .swiper-slide {
+        width: 240px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-swiper-wrapper {
+        width: 100% !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media {
+        {% comment %} padding-bottom: 46.25% !important; /* 111/240 */ {% endcomment %}
+        {% comment %} border-radius: 8px !important; {% endcomment %}
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner {
+        {% comment %} padding: 12px !important; {% endcomment %}
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-img,
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-media-inner img {
+        {% comment %} max-width: min(100%, 200px) !important;
+        max-height: 78px !important; {% endcomment %}
+        border-radius: 8px !important;
+      }
+
+      /* MOB 文案 padding 8 / 16 / 0 / 0 */
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-body {
+        padding: 8px 16px 0 0 !important;
+        gap: 12px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-source {
+        font-weight: 500 !important;
+        font-size: 20px !important;
+        line-height: 24px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-text {
+        font-size: 14px!important;
+        line-height: 16.8px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 8px !important;
+      }
+
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-nav-btn svg {
+        width: 20px !important;
+        height: 20px !important;
+      }
+
+      /* 卡片区整体与导航间距：稿 vertical gap 16（栏目 gap）由 swiper 外包一层 margin 表现 */
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-navigation {
+        margin-top: 16px !important;
+        margin-bottom: 2px !important;
+      }
+
+      /* MOB 即使 ≤3 个 item 也保留切换按钮（仅 PC 隐藏） */
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-navigation[data-pc-hide] {
+        display: flex !important;
+      }
+    }
+
+    /* 真·手机（≤767）：≤3 个 item 时不强制居中，保持原本左对齐 + swiper 横滑 */
+    @media screen and (max-width: 767px) {
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] {
+        align-items: flex-start !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .jingva-endorsement-new-title {
+        text-align: left !important;
+      }
+      .jingva-media-endorsement-new-{{ sid }} .jingva-endorsement-new-container[data-pc-center] .swiper-wrapper {
+        justify-content: flex-start !important;
+      }
+    }
+  </style>
+
+  {% if endorsement_count > 0 %}
+    <div class="jingva-endorsement-new-container"{% if endorsement_count <= 3 %} data-pc-center{% endif %}>
+      {% if title != blank %}
+        <h2 class="jingva-endorsement-new-title">{{ title }}</h2>
+      {% endif %}
+
+      <div class="jingva-endorsement-new-swiper-wrapper">
+        <div class="swiper jingva-endorsement-new-swiper-{{ sid }}">
+          <div class="swiper-wrapper">
+            {% for block in endorsement_blocks %}
+              <div class="swiper-slide" {{ block.shopify_attributes }}>
+                <article class="jingva-endorsement-new-card">
+                  {%- liquid
+                    assign icon_pc = block.settings.logo_pc
+                    assign icon_mob = block.settings.logo_mobile
+                    if icon_pc == blank and block.settings.logo != blank
+                      assign icon_pc = block.settings.logo
+                    endif
+                    if icon_mob == blank and block.settings.logo != blank
+                      assign icon_mob = block.settings.logo
+                    endif
+                    if icon_mob == blank and icon_pc != blank
+                      assign icon_mob = icon_pc
+                    endif
+                    if icon_pc == blank and icon_mob != blank
+                      assign icon_pc = icon_mob
+                    endif
+                    assign logo_alt = block.settings.source | default: 'Media logo'
+                    assign has_icon = false
+                    if icon_pc != blank or icon_mob != blank
+                      assign has_icon = true
+                    endif
+                  -%}
+                  <div class="jingva-endorsement-new-media{% unless has_icon %} jingva-endorsement-new-media--empty{% endunless %}">
+                    {% if has_icon %}
+                      <div class="jingva-endorsement-new-media-inner">
+                        <picture>
+                          {% if icon_pc != blank %}
+                            <source media="(min-width: 1280px)" srcset="{{ icon_pc | image_url: width: 840 }}">
+                          {% endif %}
+                          {% if icon_mob != blank %}
+                            <img
+                              class="jingva-endorsement-new-media-img"
+                              src="{{ icon_mob | image_url: width: 480 }}"
+                              srcset="{{ icon_mob | image_url: width: 240 }} 240w, {{ icon_mob | image_url: width: 480 }} 480w"
+                              sizes="(max-width: 1279px) 216px, 388px"
+                              alt="{{ logo_alt | escape }}"
+                              width="{{ icon_mob.width }}"
+                              height="{{ icon_mob.height }}"
+                              loading="lazy"
+                              decoding="async"
+                            >
+                          {% elsif icon_pc != blank %}
+                            <img
+                              class="jingva-endorsement-new-media-img"
+                              src="{{ icon_pc | image_url: width: 840 }}"
+                              srcset="{{ icon_pc | image_url: width: 420 }} 420w, {{ icon_pc | image_url: width: 840 }} 840w"
+                              sizes="(max-width: 1279px) 216px, 388px"
+                              alt="{{ logo_alt | escape }}"
+                              width="{{ icon_pc.width }}"
+                              height="{{ icon_pc.height }}"
+                              loading="lazy"
+                              decoding="async"
+                            >
+                          {% endif %}
+                        </picture>
+                      </div>
+                    {% endif %}
+                  </div>
+
+                  <div class="jingva-endorsement-new-body">
+                    {% if block.settings.source != blank %}
+                      <p class="jingva-endorsement-new-source">{{ block.settings.source }}</p>
+                    {% endif %}
+                    {% if block.settings.comment != blank %}
+                      <p class="jingva-endorsement-new-text">{{ block.settings.comment }}</p>
+                    {% endif %}
+                  </div>
+                </article>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% if endorsement_count > 1 %}
+          <div class="jingva-endorsement-new-navigation"{% if endorsement_count <= 3 %} data-pc-hide{% endif %}>
+            <button class="jingva-endorsement-new-nav-btn jingva-endorsement-new-prev-{{ sid }}" type="button" aria-label="Previous">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M15 18L9 12L15 6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button class="jingva-endorsement-new-nav-btn jingva-endorsement-new-next-{{ sid }}" type="button" aria-label="Next">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M9 18L15 12L9 6" stroke="#0A0A0A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var section = document.querySelector('.jingva-media-endorsement-new-{{ sid }}');
+  if (section) {
+    var title = section.querySelector('.jingva-endorsement-new-title');
+    if (title) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            title.classList.add('aos-animate');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.01,
+        rootMargin: '0px 0px 0px 0px'
+      });
+      observer.observe(title);
+    }
+  }
+
+  var jmeEndorsementCount = {{ endorsement_count }};
+  var jmePcCenter = jmeEndorsementCount <= 3;
+  var jmeSpaceBetween = 12;
+  var jmeSwiper = null;
+
+  function jmeIsPcViewport() {
+    return window.matchMedia('(min-width: 1280px)').matches;
+  }
+
+  function jmeShouldPcCenter() {
+    return jmePcCenter && jmeIsPcViewport();
+  }
+
+  function jmeResetStaticTrack(swiperEl) {
+    if (!swiperEl) return;
+    var wrapper = swiperEl.querySelector('.swiper-wrapper');
+    if (!wrapper) return;
+    wrapper.style.removeProperty('transform');
+    wrapper.style.removeProperty('transition-duration');
+    wrapper.style.removeProperty('width');
+    var slides = wrapper.querySelectorAll('.swiper-slide');
+    for (var i = 0; i < slides.length; i++) {
+      slides[i].style.removeProperty('margin-right');
+      slides[i].style.removeProperty('width');
+    }
+  }
+
+  {% if endorsement_count > 1 %}
+    var swiperEl = section && section.querySelector('.jingva-endorsement-new-swiper-{{ sid }}');
+    var prevBtn = section && section.querySelector('.jingva-endorsement-new-prev-{{ sid }}');
+    var nextBtn = section && section.querySelector('.jingva-endorsement-new-next-{{ sid }}');
+
+    function jmeGetVisibleBounds() {
+        var rect = section.getBoundingClientRect();
+        var cs = window.getComputedStyle(section);
+        var padL = parseFloat(cs.paddingLeft) || 0;
+        var padR = parseFloat(cs.paddingRight) || 0;
+        return { left: rect.left + padL, right: rect.right - padR };
+      }
+
+      function jmeUpdateNavState() {
+        if (!jmeSwiper || !jmeSwiper.slides || jmeSwiper.slides.length === 0) return;
+        if (jmeShouldPcCenter()) return;
+        var slides = jmeSwiper.slides;
+        var firstRect = slides[0].getBoundingClientRect();
+        var lastRect = slides[slides.length - 1].getBoundingClientRect();
+        var bounds = jmeGetVisibleBounds();
+
+        var atStart = firstRect.left >= bounds.left - 1;
+        var atEnd = lastRect.right <= bounds.right + 1;
+        // 全部 slides 都在可视范围内 -> 两个按钮都禁用
+        var allFit = atStart && atEnd;
+
+        if (prevBtn) {
+          prevBtn.classList.toggle('swiper-button-disabled', atStart);
+          prevBtn.setAttribute('aria-disabled', atStart ? 'true' : 'false');
+          prevBtn.disabled = atStart;
+        }
+        if (nextBtn) {
+          nextBtn.classList.toggle('swiper-button-disabled', atEnd);
+          nextBtn.setAttribute('aria-disabled', atEnd ? 'true' : 'false');
+          nextBtn.disabled = atEnd;
+        }
+
+        var nav = section.querySelector('.jingva-endorsement-new-navigation');
+        if (nav) nav.style.display = allFit ? 'none' : '';
+      }
+
+      function jmeSlideToIndex(idx) {
+        if (idx < 0) idx = 0;
+        var maxIdx = jmeSwiper.slides.length - 1;
+        if (idx > maxIdx) idx = maxIdx;
+        jmeSwiper.slideTo(idx);
+      }
+
+      // 找到「下一个左边缘超出可视右侧的 slide」对应的 index 作为 next 目标，
+      // 但若已经能让最后一张完整可见，则停在「让 last 贴右」的最小 index。
+      function jmeNext() {
+        var slides = jmeSwiper.slides;
+        var bounds = jmeGetVisibleBounds();
+        var lastRect = slides[slides.length - 1].getBoundingClientRect();
+        if (lastRect.right <= bounds.right + 1) return; // 已到末
+        // 找到第一张右边缘超出可视右侧的 slide -> 把它推到可视区
+        for (var i = 0; i < slides.length; i++) {
+          var r = slides[i].getBoundingClientRect();
+          if (r.right > bounds.right + 1) {
+            jmeSlideToIndex(i);
+            return;
+          }
+        }
+      }
+
+      function jmePrev() {
+        var slides = jmeSwiper.slides;
+        var bounds = jmeGetVisibleBounds();
+        var firstRect = slides[0].getBoundingClientRect();
+        if (firstRect.left >= bounds.left - 1) return; // 已到首
+        // 找到最后一张左边缘小于可视左侧的 slide -> 把它推回可视区
+        for (var j = slides.length - 1; j >= 0; j--) {
+          var r2 = slides[j].getBoundingClientRect();
+          if (r2.left < bounds.left - 1) {
+            jmeSlideToIndex(j);
+            return;
+          }
+        }
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (nextBtn.disabled) return;
+          jmeNext();
+        });
+      }
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (prevBtn.disabled) return;
+          jmePrev();
+        });
+      }
+
+      function jmeBindSwiperEvents() {
+        if (!jmeSwiper) return;
+        jmeSwiper.on('slideChange', jmeUpdateNavState);
+        jmeSwiper.on('setTranslate', jmeUpdateNavState);
+        jmeSwiper.on('transitionEnd', jmeUpdateNavState);
+        jmeSwiper.on('resize', jmeUpdateNavState);
+        jmeSwiper.on('observerUpdate', jmeUpdateNavState);
+      }
+
+      function jmeCreateSwiper() {
+        if (!swiperEl || typeof Swiper === 'undefined' || jmeSwiper) return;
+        jmeResetStaticTrack(swiperEl);
+        swiperEl.classList.remove('jingva-endorsement-new-swiper-static-{{ sid }}');
+        jmeSwiper = new Swiper(swiperEl, {
+          slidesPerView: 'auto',
+          spaceBetween: jmeSpaceBetween,
+          centeredSlides: false,
+          loop: false,
+          watchOverflow: true,
+          observer: true,
+          observeParents: true
+        });
+        jmeBindSwiperEvents();
+        jmeUpdateNavState();
+      }
+
+      function jmeEnablePcStaticLayout() {
+        if (!swiperEl) return;
+        if (jmeSwiper) {
+          jmeSwiper.destroy(true, true);
+          jmeSwiper = null;
+        }
+        jmeResetStaticTrack(swiperEl);
+        swiperEl.classList.add('jingva-endorsement-new-swiper-static-{{ sid }}');
+      }
+
+      function jmeSyncSwiperMode() {
+        if (!swiperEl) return;
+        if (jmeShouldPcCenter()) {
+          jmeEnablePcStaticLayout();
+          return;
+        }
+        swiperEl.classList.remove('jingva-endorsement-new-swiper-static-{{ sid }}');
+        jmeCreateSwiper();
+      }
+
+      jmeSyncSwiperMode();
+      window.addEventListener('resize', jmeSyncSwiperMode);
+      window.addEventListener('load', jmeSyncSwiperMode);
+    }
+  {% endif %}
+});
+</script>
+
+{% schema %}
+{
+  "name": "Media Endorsement New",
+  "class": "shopify-section--jingva-media-endorsement-new",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "media endorsement"
+    },
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID",
+      "info": "Optional. HTML id for subnav anchor links (no #)."
+    },
+    {
+      "type": "header",
+      "content": "Spacing (PC)"
+    },
+    {
+      "type": "range",
+      "id": "pc_padding_top",
+      "label": "PC padding top",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "pc_padding_bottom",
+      "label": "PC padding bottom",
+      "min": 0,
+      "max": 300,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Spacing (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "mob_padding_top",
+      "label": "Mobile padding top",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "mob_padding_bottom",
+      "label": "Mobile padding bottom",
+      "min": 0,
+      "max": 200,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "endorsement",
+      "name": "Endorsement",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_pc",
+          "label": "媒体 icon（PC）",
+          "info": "小尺寸 PNG/SVG/WebP；显示在灰色底框内居中（与 jingva-product-info 双端图逻辑一致）。"
+        },
+        {
+          "type": "image_picker",
+          "id": "logo_mobile",
+          "label": "媒体 icon（手机）",
+          "info": "留空则自动使用 PC 图。"
+        },
+        {
+          "type": "text",
+          "id": "source",
+          "label": "Media Source",
+          "default": "@IGN"
+        },
+        {
+          "type": "textarea",
+          "id": "comment",
+          "label": "Comment Text",
+          "default": "The Cheerble Wicked Ball is a delightful toy that captivates cats for hours with its surprising movements and safe design."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Media Endorsement New",
+      "blocks": [
+        {
+          "type": "endorsement",
+          "settings": {
+            "source": "@IGN",
+            "comment": "The Cheerble Wicked Ball is a delightful toy that captivates cats for hours with its surprising movements and safe design."
+          }
+        },
+        {
+          "type": "endorsement",
+          "settings": {
+            "source": "@inside digital",
+            "comment": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        },
+        {
+          "type": "endorsement",
+          "settings": {
+            "source": "@WinFuture",
+            "comment": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        },
+        {
+          "type": "endorsement",
+          "settings": {
+            "source": "@MEiNMM",
+            "comment": "The Aether Esport Chair is a game-changer, offering supreme comfort and support for those long gaming sessions. A must-have for serious players."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

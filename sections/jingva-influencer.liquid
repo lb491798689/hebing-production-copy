@@ -1,0 +1,727 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+-%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-section-container-{{sid}}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      width: 100% !important;
+      background-color: #121212 !important;
+      /* PC: 顶 0（与上方 product-matrix 底 150px 间距为 150px），底 150px（与下方 testimonials 间距） */
+      padding: 0 0 140px !important;
+    }
+
+    /* Override theme default section spacing */
+    #shopify-section-{{ section.id }} {
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+      margin-top: 0 !important;
+      margin-bottom: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-wrapper {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      gap: 48px !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 900 !important;
+      font-size: 48px !important;
+      line-height: 1.2 !important;
+      text-align: center !important;
+      color: #FFFFFF !important;
+      margin: 0 !important;
+      width: 100% !important;
+      /* 首次进入视口下沉载入动效 */
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-influencer-title.aos-animate {
+      transform: translateY(0);
+    }
+    
+    {{ default_sid }} .jingva-influencer-content {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: stretch !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-image-wrapper {
+      width: 720px !important;
+      height: 540px !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-image {
+      position: absolute !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: none !important;
+      left: 0 !important;
+      top: 0 !important;
+      display: block !important;
+      opacity: 0 !important;
+      transition: opacity 0.5s ease !important;
+      pointer-events: none !important;
+    }
+
+    {{ default_sid }} .jingva-influencer-image > img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-influencer-image.active {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+    
+    /* Figma 1391:123736：白底卡片 pt 144px / px 24 / pb 24，与左侧 540px 图等高时视觉居中主文案；导航仍在底部 */
+    {{ default_sid }} .jingva-influencer-card {
+      flex: 1 !important;
+      background: #ffffff !important;
+      padding: 144px 24px 24px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: space-between !important;
+      box-sizing: border-box !important;
+      min-height: 540px !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-card-content {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px !important;
+      opacity: 1 !important;
+      transition: opacity 0.5s ease !important;
+    }
+
+    {{ default_sid }} .jingva-influencer-card-hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      position: absolute !important;
+      pointer-events: none !important;
+    }
+    
+    /* Figma 1391:123738：姓名区与描述之间 gap 48px（移动端见下方 media） */
+    {{ default_sid }} .jingva-influencer-info {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 48px !important;
+      text-transform: capitalize !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-header {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      flex-wrap: wrap !important;
+      gap: 16px !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-name {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 40px !important;
+      line-height: 50.16px !important;
+      color: #0a0a0a !important;
+      margin: 0 !important;
+      padding-right: 10px !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-role {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 18px !important;
+      line-height: 21.6px !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-influencer-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 18px !important;
+      line-height: 21.6px !important;
+      color: rgba(26, 26, 26, 0.6) !important;
+      margin: 0 !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-button {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 6px !important;
+      padding: 12px 20px !important;
+      width: 162px !important;
+      height: 48px !important;
+      border-radius: 8px !important;
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 16px !important;
+      line-height: 19.2px !important;
+      text-transform: uppercase !important;
+      text-align: center !important;
+      cursor: pointer !important;
+      transition: background-color 0.3s ease, transform 0.15s ease !important;
+      text-decoration: none !important;
+      background: #0a0a0a !important;
+      color: #ffffff !important;
+      border: none !important;
+      flex-shrink: 0 !important;
+      box-sizing: border-box !important;
+      white-space: nowrap !important;
+    }
+
+    /* 常规黑底：Hover 深灰实底 */
+    {{ default_sid }} .jingva-influencer-button:hover {
+      background: #333333 !important;
+    }
+
+    {{ default_sid }} .jingva-influencer-button:active {
+      transform: scale(0.98);
+    }
+    
+    {{ default_sid }} .jingva-influencer-nav {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 12px !important;
+      width: 108px !important;
+      height: 48px !important;
+      position: relative !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-nav-mobile {
+      display: none !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-nav-desktop {
+      display: flex !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-nav-btn {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 12px !important;
+      background: transparent !important;
+      border: 1px solid #0a0a0a !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Tab样式：浅灰底、去边框 */
+    {{ default_sid }} .jingva-influencer-nav-btn:hover {
+      background: #E8E8E8 !important;
+      border-color: transparent !important;
+    }
+    
+    {{ default_sid }} .jingva-influencer-nav-btn svg {
+      width: auto !important;
+      height: auto !important;
+    }
+    
+    @media screen and (max-width: 1279px) {
+      /* Mobile: 顶 70px，底 70px，确保组件间间距 70px */
+      {{ default_sid }} {
+        padding: 70px 16px 70px 16px !important;
+        margin: 0 !important;
+      }
+
+      /* Aggressive override for theme default section spacing */
+      html body #shopify-section-{{ section.id }},
+      html body #shopify-section-{{ section.id }} .section,
+      html body #shopify-section-{{ section.id }} .shopify-section,
+      #shopify-section-{{ section.id }},
+      #shopify-section-{{ section.id }} .section,
+      #shopify-section-{{ section.id }} .shopify-section {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-wrapper {
+        padding: 0 16px !important;
+        gap: 32px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-title {
+        font-size: 28px !important;
+        line-height: 33.6px !important;
+        text-align: left !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-content {
+        flex-direction: column !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-image-wrapper {
+        width: 100% !important;
+        height: 280px !important;
+      }
+
+      /* Figma 1769:5865 Card节点：主容器 */
+      {{ default_sid }} .jingva-influencer-card {
+        width: 100% !important;
+        padding: 24px !important;
+        min-height: 0 !important;
+        background: #fafafa !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-card-content {
+        display: flex !important;
+        flex-direction: column !important;
+      }
+
+      /* Figma 1769:5865：信息容器 VERTICAL布局，元素间距21.34px */
+      {{ default_sid }} .jingva-influencer-info {
+        gap: 21.34px !important;
+      }
+
+      /* Figma 1769:5865：标题容器 HORIZONTAL布局，元素间距8px */
+      {{ default_sid }} .jingva-influencer-header {
+        gap: 8px !important;
+        align-items: center !important;
+      }
+
+      /* Figma 1769:5865：描述文本与按钮间距25.5px */
+      {{ default_sid }} .jingva-influencer-description {
+        margin-bottom: 25.5px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-name {
+        font-size: 24px !important;
+        font-weight: 600 !important;
+        font-family: 'Gabarito', sans-serif !important;
+        line-height: 28.8px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-role {
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        font-family: 'Gabarito', sans-serif !important;
+        line-height: 21.6px !important;
+        color: rgba(26, 26, 26, 0.8) !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-description {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        font-family: 'Gabarito', sans-serif !important;
+        line-height: 19.2px !important;
+        color: rgba(26, 26, 26, 0.6) !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-button {
+        width: 132px !important;
+        height: 40px !important;
+        padding: 12px !important;
+        border-radius: 8px !important;
+        gap: 6px !important;
+        font-size: 14px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-desktop {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-mobile {
+        display: flex !important;
+        width: 84px !important;
+        height: 36px !important;
+        gap: 12px !important;
+        justify-content: flex-start !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-mobile .jingva-influencer-nav-btn {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 6px !important;
+        background: #fafafa !important;
+        border: none !important;
+      }
+
+      /* Tab样式：浅灰底、去边框 */
+      {{ default_sid }} .jingva-influencer-nav-mobile .jingva-influencer-nav-btn:hover {
+        background: #e8e8e8 !important;
+        border: none !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-mobile .jingva-influencer-nav-btn svg {
+        width: auto !important;
+        height: auto !important;
+      }
+    }
+
+    @media screen and (max-width: 749px) {
+      {{ default_sid }} {
+        padding: 0 0 65px 0 !important;
+      }
+    }
+
+    /* PAD过渡：1024~1279（仍在mob大断点内，但不使用手机堆叠布局） */
+    @media screen and (min-width: 1024px) and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: 0 40px 120px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-wrapper {
+        padding: 0 !important;
+        gap: 40px !important;
+        align-items: center !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-title {
+        font-size: 40px !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-content {
+        flex-direction: row !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-image-wrapper {
+        width: 56% !important;
+        height: 460px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-card {
+        width: 44% !important;
+        min-height: 460px !important;
+        padding: 96px 20px 20px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-info {
+        gap: 28px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-name {
+        font-size: 32px !important;
+        line-height: 1.2 !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-role {
+        font-size: 16px !important;
+        line-height: 1.3 !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-description {
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+        margin-bottom: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-button {
+        width: 148px !important;
+        height: 44px !important;
+        font-size: 15px !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-desktop {
+        display: flex !important;
+      }
+
+      {{ default_sid }} .jingva-influencer-nav-mobile {
+        display: none !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-influencer-wrapper">
+    <h2 class="jingva-influencer-title">{{ se_stts.title | default: 'The Strategic Gaming Partner of Choice' }}</h2>
+    
+    <div class="jingva-influencer-content">
+      <div class="jingva-influencer-image-wrapper">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'influencer' -%}
+            {%- liquid
+              assign img_pc = block.settings.influencer_image
+              assign img_mob = block.settings.influencer_image_mob
+              assign img_fallback = img_pc | default: img_mob
+            -%}
+            <picture class="jingva-influencer-image {% if forloop.first %}active{% endif %}" data-influencer-index="{{ forloop.index0 }}">
+              {%- if img_mob != blank -%}
+                <source media="(max-width: 1023px)" srcset="{{ img_mob | image_url: width: 780 }}">
+              {%- endif -%}
+              {%- if img_pc != blank -%}
+                <source media="(min-width: 1024px)" srcset="{{ img_pc | image_url: width: 1440 }}">
+              {%- endif -%}
+              <img
+                src="{{ img_fallback | image_url: width: 1440 }}"
+                alt="{{ block.settings.influencer_name | default: 'Influencer' }}"
+                loading="lazy"
+              >
+            </picture>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      
+      <div class="jingva-influencer-card">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'influencer' -%}
+            <div class="jingva-influencer-card-content {% unless forloop.first %}jingva-influencer-card-hidden{% endunless %}" data-influencer-index="{{ forloop.index0 }}">
+              <div class="jingva-influencer-info">
+                <div class="jingva-influencer-header">
+                  <h3 class="jingva-influencer-name">{{ block.settings.influencer_name | default: 'Niko' }}</h3>
+                  <p class="jingva-influencer-role">{{ block.settings.influencer_role | default: 'CS2 Legendary Player' }}</p>
+                </div>
+                <p class="jingva-influencer-description">{{ block.settings.influencer_description | default: 'With its innovative features, the AutoFull M6 has convinced me. You should give it a try.' }}</p>
+              </div>
+              <a href="{{ block.settings.button_link | default: '#' }}" class="jingva-influencer-button">
+                {{ block.settings.button_text | default: 'Learn More' }}
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+        
+        <div class="jingva-influencer-nav jingva-influencer-nav-desktop">
+          <button class="jingva-influencer-nav-btn jingva-influencer-prev" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+              <path d="M9.41406 16.4141L2.41406 9.41406L9.41406 2.41406" stroke="black" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+          <button class="jingva-influencer-nav-btn jingva-influencer-next" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="18" viewBox="0 0 12 18" fill="none">
+              <path d="M2.41406 16.4141L9.41406 9.41406L2.41406 2.41406" stroke="black" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="jingva-influencer-nav jingva-influencer-nav-mobile">
+      <button class="jingva-influencer-nav-btn jingva-influencer-prev" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+          <path d="M0 5.1377L5.1377 10.2754L6.08105 9.33301L1.88574 5.1377L6.08105 0.942383L5.1377 0L0 5.1377Z" fill="#0A0A0A"/>
+        </svg>
+      </button>
+      <button class="jingva-influencer-nav-btn jingva-influencer-next" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+          <path d="M6.08105 5.1377L0.943359 10.2754L0 9.33301L4.19531 5.1377L0 0.942383L0.943359 0L6.08105 5.1377Z" fill="#0A0A0A"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-section-container-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.jingva-influencer-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+<script>
+  (function() {
+    const sectionId = '{{ sid }}';
+    const section = document.querySelector('.jingva-section-container-' + sectionId);
+    if (!section) return;
+    
+    const images = section.querySelectorAll('.jingva-influencer-image');
+    const contents = section.querySelectorAll('.jingva-influencer-card-content');
+    const prevBtns = section.querySelectorAll('.jingva-influencer-prev');
+    const nextBtns = section.querySelectorAll('.jingva-influencer-next');
+    
+    let currentIndex = 0;
+    const totalItems = images.length;
+    let autoPlayTimer = null;
+    
+    if (totalItems <= 1) {
+      prevBtns.forEach(btn => btn.style.display = 'none');
+      nextBtns.forEach(btn => btn.style.display = 'none');
+      return;
+    }
+    
+    function showInfluencer(index) {
+      images.forEach((img, i) => {
+        img.classList.toggle('active', i === index);
+      });
+      
+      contents.forEach((content, i) => {
+        if (i === index) {
+          content.classList.remove('jingva-influencer-card-hidden');
+        } else {
+          content.classList.add('jingva-influencer-card-hidden');
+        }
+      });
+    }
+    
+    function nextInfluencer() {
+      currentIndex = (currentIndex + 1) % totalItems;
+      showInfluencer(currentIndex);
+    }
+    
+    function prevInfluencer() {
+      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+      showInfluencer(currentIndex);
+    }
+    
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(nextInfluencer, 4000);
+    }
+    
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+    
+    function resetAutoPlay() {
+      startAutoPlay();
+    }
+    
+    prevBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        prevInfluencer();
+        resetAutoPlay();
+      });
+    });
+    
+    nextBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        nextInfluencer();
+        resetAutoPlay();
+      });
+    });
+    
+    section.addEventListener('mouseenter', stopAutoPlay);
+    section.addEventListener('mouseleave', startAutoPlay);
+    
+    startAutoPlay();
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Influencer",
+  "class": "shopify-section--jingva-influencer",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "红人模块设置"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "模块标题",
+      "default": "The Strategic Gaming Partner of Choice"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "influencer",
+      "name": "红人",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "influencer_image",
+          "label": "红人图片 (PC)"
+        },
+        {
+          "type": "image_picker",
+          "id": "influencer_image_mob",
+          "label": "红人图片 (Mobile)",
+          "info": "可选；在 ≤1023px 屏幕使用。未上传时使用 PC 图片。"
+        },
+        {
+          "type": "text",
+          "id": "influencer_name",
+          "label": "红人姓名",
+          "default": "Niko"
+        },
+        {
+          "type": "text",
+          "id": "influencer_role",
+          "label": "红人身份",
+          "default": "CS2 Legendary Player"
+        },
+        {
+          "type": "textarea",
+          "id": "influencer_description",
+          "label": "红人描述",
+          "default": "With its innovative features, the AutoFull M6 has convinced me. You should give it a try."
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "按钮文字",
+          "default": "LEARN MORE"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "按钮链接"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Influencer",
+      "settings": {
+        "title": "The Strategic Gaming Partner of Choice"
+      },
+      "blocks": [
+        {
+          "type": "influencer",
+          "settings": {
+            "influencer_name": "Niko",
+            "influencer_role": "CS2 Legendary Player",
+            "influencer_description": "With its innovative features, the AutoFull M6 has convinced me. You should give it a try.",
+            "button_text": "LEARN MORE"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

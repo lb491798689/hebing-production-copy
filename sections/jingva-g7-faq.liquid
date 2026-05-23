@@ -1,0 +1,911 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign faq_blocks = section.blocks
+  assign pad_top_pc = se_stts.padding_top_pc | default: 180 | plus: 0
+  assign pad_bottom_pc = se_stts.padding_bottom_pc | default: 170 | plus: 0
+  assign pad_top_mob = se_stts.padding_top_mobile | default: 68 | plus: 0
+  assign pad_bottom_mob = se_stts.padding_bottom_mobile | default: 68 | plus: 0
+-%}
+{% capture default_sid %}.jingva-g7-faq-{{ sid }}{% endcapture %}
+
+<section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-section-container jingva-g7-faq-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (file 3D6Ia8SCt3YYw8P5Pgda6W, node 2373:1656) 详细参数:
+     * ========================================
+     *   section: w:1200, VERTICAL gap:48
+     *   accordion item: VERTICAL gap:24 (header + divider)
+     *   header: HORIZONTAL SPACE_BETWEEN CENTER
+     *   title: 所有项 Gabarito 600 32px lh:38.4 (1.2) #000
+     *     注："what's in the box" 顶层 style 看起来是 Montserrat，
+     *     但 characterStyleOverrides 对每个字符均覆盖为 Gabarito-SemiBold，
+     *     实际渲染 100% Gabarito。
+     *   icon: 32x32 ellipse stroke #000 2.2px; plus vectors 15x0 & 0x15 stroke rgba(0,0,0,0.85) 2.2px
+     *   divider: 1200x1 rgba(0,0,0,0.12)
+     *
+     * ========================================
+     * Figma MOB (file 3D6Ia8SCt3YYw8P5Pgda6W, node 2812:3932) 详细参数:
+     * ========================================
+     *   section: w:390, padding 0 16, VERTICAL gap:24
+     *   accordion item 1 (what's in the box): VERTICAL gap:24
+     *   accordion item 2-4 (Specs/FAQs/Reviews): VERTICAL gap:12
+     *   header: HORIZONTAL SPACE_BETWEEN CENTER
+     *   title: 所有项 Gabarito 600 20px lh:24 (1.2) #000（同 PC，顶层 Montserrat 被字符覆盖）
+     *   icon: 24x24 ellipse stroke #000 1.333px; plus vectors 11.25x0 & 0x11.25 stroke rgba(0,0,0,0.85) 1.6px
+     *   divider: 358x1 rgba(0,0,0,0.12)
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明), Montserrat(标题)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /*
+     * 注：Figma 中 "what's in the box" 的 style.fontFamily 在 API 顿层是 Montserrat，
+     * 但 characterStyleOverrides 对所有字符均覆盖为 Gabarito-SemiBold，
+     * 实际渲染的是 Gabarito 与其他项一致。因此不再为 first-child 特殊设置字体。
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: #ffffff !important;
+      padding: {{ pad_top_pc }}px 0 {{ pad_bottom_pc }}px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 48px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-item {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 0px !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-header {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      gap: 24px !important;
+      padding-bottom: 24px !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12) !important;
+      cursor: pointer !important;
+      box-sizing: border-box !important;
+    }
+
+    /* PC 默认（item 2-5）: Gabarito 600 32px lh:1.2 */
+    {{ default_sid }} .jingva-g7-faq-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 32px !important;
+      line-height: 1.2 !important;
+      color: #000000 !important;
+      text-align: left !important;
+      margin: 0 !important;
+      flex: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-icon {
+      position: relative !important;
+      width: 32px !important;
+      height: 32px !important;
+      flex-shrink: 0 !important;
+      border: 2.2px solid #000000 !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+      transition: transform 0.3s ease !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-icon::before,
+    {{ default_sid }} .jingva-g7-faq-icon::after {
+      content: '' !important;
+      position: absolute !important;
+      background-color: rgba(0, 0, 0, 0.85) !important;
+      transition: transform 0.3s ease, opacity 0.3s ease !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-icon::before {
+      width: 15px !important;
+      height: 2.2px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-icon::after {
+      width: 2.2px !important;
+      height: 15px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-item.active .jingva-g7-faq-icon::after {
+      transform: rotate(90deg) !important;
+      opacity: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-content {
+      position: relative !important;
+      width: 100% !important;
+      overflow: hidden !important;
+      max-height: 0 !important;
+      opacity: 0 !important;
+      transition: max-height 0.3s ease, opacity 0.3s ease !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-item.active .jingva-g7-faq-content {
+      max-height: 5000px !important;
+      opacity: 1 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-content-inner {
+      padding: 0 0 24px 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-content p {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.5 !important;
+      color: rgba(0, 0, 0, 0.6) !important;
+      margin: 0 !important;
+    }
+
+    /* What's in the Box Styles */
+    {{ default_sid }} .jingva-g7-faq-whats-in-box-image {
+      width: 100% !important;
+      padding: 24px 0 0 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-image-pc {
+      display: block !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-image-mob {
+      display: none !important;
+      width: 100% !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+
+    /* Specs Styles */
+    {{ default_sid }} .jingva-g7-faq-specs-list {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 128px !important;
+      padding: 24px 0 0 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-spec-column {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-spec-item {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-spec-label {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 16px !important;
+      line-height: 19.2px !important;
+      color: rgba(0, 0, 0, 1) !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-spec-value {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 12px !important;
+      line-height: normal !important;
+      color: rgba(0, 0, 0, 0.6) !important;
+      white-space: pre-line !important;
+    }
+
+    /* FAQ Q&A Styles */
+    {{ default_sid }} .jingva-g7-faq-qa-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 24px !important;
+      padding: 24px 0 0 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-qa-item {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-question {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 18px !important;
+      line-height: 1.2 !important;
+      color: rgba(0, 0, 0, 1) !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-answer {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: 1.2 !important;
+      color: rgba(0, 0, 0, 0.6) !important;
+      white-space: pre-line !important;
+    }
+
+    /* Reviews Styles */
+    {{ default_sid }} .jingva-g7-faq-reviews {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 18px !important;
+      line-height: 1.5 !important;
+      color: rgba(0, 0, 0, 0.6) !important;
+      padding: 24px 0 0 0 !important;
+    }
+
+    {{ default_sid }} .jingva-g7-faq-divider {
+      width: 100% !important;
+      height: 1px !important;
+      background-color: rgba(0, 0, 0, 0.12) !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-g7-faq-wrapper {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 40px !important;
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-title {
+        font-size: 28px !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: {{ pad_top_mob }}px 0 {{ pad_bottom_mob }}px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-wrapper {
+        margin: 0 auto !important;
+        padding: 0 16px !important;
+        gap: 24px !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-item {
+        gap: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-header {
+        padding-bottom: 24px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-item:first-child .jingva-g7-faq-header {
+        padding-bottom: 25px !important;
+      }
+
+      /* MOB 所有项: Gabarito 600 20px lh:1.2（按输入展示）*/
+      {{ default_sid }} .jingva-g7-faq-title {
+        font-family: 'Gabarito', sans-serif !important;
+        font-size: 20px !important;
+        line-height: 1.2 !important;
+        text-transform: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-icon {
+        width: 24px !important;
+        height: 24px !important;
+        border-width: 1.333px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-icon::before {
+        width: 11.25px !important;
+        height: 1.6px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-icon::after {
+        width: 1.6px !important;
+        height: 11.25px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-content-inner {
+        padding: 0 0 12px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-content p {
+        font-size: 14px !important;
+      }
+
+      /* What's in the Box Mobile */
+      {{ default_sid }} .jingva-g7-faq-whats-in-box-image {
+        padding: 16px 0 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-image-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-image-mob {
+        display: block !important;
+      }
+
+      /* Specs Mobile */
+      {{ default_sid }} .jingva-g7-faq-specs-list {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        padding: 12px 0 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-spec-item {
+        gap: 8px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-spec-label {
+        font-size: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-spec-value {
+        font-size: 12px !important;
+      }
+
+      /* FAQ Mobile */
+      {{ default_sid }} .jingva-g7-faq-qa-list {
+        gap: 12px !important;
+        padding: 12px 0 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-qa-item {
+        gap: 8px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-question {
+        font-size: 18px !important;
+      }
+
+      {{ default_sid }} .jingva-g7-faq-answer {
+        font-size: 16px !important;
+      }
+
+      /* Reviews Mobile */
+      {{ default_sid }} .jingva-g7-faq-reviews {
+        padding: 12px 0 0 0 !important;
+      }
+    }
+  {% endstyle %}
+
+  {% if faq_blocks.size > 0 %}
+    <div class="jingva-g7-faq-wrapper">
+      {% for block in faq_blocks %}
+        <div class="jingva-g7-faq-item" data-index="{{ forloop.index0 }}">
+          <div class="jingva-g7-faq-header">
+            {% if block.settings.title != blank %}
+              <h3 class="jingva-g7-faq-title">{{ block.settings.title }}</h3>
+            {% endif %}
+            <div class="jingva-g7-faq-icon"></div>
+          </div>
+
+          <div class="jingva-g7-faq-content">
+            <div class="jingva-g7-faq-content-inner">
+              {% case block.type %}
+                {% when 'whats_in_box' %}
+                  <div class="jingva-g7-faq-whats-in-box-image">
+                    {% if block.settings.pc_image != blank %}
+                      <img
+                        class="jingva-g7-faq-image-pc"
+                        src="{{ block.settings.pc_image | image_url: width: 1200 }}"
+                        alt="{{ block.settings.title | default: "What's in the box" | escape }}"
+                        loading="lazy"
+                        width="1200"
+                        height="auto"
+                      />
+                    {% endif %}
+                    {% if block.settings.mob_image != blank %}
+                      <img
+                        class="jingva-g7-faq-image-mob"
+                        src="{{ block.settings.mob_image | image_url: width: 375 }}"
+                        alt="{{ block.settings.title | default: "What's in the box" | escape }}"
+                        loading="lazy"
+                        width="375"
+                        height="auto"
+                      />
+                    {% endif %}
+                  </div>
+                {% when 'specs' %}
+                  <div class="jingva-g7-faq-specs-list">
+                    {% for col in (1..3) %}
+                      <div class="jingva-g7-faq-spec-column">
+                        {% for i in (1..5) %}
+                          {% assign lk = 'col' | append: col | append: '_label_' | append: i %}
+                          {% assign vk = 'col' | append: col | append: '_value_' | append: i %}
+                          {% if block.settings[lk] != blank %}
+                            <div class="jingva-g7-faq-spec-item">
+                              <div class="jingva-g7-faq-spec-label">{{ block.settings[lk] }}</div>
+                              {% if block.settings[vk] != blank %}
+                                <div class="jingva-g7-faq-spec-value">{{ block.settings[vk] }}</div>
+                              {% endif %}
+                            </div>
+                          {% endif %}
+                        {% endfor %}
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% when 'faq' %}
+                  <div class="jingva-g7-faq-qa-list">
+                    {% for i in (1..3) %}
+                      {% assign question_key = 'faq_' | append: i | append: '_question' %}
+                      {% assign answer_key = 'faq_' | append: i | append: '_answer' %}
+
+                      {% if block.settings[question_key] != blank %}
+                        <div class="jingva-g7-faq-qa-item">
+                          <div class="jingva-g7-faq-question">{{ block.settings[question_key] }}</div>
+                          <div class="jingva-g7-faq-answer">{{ block.settings[answer_key] | newline_to_br }}</div>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% when 'reviews' %}
+                  {% if block.settings.content != blank %}
+                    <div class="jingva-g7-faq-reviews">{{ block.settings.content }}</div>
+                  {% endif %}
+              {% endcase %}
+            </div>
+
+            {% unless forloop.last %}
+              <div class="jingva-g7-faq-divider"></div>
+            {% endunless %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if faq_blocks.size > 0 %}
+    <script>
+      (function() {
+        var container = document.querySelector('{{ default_sid }}');
+        if (!container) return;
+
+        var items = container.querySelectorAll('.jingva-g7-faq-item');
+
+        items.forEach(function(item) {
+          var header = item.querySelector('.jingva-g7-faq-header');
+          if (!header) return;
+
+          header.addEventListener('click', function() {
+            var isActive = item.classList.contains('active');
+
+            items.forEach(function(i) {
+              i.classList.remove('active');
+            });
+
+            if (!isActive) {
+              item.classList.add('active');
+            }
+          });
+        });
+      })();
+    </script>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Jingva G7 FAQ",
+  "class": "shopify-section--jingva-g7-faq",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID (for subnav navigation)",
+      "info": "The id attribute for subnav to scroll to this section (without #)"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (desktop ≥1280)",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (desktop ≥1280)",
+      "default": 170
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (mobile ≤1279)",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (mobile ≤1279)",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "whats_in_box",
+      "name": "What's in the Box",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What's in the box"
+        },
+        {
+          "type": "image_picker",
+          "id": "pc_image",
+          "label": "PC Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mob_image",
+          "label": "Mobile Image"
+        }
+      ]
+    },
+    {
+      "type": "specs",
+      "name": "Specs",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Specs"
+        },
+        {
+          "type": "header",
+          "content": "Column 1 Items"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_1",
+          "label": "Col 1 - Item 1 Label",
+          "default": "Lumbar Support"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_1",
+          "label": "Col 1 - Item 1 Value",
+          "default": "Height adjustment: 6 levels, 4 cm travel\nForward/backward lockable adjustment: 5 levels, 3 cm travel\n12° rotation\nVertical sliding adjustment: 2 cm travel\nSide wings: 40° inward/outward folding adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_2",
+          "label": "Col 1 - Item 2 Label",
+          "default": "Armrests"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_2",
+          "label": "Col 1 - Item 2 Value",
+          "default": "Main axis 360° rotation\nSecondary axis 360° rotation\n4-level 39° folding adjustment: 2 levels 26° upward, 1 level 13° downward\n6 cm forward/backward adjustment\n7 cm height adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_3",
+          "label": "Col 1 - Item 3 Label",
+          "default": "Armrest Top"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_3",
+          "label": "Col 1 - Item 3 Value",
+          "default": "Armrest pad: PU foam"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_4",
+          "label": "Col 1 - Item 4 Label",
+          "default": "Multi-tilt Mechanism"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_4",
+          "label": "Col 1 - Item 4 Value",
+          "default": "Weight-activated chassis with cable-controlled adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_5",
+          "label": "Col 1 - Item 5 Label",
+          "default": "Recline (Tilt unlocked)"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_5",
+          "label": "Col 1 - Item 5 Value",
+          "default": "Recline range: 100° to 140°, with 4 lockable positions at 100°, 110°, 125°, and 140°"
+        },
+        {
+          "type": "header",
+          "content": "Column 2 Items"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_1",
+          "label": "Col 2 - Item 1 Label",
+          "default": "Construction and Material"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_1",
+          "label": "Col 2 - Item 1 Value",
+          "default": "Backrest cover/filling: Dragon Pattern special mesh\nLumbar support cover/filling: Dragon Pattern special mesh + protein leather\nSeat cover/filling: 4-way stretch mesh\nHeadrest cover/filling: High-density special mesh\nArmrest cover/filling: PU foam\nFootrest cover/filling: Cut foam + protein leather"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_2",
+          "label": "Col 2 - Item 2 Label",
+          "default": "Frame Construction"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_2",
+          "label": "Col 2 - Item 2 Value",
+          "default": "Nylon 6 + 30% glass fiber"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_3",
+          "label": "Col 2 - Item 3 Label",
+          "default": "Available Upholstery"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_3",
+          "label": "Col 2 - Item 3 Value",
+          "default": "Mesh"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_4",
+          "label": "Col 2 - Item 4 Label",
+          "default": "Logo"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_4",
+          "label": "Col 2 - Item 4 Value",
+          "default": "Autofull"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_5",
+          "label": "Col 2 - Item 5 Label",
+          "default": "Head Pillow"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_5",
+          "label": "Col 2 - Item 5 Value",
+          "default": "Component contains neodymium magnets\nHeadrest frame rotation: 70°\nHeadrest bracket folding and swivel adjustment: 70°\nHeight adjustment range: 4.5 cm\nForward/backward adjustment: 5 levels, 5 cm travel"
+        },
+        {
+          "type": "header",
+          "content": "Column 3 Items"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_1",
+          "label": "Col 3 - Item 1 Label",
+          "default": "Hydraulic Gas Piston"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_1",
+          "label": "Col 3 - Item 1 Value",
+          "default": "Class 4 gas lift"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_2",
+          "label": "Col 3 - Item 2 Label",
+          "default": "Wheelbase"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_2",
+          "label": "Col 3 - Item 2 Value",
+          "default": "70 cm"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_3",
+          "label": "Col 3 - Item 3 Label",
+          "default": "Caster"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_3",
+          "label": "Col 3 - Item 3 Value",
+          "default": "PU casters"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_4",
+          "label": "Col 3 - Item 4 Label",
+          "default": "Dimensions"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_4",
+          "label": "Col 3 - Item 4 Value",
+          "default": "Seat height range (cm): 47.5-55.5\nBackrest height × width (cm): 38.8 × 53\nSeat depth range (cm): 38-46\nBase width (cm): 70"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_5",
+          "label": "Col 3 - Item 5 Label",
+          "default": "Package Info"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_5",
+          "label": "Col 3 - Item 5 Value",
+          "default": "Packaging dimensions (cm): 81 × 69 × 48\nPackaging weight (kg): 3.5 ± 0.5\nNet weight (kg): 26.8 ± 0.5"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "FAQs"
+        },
+        {
+          "type": "header",
+          "content": "FAQ Items"
+        },
+        {
+          "type": "text",
+          "id": "faq_1_question",
+          "label": "FAQ 1 Question",
+          "default": "Is the Hbada E3 good for back pain?"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_1_answer",
+          "label": "FAQ 1 Answer",
+          "default": "Yes. The Hbada E3 is designed with ergonomic lumbar support to help relieve back pain caused by long periods of sitting. It promotes better posture and reduces pressure on the lower back."
+        },
+        {
+          "type": "text",
+          "id": "faq_2_question",
+          "label": "FAQ 2 Question",
+          "default": "FAQ 2 Question"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_2_answer",
+          "label": "FAQ 2 Answer",
+          "default": "FAQ 2 Answer"
+        },
+        {
+          "type": "text",
+          "id": "faq_3_question",
+          "label": "FAQ 3 Question",
+          "default": "FAQ 3 Question"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_3_answer",
+          "label": "FAQ 3 Answer",
+          "default": "FAQ 3 Answer"
+        }
+      ]
+    },
+    {
+      "type": "reviews",
+      "name": "Reviews",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Reviews"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Reviews Content",
+          "default": "<p>Add customer reviews and testimonials here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva G7 FAQ",
+      "blocks": [
+        {
+          "type": "whats_in_box",
+          "settings": {
+            "title": "What's in the box"
+          }
+        },
+        {
+          "type": "specs",
+          "settings": {
+            "title": "Specs"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "title": "FAQs"
+          }
+        },
+        {
+          "type": "reviews",
+          "settings": {
+            "title": "Reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,1728 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_tag": "h4"
+          }
+        },
+        "trustoo_io_reviews_star_rating_widget_rx8kGj": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "star_size": 20,
+            "font_size": 16,
+            "text_color": "#585858",
+            "block_aligment": "left",
+            "margin_top": 10,
+            "margin_bottom": 0
+          }
+        },
+        "text_j76Lmz": {
+          "type": "text",
+          "settings": {
+            "text": "<p><strong>Key Features</strong></p><ul><li>Ventilation & Heating</li><li>Lumbar Massage</li><li>Lumbar Support</li><li>360° Adjustable Armrests</li><li>3D ErgoCloud Headrest</li></ul>"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_taxes_notice": false
+          }
+        },
+        "custom_discode_gYWgX4": {
+          "type": "custom_discode",
+          "disabled": true,
+          "settings": {
+            "block_title": "",
+            "dis_title": "AutoFull M6",
+            "dis_code": "Same Model Used by NiKo",
+            "link": "",
+            "btn_label": "Copy Code",
+            "background": "#ffb74a",
+            "text_color": ""
+          }
+        },
+        "text_9TxdNV": {
+          "type": "text",
+          "settings": {
+            "text": "<p>💥Black Friday Sale - Best Deal of The Whole Year</p>"
+          }
+        },
+        "separator": {
+          "type": "separator",
+          "settings": {}
+        },
+        "custom_free_gifts_6yy7wE": {
+          "type": "custom_free_gifts",
+          "disabled": true,
+          "settings": {
+            "block_title": "🎁 Back to School Sale - Limited Free Gift",
+            "custom_product": "gift-autofull-customized-tumbler"
+          }
+        },
+        "text_PapRKm": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>*Note: Free gift with chair purchase—no additional order required.</p><p>📦Gift shipped separately，please check.</p>"
+          }
+        },
+        "description": {
+          "type": "description",
+          "disabled": true,
+          "settings": {
+            "icon": "none",
+            "icon_width": 20,
+            "collapse_content": false
+          }
+        },
+        "custom_discode_c3jN3t": {
+          "type": "custom_discode",
+          "disabled": true,
+          "settings": {
+            "block_title": "Offer Ends Soon",
+            "dis_title": "Extra $30 Spring Discount",
+            "dis_code": "",
+            "link": "",
+            "btn_label": "",
+            "background": "#0d0d0d",
+            "text_color": "#ffffff"
+          }
+        },
+        "kiks_extended_products_3cfQJ7": {
+          "type": "kiks_extended_products",
+          "disabled": true,
+          "settings": {
+            "block_title": "Variant:"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "hide_sold_out_variants": false,
+            "stack_blocks": true,
+            "selector_style": "block",
+            "swatch_selector_style": "block_swatch",
+            "variant_image_options": "AutoFull Shipping & Accessories",
+            "size_chart_page": ""
+          }
+        },
+        "text_NJ9hFd": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "<p>*The white version is available for pre-order and ships in September.</p>"
+          }
+        },
+        "payment_terms": {
+          "type": "payment_terms",
+          "settings": {}
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "disabled": true,
+          "settings": {}
+        },
+        "kiks_extended_products_hDzU9G": {
+          "type": "kiks_extended_products",
+          "disabled": true,
+          "settings": {
+            "block_title": "Variant:"
+          }
+        },
+        "inventory_C7zkRG": {
+          "type": "inventory",
+          "disabled": true,
+          "settings": {
+            "low_inventory_threshold": 10,
+            "enable_pulse": true,
+            "warning_color": "#ed1c24",
+            "success_color": "#00a341",
+            "error_color": "#ff0000"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_payment_button": false,
+            "show_gift_card_recipient": true,
+            "atc_button_background": "#ed1c24",
+            "atc_button_text_color": "#ffffff",
+            "payment_button_background": "#1f1f1f",
+            "payment_button_text_color": "#ffffff",
+            "enable_quantity": true
+          }
+        },
+        "gsc_countdown_timer_countdown_YfYQtr": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "settings": {
+            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
+          }
+        },
+        "custom_free_gifts_nLATE8": {
+          "type": "custom_free_gifts",
+          "disabled": true,
+          "settings": {
+            "block_title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
+            "custom_product": "computer-backpack"
+          }
+        },
+        "gsc_countdown_timer_countdown_j6DTzW": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "disabled": true,
+          "settings": {
+            "widget_id": "GSC-SMALL-lklmvITEEDYH"
+          }
+        },
+        "bottom_policy_cHWzpb": {
+          "type": "bottom_policy",
+          "settings": {
+            "add_link": "",
+            "icon": "shopify://shop_images/icon-02.png",
+            "title": "30-Day No-Risk Exchange"
+          }
+        },
+        "bottom_policy_UyYGWj": {
+          "type": "bottom_policy",
+          "settings": {
+            "add_link": "",
+            "icon": "shopify://shop_images/icon-03.png",
+            "title": "3-Year Shield"
+          }
+        },
+        "bottom_policy_mBhwPG": {
+          "type": "bottom_policy",
+          "settings": {
+            "add_link": "",
+            "icon": "shopify://shop_images/icon-04.png",
+            "title": "Free Shipping, Fast Arrival"
+          }
+        },
+        "bottom_policy_nj78NN": {
+          "type": "bottom_policy",
+          "settings": {
+            "add_link": "shopify://pages/contact-us",
+            "icon": "shopify://shop_images/icon-05.png",
+            "title": "24/7 Support →"
+          }
+        },
+        "separator_PDzrH6": {
+          "type": "separator",
+          "settings": {}
+        },
+        "text_GfUtBw": {
+          "type": "text",
+          "settings": {
+            "text": ""
+          }
+        },
+        "selling_points_n7AmeD": {
+          "type": "selling_points",
+          "settings": {
+            "title": "",
+            "text": ""
+          }
+        },
+        "selleasy_lb_upsell_widget_bl_ebYWBB": {
+          "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bl/790c1a03-a71f-4bc1-9869-00dad526d3c2",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "trustoo_io_reviews_star_rating_widget_rx8kGj",
+        "text_j76Lmz",
+        "price",
+        "custom_discode_gYWgX4",
+        "text_9TxdNV",
+        "separator",
+        "custom_free_gifts_6yy7wE",
+        "text_PapRKm",
+        "description",
+        "custom_discode_c3jN3t",
+        "kiks_extended_products_3cfQJ7",
+        "variant_picker",
+        "text_NJ9hFd",
+        "payment_terms",
+        "quantity_selector",
+        "kiks_extended_products_hDzU9G",
+        "inventory_C7zkRG",
+        "buy_buttons",
+        "gsc_countdown_timer_countdown_YfYQtr",
+        "custom_free_gifts_nLATE8",
+        "gsc_countdown_timer_countdown_j6DTzW",
+        "bottom_policy_cHWzpb",
+        "bottom_policy_UyYGWj",
+        "bottom_policy_mBhwPG",
+        "bottom_policy_nj78NN",
+        "separator_PDzrH6",
+        "text_GfUtBw",
+        "selling_points_n7AmeD",
+        "selleasy_lb_upsell_widget_bl_ebYWBB"
+      ],
+      "settings": {
+        "full_width": true,
+        "default_slider": true,
+        "type_switch": true,
+        "show_fixed_add_to_cart": true,
+        "desktop_media_width": 50,
+        "desktop_media_layout": "carousel_thumbnails_bottom",
+        "mobile_media_size": "expanded",
+        "mobile_carousel_control": "floating_dots",
+        "enable_video_autoplay": false,
+        "enable_video_looping": true,
+        "enable_image_zoom": true,
+        "max_image_zoom_level": 3,
+        "compare_link": "shopify://pages/comparison",
+        "compare_link_text": "Compare",
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": "",
+        "input_background": "rgba(0,0,0,0)",
+        "input_text_color": ""
+      }
+    },
+    "newsletter_fjcNtM": {
+      "type": "newsletter",
+      "disabled": true,
+      "settings": {
+        "full_width": false,
+        "image": "shopify://shop_images/Autofull_gaming_chair_labor_day_C.jpg",
+        "show_icon": true,
+        "title": "May Day Sale",
+        "content": "<p>Register now, spend $400, save$30！</p>",
+        "button_text": "Get discount now",
+        "subtext": "* Your promo code is ready in your inbox",
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": "#0d0d0d",
+        "button_background": "#1f1f1f",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "kik_buy_more_KnLPCU": {
+      "type": "kik_buy_more",
+      "blocks": {
+        "coupon_7wPnCF": {
+          "type": "coupon",
+          "settings": {
+            "title": "$20",
+            "discount-type": "OFF",
+            "description": "Fits M & G series"
+          }
+        },
+        "coupon_x7BynT": {
+          "type": "coupon",
+          "settings": {
+            "title": "$30",
+            "discount-type": "OFF",
+            "description": "Fits M & G series"
+          }
+        },
+        "coupon_zDEPAJ": {
+          "type": "coupon",
+          "settings": {
+            "title": "Gift",
+            "discount-type": "",
+            "description": "Autofull Host Bracket"
+          }
+        },
+        "coupon_P4LaGB": {
+          "type": "coupon",
+          "settings": {
+            "title": "Gift",
+            "discount-type": "",
+            "description": "Autofull Customized Backpack"
+          }
+        }
+      },
+      "block_order": [
+        "coupon_7wPnCF",
+        "coupon_x7BynT",
+        "coupon_zDEPAJ",
+        "coupon_P4LaGB"
+      ],
+      "disabled": true,
+      "name": "Kiks Buy More",
+      "settings": {
+        "coupons_title": "AutoFull’s Prime Day",
+        "coupons_content": "<p>Note: Get Prime Day deals early! Spin to win exclusive discounts & gifts – guaranteed prizes for every order!<br/><br/> <a href=\"#open_rules\" title=\"#open_rules\">Rules</a></p>",
+        "wheel_title": "100% Winning Chance",
+        "wheel_content": "Win Autofull's Prime Day Discounts & Gifts Early!",
+        "wheel_image": "shopify://shop_images/Spin_Wheel.png",
+        "wheel_link_1": "",
+        "wheel_link_1_text": "",
+        "wheel_link_2": "",
+        "wheel_link_2_text": "",
+        "background": "#0d0d0d",
+        "heading_color": "",
+        "text_color": "#ffffff",
+        "wheel_rules_heading": "Spin to Win! Will You Be Our Next Lucky Winner?",
+        "wheel_rules_content": "<p>Welcome to the Lucky Spin!<br/><br/>Game Rules:<br/>From June 26th to June 30th, take a spin to win an exclusive Prime Day discount for July!<br/><br/>Instant win – Use your discount right away!<br/><br/>100% winning chance – Every spin rewards you!<br/><br/>Don’t miss out—spin now! 🎉</p>"
+      }
+    },
+    "featured_collection_rTJWyP": {
+      "type": "featured-collection",
+      "disabled": true,
+      "name": "Featured collection",
+      "settings": {
+        "collection": "gift",
+        "products": [],
+        "full_width": true,
+        "stack_products": true,
+        "show_progress_bar": false,
+        "products_count": 6,
+        "products_per_row_mobile": "2",
+        "products_per_row_desktop": 3,
+        "subheading": "",
+        "title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
+        "content": "",
+        "link_url": "",
+        "link_text": "View all",
+        "layout_alignment": "column",
+        "header_alignment": "center",
+        "heading_tag": "h6",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    },
+    "image_with_text_overlay_fWkWGG": {
+      "type": "image-with-text-overlay",
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "auto",
+        "image": "shopify://shop_images/2.webp",
+        "mobile_image": "shopify://shop_images/20250521-170752.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "kiks_section_navigation_9zxt6i": {
+      "type": "kiks-section-navigation",
+      "blocks": {
+        "section_tEnEXq": {
+          "type": "section",
+          "settings": {
+            "title": "Features",
+            "content": "",
+            "page": ""
+          }
+        },
+        "section_zW4LHP": {
+          "type": "section",
+          "settings": {
+            "title": "Unboxing Video",
+            "content": "",
+            "page": ""
+          }
+        },
+        "section_HtGakf": {
+          "type": "section",
+          "settings": {
+            "title": "Reviews",
+            "content": "",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "section_tEnEXq",
+        "section_zW4LHP",
+        "section_HtGakf"
+      ],
+      "settings": {
+        "full_width": true,
+        "nav_alignment": "center",
+        "allow_sticky": true,
+        "content_size": "medium",
+        "subheading": "",
+        "title": "",
+        "text_alignment": "center",
+        "first_tab_open": false,
+        "background": "#000000",
+        "background_gradient": "",
+        "text_color": "#ffffff",
+        "heading_color": "",
+        "heading_gradient": ""
+      }
+    },
+    "kiks_media_grid_Lxrn4P": {
+      "type": "kiks-media-grid",
+      "blocks": {
+        "image_QMPnJa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/1.webp",
+            "text_position": "flex-end",
+            "align_position": "left",
+            "subheading": "",
+            "title": "Ventilated & Heated",
+            "content": "",
+            "heading_tag": "h6",
+            "link_url": "",
+            "link_text": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 2,
+            "desktop_row_span": 2,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#000000",
+            "background_gradient": "",
+            "sub_color": "#ffffff",
+            "heading_color": "#ffffff",
+            "description_color": "#ffffff",
+            "text_gradient": "",
+            "button_background": "#000000",
+            "button_text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_YdKUDM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/1312412.webp",
+            "text_position": "flex-end",
+            "align_position": "left",
+            "subheading": "",
+            "title": "Dynamic Tracking Lumbar Support",
+            "content": "",
+            "heading_tag": "h6",
+            "link_url": "",
+            "link_text": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 2,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#000000",
+            "background_gradient": "",
+            "sub_color": "#ffffff",
+            "heading_color": "#ffffff",
+            "description_color": "#ffffff",
+            "text_gradient": "",
+            "button_background": "#000000",
+            "button_text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        },
+        "image_KabKiX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/111_1.webp",
+            "text_position": "flex-end",
+            "align_position": "left",
+            "subheading": "",
+            "title": "Lumbar Massage",
+            "content": "",
+            "heading_tag": "h6",
+            "link_url": "",
+            "link_text": "",
+            "mobile_text_position": "place-self-center text-center",
+            "desktop_column_span": 2,
+            "desktop_row_span": 1,
+            "desktop_text_position": "sm:place-self-center sm:text-center",
+            "background": "#000000",
+            "background_gradient": "",
+            "sub_color": "#ffffff",
+            "heading_color": "#ffffff",
+            "description_color": "#ffffff",
+            "text_gradient": "",
+            "button_background": "#000000",
+            "button_text_color": "#ffffff",
+            "overlay_color": "#000000",
+            "overlay_opacity": 0
+          }
+        }
+      },
+      "block_order": [
+        "image_QMPnJa",
+        "image_YdKUDM",
+        "image_KabKiX"
+      ],
+      "settings": {
+        "section_id": "Features",
+        "full_width": true,
+        "enable_collage": true,
+        "enable_column_layout": false,
+        "reduce_width": false,
+        "column_gap": 16,
+        "desktop_row_height": 290,
+        "mobile_row_height": 150,
+        "background": "#ffffff",
+        "background_gradient": "",
+        "subheading": "",
+        "title": "Why M6 Ultra？",
+        "content": "<p>Engineered with esports-grade precision, the AutoFull M6 Ultra delivers champion-level performance where it matters most. Tournament-tested cooling battles sweat during clutch moments, while 360° armrests adapt to your every move. The dynamic lumbar support has your back through marathon sessions – whether you're grinding ranked, streaming late, or just chilling between games.<br/><br/>Pro-built.Designed to win.</p>",
+        "heading_tag": "h4",
+        "text_alignment": "start",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "multi_column_VmpNDF": {
+      "type": "multi-column",
+      "blocks": {
+        "item_kP8Bdp": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/gamestar2135.logowik.com.jpg",
+            "column_size": "3",
+            "title": "",
+            "heading_tag": "h4",
+            "content": "<p>Finally, a gaming chair that thinks about what matters most: your body temperature! With the AutoFull M6, you get a feature no one else has.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_9d9hy3": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/pc-gamer4849.jpg",
+            "column_size": "3",
+            "title": "",
+            "heading_tag": "h4",
+            "content": "<p>AutoFull is a leading brand in professional esports gaming chairs.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_tJgVtD": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20251010-142223.jpg",
+            "column_size": "3",
+            "title": "",
+            "heading_tag": "h4",
+            "content": "<p>The AutoFull M6 Ultra gaming chair distinguishes itself from other premium offerings by providing built-in heating, cooling, and massage functionality. </p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_kP8Bdp",
+        "item_9d9hy3",
+        "item_tJgVtD"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "start",
+        "subheading": "",
+        "title": "",
+        "content": "",
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "rich_text_bYj7BH": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_gdhnPF": {
+          "type": "subheading",
+          "settings": {
+            "text": "FEATURES"
+          }
+        },
+        "heading_cAxyH7": {
+          "type": "heading",
+          "settings": {
+            "text": "M6 Ultra",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        },
+        "richtext_tkpNEr": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>The AutoFull's flagship gaming throne – delivers the most comprehensive features and precision craftsmanship. Trusted by pro players and hardcore gamers worldwide for its tournament-ready performance and relentless comfort.</p>",
+            "custom_width": false,
+            "content_width_p": "medium"
+          }
+        }
+      },
+      "block_order": [
+        "subheading_gdhnPF",
+        "heading_cAxyH7",
+        "richtext_tkpNEr"
+      ],
+      "settings": {
+        "section_id": "",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "medium",
+        "text_position": "center",
+        "text_position_mob": "center",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "media_with_text_iDMn7m": {
+      "type": "media-with-text",
+      "blocks": {
+        "video_hpEy7E": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/5月14日_91ccb9a8-bbb4-48b9-b4c7-28320d398f78.mp4",
+            "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay": true,
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "World's First Ventilated & Heated Esports Throne",
+            "heading_tag": "h3",
+            "content": "<p>Master every season with smart climate control: Dual turbo fans blast 66°F cooling air to prevent swamp-ass during ranked grind, while carbon-fiber heating (up to 122°F) tackles winter chill. <br/><br/>3-speed one-touch presets let you switch from frosty headshots to cozy AFK moments instantly. No more sweaty backs or numb legs.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1f1f1f",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        },
+        "image_E8QdKp": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/1500-1500-1_ccd5b54e-97c6-49f0-8b94-8a3121877c9c.jpg",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "World's First Ventilated & Heated Esports Throne",
+            "heading_tag": "h3",
+            "content": "<ul><li><strong>Stay Cool When the Heat Is On</strong><br/></li><li><strong>Warm Up When the Cold Hits</strong><br/></li><li><strong>Smart Climate Control for Every Season</strong><br/></li></ul>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_inner": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#000000",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        },
+        "video_ipgPia": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/5月14日(2)_338193c6-e4db-4e8c-a007-05680548f170.mp4",
+            "external_video_url": "",
+            "autoplay": true,
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Dynamic Tracking Lumbar Support",
+            "heading_tag": "h3",
+            "content": "<p>The auto-tracking support moves where you move—up/down/forward/back—to crush lower back pain before it starts. Perfect for 5'4\" to 6'5\" gamers, with one-knob tension control that remembers your sweet spot. No more slouching, just pro-grade posture for those 12-hour raid nights.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1f1f1f",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        },
+        "video_rdyVa7": {
+          "type": "video",
+          "settings": {
+            "video": "shopify://files/videos/飞书20250822-153012.mp4",
+            "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+            "autoplay": true,
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Lumbar Massage System",
+            "heading_tag": "h3",
+            "content": "<p>Relieve back pain with the lumbar support's built-in massage feature, featuring two high-frequency vibration motors to keep you relaxed and comfortable during long gaming or work sessions.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1f1f1f",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        },
+        "image_7qPXwb": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/1500-1500-2_454145df-f44b-4604-8877-d23ef72121ba.jpg",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Revitalizing Lumbar Massage System",
+            "heading_tag": "h3",
+            "content": "<ul><li><strong>Dual Massage Motors</strong> <br/></li><li><strong>3 Adjustable Modes</strong> <br/></li><li><strong>One-Touch Control</strong> </li></ul><p>Perfect for:<br/>✓ Long work sessions<br/>✓ Evening relaxation<br/>✓ Post-workout recovery<br/><br/>Refresh your body without leaving your seat</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_inner": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1f1f1f",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "video_hpEy7E",
+        "image_E8QdKp",
+        "video_ipgPia",
+        "video_rdyVa7",
+        "image_7qPXwb"
+      ],
+      "settings": {
+        "section_id": "Features",
+        "full_width": false,
+        "alternate_media_position": false,
+        "column_gap": 16,
+        "spacing": "small",
+        "sec_background": "#f0f0f0",
+        "inner_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "multi_column_ijyGLc": {
+      "type": "multi-column",
+      "blocks": {
+        "item_RdEz6t": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/50db2f72147ddbe3ac7607a34e268989.gif",
+            "column_size": "3",
+            "title": "360°  Arms Rotation",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_zzwFKD": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/2.gif",
+            "column_size": "3",
+            "title": "20° Upward Tilt",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_cQMbKn": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/aeb71111675da431288168f5de72a8bb.gif",
+            "column_size": "3",
+            "title": "2.17″  Forward-back",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_iDMwpb": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/GIF.gif",
+            "column_size": "3",
+            "title": "7″ Up-down",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_y8PyPH": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/275adb872514eb46d00abf643e90c359.gif",
+            "column_size": "3",
+            "title": "360° Armpad Rotation",
+            "heading_tag": "h4",
+            "content": "",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_RdEz6t",
+        "item_zzwFKD",
+        "item_cQMbKn",
+        "item_iDMwpb",
+        "item_y8PyPH"
+      ],
+      "name": "Multi-column",
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "center",
+        "subheading": "",
+        "title": "360° Adjustable Armrests",
+        "content": "<p>Adapt to any gaming stance with 360° adjustments—swivel, tilt, and slide. Deliver pro-level arm positioning for FPS, MOBA, and more.</p>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "kiks_slider_multi_column_PxxpFV": {
+      "type": "kiks-slider-multi-column",
+      "blocks": {
+        "item_4WxcDh": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20250514-172237.jpg",
+            "title": "3D ErgoCloud Neck Pillow",
+            "heading_tag": "h4",
+            "content": "<p>The 3D ergo-cloud headrest cradles your neck with memory foam, adapting to your movements. Its semi-wrap design reduces 30% cervical pressure during long sessions.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_riCfTi": {
+          "type": "item",
+          "disabled": true,
+          "settings": {
+            "image": "shopify://shop_images/20250514-143051.jpg",
+            "title": "360° Adjustable Armrests",
+            "heading_tag": "h4",
+            "content": "<p>Adapt to any gaming stance with 6D adjustments—swivel, tilt, and slide. The 20° flip-up and 40° secondary rotation deliver pro-level arm positioning for FPS, MOBA, and more.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_QDF6Cm": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20250526-163659.jpg",
+            "title": "160° Backrest Recline",
+            "heading_tag": "h4",
+            "content": "<p>160° ultra-recline transforms your chair into a gaming lounger—seamlessly shift from competitive posture to nap-ready tilt with one-handed lever control. The multi-lock mechanism secures any angle between 90-160° for battle or break time.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_8Gkt3A": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20250514-143032.jpg",
+            "title": "Ergonomic Footrests",
+            "heading_tag": "h4",
+            "content": "<p>Providing perfect leg support even at full recline. Enjoy tailored positioning whether gaming, working, or relaxing—no more dangling legs.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_aEfF6x": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20250514-143109.jpg",
+            "title": "SGS Class-4 Gas Lift",
+            "heading_tag": "h4",
+            "content": "<p>Certified explosion-proof gas spring with military-grade steel casing ensures 100% safety. Enjoy buttery-smooth height adjustments without wobble.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_bHJH9L": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/20250514-143103.jpg",
+            "title": "Aluminum Alloy Wheelbase",
+            "heading_tag": "h4",
+            "content": "<p>Engineered with reinforced aluminum alloy base and SGS-certified heavy-duty casters for ultimate stability. Supports 330lbs+ with zero wobble, even during intense gaming sessions.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_4WxcDh",
+        "item_riCfTi",
+        "item_QDF6Cm",
+        "item_8Gkt3A",
+        "item_aEfF6x",
+        "item_bHJH9L"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "text_alignment": "start",
+        "show_heading": true,
+        "show_dot": true,
+        "image_ratio": "16 / 9",
+        "show_more_btn_mobile": true,
+        "show_arrow": true,
+        "arrow_position": "top-right",
+        "bottom_arrow_position": "center",
+        "bottom_arrow_position_mobile": "flex-end",
+        "subheading": "",
+        "title": "Discover M6 Ultra",
+        "content": "",
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": "#000000",
+        "item_description_text_color": "#000000",
+        "background_item": "",
+        "item_title_size": "20px;17px",
+        "item_description_size": "15px;15px",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "multi_column_Gz8TqM": {
+      "type": "multi-column",
+      "blocks": {
+        "item_qAXdmA": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/M6.gif",
+            "column_size": "3",
+            "title": " 3.15“ Height Adjustment",
+            "heading_tag": "h4",
+            "content": "<p>Featuring an SGS Class 4 gas lift for ultra-smooth, precision height customization—perfect for users from 63\" to 74.8\" (160-190cm).</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_iAFpAJ": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/M6-_2.gif",
+            "column_size": "3",
+            "title": "20° Rocking Mode",
+            "heading_tag": "h4",
+            "content": "<p>Engineered for premium relaxation, the precision tilt mechanism provides effortless 330.7lb-capacity rocking with buttery-smooth motion.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        },
+        "item_Vnbfji": {
+          "type": "item",
+          "settings": {
+            "image": "shopify://shop_images/M6-_1.gif",
+            "column_size": "3",
+            "title": "160° Backrest Recline",
+            "heading_tag": "h4",
+            "content": "<p>Recline and fully unwind—adjust the backrest to your ideal angle while the built-in footrest supports your legs, delivering all-around comfort.</p>",
+            "link_url": "",
+            "link_text": "",
+            "link_style": "link"
+          }
+        }
+      },
+      "block_order": [
+        "item_qAXdmA",
+        "item_iAFpAJ",
+        "item_Vnbfji"
+      ],
+      "name": "Multi-column",
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "stack_on_mobile": false,
+        "gap": "medium",
+        "text_alignment": "center",
+        "subheading": "",
+        "title": "Tailored Comfort for Everyone",
+        "content": "<p>Customize your comfort effortlessly—whether adjusting for size, activity, posture, or preference.</p>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "rich_text_KqhnUp": {
+      "type": "rich-text",
+      "blocks": {
+        "subheading_eJwg6w": {
+          "type": "subheading",
+          "settings": {
+            "text": "UNBOXING VIDEO"
+          }
+        },
+        "heading_8ywGJr": {
+          "type": "heading",
+          "settings": {
+            "text": "SEE WHY REVIEWERS ARE RAVING",
+            "heading_tag": "h1",
+            "font_style": "normal",
+            "custom_size": 102,
+            "text_color": "",
+            "gradient": "",
+            "allow_gradient_v2": true,
+            "gradient_v2": ""
+          }
+        }
+      },
+      "block_order": [
+        "subheading_eJwg6w",
+        "heading_8ywGJr"
+      ],
+      "settings": {
+        "section_id": "Unboxing Video",
+        "linked_to": false,
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "text_position_mob": "center",
+        "background": "#f0f0f0",
+        "background_gradient": "",
+        "text_color": "",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_top_mob": 20,
+        "padding_bottom_mob": 20
+      }
+    },
+    "kik_video_VWPptA": {
+      "type": "kik-video",
+      "blocks": {
+        "video_MLweTN": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "Best LUXURY Gaming Chair of 2025? AutoFull M6 Ultra Honest Review",
+            "description": "- Full Transparency",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=iEUNONOXxAk",
+            "poster": "shopify://shop_images/hq720_eef5418d-3c07-4379-b67e-9cd636b8e25a.jpg"
+          }
+        },
+        "video_w6H7aA": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "Not Your Typical Gaming Chair - AutoFull M6 Pro and M6 Ultra",
+            "description": "- AimAdapt",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=ZxH557efPVc",
+            "poster": "shopify://shop_images/20250703-135927.jpg"
+          }
+        },
+        "video_qKC8dC": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "AutoFull M6 Gaming Chair - The Ultimate Gaming chair? Let's take a look!",
+            "description": "- DeveloperAdam",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=00im1hLQLlo",
+            "poster": "shopify://shop_images/hq720_1_b69f3e06-2848-4eb7-9f5c-30305342104f.jpg"
+          }
+        },
+        "video_PcPiYh": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "The Best Gaming Chair Just Got Better - AutoFull M6 Ultra VS M6 Pro",
+            "description": "- Blasten",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=xrQPHN5qpOw",
+            "poster": "shopify://shop_images/hq720_4.jpg"
+          }
+        },
+        "video_L9djyy": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "AutoFull M6 Gaming Chair VS SecretLab Titan Evo VS Sihoo Doro C300 Best Chair for Gamers!",
+            "description": "- Shane Starnes",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=tIP65-kl9W8",
+            "poster": "shopify://shop_images/hq720_2_99325c76-cce3-4139-ad0c-f248d8a1e79a.jpg"
+          }
+        },
+        "video_rcyzXG": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "The Ultimate Gaming Chair 2025? Autofull M6 Ultra Unboxing I Review I Setup I ASMR test",
+            "description": "- TechUtopia",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=7BueriAcX_4",
+            "poster": "shopify://shop_images/20250512103134.png"
+          }
+        },
+        "video_kbifHp": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "My NEW Favorite Gaming Chair: AutoFull M6 Ultra with Massage Function!",
+            "description": "- Manni-Gaming",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=NPwUg3OFRTI&t=66s",
+            "poster": "shopify://shop_images/hq720.jpg"
+          }
+        },
+        "video_eqYEL3": {
+          "type": "video",
+          "settings": {
+            "icon": "shopify://shop_images/screenshot.png",
+            "icon_width": 250,
+            "heading": "Gamingstuhl mit MASSAGE FUNKTION ? Autofull M6 Honest Review",
+            "description": "- Techmagnet",
+            "video_size": "auto",
+            "external_video_url": "https://www.youtube.com/watch?v=hkOZxOwl-bo",
+            "poster": "shopify://shop_images/hq720_2.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "video_MLweTN",
+        "video_w6H7aA",
+        "video_qKC8dC",
+        "video_PcPiYh",
+        "video_L9djyy",
+        "video_rcyzXG",
+        "video_kbifHp",
+        "video_eqYEL3"
+      ],
+      "settings": {
+        "section_id": "",
+        "title": "",
+        "content": "",
+        "full_width": true,
+        "allow_transparent_header": false,
+        "autoplay": false,
+        "background": "#f0f0f0",
+        "text_color": "#1f1f1f",
+        "sec_color": "#000000",
+        "overlay_color": "#000000",
+        "overlay_opacity": 0
+      }
+    },
+    "media_with_text_cc3p6Q": {
+      "type": "media-with-text",
+      "blocks": {
+        "video_3UTQDB": {
+          "type": "video",
+          "settings": {
+            "external_video_url": "https://www.youtube.com/watch?v=IhoIRD8QyCw&t=10s",
+            "poster_image": "shopify://shop_images/Installation_guide_video_cover.png",
+            "autoplay": false,
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Installation Guide",
+            "heading_tag": "h1",
+            "content": "<p>Follow our simple installation process with clear instructions and video guidance. Click the buttons below to watch the tutorial, read the manual, or view helpful visuals.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#000000",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "video_3UTQDB"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "Installation Guide",
+        "full_width": false,
+        "alternate_media_position": false,
+        "column_gap": 16,
+        "spacing": "small",
+        "sec_background": "#ffffff",
+        "inner_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "media_with_text_gr7jjE": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_YmYqma": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Expert_s_Image.jpg",
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "International Chiropractic Association (ICA)Doctor of Chiropractic Care",
+            "sub_position": "bottom",
+            "title": "Dr. Dennis Miller",
+            "heading_tag": "h3",
+            "content": "<p>Dr. Dennis Miller, a highly regarded Doctor of Chiropractic, graduated with honors from Palmer College of Chiro-practic, the top institution in the field, in 1976. He is an active member of the ICA and ICAC. Dr. Miller brings his ex-tensive expertise to our flagship products, providing professional solutions for sedentary users with AutoFull M6 series.</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "rgba(0,0,0,0)",
+            "background_inner": "#f2f2f2",
+            "background_gradient": "",
+            "text_color": "#000000",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        },
+        "image_k9NUN8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Warranty_Image.png",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "icon_width": 48,
+            "subheading": "",
+            "sub_position": "top",
+            "title": "Play Fearlessly | 3-Year Warranty Backed",
+            "heading_tag": "h3",
+            "content": "<p>AutoFull a professional competitive peripheral equipment brand, has 10 years of professional production experience. We have high standards for product details and are committed to \"providing healthy competition and extreme game experience for global players\".</p>",
+            "link_text": "",
+            "link_url": "",
+            "background": "rgba(0,0,0,0)",
+            "background_inner": "#f2f2f2",
+            "background_gradient": "",
+            "text_color": "#000000",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": "",
+            "allow_reverse": false
+          }
+        }
+      },
+      "block_order": [
+        "image_YmYqma",
+        "image_k9NUN8"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": false,
+        "alternate_media_position": false,
+        "column_gap": 16,
+        "spacing": "none",
+        "sec_background": "#ffffff",
+        "inner_background": "#ffffff",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "padding_top_mob": 48,
+        "padding_bottom_mob": 48
+      }
+    },
+    "comparison_table_MthHh9": {
+      "type": "comparison-table",
+      "blocks": {
+        "headings_BAtiMx": {
+          "type": "headings",
+          "settings": {
+            "heading_1": "Style",
+            "heading_2": "Color",
+            "heading_3": "Massage",
+            "heading_4": "Ventilation & Heated Function",
+            "heading_5": "Arm Style",
+            "heading_6": "Product Dimensions",
+            "heading_7": "Maximum Weight",
+            "heading_8": "3D Ergonomic Headrest",
+            "heading_9": "",
+            "heading_10": "",
+            "heading_11": "",
+            "heading_12": "",
+            "heading_13": "",
+            "heading_14": "",
+            "heading_15": "",
+            "heading_16": "",
+            "heading_17": "",
+            "heading_18": "",
+            "heading_19": "",
+            "heading_20": ""
+          }
+        },
+        "values_BAhr96": {
+          "type": "values",
+          "settings": {
+            "product": "autofull-m6-ultra-black-gaming-chair-massage",
+            "value_1": "<p>M6 Ultra</p>",
+            "value_2": "<p>Black</p>",
+            "value_3": "<p>Yes</p>",
+            "value_4": "<p>Yes</p>",
+            "value_5": "<p>360° Adjustable Armrests</p>",
+            "value_6": "<p>51.5\"D x 52\" W x 128.5\"H</p>",
+            "value_7": "<p>396 Pounds</p>",
+            "value_8": "<p>Yes</p>",
+            "value_9": "",
+            "value_10": "",
+            "value_11": "",
+            "value_12": "",
+            "value_13": "",
+            "value_14": "",
+            "value_15": "",
+            "value_16": "",
+            "value_17": "",
+            "value_18": "",
+            "value_19": "",
+            "value_20": "",
+            "view_button_background": "",
+            "view_button_text_color": ""
+          }
+        },
+        "values_H9VYc9": {
+          "type": "values",
+          "settings": {
+            "product": "autofull-m6-gaming-chair-pro-ventilated-and-heated-seat-cushion",
+            "value_1": "<p>M6 Pro</p>",
+            "value_2": "<p>Black</p>",
+            "value_3": "<p>No</p>",
+            "value_4": "<p>Yes</p>",
+            "value_5": "<p>360° Adjustable Armrests</p>",
+            "value_6": "<p>51.00\" D x 51.00\" W x 129.00\"H</p>",
+            "value_7": "<p>396 Pounds</p>",
+            "value_8": "<p>No</p>",
+            "value_9": "",
+            "value_10": "",
+            "value_11": "",
+            "value_12": "",
+            "value_13": "",
+            "value_14": "",
+            "value_15": "",
+            "value_16": "",
+            "value_17": "",
+            "value_18": "",
+            "value_19": "",
+            "value_20": "",
+            "view_button_background": "",
+            "view_button_text_color": ""
+          }
+        },
+        "values_y8enyK": {
+          "type": "values",
+          "settings": {
+            "product": "autofull-m6-gaming-chair-without-footrest",
+            "value_1": "<p>M6 basic</p>",
+            "value_2": "<p>Black</p>",
+            "value_3": "<p>No</p>",
+            "value_4": "<p>No</p>",
+            "value_5": "<p>3D Mechanical Armrests</p>",
+            "value_6": "<p>51.5\"D x 52\" W x 128.5\"H</p>",
+            "value_7": "<p>396 Pounds</p>",
+            "value_8": "<p>No</p>",
+            "value_9": "",
+            "value_10": "",
+            "value_11": "",
+            "value_12": "",
+            "value_13": "",
+            "value_14": "",
+            "value_15": "",
+            "value_16": "",
+            "value_17": "",
+            "value_18": "",
+            "value_19": "",
+            "value_20": "",
+            "view_button_background": "",
+            "view_button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "headings_BAtiMx",
+        "values_BAhr96",
+        "values_H9VYc9",
+        "values_y8enyK"
+      ],
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "subheading": "M Series-Professional Gaming Chair",
+        "title": "Product comparison",
+        "content": "",
+        "button_text": "",
+        "button_url": "",
+        "text_position": "center",
+        "max_rows": 5,
+        "view_all_text": "View all",
+        "view_less_text": "View less",
+        "view_product": "View",
+        "show_product_info": true,
+        "show_product_image": true,
+        "show_product_swatch": true,
+        "viewing_product": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "chart_background": "",
+        "chart_text_color": "",
+        "chart_true_false_color": ""
+      }
+    },
+    "1739339136bd4d24cb": {
+      "type": "apps",
+      "blocks": {
+        "trustoo_io_reviews_review_widget_hYWPyE": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "trustoo_io_reviews_review_widget_hYWPyE"
+      ],
+      "settings": {
+        "section_id": "Reviews",
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "faq_CM6CiH": {
+      "type": "faq",
+      "blocks": {
+        "item_X3MEkE": {
+          "type": "item",
+          "settings": {
+            "title": "WHAT DOES YOUR WARRANTY COVER?",
+            "content": "<p>Every AutoFull product is designed and tested for industry-leading safety and durability. That’s why we stand behind all our chairs and desks with up to a 3-year extended warranty. Aesthetic defects and damage due to misuse of product are not covered.To make a warranty claim, submit your claim via our Contact page, along with image or video evidence of the affected area. AutoFull reserves the final right to determine if a benefit under the warranty can be claimed.</p>"
+          }
+        },
+        "item_Dz9xpj": {
+          "type": "item",
+          "settings": {
+            "title": "CAN I CANCEL MY ORDER",
+            "content": "<p>-</p>"
+          }
+        },
+        "item_a8BA6G": {
+          "type": "item",
+          "settings": {
+            "title": "WHERE DOES AUTOFULL SHIP TO?",
+            "content": "<p>-</p>"
+          }
+        },
+        "item_TXHffm": {
+          "type": "item",
+          "settings": {
+            "title": "HOW LONG WILL IT TAKE TO GET MY ORDERS?",
+            "content": "<p>-</p>"
+          }
+        },
+        "item_agxHGz": {
+          "type": "item",
+          "settings": {
+            "title": "HOW DO I TRACK MY ORDER?",
+            "content": "<p>-</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_X3MEkE",
+        "item_Dz9xpj",
+        "item_a8BA6G",
+        "item_TXHffm",
+        "item_agxHGz"
+      ],
+      "disabled": true,
+      "settings": {
+        "section_id": "",
+        "full_width": true,
+        "subheading": "",
+        "title": "Frequently Asked Question",
+        "content": "",
+        "plain_content": false,
+        "team_avatar_width": 160,
+        "box_heading": "",
+        "box_content": "",
+        "box_link": "",
+        "box_link_text": "",
+        "support_hours": "",
+        "answer_time": "",
+        "button_text": "",
+        "button_url": "",
+        "allow_comparison": true,
+        "style": "fill",
+        "size": "xl",
+        "text_position": "center",
+        "background": "#ffffff",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "button_background": "",
+        "button_text_color": "",
+        "accordion_background": "#f9f9f9",
+        "accordion_text_color": ""
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "disabled": true,
+      "settings": {
+        "recommendations_count": 6,
+        "products": [],
+        "full_width": true,
+        "stack_products": false,
+        "show_progress_bar": false,
+        "products_per_row_mobile": "1",
+        "products_per_row_desktop": 5,
+        "subheading": "",
+        "title": "You may also like",
+        "content": "",
+        "background": "",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "product_card_background": "",
+        "product_card_text_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "newsletter_fjcNtM",
+    "kik_buy_more_KnLPCU",
+    "featured_collection_rTJWyP",
+    "image_with_text_overlay_fWkWGG",
+    "kiks_section_navigation_9zxt6i",
+    "kiks_media_grid_Lxrn4P",
+    "multi_column_VmpNDF",
+    "rich_text_bYj7BH",
+    "media_with_text_iDMn7m",
+    "multi_column_ijyGLc",
+    "kiks_slider_multi_column_PxxpFV",
+    "multi_column_Gz8TqM",
+    "rich_text_KqhnUp",
+    "kik_video_VWPptA",
+    "media_with_text_cc3p6Q",
+    "media_with_text_gr7jjE",
+    "comparison_table_MthHh9",
+    "1739339136bd4d24cb",
+    "faq_CM6CiH",
+    "related-products"
+  ]
+}

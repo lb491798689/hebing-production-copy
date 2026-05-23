@@ -1,0 +1,463 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign title = se_stts.title
+  assign bg_color = se_stts.bg_color
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+  assign theme = se_stts.theme | default: 'dark'
+  if theme == 'light'
+    assign title_color = '#0A0A0A'
+  else
+    assign title_color = '#FFFFFF'
+  endif
+-%}
+{% capture default_sid %}.jingva-m6-scenarios-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-m6-scenarios-{{ sid }}" data-section-id="{{ sid }}">
+  {% style %}
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#000000' }} !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      padding: 160px 0 0 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 64px !important;
+      line-height: 1.254 !important;
+      color: {{ title_color }} !important;
+      text-align: center !important;
+      margin: 0 0 48px 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-swiper {
+      position: relative !important;
+      /* height: 100vh !important; */
+      aspect-ratio: 2 / 1 !important;
+      margin: 0 auto !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-swiper-wrapper {
+      display: flex !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-slide {
+      width: 100% !important;
+      height: 100% !important;
+      flex-shrink: 0 !important;
+      position: relative !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-swiper.mob-swiper {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-text-overlay {
+      position: absolute !important;
+      top: 50% !important;
+      left: 8.33% !important;
+      transform: translateY(-50%) !important;
+      text-align: left !important;
+      color: #FFFFFF !important;
+      max-width: 600px !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-subtitle {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 48px !important;
+      line-height: 1.2em !important;
+      margin: 0 0 12px 0 !important;
+      width: 491px !important;
+      max-width: 491px !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-subtitle > p {
+      margin: 0 !important;
+      font: inherit !important;
+      color: inherit !important;
+      letter-spacing: inherit !important;
+      line-height: inherit !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 700 !important;
+      font-size: 24px !important;
+      line-height: 1.2em !important;
+      margin: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-m6-scenarios-pagination {
+      position: absolute !important;
+      background: rgba(255, 255, 255, 0.90) !important;
+      border-radius: 999px !important;
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 12px !important;
+      padding: 24px 36px !important;
+      left: 50% !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: 48px !important;
+      transform: translateX(-50%) !important;
+      width: auto !important;
+      height: 60px !important;
+      box-sizing: border-box !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    {{ default_sid }} .swiper-pagination-bullet {
+      width: 12px !important;
+      height: 12px !important;
+      background: rgba(0, 0, 0, 0.60) !important;
+      opacity: 1 !important;
+      margin: 0 !important;
+      border-radius: 50% !important;
+    }
+
+    {{ default_sid }} .swiper-pagination-bullet-active {
+      background: #E8000E !important;
+    }
+
+    /* === PAD: 1280~1439（与 jingva-m6-recline 一致：保留标题下沉入场） === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-m6-scenarios-wrapper {
+        padding: 120px 32px 0 !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-title {
+        font-size: 48px !important;
+        line-height: normal !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-title.aos-animate {
+        transform: translateY(0);
+      }
+    }
+
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: {{ bg_color_mob | default: '#000000' }} !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-wrapper {
+        padding: 96px 0 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-title {
+        font-size: 32px !important;
+        font-weight: 800 !important;
+        line-height: 1.254 !important;
+        text-align: center !important;
+        padding: 0 16px !important;
+        box-sizing: border-box !important;
+        margin: 0 0 24px 0 !important;
+        transform: translateY(-50px);
+        transition: transform 0.5s ease-out;
+        will-change: transform;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-title.aos-animate {
+        transform: translateY(0) !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-swiper {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100% !important;
+        aspect-ratio: 390 / 540 !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-image {
+        aspect-ratio: 390 / 540 !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-text-overlay {
+        top: auto !important;
+        bottom: 81px !important;
+        left: 0 !important;
+        right: 0 !important;
+        transform: none !important;
+        text-align: center !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 19px 25px 19px !important;
+        box-sizing: border-box !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-subtitle {
+        font-size: 24px !important;
+        font-weight: 700 !important;
+        line-height: 1.2em !important;
+        margin: 0 0 8px 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-description {
+        font-size: 16px !important;
+        font-weight: 500 !important;
+        line-height: 1.2em !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-swiper.pc-swiper {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-swiper.mob-swiper {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-pagination {
+        right: auto !important;
+        left: 50% !important;
+        top: auto !important;
+        bottom: 24px !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
+        height: 48px !important;
+        flex-direction: row !important;
+        padding: 12px 24px !important;
+        gap: 12px !important;
+        background: rgba(255, 255, 255, 0.50) !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-pagination .swiper-pagination-bullet {
+        width: 12px !important;
+        height: 12px !important;
+        background: rgba(255, 255, 255, 0.60) !important;
+      }
+
+      {{ default_sid }} .jingva-m6-scenarios-pagination .swiper-pagination-bullet-active {
+        background: #E8000E !important;
+      }
+    }
+  {% endstyle %}
+
+  <div class="jingva-m6-scenarios-wrapper">
+    <h2 class="jingva-m6-scenarios-title">{{ title | default: 'Built for Multiple Scenarios' }}</h2>
+
+    <div class="jingva-m6-scenarios-swiper pc-swiper swiper">
+      <div class="jingva-m6-scenarios-swiper-wrapper swiper-wrapper">
+        {% for block in section.blocks %}
+          {% if block.settings.pc_image %}
+            <div class="jingva-m6-scenarios-slide swiper-slide">
+              <img class="jingva-m6-scenarios-image pc-image" src="{{ block.settings.pc_image | image_url: width: 3000 }}" alt="{{ title | default: 'Built for Multiple Scenarios' }}" width="1920" height="960">
+              {% if block.settings.subtitle or block.settings.description %}
+                <div class="jingva-m6-scenarios-text-overlay">
+                  {% if block.settings.subtitle %}
+                    <div class="jingva-m6-scenarios-subtitle">{{ block.settings.subtitle }}</div>
+                  {% endif %}
+                  {% if block.settings.description %}
+                    <p class="jingva-m6-scenarios-description">{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="jingva-m6-scenarios-pagination pc-pagination swiper-pagination"></div>
+    </div>
+
+    <div class="jingva-m6-scenarios-swiper mob-swiper swiper">
+      <div class="jingva-m6-scenarios-swiper-wrapper swiper-wrapper">
+        {% for block in section.blocks %}
+          {% if block.settings.mob_image %}
+            <div class="jingva-m6-scenarios-slide swiper-slide">
+              <img class="jingva-m6-scenarios-image mob-image" src="{{ block.settings.mob_image | image_url: width: 780 }}" alt="{{ title | default: 'Built for Multiple Scenarios' }}" width="390" height="540">
+              {% if block.settings.subtitle or block.settings.description %}
+                <div class="jingva-m6-scenarios-text-overlay">
+                  {% if block.settings.subtitle %}
+                    <div class="jingva-m6-scenarios-subtitle">{{ block.settings.subtitle }}</div>
+                  {% endif %}
+                  {% if block.settings.description %}
+                    <p class="jingva-m6-scenarios-description">{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="jingva-m6-scenarios-pagination mob-pagination swiper-pagination"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var root = document.querySelector('.jingva-m6-scenarios-{{ sid }}');
+    if (root) {
+      var titleEl = root.querySelector('.jingva-m6-scenarios-title');
+      if (titleEl) {
+        var titleObserver = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              titleEl.classList.add('aos-animate');
+              titleObserver.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.01,
+          rootMargin: '0px 0px 0px 0px'
+        });
+        titleObserver.observe(titleEl);
+      }
+    }
+
+    var pcEl = document.querySelector('.jingva-m6-scenarios-{{ sid }} .pc-swiper');
+    if (pcEl && pcEl.querySelector('.swiper-slide')) {
+      new Swiper(pcEl, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        pagination: {
+          el: '.jingva-m6-scenarios-{{ sid }} .pc-pagination',
+          clickable: true,
+        },
+      });
+    }
+    var mobEl = document.querySelector('.jingva-m6-scenarios-{{ sid }} .mob-swiper');
+    if (mobEl && mobEl.querySelector('.swiper-slide')) {
+      new Swiper(mobEl, {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        pagination: {
+          el: '.jingva-m6-scenarios-{{ sid }} .mob-pagination',
+          clickable: true,
+        },
+      });
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Jingva M6 Scenarios",
+  "tag": "section",
+  "class": "jingva-m6-scenarios-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Built for Multiple Scenarios"
+    },
+    {
+      "type": "header",
+      "content": "Style Settings"
+    },
+    {
+      "type": "select",
+      "id": "theme",
+      "label": "Theme",
+      "options": [
+        { "value": "dark", "label": "Dark (white title)" },
+        { "value": "light", "label": "Light (dark title)" }
+      ],
+      "default": "dark",
+      "info": "Switches the title color. Background color is set separately below. On-image subtitle/description stay white."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "PC Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "pc_image",
+          "label": "PC Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mob_image",
+          "label": "Mobile Image"
+        },
+        {
+          "type": "richtext",
+          "id": "subtitle",
+          "label": "Subtitle"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva M6 Scenarios",
+      "category": "Jingva",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

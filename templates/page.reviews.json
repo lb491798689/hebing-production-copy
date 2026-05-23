@@ -1,0 +1,444 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "content_width": "80ch"
+      }
+    },
+    "image_with_text_overlay_3DGK9G": {
+      "type": "image-with-text-overlay",
+      "blocks": {
+        "heading_cEL69m": {
+          "type": "heading",
+          "settings": {
+            "text": "REVIEWS & AWARDS",
+            "heading_tag": "h1"
+          }
+        },
+        "richtext_9iQDMW": {
+          "type": "richtext",
+          "settings": {
+            "content": "<p>Over 10,000 5-star ratings — find out what makes AutoFull chairs great with reviews from the press and real users.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "heading_cEL69m",
+        "richtext_9iQDMW"
+      ],
+      "settings": {
+        "full_width": true,
+        "allow_transparent_header": false,
+        "enable_parallax": false,
+        "image_size": "sm",
+        "image": "shopify://shop_images/banner-parallax-2.jpg",
+        "mobile_text_position": "place-self-center text-center",
+        "desktop_text_position": "sm:place-self-center sm:text-center",
+        "text_color": "#ffffff",
+        "overlay_color": "#000000",
+        "overlay_opacity": 30
+      }
+    },
+    "text_with_icons_ttNBCj": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_yk9RWV": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/Group_3.png",
+            "mobile_icon_width": 24,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Editor's Choice Award",
+            "content": "<p>GamesRevolution</p>"
+          }
+        },
+        "item_3aYjQQ": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/Group_4.png",
+            "mobile_icon_width": 24,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Editor's Choice Award",
+            "content": "<p>GamesRevolution</p>"
+          }
+        },
+        "item_FmxWyR": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/Frame_16_14ba50c1-a837-49c6-b7b5-c323b72d018e.png",
+            "mobile_icon_width": 24,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Editor's Choice Award",
+            "content": "<p>GamesRevolution</p>"
+          }
+        },
+        "item_KRzgpC": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/Frame_17_84ee9f08-f202-48f3-8c23-047b4378732e.png",
+            "mobile_icon_width": 24,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Editor's Choice Award",
+            "content": "<p>GamesRevolution</p>"
+          }
+        },
+        "item_kPGUmb": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/Frame_18_c6216100-c276-4101-a59d-6e54c5e97524.png",
+            "mobile_icon_width": 24,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "Editor's Choice Award",
+            "content": "<p>GamesRevolution</p>"
+          }
+        }
+      },
+      "block_order": [
+        "item_yk9RWV",
+        "item_3aYjQQ",
+        "item_FmxWyR",
+        "item_KRzgpC",
+        "item_kPGUmb"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "AWARDS",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "text_with_icons_URCCgD": {
+      "type": "text-with-icons",
+      "blocks": {
+        "item_M8kecE": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/logo_121a99d6-b6e7-42c4-b6db-e5e62bff8750.png",
+            "mobile_icon_width": 40,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "",
+            "content": ""
+          }
+        },
+        "item_BqMBMd": {
+          "type": "item",
+          "settings": {
+            "icon": "picto-coupon",
+            "custom_icon": "shopify://shop_images/image_1.jpg",
+            "mobile_icon_width": 40,
+            "icon_width": 120,
+            "icon_background_type": "none",
+            "icon_background": "",
+            "icon_color": "",
+            "title": "",
+            "content": ""
+          }
+        }
+      },
+      "block_order": [
+        "item_M8kecE",
+        "item_BqMBMd"
+      ],
+      "settings": {
+        "full_width": true,
+        "stack_on_mobile": false,
+        "title": "CERTIFICATES",
+        "heading_tag": "h5",
+        "text_alignment": "center",
+        "icon_spacing": "medium",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "rich_text_wry8pa": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_PM9VJB": {
+          "type": "heading",
+          "settings": {
+            "text": "REVIEW FROM EXPERTS",
+            "heading_tag": "h3",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_PM9VJB"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "rgba(0,0,0,0)",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "media_with_text_TBJnyp": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_UQCe8V": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/M6pro.jpg",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "custom_icon": "shopify://shop_images/Frame_18_c6216100-c276-4101-a59d-6e54c5e97524.png",
+            "icon_width": 84,
+            "subheading": "",
+            "title": "AUTOFULL M6 PRO",
+            "content": "<p>\"The leading gaming chair manufacturer has refined the design of its M6 Series 2022 Series to<strong>create a marked improvement over its 2020 Series</strong>,<strong>which already sat atop our best gaming chairs list</strong>. Better ergonomics, refined materials, and more customization make AutoFull's M6 Pro <strong>a standout upgrade</strong>.\"</p>",
+            "link_text": "SHOP M6 PRO",
+            "link_url": "shopify://products/autofull-m6-gaming-chair-pro-ventilated-and-heated-seat-cushion",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_UQCe8V"
+      ],
+      "settings": {
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "none"
+      }
+    },
+    "media_with_text_7TiFVi": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_TrtJDK": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/M6_3f620024-8a09-4368-a8ba-e169693f78ce.jpg",
+            "media_width": 50,
+            "media_position": "end",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "custom_icon": "shopify://shop_images/1_e444740f-0c7a-424d-bf4a-9e22a6ee134b.jpg",
+            "icon_width": 84,
+            "subheading": "",
+            "title": "AUTOFULL M6 ELITE",
+            "content": "<p>\"A great high-end chair that's one of<strong>the most comfortable you'll ever own</strong>, whether you're gaming in it or not.\"</p>",
+            "link_text": "SHOP M6 ELITE",
+            "link_url": "shopify://products/autofull-m6-gaming-chair-with-footrest",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_TrtJDK"
+      ],
+      "settings": {
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "none"
+      }
+    },
+    "media_with_text_iKLyzR": {
+      "type": "media-with-text",
+      "blocks": {
+        "image_p9h7a7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/M6pro_e5073331-4cfc-487f-94a1-49eece00183c.jpg",
+            "media_width": 50,
+            "media_position": "start",
+            "text_position": "place-self-center-start text-start",
+            "icon": "none",
+            "custom_icon": "shopify://shop_images/20241202-175123.png",
+            "icon_width": 84,
+            "subheading": "",
+            "title": "AUTOFULL C3 DARKRIDER",
+            "content": "<p>\"For an uncompromising experience that lasts for endless hours, this award-winning chair is unquestionably the gold standard you need.\"</p>",
+            "link_text": "SHOP M6 PRO",
+            "link_url": "shopify://products/autofull-c3-gaming-chair-dark-rider-black-color",
+            "background": "#ffffff",
+            "background_gradient": "",
+            "text_color": "#1a1a1a",
+            "text_gradient": "",
+            "button_background": "",
+            "button_text_color": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_p9h7a7"
+      ],
+      "settings": {
+        "full_width": false,
+        "alternate_media_position": false,
+        "spacing": "none"
+      }
+    },
+    "rich_text_P3jJUK": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_nVFekp": {
+          "type": "heading",
+          "settings": {
+            "text": "FEATURED",
+            "heading_tag": "h3",
+            "text_color": "",
+            "gradient": ""
+          }
+        }
+      },
+      "block_order": [
+        "heading_nVFekp"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_width": "small",
+        "text_position": "center",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "press_RhgaT4": {
+      "type": "press",
+      "blocks": {
+        "quote_GaC7Ur": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/IGN_logo_svg.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "“I highly recommend AutoFull to anyone looking foragaming chair for both work and gaming.”",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_FY8g9U": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/PC_World_logo_svg.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "“I highly recommend AutoFull to anyone looking foragaming chairfor both work and gaming.”",
+            "show_rating": false,
+            "rating": 4
+          }
+        },
+        "quote_NKa7FQ": {
+          "type": "quote",
+          "settings": {
+            "logo": "shopify://shop_images/1_67085df9-55b4-4743-b2de-03366c6f199e_1.png",
+            "logo_width": 100,
+            "author": "",
+            "content": "“AutoFull, a globally renowned brand known for creating professional-grade esports equipment.”",
+            "show_rating": false,
+            "rating": 4
+          }
+        }
+      },
+      "block_order": [
+        "quote_GaC7Ur",
+        "quote_FY8g9U",
+        "quote_NKa7FQ"
+      ],
+      "settings": {
+        "full_width": true,
+        "content_size": "medium",
+        "background": "#f6f6f6",
+        "background_gradient": "",
+        "text_color": "",
+        "heading_color": "",
+        "heading_gradient": "",
+        "logo_item_background": "",
+        "logo_item_border": ""
+      }
+    },
+    "17394152274c1cbeb3": {
+      "type": "apps",
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    },
+    "custom_liquid_a8tCWk": {
+      "type": "custom-liquid",
+      "settings": {
+        "full_width": true,
+        "remove_vertical_spacing": false,
+        "remove_horizontal_spacing": false,
+        "liquid": "<div id=\"stamped-reviews-widget\" data-widget-type=\"full-page\" ></div>",
+        "background": "",
+        "background_gradient": "",
+        "text_color": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "image_with_text_overlay_3DGK9G",
+    "text_with_icons_ttNBCj",
+    "text_with_icons_URCCgD",
+    "rich_text_wry8pa",
+    "media_with_text_TBJnyp",
+    "media_with_text_7TiFVi",
+    "media_with_text_iKLyzR",
+    "rich_text_P3jJUK",
+    "press_RhgaT4",
+    "17394152274c1cbeb3",
+    "custom_liquid_a8tCWk"
+  ]
+}

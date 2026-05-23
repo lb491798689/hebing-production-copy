@@ -1,0 +1,102 @@
+<style>
+  main#main {
+    position: relative;
+  }
+
+  [role='main'] .shopify-section {
+    background-color: transparent;
+  }
+
+  div.shopify-section {
+    margin-top: 0!important;
+  }
+
+  main#main > .iem-page-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: var(--iem-page-bg-height, 100%);
+    pointer-events: none;
+    background-color: #10151f;
+    background-image: url('https://cdn.shopify.com/s/files/1/0303/9805/4531/files/Frame_1973772039.jpg?v=1778409985');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: 733px 412px;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const mainEl = document.querySelector('main#main');
+
+    if (!mainEl) {
+      return;
+    }
+
+    let bgEl = mainEl.querySelector(':scope > .iem-page-bg');
+
+    const getDirectMainChild = (element) => {
+      let child = element;
+
+      while (child && child.parentElement !== mainEl) {
+        child = child.parentElement;
+      }
+
+      return child;
+    };
+
+    const getFooterStartEl = () => {
+      const footerEl =
+        mainEl.querySelector('.shopify-section-group-footer-group') ||
+        mainEl.querySelector('[id^="shopify-section-sections--"][id*="footer"]') ||
+        mainEl.querySelector('footer') ||
+        mainEl.querySelector('[class*="footer"]');
+
+      return footerEl ? getDirectMainChild(footerEl) : null;
+    };
+
+    const updateBackgroundHeight = () => {
+      const footerStartEl = getFooterStartEl();
+      const mainTop = mainEl.getBoundingClientRect().top + window.scrollY;
+      let nextHeight = mainEl.scrollHeight;
+
+      if (footerStartEl) {
+        const footerTop = footerStartEl.getBoundingClientRect().top + window.scrollY;
+        nextHeight = Math.max(0, footerTop - mainTop);
+      }
+
+      mainEl.style.setProperty('--iem-page-bg-height', `${Math.ceil(nextHeight)}px`);
+    };
+
+    updateBackgroundHeight();
+
+    window.addEventListener('resize', updateBackgroundHeight, { passive: true });
+    window.addEventListener('load', updateBackgroundHeight, { once: true });
+
+    if (window.ResizeObserver) {
+      const resizeObserver = new ResizeObserver(updateBackgroundHeight);
+      resizeObserver.observe(mainEl);
+
+      const footerStartEl = getFooterStartEl();
+
+      if (footerStartEl) {
+        resizeObserver.observe(footerStartEl);
+      }
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "IEM Background",
+  "class": "iem-page-bg",
+  "settings": [],
+  "presets": [
+    {
+      "name": "IEM Background"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,492 @@
+{% liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign autoplay = se_stts.autoplay
+  assign autoplay_delay = se_stts.autoplay_delay | times: 1000
+  assign show_arrows = se_stts.show_arrows
+%}
+
+{% capture default_sid %}.jingva-built-for-esports-{{ sid }}{% endcapture %}
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
+
+<section class="jingva-built-for-esports jingva-built-for-esports-{{sid}}">
+  {% style %}
+  /* 根节点 */
+  {{ default_sid }} {
+    position: relative;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 70px 0 0 0;
+    overflow: hidden;
+  }
+  
+  /* Aggressive override for theme default section spacing */
+  html body #shopify-section-{{ section.id }},
+  html body #shopify-section-{{ section.id }} .section,
+  html body #shopify-section-{{ section.id }} .shopify-section,
+  #shopify-section-{{ section.id }},
+  #shopify-section-{{ section.id }} .section,
+  #shopify-section-{{ section.id }} .shopify-section {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  /* 主容器：1200px 宽度，垂直布局，居中对齐，gap 48px */
+  {{ default_sid }} .jingva-built-wrapper {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+  
+  /* 标题区域 */
+  {{ default_sid }} .section-header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  {{ default_sid }} .section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 120%;
+    text-align: center;
+    color: #0a0a0a;
+    margin: 0;
+    width: 100%;
+    /* 首次进入视口下沉载入动效 */
+    transform: translateY(-50px);
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+  }
+
+  {{ default_sid }} .section-title.aos-animate {
+    transform: translateY(0);
+  }
+  
+  /* 轮播内容区域 */
+  {{ default_sid }} .jingva-built-content {
+    position: relative;
+    width: 100%;
+    height: 540px;
+    overflow: visible;
+  }
+  
+  /* 轮播容器：全屏宽度，居中 */
+  {{ default_sid }} .asymmetric-swiper-container {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 540px;
+    overflow: hidden;
+  }
+  
+  {{ default_sid }} .swiper {
+    width: 100%;
+    height: 100%;
+    overflow: visible !important;
+  }
+  
+  {{ default_sid }} .swiper-slide {
+    width: 1200px;
+    height: 540px;
+    flex-shrink: 0;
+  }
+  
+  {{ default_sid }} .slide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
+  /* 导航箭头 */
+  {{ default_sid }} .swiper-button-next,
+  {{ default_sid }} .swiper-button-prev {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: #fafafa;
+    transition: background-color 0.3s ease-out;
+  }
+  
+  {{ default_sid }} .swiper-button-next:hover,
+  {{ default_sid }} .swiper-button-prev:hover {
+    background-color: #DBDBDB;
+  }
+  
+  {{ default_sid }} .swiper-button-next:after,
+  {{ default_sid }} .swiper-button-prev:after {
+    display: none;
+  }
+
+  {{ default_sid }} .swiper-button-next svg,
+  {{ default_sid }} .swiper-button-prev svg {
+    width: auto;
+    height: auto;
+  }
+
+  {{ default_sid }} .icon-pc {
+    display: block;
+  }
+
+  {{ default_sid }} .icon-mobile {
+    display: none;
+  }
+  
+  {{ default_sid }} .swiper-button-prev {
+    left: calc(50% - 600px + 48px);
+  }
+  
+  {{ default_sid }} .swiper-button-next {
+    right: calc(50% - 600px + 48px);
+  }
+  
+  .swiper-button-next.swiper-button-disabled, 
+  .swiper-button-prev.swiper-button-disabled {
+    pointer-events: auto;
+    opacity: 1;
+  }
+  
+  /* 平板端 */
+  @media screen and (max-width: 1279px) {
+    {{ default_sid }} {
+      padding: 48px 0;
+    }
+    
+    {{ default_sid }} .jingva-built-wrapper {
+      width: 100%;
+      gap: 32px;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-size: 32px;
+    }
+    
+    {{ default_sid }} .jingva-built-content {
+      height: 400px;
+    }
+    
+    {{ default_sid }} .asymmetric-swiper-container {
+      height: 400px;
+    }
+    
+    {{ default_sid }} .swiper-slide {
+      width: 90vw;
+      height: 400px;
+    }
+    
+    {{ default_sid }} .swiper-button-next,
+    {{ default_sid }} .swiper-button-prev {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+    }
+    
+    {{ default_sid }} .swiper-button-prev {
+      left: calc(50% - 45vw + 16px);
+    }
+
+    {{ default_sid }} .swiper-button-next {
+      right: calc(50% - 45vw + 16px);
+    }
+
+    {{ default_sid }} .swiper-button-next svg,
+    {{ default_sid }} .swiper-button-prev svg {
+      width: auto;
+      height: auto;
+    }
+
+    {{ default_sid }} .icon-pc {
+      display: none;
+    }
+
+    {{ default_sid }} .icon-mobile {
+      display: block;
+    }
+  }
+  
+  /* 手机端 */
+  @media screen and (max-width: 749px) {
+    {{ default_sid }} {
+      padding: 64px 0 0 0;
+    }
+    
+    {{ default_sid }} .jingva-built-wrapper {
+      gap: 32px;
+    }
+    
+    {{ default_sid }} .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 120%;
+      text-align: center;
+      color: #0a0a0a;
+      margin: 0;
+    }
+    
+    {{ default_sid }} .jingva-built-content {
+      height: 260px;
+    }
+    
+    {{ default_sid }} .asymmetric-swiper-container {
+      height: 260px;
+    }
+    
+    {{ default_sid }} .swiper-slide {
+      width: 85vw;
+      height: 260px;
+    }
+    
+    {{ default_sid }} .swiper-button-next,
+    {{ default_sid }} .swiper-button-prev {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    
+    {{ default_sid }} .swiper-button-prev {
+      left: calc(50% - 42.5vw + 16px);
+    }
+
+    {{ default_sid }} .swiper-button-next {
+      right: calc(50% - 42.5vw + 16px);
+    }
+
+    {{ default_sid }} .swiper-button-next svg,
+    {{ default_sid }} .swiper-button-prev svg {
+      width: auto;
+      height: auto;
+    }
+  }
+  {% endstyle %}
+
+  <div class="jingva-built-wrapper">
+    <!-- 标题区域 -->
+    {% if se_stts.title != blank %}
+      <div class="section-header">
+        <h2 class="section-title">{{ se_stts.title }}</h2>
+      </div>
+    {% endif %}
+
+    <!-- 轮播容器 -->
+    <div class="jingva-built-content">
+      <div class="asymmetric-swiper-container">
+        <div class="swiper asymmetric-swiper-{{sid}}">
+          <div class="swiper-wrapper">
+            {% for block in section.blocks %}
+              <div class="swiper-slide" {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  <picture>
+                    {% if block.settings.image_mobile != blank %}
+                      <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 640 }}">
+                    {% endif %}
+                    <img src="{{ block.settings.image | image_url: width: 2400 }}" 
+                         alt="{{ block.settings.image.alt | escape }}"
+                         class="slide-image"
+                         width="2400"
+                         height="1080"
+                         loading="lazy">
+                  </picture>
+                {% else %}
+                  <div style="width: 100%; height: 100%; background-color: #f5f5f5; display: flex; align-items: center; justify-content: center; color: #999; font-size: 14px;">
+                    请上传图片
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          
+          {% if show_arrows and section.blocks.size > 1 %}
+            <div class="swiper-button-next swiper-button-next-{{ section.id }}">
+              <svg class="icon-pc" xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+                <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#0A0A0A"/>
+              </svg>
+              <svg class="icon-mobile" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                <path d="M6.08105 5.1377L0.942383 10.2764L0 9.33301L4.19531 5.1377L0 0.942383L0.942383 0L6.08105 5.1377Z" fill="black"/>
+              </svg>
+            </div>
+            <div class="swiper-button-prev swiper-button-prev-{{ section.id }}">
+              <svg class="icon-pc" xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
+                <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#0A0A0A"/>
+              </svg>
+              <svg class="icon-mobile" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none">
+                <path d="M0 5.13867L5.13867 0L6.08105 0.943359L1.88574 5.13867L6.08105 9.33398L5.13867 10.2764L0 5.13867Z" fill="black"/>
+              </svg>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var section = document.querySelector('.jingva-built-for-esports-{{ sid }}');
+    if (!section) return;
+
+    var title = section.querySelector('.section-title');
+    if (!title) return;
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          title.classList.add('aos-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.01,
+      rootMargin: '0px 0px 0px 0px'
+    });
+
+    observer.observe(title);
+  })();
+  </script>
+</section>
+
+<!-- Swiper JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const swiperContainer = document.querySelector('.asymmetric-swiper-{{sid}}');
+  if (swiperContainer) {
+    const swiper = new Swiper('.asymmetric-swiper-{{sid}}', {
+      // 基础配置
+      loop: true,
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      allowTouchMove: true,
+      centeredSlides: true,
+      observer: true,
+      observeParents: true,
+      preloadImages: true,
+      updateOnImagesReady: true,
+      
+      autoplay: {% if autoplay %}{
+        delay: {{ autoplay_delay }},
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+        stopOnLastSlide: false
+      }{% else %}false{% endif %},
+      
+      // 导航箭头
+      {% if show_arrows %}
+      navigation: {
+        nextEl: '.swiper-button-next-{{ section.id }}',
+        prevEl: '.swiper-button-prev-{{ section.id }}',
+      },
+      {% endif %}
+      
+      // 效果配置
+      effect: 'slide',
+      speed: 500,
+      
+      // 响应式断点（按 develop.md 规范：MOB <1280, PAD 1280-1439, PC ≥1440）
+      breakpoints: {
+        0: {
+          spaceBetween: 8,
+        },
+        1280: {
+          spaceBetween: 12,
+        },
+      },
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Built for Esports",
+  "class": "shopify-section--jingva-built-for-esports",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "标题设置"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "主标题",
+      "default": "Built for Esports"
+    },
+    {
+      "type": "header",
+      "content": "轮播设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "自动播放",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_delay",
+      "label": "自动播放间隔 (秒)",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "显示导航箭头",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "图片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "PC端图片 (1200x540)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "手机端图片 (320x320)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Built for Esports",
+      "settings": {
+        "title": "Built for Esports"
+      },
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,714 @@
+{%- capture class -%}{{ class }} icon icon-{{ icon | handle }} {% if direction_aware %}reverse-icon{% endif %}{%- endcapture -%}
+
+{%- case icon -%}
+  {%- comment -%} UI {%- endcomment -%}
+    {%- when 'error' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 18 }}" height="{{ height | default: 18 }}" class="{{ class | strip }}" style="--icon-height: {{ height | default: 18 }}px" viewBox="0 0 18 18">
+        <path d="M0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9Z" fill="currentColor"></path>
+        <path d="M5.29289 6.70711L11.2929 12.7071L12.7071 11.2929L6.70711 5.29289L5.29289 6.70711ZM6.70711 12.7071L12.7071 6.70711L11.2929 5.2929L5.29289 11.2929L6.70711 12.7071Z" fill="#ffffff"></path>
+      </svg>
+
+    {%- when 'warning' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 18 }}" height="{{ height | default: 18 }}" class="{{ class | strip }}" style="--icon-height: {{ height | default: 18 }}px" viewBox="0 0 18 18">
+        <path d="M0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9Z" fill="currentColor"></path>
+        <path d="M7.98347 10.156V4.504H9.99947V10.156H7.98347ZM10.1675 11.98C10.1675 12.14 10.1355 12.292 10.0715 12.436C10.0155 12.572 9.93147 12.692 9.81947 12.796C9.71547 12.892 9.59147 12.968 9.44747 13.024C9.30347 13.088 9.15147 13.12 8.99147 13.12C8.83147 13.12 8.67947 13.092 8.53547 13.036C8.39947 12.98 8.27947 12.9 8.17547 12.796C8.07147 12.692 7.98747 12.572 7.92347 12.436C7.85947 12.3 7.82747 12.152 7.82747 11.992C7.82747 11.84 7.85547 11.696 7.91147 11.56C7.97547 11.416 8.05947 11.292 8.16347 11.188C8.26747 11.084 8.39147 11.004 8.53547 10.948C8.67947 10.884 8.83147 10.852 8.99147 10.852C9.15147 10.852 9.30347 10.884 9.44747 10.948C9.59147 11.004 9.71547 11.084 9.81947 11.188C9.93147 11.284 10.0155 11.404 10.0715 11.548C10.1355 11.684 10.1675 11.828 10.1675 11.98Z" fill="#ffffff"></path>
+      </svg>
+
+    {%- when 'success' -%}
+      <svg role="presentation" focusable="false" stroke-width="2" width="{{ width | default: 18 }}" height="{{ height | default: 18 }}" class="{{ class | strip }}" style="--icon-height: {{ height | default: 18 }}px" viewBox="0 0 18 18">
+        <path d="M0 9C0 4.02944 4.02944 0 9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9Z" fill="currentColor"></path>
+        <path d="M5 8.8L7.62937 11.6L13 6" stroke="#ffffff" fill="none"></path>
+      </svg>
+
+    {%- when 'drag-handle' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 28 }}" height="{{ height | default: 35 }}" class="{{ class | strip }}" viewBox="0 0 32 40">
+        <path d="M0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16V24C32 32.8366 24.8366 40 16 40C7.16344 40 0 32.8366 0 24V16Z" fill="currentColor"></path>
+        <path fill="rgb(var(--text-primary))" d="M11 14H13V26H11zM15 14H17V26H15zM19 14H21V26H19z"></path>
+      </svg>
+
+    {%- when 'chevron-bottom' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 10 }}" height="{{ height | default: 7 }}" class="{{ class | strip }}" viewBox="0 0 10 7">
+        <path d="m1 1 4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+
+    {%- when 'chevron-left' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 7 }}" height="{{ height | default: 10 }}" class="{{ class | strip }}" viewBox="0 0 7 10">
+        <path d="M6 1 2 5l4 4" fill="none" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+
+    {%- when 'chevron-right' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 7 }}" height="{{ height | default: 10 }}" class="{{ class | strip }}" viewBox="0 0 7 10">
+        <path d="m1 9 4-4-4-4" fill="none" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+
+    {%- when 'chevron-left-small' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 5 }}" height="{{ height | default: 8 }}" class="{{ class | strip }}" viewBox="0 0 5 8">
+        <path d="m4.25 7-3-3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+
+    {%- when 'chevron-right-small' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 5 }}" height="{{ height | default: 8 }}" class="{{ class | strip }}" viewBox="0 0 5 8">
+        <path d="m.75 7 3-3-3-3" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+      </svg>
+
+    {%- when 'chevron-bottom-small' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 8 }}" height="{{ height | default: 6 }}" class="{{ class | strip }}" viewBox="0 0 8 6">
+        <path d="m1 1.5 3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5"></path>
+      </svg>
+
+    {%- when 'plus' -%}
+      <svg role="presentation" focusable="false" stroke-width="2" width="{{ width | default: 12 }}" height="{{ height | default: 12 }}" class="{{ class | strip }}" viewBox="0 0 12 12">
+        <path d="M6 0V12" fill="none" stroke="currentColor"></path>
+        <path d="M0 6L12 6" fill="none" stroke="currentColor"></path>
+      </svg>
+
+    {%- when 'minus' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 10 }}" height="{{ height | default: 2 }}" class="{{ class | strip }}" viewBox="0 0 10 2">
+        <path d="M0 0H10V2H0V0Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'close' -%}
+      <svg role="presentation" stroke-width="2" focusable="false" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M17.658 6.343 6.344 17.657M17.658 17.657 6.344 6.343" stroke="currentColor"></path>
+      </svg>
+
+    {%- when 'delete' -%}
+      <svg role="presentation" stroke-width="2" focusable="false" width="{{ width | default: 10 }}" height="{{ height | default: 10 }}" class="{{ class | strip }}" viewBox="0 0 10 10">
+        <path d="m.757.757 8.486 8.486m-8.486 0L9.243.757" stroke="currentColor"></path>
+      </svg>
+
+    {%- when 'hamburger' -%}
+      <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+        <path d="M1 5h20M1 11h20M1 17h20" stroke="currentColor" stroke-linecap="round"></path>
+      </svg>
+
+    {%- when 'account' -%}
+      <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+        <circle cx="11" cy="7" r="4" fill="none" stroke="currentColor"></circle>
+        <path d="M3.5 19c1.421-2.974 4.247-5 7.5-5s6.079 2.026 7.5 5" fill="none" stroke="currentColor" stroke-linecap="round"></path>
+      </svg>
+
+    {%- when 'search' -%}
+      <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+        <circle cx="11" cy="10" r="7" fill="none" stroke="currentColor"></circle>
+        <path d="m16 15 3 3" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+
+    {%- when 'cart' -%}
+      {%- case settings.cart_icon -%}
+        {%- when 'shopping_basket' -%}
+          <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+            <path d="M11 7H3.577A2 2 0 0 0 1.64 9.497l2.051 8A2 2 0 0 0 5.63 19H16.37a2 2 0 0 0 1.937-1.503l2.052-8A2 2 0 0 0 18.422 7H11Zm0 0V1" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+
+        {%- when 'tote_bag' -%}
+          <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+            <path d="M14.666 7.333a3.666 3.666 0 1 1-7.333 0M3.33 6.785l-.642 7.7c-.137 1.654-.206 2.48.073 3.119a2.75 2.75 0 0 0 1.21 1.314c.612.332 1.442.332 3.102.332h7.853c1.66 0 2.49 0 3.103-.332a2.75 2.75 0 0 0 1.21-1.314c.279-.638.21-1.465.072-3.12l-.642-7.7c-.118-1.423-.178-2.134-.493-2.673A2.75 2.75 0 0 0 16.99 3.02c-.563-.269-1.277-.269-2.705-.269h-6.57c-1.428 0-2.142 0-2.705.27A2.75 2.75 0 0 0 3.823 4.11c-.315.539-.374 1.25-.493 2.674Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+
+        {%- when 'shopping_cart' -%}
+          <svg role="presentation" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 22 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" viewBox="0 0 22 22">
+            <path d="M9.182 18.454a.91.91 0 1 1-1.818 0 .91.91 0 0 1 1.818 0Zm7.272 0a.91.91 0 1 1-1.818 0 .91.91 0 0 1 1.819 0Z" fill="currentColor"></path>
+            <path d="M5.336 6.636H21l-3.636 8.182H6.909L4.636 3H1m8.182 15.454a.91.91 0 1 1-1.818 0 .91.91 0 0 1 1.818 0Zm7.272 0a.91.91 0 1 1-1.818 0 .91.91 0 0 1 1.819 0Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+      {%- endcase -%}
+
+    {%- when 'quick-buy-cart' -%}
+      {%- case settings.cart_icon -%}
+        {%- when 'shopping_basket' -%}
+          <svg role="presentation" fill="none" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 16 }}" height="{{ height | default: 14 }}" class="{{ class | strip }}" viewBox="0 0 16 14">
+            <path d="M7.75 4.75H2.283a1 1 0 0 0-.97 1.244l1.574 6.25a1 1 0 0 0 .97.756h7.787a1 1 0 0 0 .97-.756l1.573-6.25a1 1 0 0 0-.97-1.244H7.75Zm0 0V1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+
+        {%- when 'tote_bag' -%}
+          <svg role="presentation" fill="none" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 15 }}" height="{{ height | default: 14 }}" class="{{ class | strip }}" viewBox="0 0 15 14">
+            <path d="M9.752 4.36a2.61 2.61 0 1 1-5.218 0m-2.85-.39-.456 5.48c-.098 1.177-.147 1.765.052 2.22.175.398.478.727.86.935.437.236 1.027.236 2.209.236h5.588c1.181 0 1.772 0 2.208-.236.383-.208.686-.537.86-.936.2-.454.15-1.042.052-2.22l-.456-5.48c-.085-1.012-.127-1.518-.351-1.902a1.957 1.957 0 0 0-.845-.777c-.4-.191-.908-.191-1.925-.191H4.805c-1.016 0-1.524 0-1.925.191-.353.17-.647.44-.844.777-.224.384-.267.89-.351 1.903Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+
+        {%- when 'shopping_cart' -%}
+          <svg role="presentation" fill="none" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" focusable="false" width="{{ width | default: 16 }}" height="{{ height | default: 15 }}" class="{{ class | strip }}" viewBox="0 0 16 15">
+            <path d="M4.5 3.545H15l-2.546 5.728H5.136L3.546 1H1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="5.955" cy="12.682" r=".5" fill="#252627" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="11.5" cy="12.682" r=".5" fill="#252627" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+      {%- endcase -%}
+
+    {%- when 'circle-button-left-clipped' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12Zm1.53-14.47L11.06 12l2.47 2.47-1.06 1.06-3-3-.53-.53.53-.53 3-3 1.06 1.06Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'next-button-clipped' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 56 }}" height="{{ height | default: 56 }}" class="{{ class | strip }}" viewBox="0 0 56 56">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M28 56C12.536 56 0 43.464 0 28S12.536 0 28 0s28 12.536 28 28-12.536 28-28 28Zm-2.707-31.293L28.586 28l-3.293 3.293 1.414 1.414 4-4 .707-.707-.707-.707-4-4-1.414 1.414Z" fill="{{ settings.background }}"></path>
+      </svg>
+
+    {%- when 'circle-button-right-clipped' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 24c6.627 0 12-5.373 12-12S18.627 0 12 0 0 5.373 0 12s5.373 12 12 12ZM10.47 9.53 12.94 12l-2.47 2.47 1.06 1.06 3-3 .53-.53-.53-.53-3-3-1.06 1.06Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'rating-star' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false" width="{{ width | default: 12 }}" height="{{ height | default: 12 }}" class="{{ class | strip }}" viewBox="0 0 12 12" fill="none">
+        <path d="M11.6121 4.22554L8.01478 3.67806L6.40666 0.264102C6.36274 0.170629 6.29048 0.0949613 6.20122 0.0489671C5.97736 -0.0667603 5.70532 0.0296792 5.59339 0.264102L3.98528 3.67806L0.38791 4.22554C0.288731 4.24038 0.198053 4.28934 0.128627 4.36352C0.0446959 4.45386 -0.00155415 4.57539 3.98784e-05 4.70142C0.0016339 4.82745 0.0509416 4.94766 0.137128 5.03563L2.73987 7.69291L2.12496 11.4452C2.11054 11.5324 2.11976 11.6222 2.15159 11.7043C2.18341 11.7864 2.23655 11.8575 2.305 11.9095C2.37344 11.9616 2.45444 11.9925 2.53882 11.9988C2.6232 12.0051 2.70757 11.9865 2.78238 11.9452L6.00003 10.1736L9.21768 11.9452C9.30553 11.9941 9.40754 12.0104 9.5053 11.9926C9.75183 11.9481 9.9176 11.7033 9.8751 11.4452L9.26019 7.69291L11.8629 5.03563C11.9338 4.96293 11.9805 4.86798 11.9947 4.76412C12.033 4.50447 11.8601 4.26412 11.6121 4.22554Z" fill="#E90202"/>
+      </svg>
+
+    {%- when 'rating-star-empty' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" role="presentation" focusable="false" width="{{ width | default: 12 }}" height="{{ height | default: 12 }}" class="{{ class | strip }}" viewBox="0 0 12 12" fill="none">
+        <path d="M7.5625 3.8916L7.67578 4.13184L7.93945 4.17285L11.4805 4.71094L8.90332 7.34277L8.72559 7.52344L8.7666 7.77344L9.37012 11.458L6.24121 9.73535L6 9.60254L5.75879 9.73535L2.62891 11.458L3.2334 7.77344L3.27441 7.52344L3.09668 7.34277L0.518555 4.71094L4.06055 4.17285L4.32422 4.13184L4.4375 3.8916L6 0.574219L7.5625 3.8916Z" stroke="#E90202" fill="none"/>
+      </svg>
+
+    {%- when 'play-button' -%}
+      <svg role="presentation" fill="none" focusable="false" width="{{ width | default: 48 }}" height="{{ height | default: 48 }}" class="{{ class | strip }}" viewBox="0 0 48 48">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M24 48C10.745 48 0 37.255 0 24S10.745 0 24 0s24 10.745 24 24-10.745 24-24 24Zm-3-19.15a.3.3 0 0 0 .462.253l7.545-4.85a.3.3 0 0 0 0-.505l-7.545-4.85a.3.3 0 0 0-.462.252v9.7Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'play-video' -%}
+      <svg role="presentation" fill="none" focusable="false" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M5.77038 23.5048C5.43762 23.7187 5 23.4798 5 23.0842L5 0.915832C5 0.520249 5.43762 0.281329 5.77038 0.495243L23.0124 11.5794C23.3186 11.7762 23.3186 12.2238 23.0124 12.4206L5.77038 23.5048Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'play-model' -%}
+      <svg role="presentation" fill="none" focusable="false" width="{{ width | default: 32 }}" height="{{ height | default: 32 }}" class="{{ class | strip }}" viewBox="0 0 32 32">
+        <path d="M16 0L2 8.01016V24.0102L16 32L30 24.0102V8.01016L16 0ZM17.2746 14.3736L16 15.1868V28.4625L5.0837 22.2414V9.75858L16 3.53748L26.0117 9.25032L17.2746 14.3736Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'image-zoom' -%}
+      <svg role="presentation" fill="none" stroke-width="2" focusable="false" width="{{ width | default: 15 }}" height="{{ height | default: 15 }}" class="{{ class | strip }}" viewBox="0 0 15 15">
+        <circle cx="7.067" cy="7.067" r="6.067" stroke="currentColor"></circle>
+        <path d="M11.4 11.4 14 14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M7 4v6M4 7h6" stroke="currentColor"></path>
+      </svg>
+
+    {%- when 'email' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="1.5" width="{{ width | default: 18 }}" height="{{ height | default: 14 }}" class="{{ class | strip }}" viewBox="0 0 18 14">
+        <path clip-rule="evenodd" d="M1 2.5A1.5 1.5 0 0 1 2.5 1h13A1.5 1.5 0 0 1 17 2.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 1 11.5v-9Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="m16 2-5.61 4.506c-.82.659-1.96.659-2.78 0L2 2" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+
+    {%- when 'share' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="1.5" width="{{ width | default: 16 }}" height="{{ height | default: 18 }}" class="{{ class | strip }}" viewBox="0 0 16 18">
+        <path d="M5.50006 7L10.0166 4.29005M5.50006 10L10.0166 12.7099M10.0166 4.29005C10.1604 5.53412 11.2174 6.5 12.5 6.5C13.8807 6.5 15 5.38071 15 4C15 2.61929 13.8807 1.5 12.5 1.5C11.1193 1.5 10 2.61929 10 4C10 4.09811 10.0057 4.19489 10.0166 4.29005ZM10.0166 12.7099C10.0057 12.8051 10 12.9019 10 13C10 14.3807 11.1193 15.5 12.5 15.5C13.8807 15.5 15 14.3807 15 13C15 11.6193 13.8807 10.5 12.5 10.5C11.2174 10.5 10.1604 11.4659 10.0166 12.7099ZM6 8.5C6 9.88071 4.88071 11 3.5 11C2.11929 11 1 9.88071 1 8.5C1 7.11929 2.11929 6 3.5 6C4.88071 6 6 7.11929 6 8.5Z" stroke="currentColor" stroke-linejoin="round"></path>
+      </svg>
+
+    {%- when 'filter' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="2" width="{{ width | default: 20 }}" height="{{ height | default: 14 }}" class="{{ class | strip }}" viewBox="0 0 20 14">
+        <path d="M1 2C0.447715 2 0 2.44772 0 3C0 3.55228 0.447715 4 1 4V2ZM1 4H5V2H1V4Z" fill="currentColor"></path>
+        <path d="M1 10C0.447715 10 0 10.4477 0 11C0 11.5523 0.447715 12 1 12V10ZM1 12H11V10H1V12Z" fill="currentColor"></path>
+        <path d="M10 2H9V4H10V2ZM19 4C19.5523 4 20 3.55228 20 3C20 2.44772 19.5523 2 19 2V4ZM10 4H19V2H10V4Z" fill="currentColor"></path>
+        <path d="M16 10H15V12H16V10ZM19 12C19.5523 12 20 11.5523 20 11C20 10.4477 19.5523 10 19 10V12ZM16 12H19V10H16V12Z" fill="currentColor"></path>
+        <circle cx="7" cy="3" r="2" stroke="currentColor"></circle>
+        <circle cx="13" cy="11" r="2" stroke="currentColor"></circle>
+      </svg>
+
+    {%- when 'discount' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width | at_most: 1.5 }}" width="{{ width | default: 14 }}" height="{{ height | default: 13 }}" class="{{ class | strip }}" viewBox="0 0 14 13">
+        <path d="M7.25 11.383a1.74 1.74 0 0 0 2.195.105c.478-.35.957-.722 1.39-1.155.433-.433.804-.912 1.154-1.39.486-.662.45-1.588-.104-2.195a65.945 65.945 0 0 0-4.97-4.896 1.588 1.588 0 0 0-.75-.377c-1.017-.197-3.552-.613-4.177.012-.625.624-.208 3.16-.011 4.176.055.28.186.537.376.75a65.976 65.976 0 0 0 4.896 4.97Z" fill="none" stroke="currentColor"></path>
+        <path d="M5.729 5.227a1.036 1.036 0 1 0-1.466-1.466 1.036 1.036 0 0 0 1.466 1.466Z" fill="currentColor"></path>
+      </svg>
+
+    {%- when 'blog-author' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width | at_most: 1.5 }}" width="{{ width | default: 16 }}" height="{{ height | default: 16 }}" class="{{ class | strip }}" viewBox="0 0 16 16">
+        <path d="M12.233 13.753A7.111 7.111 0 0 1 8 15.143a7.111 7.111 0 0 1-4.233-1.39 4.379 4.379 0 0 1 8.466 0v0Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.05 13.05A7.143 7.143 0 1 1 2.95 2.95a7.143 7.143 0 0 1 10.1 10.102Zm-3.5-5.646A2.19 2.19 0 1 1 6.45 4.306a2.19 2.19 0 0 1 3.098 3.098Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+    {%- when 'blog-comment' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width | at_most: 1.5 }}" width="{{ width | default: 16 }}" height="{{ height | default: 16 }}" class="{{ class | strip }}" viewBox="0 0 16 16">
+        <path d="M4.602 1.881A6.961 6.961 0 1 1 5.6 14.318l-3.806.633a.57.57 0 0 1-.635-.745l.974-2.904a6.961 6.961 0 0 1 2.47-9.42Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5.5 6.286h5.572M5.5 9.714h4.214" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+    {%- when 'blog-date' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width | at_most: 1.5 }}" width="{{ width | default: 16 }}" height="{{ height | default: 16 }}" class="{{ class | strip }}" viewBox="0 0 16 16">
+        <path d="M5.372 1v2.877M10.455 1v2.877" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M14.338 7.632H1.497l.179-4.57 6.164-.448 6.497.448v4.57Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M1.224 12.073c.183 1.631 1.508 2.925 3.147 3.004a73.18 73.18 0 0 0 3.546.083c1.256 0 2.413-.028 3.546-.083 1.639-.079 2.964-1.374 3.146-3.004.124-1.099.225-2.224.225-3.37 0-1.147-.102-2.273-.225-3.371-.182-1.631-1.507-2.925-3.146-3.004a73.22 73.22 0 0 0-3.546-.083 73.22 73.22 0 0 0-3.546.083c-1.639.079-2.964 1.374-3.147 3.004C1.101 6.43 1 7.556 1 8.703c0 1.146.102 2.272.224 3.37ZM1.331 7.202h13.24" stroke="currentColor" />
+      </svg>
+
+    {%- comment -%} PICTO {%- endcomment -%}
+
+    {%- when 'picto-at-sign' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M16.994 12a4.946 4.946 0 1 1-9.89 0 4.946 4.946 0 0 1 9.891 0v0h-.001Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16.994 12v2.143c0 5.753 9.017.329 4.285-7.483a10.864 10.864 0 0 0-9.312-5.374 10.715 10.715 0 1 0 4.154 20.605" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-award-gift' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M21 4.911H9.696A1.714 1.714 0 0 0 7.98 6.626v6.392a1.714 1.714 0 0 0 1.715 1.715H21a1.714 1.714 0 0 0 1.714-1.715V6.624A1.714 1.714 0 0 0 21 4.91v.001Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M22.714 12.375V6.624A1.714 1.714 0 0 0 21 4.91H9.696A1.714 1.714 0 0 0 7.98 6.624v2.109" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m12.891 1.286 2.457 3.625 2.454-3.625M11.117 17.633l-.206-2.172a3.429 3.429 0 0 0-2.575-3l-1.6-.404a13.713 13.713 0 0 0-4.197-.39l-1.223.076v7.371l5.433 2.532a11.058 11.058 0 0 0 8.834.221l5.54-2.25a1.823 1.823 0 0 0-1.106-3.462l-7.378 1.752-5.852-1.056" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.348 4.911v8.695" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-beer' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M1.911 18.982a3.597 3.597 0 0 0 3.043 3.235c1.495.223 3.034.429 4.608.429 1.574 0 3.115-.206 4.612-.429a3.596 3.596 0 0 0 3.039-3.235c.188-2.211.384-4.505.384-6.855 0-2.853.03-5.623-.09-8.27a1.65 1.65 0 0 0-1.49-1.568 68.031 68.031 0 0 0-12.906 0 1.65 1.65 0 0 0-1.493 1.57c-.122 2.643-.092 5.415-.092 8.268 0 2.348.195 4.642.384 6.857l.001-.002Z" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M4.952 22.217a3.596 3.596 0 0 1-3.041-3.235c-.189-2.211-.384-4.505-.384-6.855v-1.481c-.005-.724-.005-1.442-.002-2.153a132.287 132.287 0 0 1 16.072 0v2.153l-.004 1.48c0 2.35-.193 4.643-.382 6.858a3.599 3.599 0 0 1-3.041 3.233c-1.495.223-3.034.429-4.61.429-1.572 0-3.113-.206-4.608-.429Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M17.585 7.205c1.018.052 2.018.146 2.99.233.819.072 1.491.707 1.61 1.52.145 1.005.29 2.043.29 3.107 0 1.063-.145 2.102-.29 3.105a1.794 1.794 0 0 1-1.612 1.522c-1.039.09-2.109.192-3.202.242" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M6.965 16.958v-5.386M12 16.958V11.57" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-bluetooth' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M4.073 16.121c5.07-1.462 11.532-5.894 14.386-7.971.803-.583.909-1.728.189-2.409a18.775 18.775 0 0 0-7.852-4.455c-.303 8.5-.3 13.193 0 21.428 2.942-.727 5.48-2.247 7.783-4.41.746-.698.626-1.883-.21-2.466-2.896-2.01-9.268-6.217-14.298-7.96" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-box'-%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M2.22 5.472a.742.742 0 0 0-.33.194.773.773 0 0 0-.175.48c-.47 4.515-.48 7.225 0 11.707a.792.792 0 0 0 .505.737l9.494 3.696.285.079.286-.08 9.494-3.694a.806.806 0 0 0 .505-.737c.5-4.537.506-7.153 0-11.648a.765.765 0 0 0-.175-.542.739.739 0 0 0-.33-.257v.002" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22.269 5.997a.771.771 0 0 0-.16-.335.744.744 0 0 0-.33-.257l-9.494-3.629a.706.706 0 0 0-.571 0L6.967 3.623 2.22 5.47a.742.742 0 0 0-.33.192.771.771 0 0 0-.16.336.806.806 0 0 0 .49.592l9.494 3.696h.57l5.216-2.03L21.78 6.59a.794.794 0 0 0 .492-.593h-.002Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="m17.5 8.255-5.215 2.03h-.571L2.22 6.59a.806.806 0 0 1-.49-.592.771.771 0 0 1 .16-.336.742.742 0 0 1 .33-.192l4.747-1.847M17.5 8.255 21.78 6.59a.794.794 0 0 0 .492-.593h-.002a.771.771 0 0 0-.16-.335.744.744 0 0 0-.33-.257l-9.494-3.629a.706.706 0 0 0-.571 0L6.967 3.623M17.5 8.255 6.967 3.623M12 22.365v-12.08M15.5 17l4-1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-building' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M2.571 6.224c-1.184 2.964-1.176 11.157-.967 15.172.047.88.78 1.543 1.661 1.543h10.612a1.64 1.64 0 0 0 1.661-1.543c.21-4.013.218-12.208-.967-15.172a20.82 20.82 0 0 0-4.525-4.272 2.628 2.628 0 0 0-2.95 0 20.82 20.82 0 0 0-4.525 4.272Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15.427 10.939h3.87c1.365 0 2.538.665 2.791 2.005.39 2.058.643 5.544.197 9.995h-8.408a1.64 1.64 0 0 0 1.661-1.543c.134-2.589.187-6.916-.111-10.457Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7.714 13.939h1.714M8.571 22.944v-3.862M7.714 8.796h1.714" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-burger' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 1.514c-7.087 0-9.046 2.563-9.356 7.69-.057.945.72 1.714 1.666 1.714h15.38c.947 0 1.723-.77 1.667-1.714-.309-5.126-2.27-7.69-9.357-7.69ZM4.948 22.486c-1.88 0-2.352-2.09-2.352-3.133v-1.098a1.714 1.714 0 0 1 1.714-1.714h4.555c3.919 0 4.964 2.22 5.486 2.743l3.135-2.743h2.205a1.714 1.714 0 0 1 1.714 1.715v1.097c0 2.508-1.569 3.133-2.352 3.133H4.948Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.31 10.917h15.38c1.828 0 3.024.651 3.024 2.797 0 2.138-1.177 2.825-3.024 2.825h-2.204l-3.136 2.743a3.78 3.78 0 0 1-.272-.329c-.62-.799-1.872-2.414-5.212-2.414H4.308c-1.845 0-3.022-.685-3.022-2.825 0-2.177 1.183-2.797 3.024-2.797Z" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-camera' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M8.049 2.393h7.902l1.963 3.554 1.157.098a3.588 3.588 0 0 1 3.23 3.034c.218 1.474.413 2.993.413 4.546 0 1.55-.195 3.069-.413 4.543a3.588 3.588 0 0 1-3.23 3.034c-2.352.203-4.709.405-7.071.405s-4.72-.202-7.072-.405a3.59 3.59 0 0 1-3.23-3.034c-.217-1.474-.412-2.993-.412-4.545 0-1.551.195-3.07.413-4.544a3.588 3.588 0 0 1 3.23-3.034l1.157-.098 1.963-3.554Zm5.427 14.288a3.856 3.856 0 0 1-5.333-3.563 3.857 3.857 0 1 1 5.333 3.563Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-chat' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M19.292 9.603a6.734 6.734 0 0 0-8.765 1.597 6.805 6.805 0 0 0 .02 8.48 6.73 6.73 0 0 0 7.777 2.058l3.55.594a.644.644 0 0 0 .717-.837l-.9-2.701a6.82 6.82 0 0 0-2.4-9.19h.001Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12.165 1.635A8.978 8.978 0 0 0 5.921 2.78v-.002a9.09 9.09 0 0 0-3.199 12.257l-1.2 3.6a.857.857 0 0 0 .955 1.118l4.733-.794a8.975 8.975 0 0 0 3.277.647 6.807 6.807 0 0 1-1.265-5.673 6.806 6.806 0 0 1 1.305-2.732 6.734 6.734 0 0 1 8.765-1.597h-.002c.083.05.164.102.244.155a9.077 9.077 0 0 0-1.929-4.85 8.978 8.978 0 0 0-5.44-3.273Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-coffee' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M2 22h20" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M15.857 7H5.143C3.959 7 3 7.895 3 9v4c0 3.314 2.878 6 6.429 6h2.142C15.121 19 18 16.314 18 13V9c0-1.105-.96-2-2.143-2Z" stroke="currentColor"/>
+        <path d="M15.857 7H5.143C3.959 7 3 7.895 3 9v4c0 3.314 2.878 6 6.429 6h2.142C15.121 19 18 16.314 18 13V9c0-1.105-.96-2-2.143-2Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M18 15a3 3 0 1 0 0-6M6 2v2M10.5 1v2M15 2v2" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-comment' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M6.903 2.822A10.442 10.442 0 1 1 8.4 21.477l-5.709.95a.857.857 0 0 1-.953-1.118l1.46-4.356A10.442 10.442 0 0 1 6.904 2.822v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.251 9.429h8.357M8.251 14.571h6.32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-coupon' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.89 21.975c-1.325.974-3.176.9-4.391-.209a131.923 131.923 0 0 1-9.792-9.94 3.17 3.17 0 0 1-.753-1.5C1.56 8.293.727 3.222 1.976 1.972c1.25-1.25 6.32-.416 8.352-.022.56.111 1.078.371 1.502.752a131.922 131.922 0 0 1 9.94 9.792c1.109 1.214 1.18 3.067.209 4.392-.701.955-1.442 1.914-2.31 2.78-.865.865-1.823 1.607-2.778 2.308ZM9.458 6.523a2.073 2.073 0 1 1-2.93 2.931 2.073 2.073 0 0 1 2.93-2.931Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-credit-card' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M1.714 16.882c0 1.36 1.063 2.48 2.4 2.71 1.773.307 3.456.714 7.886.714s6.113-.407 7.886-.713c1.337-.232 2.4-1.351 2.4-2.709V6.708c0-1.183-.806-2.203-1.975-2.39A53.325 53.325 0 0 0 12 3.694c-4.43 0-6.114.407-7.887.713-1.337.232-2.4 1.351-2.4 2.709v9.766Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22.286 9.588H1.714V7.02c0-1.305 1.02-2.378 2.306-2.597.235-.04.466-.08.703-.124 1.584-.288 3.351-.605 7.277-.605 3.69 0 6.617.352 8.39.638 1.12.182 1.896 1.162 1.896 2.297v2.959Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14.666 15.804h3.485" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-customer-support' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M1.714 14.143c0-3.919 2.613-4.898 3.92-4.898 2.35 0 2.938 1.96 2.938 2.938v3.92c0 2.35-1.96 2.938-2.939 2.938-1.306 0-3.919-.98-3.919-4.898ZM22.286 14.143c0-3.919-2.613-4.898-3.92-4.898-2.35 0-2.937 1.96-2.937 2.938v3.92c0 2.35 1.96 2.938 2.938 2.938 1.306 0 3.919-.98 3.919-4.898Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M1.714 14.143c0-3.919 2.613-4.898 3.92-4.898 2.35 0 2.938 1.96 2.938 2.938v3.92c0 2.35-1.96 2.938-2.939 2.938-1.306 0-3.919-.98-3.919-4.898ZM22.286 14.143c0-3.919-2.613-4.898-3.92-4.898-2.35 0-2.937 1.96-2.937 2.938v3.92c0 2.35 1.96 2.938 2.938 2.938 1.306 0 3.919-.98 3.919-4.898Z" stroke="currentColor"/>
+        <path d="M2.38 11.263C2.524 6.537 4.929 1.286 12 1.286c7.06 0 9.468 5.232 9.617 9.951m.106 5.666s.134 3.079-1.447 4.42c-1.58 1.336-5.57 1.31-5.57 1.31" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-document' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M7.163 4.068a2.544 2.544 0 0 0 2.533 2.307h4.608a2.544 2.544 0 0 0 2.533-2.307l.787.1c.333.042.664.084.993.124a1.731 1.731 0 0 1 1.53 1.584c.352 4.914.352 9.846 0 14.759a1.677 1.677 0 0 1-1.533 1.555c-4.538.38-8.69.38-13.227 0a1.676 1.676 0 0 1-1.533-1.555 103.014 103.014 0 0 1 0-14.759 1.731 1.731 0 0 1 1.53-1.584c.328-.04.66-.082.993-.125l.786-.1Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M7.163 4.068a2.544 2.544 0 0 0 2.533 2.307h4.608a2.544 2.544 0 0 0 2.533-2.307l.787.1c.333.042.664.084.993.124a1.731 1.731 0 0 1 1.53 1.584c.352 4.914.352 9.846 0 14.759a1.677 1.677 0 0 1-1.533 1.555c-4.538.38-8.69.38-13.227 0a1.676 1.676 0 0 1-1.533-1.555 103.014 103.014 0 0 1 0-14.759 1.731 1.731 0 0 1 1.53-1.584c.328-.04.66-.082.993-.125l.786-.1Z" stroke="currentColor"/>
+        <path d="M14.304 1.286H9.696A2.544 2.544 0 0 0 7.152 3.83v.001a2.544 2.544 0 0 0 2.544 2.544h4.608a2.544 2.544 0 0 0 2.544-2.544V3.83a2.544 2.544 0 0 0-2.544-2.544Z" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M9 11h6M9 16h4" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+
+    {%- when 'picto-earth' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 22.621c5.866 0 10.621-4.755 10.621-10.621 0-5.866-4.755-10.621-10.621-10.621C6.134 1.379 1.379 6.134 1.379 12c0 5.866 4.755 10.621 10.621 10.621Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5.055 16.085a2.86 2.86 0 0 0 2.86-2.86v-2.45a2.86 2.86 0 0 1 2.86-2.86 2.86 2.86 0 0 0 2.859-2.86V1.504A10.702 10.702 0 0 0 12 1.379C6.134 1.379 1.379 6.134 1.379 12c0 1.448.29 2.828.814 4.085h2.862ZM22.62 11.836a5.817 5.817 0 0 0-2.646-.653h-3.48a2.86 2.86 0 0 0 0 5.719 2.042 2.042 0 0 1 2.042 2.043v1.421h.008a10.602 10.602 0 0 0 4.077-8.303v-.126l-.001-.1Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-envelope' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M1.77 18.063a3.586 3.586 0 0 0 3.174 3.11c2.278.24 4.637.49 7.056.49 2.417 0 4.778-.252 7.056-.49a3.584 3.584 0 0 0 3.175-3.11c.243-1.96.483-3.987.483-6.063 0-2.074-.24-4.102-.483-6.063a3.586 3.586 0 0 0-3.175-3.112c-2.278-.236-4.639-.487-7.056-.487s-4.778.252-7.056.49a3.583 3.583 0 0 0-3.175 3.11c-.243 1.96-.483 3.988-.483 6.062 0 2.074.24 4.102.483 6.063Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="m1.817 5.493 8.06 6.356a3.428 3.428 0 0 0 4.245 0l8.06-6.356" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-file' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M21.212 19.001c.206-3.291.266-6.59.18-9.886a3.274 3.274 0 0 0-.629-1.857c-1.508-2.053-2.708-3.33-4.688-4.858a3.22 3.22 0 0 0-1.898-.663A99.44 99.44 0 0 0 12 1.714c-2.326 0-4.204.069-6.144.204a3.297 3.297 0 0 0-3.069 3.08C2.642 7.33 2.57 9.666 2.571 12c0 2.4.074 4.742.216 7.001a3.295 3.295 0 0 0 3.069 3.08c1.94.136 3.818.205 6.144.205s4.203-.069 6.144-.204a3.296 3.296 0 0 0 3.068-3.08Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M21.212 19.001c.206-3.291.266-6.59.18-9.886a3.274 3.274 0 0 0-.629-1.857c-1.508-2.053-2.708-3.33-4.688-4.858a3.22 3.22 0 0 0-1.898-.663A99.44 99.44 0 0 0 12 1.714c-2.326 0-4.204.069-6.144.204a3.297 3.297 0 0 0-3.069 3.08C2.642 7.33 2.57 9.666 2.571 12c0 2.4.074 4.742.216 7.001a3.295 3.295 0 0 0 3.069 3.08c1.94.136 3.818.205 6.144.205s4.203-.069 6.144-.204a3.296 3.296 0 0 0 3.068-3.08Z" stroke="currentColor"/>
+        <path d="M9 7h5M9 17h6M9 12h6" stroke="currentColor" stroke-linecap="round" />
+      </svg>
+  
+    {%- when 'picto-gift' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M7.045 22.183c1.65.11 3.302.162 4.955.154a70.18 70.18 0 0 0 4.954-.156 4.44 4.44 0 0 0 4.097-4.099c.086-1.066.137-2.151.137-3.262 0-1.11-.051-2.194-.137-3.26a4.44 4.44 0 0 0-4.097-4.1A68.838 68.838 0 0 0 12 7.306c-1.848 0-3.482.051-4.955.157a4.44 4.44 0 0 0-4.097 4.097 40.693 40.693 0 0 0-.137 3.263c0 1.11.052 2.196.137 3.262a4.44 4.44 0 0 0 4.097 4.099ZM2.811 13.152h18.377ZM12 22.339V7.305Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M12 7.305a68.838 68.838 0 0 1 4.954.156 4.44 4.44 0 0 1 4.097 4.098c.086 1.067.137 2.152.137 3.261 0 1.11-.051 2.196-.137 3.262a4.44 4.44 0 0 1-4.097 4.1 70.18 70.18 0 0 1-4.954.155 68.867 68.867 0 0 1-4.955-.154 4.442 4.442 0 0 1-4.097-4.099 40.624 40.624 0 0 1-.137-3.262c0-1.11.052-2.195.137-3.263a4.44 4.44 0 0 1 4.097-4.097A69.102 69.102 0 0 1 12 7.305Zm0 0v15.034M2.81 13.152h18.377" stroke="currentColor"/>
+        <path d="m17.143 7.474 1.025-.497A2.73 2.73 0 0 0 19.4 3.235c-.999-1.872-3.672-1.961-4.793-.158L12 7.274 9.392 3.077C8.272 1.274 5.6 1.363 4.6 3.235A2.73 2.73 0 0 0 5.83 6.977l1.027.497" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-happy' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 22.714a10.714 10.714 0 1 0 0-21.429 10.714 10.714 0 0 0 0 21.43v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M6.56 13.647c.823 2.968 4.122 4.782 7.09 3.957 1.811-.66 3.296-2.143 3.79-3.957M16.368 9.528a.412.412 0 1 1 0-.825M16.368 9.528a.412.412 0 0 0 0-.825M7.632 9.528a.412.412 0 1 1 0-.825M7.632 9.528a.412.412 0 1 0 0-.825" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-jewelry' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M5.157 3.74C3.83 4.835 2.009 7.19 1.286 9.43c1.056 2.112 5.208 7.782 9.619 11.88a1.607 1.607 0 0 0 2.19 0c4.411-4.098 8.563-9.768 9.62-11.88-.724-2.24-2.545-4.595-3.872-5.688a1.457 1.457 0 0 0-.934-.312H6.091a1.457 1.457 0 0 0-.934.312v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1.3 9.429h21.409M6 3.429l6 6 6-6M12 9.429v12.836" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-leaf' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M19.416 7.464c4.108 4.106 3.535 8.784 0 12.319-3.147 3.147-8.643 2.928-13.14-.821C.923 14.502.526 6.232 3.811 1.714 6.276 5 15.311 3.357 19.416 7.464Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.382 10.313c5.028 2.532 9.22 5.91 9.22 9.285" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-like' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M7.05 19.41H6V9.6h1.05l4.17-7.234a2.16 2.16 0 0 1 4.008 1.376l-.4 2.875h3.412c1.491 0 4.476 1.492 4.476 4.474 0 2.983-3 9.81-6.173 9.81-4.178 0-7.75-.995-9.49-1.492l-.002.002Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1.286 9.214a2.357 2.357 0 1 1 4.714 0v9.857a2.357 2.357 0 1 1-4.714 0V9.214Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-lock' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M3.236 18.182a5.071 5.071 0 0 0 4.831 4.465 114.098 114.098 0 0 0 7.865-.001 5.07 5.07 0 0 0 4.831-4.464 23.03 23.03 0 0 0 .165-2.611c0-.881-.067-1.752-.165-2.61a5.07 5.07 0 0 0-4.83-4.465c-1.311-.046-2.622-.07-3.933-.069a109.9 109.9 0 0 0-3.933.069 5.07 5.07 0 0 0-4.83 4.466 23.158 23.158 0 0 0-.165 2.609c0 .883.067 1.754.164 2.61Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor"/>
+        <path d="M17 8.43V6.285A5 5 0 0 0 7 6.286V8.43" stroke="currentColor"  stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 17.714a2.143 2.143 0 1 0 0-4.286 2.143 2.143 0 0 0 0 4.286Z" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-love' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 5.457C6.823-.895 1.358 3.619 1.286 8.484c0 7.24 8.665 13.185 10.714 13.185 2.049 0 10.714-5.946 10.714-13.187C22.642 3.617 17.177-.895 12 5.457Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-mailbox' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M9.015 6.435c-7.3 0-7.754 6.432-7.73 10.274a1.734 1.734 0 0 0 1.737 1.713H21a1.714 1.714 0 0 0 1.714-1.715V9.864a3.429 3.429 0 0 0-3.428-3.429H9.015h0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round"/>
+        <path d="M15.864 14.141V3.012a1.714 1.714 0 0 0-1.715-1.714h-2.566M12.44 18.422v4.28" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-mask' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M5.648 17.143V7.714h12.703v9.429c-1.143.857-3.78 2.571-6.351 2.571-2.572 0-5.208-1.714-6.352-2.571Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m18.352 17.143 2.986-2.988c2.49-2.49.523-6.734-2.986-6.44M5.649 17.142l-2.987-2.988c-2.49-2.49-.522-6.732 2.987-6.44v9.428ZM11.143 12h1.714" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-mobile-phone' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.243 22.147c-1.642-.129-2.914-1.47-3.055-3.112h-.002c-.195-2.27-.397-4.623-.397-7.035 0-2.393.2-4.727.394-6.982l.005-.053c.14-1.643 1.413-2.982 3.055-3.112a59.415 59.415 0 0 1 9.514 0c1.642.129 2.914 1.47 3.055 3.112.195 2.27.398 4.623.398 7.035s-.203 4.764-.398 7.035c-.14 1.643-1.413 2.983-3.055 3.112-3.24.254-6.274.254-9.514 0Zm1.31-16.97c.065.82.689 1.492 1.508 1.557 1.317.104 2.561.104 3.878 0 .82-.065 1.443-.74 1.508-1.557.083-1.058.19-2.254.294-3.394a58.915 58.915 0 0 0-7.481 0c.104 1.14.21 2.336.293 3.394Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor"/>
+        <path d="M10.062 6.734c-.82-.065-1.444-.737-1.51-1.557a255.856 255.856 0 0 0-.292-3.394 58.914 58.914 0 0 1 7.48 0c-.104 1.14-.21 2.336-.292 3.394-.065.818-.69 1.492-1.509 1.557a24.005 24.005 0 0 1-3.877 0Z" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-money' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M2.139 17.035c.193.872.977 1.465 1.87 1.465H19.99c.893 0 1.677-.593 1.87-1.465.286-1.296.639-3.254.639-5.035 0-1.781-.353-3.739-.639-5.035-.193-.872-.977-1.465-1.87-1.465H4.01c-.893 0-1.677.593-1.87 1.465C1.853 8.26 1.5 10.219 1.5 12c0 1.781.353 3.739.639 5.035ZM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path clip-rule="evenodd" d="M2.139 17.035c.193.872.977 1.465 1.87 1.465H19.99c.893 0 1.677-.593 1.87-1.465.286-1.296.639-3.254.639-5.035 0-1.781-.353-3.739-.639-5.035-.193-.872-.977-1.465-1.87-1.465H4.01c-.893 0-1.677.593-1.87 1.465C1.853 8.26 1.5 10.219 1.5 12c0 1.781.353 3.739.639 5.035ZM12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" stroke="currentColor"/>
+        <path d="M5.5 9h1M17.5 15h1" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-music' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <circle cx="4.5" cy="19.5" r="3.5" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <circle cx="19.5" cy="17.5" r="3.5" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <circle cx="4.5" cy="19.5" r="3.5" stroke="currentColor"/>
+        <circle cx="19.5" cy="17.5" r="3.5" stroke="currentColor"/>
+        <path d="m8 10 15-3M8 19V6.46a3 3 0 0 1 2.412-2.942l9-1.8A3 3 0 0 1 23 4.659V18" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-operator' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M21.919 14.589a1.38 1.38 0 0 0 .492-.432c.883-1.26-2.716-4.315-2.971-6.151-.69-4.967-4.59-6.72-8.932-6.72-5.85 0-9.222 3-9.222 9 0 4.104 1.071 5.479 2.367 7.575.711 1.149 1.012 2.493 1.008 3.844-.002.76-.003 1.522-.003 2.283h10.316V21c.095-.765.777-1.277 1.546-1.277h.846a2.572 2.572 0 0 0 2.571-2.572v-2.374l1.346-.034c.22 0 .439-.052.634-.154h.002Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M4.658 22.714v-.997c.005-1.358-.295-2.709-1.012-3.864-1.29-2.092-2.36-3.47-2.36-7.567 0-3.808 1.357-6.408 3.847-7.8M11.146 8.578V1.286M11.146 15.429c2.195 0 3.429-1.235 3.429-3.429s-1.234-3.429-3.429-3.429c-2.194 0-3.428 1.235-3.428 3.429s1.234 3.429 3.428 3.429v0Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 15.369c1.714 1.714 5.143 3.488 9.429 3.488" stroke="currentColor" stroke-linecap="round"/>
+        <path d="m19.937 14.777 1.346-.034a1.378 1.378 0 0 0 1.128-.586c.883-1.26-2.716-4.315-2.971-6.151-.403-2.89-1.891-4.692-3.922-5.695M14.974 22.714v-.857" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+    {%- when 'picto-percent' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 22.714c6.857 0 10.714-3.857 10.714-10.714S18.857 1.286 12 1.286 1.286 5.143 1.286 12 5.143 22.714 12 22.714Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m7.714 16.286 8.571-8.572" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.571 9.429a.857.857 0 1 0 0-1.715.857.857 0 0 0 0 1.715v0ZM15.428 16.286a.857.857 0 1 0 0-1.715.857.857 0 0 0 0 1.715Z" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-phone' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M7.102 7.137a2.628 2.628 0 0 0-3.895.421c-.14.192-.312.415-.531.691a4.843 4.843 0 0 0 .007 6.028c1.039 1.287 2.127 2.586 3.343 3.804 1.217 1.217 2.516 2.305 3.805 3.342 1.742 1.406 4.276 1.406 6.026.009.31-.249.554-.432.76-.583 1.237-.903 1.448-2.599.445-3.758a44.912 44.912 0 0 0-1.42-1.542c-.657-.695-1.789-.772-2.512-.144-.125.11-.287.257-.511.464-2-1.188-3.214-2.417-4.382-4.382.213-.226.36-.39.472-.517a1.827 1.827 0 0 0-.148-2.503c-.48-.448-.963-.897-1.459-1.33Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M17.297 10.644a4.354 4.354 0 0 0-1.508-2.517 4.354 4.354 0 0 0-2.875-.994M22.59 9.77a9.824 9.824 0 0 0-3.405-5.678 9.828 9.828 0 0 0-6.494-2.246" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+  
+    {%- when 'picto-pin' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.223 9.51c0 5.526-5.047 10.497-7.233 12.392a1.5 1.5 0 0 1-1.98 0C8.823 20.007 3.776 15.035 3.776 9.51a8.224 8.224 0 0 1 16.447 0Zm-4.855-.484a3.368 3.368 0 1 1-6.736 0 3.368 3.368 0 0 1 6.736 0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-plane' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M16.752 2.823c1.35-1.395 3.549-1.77 4.922-.397 1.375 1.371.998 3.57-.391 4.928-.789.773-1.648 1.595-2.534 2.431a105.028 105.028 0 0 1 3.175 5.606c.578 1.094.429 2.511-.34 3.437-.879 1.06-2.288 1.143-3.226.175a142.461 142.461 0 0 1-3.985-4.272 4.785 4.785 0 0 1-.403-.523 569.42 569.42 0 0 1-3.725 3.36c.176 1.089.319 2.208.42 3.077a1.792 1.792 0 0 1-1.38 1.944 1.791 1.791 0 0 1-2.104-1.12 66.947 66.947 0 0 1-1.12-3.308 66.89 66.89 0 0 1-3.308-1.12 1.79 1.79 0 0 1-1.12-2.104 1.791 1.791 0 0 1 1.947-1.379c.862.101 1.973.242 3.056.417.94-1.077 2.136-2.44 3.446-3.909a142.79 142.79 0 0 1-4.886-3.504c-1.08-.805-1.176-2.215-.236-3.22.82-.88 2.208-1.208 3.365-.772 1.642.617 4.057 1.563 6.241 2.563.751-.808 1.488-1.586 2.186-2.31Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-printer' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M4.5 18.643H3a1.715 1.715 0 0 1-1.714-1.714V13.5c0-2.571.857-5.143 4.285-5.143h12.857c3.43 0 4.286 2.572 4.286 5.143v3.429A1.714 1.714 0 0 1 21 18.643h-1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M5.143 3.214v5.143h13.714V3.214A1.714 1.714 0 0 0 17.143 1.5H6.857a1.714 1.714 0 0 0-1.714 1.714v0ZM18 16.5c1.004.64 1.467 2.496 1.635 4.287.088.943-.689 1.713-1.635 1.713H6c-.946 0-1.725-.77-1.636-1.713.168-1.791.631-3.648 1.636-4.287h12Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-question' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M4.695 18.082c-1.532-.144-2.82-1.265-3.032-2.787A38.961 38.961 0 0 1 1.68 4.323c.206-1.422 1.368-2.497 2.798-2.646A72.209 72.209 0 0 1 12 1.286c2.573 0 5.054.145 7.47.394a3.178 3.178 0 0 1 2.845 2.695c.263 1.834.397 3.685.4 5.539 0 1.879-.16 3.704-.41 5.479a3.233 3.233 0 0 1-2.89 2.751c-2.525.264-5.06.397-7.598.398-1.799 2.067-3.177 3.09-5.586 4.172v-4.491l-1.165-.106-.37-.035v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.995 10.987c0-.619.504-1 1.392-1.594.823-.549 1.258-1.264 1.063-2.236a2.55 2.55 0 0 0-1.967-1.968A2.53 2.53 0 0 0 9.49 7.646" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M11.993 14.55a.214.214 0 0 1 0-.428M11.993 14.55a.214.214 0 0 0 0-.428" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-recycle' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M14.097 4.087c.466-1.317.985-2.602.985-2.602 1.536 1.093 2.908 2.708 3.42 5.005a1.41 1.41 0 0 1-.337 1.26c-1.595 1.732-3.588 2.445-5.464 2.623 0 0 .206-1.466.472-2.88l-1.514-.406a5.143 5.143 0 0 0-4.131.656l-.072.045.894-1.447a5.143 5.143 0 0 1 5.707-2.266l.04.012ZM4.248 16.149c-1.39-.112-2.769-.283-2.769-.283.66-1.766 1.864-3.508 3.948-4.598a1.41 1.41 0 0 1 1.307 0c2.086 1.09 3.29 2.832 3.948 4.598 0 0-1.468.181-2.904.291v1.565a5.143 5.143 0 0 0 1.702 3.823l.063.057-1.63-.489a5.143 5.143 0 0 1-3.665-4.925v-.043.004ZM20.357 18.679a71.67 71.67 0 0 1 1.522 2.33c-1.786.596-3.898.756-6.058-.18A1.41 1.41 0 0 1 15 19.814c-.463-2.308.135-4.34 1.094-5.963 0 0 1.064 1.029 2.052 2.076l1.217-.984a5.143 5.143 0 0 0 1.903-3.728l.005-.084.644 1.575a5.143 5.143 0 0 1-1.525 5.949l-.035.024h.002Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-return' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M2.04 17.208a5.362 5.362 0 0 0 4.721 4.731c1.706.189 3.456.347 5.24.347 1.782 0 3.532-.158 5.238-.347a5.362 5.362 0 0 0 4.72-4.731c.18-1.697.327-3.435.327-5.208 0-1.773-.148-3.513-.326-5.208a5.362 5.362 0 0 0-4.721-4.731c-1.706-.189-3.456-.347-5.239-.347s-3.533.158-5.239.347a5.362 5.362 0 0 0-4.72 4.731c-.18 1.697-.327 3.435-.327 5.208 0 1.773.148 3.513.326 5.208Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor"/>
+        <path d="M6.857 13.977h5.907a3.429 3.429 0 0 0 3.429-3.429V7.293M10.2 10.635c-1.468 1.2-2.2 1.934-3.343 3.343C8 15.384 8.732 16.118 10.2 17.32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-secure-profile' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M4.912 1.611c-.888.906-3.546 3.623-3.546 9.96l-.001-.001c0 7.243 7.196 9.913 10.743 10.819 3.544-.906 10.526-3.576 10.526-10.818 0-6.337-2.659-9.054-3.545-9.96H4.912Zm8.457 11.459a3.578 3.578 0 1 1-2.738-6.61 3.578 3.578 0 0 1 2.738 6.61Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M17.975 19.877c-2.023 1.354-4.286 2.109-5.868 2.512-1.601-.41-3.95-1.18-6.043-2.57a7.15 7.15 0 0 1 11.91.056v.002Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path clip-rule="evenodd" d="M4.912 1.611c-.888.906-3.546 3.623-3.546 9.96l-.001-.001c0 7.243 7.196 9.913 10.743 10.819 3.544-.906 10.526-3.576 10.526-10.818 0-6.337-2.659-9.054-3.545-9.96H4.912Zm8.457 11.459a3.578 3.578 0 1 1-2.738-6.61 3.578 3.578 0 0 1 2.738 6.61Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17.975 19.877c-2.023 1.354-4.286 2.109-5.868 2.512-1.601-.41-3.95-1.18-6.043-2.57a7.15 7.15 0 0 1 11.91.056v.002Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-send' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M21.394 2.206c-1.128-1.126-3.296-1.36-11.5 2.01-5.716 2.35-9.018 3.738-8.44 7.316.254 1.572 1.87 3.984 3.689 5.925v3.524c0 1.49 1.766 2.27 2.868 1.269L9.4 20.986c.985.61 1.92 1.04 2.667 1.16 3.578.579 4.968-2.727 7.317-8.442 3.368-8.205 3.135-10.371 2.009-11.498h.001Z" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M21.549 2.376 4.684 16.951c-1.626-1.84-2.997-3.98-3.23-5.417-.578-3.58 2.726-4.972 8.443-7.319C18.099.847 20.268 1.08 21.393 2.206c.055.053.106.11.156.17Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-shield' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M1.366 11.571c0-6.337 2.658-9.054 3.546-9.96h14.177c.886.906 3.545 3.623 3.545 9.96 0 7.242-6.982 9.912-10.526 10.818-3.547-.906-10.743-3.576-10.743-10.82l.001.002Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m12 22.361.106.028c3.545-.906 10.528-3.576 10.528-10.82 0-6.335-2.657-9.05-3.544-9.958H12v20.75Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-smart-watch' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M6.468 15.943a1.79 1.79 0 0 0 1.57 1.574c1.278.147 2.603.308 3.962.308 1.36 0 2.685-.161 3.96-.308a1.79 1.79 0 0 0 1.572-1.572c.142-1.273.295-2.593.295-3.945 0-1.354-.153-2.674-.295-3.943a1.792 1.792 0 0 0-1.57-1.574c-1.277-.147-2.602-.308-3.962-.308-1.36 0-2.684.161-3.96.308a1.79 1.79 0 0 0-1.572 1.572c-.142 1.272-.295 2.59-.295 3.945 0 1.354.153 2.674.295 3.943Z" stroke="currentColor"/>
+        <path d="M9.68 22.368a1.785 1.785 0 0 1-1.407-1.654l-.001-.214c-.036-.884-.075-1.914-.111-2.97l.058.007c1.222.142 2.486.288 3.781.288 1.297 0 2.563-.147 3.784-.288l.062-.007c-.038 1.143-.08 2.258-.117 3.184a1.79 1.79 0 0 1-1.406 1.654c-.752.166-1.529.32-2.323.32-.793 0-1.57-.154-2.32-.32ZM15.845 6.47c-.038-1.143-.08-2.258-.118-3.184a1.785 1.785 0 0 0-1.405-1.652c-.75-.167-1.526-.323-2.322-.323-.793 0-1.57.155-2.323.323a1.786 1.786 0 0 0-1.405 1.652c-.037.926-.079 2.04-.116 3.184l.06-.007c1.222-.142 2.487-.288 3.784-.288 1.296 0 2.56.146 3.781.287l.064.008Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M9.68 22.368a1.785 1.785 0 0 1-1.407-1.654l-.001-.214c-.036-.884-.075-1.914-.111-2.97l.058.007c1.222.142 2.486.288 3.781.288 1.297 0 2.563-.147 3.784-.288l.062-.007c-.038 1.143-.08 2.258-.117 3.184a1.79 1.79 0 0 1-1.406 1.654c-.752.166-1.529.32-2.323.32-.793 0-1.57-.154-2.32-.32ZM15.845 6.47c-.038-1.143-.08-2.258-.118-3.184a1.785 1.785 0 0 0-1.405-1.652c-.75-.167-1.526-.323-2.322-.323-.793 0-1.57.155-2.323.323a1.786 1.786 0 0 0-1.405 1.652c-.037.926-.079 2.04-.116 3.184l.06-.007c1.222-.142 2.487-.288 3.784-.288 1.296 0 2.56.146 3.781.287l.064.008Z" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-star' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M11.206 1.934a.857.857 0 0 1 1.588 0l2.468 6.019 6.647.582a.857.857 0 0 1 .47 1.516l-4.535 3.723a.857.857 0 0 0-.291.844l1.416 6.565a.857.857 0 0 1-1.314.892L12 18.295l-5.655 3.78a.857.857 0 0 1-1.314-.892l1.418-6.565a.857.857 0 0 0-.295-.844l-4.532-3.723a.857.857 0 0 1 .47-1.516l6.647-.582 2.469-6.02h-.002Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+      </svg>
+
+    {%- when 'picto-stop' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M11.715 21.43c5.365 0 9.715-4.35 9.715-9.715S17.08 2 11.715 2 2 6.35 2 11.715s4.35 9.715 9.715 9.715Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M21.43 11.715c0 5.365-4.35 9.715-9.715 9.715a9.686 9.686 0 0 1-6.953-2.93A9.683 9.683 0 0 1 2 11.715C2 6.35 6.35 2 11.715 2A9.683 9.683 0 0 1 18.5 4.762a9.686 9.686 0 0 1 2.93 6.953Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}"/>
+        <path d="M18.5 4.762A9.683 9.683 0 0 0 11.715 2C6.35 2 2 6.35 2 11.715A9.683 9.683 0 0 0 4.762 18.5M18.5 4.762a9.686 9.686 0 0 1 2.93 6.953c0 5.365-4.35 9.715-9.715 9.715a9.686 9.686 0 0 1-6.953-2.93M18.5 4.762 4.762 18.5" stroke="currentColor"/>
+      </svg>
+  
+    {%- when 'picto-target' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M22.269 12.009c0 6.577-3.703 10.277-10.28 10.277-6.575 0-10.275-3.7-10.275-10.277 0-6.575 3.7-10.276 10.277-10.276" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10.346 6.837c-2.385.541-3.7 2.345-3.7 5.172 0 3.42 1.926 5.343 5.346 5.343 2.964 0 4.805-1.445 5.242-4.06M11.992 12.009l3.56-3.563" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m15.55 8.451-.212-.692a3.428 3.428 0 0 1 .852-3.436l2.607-2.609.823 2.666 2.666.823-2.61 2.609a3.429 3.429 0 0 1-3.433.852l-.692-.214v.001Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-timer' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 22.488A8.874 8.874 0 1 0 12 4.74a8.874 8.874 0 0 0 0 17.748v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M1.512 4.74a14.021 14.021 0 0 1 4.034-3.228M22.488 4.74a14.021 14.021 0 0 0-4.033-3.228M12 8.774v4.837h4.034" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-tree' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="m4.131 13.337 4.79-9.775c1.253-2.56 4.903-2.56 6.158 0l4.79 9.775a3.43 3.43 0 0 1-3.08 4.937H7.213a3.429 3.429 0 0 1-3.08-4.937Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linejoin="round"/>
+        <path d="M9.528 12 12 14.25v8.25M12 14.25 14.472 12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-truck' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M19 17.798h1.868a1.714 1.714 0 0 0 1.715-1.715V11.25a3.274 3.274 0 0 0-3.275-3.274H14.395l-.097 7.869" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M8.71 18.175c1.565 0 3.094-.16 4.572-.321m-9.94-.087a1.78 1.78 0 0 1-1.576-1.56c-.189-1.594-.407-3.256-.407-4.96 0-1.705.216-3.366.405-4.96a1.783 1.783 0 0 1 1.577-1.56c1.725-.186 3.523-.409 5.37-.409s3.644.223 5.368.408a1.783 1.783 0 0 1 1.578 1.56c.066.564.136 1.135.199 1.714" stroke="currentColor"/>
+        <path d="M16.061 21.069a2.894 2.894 0 1 1 0-5.793 2.894 2.894 0 0 1 0 5.794v-.001ZM5.832 21.069a2.894 2.894 0 1 1 0-5.792 2.894 2.894 0 0 1 0 5.793v-.001Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-validation' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 22.714a10.714 10.714 0 1 0 0-21.428 10.714 10.714 0 0 0 0 21.428v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="m7.714 13.071 3.116 3.215c1.468-4.214 2.688-6.062 5.455-8.572" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    {%- when 'picto-wifi' -%}
+      <svg role="presentation" fill="none" focusable="false" stroke-width="{{ stroke_width | default: settings.icon_stroke_width }}" width="{{ width | default: 24 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M10.063 15.95a5.132 5.132 0 0 0-.376.176c-.809.42-.814 1.492-.195 2.16l1.297 1.406a1.715 1.715 0 0 0 2.52 0l1.298-1.406c.617-.668.612-1.74-.195-2.16a5.111 5.111 0 0 0-4.35-.176v0Z" fill="currentColor" fill-opacity="{% if settings.icon_style == 'duo' %}.12{% else %}0{% endif %}" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M4.84 12.39a10.11 10.11 0 0 1 14.336 0M1.286 7.81a15.15 15.15 0 0 1 21.428 0" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+
+  {%- comment -%} STANDARD ICONS OF SHOPIFY {%- endcomment -%}
+    {%- when 'media-view-in-space' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 16 }}" height="{{ height | default: 16 }}" viewBox="0 0 16 16">
+        <path d="M14.13 3.28L9 .32a2 2 0 00-2 0l-5.12 3a2 2 0 00-1 1.76V11a2 2 0 001 1.76l5.12 3a2 2 0 002 0l5.12-3a2 2 0 001-1.76V5a2 2 0 00-.99-1.72zm-6.4 11.1l-5.12-3a.53.53 0 01-.26-.38V5a.53.53 0 01.27-.46l5.12-3a.53.53 0 01.53 0l5.12 3-4.72 2.68A1.33 1.33 0 008 8.42v6a.53.53 0 01-.26 0l-.01-.04z" fill="currentColor" fill-rule="nonzero"></path>
+      </svg>
+
+  {%- comment -%} SOCIAL MEDIA {%- endcomment -%}
+    {%- when 'facebook' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.183 21.85v-8.868H7.2V9.526h2.983V6.982a4.17 4.17 0 0 1 4.44-4.572 22.33 22.33 0 0 1 2.667.144v3.084h-1.83a1.44 1.44 0 0 0-1.713 1.68v2.208h3.423l-.447 3.456h-2.97v8.868h-3.57Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'instagram' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.4c-2.607 0-2.934.011-3.958.058-1.022.046-1.72.209-2.33.446a4.705 4.705 0 0 0-1.7 1.107 4.706 4.706 0 0 0-1.108 1.7c-.237.611-.4 1.31-.446 2.331C2.41 9.066 2.4 9.392 2.4 12c0 2.607.011 2.934.058 3.958.046 1.022.209 1.72.446 2.33a4.706 4.706 0 0 0 1.107 1.7c.534.535 1.07.863 1.7 1.108.611.237 1.309.4 2.33.446 1.025.047 1.352.058 3.959.058s2.934-.011 3.958-.058c1.022-.046 1.72-.209 2.33-.446a4.706 4.706 0 0 0 1.7-1.107 4.706 4.706 0 0 0 1.108-1.7c.237-.611.4-1.31.446-2.33.047-1.025.058-1.352.058-3.959s-.011-2.934-.058-3.958c-.047-1.022-.209-1.72-.446-2.33a4.706 4.706 0 0 0-1.107-1.7 4.705 4.705 0 0 0-1.7-1.108c-.611-.237-1.31-.4-2.331-.446C14.934 2.41 14.608 2.4 12 2.4Zm0 1.73c2.563 0 2.867.01 3.88.056.935.042 1.443.199 1.782.33.448.174.768.382 1.104.718.336.336.544.656.718 1.104.131.338.287.847.33 1.783.046 1.012.056 1.316.056 3.879 0 2.563-.01 2.867-.056 3.88-.043.935-.199 1.444-.33 1.782a2.974 2.974 0 0 1-.719 1.104 2.974 2.974 0 0 1-1.103.718c-.339.131-.847.288-1.783.33-1.012.046-1.316.056-3.88.056-2.563 0-2.866-.01-3.878-.056-.936-.042-1.445-.199-1.783-.33a2.974 2.974 0 0 1-1.104-.718 2.974 2.974 0 0 1-.718-1.104c-.131-.338-.288-.847-.33-1.783-.047-1.012-.056-1.316-.056-3.879 0-2.563.01-2.867.056-3.88.042-.935.199-1.443.33-1.782.174-.448.382-.768.718-1.104a2.974 2.974 0 0 1 1.104-.718c.338-.131.847-.288 1.783-.33C9.133 4.14 9.437 4.13 12 4.13Zm0 11.07a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4Zm0-8.13a4.93 4.93 0 1 0 0 9.86 4.93 4.93 0 0 0 0-9.86Zm6.276-.194a1.152 1.152 0 1 1-2.304 0 1.152 1.152 0 0 1 2.304 0Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'pinterest' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M11.765 2.401c3.59-.054 5.837 1.4 6.895 3.95.349.842.722 2.39.442 3.675-.112.512-.144 1.048-.295 1.53-.308.983-.708 1.853-1.238 2.603-.72 1.02-1.81 1.706-3.182 2.052-1.212.305-2.328-.152-2.976-.643-.206-.156-.483-.36-.56-.643h-.029c-.046.515-.244 1.062-.383 1.531-.193.65-.23 1.321-.472 1.929a12.345 12.345 0 0 1-.942 1.868c-.184.302-.692 1.335-1.061 1.347-.04-.078-.057-.108-.06-.245-.118-.19-.035-.508-.087-.766-.082-.4-.145-1.123-.06-1.53v-.643c.096-.442.092-.894.207-1.317.25-.92.39-1.895.648-2.848.249-.915.477-1.916.678-2.847.045-.21-.21-.815-.265-1.041-.174-.713-.042-1.7.176-2.236.275-.674 1.08-1.703 2.122-1.439.838.212 1.371 1.118 1.09 2.266-.295 1.205-.677 2.284-.943 3.49-.068.311.05.641.118.827.248.672 1 1.324 2.004 1.072 1.52-.383 2.193-1.76 2.652-3.246.124-.402.109-.781.206-1.225.204-.935.118-2.331-.177-3.061-.472-1.17-1.353-1.92-2.563-2.328L12.707 4.3c-.56-.128-1.626.064-2.004.183-1.69.535-2.737 1.427-3.388 3.032-.222.546-.344 1.1-.383 1.868l-.03.276c.13.686.144 1.14.413 1.653.132.252.447.451.5.765.032.185-.104.464-.147.613-.065.224-.041.48-.147.673-.192.349-.714.087-.943-.061-1.192-.77-2.175-2.995-1.62-5.144.085-.332.09-.62.206-.919.723-1.844 1.802-2.978 3.359-3.95.583-.364 1.37-.544 2.092-.734l1.149-.154Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'twitter' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M16.94 4h2.715l-5.93 6.777L20.7 20h-5.462l-4.278-5.593L6.065 20H3.35l6.342-7.25L3 4h5.6l3.868 5.113L16.94 4Zm-.952 14.375h1.504L7.784 5.54H6.17l9.818 12.836Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'threads' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M16.854 10.899a6.682 6.682 0 0 0-.252-.114c-.148-2.731-1.64-4.295-4.146-4.31h-.034c-1.498 0-2.745.64-3.512 1.803l1.378.945c.573-.87 1.473-1.055 2.135-1.055h.023c.825.006 1.447.246 1.85.713.293.34.49.812.587 1.405a10.541 10.541 0 0 0-2.368-.114C10.131 10.31 8.6 11.7 8.704 13.63c.052.98.54 1.822 1.373 2.372.705.465 1.613.693 2.556.641 1.246-.068 2.223-.543 2.905-1.412.518-.66.845-1.516.99-2.593.594.358 1.034.83 1.277 1.396.413.964.437 2.547-.855 3.838-1.132 1.13-2.492 1.62-4.549 1.635-2.28-.017-4.006-.748-5.127-2.174-1.05-1.335-1.593-3.264-1.613-5.732.02-2.468.563-4.397 1.613-5.732C8.395 4.442 10.12 3.711 12.4 3.694c2.298.017 4.053.752 5.217 2.185.571.702 1.002 1.586 1.286 2.616l1.614-.43c-.344-1.269-.885-2.361-1.622-3.268C17.404 2.961 15.22 2.02 12.406 2h-.01c-2.808.02-4.967.964-6.417 2.808C4.689 6.448 4.022 8.732 4 11.593v.014c.022 2.861.688 5.144 1.979 6.785 1.45 1.844 3.61 2.789 6.417 2.808h.01c2.497-.017 4.256-.67 5.706-2.119 1.896-1.894 1.839-4.27 1.214-5.727-.448-1.045-1.303-1.894-2.472-2.455Zm-4.31 4.052c-1.044.058-2.129-.41-2.182-1.414-.04-.744.53-1.574 2.246-1.673a9.52 9.52 0 0 1 .58-.017c.623 0 1.206.06 1.736.176-.198 2.47-1.358 2.872-2.38 2.928Z" fill="currentColor" />
+      </svg>
+
+    {%- when 'fancy' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M16.669 16.396h-3.147v3.679a1.523 1.523 0 1 1-3.044 0v-3.679H7.33A1.334 1.334 0 0 1 6 15.062v-6.65C6 5.091 8.687 2.4 12 2.4s6 2.691 6 6.011v6.645a1.328 1.328 0 0 1-1.331 1.34Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'linkedin' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M7.349 5.478a1.875 1.875 0 1 0-3.749 0 1.875 1.875 0 1 0 3.749 0ZM7.092 19.2H3.857V8.78h3.235V19.2ZM12.22 8.78H9.121V19.2h3.228v-5.154c0-1.36.257-2.676 1.94-2.676 1.658 0 1.68 1.554 1.68 2.763V19.2H19.2v-5.715c0-2.806-.605-4.963-3.877-4.963-1.573 0-2.629.863-3.06 1.683h-.044V8.78Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'snapchat' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.121 21.6c-.05 0-.098-.001-.147-.004a1.3 1.3 0 0 1-.096.004c-1.137 0-1.867-.516-2.573-1.014-.488-.344-.947-.669-1.49-.759a4.816 4.816 0 0 0-.782-.066c-.458 0-.82.07-1.083.122-.16.032-.3.059-.404.059-.11 0-.23-.024-.281-.2a6.305 6.305 0 0 1-.109-.445c-.08-.37-.138-.596-.292-.62-1.805-.278-2.32-.657-2.436-.927a.344.344 0 0 1-.028-.115.203.203 0 0 1 .17-.212c2.773-.456 4.017-3.287 4.069-3.407l.004-.01c.17-.343.203-.642.1-.886-.191-.448-.812-.645-1.223-.775-.1-.032-.196-.062-.27-.091-.82-.324-.889-.656-.857-.826.055-.289.441-.49.754-.49a.53.53 0 0 1 .224.045c.369.173.701.26.988.26.396 0 .57-.166.59-.188-.01-.188-.022-.383-.035-.585-.082-1.31-.185-2.937.23-3.866 1.243-2.784 3.88-3 4.658-3l.341-.004h.046c.78 0 3.423.217 4.667 3.002.415.93.312 2.558.23 3.867l-.004.057c-.012.182-.023.36-.032.529.02.02.179.173.538.187.274-.01.587-.098.932-.259a.704.704 0 0 1 .29-.057c.116 0 .234.023.332.064l.006.002c.278.099.46.294.465.497.003.192-.143.48-.863.764-.074.03-.17.06-.27.092-.412.13-1.032.327-1.223.775-.104.244-.07.542.1.886l.004.01c.052.12 1.294 2.95 4.069 3.407a.203.203 0 0 1 .17.212.342.342 0 0 1-.029.116c-.114.267-.63.646-2.435.924-.147.023-.204.215-.292.617-.032.147-.065.29-.11.442-.038.131-.12.193-.258.193h-.022a2.26 2.26 0 0 1-.404-.051 5.394 5.394 0 0 0-1.084-.115c-.254 0-.518.022-.782.066-.542.09-1.001.414-1.488.758-.707.5-1.437 1.015-2.575 1.015Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'tiktok' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M20.027 10.168a5.125 5.125 0 0 1-4.76-2.294v7.893a5.833 5.833 0 1 1-5.834-5.834c.122 0 .241.011.361.019v2.874c-.12-.014-.237-.036-.36-.036a2.977 2.977 0 0 0 0 5.954c1.644 0 3.096-1.295 3.096-2.94L12.56 2.4h2.75a5.122 5.122 0 0 0 4.72 4.573v3.195" fill="currentColor"/>
+      </svg>
+
+    {%- when 'tumblr' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M13.906 20.4c-2.526 0-4.41-1.3-4.41-4.41v-4.98H7.2V8.314c2.527-.657 3.584-2.83 3.706-4.714h2.623v4.277h3.061v3.133h-3.06v4.337c0 1.3.655 1.75 1.7 1.75h1.482V20.4h-2.806Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'vimeo' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.518 6.726c.143-.815.14-1.654-.356-2.288-.693-.89-2.167-.922-3.178-.765-.821.127-3.6 1.371-4.547 4.35 1.676-.13 2.554.122 2.393 1.994-.068.783-.457 1.642-.893 2.464-.502.948-1.445 2.81-2.68 1.468-1.114-1.208-1.03-3.518-1.285-5.056-.142-.864-.292-1.94-.57-2.827-.24-.763-.791-1.684-1.465-1.883-.724-.216-1.618.12-2.143.435C5.12 5.615 3.847 7.034 2.4 8.204v.11c.287.278.364.734.786.796.996.149 1.945-.942 2.607.193.403.693.529 1.453.787 2.2.344.996.61 2.08.892 3.224.477 1.939 1.064 4.836 2.715 5.545.843.363 2.11-.122 2.75-.508 1.738-1.043 3.091-2.555 4.25-4.094 2.649-3.64 4.11-7.765 4.331-8.944Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'wechat' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M21.502 19.445C23.026 18.352 24 16.736 24 14.939c0-3.29-3.237-5.959-7.229-5.959s-7.229 2.669-7.229 5.96 3.237 5.96 7.229 5.96c.825 0 1.621-.116 2.36-.327l.212-.032a.77.77 0 0 1 .384.11l1.583.904.139.045a.24.24 0 0 0 .241-.239l-.039-.174-.326-1.202-.025-.152c0-.16.08-.302.202-.388ZM8.675 2.4C3.884 2.4 0 5.602 0 9.552c0 2.155 1.168 4.095 2.997 5.406a.567.567 0 0 1 .243.466l-.03.182-.391 1.443-.047.209c0 .158.13.286.289.286l.168-.053 1.899-1.085a.915.915 0 0 1 .46-.132l.255.038a10.36 10.36 0 0 0 2.832.392l.476-.011a5.474 5.474 0 0 1-.291-1.753c0-3.602 3.542-6.523 7.911-6.523l.471.012c-.653-3.416-4.24-6.03-8.567-6.03Zm5.686 11.587a.959.959 0 0 1-.963-.954c0-.527.431-.954.963-.954.533 0 .964.426.964.954a.959.959 0 0 1-.964.954Zm4.82 0a.959.959 0 0 1-.964-.954c0-.527.431-.954.964-.954.532 0 .963.426.963.954a.959.959 0 0 1-.963.954ZM5.783 8.407a1.15 1.15 0 0 1-1.156-1.143 1.15 1.15 0 0 1 1.156-1.145A1.15 1.15 0 0 1 6.94 7.264a1.15 1.15 0 0 1-1.157 1.143Zm5.783 0a1.15 1.15 0 0 1-1.156-1.143 1.15 1.15 0 0 1 1.156-1.145 1.15 1.15 0 0 1 1.157 1.145 1.15 1.15 0 0 1-1.157 1.143Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'youtube' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M20.44 5.243c.929.244 1.66.963 1.909 1.876.451 1.654.451 5.106.451 5.106s0 3.452-.451 5.106a2.681 2.681 0 0 1-1.91 1.876c-1.684.443-8.439.443-8.439.443s-6.754 0-8.439-.443a2.682 2.682 0 0 1-1.91-1.876c-.45-1.654-.45-5.106-.45-5.106s0-3.452.45-5.106a2.681 2.681 0 0 1 1.91-1.876c1.685-.443 8.44-.443 8.44-.443s6.754 0 8.438.443Zm-5.004 6.982L9.792 15.36V9.091l5.646 3.134Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'line' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2c6.066 0 11 4.005 11 8.927 0 1.97-.764 3.744-2.358 5.492-2.307 2.656-7.468 5.892-8.642 6.386-1.142.481-1.01-.271-.957-.569l.004-.024.157-.941c.037-.281.075-.717-.035-.995-.124-.306-.611-.465-.97-.542C4.914 19.034 1 15.339 1 10.927 1 6.005 5.935 2 12 2ZM7.91 13.769a.21.21 0 0 0 .21-.21v-.78a.21.21 0 0 0-.21-.21H5.808V8.758a.21.21 0 0 0-.21-.21h-.78a.21.21 0 0 0-.21.21V13.559c0 .116.094.21.21.21h3.09Zm11.43 0a.21.21 0 0 0 .21-.21v-.78a.21.21 0 0 0-.21-.21h-2.1v-.81h2.1a.21.21 0 0 0 .21-.21v-.78a.21.21 0 0 0-.21-.21h-2.1v-.81h2.1a.21.21 0 0 0 .21-.21v-.781a.21.21 0 0 0-.21-.21h-3.09a.21.21 0 0 0-.21.21V13.559c0 .116.094.21.21.21h3.091ZM8.99 8.548h.78a.21.21 0 0 1 .21.21v4.8a.21.21 0 0 1-.21.21h-.78a.21.21 0 0 1-.21-.21v-4.8a.21.21 0 0 1 .21-.21Zm6.09 0h-.78a.21.21 0 0 0-.21.21v2.851l-2.196-2.966a.208.208 0 0 0-.017-.022l-.002-.001a.257.257 0 0 0-.012-.013l-.001-.001-.003-.003a.376.376 0 0 0-.011-.01l-.006-.004a.24.24 0 0 0-.011-.007l-.004-.003-.003-.001-.002-.001a.13.13 0 0 0-.01-.005l-.006-.004-.002-.001-.01-.004-.007-.003a.194.194 0 0 0-.01-.003h-.003l-.007-.003a.267.267 0 0 0-.013-.002l-.009-.002-.011-.001h-.794a.21.21 0 0 0-.21.209v4.8c0 .117.094.21.21.21h.78a.21.21 0 0 0 .21-.21v-2.85l2.199 2.97c.015.022.034.04.054.053l.003.002a.22.22 0 0 0 .013.008l.006.003a.16.16 0 0 0 .01.005l.01.005.005.001h.002c.005.003.01.004.014.005l.004.001a.211.211 0 0 0 .055.008h.775a.21.21 0 0 0 .21-.21V8.758a.21.21 0 0 0-.21-.21Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'reddit' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M21.604 10.841c.243.347.38.756.396 1.178a2.192 2.192 0 0 1-1.216 1.997c.017.22.017.441 0 .66 0 3.364-3.92 6.097-8.754 6.097s-8.753-2.733-8.753-6.096a4.307 4.307 0 0 1 0-.66 2.193 2.193 0 1 1 2.417-3.59 10.72 10.72 0 0 1 5.856-1.846l1.11-5.21a.465.465 0 0 1 .556-.36l3.679.736a1.501 1.501 0 1 1-.195.915l-3.213-.675-.976 4.684a10.69 10.69 0 0 1 5.78 1.847 2.192 2.192 0 0 1 3.313.323Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'spotify' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm4.586 14.423a.623.623 0 0 1-.857.206c-2.348-1.434-5.304-1.759-8.785-.964a.623.623 0 0 1-.277-1.215c3.809-.87 7.076-.496 9.712 1.115.294.18.387.564.207.858ZM17.81 13.7a.78.78 0 0 1-1.072.257c-2.688-1.652-6.786-2.13-9.965-1.166A.78.78 0 0 1 6.32 11.3c3.631-1.102 8.146-.568 11.233 1.329a.78.78 0 0 1 .257 1.072Zm.105-2.836c-3.223-1.914-8.54-2.09-11.618-1.156a.935.935 0 1 1-.543-1.79c3.533-1.072 9.405-.865 13.116 1.338a.934.934 0 1 1-.955 1.608Z" fill="currentColor"/>
+      </svg>
+
+    {%- when 'whatsapp' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.354 4.552a10.336 10.336 0 0 0-7.36-3.052C6.257 1.5 1.588 6.168 1.586 11.905a10.383 10.383 0 0 0 1.39 5.202L1.5 22.5l5.516-1.447c1.52.83 3.232 1.266 4.973 1.266h.004c5.736 0 10.404-4.668 10.406-10.405a10.342 10.342 0 0 0-3.045-7.362Zm-7.36 16.01h-.004a8.639 8.639 0 0 1-4.402-1.205l-.316-.188-3.274.859.874-3.192-.206-.327a8.626 8.626 0 0 1-1.322-4.603c.002-4.769 3.882-8.649 8.653-8.649a8.59 8.59 0 0 1 6.115 2.537 8.596 8.596 0 0 1 2.53 6.119c-.002 4.769-3.881 8.649-8.649 8.649Zm4.744-6.477c-.26-.13-1.539-.76-1.777-.846-.239-.087-.412-.13-.585.13s-.672.846-.823 1.02c-.152.173-.304.195-.564.064-.26-.13-1.097-.404-2.09-1.29-.773-.69-1.295-1.54-1.447-1.801-.152-.26-.016-.401.114-.53.116-.117.26-.304.39-.456.13-.152.173-.26.26-.434.087-.173.043-.325-.022-.455s-.584-1.41-.802-1.93c-.21-.508-.425-.439-.584-.447a10.498 10.498 0 0 0-.499-.01.955.955 0 0 0-.693.326c-.239.26-.91.89-.91 2.169 0 1.28.931 2.516 1.061 2.69.13.174 1.834 2.8 4.442 3.926.62.268 1.105.428 1.482.548.623.198 1.19.17 1.638.103.5-.074 1.538-.629 1.755-1.236.216-.607.216-1.128.151-1.236-.064-.109-.238-.174-.498-.304v-.001Z" fill="currentColor" />
+      </svg>
+
+    {%- when '21buttons' -%}
+      <svg role="presentation" focusable="false" width="{{ width | default: 27 }}" height="{{ height | default: 27 }}" class="{{ class | strip }}" viewBox="0 0 24 24">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 21.6a9.6 9.6 0 1 1 0-19.2 9.6 9.6 0 0 1 0 19.2ZM10.99 9.305h-.001v-.028a1.712 1.712 0 1 0-1.684 1.712h.028a1.01 1.01 0 1 1-.028 2.021h-.028a1.712 1.712 0 1 0 1.712 1.74 1.01 1.01 0 1 1 2.021 0 1.712 1.712 0 1 0 1.74-1.74 1.01 1.01 0 0 1 0-2.02 1.712 1.712 0 1 0-1.74-1.685 1.01 1.01 0 1 1-2.02 0Z" fill="currentColor"/>
+      </svg>
+
+  {%- comment -%} OTHER {%- endcomment -%}
+
+  {%- when 'shopify-logo' -%}
+    <svg role="presentation" focusable="false" width="{{ width | default: 77 }}" height="{{ height | default: 22 }}" class="{{ class | strip }}" fill="none" viewBox="0 0 77 22">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M10.268 1.384c.612.077 1.02.773 1.281 1.574l-1.034.32V3.207v-.152c0-.684-.095-1.234-.247-1.67zm2.139 20.028l6.45-1.401s-2.326-15.728-2.34-15.836a.207.207 0 00-.188-.174l-1.726-.128-1.27-1.262a.277.277 0 00-.11-.065l-.816 18.866zM7.57 9.712c.878 0 1.594.382 1.594.382l.817-2.43s-.552-.321-1.67-.321c-2.902 0-4.34 1.938-4.34 3.94 0 1.337.75 1.943 1.406 2.475.513.414.969.783.969 1.418 0 .35-.248.829-.856.829-.932 0-2.035-.948-2.035-.948l-.562 1.857s1.073 1.307 3.173 1.307c1.75 0 3.047-1.317 3.047-3.363 0-1.573-1.059-2.35-1.895-2.964-.547-.401-.999-.733-.999-1.172 0-.203.065-1.01 1.351-1.01zM9.042.861a.625.625 0 00-.355-.12C6.701.742 5.585 3.35 5.115 4.95l1.69-.523c.4-2.098 1.35-3.148 2.237-3.565zm.747 2.64v-.12c0-.824-.11-1.436-.28-1.862-.674.29-1.446 1.056-1.857 2.644l2.137-.661zm3.077-.951a.754.754 0 01.065-.015l-.818 18.887L0 19.153S1.57 7.015 1.63 6.587c.078-.565.097-.584.696-.772.098-.031.861-.268 1.936-.6C4.676 3.456 5.998 0 8.763 0c.362 0 .78.194 1.118.64a1.81 1.81 0 01.1-.003c1.187 0 1.862 1.012 2.244 2.112l.641-.198zm52.98 5.645h1.806l-.358 2.016h-1.787l-1.373 7.484h-2.597l1.374-7.484h-1.205l.377-2.016h1.204l.075-.446c.207-1.124.621-2.249 1.505-3.024.696-.62 1.618-.892 2.54-.892.64 0 1.11.097 1.411.233L68.31 6.16a2.47 2.47 0 00-.828-.135c-.865 0-1.392.814-1.542 1.725l-.094.446zM35.78 8.002c-1.148 0-2.05.562-2.747 1.416l-.038-.02.998-5.37h-2.597l-2.52 13.668h2.596l.865-4.672c.339-1.765 1.223-2.85 2.05-2.85.584 0 .81.407.81.989 0 .368-.038.813-.113 1.182l-.978 5.351h2.596l1.016-5.525c.113-.582.188-1.28.188-1.745 0-1.513-.771-2.424-2.126-2.424zm-9.294 3.994c-.659-.368-.997-.678-.997-1.105 0-.543.47-.892 1.204-.892.677 0 1.26.194 1.618.368l.602-1.9c-.414-.252-1.186-.445-2.183-.445-2.276 0-3.838 1.337-3.838 3.218 0 1.066.734 1.88 1.712 2.462.79.465 1.073.795 1.073 1.28 0 .504-.395.91-1.129.91-.81.02-1.656-.329-2.126-.58l-.64 1.9c.49.348 1.487.639 2.559.658 2.333.02 4.007-1.182 4.007-3.315 0-1.144-.846-1.958-1.862-2.559zm14.75 2.094c0 .97.377 1.745 1.26 1.745 1.374 0 2.146-2.52 2.146-4.169 0-.794-.301-1.609-1.223-1.609-1.411 0-2.183 2.501-2.183 4.033zm-2.652.058c0-3.238 2.07-6.146 5.192-6.146 2.427 0 3.518 1.823 3.518 3.742 0 3.315-2.07 6.146-5.136 6.146-2.333 0-3.575-1.668-3.575-3.742zm12.869 1.725c-.47 0-.79-.155-1.073-.387l.433-2.501c.301-1.667 1.148-2.773 2.05-2.773.791 0 1.035.757 1.035 1.474 0 1.725-.997 4.187-2.445 4.187zm2.483-7.87c-1.035 0-2.05.58-2.747 1.59h-.037l.15-1.436h-2.295c-.113.97-.32 2.443-.527 3.548l-1.806 9.791h2.596l.715-3.955h.056c.302.194.885.349 1.525.349 3.048 0 5.042-3.219 5.042-6.476 0-1.803-.772-3.412-2.672-3.412zm4.892-2.289c0-.872.659-1.55 1.486-1.55.79 0 1.299.562 1.299 1.337-.02.989-.715 1.551-1.524 1.551h-.038c-.734 0-1.223-.543-1.223-1.338zm-2.145 11.982h2.597l1.768-9.48h-2.615l-1.75 9.48zm17.215-9.48l-1.58 4.245c-.334.912-.52 1.488-.702 2.053l-.07.216h-.037a40.242 40.242 0 00-.226-2.25l-.414-4.265h-2.728l1.562 8.706c.037.193.018.31-.057.445-.3.601-.809 1.183-1.41 1.61-.49.368-1.036.6-1.468.756L67.483 22c.526-.116 1.618-.562 2.54-1.454 1.185-1.144 2.276-2.908 3.405-5.312l3.18-7.019h-2.71z" fill="currentColor"></path>
+    </svg>
+
+  {%- when 'blog-nav-right' -%}
+    <svg width="{{ width | default: 27 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" viewBox="0 0 27 24" fill="none">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M15.4142 0.585693L26.8284 11.9999L15.4142 23.4141L12.5858 20.5857L19.1716 13.9999H0V9.99991H19.1716L12.5858 3.41412L15.4142 0.585693Z" fill="currentColor"/>
+    </svg>
+   {%- comment -%} Custom Icon {%- endcomment -%}
+   {%- when 'extended-warranty' -%}
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" width="{{ width | default: 27 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}"  viewBox="0 0 512.000000 512.000000" preserveAspectRatio="xMidYMid meet">
+  <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" fill="currentColor" stroke="none">
+  <path d="M1394 5103 c-3 -10 -12 -33 -20 -52 -8 -19 -17 -69 -19 -112 -10 -185 -90 -387 -213 -539 -122 -149 -271 -255 -467 -330 -60 -24 -213 -50 -289 -50 -43 0 -53 -4 -89 -40 l-40 -41 5 -219 c7 -264 8 -260 -85 -260 -34 0 -88 -8 -119 -17 l-58 -18 0 -61 0 -61 56 -22 56 -21 2448 0 2448 0 56 21 56 22 0 61 0 61 -62 19 c-37 12 -84 18 -119 17 -88 -4 -88 -4 -81 259 l5 219 -40 41 c-36 36 -46 40 -89 40 -76 0 -229 26 -289 50 -296 114 -508 315 -616 585 -39 99 -79 292 -66 327 2 7 -6 40 -18 73 l-23 60 -1161 3 c-1100 2 -1162 1 -1167 -15z m2155 -206 c14 -16 25 -46 32 -88 38 -241 179 -498 367 -669 42 -38 93 -80 112 -94 53 -37 208 -126 220 -126 6 0 18 -4 28 -10 35 -20 169 -59 235 -69 38 -5 80 -17 93 -26 23 -15 24 -19 24 -150 0 -79 -5 -144 -11 -159 -17 -37 -80 -59 -129 -46 -50 13 -64 32 -66 88 0 26 -5 55 -9 65 -11 27 -84 71 -140 85 -72 18 -158 59 -280 133 -139 84 -316 248 -398 369 -60 88 -87 131 -87 139 0 4 -8 19 -18 32 -10 13 -26 44 -36 69 -10 25 -24 56 -31 70 -7 14 -20 53 -30 87 -12 40 -29 73 -48 90 l-28 28 -190 0 -191 0 -29 -33 c-38 -42 -38 -82 0 -124 l29 -33 118 -3 c135 -3 151 -9 179 -73 108 -253 216 -413 395 -587 76 -75 99 -93 225 -179 81 -55 212 -122 238 -123 10 0 36 -9 58 -21 34 -17 40 -24 37 -47 l-3 -27 -1655 0 -1655 0 -3 27 c-3 23 3 30 37 47 22 12 48 21 58 21 40 1 192 88 348 199 79 57 208 192 310 326 65 84 143 225 200 363 10 23 25 48 33 55 9 7 63 14 140 17 l124 6 29 32 c35 39 37 79 8 115 -32 41 -77 49 -256 45 l-162 -3 -31 -30 c-17 -16 -33 -41 -36 -55 -9 -36 -32 -107 -43 -127 -5 -10 -17 -38 -27 -63 -10 -25 -26 -56 -36 -69 -10 -13 -18 -28 -18 -32 0 -8 -33 -60 -87 -139 -105 -152 -284 -309 -483 -420 -52 -29 -152 -71 -195 -82 -98 -25 -163 -87 -149 -142 9 -37 -20 -82 -62 -96 -47 -16 -115 8 -133 46 -6 15 -11 79 -11 159 0 131 1 135 24 150 13 9 55 21 93 26 66 10 200 49 235 69 10 6 22 10 28 10 12 0 167 89 220 126 235 164 447 500 476 755 5 43 14 69 31 90 l25 29 967 0 968 0 22 -23z"/>
+  <path d="M2514 4701 c-17 -10 -37 -33 -44 -51 -18 -43 6 -94 55 -117 33 -16 37 -16 70 0 49 23 73 74 55 117 -13 32 -62 70 -90 70 -8 0 -29 -9 -46 -19z"/>
+  <path d="M363 3033 c-38 -34 -48 -66 -33 -103 22 -54 52 -64 199 -70 l133 -6 29 -32 c18 -20 29 -43 29 -61 0 -34 -43 -91 -68 -91 -10 0 -39 -13 -67 -28 -87 -48 -85 -121 4 -167 28 -14 57 -25 65 -25 23 0 66 -59 66 -91 0 -18 -11 -41 -29 -61 l-29 -32 -133 -6 c-147 -6 -177 -16 -199 -69 -16 -39 -3 -78 36 -107 33 -26 35 -26 191 -22 155 4 159 4 204 34 50 32 93 78 128 137 17 27 24 59 28 115 5 73 4 81 -26 133 -17 31 -31 66 -31 79 0 13 14 48 31 79 30 52 31 60 26 133 -4 56 -11 88 -28 115 -35 59 -78 105 -128 137 -45 30 -48 30 -206 33 l-160 4 -32 -28z"/>
+  <path d="M1371 3044 c-43 -31 -51 -70 -51 -256 0 -230 18 -279 134 -375 31 -25 59 -55 62 -67 2 -11 6 -65 7 -118 2 -80 6 -101 23 -125 42 -56 107 -55 148 0 17 24 21 43 22 115 1 115 9 146 47 177 67 54 81 67 108 104 42 59 49 101 49 297 0 172 -1 183 -23 215 -41 61 -108 64 -151 6 -19 -26 -21 -46 -26 -207 -5 -161 -7 -181 -26 -207 -42 -55 -106 -55 -148 0 -19 26 -21 45 -26 214 l-5 185 -33 29 c-37 33 -76 37 -111 13z"/>
+  <path d="M2124 3041 c-17 -11 -36 -34 -43 -52 -7 -22 -11 -160 -11 -431 0 -438 2 -453 59 -482 43 -23 388 -23 431 -1 81 42 79 129 -3 172 -25 12 -56 16 -137 14 -99 -2 -107 0 -127 21 -29 32 -35 59 -24 108 12 56 20 62 87 71 91 12 140 64 118 125 -14 40 -53 64 -118 73 -67 9 -75 15 -87 71 -11 49 -5 76 24 108 20 21 29 23 127 21 81 -1 114 3 138 15 81 42 82 129 2 171 -23 12 -70 15 -217 15 -167 0 -191 -2 -219 -19z"/>
+  <path d="M2978 3054 c-76 -23 -156 -91 -195 -166 l-28 -53 -3 -330 c-4 -355 0 -389 45 -424 36 -29 76 -27 115 7 30 28 32 33 35 118 2 49 6 99 8 111 10 44 123 58 170 21 26 -20 27 -25 23 -87 -10 -146 72 -236 155 -170 45 35 49 68 45 434 -3 339 -3 340 -27 380 -59 98 -149 155 -254 160 -40 2 -80 2 -89 -1z m134 -223 c33 -29 33 -30 36 -135 l4 -105 -34 -21 c-38 -24 -104 -21 -145 5 -21 14 -23 23 -23 101 0 94 15 142 51 168 35 24 74 20 111 -13z"/>
+  <path d="M3553 3040 c-52 -31 -54 -53 -51 -502 3 -395 4 -407 24 -435 44 -58 109 -55 152 7 23 34 24 40 18 157 -7 136 1 176 35 171 21 -3 67 -80 123 -203 54 -122 98 -175 144 -175 42 0 90 42 98 87 7 35 -12 79 -118 276 -27 49 -22 71 28 123 25 27 57 74 71 104 21 47 24 65 20 127 -7 99 -44 163 -129 226 -64 47 -108 57 -252 57 -112 0 -136 -3 -163 -20z m287 -195 c89 -46 76 -142 -24 -180 -59 -23 -95 -7 -114 50 -35 106 43 179 138 130z"/>
+  <path d="M4439 3038 c-64 -33 -121 -85 -155 -143 -26 -44 -29 -59 -29 -130 1 -91 14 -123 78 -195 44 -48 91 -80 148 -99 20 -6 55 -29 78 -50 50 -47 54 -80 12 -121 -38 -39 -72 -46 -121 -26 -61 24 -105 21 -139 -11 -61 -57 -43 -119 49 -167 76 -40 172 -46 241 -16 72 30 132 83 165 144 38 69 40 177 6 251 -32 68 -107 136 -183 166 -33 13 -79 41 -101 61 -36 33 -40 41 -34 70 7 40 57 88 90 88 13 0 40 -7 59 -15 20 -8 54 -15 75 -15 74 0 119 87 77 148 -28 38 -112 72 -195 78 -65 5 -81 2 -121 -18z"/>
+  <path d="M53 1838 l-53 -21 0 -61 0 -61 58 -18 c47 -14 94 -17 275 -17 147 0 225 -4 240 -12 30 -15 48 -42 76 -113 13 -33 29 -67 36 -75 7 -8 16 -26 20 -39 4 -13 22 -50 41 -82 19 -31 34 -60 34 -64 0 -3 8 -18 19 -33 10 -15 36 -53 57 -86 22 -32 48 -71 59 -86 11 -15 29 -40 40 -56 72 -107 309 -354 430 -449 21 -16 50 -39 64 -50 29 -23 49 -37 131 -91 30 -20 67 -45 82 -55 15 -11 31 -19 36 -19 5 0 20 -8 33 -18 42 -32 284 -152 369 -182 19 -7 49 -19 65 -26 45 -20 153 -54 168 -54 25 0 108 -41 114 -56 8 -21 218 -21 226 0 6 15 89 56 114 56 17 0 127 36 170 56 17 7 36 14 42 14 6 0 19 4 29 9 9 5 44 21 77 36 141 64 252 121 278 142 16 13 33 23 38 23 5 0 22 8 37 19 15 10 52 35 82 55 105 69 110 73 200 146 131 107 356 340 425 444 11 16 29 41 40 56 23 32 83 122 110 165 40 64 128 235 168 326 43 99 45 100 300 99 187 -1 229 1 278 17 l59 18 0 61 0 61 -56 22 -56 21 -2451 -1 -2452 0 -52 -21z m967 -188 c8 -5 29 -33 45 -63 62 -112 109 -192 137 -232 16 -22 36 -51 46 -65 63 -94 289 -336 372 -398 19 -15 60 -47 91 -72 31 -25 71 -54 90 -65 18 -11 45 -28 59 -37 35 -25 76 -47 164 -91 41 -21 78 -42 81 -48 4 -5 13 -9 21 -9 7 0 42 -13 76 -29 35 -16 86 -37 113 -45 28 -9 59 -20 70 -25 96 -41 115 -46 175 -46 39 0 82 7 105 17 22 9 74 29 115 43 41 15 103 40 138 56 34 16 69 29 76 29 8 0 17 4 21 9 3 6 38 26 78 46 122 61 235 131 316 195 31 25 72 57 91 71 83 63 296 292 385 415 34 48 143 227 170 282 15 28 34 56 43 61 35 17 113 21 148 6 29 -12 34 -19 34 -46 0 -17 -10 -48 -22 -68 -13 -20 -36 -61 -53 -92 -37 -69 -70 -126 -93 -159 -9 -14 -26 -41 -37 -59 -11 -19 -40 -59 -65 -90 -25 -31 -57 -72 -71 -91 -62 -83 -319 -329 -399 -383 -14 -9 -43 -30 -65 -46 -36 -27 -80 -54 -203 -128 -53 -32 -279 -143 -291 -143 -5 0 -22 -6 -38 -14 -48 -24 -95 -43 -193 -76 -138 -47 -181 -55 -237 -42 -79 18 -292 93 -345 122 -10 6 -22 10 -28 10 -12 0 -237 110 -292 143 -123 74 -167 101 -203 128 -22 16 -51 37 -65 46 -73 49 -410 373 -410 394 0 4 -24 36 -52 71 -29 36 -61 78 -71 94 -9 16 -37 61 -61 99 -25 39 -59 99 -77 135 -18 36 -41 76 -51 89 -10 13 -18 39 -18 58 0 29 5 36 33 48 32 14 115 11 147 -5z m2806 -1 c23 -19 16 -53 -18 -100 -18 -24 -37 -51 -43 -60 -53 -85 -137 -191 -220 -278 -78 -81 -231 -217 -289 -256 -16 -11 -39 -27 -51 -35 -62 -42 -163 -101 -215 -126 -19 -9 -72 -34 -117 -55 -45 -21 -86 -39 -91 -39 -6 0 -41 -14 -79 -32 -57 -27 -80 -32 -143 -32 -63 0 -86 5 -143 32 -38 18 -73 32 -79 32 -5 0 -46 18 -91 39 -45 21 -98 46 -117 55 -52 25 -153 84 -215 126 -12 8 -35 24 -51 35 -108 73 -328 286 -414 400 -41 55 -54 73 -100 140 -8 12 -28 40 -43 63 -32 46 -33 81 -1 97 30 15 2502 9 2520 -6z"/>
+  </g>
+  </svg>
+  {%- when 'online-chat' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="{{ width | default: 27 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512">
+  <g transform="matrix(.1 0 0 -.1 0 512)" fill="currentColor">
+  <path d="m755 4779c-130-19-287-85-393-166-134-102-257-266-296-394-9-31-28-67-42-80l-24-22v-628c0-345 3-629 8-631 17-7 49-67 66-123 10-33 23-66 28-73 6-7 18-25 27-41 51-91 141-191 238-262 86-64 84-54 83-311-1-247 2-265 58-314 36-31 65-37 113-24 33 9 81 52 270 238 127 125 238 230 247 234 35 14 79 8 98-13 17-19 20-45 26-288 7-309 18-372 76-449 21-28 31-33 60-30 24 2 41 11 56 31 18 25 19 31 7 70-54 184-51 141-51 697 0 480 1 521 20 591 20 78 67 184 103 232 125 167 284 273 469 311 68 14 210 16 1173 16 725 0 1121-4 1168-11 67-10 149-33 172-49 6-4 21-11 34-15 42-13 145-89 209-155 39-40 67-76 122-160 27-40 69-170 80-245 13-93 13-932 0-1029-29-202-132-374-300-496-75-55-110-93-120-131-6-23-10-134-9-263 0-124-2-230-6-235-19-32-56-3-279 220-167 168-243 237-274 250-42 18-90 19-985 19-881 0-947 1-1017 19-94 23-179 62-249 115-83 63-104 76-129 76-31 0-72-43-72-76 0-69 221-213 397-259 113-30 298-36 1128-35 457 1 841 1 855 0 18 0 90-65 290-264 146-145 279-271 297-280s44-16 58-16c37 0 112 56 124 93 7 18 11 135 11 293 0 144 4 274 9 288 6 13 34 43 64 65 139 102 262 265 301 398 11 34 30 72 42 84l24 22v618 618l-28 43c-16 24-36 68-46 98-9 30-36 86-61 125-44 71-176 216-229 251-120 80-122 81-211 116-112 44-155 50-412 56-186 5-255 10-265 20s-13 70-14 245c-2 301-14 365-99 540-57 115-148 227-185 227-53 0-98-50-84-94 4-11 21-38 38-58 57-68 73-92 106-163 62-133 69-173 71-449 2-205 0-228-16-246-18-20-32-20-829-20-659 0-823-3-878-14-65-14-140-37-175-54-130-62-204-113-283-192s-116-130-168-235c-79-159-92-222-92-456 0-204-3-210-95-211-32 0-75-7-94-15-22-9-107-87-219-199-101-101-192-189-204-195-16-9-24-8-36 5-14 14-16 41-13 189 2 104-2 190-8 214-11 42-16 47-171 176-115 97-176 184-223 318-45 130-49 188-45 704 5 528 5 536 71 675 87 187 276 346 482 407 56 16 141 18 1177 21 1179 3 1208 2 1327-43 72-27 131 0 131 60 0 37-18 56-75 80-119 51-67 49-1300 51-632 1-1177-2-1210-7z"/>
+  <path d="m715 3895c-46-24-75-65-75-106 0-30 7-43 40-73 54-49 98-50 146-2 54 54 44 127-25 173-40 27-47 28-86 8z"/>
+  <path d="m1050 3888c-70-47-81-119-26-174 49-49 95-48 147 5 42 42 47 63 25 114-26 64-94 90-146 55z"/>
+  <path d="m1392 3889c-38-25-62-66-62-108 0-43 59-101 103-101s94 33 114 76c17 34 17 37-2 72-21 38-77 82-104 82-9 0-31-10-49-21z"/>
+  <path d="m2445 3124c-105-25-135-36-220-82-135-72-276-240-314-372-25-85-32-96-107-164-106-96-108-103-109-331 0-229 7-258 88-326 60-53 101-69 169-69 88 0 186 68 224 155 14 33 17 73 17 235 1 227-3 238-97 328-41 39-56 61-56 80 0 52 62 152 145 236 75 76 99 93 185 129 142 61 336 44 475-41 104-64 245-249 245-321 0-25-11-42-56-84-91-85-95-99-95-329 0-223 6-246 81-314 48-44 55-64 35-103-32-63-91-68-154-15-40 35-47 37-130 42-76 4-92 2-130-18-106-53-167-157-141-236 17-51 93-130 148-154 48-21 121-25 185-11 46 11 121 71 161 130 15 23 46 53 68 67 53 34 126 109 142 148 15 35 32 53 132 135 93 78 99 97 99 336 0 228-5 242-116 344-48 44-81 83-85 99-9 41-36 114-53 142-108 182-229 280-431 350-35 12-268 23-305 14zm-465-729c53-27 65-72 64-225-1-156-12-203-54-225-39-20-62-19-94 6-44 35-49 54-49 214 0 166 9 202 61 229 34 19 37 19 72 1zm1247-5c51-31 63-73 63-222 0-142-10-181-55-216-35-28-65-28-99-1-41 32-47 61-48 220-1 165 10 200 65 224 41 18 36 18 74-5zm-405-777c24-21 23-68-2-93-15-15-33-20-70-20-78 0-114 51-75 107 25 35 111 39 147 6z"/><path d="m3654 2852c-52-8-65-15-79-42-17-33-10-64 23-93 19-17 44-18 338-17 228 0 325 4 343 13 54 26 50 106-6 128-24 9-567 19-619 11z"/><path d="m3610 2501c-14-4-31-18-39-33-12-21-12-30-1-57 7-17 21-36 32-42 12-7 116-11 269-11 214 0 252 2 274 16 52 34 39 114-20 127-41 9-484 9-515 0z"/></g></svg>
+  {%- when 'delivery-status' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="{{ width | default: 27 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512"><g transform="matrix(.1 0 0 -.1 0 512)" fill="currentColor">
+    <path d="m2430 4913c-186-10-438-58-600-113-145-50-382-156-450-201-14-9-50-33-80-52-126-84-216-150-274-202-245-223-426-451-541-682-20-40-40-75-46-78-5-4-9-13-9-21 0-7-13-42-29-76-35-74-104-278-125-372-45-191-60-328-60-546-1-285 31-490 116-745 37-110 52-139 80-159 30-22 54-20 79 5 27 27 22 72-21 194-64 180-96 339-110 546-13 201 4 471 40 609 5 19 19 73 31 120 33 131 125 370 169 440 5 8 23 41 40 73s38 70 48 85 34 50 52 77c98 145 356 419 470 498 14 9 45 33 70 52s54 39 66 44c11 5 40 22 65 39 63 43 267 146 336 171 138 48 172 60 245 80 283 78 705 93 988 35 104-22 316-81 335-93 6-4 28-13 50-20 43-15 177-74 210-93 11-7 36-20 55-30 40-21 46-24 155-96 78-51 107-73 214-159 29-24 56-43 61-43 11 0 60-77 60-95 0-24-27-29-79-17-42 11-158 25-304 39-51 5-61 3-83-18-30-28-31-60-1-93 19-23 34-27 127-37 58-6 184-20 280-31 280-33 291-33 317-9 24 23 43 78 43 127 0 17 12 132 26 255 15 123 27 253 28 288 1 58-1 65-26 84-18 14-34 18-52 13-45-11-62-55-70-176-11-171-31-311-47-321-27-17-43-9-94 44-55 58-173 162-219 193-16 10-41 28-56 39-75 54-154 103-243 150-38 20-76 40-85 45s-39 19-67 30c-27 11-58 25-69 31-28 16-212 78-281 95-148 37-318 65-444 74-131 9-170 10-291 3z"/><path d="m2495 3936c-112-52-371-178-385-186-8-6-24-14-35-19-56-25-242-113-255-121-8-6-24-14-35-19s-78-37-150-71c-71-34-139-66-150-71s-27-13-35-18-58-30-110-54c-151-71-135 24-138-786l-3-697 23-34c13-19 43-44 68-56 99-49 400-195 422-204 13-5 30-14 38-19 8-4 49-24 90-44 41-19 152-72 245-117 94-45 208-100 255-122s92-44 100-49c103-62 128-62 235-2 21 12 115 57 290 137 55 26 107 51 115 56 8 6 35 19 60 31 72 33 214 101 230 110 8 5 24 13 35 18 62 27 313 148 335 161 8 5 42 21 75 37 37 18 68 41 82 62l23 34v693 692l-25 30c-25 30-58 47-330 177-127 61-369 178-485 234-25 12-52 26-60 31s-37 19-65 30c-27 11-57 25-65 30-8 6-22 13-30 16-8 4-74 35-146 70-71 35-139 64-150 64-10 0-41-11-69-24zm251-211c95-47 178-85 184-85 25 0 70-32 70-50 0-19-57-70-78-70-6 0-42-15-79-34-38-19-75-37-83-40s-22-10-30-15c-8-6-80-41-160-79s-188-90-240-115-135-64-185-86c-49-23-97-46-105-51-37-25-97-50-120-50s-83 25-120 49c-28 19-209 100-237 107-38 9-73 43-73 70 0 24 46 64 74 64 8 0 46 16 83 35 67 34 345 168 413 199 19 8 42 20 50 25s62 31 120 58c58 28 152 73 210 101s112 51 120 52c8 0 92-38 186-85zm524-249c14-7 34-18 45-24 38-22 235-112 245-112 17 0 60-31 70-51 13-24-30-75-71-84-17-4-57-20-88-35-31-16-105-52-166-80-60-28-117-55-125-60-8-6-31-18-50-26-71-32-190-89-367-175-100-49-191-89-202-89s-94 35-183 78c-90 43-184 88-210 100-27 12-48 28-48 35 0 23 42 54 110 83 36 15 72 33 81 41 8 7 18 13 22 13 6 0 111 50 422 200 172 83 294 140 301 140 3 0 20 10 36 22 65 46 118 53 178 24zm-1822-361c17-14 33-25 37-25s85-38 179-84 239-116 321-156c83-39 195-93 250-120 55-26 110-51 122-54 11-4 27-13 33-21 7-8 20-15 29-15 10 0 29-13 44-28l27-28v-573c0-375-4-579-10-592-15-27-40-24-112 16-34 19-70 38-78 41-43 18-371 174-390 185-8 5-31 16-50 25-79 36-226 106-240 115-8 5-24 13-35 18-123 55-197 95-214 117-21 26-21 35-21 593 0 497 2 569 16 589 20 29 55 28 92-3zm2316 3c14-20 16-92 16-589 0-654 10-596-108-650-37-17-132-63-212-101-80-39-188-90-240-115-52-24-102-49-110-54s-31-17-50-25c-19-9-77-36-128-60-52-24-95-44-97-44s-35-18-74-40c-78-45-105-49-121-21-6 13-10 217-10 594v574l23 20c22 21 54 39 117 69 146 68 227 107 240 115 8 5 24 13 35 18 56 25 242 113 255 121 8 6 24 14 35 19 20 9 207 97 275 129 19 9 48 27 63 40 36 28 72 28 91 0z"/><path d="m1660 2580c-24-24-25-48-5-77 13-18 66-46 339-180 37-18 81-33 96-33 60 0 83 81 34 119-15 11-61 37-103 57s-120 58-175 85c-109 54-154 61-186 29z"/><path d="m4616 3478c-9-12-16-32-16-44 0-20 19-84 39-129 23-54 32-82 60-196 48-197 53-232 58-454 6-253-5-396-47-570-54-226-81-300-173-483-95-189-113-220-186-317-17-22-42-57-56-78-26-38-287-305-335-342-136-106-249-180-365-240-38-20-77-39-85-44-8-4-32-15-53-24-20-9-52-23-70-31-44-19-235-82-272-90-16-3-68-14-115-25-164-37-256-44-501-38-243 5-225 3-509 67-19 4-73 20-120 35-75 24-105 36-195 75-65 28-217 106-255 131-25 16-54 33-65 39-11 5-40 26-65 45s-56 43-70 53c-102 70-220 183-220 211 0 21 40 33 73 22 18-6 88-18 157-26 69-9 144-19 167-22 35-5 45-2 67 20 30 30 33 66 8 96-15 20-35 24-166 36-82 8-197 21-255 29s-147 18-197 22l-90 7-26-32c-19-22-28-46-32-83-18-187-49-461-57-507-14-86-11-115 14-139 30-28 68-28 95 1 22 23 26 46 53 322 6 66 16 128 21 138 17 33 50 19 118-51 76-78 251-217 330-262 36-21 57-34 100-61 71-46 182-99 355-169 31-13 146-51 183-61 17-5 49-13 70-19 20-5 105-22 187-36 205-35 449-43 635-20 136 17 310 49 365 67 17 5 71 22 120 38 156 49 369 148 488 224 81 53 159 105 192 130 196 146 432 405 564 617 15 25 36 59 46 75 116 185 230 496 281 765 58 309 54 594-12 910-34 164-106 377-140 413-31 34-76 36-98 5z"/></g></svg>
+
+  {%- when 'free-delivery' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="{{ width | default: 27 }}" height="{{ height | default: 24 }}" class="{{ class | strip }}" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512 512"><g transform="matrix(.1 0 0 -.1 0 512)" fill="currentColor">
+  <path d="m144 4517c-17-7-47-29-67-49s-45-39-57-43l-20-6v-1545c0-1385 2-1544 15-1544 9 0 37-20 63-43 26-24 56-48 67-52 11-5 82-11 158-14 161-7 167-11 167-97 0-61 22-153 49-204 10-19 26-49 35-67 23-43 118-137 180-177 92-61 166-81 296-81 132 0 218 22 306 80 62 42 157 135 180 178 48 90 57 110 66 145 5 20 13 70 16 111 11 123-100 111 1027 111l970 1 23-26c17-20 22-38 22-82 0-140 85-296 225-410 22-18 44-33 49-33s17-6 25-14c9-8 53-26 99-41 76-25 92-27 190-22 171 8 287 65 412 201 74 80 130 220 130 323 0 92 10 100 129 105l98 3 46 43c26 23 53 42 62 42 13 0 15 51 15 420v420l-26 12c-14 7-40 33-57 58-18 26-79 89-137 139-121 107-156 156-195 278-16 48-32 92-37 97-4 6-8 16-8 24s-6 28-14 45c-8 18-21 55-30 82-8 28-24 75-36 105s-30 80-40 110c-54 156-77 197-137 241-68 50-96 57-279 62-146 5-164 4-192-13-55-34-52-94 7-124 21-12 62-15 167-13 76 1 151-1 166-5 39-12 108-103 108-144 0-23-6-37-20-44s-133-11-363-10c-205 1-352-2-367-8-27-11-61-45-79-79-7-14-11-102-11-256 0-227 1-235 23-268 47-70 35-69 593-69h500l60-48c32-27 86-74 119-105s63-57 66-57c4 0 21-22 38-48l31-48v-322c1-206-3-329-10-341-11-22-24-27-95-36-83-10-122 10-177 91-94 141-221 229-375 261-187 39-390-28-525-172-15-16-48-60-73-97s-53-69-63-72c-9-3-78-6-153-7-115-2-141 0-163 14l-26 17v916 915l35 15c25 10 61 13 132 10 128-6 171 2 196 36 18 24 18 30 7 58-20 48-41 54-191 54-120 1-139 3-158 20-21 19-21 24-21 478 0 438-1 461-20 498-25 49-55 80-103 108l-38 22-1487-1c-1113 0-1495-3-1518-12zm2982-152c13-8 27-29 31-47s7-522 5-1120l-2-1088-24-16c-22-14-84-15-531-14l-506 1-29-30c-38-37-38-55-1-92l29-29h510c471 0 511-1 531-17 26-21 25-12 23-290-2-222-2-223-26-238-20-14-114-16-780-16-510 0-763 4-776 11-11 6-40 41-64 78-48 72-123 150-171 176-16 9-50 28-74 41-64 36-189 59-275 51-193-18-334-104-442-268-25-37-57-74-72-81-28-13-202-15-269-2-59 11-64 35-64 292 0 198 2 227 17 244 16 18 48 19 821 21l805 3 24 28c29 34 30 57 5 88l-19 24-810 3c-763 2-810 3-826 20-14 17-16 118-16 1122 0 1066 0 1105 18 1130 11 14 32 27 47 30 16 3 672 4 1458 3 1255-2 1433-5 1453-18zm1317-1478c15-9 32-44 51-103 17-49 38-105 48-126 9-20 20-54 24-76 5-34 3-42-15-51-15-8-141-12-424-11-397 0-402 0-419 21-16 18-18 43-18 179 0 148 1 158 21 171 31 21 700 17 732-4zm-3260-1337c153-69 239-178 267-338 15-87-8-201-54-267-64-92-118-138-209-177-75-33-229-33-304 0-91 39-145 85-209 177-22 32-48 107-58 167-9 51 10 161 39 224 46 100 190 217 295 238 56 11 185-2 233-24zm3122 16c78-20 131-52 193-114 168-168 169-411 3-586-85-88-172-126-297-126-143 0-275 75-361 205-105 161-69 386 87 532 19 18 39 33 43 33 5 0 21 8 35 18 25 17 76 35 127 46 43 8 122 5 170-8z"/><path d="m553 3580c-53-21-54-29-53-415 0-386 2-398 56-411 71-18 96 29 93 179-2 73 2 120 10 134 14 28 49 37 102 29 52-8 116 9 129 35 17 31 8 70-22 92-22 17-44 21-110 21l-83 1-17 35c-21 41-18 98 6 136 16 23 22 24 99 23 95-1 131 12 148 53 10 25 9 33-8 56-11 15-31 30-44 33-36 10-280 9-306-1z"/><path d="m1087 3570c-14-11-29-31-33-43-13-39-8-710 5-735 27-50 87-52 118-5 14 22 18 49 18 128v100l32 3c29 3 35-2 77-65 108-160 149-203 190-203 51 0 88 58 65 103-13 23-86 118-131 170-42 47-37 70 25 111 29 19 66 55 82 78 27 39 30 50 30 128 0 77-3 89-28 125-71 100-131 125-302 125-108 0-125-2-148-20zm251-135c78-16 107-101 54-155-31-31-101-48-148-36-44 11-68 95-42 152 13 28 62 56 88 49 8-2 30-6 48-10z"/><path d="m1770 3579c-55-20-57-34-58-414l-2-350 24-30 24-30 158-3c167-4 194 2 212 42 13 30-5 74-39 91-18 10-58 15-113 15-80 0-87 2-102 25-12 19-15 40-12 82 7 79 26 93 123 90 61-2 78 2 102 19 32 24 40 53 23 84-16 30-56 43-129 41-36-1-73 1-82 4-37 12-51 113-24 165 16 30 16 30 110 30 83 0 97 3 119 23 37 34 41 60 12 94l-24 28-149 2c-81 1-159-2-173-8z"/><path d="m2334 3556-34-34v-353c1-447-14-419 223-419 139 0 145 1 171 25 34 31 33 60-3 96-29 28-34 29-108 28-45-2-88 3-100 10-28 14-42 64-32 114 11 61 27 71 116 72 87 1 119 14 133 51 11 28 3 49-28 77-16 14-37 18-94 18-47 0-81 5-95 14-51 34-49 156 3 175 14 6 59 10 100 10 70 0 78 2 105 29 16 16 29 37 29 46s-13 30-29 46l-29 29h-147-147z"/><path d="m943 1412c-52-21-139-103-158-148-59-142 13-303 162-363 38-15 154-11 193 8 143 67 205 231 139 363-27 54-106 125-158 143-58 19-125 18-178-3zm161-162c41-37 61-86 47-121-5-14-22-39-39-57-25-26-38-32-72-32-53 0-70 10-105 60-26 37-27 43-16 79 6 22 27 53 46 70 48 42 92 42 139 1z"/><path d="m4135 1421c-39-10-104-52-132-84-89-104-93-235-12-338 114-144 300-150 418-12 114 133 76 320-84 412-43 25-137 36-190 22zm130-161c33-21 65-73 65-107 0-26-33-72-66-94-47-31-95-25-137 16-20 20-40 47-43 60-10 39 13 90 54 119 44 31 83 33 127 6z"/><path d="m3639 2181c-35-36-37-64-4-96 23-24 30-25 138-25 105 0 115-2 135-23 12-13 26-37 32-54 15-41 60-62 95-43 29 15 33 26 41 95 9 73-2 120-34 150-26 25-29 25-200 25h-174z"/></g></svg>
+  {%- when 'custom-filter' -%}
+  <svg xmlns="http://www.w3.org/2000/svg" width="{{ width | default: 20 }}" height="{{ height | default: 14 }}" class="{{ class | strip }}"  viewBox="0 0 512 512" stroke="currentColor" fill="none">
+    <path d="M469.339 64H42.6719L213.339 265.813V405.333L298.672 448V265.813L469.339 64Z" stroke="#1E1E1E" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  {%- when '3D-icon' -%}
+    <svg xmlns="http://www.w3.org/2000/svg" width="512" height="238" viewBox="0 0 512 238" fill="none">
+    <mask id="mask0_11814_5144" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="238">
+    <path d="M512 0H0V237.151H512V0Z" fill="white"/>
+    </mask>
+    <g mask="url(#mask0_11814_5144)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M161.643 180.808C165.433 181.423 169.121 181.935 172.912 182.345L174.961 154.584L243.084 201.706L168.199 237.151L170.555 209.082C166.048 208.263 161.438 207.34 156.931 206.418C154.075 205.847 151.169 205.177 148.283 204.51C147.028 204.221 145.777 203.932 144.535 203.652L138.389 202.116C137.023 201.843 135.657 201.479 134.291 201.115C133.608 200.932 132.925 200.75 132.243 200.579C115.75 196.174 99.5636 190.95 83.7878 184.291C75.8995 181.013 68.1144 177.325 60.5338 173.228C52.953 169.13 45.4749 164.623 38.4064 159.398C31.338 154.173 24.5769 148.437 18.5328 141.676C12.4888 135.017 7.26435 127.129 3.78132 118.319C3.43989 117.568 3.18944 116.817 2.93904 116.066C2.81381 115.69 2.68864 115.314 2.55204 114.939C2.42247 114.42 2.25649 113.939 2.09247 113.463C1.86745 112.809 1.64614 112.166 1.52763 111.455L0.708102 107.972C0.605672 107.46 0.503238 106.846 0.400809 106.231L0.1959 104.387C-0.0963352 102.707 -0.12805 100.974 -0.15936 99.264C-0.171956 98.5762 -0.184484 97.8923 -0.213867 97.2164L-0.209541 97.1167C-0.108481 94.7913 -0.00321803 92.3684 0.400781 90.0453C1.11787 85.3331 2.4496 80.7234 4.39596 76.4207C6.23995 72.1181 8.49363 68.123 11.1571 64.4355C11.6272 63.6519 12.1572 62.9883 12.7013 62.3067C12.8686 62.0971 13.0373 61.8859 13.2059 61.6695C13.923 60.7474 14.6401 59.8252 15.3572 59.0056C15.9791 58.3426 16.5842 57.6621 17.1862 56.9855C18.0715 55.9907 18.9499 55.0034 19.8646 54.0887C22.9378 50.913 26.2159 48.0447 29.5965 45.2787C36.3576 39.9518 43.6309 35.2395 51.0066 31.1419C65.8606 22.8442 81.6364 16.6977 97.5148 11.6781C113.393 6.55601 129.681 2.86815 145.97 -0.102637C147.404 -0.409959 148.736 0.51201 148.94 1.94618C149.145 3.27792 148.325 4.60965 146.994 4.91697C131.115 8.80976 115.339 13.4196 100.076 19.1563C84.8124 24.9954 69.9582 31.859 56.4362 40.3616C49.6749 44.5616 43.2211 49.2739 37.382 54.4984C34.5137 57.1618 31.6453 59.9277 29.1867 62.7962C28.5721 63.5133 27.983 64.2558 27.394 64.9988C26.805 65.7412 26.2159 66.4843 25.6013 67.2014C25.1644 67.7106 24.7793 68.2723 24.4091 68.8119C24.2585 69.0316 24.1104 69.2474 23.9622 69.4547C23.7641 69.7718 23.5507 70.0732 23.3397 70.3718C23.0052 70.8444 22.6769 71.3086 22.4256 71.811C20.4792 74.9865 18.8402 78.2645 17.6109 81.6455C16.3816 85.026 15.562 88.4066 15.2548 91.8896C15.009 93.1999 15.0253 94.5761 15.0416 95.9647C15.0457 96.3134 15.0499 96.6621 15.0499 97.0113C15.1172 97.5842 15.1625 98.1571 15.2074 98.7266C15.2991 99.8876 15.3896 101.033 15.6645 102.134L15.8694 103.363L16.1767 104.592L16.8938 107.051C17.0304 107.597 17.258 108.143 17.4857 108.69C17.5995 108.963 17.7133 109.236 17.8157 109.509C18.1231 110.329 18.4304 111.148 18.8402 111.968C21.8109 118.319 26.1135 124.261 31.4404 129.485C36.6649 134.709 42.8113 139.422 49.2652 143.622C55.719 147.822 62.6851 151.51 69.7531 154.891C76.8217 158.271 84.1973 161.242 91.676 163.905C106.735 169.232 122.203 173.432 137.877 176.608C138.221 176.677 138.562 176.746 138.9 176.814C140.579 177.153 142.199 177.479 143.818 177.735L149.76 178.862C150.064 178.916 150.368 178.971 150.671 179.026C154.349 179.687 157.952 180.335 161.643 180.808ZM511.384 89.9822C511.548 90.9291 511.716 91.8946 511.786 92.8112L511.889 96.8068C511.889 99.5728 511.787 102.339 511.377 105.104C510.659 110.534 509.02 115.861 506.869 120.88C504.616 125.797 501.85 130.407 498.776 134.709C495.703 139.012 492.22 142.905 488.532 146.49C481.157 153.764 473.064 159.808 464.664 165.237C456.263 170.666 447.453 175.379 438.541 179.579C420.716 187.979 402.175 194.33 383.325 199.555C345.627 209.901 306.904 215.229 268.079 217.175C259.577 217.584 252.303 211.029 251.894 202.526C251.483 194.023 258.04 186.75 266.543 186.34H267.362H267.464C304.343 186.647 341.427 183.574 377.486 175.891C395.414 171.998 413.136 166.979 430.038 160.217C438.541 156.837 446.736 153.047 454.522 148.642C462.307 144.237 469.683 139.217 476.239 133.48C479.517 130.612 482.591 127.641 485.254 124.363C487.918 121.187 490.274 117.704 492.118 114.119C495.703 106.948 497.444 98.9576 496.42 91.0699C495.396 83.0792 491.913 75.2941 486.791 68.328C484.23 64.7425 481.362 61.4645 478.186 58.2885C475.01 55.2155 471.63 52.1423 468.044 49.3764C460.975 43.8446 453.088 38.9274 444.995 34.42C436.902 29.9126 428.4 26.0198 419.794 22.4344C402.482 15.2635 384.452 9.73169 366.115 5.32673C364.784 5.01944 363.964 3.58524 364.271 2.25351C364.578 0.921772 365.91 0.102243 367.242 0.307124C385.989 3.79012 404.633 8.29753 422.765 14.6489C431.883 17.7221 440.897 21.3075 449.605 25.5076C458.312 29.7077 466.917 34.42 475.01 40.0543C479.108 42.9226 483 45.9958 486.791 49.2739C490.478 52.6545 494.064 56.2397 497.343 60.2353C500.62 64.2304 503.591 68.635 505.947 73.3478C508.304 78.1625 510.147 83.2843 511.172 88.7136C511.236 89.1287 511.31 89.5535 511.384 89.9822Z" fill="black"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M124.45 108.587C124.45 139.767 148.749 158.475 181.004 158.475C213.689 158.475 237.128 139.981 237.128 113.532C237.128 93.3191 223.151 78.0519 203.153 76.7619C219.28 73.3211 231.107 58.054 231.107 41.2813C231.107 16.9825 209.604 -0.00512695 180.144 -0.00512695C149.394 -0.00512695 127.246 20.6381 127.461 47.5173H152.405C152.19 32.895 164.232 21.9283 180.144 21.9283C194.982 21.9283 205.733 30.9597 205.733 43.0016C205.733 55.4734 193.906 67.5155 176.488 67.5155C173.478 67.5155 170.897 67.5155 166.812 67.3003V87.7287H179.284C198.207 87.7287 211.539 95.8997 211.539 112.242C211.539 126.65 199.067 136.326 181.004 136.326C162.511 136.326 150.039 125.359 150.039 108.587H124.45ZM260.083 1.71592V156.755H308.465C351.472 156.755 387.168 130.306 387.168 79.1279C387.168 28.165 351.472 1.71592 308.465 1.71592H302.418H296.37H290.322H284.274H260.083ZM361.579 79.1279C361.579 119.124 334.915 134.607 306.96 134.607H285.027V23.8643H290.51H295.993H301.477H306.96C334.915 23.8643 361.579 39.3468 361.579 79.1279Z" fill="black"/>
+    </g>
+    </svg>
+    {%- when 'discord' -%}
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="{{ width | default: 30 }}" height="{{ height | default: 30 }}" class="{{ class | strip }}" viewBox="0 0 50 50" fill="currentColor">
+      <path d="M 41.625 10.769531 C 37.644531 7.566406 31.347656 7.023438 31.078125 7.003906 C 30.660156 6.96875 30.261719 7.203125 30.089844 7.589844 C 30.074219 7.613281 29.9375 7.929688 29.785156 8.421875 C 32.417969 8.867188 35.652344 9.761719 38.578125 11.578125 C 39.046875 11.867188 39.191406 12.484375 38.902344 12.953125 C 38.710938 13.261719 38.386719 13.429688 38.050781 13.429688 C 37.871094 13.429688 37.6875 13.378906 37.523438 13.277344 C 32.492188 10.15625 26.210938 10 25 10 C 23.789063 10 17.503906 10.15625 12.476563 13.277344 C 12.007813 13.570313 11.390625 13.425781 11.101563 12.957031 C 10.808594 12.484375 10.953125 11.871094 11.421875 11.578125 C 14.347656 9.765625 17.582031 8.867188 20.214844 8.425781 C 20.0625 7.929688 19.925781 7.617188 19.914063 7.589844 C 19.738281 7.203125 19.34375 6.960938 18.921875 7.003906 C 18.652344 7.023438 12.355469 7.566406 8.320313 10.8125 C 6.214844 12.761719 2 24.152344 2 34 C 2 34.175781 2.046875 34.34375 2.132813 34.496094 C 5.039063 39.605469 12.972656 40.941406 14.78125 41 C 14.789063 41 14.800781 41 14.8125 41 C 15.132813 41 15.433594 40.847656 15.621094 40.589844 L 17.449219 38.074219 C 12.515625 36.800781 9.996094 34.636719 9.851563 34.507813 C 9.4375 34.144531 9.398438 33.511719 9.765625 33.097656 C 10.128906 32.683594 10.761719 32.644531 11.175781 33.007813 C 11.234375 33.0625 15.875 37 25 37 C 34.140625 37 38.78125 33.046875 38.828125 33.007813 C 39.242188 32.648438 39.871094 32.683594 40.238281 33.101563 C 40.601563 33.515625 40.5625 34.144531 40.148438 34.507813 C 40.003906 34.636719 37.484375 36.800781 32.550781 38.074219 L 34.378906 40.589844 C 34.566406 40.847656 34.867188 41 35.1875 41 C 35.199219 41 35.210938 41 35.21875 41 C 37.027344 40.941406 44.960938 39.605469 47.867188 34.496094 C 47.953125 34.34375 48 34.175781 48 34 C 48 24.152344 43.785156 12.761719 41.625 10.769531 Z M 18.5 30 C 16.566406 30 15 28.210938 15 26 C 15 23.789063 16.566406 22 18.5 22 C 20.433594 22 22 23.789063 22 26 C 22 28.210938 20.433594 30 18.5 30 Z M 31.5 30 C 29.566406 30 28 28.210938 28 26 C 28 23.789063 29.566406 22 31.5 22 C 33.433594 22 35 23.789063 35 26 C 35 28.210938 33.433594 30 31.5 30 Z"></path>
+      </svg>
+{%- endcase -%}

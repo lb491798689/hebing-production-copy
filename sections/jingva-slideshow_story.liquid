@@ -1,0 +1,1469 @@
+{% liquid
+  assign page_width = "page-width row t4s-container container section section--page-width"
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign margin_top      = se_stts.margin_top      | split: ";" 
+  assign margin_bottom   = se_stts.margin_bottom   | split: ";" 
+  assign padding_top     = se_stts.padding_top     | split: ";" 
+  assign padding_bottom  = se_stts.padding_bottom  | split: ";" 
+  assign color           = se_stts.color
+  assign color_mb        = se_stts.color_mb
+  assign css             = se_stts.css
+  assign use_custom_css  = se_stts.use_custom_css
+  assign width_type      = se_stts.width_type
+  assign section_type    = se_stts.section_type
+  assign slide_height    = se_stts.slide_height
+  assign slide_height_mb = se_stts.slide_height_mb
+  assign autoplay        = se_stts.autoplay
+  assign default_duration= se_stts.default_duration
+  assign show_arrows     = se_stts.show_arrows
+  assign show_dots       = se_stts.show_dots
+  if section.blocks.size <= 1
+    assign show_dots = false
+  endif
+  assign dot_style   = se_stts.dot_style
+  assign dot_align   = se_stts.dot_align
+  assign aspect_ratio    = "100vh"
+  assign aspect_ratio_mb = "100vh"
+  if slide_height == "adapt_image"
+    assign aspect_ratio    = 1 | divided_by: section.blocks[0].settings.image.aspect_ratio    | times: 100 | append: "%"
+    assign aspect_ratio_mb = 1 | divided_by: section.blocks[0].settings.image_mb.aspect_ratio | times: 100 | append: "%"
+  elsif slide_height == "full_screen"
+    assign aspect_ratio    = 100 | append: "vh"
+    assign aspect_ratio_mb = 100 | append: "vh"
+  else
+    assign aspect_ratio    = slide_height    | append: "px"
+    assign aspect_ratio_mb = slide_height_mb | append: "px"
+  endif
+%}
+{% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
+ 
+<!-- Plyr CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.css" />
+
+<section class="jingva-section-container  jingva-section-container-{{sid}} {{section.settings.section_css}} jingva-carousel-section">
+  {% style %}
+  {{ default_sid }}{--margin-top:{{margin_top[0]}};--margin-bottom:{{margin_bottom[0]}};--padding-top:{{padding_top[0]}};--padding-bottom:{{padding_bottom[0]}};--background-color:{{color}};--slide-height:{{aspect_ratio}};--default-duration:{{default_duration}}s;}@media screen and (max-width:992px){ {{ default_sid }}{--margin-top:{{margin_top[1]}};--margin-bottom:{{margin_bottom[1]}};--padding-top:{{padding_top[1]}};--padding-bottom:{{padding_bottom[1]}};} }@media screen and (max-width:767px){ {{ default_sid }}{--margin-top:{{margin_top[2]}};--margin-bottom:{{margin_bottom[2]}};--padding-top:{{padding_top[2]}};--padding-bottom:{{padding_bottom[2]}};--background-color:{{color_mb}};--slide-height:{{aspect_ratio_mb}};} }{{ default_sid }}{margin-top:var(--margin-top);margin-bottom:var(--margin-bottom);padding-top:var(--padding-top);padding-bottom:var(--padding-bottom);background-color:var(--background-color);position:relative;overflow:hidden;}{{ default_sid }} .page-width{max-width:var(--container-max-width);padding:0;padding-top:131px}.jingva-wrapper.page-width .page-width{padding-left:60px;padding-right:60px;}.jingva-wrapper.page-width .jingva-box{border-radius:20px;overflow:hidden;}.jingva-slide-content{text-decoration:unset;}{{ default_sid }} .media-box{position:relative;padding-top:var(--slide-height);}{{ default_sid }} .media-box .media-box-wrapper{position:absolute;inset:0;width:100%;height:100%;}{{ default_sid }} .media-box .media-box-wrapper .image-box,{{ default_sid }} .media-box .media-box-wrapper .image-box img,{{ default_sid }} .media-box .media-box-wrapper video,{{ default_sid }} .media-box .media-box-wrapper iframe{width:100%;height:var(--slide-height);object-fit:cover;}.jingva-slide-wrapper{position:relative;}.jingva-slide-content{position:absolute;inset:0;width:100%;height:100%;}.jingva-slide-content .page-width,.jingva-slide-content .jingva-slide-content-wrapper{width:100%;height:100%;}.jingva-slide-content .plyr__video-wrapper{aspect-ratio:unset;}{{ default_sid }} .jingva-slide-content-wrapper{display:flex;}.jingva-slide-content-wrapper-inner{flex:1;line-height:1.4;}.jingva-slide-topsubtitle{font-weight:normal;margin:0 0 15px 0;}.jingva-slide-title{font-style: italic;font-weight:700;margin:0;}{{ default_sid }} .jingva-slide-subtitle{margin-top:48px;font-weight:normal;} #jingvaCarousel{{sid}} .jingva-slide-btn{line-height:1;display:inline-flex;justify-content:center;align-items:center;gap:14px;margin-top:35px; font-style: italic;font-family:'RBNo3.1-LightItalic';font-size:18px; text-decoration:unset;font-weight:normal;transition:opacity .3s;}{{ default_sid }} .slick-dotted.slick-slider{margin-bottom:0;}{{ default_sid }} .dots-box{width:100%;position:absolute;left:0;bottom:25px;} {% if dot_align == "left" %}{% assign dotAlign = "flex-start" %}{% elsif dot_align == "center" %}{% assign dotAlign = "center" %}{% elsif dot_align == "right" %}{% assign dotAlign = "flex-end" %}{% endif %}{{ default_sid }} .slick-dots{position:static;display:flex;justify-content:{{dotAlign}};bottom:33px;}{% unless show_dots %}{{ default_sid }} .slick-dots{display:none!important;} {% endunless %}{{ default_sid }} .dots-box.style-1 .slick-dots li{width:33px;height:33px;}{{ default_sid }} .dots-box.style-1 .slick-dots li span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:15px;font-weight:600;}{{ default_sid }} .dots-box.style-1 .custom-dot{position:relative;width:33px;height:33px;padding:0;color:#fff;}{{ default_sid }} .dots-box .custom-dot::before{transition:all .3s;}{{ default_sid }} .dots-box.style-1 .slick-dots li .custom-dot::before{display:none;}{{ default_sid }} .dots-box.style-2 .slick-dots li{width:18px;height:18px;}{{ default_sid }} .dots-box.style-2 .custom-dot{position:relative;width:18px;height:18px;padding:0;color:#fff;}{{ default_sid }} .dots-box.style-2 .slick-dots li .custom-dot::before{display:block;font-size:11px;width:18px;height:18px;color:#fff;}{{ default_sid }} .dots-box.style-2 .slick-dots li .custom-dot svg,{{ default_sid }} .dots-box.style-2 .slick-dots li .custom-dot span{display:none;}{{ default_sid }} .dots-box.style-3 .slick-dots li{width:54px;height:3px;}{{ default_sid }} .dots-box.style-3 .custom-dot{position:relative;width:50px;height:2px;padding:0;color:#fff;background-color:rgba(255,255,255,.3);border-radius:50px;overflow:hidden;}{{ default_sid }} .dots-box.style-3 .slick-dots li .custom-dot::before{content:""!important;display:block;font-size:11px;width:100%;height:3px;color:#fff;background-color:#fff;border-radius:50px;}{{ default_sid }} .dots-box.style-3 .slick-dots li.slick-active .custom-dot::before{% if autoplay %}{width:0%;animation:width var(--default-duration) ease-out forwards;}{% else %}{width:100%;}{% endif %}{{ default_sid }} .dots-box.style-3 .slick-dots li .custom-dot svg,{{ default_sid }} .dots-box.style-3 .slick-dots li .custom-dot span{display:none;}{{ default_sid }} .dots-box.style-1 .custom-dot circle{fill:none;stroke:currentColor;stroke-linecap:butt;stroke-opacity:.3;stroke-width:2px;transform-origin:50% 50%;}{{ default_sid }} .dots-box.style-1 li.slick-active .custom-dot .fr{stroke-opacity:1;{% if autoplay %}animation:draw var(--default-duration) ease-out forwards;{% else %}stroke-dasharray:100px 100px;{% endif %}}{{ default_sid }} .slick-arrow{width:40px;height:40px;border-radius:50px;display:flex;justify-content:center;align-items:center;transition:transform .3s;position:absolute;top:50%;transform: translateY(-50%);}{{ default_sid }} .slick-arrow:hover{transform:translate(0,-50%) scale(1.1);}{{ default_sid }} .slick-arrow::before{display:none;}{{ default_sid }} .slick-arrow.slick-next{right:30px;}{{ default_sid }} .slick-arrow.slick-prev{left:30px;z-index:2;}{{ default_sid }} .slick-arrow.slick-prev svg{transform:rotate(180deg);}{{ default_sid }} .slick-arrow svg{width:41px;height:41px;}@keyframes draw{from{stroke-dasharray:0px 100px;}to{stroke-dasharray:100px 100px;}}@keyframes width{from{width:0px;}to{width:100%;}}.jingva-small--hidden{}.jingva-large--hidden{display:none;}.jingva-carousel-{{sid}}[data-type="slideshow"] .jingva-slide:not(.jingva-slide-1){display:none;}.jingva-carousel-{{sid}}[data-type="slideshow"] .slick-list .jingva-slide{display:block;}.jingva-carousel-{{sid}}[data-widthType="page"] .jingva-slide{margin-right:30px;border-radius:20px;overflow:hidden;}.jingva-carousel-{{sid}}[data-widthType="page"] .slick-arrow.slick-next{right:clamp(30px,calc(10vw + 30px),240px);}.jingva-carousel-{{sid}}[data-widthType="page"] .slick-arrow.slick-prev{left:clamp(30px,10vw,240px);}@media screen and (min-width:768px) and (max-width:1400px){.jingva-slide-content-wrapper{padding:40px 0;}}@media screen and (max-width:1400px){ {{ default_sid }} .slick-arrow.slick-next{right:10px;}{{ default_sid }} .slick-arrow.slick-prev{left:10px;} }@media screen and (min-width:768px) and (max-width:999px){.jingva-medium--hidden{display:none;}.jingva-medium--hidden{display:block;}}@media screen and (max-width:767px){ {{ default_sid }} .dots-box.style-3 .slick-dots li{width:18px;} {{ default_sid }} .dots-box.style-3 .custom-dot{width:18px;} .jingva-small--hidden{display:none;}.jingva-medium--hidden{display:block;}.jingva-carousel-{{sid}}[data-widthType="page"] .jingva-slide{margin-right:10px;}{{ default_sid }} .dots-box{bottom:10px;}{{ default_sid }} .slick-dots{justify-content:center;}{{ default_sid }} .dots-box.style-2 .slick-dots li .custom-dot::before{font-size:8px;width:11px;height:11px;}{{ default_sid }} .dots-box.style-2 .custom-dot{width:11px;height:11px;}{{ default_sid }} .dots-box.style-2 .slick-dots li{width:11px;height:11px;}{{ default_sid }} .slick-arrow{display:none!important;}{{ default_sid }} .jingva-slide-content-wrapper{padding:0;}{{ default_sid }} .jingva-slide-btn{font-size:15px !important;margin-top:18px !important;}{{ default_sid }} .jingva-slide-topsubtitle,{{ default_sid }} .jingva-slide-title,{{ default_sid }} .jingva-slide-subtitle{margin-top: 21px;margin-bottom:0px;}.jingva-slide-title{margin-top:0;order:1;}}{% if use_custom_css %}{{ css|replace:".sectionID",default_sid}}{% endif %}
+   
+    {{ default_sid }} .star-box{
+     position: absolute;
+     bottom: 0;
+     left: 0;
+     order:5;
+   }
+    {{ default_sid }} .star-box .star-box-inner{
+      display: flex;
+      color: #fff;
+  }
+
+  {{ default_sid }} .star-box .star-box-inner .conten-text{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+ }
+ {{ default_sid }} .star-box .star-box-inner .conten-text h2{
+    font-size: 38px;
+    margin-bottom: 128px;
+    text-align: left;
+ }
+
+{{ default_sid }} .star-box .star-box-inner .conten-text .info-text{
+  font-size: 18px;
+  text-align: left;
+ }
+ {{ default_sid }} .star-box .star-box-inner .conten-text .info-text .name{
+  font-size: 28px;
+  margin-bottom: 12px;
+ }
+ {{ default_sid }} .star-box .star-box-inner .conten-text .info-text .description{
+    max-width: 560px;
+}
+
+
+ {{ default_sid }} .jingva-slide-subtitle{
+  display: inline-block;
+  max-width:884px;
+ }
+
+ {{ default_sid }} .jingva-slide-btn-box .play-icon {
+    width: 42px;
+    height: 25px;
+    background-color: #E1040F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    clip-path: polygon(15% 0%, 85% 0%, 100% 15%, 100% 85%, 85% 100%, 15% 100%, 0% 85%, 0% 15%);
+  }
+
+
+    
+  .jingva-lg{
+    display: block;
+  }
+
+  .jingva-md{
+    display: none;
+  }
+
+
+  @media screen and (max-width: 768px) {
+    
+    /* 移动端隐藏 */
+    .jingva-lg{
+      display: none;
+    }
+    /* 移动端显示 */
+    .jingva-md{
+      display: block;
+    }
+
+    {{ default_sid }} .star-box .star-box-inner{
+      flex-direction: column;
+      z-index:1;
+    }
+
+    {{ default_sid }} .page-width{
+      padding-top:49px;
+   }
+   {{ default_sid }} .jingva-slide-content-wrapper-inner{
+      display:flex;
+      flex-direction:column;
+   }
+   {{ default_sid }} .jingva-slide-subtitle{
+    order:3;
+    color:#A6A6A6!important;
+    margin-top:40px;
+    line-height: 1.428;
+   }
+   {{ default_sid }} .jingva-slide-btn-box .play-icon {
+    width:26px;
+    height:15px;
+   }
+   {{ default_sid }} .jingva-slide-btn-box .play-icon svg{
+    width:5px;
+   }
+   {{ default_sid }} .star-box{
+      max-width: calc(100vw - 2 * var(--container-gutter));
+   }
+
+   {{ default_sid }} .star-box .star-box-inner img{
+    max-width: 336px;
+    marigin:0 auto;
+    margin-top:30px;
+  }
+   {{ default_sid }} .star-box .star-box-inner .conten-text{
+    padding-left:var(--container-gutter);
+    padding-right:var(--container-gutter);
+    z-index:5;
+    background:#000000;
+    width:100vw;
+    transform:translateX(calc(var(--container-gutter) * -1));
+    padding-bottom:26px;
+    position:relative;
+  }
+  {{ default_sid }} .star-box .star-box-inner .conten-text::before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -120px;
+    height: 120px;
+    background: linear-gradient(0deg, #000000 4.43%, rgba(0, 0, 0, 0) 52%);
+    z-index: 2;
+  }
+
+  
+   {{ default_sid }} .star-box .star-box-inner .conten-text .info-text{
+    font-size: 12px;
+  } 
+ {{ default_sid }} .star-box .star-box-inner h2{
+
+  font-family: HarmonyOS-Sans-SC, sans-serif;
+    line-height: 1.2;
+ }
+   {{ default_sid }} .star-box .star-box-inner .conten-text .info-text .name{
+    font-family: HarmonyOS-Sans-SC, sans-serif;
+    line-height: 1.2;
+    font-size: 22px;
+  }
+
+
+  }
+    
+
+
+    
+  {% endstyle %}
+
+  <div class="jingva-section-container-inner">
+    <div class="jingva-wrapper {{ section.blocks.size }} {% if width_type == "container" %}{{page_width}}{% endif %}">
+      <div class="jingva-box">
+        <div class="jingva-carousel-{{sid}}" id="jingvaCarousel{{sid}}" data-widthType="{{ width_type }}" data-type="{{ section_type }}" data-duration="{{ block.settings.slide_duration | default: default_duration }}">
+          {% for block in section.blocks %}
+            {% liquid
+              assign bid                  = block.id
+              assign bk_stts              = block.settings
+              assign type                 = bk_stts.type
+              assign image                = bk_stts.image
+              assign image_mb             = bk_stts.image_mb
+              assign video_mp4            = bk_stts.video_mp4
+              assign video_mp4_mb         = bk_stts.video_mp4_mb
+              assign video_link           = bk_stts.video_link
+              assign video_link_mb        = bk_stts.video_link_mb
+              assign content_layout       = bk_stts.content_layout
+              assign content_position     = bk_stts.content_position
+              assign top_range            = bk_stts.top_range
+              assign left_range           = bk_stts.left_range
+              assign content_position_mb  = bk_stts.content_position_mb
+              assign top_range_mb         = bk_stts.top_range_mb
+              assign left_range_mb        = bk_stts.left_range_mb
+              assign max_width            = bk_stts.max_width
+              assign topsubtitle          = bk_stts.topsubtitle
+              assign topsubtitle_size     = bk_stts.topsubtitle_size | split: ";" 
+              assign topsubtitle_color    = bk_stts.topsubtitle_color | split: ";" 
+              assign title                = bk_stts.title
+              assign title_size           = bk_stts.title_size | split: ";" 
+              assign title_color          = bk_stts.title_color | split: ";" 
+              assign subtitle             = bk_stts.subtitle
+              assign subtitle_size        = bk_stts.subtitle_size | split: ";" 
+              assign subtitle_color       = bk_stts.subtitle_color | split: ";" 
+              assign btn_text             = bk_stts.btn_text
+              assign link_type            = bk_stts.link_type
+              assign btn_link             = bk_stts.btn_link
+              assign btn_bg_color         = bk_stts.btn_bg_color
+              assign btn_text_color       = bk_stts.btn_text_color
+              assign btn_border_radius    = bk_stts.btn_border_radius
+              assign show_overlay         = bk_stts.show_overlay
+              assign overlay_color        = bk_stts.overlay_color
+              assign overlay_opacity      = bk_stts.overlay_opacity
+            %}
+            {% capture _bid %}.jingva-slide-{{bid}}{% endcapture %}
+            <div class="jingva-slide jingva-slide-{{ link_type }} jingva-slide-{{ forloop.index }} jingva-slide-{{bid}}" data-block-id="{{ block.id }}" >
+              {% style %}
+                {{ _bid }}{--max-width:{{ max_width | append: "%" }};--topsubtitle-size:{{ topsubtitle_size[0] }};--topsubtitle-color:{{ topsubtitle_color[0] }};--title-size:{{ title_size[0] }};--title-color:{{ title_color[0] }};--subtitle-size:{{ subtitle_size[0] }};--subtitle-color:{{ subtitle_color[0] }};--btn-bg-color:{{ btn_bg_color }};--btn-text-color:{{ btn_text_color }};--btn-font-size:{{ btn_font_size }};--btn-border-radius:{{ btn_border_radius }}px;--position:{{ content_position | split: " " | first }};--alignment:{{ content_position | split: " " | last }};}@media screen and (min-width:768px) and (max-width:992px){ {{ _bid }}{--topsubtitle-size:{{ topsubtitle_size[2] | default: topsubtitle_size[0] }};--title-size:{{ title_size[2] | default: title_size[0] }};--subtitle-size:{{ subtitle_size[2] | default: subtitle_size[0] }};} }@media screen and (max-width:767px){ {{ _bid }}{--topsubtitle-color:{{ topsubtitle_color[1] | default: topsubtitle_color[0] }};--title-color:{{ title_color[1] | default: title_color[0] }};--subtitle-color:{{ subtitle_color[1] | default: subtitle_color[0] }};--topsubtitle-size:{{ topsubtitle_size[2] | default: topsubtitle_size[0] }};--title-size:{{ title_size[2] | default: title_size[0] }};--subtitle-size:{{ subtitle_size[2] | default: subtitle_size[0] }};--position:{{ content_position_mb | split: " " | first }};--alignment:{{ content_position_mb | split: " " | last }};} }{{ _bid }} .jingva-slide-content-wrapper{align-items:var(--position);text-align:var(--alignment);justify-content:var(--alignment);position:relative;}{{ _bid }} .jingva-slide-content-wrapper-inner{max-width:var(--max-width);}{{ _bid }} .jingva-slide-topsubtitle{font-size:var(--topsubtitle-size);color:var(--topsubtitle-color);}{{ _bid }} .jingva-slide-title{font-size:var(--title-size);color:var(--title-color);}{{ default_sid }} .jingva-slide-subtitle{font-size:var(--subtitle-size);color:var(--subtitle-color);}{{ _bid }} .jingva-slide-btn{color:var(--btn-text-color);background-color:var(--btn-bg-color);}{% if show_overlay %}{{ _bid }} .jingva-slide-content{background-color:rgba({{ overlay_color.red }},{{ overlay_color.green }},{{ overlay_color.blue }},{{ overlay_opacity }});}{% endif %}
+                  
+                .jingva-section-container-{{sid}} .jingva-impact-box{
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  color:{{title_color[0]}};
+                  margin-top: 64px;
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box{
+                  display: grid;
+                  grid-template-columns: repeat(3, 1fr);
+                  justify-items: center;
+                  width:100%;
+               
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li{
+                  position:relative;
+                  width:100%;
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li:nth-child(1)::after,
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li:nth-child(2)::after {
+                  content: "";
+                  position: absolute;
+                  top: 50%;
+                  right:0;
+                  transform: translateY(-50%);
+                  width: 1px;
+                  height: 40%;
+                  background-color: rgba(255,255,255,0.5);
+                  z-index: 1;
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li h2{
+                  font-style: italic;
+                  font-size: 54px;
+                  color:{{ bk_stts.impact_color }};
+                  position:relative;
+                  display:inline;
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li p{
+                  margin-top:12px;
+                }
+                .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li h2:after{
+                  content: "+";
+                  position: absolute;
+                  top: 0;
+                  right: -29px;
+                  color:{{ bk_stts.impact_color }};
+                  font-size: 32px;
+                  z-index: 1;
+                }
+
+                .jingva-section-container-{{sid}} .media-box .image-box{
+                  /* background:{{ bk_stts.gradient_color }}; */
+                  background: linear-gradient(180deg, #000000 10.84%, #030303 36.81%, #0E0E0E 59.19%, #1F1F1F 80.68%, #383838 100.38%);
+                }
+
+                
+                @media screen and (max-width: 768px) {
+                  .jingva-section-container-{{sid}} .jingva-slide-btn-box{
+                    display:block;
+                    order:2;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box{
+                    order:4;
+                    margin-top:48px;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box{
+                    grid-template-columns: repeat(2, 1fr);
+                    justify-items: center;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li:last-child {
+                    grid-column: span 2;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li p{
+                    font-size: 14px;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li h2{
+                    font-size: 30px;
+                    margin-left:-10px;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li h2:after{
+                    font-size: 24px;
+                    top: -4px;
+                    right: -22px;
+                  }
+                  .jingva-section-container-{{sid}} .jingva-impact-box .im-content-box li:nth-child(2)::after {
+                    display: none;
+                  }
+                  .jingva-section-container-{{sid}} .media-box-wrapper  picture{
+                    display: block !important;
+                  }
+                }
+                  
+              {% endstyle %}
+              <div class="jingva-slide-wrapper">
+              <!-- Background -->
+              <div class="media-box">
+              <div class="media-box-wrapper">
+                {% case type %}
+                {% when 'image' %}
+                  {% if image %}
+                    <div class="image-box">
+                     
+                      <picture style="display:none">
+                        {% if image_mb != blank %}
+                        <source srcset="{{ image_mb | img_url: '750x' }}"  media="(max-width: 767px)">
+                        <source srcset="{{ image_mb | img_url: '1160x' }}" media="(max-width: 1000px)" >
+                       {% endif %}
+                        <img fetchpriority="high"  src="{{ image | img_url: '2400x' }}"  alt="{{ image.alt }}" {%unless forloop.first%}loading="lazy"{% endunless %} width="auto" height="100%">
+                      </picture>
+                    </div>   
+                  {% else %}
+                      {{ 'hero-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                {% when 'mp4' %}
+                  {% if  video_mp4 %}
+                    <div class="{% if video_mp4_mb %}jingva-small--hidden{% endif %}">
+                      {{ video_mp4  | video_tag: image_size: '1920x', autoplay: true, loop:true, muted: true  }}
+
+                      
+                    </div>
+                  {% endif %}
+                  {% if  video_mp4_mb %}
+                    <div class="jingva-medium--hidden jingva-large--hidden">
+                      {{ video_mp4_mb  | video_tag: image_size: '768x', autoplay: true, loop:true, muted: true  }}
+                    </div>
+                  {% endif %}
+                {% when 'external' %}
+                    {% liquid
+                      assign video_id = ''
+                      assign video_provider = ''
+                      if video_link contains "youtube.com" or video_link contains "youtu.be"
+                        assign video_provider = "youtube"
+                        if video_link contains "youtu.be"
+                          assign video_id = video_link | split: "/" | last
+                        elsif video_link contains "watch?v="
+                          assign video_id = video_link | split: "v=" | last | split: "&" | first
+                        endif
+                      elsif video_link contains "vimeo.com"
+                        assign video_provider = "vimeo"
+                        assign video_id = video_link | split: "/" | last
+                      endif
+                    %}
+                      {% if  video_link %}
+                        <div class="{% if video_link_mb %}jingva-small--hidden{% endif %}">
+                          <div
+                            class="plyr-video"
+                            data-plyr-provider="{{ video_link.type }}" 
+                            data-plyr-embed-id="{{ video_link.id }}"
+                            data-slide-video
+                          ></div>
+                        </div>
+                      {% endif %}
+                      {% if  video_link_mb %}
+                      <div class="jingva-medium--hidden jingva-large--hidden">
+                        <div
+                          class="plyr-video"
+                          data-plyr-provider="{{ video_link_mb.type }}" 
+                          data-plyr-embed-id="{{ video_link_mb.id }}"
+                          data-slide-video
+                        ></div>
+                      </div>
+                    {% endif %}
+                {% endcase %}
+              </div>
+        </div>    
+              <!-- Content -->
+               {% if link_type == "2" %}
+                    <a href="{{ btn_link }}" class="jingva-slide-content" >
+                {% else %}
+                    <div class="jingva-slide-content" >
+                {% endif %}
+              
+                
+                <div class=" page-width row t4s-container container section section--page-width">
+                <div class="jingva-slide-content-wrapper">
+           <div class="jingva-slide-content-wrapper-inner">
+            {% if topsubtitle != blank %}
+              <div class="jingva-slide-topsubtitle">{{ topsubtitle }}</div>
+            {% endif %}
+            {% if title != blank %}
+              <h2 class="jingva-slide-title">{{ title }}</h2>
+            {% endif %}
+            
+            {% if subtitle != blank %}
+              <div class="jingva-slide-subtitle">{{ subtitle }}</div>
+            {% endif %}
+
+            {% if btn_text != blank %}
+              <div class="jingva-slide-btn-box "> 
+              
+                  {% if link_type  == "1" %}
+                  <a href="{{ btn_link | default: '#' }}" class="jingva-slide-btn h3">
+                  {%else%}
+                  <div class="jingva-slide-btn">
+                  {% endif %}
+                  
+                 
+                    {{ btn_text }}
+
+                    <div class="play-icon">
+                      <svg width="10" height="16" viewBox="0 0 10 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1.32275 14.8087L7.81195 8.3195L1.32275 1.82227" stroke="white" stroke-width="3" stroke-miterlimit="10"/>
+                      </svg>
+
+                    </div>
+  
+                  {% if link_type  == "1" %}
+                      </a>
+                  {% else %}
+                      </div>
+                  {% endif %}
+  
+              </div>
+              {% endif %}
+
+            {% if bk_stts.show_impact %}
+            <div class="jingva-impact-box">
+              <ul class="im-content-box">
+                <li>
+                  
+                  <p>{{ bk_stts.sub_impact_text1 }}</p>
+                  <h2>{{ bk_stts.impact_text1 }}</h2>
+                </li>
+                <li>
+                  
+                  <p>{{ bk_stts.sub_impact_text2 }}</p>
+                  <h2>{{ bk_stts.impact_text2 }}</h2>
+                </li>
+                <li>
+                  
+                  <p>{{ bk_stts.sub_impact_text3 }}</p>
+                  <h2>{{ bk_stts.impact_text3 }}</h2>
+                </li>
+              </ul>
+            </div>
+            {% endif %}
+
+            <div class="star-box">
+              <div class="star-box-inner">
+                <h2 class="jingva-md">{{ bk_stts.person_title }}</h2>
+                {% if bk_stts.person_img %}
+                  <img 
+                    src="{{ bk_stts.person_img | img_url: "original" }}" 
+                    alt="story-person-img"
+                    loading="lazy"
+                    style="max-width:100%;height:100%;"
+                  >
+                {% endif %}
+                <div class="conten-text">
+                  <h2 class="jingva-lg">{{ bk_stts.person_title }}</h2>
+
+                  <div class="info-text">
+                    <p class="name h3">{{ bk_stts.person_name }}</p>
+                    <p class="description">{{ bk_stts.person_description }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            
+        </div>
+              </div>  
+              </div>
+
+                {% if link_type == "2" %}
+                    </a>
+                {% else %}
+                    </div>
+                {% endif %}
+            </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Plyr JS -->
+  {% if section_type == "slideshow" %}
+ 
+  {% comment %} 
+  用原生JS重写，去除jQuery依赖。slick依然用jQuery初始化，但所有操作和事件监听都用原生JS。
+  {% endcomment %}
+  <script>
+
+
+
+    function initJingvaSlideshow() {
+      const carouselId = 'jingvaCarousel{{ sid }}';
+      const carousel = document.getElementById(carouselId);
+      if (!carousel) {
+        return;
+      }
+      let players = [];
+      let currentSlideIndex = 0;
+      let autoplayTimer = null;
+      let isTransitioning = false;
+      let isMobile = window.innerWidth <= 767;
+      const autoplay = {{ autoplay | json }};
+      const showDots = {{ show_dots | json }};
+      const fadeEffect = true;
+      const showArrows = {{ show_arrows | json }};
+      const defaultDuration = {{ default_duration | times: 1000 }};
+      const dotStyle = {{ dot_style | json }};
+      // 检查并显示所有视频元素
+      function debugVideoElements() {
+        const allVideos = carousel.querySelectorAll('[data-slide-video]');
+        allVideos.forEach((video, index) => {
+          const provider = video.getAttribute('data-plyr-provider');
+          const embedId = video.getAttribute('data-plyr-embed-id');
+          const isHidden = video.closest('.jingva-small--hidden, .jingva-medium--hidden, .jingva-large--hidden') !== null;
+          const container = video.closest('div') ? video.closest('div').className : '';
+        });
+      }
+      // 简化的播放器初始化 - 添加slide索引标记
+      function initializePlayers() {
+        // 清理旧播放器
+        players.forEach(player => {
+          if (player && player.destroy) {
+            player.destroy();
+          }
+        });
+        players = [];
+        debugVideoElements();
+        // 获取所有slide
+        const slides = carousel.querySelectorAll('.jingva-slide');
+        slides.forEach((slide, slideIndex) => {
+          slide.setAttribute('data-slide-index', slideIndex);
+          let videoElement = null;
+          if (isMobile) {
+            videoElement = slide.querySelector('.jingva-medium--hidden .plyr-video[data-slide-video]')
+              || slide.querySelector('.jingva-large--hidden .plyr-video[data-slide-video]')
+              || slide.querySelector('.plyr-video[data-slide-video]');
+          } else {
+            videoElement = slide.querySelector('.jingva-small--hidden .plyr-video[data-slide-video]')
+              || slide.querySelector('.plyr-video[data-slide-video]');
+          }
+          if (videoElement) {
+            const provider = videoElement.getAttribute('data-plyr-provider');
+            const embedId = videoElement.getAttribute('data-plyr-embed-id');
+            try {
+              const player = new Plyr(videoElement, {
+                controls: [],
+                muted: true,
+                loop: { active: true },
+                autoplay: false,
+                hideControls: true,
+                clickToPlay: false,
+                keyboard: { focused: false, global: false }
+              });
+              players[slideIndex] = player;
+              player.on('ready', () => {
+                console.log(`播放器 ${slideIndex} 准备就绪`);
+              });
+              player.on('error', (error) => {
+                console.error(`播放器 ${slideIndex} 错误:`, error);
+              });
+            } catch (error) {
+              console.error(`创建播放器 ${slideIndex} 失败:`, error);
+              players[slideIndex] = null;
+            }
+          } else {
+            console.log(`Slide ${slideIndex} 没有找到视频元素`);
+            players[slideIndex] = null;
+          }
+        });
+      }
+      // 获取视频时长
+      function getVideoDuration(slideIndex) {
+        const slides = carousel.querySelectorAll('.jingva-slide');
+        const slide = slides[slideIndex];
+        const player = players[slideIndex];
+        if (player && player.duration) {
+          console.log(`Slide ${slideIndex} 视频时长:`, player.duration);
+          return Promise.resolve(player.duration * 1000);
+        }
+        let customDuration = null;
+        if (slide) {
+          customDuration = slide.getAttribute('data-duration');
+        }
+        if (customDuration) {
+          return Promise.resolve(Number(customDuration) * 1000);
+        }
+        return Promise.resolve(defaultDuration);
+      }
+      // 开始自动播放
+      function startAutoplay() {
+        if (!autoplay || isTransitioning) return;
+        clearTimeout(autoplayTimer);
+        getVideoDuration(currentSlideIndex).then(duration => {
+          console.log(`设置自动播放定时器: ${duration}ms`);
+          autoplayTimer = setTimeout(() => {
+            if (!isTransitioning) {
+              // slickNext 只能用jQuery
+              window.jQuery(carousel).slick('slickNext');
+            }
+          }, duration);
+        });
+      }
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearTimeout(autoplayTimer);
+          autoplayTimer = null;
+          console.log('停止自动播放');
+        }
+      }
+      // 控制视频播放
+      function manageVideoPlayback(slickIndex) {
+        // 通过slick-active类找到当前活动的slide
+        const activeSlides = carousel.querySelectorAll('.slick-slide.slick-active:not(.slick-cloned)');
+        let realSlideIndex = -1;
+        if (activeSlides.length) {
+          const activeSlide = activeSlides[0];
+          realSlideIndex = parseInt(activeSlide.getAttribute('data-slide-index'))
+            || parseInt(activeSlide.getAttribute('data-slick-index'))
+            || Array.prototype.indexOf.call(carousel.querySelectorAll('.jingva-slide'), activeSlide);
+        }
+        // 如果方法1失败，使用模运算
+        if (realSlideIndex === -1 || isNaN(realSlideIndex)) {
+          const totalSlides = carousel.querySelectorAll('.jingva-slide').length;
+          realSlideIndex = slickIndex % totalSlides;
+        }
+        players.forEach((player, index) => {
+          if (player) {
+            if (index === realSlideIndex) {
+              player.muted = true;
+              // 清除之前的事件监听
+              player.off('timeupdate ended');
+              if (autoplay) {
+                let hasMoved = false;
+                player.on('timeupdate', () => {
+                  if (hasMoved) return;
+                  const duration = player.duration || 0;
+                  const currentTime = player.currentTime || 0;
+                  if (duration > 0 && currentTime >= duration - 0.5) {
+                    hasMoved = true;
+                    window.jQuery(carousel).slick('slickNext');
+                  }
+                });
+                player.on('ended', () => {
+                  if (!hasMoved) {
+                    hasMoved = true;
+                    window.jQuery(carousel).slick('slickNext');
+                  }
+                });
+              }
+              player.play().catch(error => {
+                console.warn(`播放视频 ${index} 失败:`, error);
+              });
+            } else {
+              player.pause();
+              player.off('timeupdate ended');
+            }
+          } else {
+            console.log(`播放器 ${index} 为空`);
+          }
+        });
+      }
+
+      // 响应式处理
+      window.addEventListener('resize', function () {
+        const wasMobile = isMobile;
+        isMobile = window.innerWidth <= 767;
+        if (wasMobile !== isMobile) {
+          stopAutoplay();
+          setTimeout(() => {
+            initializePlayers();
+            setTimeout(() => {
+              manageVideoPlayback(currentSlideIndex);
+              startAutoplay();
+            }, 300);
+            fixDotsWrapper();
+          }, 100);
+        }
+      });
+
+      // 修复dots包装器
+      function fixDotsWrapper() {
+        {% if section.blocks.size <= 1 %}return {% endif %}
+        // 只用jQuery查找dots，包装用原生
+        const dots = document.querySelector('{{ default_sid }} .slick-dots');
+        if (dots && !dots.parentElement.classList.contains('dots-wrapper')) {
+          const dotsBox = document.createElement('div');
+          dotsBox.className = `dots-box style-${dotStyle}`;
+          const dotsWrapper = document.createElement('div');
+          dotsWrapper.className = 'dots-wrapper {{ page_width }}';
+          dots.parentElement.insertBefore(dotsBox, dots);
+          dotsBox.appendChild(dotsWrapper);
+          dotsWrapper.appendChild(dots);
+        }
+      }
+
+      // slick初始化和事件绑定
+      window.jQuery(carousel).on('init', function () {
+        fixDotsWrapper();
+      });
+
+      window.jQuery(carousel).on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+        isTransitioning = true;
+        stopAutoplay();
+        currentSlideIndex = nextSlide;
+      });
+
+      window.jQuery(carousel).on('afterChange', function (event, slick, currentSlide) {
+        isTransitioning = false;
+        currentSlideIndex = currentSlide;
+        manageVideoPlayback(currentSlide);
+        startAutoplay();
+      });
+
+      // 鼠标悬停控制
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
+      // slick初始化
+      window.jQuery(carousel).slick({
+        {% if width_type == "page" %}
+        centerMode: true,
+        centerPadding: '10%',
+        slidesToShow: 1,
+        spaceBetween: 30,
+        {% else %}
+        fade: fadeEffect,
+        cssEase: 'ease-in-out',
+        {% endif %}
+        dots: showDots,
+        infinite: true,
+        speed: 500,
+        autoplay: false, // 手动控制
+        arrows: showArrows,
+        prevArrow: '<button type="button" class="slick-prev"><svg t="1754530798703" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9596" width="200" height="200"><path d="M689.621 512l-328.832-328.832-60.331 60.331 268.501 268.501-268.501 268.501 60.331 60.331z" p-id="9597" fill="#fff"></path></svg></button>',
+        nextArrow: '<button type="button" class="slick-next"><svg t="1754530798703" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="9596" width="200" height="200"><path d="M689.621 512l-328.832-328.832-60.331 60.331 268.501 268.501-268.501 268.501 60.331 60.331z" p-id="9597" fill="#fff"></path></svg></button>',
+        customPaging: function (slider, i) {
+          return `<button class="custom-dot">
+                    <svg width="100%" height="100%" style="--percent: 0">
+                      <circle cx="50%" cy="50%" r="15"></circle>
+                      <circle cx="50%" class="fr" cy="50%" r="15" style="stroke-dasharray:0px 0px;"></circle>
+                    </svg>
+                    <span>${i + 1}</span>
+                  </button>`;
+        },
+        pauseOnHover: false,
+        pauseOnFocus: false,
+        responsive: [
+          {
+            breakpoint: 767,
+            settings: {
+              {% if width_type == "page" %}
+              centerMode: true,
+              centerPadding: '4%',
+              spaceBetween: 10,
+              {% endif %}
+            }
+          }
+        ],
+      });
+
+      // 初始化播放器
+      setTimeout(() => {
+        initializePlayers();
+        setTimeout(() => {
+          manageVideoPlayback(0);
+          startAutoplay();
+        }, 1000);
+      }, 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', initJingvaSlideshow);
+    if (window.Shopify && Shopify.designMode) {
+      document.addEventListener('shopify:section:unload', initJingvaSlideshow);
+      document.addEventListener('shopify:section:load', initJingvaSlideshow);
+    }
+  </script>
+ 
+  {% endif %}
+</section>
+
+{% schema %}
+{ 
+  "name": "幻灯片（Jingva Story）",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "支持图片/MP4/YouTube/Vimeo背景的英雄轮播图模块"
+    },
+    {
+      "type": "header",
+      "content": "轮播设置"
+    },
+    {
+      "type": "select",
+      "id": "section_type",
+      "options": [
+        {
+          "value": "slideshow",
+          "label": "幻灯片轮播图模式"
+        },
+        {
+          "value": "single",
+          "label": "单图片模式，往下排列"
+        },
+      ],
+      "default": "slideshow",
+      "label": "模块模式"
+    },
+    {
+      "type": "select",
+      "id": "width_type",
+      "options": [
+        {
+          "value": "full_width",
+          "label": "全屏模式"
+        },
+        {
+          "value": "container",
+          "label": "盒子模式"
+        },
+        {
+          "value": "page",
+          "label": "多页模式"
+        },
+      ],
+      "default": "full_width",
+      "label": "轮播图类型",
+      "info":"类型切换仅限于幻灯片轮播图模式" 
+    },
+    
+    {
+      "type": "select",
+      "id": "slide_height",
+      "options": [
+        {
+          "value": "adapt_image",
+          "label": "自适应"
+        },
+        {
+          "value": "full_screen",
+          "label": "全屏"
+        },
+        {
+          "value": "560",
+          "label": "560px"
+        },
+        {
+          "value": "750",
+          "label": "750px"
+        },
+        {
+          "value": "1255",
+          "label": "1255px"
+        }
+      ],
+      "default": "adapt_image",
+      "label": "轮播图高度",
+      "info":"单图片模式下，只有自适应和全屏有效"
+    },
+    {
+      "type": "select",
+      "id": "slide_height_mb",
+      "options": [
+        {
+          "value": "adapt_image",
+          "label": "自适应"
+        },
+        {
+          "value": "full_screen",
+          "label": "全屏"
+        },
+        {
+          "value": "420",
+          "label": "420px"
+        },
+        {
+          "value": "550",
+          "label": "550px"
+        },
+        {
+          "value": "1150",
+          "label": "1150px"
+        }
+      ],
+      "default": "adapt_image",
+      "label": "轮播图高度（移动端）",
+      "info":"单图片模式下，只有自适应和全屏有效"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "自动播放",
+      "default": true,
+      "info": "视频会根据时长自动切换，图片使用默认时长"
+    },
+    {
+      "type": "range",
+      "id": "default_duration",
+      "min": 2,
+      "max": 15,
+      "step": 1,
+      "unit": "s",
+      "label": "默认切换时长",
+      "default": 5,
+      "info": "图片背景的默认显示时长（毫秒）"
+    },
+   
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "显示箭头",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "==== 指示点设置 ===="
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "显示指示点",
+      "default": true
+    },
+    {
+			"type": "text_alignment",
+			"id": "dot_align",
+			"label": "指示点位置",
+			"default": "center",
+		},
+    {
+      "type": "select",
+      "id": "dot_style",
+      "options": [
+        {
+          "value": "1",
+          "label": "样式1"
+        },
+        {
+          "value": "2",
+          "label": "样式2"
+        },
+        {
+          "value": "3",
+          "label": "样式3"
+        }
+      ],
+      "default": "1",
+      "label": "指示点样式"
+    },
+    {
+      "type": "header",
+      "content": "通用设置",
+      "info": "有疑问请邮件联系[info@jingva.com](mailto:info@jingva.com)"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "全屏",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "color",
+      "label": "背景颜色| 使用;分割电脑端/移动端"
+    },
+   
+    {
+      "type": "text",
+      "id": "margin_top",
+      "label": "顶部外边距间距",
+      "default": "0px;0px;0px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "text",
+      "id": "margin_bottom",
+      "label": "底部外边距间距",
+      "default": "0px;0px;0px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_top",
+      "label": "顶部内边距间距",
+      "default": "0px;0px;0px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "text",
+      "id": "padding_bottom",
+      "label": "底部内边距间距",
+      "default": "0px;0px;0px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+    },
+    {
+      "type": "header",
+      "content": "CSS设置"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_custom_css",
+      "label": "使用自定义CSS",
+      "default": true
+    },
+    {
+      "type": "liquid",
+      "id": "css",
+      "label": "自定义CSS",
+      "info": "使用.sectionID增加本模块父元素类名",
+      "default": ".sectionID .jingva-slide h1 {\n  /* 自定义标题样式 */\n}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "轮播图片",
+      "settings": [
+        {
+          "type": "header",
+          "content": "背景设置"
+        },
+       
+        {
+          "type": "select",
+          "id": "type",
+          "label": "背景类型",
+          "options": [
+            {
+              "value": "image",
+              "label": "图片"
+            },
+            {
+              "value": "mp4",
+              "label": "MP4 视频"
+            },
+            {
+              "value": "external",
+              "label": "链接视频（支持Youtube/Vimeo）"
+            } 
+          ],
+          "default": "image"
+        },
+
+        {
+          "type": "color_background",
+          "id": "gradient_color",
+          "label": "渐变背景",
+          "default": "linear-gradient(#ffffff, #000000)"
+        },
+        
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "背景图片",
+          "info": "推荐尺寸: 1920x980px" 
+        }, {
+          "type": "image_picker",
+          "id": "image_mb",
+          "label": "背景图片（移动端）",
+          "info": "推荐尺寸: 768x1080px，则沿用电脑端" 
+        },
+        {
+          "type": "video",
+          "id": "video_mp4",
+          "label": "MP4 视频链接",
+          "info": "输入完整的MP4视频URL" 
+        }, {
+          "type": "video",
+          "id": "video_mp4_mb",
+          "label": "MP4 视频链接（移动端）",
+          "info": "输入完整的MP4视频URL如果不设置，则沿用电脑端" 
+        },
+        {
+          "id": "video_link",
+          "type": "video_url", 
+          "label": "外部视频链接",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "id": "video_link_mb",
+          "type": "video_url",
+          "label": "外部视频链接（移动端）",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "type": "header",
+          "content": "内容设置"
+        },
+        {
+          "type": "paragraph",
+          "content": "==== 内容位置 ===="
+        },
+        {
+          "type": "select",
+          "id": "content_layout",
+          "options": [
+            { "value": "1", "label": "九宫格模式" },
+            { "value": "2", "label": "自由模式" },
+          ],
+          "default": "1",
+          "label": "文本位置模式",
+          "info":"九宫格模式：可以设置下面的内容位置；自由模式：可以设置下面的位置范围"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "options": [
+            { "value": "flex-start left", "label": "上左" },
+            { "value": "flex-start center", "label": "上中" },
+            { "value": "flex-start right", "label": "上右" },
+            { "value": "center left", "label": "中左" },
+            { "value": "center center", "label": "居中" },
+            { "value": "center right", "label": "中右" },
+            { "value": "flex-end left", "label": "下左" },
+            { "value": "flex-end center", "label": "下中" },
+            { "value": "flex-end right", "label": "下右" }
+          ],
+          "default": "center center",
+          "label": "内容位置"
+        },
+        {
+          "type": "range",
+          "id": "top_range",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 0,
+          "label": "距离顶部"
+        },
+        {
+          "type": "range",
+          "id": "left_range",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 0,
+          "label": "距离左边"
+        },
+       
+        {
+          "type": "select",
+          "id": "content_position_mb",
+            "options": [
+              { "value": "flex-start left", "label": "上左" },
+              { "value": "flex-start center", "label": "上中" },
+              { "value": "flex-start right", "label": "上右" },
+              { "value": "center left", "label": "中左" },
+              { "value": "center center", "label": "居中" },
+              { "value": "center right", "label": "中右" },
+              { "value": "flex-end left", "label": "下左" },
+              { "value": "flex-end center", "label": "下中" },
+              { "value": "flex-end right", "label": "下右" }
+            ],
+            "default": "center center",
+          "label": "内容位置（移动端）"
+        },
+        {
+          "type": "range",
+          "id": "top_range_mb",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 0,
+          "label": "距离顶部（移动端）"
+        },
+        {
+          "type": "range",
+          "id": "left_range_mb",
+          "min": 0,
+          "max": 60,
+          "step": 1,
+          "default": 0,
+          "label": "距离左边（移动端）"
+        },
+        {
+          "type": "range",
+          "id": "max_width",
+          "min": 10,
+          "max": 100,
+          "step": 10,
+          "unit": "%",
+          "label": "文本最大宽度",
+          "default": 70
+        },
+        {
+          "type": "paragraph",
+          "content": "==== 内容 ===="
+        },
+        {
+          "type": "text",
+          "id": "topsubtitle",
+          "label": "副标题",
+          "default": "jingva topsubtitle"
+        },
+        {
+          "type": "text",
+          "id": "topsubtitle_size",
+          "label": "副标题字体大小",
+          "default": "16px;14px;12px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+        },
+        {
+          "type": "text",
+          "id": "topsubtitle_color",
+          "label": "副标题颜色| 使用;分割电脑端/移动端",
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "标题",
+          "default": "jingva Title"
+        },
+        {
+          "type": "text",
+          "id": "title_size",
+          "label": "标题字体大小",
+          "default": "48px;33px;24px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+        },
+        {
+          "type": "text",
+          "id": "title_color",
+          "label": "标题颜色| 使用;分割电脑端/移动端",
+          "default": "#ffffff"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "描述文字",
+          "default": "Your compelling jingva description goes here."
+        },
+        {
+          "type": "text",
+          "id": "subtitle_size",
+          "label": "描述字体大小",
+          "default": "16px;14px;12px",
+      "info": "单位：可用px/rem/vw | 使用;分割电脑端/Pad端/移动端"
+        },
+        {
+          "type": "text",
+          "id": "subtitle_color",
+          "label": "描述颜色| 使用;分割电脑端/移动端",
+          "default": "#ffffff"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "按钮文字",
+          "default":"立即购买"
+        },
+        {
+          "type": "select",
+          "id": "link_type",
+          "label": "背景类型",
+          "options": [
+            {
+              "value": "1",
+              "label": "按钮链接"
+            },
+            {
+              "value": "2",
+              "label": "全屏链接"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "url",
+          "id": "btn_link",
+          "label": "链接"
+        },
+        {
+          "type": "text",
+          "id": "btn_text_color",
+          "label": "按钮字体颜色| 使用;分割电脑端/移动端",
+          "default": "#000000;#000000"
+        },
+        {
+          "type": "text",
+          "id": "btn_bg_color",
+          "label": "按钮背景颜色| 使用;分割电脑端/移动端",
+          "default": "#ffffff;#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "impact settings"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_impact",
+          "label": "是否显示 Impact",
+          "default": true,
+          "info": "是否显示 Impact"
+        },
+        {
+          "type": "text",
+          "id": "impact_text1",
+          "label": "Impact text1",
+          "default": "2 Million"
+        },
+        {
+          "type": "text",
+          "id": "sub_impact_text1",
+          "label": "sub impact text1",
+          "default": "Global Sales"
+        },
+        {
+          "type": "text",
+          "id": "impact_text2",
+          "label": "Impact text2",
+          "default": "10 Years"
+        },
+        {
+          "type": "text",
+          "id": "sub_impact_text2",
+          "label": "sub impact text2",
+          "default": "of Ergonomic Design"
+        },
+        {
+          "type": "text",
+          "id": "impact_text3",
+          "label": "Impact text3",
+          "default": "600"
+        },
+        {
+          "type": "text",
+          "id": "sub_impact_text3",
+          "label": "sub impact text3",
+          "default": "Patents"
+        },
+        {
+          "type": "color",
+          "id": "impact_color",
+          "label": "Impact 颜色",
+          "default": "#E1040F"
+        },
+       {
+          "type": "header",
+          "content": "遮罩设置"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_overlay",
+          "label": "显示遮罩",
+          "default": false,
+          "info": "在背景上添加半透明遮罩，提高文字可读性"
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "遮罩颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+            "min": 0,
+          "max": 1,
+          "step": 0.1,
+          "label": "遮罩透明度",
+          "default": 0.3,
+          "info": "0为完全透明，1为不透明"
+        },
+        {
+          "type": "header",
+          "content": "人物设置"
+        },
+        {
+          "type": "image_picker",
+          "id": "person_img",
+          "label": "人物图片",
+          
+        },
+        {
+          "type": "text",
+          "id": "person_name",
+          "label": "人物名字",
+          "default": "John Doe"
+        },
+        {
+          "type": "html",
+          "id": "person_description",
+          "label": "人物描述",
+          "default": "Find your perfect chair"
+        },
+        {
+          "type": "html",
+          "id": "person_title",
+          "label": "人物标题",
+          "default": "Autofull Ergonomics Advisory Board"
+        },
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "幻灯片（Jingva Story）",
+      "category": "Homepage",
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "type": "image",
+            "title": "Welcome to Our Store",
+            "subtitle": "Discover amazing products and exceptional service",
+            "btn_text": "Shop Now"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "type": "image",
+            "title": "New Collection",
+            "subtitle": "Check out our latest arrivals",
+            "btn_text": "View Collection"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

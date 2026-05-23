@@ -1,0 +1,649 @@
+<style>
+  html{
+    scroll-behavior: smooth;
+  }
+  .kik_navigation_sticky{
+   position: sticky!important;
+    top: 94.5px;
+    z-index: 9;
+  }
+.kik_navigation_c{
+  background:{{section.settings.background}};
+  color:{{section.settings.text_color}};
+  position:relative;
+  text-transform:uppercase;
+  font-style:italic;
+}
+.kik_navigation_tabs{
+  background:{{section.settings.background}};
+}
+.kik_navigation_c .kik_header{
+  display:flex;
+  justify-content:space-between;
+  padding-top:24px;
+  align-items:center;
+  padding-bottom:24px;
+}
+.kik_navigation_c .kik_header h1{
+  margin:0;
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing: 0;
+  color:{{section.settings.text_color}};
+}
+.kik_navigation_content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  column-gap:64px;
+}
+.kik_navigation_tabs{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  column-gap:64px;
+}
+.kik_navigation a{
+  text-decoration:none;
+}
+.kik_navigation h3{
+  font-size:18px;
+  line-height:1.5;
+  color: {{section.settings.text_color}};
+  cursor:pointer;
+  padding:10px 0;
+  }
+  .kik_navigation.active h3{
+  color:#ED1C24;
+  border-bottom:2px solid;
+  }
+  .navigation_btn a{
+    padding:10px 32px;
+    background:#ED1C24;
+    color:{{section.settings.text_color}};
+    text-decoration:none;
+    border-radius:100px;
+    
+  }
+  .navigation_btn a h4{
+    font-size:18px;
+    line-height:1.5;
+  }
+  .navigation_btn{
+    display:flex;
+    align-items:center;
+    column-gap:8px;
+  }
+  .navigation_btn svg{
+    display:none;
+  }
+  @media (max-width:999px){
+.kik_navigation_c .kik_header{
+  padding-top:16px;
+  padding-bottom:16px;
+  padding-left:16px;
+  padding-right: 16px;
+}
+.kik_navigation_c .kik_header h1{
+  font-size:16px;
+}
+.kik_navigation_content{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  column-gap:8px;
+}
+.kik_navigation_tabs{
+  display: block;
+    position: absolute;
+    z-index: 9;
+    left: 0;
+    width: 100%;
+    top: 72px;
+    max-height: 0px;
+    transition: max-height .2s ease-in;
+    overflow:hidden;
+}
+.kik_navigation_tabs.active{
+  max-height:300px;
+}
+.kik_navigation h3{
+  padding:10px 16px;
+  font-size:16px;
+}
+.kik_navigation.active h3 {
+    border-bottom: unset;
+}
+.kik_navigation{
+  font-size:16px;
+  }
+  .navigation_btn a{
+    padding:8px 24px;
+    border-radius:100px;
+    font-size:16px;
+  }
+  .navigation_btn a h4{
+    font-size:16px;
+  }
+  .navigation_btn svg{
+    display:flex;
+    cursor:pointer;
+  }
+  }
+  @media (max-width:699px){
+    .kik_navigation_sticky{
+    top: 54px;
+  }
+}
+
+/*rich text 1 */
+#rich_text_1{
+  padding-top:128px;
+  padding-bottom:32px;
+}
+#rich_text_1 h2{
+  margin:0;
+  font-size:104px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+}
+#rich_text_1 h2 .text-gradient.custom-blend{
+    background-blend-mode:unset!important;
+    display:inline!important;
+}
+#rich_text_1 .rich-text__wrapper{
+  max-width:100%;
+}
+@media (max-width: 820px){
+  #rich_text_1{
+  padding-top:64px;
+  padding-bottom:16px;
+}
+#rich_text_1 h2{
+  font-size:64px;
+} 
+}
+@media only screen and (max-width: 375px) {
+    #rich_text_1 h2{
+      font-size: 55px;
+  } 
+}
+@media only screen and (max-width: 320px) {
+    #rich_text_1 h2{
+      font-size: 47px;
+  } 
+}
+/*rich text 2 */
+#rich_text_2{
+  padding-top:64px;
+  padding-bottom:56px;
+}
+#rich_text_2 .subheading{
+  font-size:18px;
+  line-height:1.5;
+  font-style: italic;
+}
+#rich_text_2 h2{
+  margin:0 auto;
+  margin-top:16px;
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+  max-width:956px;
+
+}
+#rich_text_2 .richtext-description{
+  margin: 0 auto;
+  margin-top:16px;
+  max-width:1074px;
+}
+#rich_text_2 .richtext-description p{
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing:0;
+}
+#rich_text_2 .rich-text__wrapper{
+  max-width:100%;
+}
+@media (max-width:699px){
+  #rich_text_2{
+  padding-top:64px;
+  padding-bottom:0px;
+}
+#rich_text_2 .subheading{
+  font-size:16px;
+}
+#rich_text_2 h2{
+  margin-top:8px;
+  font-size:32px;
+
+}
+#rich_text_2 .richtext-description{
+  margin-top:8px;
+}
+#rich_text_2 .richtext-description p{
+  font-size:16px;
+}
+}
+
+/* text_icons_1 */
+#text_icons_1{
+  padding-top:80px;
+  padding-bottom:80px;
+}
+#text_icons_1 .image-icon {
+    height: 36px;
+    object-fit: contain;
+}
+#text_icons_1 .prose p{
+  font-size:16px;
+  line-height:1.5;
+  letter-spacing:0;
+}
+#text_icons_1 .text-with-icons__item:hover .prose p{
+  color:#ED1C24;
+}
+/*#text_icons_1  .text-with-icons__item:first-child  .prose p{
+  color:#ED1C24;
+}*/
+@media (max-width:699px){
+  #text_icons_1{
+  padding-top:56px;
+  padding-bottom:56px;
+}
+}
+
+/*image_overlay*/
+[data-id="image_overlay"] .bold{
+  font-size:18px;
+  line-height:1.5;
+  letter-spacing:0;
+  font-style: italic;
+  text-transform:uppercase;
+}
+[data-id="image_overlay"] .prose{
+  max-width:635px;
+}
+[data-id="image_overlay"] .h1{
+  margin-top:8px;
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+}
+@media (max-width:699px){
+    [data-id="image_overlay"] .prose{
+    text-align:center;
+  }
+  [data-id="image_overlay"] .bold{
+  font-size:16px;
+}
+[data-id="image_overlay"] .h1{
+  font-size:32px;
+}
+}
+
+/* kik-video */
+
+#kik-video{
+  margin:0;
+  padding-top:96px;
+  padding-bottom:96px;
+}
+@media (max-width:699px){
+  #kik-video{
+  margin:0;
+  padding-top:64px;
+  padding-bottom:64px;
+}
+}
+/* faq */
+#kik_faq .section-stack {
+  gap:32px;
+}
+#kik_faq .group[aria-expanded=true] .circle-chevron.group-expanded\:colors:not([disabled]) {
+    background: rgb(var(--text-color))!important;
+}
+#kik_faq .section-stack__intro h2 {
+    font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+  text-transform:uppercase;
+}
+
+  @media (max-width:699px){
+#kik_faq .section-stack__intro h2 {
+    font-size:32px;
+}
+
+  }
+  
+/* kik_multicolumn */
+#kik_multicolumn{
+  padding-top:96px;
+  padding-bottom:96px;
+}
+#kik_multicolumn .section-header{
+     grid-template-columns: unset; 
+    max-width: 959px;
+    margin: 0 auto;
+}
+#kik_multicolumn .section-stack{
+  gap:32px;
+}
+#kik_multicolumn .prose h2{
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+  text-transform:uppercase;
+}
+#kik_multicolumn .prose p{
+  margin-top:8px;
+  font-size:16px;
+  line-height:1.5;
+}
+#kik_multicolumn  .multi-column__item .h5{
+  font-size:24px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+#kik_multicolumn  .multi-column__item .gap-4{
+  gap:0;
+}
+#kik_multicolumn  .multi-column__item .prose p{
+  font-size:16px;
+  line-height:1.5;
+}
+@media (max-width:699px){
+  #kik_multicolumn{
+  padding-top:64px;
+  padding-bottom:64px;
+}
+#kik_multicolumn .multi-column{
+  gap:40px;
+}
+#kik_multicolumn .section-stack{
+  gap:24px;
+}
+#kik_multicolumn .prose h2{
+  font-size:32px;
+}
+#kik_multicolumn .prose p{
+  font-size:14px;
+}
+#kik_multicolumn  .multi-column__item .h5{
+  font-size:20px;
+}
+#kik_multicolumn  .multi-column__item .prose p{
+  font-size:16px;
+  line-height:1.5;
+}
+}
+
+/* collection list */
+.shopify-section--collection-list .section{
+  padding-top:96px;
+  padding-bottom:96px;
+}
+.shopify-section--collection-list .section-stack{
+  gap:32px;
+}
+.shopify-section--collection-list .section-header {
+     grid-template-columns: unset; 
+    justify-content: center;
+}
+.shopify-section--collection-list .section-header h2{
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  text-align:center;
+  font-style: italic;
+  text-transform:uppercase;
+}
+.collection-card__content  .h5{
+  font-size:24px;
+  line-height:1.2;
+  letter-spacing:0;
+  font-style: italic;
+}
+@media (max-width:699px){
+  .shopify-section--collection-list .section{
+  padding-top:56px;
+  padding-bottom:56px;
+}
+.shopify-section--collection-list .section-stack{
+  gap:24px;
+}
+
+.shopify-section--collection-list .section-header h2{
+  font-size:32px;
+}
+.collection-card__content  .h5{
+  font-size:20px;
+}
+}
+
+/*logo_list_2 */
+#logo_list_2{
+  padding-top:96px;
+  padding-bottom:96px;
+}
+#logo_list_2 .section-stack{
+  gap:0;
+}
+#logo_list_2 .logo-list__item{
+  padding:0;
+}
+#logo_list_2 .bg-secondary{
+  background:transparent;
+}
+@media (max-width:699px){
+  #logo_list_2{
+  padding-top:64px;
+  padding-bottom:64px;
+}
+}
+
+/*media_text*/
+
+#media_text{
+  margin:0;
+  padding-top:96px;
+  padding-bottom:96px;
+}
+#media_text .prose p{
+  font-size:16px;
+  line-height:1.5;
+  letter-spacing:0;
+  margin-top:8px;
+}
+#media_text .prose .h2{
+  font-size:40px;
+  line-height:1.2;
+  letter-spacing:0;
+  text-align:center;
+  font-style: italic;
+  text-transform:uppercase;
+}
+@media (max-width:699px){
+  #media_text{
+  padding-top:64px;
+  padding-bottom:64px;
+}
+#media_text .prose .h2{
+  font-size:32px;
+}
+#media_text  .media-with-text__content {
+    padding: 32px 16px;
+    grid-area: content;
+    display: grid;
+}
+}
+
+
+/* text_icons_2*/
+#text_icons_2{
+  padding-top:96px;
+  padding-bottom:96px;
+}
+#text_icons_2 .text-with-icons__item{
+  gap:16px;
+}
+#text_icons_2 .prose p{
+  font-size:16px;
+  line-height:1.5;
+  letter-spacing:0;
+  margin-top:8px;
+}
+#text_icons_2 .prose .h5{
+  font-size:20px;
+  line-height:1.2;
+  letter-spacing:0;
+  text-align:center;
+  font-style: italic;
+  text-transform:uppercase;
+}
+@media (max-width:699px){
+  #text_icons_2{
+  padding-top:64px;
+  padding-bottom:64px;
+}
+
+#text_icons_2 .prose p{
+  font-size:16px;
+}
+#text_icons_2 .prose .h5{
+  font-size:18px;
+}
+}
+
+#text_icons_2 .text-with-icons__item img {
+  filter: invert(1);
+}
+  </style>
+<div class="kik_navigation_c">
+    <div class="section kik_header">
+        <h1>{{ section.settings.title }}</h1>
+        <div class="kik_navigation_content">
+        <div class="kik_navigation_tabs">
+        {% for block in section.blocks %}
+            <div class="kik_navigation {% if forloop.first%} active {% endif %} " link-to="{{ block.settings.link_to }}">
+              <a href="{{ block.settings.link_to }}">
+                <h3>{{block.settings.title}}</h3>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="navigation_btn">
+          <svg role="presentation" focusable="false" width="10" height="7" class="icon icon-chevron-bottom" viewBox="0 0 10 7">
+        <path d="m1 1 4 4 4-4" fill="none" stroke="currentColor" stroke-width="2"></path>
+      </svg>
+      <a href="{{ section.settings.link }}" class="kik_navigation_link"><h4>{{ section.settings.link_text }}</h4></a>
+        </div>
+        
+        </div>
+        </div>
+</div>
+<script>
+  document.querySelector(".navigation_btn svg").addEventListener("click",function(){
+    document.querySelector(".kik_navigation_tabs").classList.toggle("active");
+  });
+
+  function isElementBottom(el){
+        var recte = el.getBoundingClientRect();
+          return  recte.top <= 150 ;
+        
+        }
+      function richText(){
+          document.querySelectorAll("[data_link='true']").forEach(function(item){
+            if(isElementBottom(item)){
+              if(item.getAttribute("id") != ""){
+              document.querySelectorAll(".kik_navigation").forEach(function(elem){
+                    elem.classList.remove('active');
+              })
+              document.querySelector(".kik_navigation a[href='#"+ item.getAttribute("id") +"']").closest(".kik_navigation").classList.add("active");
+              }
+        }
+          })
+
+        }
+ window.addEventListener("scroll", richText);  
+</script>
+{% schema %}
+{
+  "name": "Kiks Navigation",
+  "tag": "section",
+  "class": "kik_navigation_sticky",
+  "disabled_on": {
+    "templates": ["password"],
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link text"
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Navigation",
+      "type": "navigation",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Title"
+        },
+        {
+          "type": "text",
+          "id": "link_to",
+          "label": "Link to"
+        }
+      ]
+    }
+    ],
+  "presets": [
+    {
+      "name": "Kiks Navigation",
+      "blocks": [
+     
+      ]
+    }
+  ]
+}
+{% endschema %}

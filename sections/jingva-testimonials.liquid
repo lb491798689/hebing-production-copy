@@ -1,0 +1,1088 @@
+{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign slide_blocks = section.blocks
+  assign slide_count = slide_blocks | size
+  assign padding_top = se_stts.padding_top | default: 160
+  assign padding_bottom = se_stts.padding_bottom | default: 115
+  assign padding_top_mob = se_stts.padding_top_mob | default: 96
+  assign padding_bottom_mob = se_stts.padding_bottom_mob | default: 0
+  assign description_font_size = se_stts.description_font_size | default: 18
+  assign bg_color = se_stts.bg_color
+  assign bg_color_mob = se_stts.bg_color_mob | default: bg_color
+  assign title_color = se_stts.title_color
+  assign theme_mode = se_stts.theme_mode | default: 'dark'
+-%}
+{%- comment -%}Spacing configuration{%- endcomment -%}
+{%- liquid
+  assign image_to_title_gap = se_stts.image_to_title_gap | default: 24
+  assign title_to_description_gap = se_stts.title_to_description_gap | default: 12
+  assign image_to_description_gap_no_title = se_stts.image_to_description_gap_no_title | default: 24
+  assign description_to_buttons_gap = se_stts.description_to_buttons_gap | default: 24
+  
+  assign image_to_title_gap_mob = se_stts.image_to_title_gap_mob | default: 12
+  assign title_to_description_gap_mob = se_stts.title_to_description_gap_mob | default: 12
+  assign image_to_description_gap_no_title_mob = se_stts.image_to_description_gap_no_title_mob | default: 12
+  assign description_to_buttons_gap_mob = se_stts.description_to_buttons_gap_mob | default: 24
+  
+  if theme_mode == 'dark'
+    assign auto_title_color = title_color | default: '#ffffff'
+    assign auto_subtitle_color = '#ffffff'
+    assign auto_description_color = 'rgba(255, 255, 255, 0.40)'
+    assign auto_description_color_mob = 'rgba(255, 255, 255, 0.40)'
+    assign auto_button_bg = '#FAFAFA'
+    assign auto_button_text = '#0A0A0A'
+    assign auto_button_hover_bg = '#DBDBDB'
+    assign auto_button_disabled_bg = 'rgba(255, 255, 255, 0.20)'
+    assign auto_button_icon_color = '#0A0A0A'
+  else
+    assign auto_title_color = title_color | default: '#0A0A0A'
+    assign auto_subtitle_color = '#0A0A0A'
+    assign auto_description_color = 'rgba(26, 26, 26, 0.60)'
+    assign auto_description_color_mob = 'rgba(26, 26, 26, 0.60)'
+    assign auto_button_bg = '#0A0A0A'
+    assign auto_button_text = '#ffffff'
+    assign auto_button_hover_bg = '#383838'
+    assign auto_button_disabled_bg = 'rgba(26, 26, 26, 0.20)'
+    assign auto_button_icon_color = '#ffffff'
+  endif
+
+  assign description_color_pc = se_stts.description_color_pc | strip
+  if description_color_pc == blank
+    assign description_color_pc = auto_description_color
+  endif
+  assign description_color_mob = se_stts.description_color_mob | strip
+  if description_color_mob == blank
+    assign description_color_mob = auto_description_color_mob
+  endif
+
+  assign subtitle_color_pc = se_stts.subtitle_color_pc | strip
+  if subtitle_color_pc == blank
+    assign subtitle_color_pc = auto_subtitle_color
+  endif
+  assign subtitle_color_mob = se_stts.subtitle_color_mob | strip
+  if subtitle_color_mob == blank
+    assign subtitle_color_mob = auto_subtitle_color
+  endif
+-%}
+{% capture default_sid %}.jingva-testimonials-{{ sid }}{% endcapture %}
+
+<section class="jingva-section-container jingva-testimonials-{{sid}}" data-section-id="{{ sid }}">
+  {% style %}
+    /*
+     * ========================================
+     * Figma PC (1920px, node 3671:3453) 详细参数:
+     * ========================================
+     *   section: w:1920, flex column, gap:48px, p:0 360px
+     *   title: Gabarito 600 48px line-height:1.2 #FFFFFF title case left
+     *   slider wrapper: column, gap:24px
+     *   slides container: row, gap:12px
+     *   slide: w:1200, flex column, gap:24px
+     *   image: w:1200, h:640, br:12px, object-fit:cover
+     *   text container: flex column, gap:12px, p:0 120px 0 0
+     *   subtitle: Gabarito 500 24px line-height:1.2 #FFFFFF title case left
+     *   description: Gabarito 500 18px line-height:1.2 rgba(255,255,255,0.40) left (override in theme settings)
+     *   buttons container: row, gap:12px, align-self:start
+     *   buttons: w:48, h:48, p:12px, br:999px, bg:rgba(255,255,255,0.2)
+     *
+     * ========================================
+     * Figma MOB (390px, node 2804:3455) 详细参数:
+     * ========================================
+     *   section: w:390, flex column, gap:24px, p:0 16px
+     *   title: Gabarito 600 20px line-height:1.2 #FFFFFF title case left
+     *   slider wrapper: column, gap:24px
+     *   slides container: row, gap:12px
+     *   slide: w:346, flex column, gap:24px
+     *   image: w:346, h:480, br:12px, object-fit:cover
+     *   text container: flex column, gap:12px
+     *   subtitle: Gabarito 500 18px line-height:1.2 #FFFFFF title case left
+     *   description: Gabarito 500 16px line-height:1.2 rgba(255,255,255,0.4) left
+     *   buttons: w:36, h:36, p:9px, br:999px, bg:rgba(255,255,255,0.2)
+     *
+     * ========================================
+     * develop.md 规范 (必须遵守):
+     * ========================================
+     *   基准尺寸: PC=1920, MOB=390
+     *   版心: PC/PAD 均为 1200px
+     *   Grid.Padding: PC=48px, PAD=40px, MOB=16px
+     *   断点: MOB≤1279, PAD 1280~1439, PC≥1440
+     *   字体: Orbitron(展示标题), Gabarito(正文/说明)
+     *   所有样式使用 !important 确保优先级
+     */
+
+    /* === PC: 1440~2560 === */
+    {{ default_sid }} {
+      position: relative !important;
+      z-index: 1 !important;
+      width: 100% !important;
+      background-color: {{ bg_color | default: '#121b2c' }} !important;
+      padding: {{ padding_top }}px 0 {{ padding_bottom }}px 0 !important;
+      overflow: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 48px !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-title {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 600 !important;
+      font-size: 48px !important;
+      line-height: 1.2 !important;
+      color: {{ auto_title_color }} !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+      transform: translateY(-50px);
+      transition: transform 0.5s ease-out;
+      will-change: transform;
+    }
+
+    {{ default_sid }} .jingva-testimonials-title.aos-animate {
+      transform: translateY(0);
+    }
+
+    {{ default_sid }} .jingva-testimonials-slider-wrapper {
+      position: relative !important;
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: var(--description-to-buttons-gap, 24px) !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slider-container {
+      position: relative !important;
+      width: 100% !important;
+      overflow: visible !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slider {
+      width: 100% !important;
+      overflow: visible !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide {
+      /* CSS 变量：从 Shopify 配置传入 */
+      --image-to-title-gap: {{ image_to_title_gap }}px;
+      --title-to-description-gap: {{ title_to_description_gap }}px;
+      --image-to-description-gap-no-title: {{ image_to_description_gap_no_title }}px;
+      --description-to-buttons-gap: {{ description_to_buttons_gap }}px;
+      
+      width: 100%;
+      max-width: 1200px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: var(--image-to-title-gap) !important;
+      box-sizing: border-box !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* 当没有标题时，使用不同的间距 */
+    {{ default_sid }} .jingva-testimonials-slide:has(.jingva-testimonials-slide-text:not(:has(.jingva-testimonials-slide-subtitle))) {
+      gap: var(--image-to-description-gap-no-title) !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide-image {
+      width: 100% !important;
+      height: 640px !important;
+      border-radius: 12px !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide-image img {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 12px !important;
+      object-fit: cover !important;
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide-text {
+      width: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: var(--title-to-description-gap) !important;
+      padding: 0 120px 0 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide-subtitle {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 1.2 !important;
+      color: {{ subtitle_color_pc }} !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-subtitle-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-subtitle-mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-slide-description {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 500 !important;
+      font-size: {{ description_font_size }}px !important;
+      line-height: 1.2 !important;
+      color: {{ description_color_pc }} !important;
+      text-align: left !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-description-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-description-mob {
+      display: none !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-nav {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      gap: 12px !important;
+      align-self: flex-start !important;
+      box-sizing: border-box !important;
+      /* margin-top: 24px !important; */
+      margin-bottom: 2px !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-nav-btn {
+      width: 48px !important;
+      height: 48px !important;
+      padding: 0 !important;
+      border-radius: 12px !important;
+      background-color: {{ auto_button_bg }} !important;
+      border: none !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      transition: background-color 0.3s ease !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-nav-btn:hover {
+      background-color: {{ auto_button_hover_bg }} !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-nav-btn:disabled,
+    {{ default_sid }} .jingva-testimonials-nav-btn.swiper-button-disabled {
+      background-color: {{ auto_button_disabled_bg }} !important;
+      cursor: not-allowed !important;
+    }
+
+    {% if theme_mode == 'dark' %}
+      /* Dark：实心箭头 fill #0A0A0A，与 stroke 型旧图标互斥 */
+      {{ default_sid }} .jingva-testimonials-nav-btn svg path {
+        fill: #0A0A0A !important;
+        stroke: none !important;
+      }
+      {{ default_sid }} .jingva-testimonials-nav-btn:disabled svg path,
+      {{ default_sid }} .jingva-testimonials-nav-btn.swiper-button-disabled svg path {
+        fill: #0A0A0A !important;
+        stroke: none !important;
+      }
+    {% endif %}
+
+    {% if theme_mode == 'light' %}
+      /* Light：背景 #0A0A0A / 禁用 rgba(26,26,26,.2)，箭头 fill #fff */
+      {{ default_sid }} .jingva-testimonials-nav-btn svg path {
+        fill: #fff !important;
+        stroke: none !important;
+      }
+      {{ default_sid }} .jingva-testimonials-nav-btn:disabled svg path,
+      {{ default_sid }} .jingva-testimonials-nav-btn.swiper-button-disabled svg path {
+        fill: #fff !important;
+        stroke: none !important;
+      }
+    {% endif %}
+
+    /* 固定 slide 位置，防止轮播时位置变化 */
+    {{ default_sid }} .swiper-slide {
+      transform: scale(1) !important;
+      transition: none !important;
+    }
+
+    {{ default_sid }} .swiper-slide-active,
+    {{ default_sid }} .swiper-slide-duplicate-active {
+      transform: scale(1) !important;
+    }
+
+    /* PC: show pc icon, hide mob icon */
+    {{ default_sid }} .jingva-testimonials-icon-pc {
+      display: block !important;
+    }
+
+    {{ default_sid }} .jingva-testimonials-icon-mob {
+      display: none !important;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .jingva-testimonials-wrapper {
+        padding: 0 40px !important;
+        gap: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-title {
+        font-size: 40px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide {
+        width: 100% !important;
+        max-width: 800px !important;
+        gap: 16px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-image {
+        height: 533px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-text {
+        padding: 0 100px 0 0 !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-subtitle {
+        font-size: 20px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-description {
+        font-size: 16px !important;
+      }
+    }
+
+    /* === PC: 1440~1919 === */
+    @media screen and (min-width: 1440px) and (max-width: 1919px) {
+      {{ default_sid }} .jingva-testimonials-wrapper {
+        padding: 0 !important;
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide {
+        width: 100% !important;
+        max-width: 1200px !important;
+        gap: 24px !important;
+      }
+
+      {{ default_sid }} .swiper-slide {
+        transform: scale(1) !important;
+        transition: none !important;
+      }
+
+      {{ default_sid }} .swiper-slide-active,
+      {{ default_sid }} .swiper-slide-duplicate-active {
+        transform: scale(1) !important;
+      }
+    }
+
+    /* === PC Large: 1920~2559 === */
+    @media screen and (min-width: 1920px) and (max-width: 2559px) {
+      {{ default_sid }} .jingva-testimonials-wrapper {
+        padding: 0 !important;
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide {
+        width: 100% !important;
+        max-width: 1200px !important;
+        gap: 24px !important;
+      }
+
+      {{ default_sid }} .swiper-slide {
+        transform: scale(1) !important;
+        transition: none !important;
+      }
+
+      {{ default_sid }} .swiper-slide-active,
+      {{ default_sid }} .swiper-slide-duplicate-active {
+        transform: scale(1) !important;
+      }
+    }
+
+    /* === PC Ultra: 2560+ === */
+    @media screen and (min-width: 2560px) {
+      {{ default_sid }} .jingva-testimonials-wrapper {
+        padding: 0 !important;
+        gap: 48px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide {
+        width: 100% !important;
+        max-width: 1200px !important;
+        gap: 24px !important;
+      }
+
+      {{ default_sid }} .swiper-slide {
+        transform: scale(1) !important;
+        transition: none !important;
+      }
+
+      {{ default_sid }} .swiper-slide-active,
+      {{ default_sid }} .swiper-slide-duplicate-active {
+        transform: scale(1) !important;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        background-color: {{ bg_color_mob | default: '#121b2c' }} !important;
+        padding: {{ padding_top_mob }}px 0 {{ padding_bottom_mob }}px 0 !important;
+        /* CSS 变量：移动端间距 */
+        --image-to-title-gap-mob: {{ image_to_title_gap_mob }}px;
+        --title-to-description-gap-mob: {{ title_to_description_gap_mob }}px;
+        --image-to-description-gap-no-title-mob: {{ image_to_description_gap_no_title_mob }}px;
+        --description-to-buttons-gap-mob: {{ description_to_buttons_gap_mob }}px;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slider-wrapper {
+        gap: var(--description-to-buttons-gap-mob, 24px) !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-wrapper {
+        padding: 0 16px !important;
+        gap: 24px !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-title {
+        font-size: 24px !important;
+        /* Figma 5738-5082：title→slides itemSpacing=24，由 wrapper gap 提供。
+           MOB 关掉 translateY(-50px) 入场动画，避免视觉上额外 50px 间隔 */
+        transform: translateY(0) !important;
+        transition: none !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide {
+        /* Figma 5738-5082：slide 346，slide 之间 12px 间距 */
+        /* width: 346px !important;
+        max-width: 346px !important; */
+        gap: var(--image-to-title-gap-mob) !important;
+      }
+
+      /* 移动端：当没有标题时，使用不同的间距 */
+      {{ default_sid }} .jingva-testimonials-slide:has(.jingva-testimonials-slide-text:not(:has(.jingva-testimonials-slide-subtitle))) {
+        gap: var(--image-to-description-gap-no-title-mob) !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-image {
+        width: 100% !important;
+        height: 480px !important;
+        margin: 0 !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-image img {
+        height: 100% !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-text {
+        padding: 0 20px 0 0 !important;
+        gap: var(--title-to-description-gap-mob) !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-subtitle,
+      {{ default_sid }} .jingva-testimonials-subtitle-mob {
+        font-size: 18px !important;
+        color: {{ subtitle_color_mob }} !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-subtitle-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-subtitle-mob {
+        display: block !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-slide-description,
+      {{ default_sid }} .jingva-testimonials-description-mob {
+        font-size: 16px !important;
+        color: {{ description_color_mob }} !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-description-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-description-mob {
+        display: block !important;
+      }
+
+      {% if theme_mode == 'light' %}
+        {{ default_sid }} .jingva-testimonials-nav-btn {
+          width: 40px !important;
+          height: 40px !important;
+          padding: 0 !important;
+          border-radius: 8px !important;
+        }
+      {% else %}
+        {{ default_sid }} .jingva-testimonials-nav-btn {
+          width: 36px !important;
+          height: 36px !important;
+          padding: 0 !important;
+          border-radius: 8px !important;
+        }
+      {% endif %}
+
+      {{ default_sid }} .jingva-testimonials-nav-btn:hover {
+        background-color: {{ auto_button_hover_bg }} !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-nav-btn:disabled,
+      {{ default_sid }} .jingva-testimonials-nav-btn.swiper-button-disabled {
+        background-color: {{ auto_button_disabled_bg }} !important;
+        cursor: not-allowed !important;
+      }
+
+      /* MOB: show mob icon, hide pc icon */
+      {{ default_sid }} .jingva-testimonials-icon-pc {
+        display: none !important;
+      }
+
+      {{ default_sid }} .jingva-testimonials-icon-mob {
+        display: block !important;
+      }
+    }
+
+    {% if theme_mode == 'light' %}
+      {{ default_sid }} .jingva-testimonials-nav {
+        margin-top: 0 !important;
+      }
+    {% endif %}
+  {% endstyle %}
+
+  {% if slide_count > 0 %}
+    <div class="jingva-testimonials-wrapper">
+      {% if se_stts.title != blank %}
+        <h2 class="jingva-testimonials-title">{{ se_stts.title }}</h2>
+      {% endif %}
+
+      <div class="jingva-testimonials-slider-wrapper">
+        <div class="jingva-testimonials-slider-container">
+          <div class="jingva-testimonials-slider swiper" id="jingva-testimonials-slider-{{ sid }}">
+            <div class="swiper-wrapper">
+              {% for block in slide_blocks %}
+                <div class="swiper-slide jingva-testimonials-slide" data-slide-index="{{ forloop.index0 }}">
+                  {% if block.settings.pc_image != blank or block.settings.mob_image != blank %}
+                    <picture class="jingva-testimonials-slide-image">
+                      {% if block.settings.pc_image != blank %}
+                        <source media="(min-width: 1280px)" srcset="{{ block.settings.pc_image | image_url: width: 2400 }}">
+                      {% endif %}
+                      {% if block.settings.mob_image != blank %}
+                        <source media="(max-width: 1279px)" srcset="{{ block.settings.mob_image | image_url: width: 800 }}">
+                      {% endif %}
+                      {% assign default_image = block.settings.pc_image | default: block.settings.mob_image %}
+                      {% if default_image != blank %}
+                        <img
+                          src="{{ default_image | image_url: width: 2400 }}"
+                          alt="{{ block.settings.subtitle | default: se_stts.title | escape }}"
+                          loading="lazy"
+                        />
+                      {% endif %}
+                    </picture>
+                  {% endif %}
+
+                  <div class="jingva-testimonials-slide-text">
+                    {% if se_stts.show_subtitle %}
+                      {% if block.settings.subtitle_pc != blank %}
+                        <h3 class="jingva-testimonials-slide-subtitle jingva-testimonials-subtitle-pc">{{ block.settings.subtitle_pc }}</h3>
+                      {% endif %}
+                      {% if block.settings.subtitle_mob != blank %}
+                        <h3 class="jingva-testimonials-slide-subtitle jingva-testimonials-subtitle-mob">{{ block.settings.subtitle_mob }}</h3>
+                      {% endif %}
+                    {% endif %}
+
+                    {% if block.settings.description_pc != blank %}
+                      <p class="jingva-testimonials-slide-description jingva-testimonials-description-pc">{{ block.settings.description_pc }}</p>
+                    {% endif %}
+                    {% if block.settings.description_mob != blank %}
+                      <p class="jingva-testimonials-slide-description jingva-testimonials-description-mob">{{ block.settings.description_mob }}</p>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        {% if slide_count > 1 %}
+          <div class="jingva-testimonials-nav">
+            <button class="jingva-testimonials-nav-btn jingva-testimonials-nav-prev" aria-label="Previous">
+              {% if theme_mode == 'dark' %}
+                {%- comment -%}深色主题 PC/MOB 左侧 icon（Figma 实心箭头）{%- endcomment -%}
+                <svg class="jingva-testimonials-icon-pc" xmlns="http://www.w3.org/2000/svg" width="9.121" height="15.414" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#0A0A0A"/>
+                </svg>
+                <svg class="jingva-testimonials-icon-mob" xmlns="http://www.w3.org/2000/svg" width="7.601" height="12.846" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#0A0A0A"/>
+                </svg>
+              {% else %}
+                {%- comment -%}浅色主题：与 dark 同形 10×16，fill #fff{%- endcomment -%}
+                <svg class="jingva-testimonials-icon-pc" xmlns="http://www.w3.org/2000/svg" width="9.121" height="15.414" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#fff"/>
+                </svg>
+                <svg class="jingva-testimonials-icon-mob" xmlns="http://www.w3.org/2000/svg" width="7.601" height="12.846" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#fff"/>
+                </svg>
+              {% endif %}
+            </button>
+            <button class="jingva-testimonials-nav-btn jingva-testimonials-nav-next" aria-label="Next">
+              {% if theme_mode == 'dark' %}
+                {%- comment -%}深色主题 PC/MOB 右侧 icon{%- endcomment -%}
+                <svg class="jingva-testimonials-icon-pc" xmlns="http://www.w3.org/2000/svg" width="9.121" height="15.414" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#0A0A0A"/>
+                </svg>
+                <svg class="jingva-testimonials-icon-mob" xmlns="http://www.w3.org/2000/svg" width="7.601" height="12.846" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#0A0A0A"/>
+                </svg>
+              {% else %}
+                {%- comment -%}浅色主题：与 dark 同形，fill #fff{%- endcomment -%}
+                <svg class="jingva-testimonials-icon-pc" xmlns="http://www.w3.org/2000/svg" width="9.121" height="15.414" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#fff"/>
+                </svg>
+                <svg class="jingva-testimonials-icon-mob" xmlns="http://www.w3.org/2000/svg" width="7.601" height="12.846" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                  <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#fff"/>
+                </svg>
+              {% endif %}
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if slide_count > 1 %}
+      <script>
+        (function() {
+          var sliderEl = document.getElementById('jingva-testimonials-slider-{{ sid }}');
+          if (!sliderEl) return;
+
+          var swiper = new Swiper(sliderEl, {
+            centeredSlides: false,
+            initialSlide: 0,
+            loop: false,
+            breakpoints: {
+              0: {
+                slidesPerView: 1.05,
+                spaceBetween: 12,
+                centeredSlides: false
+              },
+              768: {
+                slidesPerView: 'auto',
+                spaceBetween: 12,
+                centeredSlides: false
+              },
+              1280: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+                centeredSlides: false
+              },
+              1440: {
+                slidesPerView: 1,
+                spaceBetween: 16,
+                centeredSlides: false
+              }
+            },
+            navigation: {
+              nextEl: '{{ default_sid }} .jingva-testimonials-nav-next',
+              prevEl: '{{ default_sid }} .jingva-testimonials-nav-prev'
+            },
+            speed: 500,
+            grabCursor: true,
+            simulateTouch: true,
+            touchEventsTarget: 'wrapper',
+            touchRatio: 1,
+            touchAngle: 45,
+            shortSwipes: true,
+            longSwipes: true,
+            longSwipesRatio: 0.5,
+            longSwipesMs: 300,
+            followFinger: true,
+            resistance: true,
+            resistanceRatio: 0.85
+          });
+        })();
+      </script>
+    {% endif %}
+  {% endif %}
+</section>
+
+<script>
+(function() {
+  var section = document.querySelector('.jingva-testimonials-{{ sid }}');
+  if (!section) return;
+
+  var title = section.querySelector('.jingva-testimonials-title');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Testimonials",
+  "class": "shopify-section--jingva-testimonials",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Limitless Immersion. Adaptive Headrest Support."
+    },
+    {
+      "type": "header",
+      "content": "Theme Mode"
+    },
+    {
+      "type": "select",
+      "id": "theme_mode",
+      "label": "Color Theme",
+      "options": [
+        {
+          "value": "dark",
+          "label": "Dark (White text on dark background)"
+        },
+        {
+          "value": "light",
+          "label": "Light (Black text on light background)"
+        }
+      ],
+      "default": "dark",
+      "info": "Automatically adjusts text, buttons, and icon colors based on background"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subtitle",
+      "label": "Show Subtitles",
+      "default": true,
+      "info": "Show/hide the subtitle for each slide"
+    },
+    {
+      "type": "range",
+      "id": "description_font_size",
+      "label": "Description Font Size",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing Settings (PC)"
+    },
+    {
+      "type": "range",
+      "id": "image_to_title_gap",
+      "label": "Image to Title Gap",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "info": "Space between image and title (when title exists)"
+    },
+    {
+      "type": "range",
+      "id": "title_to_description_gap",
+      "label": "Title to Description Gap",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "unit": "px",
+      "info": "Space between title and description"
+    },
+    {
+      "type": "range",
+      "id": "image_to_description_gap_no_title",
+      "label": "Image to Description Gap (No Title)",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "info": "Space between image and description when title doesn't exist"
+    },
+    {
+      "type": "range",
+      "id": "description_to_buttons_gap",
+      "label": "Description to Buttons Gap",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "info": "Space between description and navigation buttons"
+    },
+    {
+      "type": "header",
+      "content": "Spacing Settings (Mobile)"
+    },
+    {
+      "type": "range",
+      "id": "image_to_title_gap_mob",
+      "label": "Image to Title Gap (Mobile)",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "unit": "px",
+      "info": "Space between image and title on mobile (when title exists)"
+    },
+    {
+      "type": "range",
+      "id": "title_to_description_gap_mob",
+      "label": "Title to Description Gap (Mobile)",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "unit": "px",
+      "info": "Space between title and description on mobile"
+    },
+    {
+      "type": "range",
+      "id": "image_to_description_gap_no_title_mob",
+      "label": "Image to Description Gap (No Title, Mobile)",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 12,
+      "unit": "px",
+      "info": "Space between image and description on mobile when title doesn't exist"
+    },
+    {
+      "type": "range",
+      "id": "description_to_buttons_gap_mob",
+      "label": "Description to Buttons Gap (Mobile)",
+      "min": 0,
+      "max": 48,
+      "step": 4,
+      "default": 24,
+      "unit": "px",
+      "info": "Space between description and navigation buttons on mobile"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding Top",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "default": 160,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding Bottom",
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "default": 115,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mob",
+      "label": "Padding Top (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 55,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mob",
+      "label": "Padding Bottom (Mobile)",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 70,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "PC Background Color",
+      "default": "#121b2c"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mob",
+      "label": "Mobile Background Color",
+      "default": "#121b2c"
+    },
+    {
+      "type": "text",
+      "id": "description_color_pc",
+      "label": "Card description text color (PC)",
+      "info": "Targets slide description on desktop (jingva-testimonials-slide-description). Example: rgba(255, 255, 255, 0.40). Leave empty for theme default (Dark: rgba(255,255,255,0.40); Light: rgba(26,26,26,0.60))."
+    },
+    {
+      "type": "text",
+      "id": "description_color_mob",
+      "label": "Card description text color (Mobile)",
+      "info": "Targets mobile description (jingva-testimonials-description-mob). Same syntax; empty uses theme default (Dark/Light as above)."
+    },
+    {
+      "type": "text",
+      "id": "subtitle_color_pc",
+      "label": "Slide subtitle color (PC)",
+      "info": "Targets jingva-testimonials-slide-subtitle on desktop (subtitle-pc). Example: #FFFFFF. Empty → theme default (Dark: #ffffff; Light: #0A0A0A)."
+    },
+    {
+      "type": "text",
+      "id": "subtitle_color_mob",
+      "label": "Slide subtitle color (Mobile)",
+      "info": "Targets mobile subtitle (jingva-testimonials-subtitle-mob). Same syntax; empty uses theme default as above."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "pc_image",
+          "label": "PC Slide Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mob_image",
+          "label": "Mobile Slide Image"
+        },
+        {
+          "type": "header",
+          "content": "PC Content"
+        },
+        {
+          "type": "text",
+          "id": "subtitle_pc",
+          "label": "PC Subtitle (optional)",
+          "default": "Quick Recovery Between Battles"
+        },
+        {
+          "type": "textarea",
+          "id": "description_pc",
+          "label": "PC Description",
+          "default": "After a team fight ends, lean back during the 10-second respawn countdown, The headrest securely cradles the back of your head. One deep breath, neck tension instantly resets. When the countdown ends, return to the next round fully recharged."
+        },
+        {
+          "type": "header",
+          "content": "Mobile Content"
+        },
+        {
+          "type": "text",
+          "id": "subtitle_mob",
+          "label": "Mobile Subtitle (optional)",
+          "default": "Quick Recovery Between Battles"
+        },
+        {
+          "type": "textarea",
+          "id": "description_mob",
+          "label": "Mobile Description",
+          "default": "After a team fight ends, lean back during the 10-second respawn countdown, The headrest securely cradles the back of your head. One deep breath, neck tension instantly resets. When the countdown ends, return to the next round fully recharged."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Testimonials",
+      "settings": {
+        "title": "Limitless Immersion. Adaptive Headrest Support.",
+        "show_subtitle": true
+      },
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle_pc": "Quick Recovery Between Battles",
+            "description_pc": "After a team fight ends, lean back during the 10-second respawn countdown, The headrest securely cradles the back of your head. One deep breath, neck tension instantly resets. When the countdown ends, return to the next round fully recharged.",
+            "subtitle_mob": "Quick Recovery Between Battles",
+            "description_mob": "After a team fight ends, lean back during the 10-second respawn countdown, The headrest securely cradles the back of your head. One deep breath, neck tension instantly resets. When the countdown ends, return to the next round fully recharged."
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle_pc": "Dynamic Support for High-Stakes Moments",
+            "description_pc": "When you pull off a god-tier play and shout in excitement, your body naturally recoils. The headrest adapts and absorbs the movement with stable support. Release your emotions while your cervical spine stays protected.",
+            "subtitle_mob": "Dynamic Support for High-Stakes Moments",
+            "description_mob": "When you pull off a god-tier play and shout in excitement, your body naturally recoils. The headrest adapts and absorbs the movement with stable support. Release your emotions while your cervical spine stays protected."
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle_pc": "Just Lean Back. It Already Knows.",
+            "description_pc": "The 4D-adjustable headrest tilts, pivots, and adjusts to cradle your head perfectly. We've made it simple: the moment you settle in, support follows—effortlessly, intuitively.",
+            "subtitle_mob": "Just Lean Back. It Already Knows.",
+            "description_mob": "The 4D-adjustable headrest tilts, pivots, and adjusts to cradle your head perfectly. We've made it simple: the moment you settle in, support follows—effortlessly, intuitively."
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "subtitle_pc": "Relaxed Engagement for Immersive Stories",
+            "description_pc": "Dim the lights and recline. The headrest provides soft, gentle support, allowing you to lose yourself completely in the plot.",
+            "subtitle_mob": "Relaxed Engagement for Immersive Stories",
+            "description_mob": "Dim the lights and recline. The headrest provides soft, gentle support, allowing you to lose yourself completely in the plot."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

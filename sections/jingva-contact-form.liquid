@@ -1,0 +1,611 @@
+{%- render 'section-spacing-collapsing' -%}
+
+<style>
+  /* 最高优先级覆盖 - 直接针对 section ID */
+  #shopify-section-{{ section.id }} {
+    --section-stack-intro: 100% !important;
+    --section-stack-main: 100% !important;
+    --context-section-spacing-inline: 0px !important;
+    --container-gutter: 0px !important;
+    padding-inline: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 强制去掉 section 的左右内边距 */
+  #shopify-section-{{ section.id }}.section,
+  .shopify-section--jingva-contact-form.section {
+    --context-section-spacing-inline: 0px !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  /* 容器居中对齐 */
+  .shopify-section--jingva-contact-form {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 50px 0 45px !important;
+  }
+
+  /* 主容器宽度 - 桌面版 796px */
+  .shopify-section--jingva-contact-form .section-stack {
+    width: 100% !important;
+    max-width: 796px !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .shopify-section--jingva-contact-form .section-stack__main {
+    width: 100% !important;
+  }
+
+  /* 表单容器 - 透明背景 */
+  .shopify-section--jingva-contact-form .contact-form {
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* 标题区域 - 自定义 class 完全脱离 theme.section-stack__intro 的 width: 50% 规则 (Figma 796 同宽) */
+  .shopify-section--jingva-contact-form .contact-intro {
+    text-align: center !important;
+    margin: 0 0 30px 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 首次进入视口下沉载入动效 */
+  .shopify-section--jingva-contact-form .contact-intro .subheading {
+    transform: translateY(-50px);
+    transition: transform 0.5s ease-out;
+    will-change: transform;
+  }
+
+  .shopify-section--jingva-contact-form .contact-intro .subheading.aos-animate {
+    transform: translateY(0) !important;
+  }
+
+  /* Subheading (Talk to us) - PC: Gabarito Bold 48px 黑色 (letter-spacing 0) */
+  .shopify-section--jingva-contact-form .contact-intro .subheading {
+    color: #000 !important;
+    text-align: center !important;
+    font-family: 'Gabarito', sans-serif !important;
+    font-size: 48px !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    line-height: 1.2em !important;
+    letter-spacing: 0 !important;
+    margin: 0 0 16px 0 !important;
+  }
+
+  /* H2 描述 - PC: Gabarito Medium 24px 黑色 (Figma 796宽, fw=500, lh=28.8, letter-spacing 0) */
+  .shopify-section--jingva-contact-form .contact-intro .h2 {
+    width: 100% !important;
+    max-width: none !important;
+    color: #000 !important;
+    text-align: center !important;
+    font-family: 'Gabarito', sans-serif !important;
+    font-size: 24px !important;
+    font-style: normal !important;
+    font-weight: 500 !important;
+    line-height: 1.2em !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+    margin: 0 !important;
+  }
+
+  /* 隐藏 prose 内容区域（如果不需要） */
+  .shopify-section--jingva-contact-form .contact-intro .prose {
+    display: none !important;
+  }
+
+  /* 表单字段容器 - 垂直排列，间距 24px */
+  .shopify-section--jingva-contact-form .contact-form .fieldset {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 24px !important;
+    margin: 0 !important;
+  }
+
+  /* 两列布局行 - Name 和 Email */
+  .shopify-section--jingva-contact-form .contact-form .input-row {
+    display: flex !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  /* 两列布局中的每个字段 - 各占 392px */
+  .shopify-section--jingva-contact-form .contact-form .input-row > div {
+    flex: 1 !important;
+    width: 392px !important;
+  }
+
+  /* 输入字段包装器 - 背景色 #F5F5F5，圆角 12px，边框，高度 72px */
+  .shopify-section--jingva-contact-form .contact-form .field {
+    background-color: #F5F5F5 !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 16px 20px !important;
+    min-height: 72px !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Message 字段特殊高度 200px */
+  .shopify-section--jingva-contact-form .contact-form .field--textarea {
+    min-height: 200px !important;
+    align-items: flex-start !important;
+    padding: 20px !important;
+  }
+
+  /* 输入框样式 - 透明背景，无边框 */
+  .shopify-section--jingva-contact-form .contact-form input[type="text"],
+  .shopify-section--jingva-contact-form .contact-form input[type="email"],
+  .shopify-section--jingva-contact-form .contact-form textarea {
+    background-color: transparent !important;
+    border: none !important;
+    font-family: 'Gabarito', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    color: rgba(0, 0, 0, 0.6) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Placeholder 样式 - 60% 透明度黑色 */
+  .shopify-section--jingva-contact-form .contact-form input[type="text"]::placeholder,
+  .shopify-section--jingva-contact-form .contact-form input[type="email"]::placeholder,
+  .shopify-section--jingva-contact-form .contact-form textarea::placeholder {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+  }
+
+  /* Textarea 特殊样式 */
+  .shopify-section--jingva-contact-form .contact-form textarea {
+    resize: none !important;
+    height: 100% !important;
+    min-height: 160px !important;
+  }
+
+  /* Label 隐藏（使用 placeholder 代替） */
+  .shopify-section--jingva-contact-form .contact-form label {
+    display: none !important;
+  }
+
+  /* 提交按钮 - 红色背景 #EA0202，白色文字，Orbitron Bold 20px */
+  .shopify-section--jingva-contact-form .contact-form .btn {
+    background-color: #EA0202 !important;
+    color: #FFFFFF !important;
+    font-family: 'Orbitron', sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+    text-transform: none !important;
+    letter-spacing: 1px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    padding: 22px 40px !important;
+    width: 100% !important;
+    cursor: pointer !important;
+    transition: background-color 0.3s ease !important;
+  }
+
+  .shopify-section--jingva-contact-form .contact-form .btn:hover {
+    background-color: #C00202 !important;
+  }
+
+  /* 成功/错误消息样式 */
+  .shopify-section--jingva-contact-form .banner {
+    margin-bottom: 24px !important;
+    border-radius: 12px !important;
+  }
+
+  /* 移动端适配 - 390px 宽度 */
+  @media screen and (max-width: 849px) {
+    .shopify-section--jingva-contact-form {
+      padding: 20px 0 15px 0 !important;
+    }
+
+    .shopify-section--jingva-contact-form .section-stack {
+      max-width: 390px !important;
+    }
+
+    /* 标题字号调整 */
+    .shopify-section--jingva-contact-form .contact-intro {
+      margin-bottom: 25px !important;
+    }
+
+    /* Subheading (Talk to us) - 手机: 32px */
+    .shopify-section--jingva-contact-form .contact-intro .subheading {
+      color: #000 !important;
+      text-align: center !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-size: 32px !important;
+      font-style: normal !important;
+      font-weight: 700 !important;
+      line-height: normal !important;
+      margin-bottom: 12px !important;
+    }
+
+    /* H2 描述 - 手机: 18px, width 358px */
+    .shopify-section--jingva-contact-form .contact-intro .h2 {
+      color: #000 !important;
+      text-align: center !important;
+      font-family: 'Gabarito', sans-serif !important;
+      font-size: 18px !important;
+      font-style: normal !important;
+      font-weight: 500 !important;
+      line-height: normal !important;
+      width: 358px !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+    }
+
+    /* 两列改为单列，间距 16px */
+    .shopify-section--jingva-contact-form .contact-form .input-row {
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+
+    .shopify-section--jingva-contact-form .contact-form .input-row > div {
+      width: 100% !important;
+    }
+
+    /* 字段间距调整为 16px */
+    .shopify-section--jingva-contact-form .contact-form .fieldset {
+      gap: 12px !important;
+    }
+
+    /* 移动端输入框高度 64px */
+    .shopify-section--jingva-contact-form .contact-form .field {
+      min-height: 45px !important;
+      padding: 0px 16px !important;
+    }
+
+    /* 移动端 Message 字段高度 160px */
+    .shopify-section--jingva-contact-form .contact-form .field--textarea {
+      min-height: 160px !important;
+      padding: 16px !important;
+    }
+
+    /* 移动端输入框字体 14px */
+    .shopify-section--jingva-contact-form .contact-form input[type="text"],
+    .shopify-section--jingva-contact-form .contact-form input[type="email"],
+    .shopify-section--jingva-contact-form .contact-form textarea {
+      font-size: 12px !important;
+    }
+
+    .shopify-section--jingva-contact-form .contact-form input[type="text"]::placeholder,
+    .shopify-section--jingva-contact-form .contact-form input[type="email"]::placeholder,
+    .shopify-section--jingva-contact-form .contact-form textarea::placeholder {
+      font-size: 12px !important;
+    }
+
+    .shopify-section--jingva-contact-form .contact-form textarea {
+      min-height: 138px !important;
+    }
+
+    /* 移动端按钮字体 16px */
+    .shopify-section--jingva-contact-form .contact-form .btn {
+      font-size: 16px !important;
+      padding: 18px 32px !important;
+      margin-top: 5px !important;
+    }
+  }
+</style>
+
+<div {% render 'section-properties' %}>
+  <div class="section-stack section-stack--center">
+    {%- capture content -%}
+      {%- if section.settings.subheading != blank -%}
+        <p class="subheading">{{ section.settings.subheading | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.title != blank -%}
+        <h2 class="h2">{{ section.settings.title | escape }}</h2>
+      {%- endif -%}
+
+      {%- if section.settings.content != blank -%}
+        <div class="prose">
+          {{- section.settings.content -}}
+        </div>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    <div class="section-stack__main">
+      {%- if content != blank -%}
+        <div class="contact-intro">
+          {{- content -}}
+        </div>
+      {%- endif -%}
+
+      <div class="contact-form">
+        {%- capture contact_form_id -%}contact-form-{{ section.id }}{%- endcapture -%}
+
+        {%- form 'contact', id: contact_form_id, class: 'form' -%}
+          <div class="fieldset">
+            {%- if form.posted_successfully? -%}
+              {%- capture content -%}{{- 'contact.form.success_message' | t -}}{%- endcapture -%}
+              {%- render 'banner', status: 'success', content: content -%}
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              {%- capture content -%}{{ form.errors.translated_fields[form.errors.first] | capitalize }} {{ form.errors.messages[form.errors.first] }}{%- endcapture -%}
+              {%- render 'banner', status: 'error', content: content -%}
+            {%- endif -%}
+
+            <div class="input-row">
+              <div class="field">
+                <input 
+                  type="text" 
+                  name="contact[name]" 
+                  id="contact-name-{{ section.id }}"
+                  placeholder="Name"
+                  value="{{ customer.name }}"
+                  autocomplete="name"
+                  required
+                >
+              </div>
+
+              <div class="field">
+                <input 
+                  type="email" 
+                  name="contact[email]" 
+                  id="contact-email-{{ section.id }}"
+                  placeholder="E-Mail"
+                  value="{{ customer.email }}"
+                  autocomplete="email"
+                  required
+                >
+              </div>
+            </div>
+
+            <div class="field">
+              <input 
+                type="text" 
+                name="contact[order_number]" 
+                id="contact-order-{{ section.id }}"
+                placeholder="Order number"
+              >
+            </div>
+
+            <div class="field field--textarea">
+              <textarea 
+                name="contact[body]" 
+                id="contact-message-{{ section.id }}"
+                placeholder="Message"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="btn">
+            {{ 'contact.form.submit' | t }}
+          </button>
+        {%- endform -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var section = document.getElementById('shopify-section-{{ section.id }}');
+  if (!section) return;
+
+  var title = section.querySelector('.contact-intro .subheading');
+  if (!title) return;
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        title.classList.add('aos-animate');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.01,
+    rootMargin: '0px 0px 0px 0px'
+  });
+
+  observer.observe(title);
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Jingva Contact Form",
+  "class": "shopify-section--jingva-contact-form",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Main Title",
+      "default": "Talk to us",
+      "info": "主标题 - PC: 48px / 手机: 32px"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Description",
+      "default": "Do you have any question? Feel free to contact us",
+      "info": "描述文字 - PC: 24px / 手机: 18px"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Additional Content (Hidden)",
+      "info": "此字段已隐藏，不会显示"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "select",
+      "id": "contact_form_size",
+      "label": "Contact form size",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ],
+      "default": "large"
+    },
+    {
+      "type": "header",
+      "content": "Section colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    },
+    {
+      "type": "header",
+      "content": "Contact block colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "contact_background",
+      "label": "Background"
+    },
+    {
+      "type": "color",
+      "id": "contact_text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text field",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "default": "Custom field"
+        },
+        {
+          "type": "checkbox",
+          "id": "use_long_text",
+          "label": "Use long text",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "required",
+          "label": "Required",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "dropdown",
+      "name": "Dropdown",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Name",
+          "default": "Custom field"
+        },
+        {
+          "type": "text",
+          "id": "values",
+          "label": "Values",
+          "info": "Separate each value by a comma.",
+          "default": "value 1, value 2, value 3"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jingva Contact Form",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,420 @@
+<style>
+  .kik_video_slideshow{
+    background:{{ section.settings.section_background }};
+  }
+.kik_slideshow_cont{
+  position:relative;
+  padding-top:43.6%;
+    background:{{ section.settings.background }};
+  border-radius: 15px;
+    overflow: hidden;
+}
+  .kik_slideshow_content{
+    top:0;
+    position:absolute;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  justify-content:center;
+    color:{{ section.settings.text_color }};
+    margin-left: 48px;
+    width: 567px;
+    z-index:2;
+  }
+  .kik_slideshow_content h3{
+    margin:0;
+    margin-bottom:{{ section.settings.heading_spacing }}px;
+    font-size:{{ section.settings.heading_size }}px;
+  }
+  .kik_video_slides{
+     display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+  }
+  .video_slide{
+    position:relative;
+    height:30px;
+    cursor:pointer;
+  }
+  .video_slide p{
+    font-size:12px;
+    color:rgb(135 135 135);
+  }
+  .video_slide.active p{
+    color:white;
+  }
+  .kik_progress{
+    position:absolute;
+    bottom:0;
+    height:4px;
+    width:100%;
+    border-radius: 4px;
+    background:white;
+    overflow:hidden;
+    opacity:0;
+  }
+  .kik_progress .kik_line{
+       background: #00c767;
+    width: 0;
+    height: 100%;
+    
+  }
+  .video_slide.active .kik_progress{
+    opacity:1;
+  }
+  .kik_slideshow_content .content{
+    margin:0;
+    font-size:{{ section.settings.text_size }}px;
+    margin-top:{{ section.settings.text_spacing }}px;
+  }
+  .kik_slideshow_video{
+    position:absolute;
+    right:0;
+    height:100%;
+    top:0;
+    width:60%;
+  }
+  .kik_slideshow_video:before{
+    content:"";
+    background: linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    width:40%;
+    position:absolute;
+    left:0;
+    height:100%;
+  }
+  .kik_slideshow_video video{
+    height:100%;
+    object-fit:cover;
+  }
+  .kik_slideshow_content .button{
+    width: fit-content;
+    margin-top: 24px;
+    position: absolute;
+    bottom: 40px;
+  }
+  @media (max-width:900px){
+    .kik_slideshow_cont{
+     padding-top:73.6%;
+    }
+  }
+ @media (max-width:699px){
+    .kik_slideshow_cont{
+  position:relative;
+  padding-top:0;
+    background:unset;
+  border-radius: 0px;
+}
+  .kik_slideshow_content{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  justify-content:center;
+    color:{{ section.settings.mobile_text_color }};
+    margin-left: 0px;
+    width: 100%;
+  }
+  .kik_slideshow_content h3{
+    font-size:{{ section.settings.heading_size_mobile }}px;
+  }
+ .kik_slideshow_content .content{
+    font-size:{{ section.settings.text_size_mobile }}px;
+  }
+  .kik_video_slides{
+    gap:16px;
+  }
+  .video_slide.active p{
+    color:{{ section.settings.mobile_text_color }};
+  }
+  .kik_slideshow_content .content{
+    color:{{ section.settings.mobile_text_color }};
+  }
+  .kik_slideshow_video{
+    margin-top:24px;
+    position:relative;
+    height:100%;
+    width:100%;
+    border-radius:15px;
+    overflow:hidden;
+  }
+  .kik_slideshow_video:before{
+    content:unset;
+  }
+  .kik_slideshow_video video{
+    width:100%;
+    height:auto;
+    object-fit:cover;
+  }
+  .kik_slideshow_content .button{
+    position: relative;
+    bottom:unset;
+  }
+ }
+</style>
+
+<div class="kik_video_slideshow slideshow--boxed">
+  <div class="kik_slideshow_cont">
+    <div class="kik_slideshow_content">
+      <h3>{{ section.settings.heading }}</h3>
+      <div class="kik_video_slides">
+        {% assign video_f = "" %}
+        {% assign text_f = "" %}
+        {% for block in section.blocks %}
+          {% for source in block.settings.video.sources %}
+            {% if source.url contains 'mp4' %}       
+            {% assign source_url = source.url %}
+              {% endif %}
+            {% endfor %}
+          {% if forloop.first %}
+            {% assign video_f = source_url %}
+             {% assign text_f = block.settings.content %}
+          {% endif %}
+          {% if block.settings.video != blank %}
+          <div class="video_slide {% if forloop.first %} active{% endif %}" data-video="{{ source_url }}" data-text="{{ block.settings.content }}">
+            <p>{{ block.settings.title }}</p>
+            <div class="kik_progress">
+              <div class="kik_line"></div>
+            </div>
+          </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="content">{{ text_f }}</div>
+      {% if section.settings.link != blank %}
+      <a class="button" style="--button-background: 255 255 255 / var(--button-background-opacity, 1); --button-outline-color: 255 255 255; --button-text-color: 0 0 0; opacity: 1;" href="/products/autofull-m6-ultra-black-gaming-chair-massage">Learn More</a>
+      {% endif %}
+      </div>
+    <div class="kik_slideshow_video">
+      
+      <video class="loaded"  autoplay="" muted="" playsinline="" src="{{ video_f }}"></video>
+    </div>
+  </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const videoSlides = document.querySelectorAll('.video_slide');
+  const videoElement = document.querySelector('.kik_slideshow_video video');
+  const contentElement = document.querySelector('.content');
+  let currentSlideIndex = 0;
+
+  // Initialize the first video
+  if (videoSlides.length > 0) {
+    playSlide(currentSlideIndex);
+  }
+
+  // Click handler for video slides
+  videoSlides.forEach((slide, index) => {
+    slide.addEventListener('click', function() {
+      currentSlideIndex = index;
+      playSlide(currentSlideIndex);
+    });
+  });
+
+  // Video ended handler
+  videoElement.addEventListener('ended', function() {
+    moveToNextSlide();
+  });
+  
+function preloadNextVideo() {
+  const nextIndex = (currentSlideIndex + 1) % videoSlides.length;
+  const nextVideoUrl = videoSlides[nextIndex].getAttribute('data-video');
+  const preloadLink = document.createElement('link');
+  preloadLink.rel = 'preload';
+  preloadLink.as = 'video';
+  preloadLink.href = nextVideoUrl;
+  document.head.appendChild(preloadLink);
+}
+  // Function to play a specific slide
+  function playSlide(index) {
+    // Update active class
+    videoSlides.forEach(slide => slide.classList.remove('active'));
+    videoSlides[index].classList.add('active');
+
+    // Get slide data
+    const slide = videoSlides[index];
+    const videoUrl = slide.getAttribute('data-video');
+    const contentText = slide.getAttribute('data-text');
+
+    // Update video and content
+    videoElement.src = videoUrl;
+    contentElement.textContent = contentText;
+
+    // Reset and start progress tracking
+    preloadNextVideo()
+    resetProgress();
+    startProgressTracking();
+  }
+
+  // Function to move to next slide
+  function moveToNextSlide() {
+      currentSlideIndex = (currentSlideIndex + 1) % videoSlides.length;
+    playSlide(currentSlideIndex);
+  }
+
+  // Function to reset progress bar
+  function resetProgress() {
+    const progressLine = document.querySelector('.video_slide.active .kik_line');
+    if (progressLine) {
+      progressLine.style.width = '0%';
+    }
+  }
+
+  // Function to track video progress
+  function startProgressTracking() {
+    const progressLine = document.querySelector('.video_slide.active .kik_line');
+    
+    if (!progressLine) return;
+
+    const updateProgress = () => {
+      if (videoElement.duration) {
+        const progress = (videoElement.currentTime / videoElement.duration) * 100;
+        progressLine.style.width = `${progress}%`;
+      }
+      
+      if (!videoElement.ended) {
+        requestAnimationFrame(updateProgress);
+      }
+    };
+    
+    updateProgress();
+  }
+});
+</script>
+{% schema %}
+  {
+    "name": "Kik video slideshow",
+    "settings": [
+      
+      {
+      "type": "color",
+      "id": "section_background",
+      "label": "Section Background"
+    },
+      {
+      "type": "color",
+      "id": "background",
+      "label": "Box Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#fff"
+    },
+       {
+      "type": "color",
+      "id": "mobile_text_color",
+      "label": "Text color mobile",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content":"heading"
+    },
+{
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": 40,
+      "min": 20,
+      "max":60  
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "label": "Heading size mobile",
+      "default": 32,
+      "min": 20,
+      "max":60  
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "default": 24,
+      "min": 0,
+      "max":80  
+    },
+    {
+      "type": "header",
+      "content":"text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "default": 16,
+      "min": 10,
+      "max":60  
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size",
+      "default": 16,
+      "min": 10,
+      "max":60  
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "default": 24,
+      "min": 0,
+      "max":80  
+    }
+    ],
+"blocks": [
+  {
+        "type": "video",
+        "name": "video",
+        "settings": [
+          {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+{
+      "type": "text",
+      "id": "video_url",
+      "label": "Video url"
+    },
+          {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+{
+      "type": "textarea",
+      "id": "content",
+      "label": "Content"
+    }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Kik video slideshow",
+         "blocks": [
+
+        ]
+      }
+    ]
+  }
+{% endschema %}
