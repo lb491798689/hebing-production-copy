@@ -448,31 +448,21 @@ class G7AddonsPurchaseBridge {
   }
 
   _hookFormSubmit() {
-    // 在 document 的 capture 阶段拦截，先于 form 上的 ProductForm._onSubmit 触发；
-    // 用 stopImmediatePropagation 阻止 event 继续传到 form，避免主商品被重复加购。
-    document.addEventListener(
+    this._form.addEventListener(
       "submit",
       async (event) => {
-        if (event.target !== this._form) return;
-
         const addons = this._widget.getSelectedItems?.() || [];
-        // 没勾任何 add-on：交给原生 ProductForm 处理（主商品单独加购，触发抽屉 / Buy Now 跳 checkout）
+        // 没勾任何 add-on：交给原生 ProductForm 处理（主商品单独加购，触发抽屉）
         if (!addons.length) return;
 
         const main = this._getMainItem();
         if (!main) return;
 
-        // 判断是否 Buy Now（submitter 名为 checkout）—— 与 ProductForm 行为一致
-        const isBuyNow = Boolean(event.submitter && event.submitter.getAttribute("name") === "checkout");
-
-        // 主商品 + add-ons 一起加入购物车，阻断 ProductForm._onSubmit
+        // 主商品 + add-ons 一起加入购物车
         const items = [main, ...addons];
 
         event.preventDefault();
         event.stopPropagation();
-        if (typeof event.stopImmediatePropagation === "function") {
-          event.stopImmediatePropagation();
-        }
 
         let sectionsToBundle = ["variant-added"];
         document.documentElement.dispatchEvent(
@@ -499,12 +489,6 @@ class G7AddonsPurchaseBridge {
           const responseJson = await response.json();
 
           if (response.ok) {
-            // Buy Now：直接跳结账（cart 已含 main + addons）
-            if (isBuyNow) {
-              window.location.assign(`${Shopify.routes.root}checkout`);
-              return;
-            }
-
             const cartContent = await (await fetch(`${Shopify.routes.root}cart.js`)).json();
             cartContent.sections = responseJson.sections;
 
@@ -521,8 +505,7 @@ class G7AddonsPurchaseBridge {
               })
             );
 
-            const settings = window.themeVariables && window.themeVariables.settings;
-            if (settings && (settings.cartType === "page" || settings.pageType === "cart")) {
+            if (window.themeVariables?.settings?.cartType === "page") {
               window.location.href = `${Shopify.routes.root}cart`;
             }
           } else {
@@ -532,7 +515,6 @@ class G7AddonsPurchaseBridge {
                 detail: { error: responseJson.description || responseJson.message }
               })
             );
-            document.dispatchEvent(new CustomEvent("cart:refresh"));
           }
         } catch (err) {
           console.error("G7 add-ons cart error:", err);

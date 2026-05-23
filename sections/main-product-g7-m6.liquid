@@ -1206,39 +1206,22 @@
 
           var formId = '{{ product_form_id }}';
           var cartUrl = buyNow.getAttribute('data-cart-url') || '/cart';
+          var pageQuery = window.location.search.replace(/^\?/, '');
+          var checkoutSuffix = pageQuery ? '?checkout&' + pageQuery : '?checkout';
 
           function getMainQuantityInput() {
             return document.getElementById(formId + '-quantity');
           }
 
-          function getQty() {
+          function updateHref() {
+            var variantInput = form.querySelector('input[name="id"]');
+            if (!variantInput || !variantInput.value) return;
+
             var qtyInput = getMainQuantityInput();
             var qty = qtyInput && qtyInput.value ? parseInt(qtyInput.value, 10) : 1;
-            return !qty || qty < 1 ? 1 : qty;
-          }
+            if (!qty || qty < 1) qty = 1;
 
-          function getVariantId() {
-            var variantInput = form.querySelector('input[name="id"]');
-            return variantInput && variantInput.value ? parseInt(variantInput.value, 10) : null;
-          }
-
-          function getAddonItems() {
-            var widget = document.querySelector('product-add-ons-g7');
-            if (!widget || typeof widget.getSelectedItems !== 'function') return [];
-            var items = widget.getSelectedItems();
-            return Array.isArray(items) ? items : [];
-          }
-
-          // href 仅作兜底（中键/右键打开新标签页），不带 ?checkout 避免触发店铺 cart 模板报错
-          function updateHref() {
-            var variantId = getVariantId();
-            if (!variantId) return;
-            var qty = getQty();
-            var mainItem = { id: variantId, quantity: qty };
-            var addons = getAddonItems();
-            var items = addons.length ? [mainItem].concat(addons) : [mainItem];
-            var permalink = items.map(function (it) { return it.id + ':' + it.quantity; }).join(',');
-            buyNow.setAttribute('href', cartUrl + '/' + permalink);
+            buyNow.setAttribute('href', cartUrl + '/' + variantInput.value + ':' + qty + checkoutSuffix);
           }
 
           updateHref();
@@ -1251,48 +1234,7 @@
           document.addEventListener('input', function (event) {
             if (event.target && event.target.id === formId + '-quantity') updateHref();
           }, true);
-          document.documentElement.addEventListener('g7:main-quantity-change', updateHref);
           document.documentElement.addEventListener('g7-main-quantity-change', updateHref);
-          document.documentElement.addEventListener('g7-addons:change', updateHref);
-
-          // 点击：fetch cart/add.js 加购主商品（+ add-ons），成功后跳 /checkout
-          // 不用 ?checkout 后缀，因当前店铺 cart 模板对该参数报错（"expected String to be a Hash: checkout"）
-          buyNow.addEventListener('click', function (event) {
-            event.preventDefault();
-            var variantId = getVariantId();
-            if (!variantId) return;
-            var qty = getQty();
-            var mainItem = { id: variantId, quantity: qty };
-            var addons = getAddonItems();
-            var items = addons.length ? [mainItem].concat(addons) : [mainItem];
-
-            buyNow.setAttribute('aria-busy', 'true');
-            var root = (window.Shopify && Shopify.routes && Shopify.routes.root) ? Shopify.routes.root : '/';
-            fetch(root + 'cart/add.js', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest'
-              },
-              body: JSON.stringify({ items: items })
-            }).then(function (resp) {
-              return resp.json().then(function (json) { return { ok: resp.ok, json: json }; });
-            }).then(function (res) {
-              buyNow.removeAttribute('aria-busy');
-              if (res.ok) {
-                window.location.assign(root + 'checkout');
-              } else {
-                document.documentElement.dispatchEvent(new CustomEvent('cart:error', {
-                  bubbles: true,
-                  detail: { error: (res.json && (res.json.description || res.json.message)) || 'Add to cart failed' }
-                }));
-                console.error('Sticky Buy Now add-to-cart failed:', res.json);
-              }
-            }).catch(function (err) {
-              buyNow.removeAttribute('aria-busy');
-              console.error('Sticky Buy Now error:', err);
-            });
-          });
         })();
       </script>
 
