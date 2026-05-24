@@ -577,13 +577,12 @@
 
 /* Klarna 组件占满宽度 */
 #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] > *,
-#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-custom-messaging {
+#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] klarna-placement {
   width: 100% !important;
   max-width: 100% !important;
 }
 
 /* Klarna logo 尺寸（保持原始比例，禁止横向拉伸） */
-#shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-logo,
 #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] klarna-placement img,
 #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] img[alt*="Klarna"],
 #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] img[src*="klarna"] {
@@ -683,7 +682,7 @@
   }
 }
 
-/* PAD（1280–1439）：Klarna 宿主块不撑出 info 列，保持 PC 横向布局 */
+/* PAD（1280–1439）：Klarna 宿主块不撑出 info 列 */
 @media screen and (min-width: 1280px) and (max-width: 1439px) {
   #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] {
     max-width: 100% !important;
@@ -691,15 +690,9 @@
     box-sizing: border-box !important;
   }
 
-  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] .klarna-custom-messaging {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 24px !important;
-    min-height: 58px !important;
-    padding: 12px 16px !important;
+  #shopify-section-{{ section.id }} .product-info__block-item[data-block-type="@app"] klarna-placement {
+    display: block !important;
+    width: 100% !important;
     max-width: 100% !important;
   }
 }

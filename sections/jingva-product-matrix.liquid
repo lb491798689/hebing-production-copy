@@ -208,17 +208,17 @@
       box-sizing: border-box !important;
     }
     
-    /* Figma 1393:147830 — 星条 83×14.647，与文案间距 12px；gy2 + 下划线 */
+    /* Figma 1393:147830 / 1769:5829 — 星条 83×14.647，星间距 2.441px，星↔文案 12px，行高 17px */
     {{ default_sid }} .jingva-matrix-product-meta {
       display: flex !important;
       flex-direction: row !important;
       align-items: center !important;
       justify-content: center !important;
-      flex-wrap: wrap !important;
-      gap: 12px !important;
+      flex-wrap: nowrap !important;
+      gap: 0 !important;
       flex-shrink: 0 !important;
       width: 100% !important;
-      min-height: 14.647px !important;
+      min-height: 17px !important;
       text-align: center !important;
     }
 
@@ -229,57 +229,107 @@
       flex-direction: row !important;
       align-items: center !important;
       justify-content: center !important;
-      flex-wrap: wrap !important;
-      gap: 12px !important;
+      flex-wrap: nowrap !important;
+      gap: 0 !important;
+      min-height: 17px !important;
     }
 
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget img,
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget svg {
-      height: 14.647px !important;
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-rating-link {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: nowrap !important;
+      gap: 12px !important;
+      min-height: 17px !important;
+      text-decoration: none !important;
+      border: none !important;
+      border-bottom: none !important;
+      color: inherit !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-star-row,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .product-icon-list.vstar-star {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      align-items: center !important;
+      justify-content: center !important;
+      flex-wrap: nowrap !important;
+      gap: 2.441px !important;
       width: auto !important;
-      max-height: 14.647px !important;
-      vertical-align: middle !important;
+      height: 14.647px !important;
+      line-height: 0 !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .star-item {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 14.647px !important;
+      height: 14.647px !important;
+      line-height: 0 !important;
       flex-shrink: 0 !important;
     }
 
-    /* Figma：整段「5999 Reviews」同一条下划线；Reviews 词首字母大写（Trustoo 常在 span 内，不能只样式 a） */
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span {
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget svg.trustoo-rating-icon path {
+      fill: #FFCD26 !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .star-item.nostar svg.trustoo-rating-icon path,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-star-icon svg.trustoo-rating-icon path[fill="#E6E6E6"] {
+      fill: #E6E6E6 !important;
+    }
+
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget img,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget svg.trustoo-rating-icon {
+      display: block !important;
+      width: 14.647px !important;
+      height: 14.647px !important;
+      max-width: 14.647px !important;
+      max-height: 14.647px !important;
+      flex-shrink: 0 !important;
+    }
+
+    /* Figma 1393:147837 — PC：Gabarito 14 / 16.8，underline，gy2 #1A1A1A @ 80% */
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-rating-link .tt-rating-text,
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-rating-link .jingva-matrix-review-underline {
       font-family: 'Gabarito', sans-serif !important;
       font-weight: 400 !important;
       font-size: 14px !important;
-      line-height: normal !important;
+      line-height: 16.8px !important;
+      height: 17px !important;
+      display: inline-flex !important;
+      align-items: center !important;
       color: rgba(26, 26, 26, 0.8) !important;
-      text-decoration-skip-ink: none !important;
-    }
-
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(:has(*)) {
       text-decoration: underline !important;
       text-decoration-style: solid !important;
-      text-underline-offset: 2px !important;
+      text-decoration-skip-ink: none !important;
+      text-underline-offset: 0 !important;
+      text-transform: none !important;
+      border: none !important;
+      border-bottom: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      white-space: nowrap !important;
     }
 
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(:has(*)) {
+    /* Trustoo 原生填充（主题编辑器预览）— 仅文案，不含外层 link */
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a:not(.jingva-matrix-rating-link),
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(.tt-rating-text):not(.star-item):not(:has(*)) {
+      font-family: 'Gabarito', sans-serif !important;
+      font-weight: 400 !important;
+      font-size: 14px !important;
+      line-height: 16.8px !important;
+      color: rgba(26, 26, 26, 0.8) !important;
+      text-decoration-skip-ink: none !important;
       text-transform: none !important;
     }
 
-    /*
-      Figma 1393:147837：underline + solid + skip-ink none + Gabarito 14 + gy2。
-      Trustoo 常内联 text-decoration:none，仅用 underline 不可靠；用底边框模拟单条下划线（视觉等同）。
-    */
-    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-review-underline {
-      display: inline-block !important;
-      font-family: 'Gabarito', sans-serif !important;
-      font-weight: 400 !important;
-      font-size: 14px !important;
-      line-height: normal !important;
-      color: rgba(26, 26, 26, 0.8) !important;
-      text-decoration: none !important;
-      border-bottom: 1px solid rgba(26, 26, 26, 0.8) !important;
-      padding-bottom: 1px !important;
-      box-sizing: border-box !important;
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a:not(.jingva-matrix-rating-link),
+    {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(.tt-rating-text):not(.star-item):not(:has(*)) {
+      text-decoration: underline !important;
+      text-decoration-style: solid !important;
+      text-underline-offset: 0 !important;
     }
     
     {{ default_sid }} .jingva-matrix-product-buttons {
@@ -534,14 +584,12 @@
         padding: 0 12px !important;
       }
 
-      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a,
-      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span {
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-rating-link .tt-rating-text,
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-rating-link .jingva-matrix-review-underline,
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget a:not(.jingva-matrix-rating-link),
+      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget span:not(.tt-rating-text):not(.star-item):not(:has(*)) {
+        /* Figma 1769:5836 — 手机端 Reviews 纯黑 #000000 */
         color: #000000 !important;
-      }
-
-      {{ default_sid }} .jingva-matrix-product-meta .custom-vstar-rating-widget .jingva-matrix-review-underline {
-        color: #000000 !important;
-        border-bottom-color: #000000 !important;
       }
       
       {{ default_sid }} .jingva-matrix-product-buttons {
@@ -695,6 +743,7 @@
                   <div
                     class="custom-vstar-rating-widget jingva-matrix-trustoo-rating"
                     data-product-id="{{ product.id }}"
+                    data-product-url="{{ product.url }}"
                   ></div>
                 </div>
                 
@@ -806,23 +855,31 @@
       return titleCaseReviewWords(s);
     }
 
-    /** Figma 1393:147837：与稿一致的下划线（内联 + 底边框，防 Trustoo 覆盖） */
+    /** Figma 1393:147837 / 1769:5829：原生 underline，不用 border-bottom */
     function applyForcedReviewUnderline(el) {
+      if (el.closest('.jingva-matrix-rating-link')) return;
+      el.classList.add('jingva-matrix-review-underline');
+      el.style.setProperty('text-decoration', 'underline', 'important');
+      el.style.setProperty('text-decoration-style', 'solid', 'important');
+      el.style.setProperty('text-decoration-skip-ink', 'none', 'important');
+      el.style.setProperty('text-underline-offset', '0', 'important');
+      el.style.setProperty('border-bottom', 'none', 'important');
+      el.style.setProperty('display', 'inline-flex', 'important');
+      el.style.setProperty('align-items', 'center', 'important');
+      el.style.setProperty('line-height', '16.8px', 'important');
+      el.style.setProperty('height', '17px', 'important');
+      el.style.setProperty('padding', '0', 'important');
       var lineColor = window.matchMedia('(max-width: 1279px)').matches
         ? '#000000'
         : 'rgba(26, 26, 26, 0.8)';
-      el.classList.add('jingva-matrix-review-underline');
-      el.style.setProperty('text-decoration', 'none', 'important');
-      el.style.setProperty('border-bottom', '1px solid ' + lineColor, 'important');
-      el.style.setProperty('display', 'inline-block', 'important');
-      el.style.setProperty('padding-bottom', '1px', 'important');
       el.style.setProperty('color', lineColor, 'important');
     }
 
     function markReviewUnderlineTargets(widget) {
       widget.querySelectorAll('.jingva-matrix-review-underline').forEach(function(el) {
+        if (el.closest('.jingva-matrix-rating-link')) return;
         el.classList.remove('jingva-matrix-review-underline');
-        ['text-decoration', 'border-bottom', 'display', 'padding-bottom', 'color'].forEach(function(p) {
+        ['text-decoration', 'text-decoration-style', 'text-decoration-skip-ink', 'text-underline-offset', 'border-bottom', 'display', 'padding-bottom', 'padding', 'line-height', 'height', 'align-items', 'color'].forEach(function(p) {
           el.style.removeProperty(p);
         });
       });
@@ -836,15 +893,115 @@
         return true;
       };
 
-      widget.querySelectorAll('a').forEach(function(el) {
+      widget.querySelectorAll('a:not(.jingva-matrix-rating-link)').forEach(function(el) {
         if (isReviewLabelText(norm(el.textContent))) applyForcedReviewUnderline(el);
       });
 
       widget.querySelectorAll('span, p, div').forEach(function(el) {
+        if (el.closest('a.jingva-matrix-rating-link')) return;
         if (el.closest('a.jingva-matrix-review-underline')) return;
         if (el.children && el.children.length) return;
         if (isReviewLabelText(norm(el.textContent))) applyForcedReviewUnderline(el);
       });
+    }
+
+    function widgetHasRatingMarkup(widget) {
+      return !!widget.querySelector('.collection-icon-list, .product-icon-list, .vstar-star svg, .tt-rating-text');
+    }
+
+    const FIGMA_STAR_PATH = 'M8.89062 0.565613L11.4299 6.07066L17.4501 6.78446L12.9992 10.9006L14.1807 16.8468L8.89062 13.8856L3.60056 16.8468L4.78206 10.9006L0.331117 6.78446L6.35139 6.07066L8.89062 0.565613Z';
+    const FIGMA_STAR_FILL = '#FFCD26';
+    const FIGMA_STAR_PARTIAL = '#FF9900';
+    const FIGMA_STAR_EMPTY = '#E6E6E6';
+
+    function figmaStarSvg(fillColor) {
+      return '<svg class="trustoo-rating-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 17" width="14.647" height="14.647" fill="none" aria-hidden="true"><path fill="' + fillColor + '" d="' + FIGMA_STAR_PATH + '"/></svg>';
+    }
+
+    function buildTrustooStars(ratingValue) {
+      var rating = parseFloat(ratingValue);
+      if (isNaN(rating)) return '';
+      var html = '<span class="product-icon-list vstar-star jingva-matrix-star-row">';
+      for (var i = 1; i <= 5; i++) {
+        var fill = FIGMA_STAR_EMPTY;
+        if (rating >= i) {
+          fill = FIGMA_STAR_FILL;
+        } else if (rating + 0.001 >= i - 0.5) {
+          fill = FIGMA_STAR_PARTIAL;
+        }
+        html += '<span class="star-item"><span class="jingva-matrix-star-icon">' + figmaStarSvg(fill) + '</span></span>';
+      }
+      html += '</span>';
+      return html;
+    }
+
+    function renderMatrixRatingWidget(widget, data) {
+      var totalReviews = parseInt(data.total_reviews, 10);
+      if (!totalReviews || totalReviews <= 0) return;
+
+      var rating = data.rating;
+      if (rating === '-1' || rating === null || typeof rating === 'undefined') return;
+
+      var productUrl = widget.getAttribute('data-product-url') || '#';
+      var reviewLabel = formatReviewCount(totalReviews);
+      var starsHtml = buildTrustooStars(rating);
+
+      widget.innerHTML =
+        '<a href="' + productUrl + '" class="jingva-matrix-rating-link" data-review-num="' + totalReviews + '" rating="' + rating + '">' +
+          starsHtml +
+          '<span class="tt-rating-text">' + reviewLabel + '</span>' +
+        '</a>';
+
+      widget.dataset.jingvaRatingLoaded = '1';
+    }
+
+    function loadJingvaMatrixRatings(force) {
+      var widgets = root.querySelectorAll('.jingva-matrix-trustoo-rating');
+      if (!widgets.length) return Promise.resolve();
+
+      var pending = [];
+      var idList = [];
+      var seen = {};
+
+      widgets.forEach(function(widget) {
+        if (!force && (widget.dataset.jingvaRatingLoaded === '1' || widgetHasRatingMarkup(widget))) return;
+        var productId = widget.getAttribute('data-product-id');
+        if (!productId) return;
+        pending.push(widget);
+        if (!seen[productId]) {
+          seen[productId] = true;
+          idList.push(productId);
+        }
+      });
+
+      if (!idList.length) return Promise.resolve();
+
+      var shopId = {{ shop.id | json }};
+      var apiUrl = '/apps/trustoo/api/v1/reviews/get_products_rating?shop_id=' +
+        encodeURIComponent(shopId) +
+        '&product_id=' +
+        encodeURIComponent(idList.join(','));
+
+      return fetch(apiUrl, { credentials: 'same-origin' })
+        .then(function(res) { return res.json(); })
+        .then(function(payload) {
+          if (!payload || payload.code !== 0 || !Array.isArray(payload.data)) return;
+
+          var ratingMap = {};
+          idList.forEach(function(id, index) {
+            if (payload.data[index]) ratingMap[id] = payload.data[index];
+          });
+
+          pending.forEach(function(widget) {
+            var productId = widget.getAttribute('data-product-id');
+            var data = ratingMap[productId];
+            if (!data) return;
+            renderMatrixRatingWidget(widget, data);
+          });
+
+          fixTrustooReviewCopyInSection();
+        })
+        .catch(function() {});
     }
 
     function fixTrustooReviewCopyInSection() {
@@ -874,8 +1031,12 @@
     ratingMo.observe(root, { childList: true, subtree: true, characterData: true });
 
     fixTrustooReviewCopyInSection();
+    loadJingvaMatrixRatings(false);
     [100, 500, 1500, 3000].forEach(function(ms) {
-      setTimeout(fixTrustooReviewCopyInSection, ms);
+      setTimeout(function() {
+        loadJingvaMatrixRatings(false);
+        fixTrustooReviewCopyInSection();
+      }, ms);
     });
 
     var tabButtons = root.querySelectorAll('.jingva-matrix-tab-btn');
@@ -893,6 +1054,7 @@
           targetPanel.classList.add('active');
           setTimeout(function() {
             window.dispatchEvent(new Event('resize'));
+            loadJingvaMatrixRatings(false);
             fixTrustooReviewCopyInSection();
           }, 100);
         }
@@ -913,7 +1075,7 @@
     },
     {
       "type": "paragraph",
-      "content": "卡片星级与条数使用 Trustoo（TrustWILL）与商品详情页相同的星级组件：请在 在线商店 → 主题 → 自定义 → App embed 中开启 Trustoo，详见 https://help.trustoo.io/docs/reviewAPI/review-widget/"
+      "content": "卡片星级与条数使用 Trustoo（TrustWILL）。主题编辑器内由 Trustoo 预览脚本填充；真实店铺页由本区块通过 /apps/trustoo/api/v1/reviews/get_products_rating 拉取并渲染（不依赖 Trustoo 首页开关）。"
     },
     {
       "type": "text",
