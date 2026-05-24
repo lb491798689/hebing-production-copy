@@ -412,25 +412,40 @@
     width: 100%;
   }
 
-  #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn {
+  #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn,
+  #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-market-trigger--footer {
+    display: flex;
     width: 100%;
     justify-content: center;
+    align-items: center;
+    gap: 8px;
     color: #fafafa;
     border: none;
     background: none;
     padding: 0;
     font-family: inherit;
+    cursor: pointer;
   }
 
-  #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-code {
-    font-family: 'Gabarito', sans-serif;
-    font-weight: 400;
+  #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-nav-locale-code {
+    font-family: 'Orbitron', sans-serif;
     font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
     line-height: normal;
-    color: #fafafa;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.4);
     white-space: nowrap;
   }
 
+  /* footer locale 按钮：PC 显示 EN，mobile 显示 EN/$USD */
+  .af-footer-locale-code--mob { display: none !important; }
+  .af-footer-locale-code--pc  { display: inline !important; }
+
+  @media screen and (max-width: 1279px) {
+    .af-footer-locale-code--mob { display: inline !important; }
+    .af-footer-locale-code--pc  { display: none !important; }
+  }
   #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-globe-icon {
     flex-shrink: 0;
     display: block;
@@ -856,7 +871,8 @@
       width: auto;
     }
 
-    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn {
+    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn,
+    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-market-trigger--footer {
       width: auto;
       color: #fafafa !important;
     }
@@ -1020,7 +1036,8 @@
     }
 
     #shopify-section-{{ section.id }} .footer-v2-locale-pill,
-    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn {
+    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-footer-locale-btn,
+    #shopify-section-{{ section.id }} .footer-v2-locale-pill .af-market-trigger--footer {
       width: 100%;
     }
 

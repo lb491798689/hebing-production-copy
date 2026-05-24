@@ -551,7 +551,8 @@ ul.sub-link-container {
 }
 
   /* —— Figma 1391:123637 仅本 Header section，不影响页脚/抽屉内 localization —— */
-  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector button.af-nav-locale-btn {
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector button.af-nav-locale-btn,
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-market-trigger--nav {
     box-sizing: border-box;
     display: inline-flex !important;
     align-items: center;
@@ -567,10 +568,12 @@ ul.sub-link-container {
     font-weight: 700 !important;
     line-height: normal !important;
   }
-  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-locale-code {
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-locale-code,
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-market-trigger--nav .af-nav-locale-code {
     color: rgba(255, 255, 255, 0.4) !important;
   }
-  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-globe-icon {
+  #shopify-section-{{ section.id }} .header__secondary-nav .localization-selector .af-nav-globe-icon,
+  #shopify-section-{{ section.id }} .header__secondary-nav .af-market-trigger--nav .af-nav-globe-icon {
     width: 18px;
     height: 18px;
     flex-shrink: 0;

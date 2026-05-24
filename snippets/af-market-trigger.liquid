@@ -13,12 +13,9 @@
   aria-label="{{ 'general.localization.change_country_accessibility_text' | t | escape }}"
 >
   {%- if trigger_variant == 'footer' -%}
-    {%- render 'af-footer-globe-icon' -%}
-    <span class="af-footer-locale-code">
-      {{- localization.country.name -}}
-      <span class="af-footer-locale-sep"> / </span>
-      {{- localization.language.endonym_name | capitalize -}}
-    </span>
+    {%- render 'af-nav-globe-icon' -%}
+    <span class="bold text-sm af-nav-locale-code af-footer-locale-code--pc">{{ localization.language.iso_code | split: '-' | first | upcase }}</span>
+    <span class="bold text-sm af-nav-locale-code af-footer-locale-code--mob">{{ localization.language.iso_code | split: '-' | first | upcase }}{%- if localization.country.currency.iso_code -%}/${{- localization.country.currency.iso_code -}}{%- endif -%}</span>
   {%- else -%}
     {%- render 'af-nav-globe-icon' -%}
     <span class="bold text-sm af-nav-locale-code">{{ localization.language.iso_code | split: '-' | first | upcase }}</span>
