@@ -1165,7 +1165,7 @@
               <div class="g7-klarna-info">
                 {%- assign monthly_payment = product.selected_or_first_available_variant.price | divided_by: 4.0 | money -%}
                 <span class="g7-klarna-text">From {{ monthly_payment }}/month or 4 payments at 0% interest with</span>
-                <img src="{{ 'pay-klarna.svg' | asset_url }}" alt="Klarna" class="g7-klarna-logo" loading="lazy">
+                <img src="{{ 'cart-klarna.svg' | asset_url }}" alt="Klarna" class="g7-klarna-logo" width="40" height="16" loading="lazy">
                 <span class="g7-klarna-link" style="display:none">Check purchase power</span>
               </div>
             </div>

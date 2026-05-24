@@ -12065,27 +12065,34 @@ body.template-product-m6-20260402 .product-info__buy-buttons {
   color: #FFFFFF;
 }
 
-/* Klarna Payment Info */
+/* Klarna Payment Info — Figma 39.467×16 logo，与文案垂直居中 */
 .g7-klarna-info {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 6px;
   font-family: Gabarito, sans-serif;
   font-size: 14px;
-  line-height: 120%;
+  line-height: 16px;
   color: rgba(26, 26, 26, 0.70);
   white-space: nowrap;
 }
 
 .g7-klarna-text {
   color: rgba(26, 26, 26, 0.70);
+  line-height: 16px;
 }
 
 .g7-klarna-logo {
-  height: 24px;
-  width: auto;
+  display: block;
+  flex-shrink: 0;
+  width: 39.467px;
+  height: 16px;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0;
   object-fit: contain;
-  margin: 0 4px;
+  object-position: center;
 }
 
 .g7-klarna-link {
