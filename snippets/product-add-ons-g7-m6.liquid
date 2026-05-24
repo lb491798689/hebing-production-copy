@@ -49,6 +49,7 @@
           assign addon_product = addon_entry
           assign addon_variant = addon_product.selected_or_first_available_variant
         endif
+        assign popup_id = 'addon-popup-' | append: section.id | append: '-' | append: block.id | append: '-' | append: addon_product.id
       -%}
       <article
         class="product-add-ons-g7__card"
@@ -81,11 +82,21 @@
               details_label: details_label,
               qty: 1,
               sync_form_qty: false,
-              addon_available: addon_variant.available
+              addon_available: addon_variant.available,
+              popup_id: popup_id
             -%}
           </div>
         </div>
       </article>
+
+      {%- if show_details -%}
+        {%- render 'product-add-ons-g7-popup',
+          addon_product: addon_product,
+          addon_variant: addon_variant,
+          popup_id: popup_id,
+          details_label: details_label
+        -%}
+      {%- endif -%}
     {%- endfor -%}
   </div>
 </product-add-ons-g7>
@@ -428,7 +439,7 @@
     margin: 0;
   }
 
-  @media screen and (min-width: 1000px) {
+  @media screen and (min-width: 1280px) {
     {{ scope }} .product-add-ons-g7__heading {
       font-size: 24px;
     }
@@ -438,7 +449,7 @@
     }
   }
 
-  @media screen and (max-width: 999px) {
+  @media screen and (max-width: 1279px) {
     {{ scope }} .product-add-ons-g7__title {
       font-size: 18px;
       font-style: normal;
@@ -463,6 +474,484 @@
     }
   }
 {% endstyle %}
+
+{%- comment -%} ── Add-On 弹窗样式（按 Figma 1977:7539 PC / 1977:7573 Mobile 1:1 还原） ── {%- endcomment -%}
+{% style %}
+  .addon-popup[hidden] {
+    display: none !important;
+  }
+
+  .addon-popup {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483647 !important; /* 高于 sidebar / sticky bar / 第三方挂件 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .addon-popup__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .addon-popup__dialog {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 720px;
+    max-width: calc(100vw - 32px);
+    max-height: 90vh;
+  }
+
+  /* Header */
+  .addon-popup__header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    box-sizing: border-box;
+  }
+
+  .addon-popup__heading {
+    margin: 0;
+    color: #1A1A1A;
+    font-family: Gabarito, sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 28.8px;
+  }
+
+  .addon-popup__close {
+    flex-shrink: 0;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid #0A0A0A;
+    background: transparent;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+
+  .addon-popup__close-svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .addon-popup__close-svg--mobile {
+    display: none;
+  }
+
+  .addon-popup__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+  }
+
+  /* Gallery */
+  .addon-popup__gallery {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .addon-popup__slides {
+    position: absolute;
+    inset: 0;
+  }
+
+  .addon-popup__slide {
+    position: absolute;
+    inset: 0;
+    display: none;
+  }
+
+  .addon-popup__slide.is-active {
+    display: block;
+  }
+
+  .addon-popup__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: block;
+  }
+
+  .addon-popup__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: #E8000B;
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 2;
+    box-sizing: border-box;
+  }
+
+  .addon-popup__nav--prev { left: 24px; }
+  .addon-popup__nav--next { right: 24px; }
+
+  .addon-popup__nav:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .addon-popup__counter {
+    position: absolute;
+    right: 24px;
+    bottom: 16px;
+    padding: 4px 8px;
+    background: rgba(26, 26, 26, 0.6);
+    color: #fff;
+    border-radius: 8px;
+    font-family: Gabarito, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16.8px;
+    z-index: 2;
+  }
+
+  /* Specs section */
+  .addon-popup__specs-wrap {
+    padding: 24px 24px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .addon-popup__title-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 16px;
+  }
+
+  .addon-popup__title {
+    margin: 0;
+    flex: 1 1 auto;
+    color: #0A0A0A;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .addon-popup__prices {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .addon-popup__price {
+    color: #1A1A1A;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  .addon-popup__price-compare {
+    position: relative;
+    color: rgba(26, 26, 26, 0.4);
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    text-decoration: line-through;
+  }
+
+  /* Mobile-only "Product Information" heading */
+  .addon-popup__info-heading {
+    display: none;
+  }
+
+  .addon-popup__specs:empty {
+    display: none;
+  }
+
+  .addon-popup__specs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .addon-popup__spec-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+
+  .addon-popup__spec-row:nth-child(odd) {
+    background: rgba(237, 237, 237, 1);
+  }
+
+  .addon-popup__spec-label {
+    color: rgba(26, 26, 26, 0.6);
+    font-family: Gabarito, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19.2px;
+  }
+
+  .addon-popup__spec-value {
+    color: #0A0A0A;
+    font-family: Gabarito, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 21.6px;
+    text-align: right;
+  }
+
+  body.addon-popup-open {
+    overflow: hidden;
+  }
+
+  /* Mobile / PAD（≤1279px）—— bottom sheet 风格
+     按 develop.md 断点定义：mob = 375 ~ 1279px，pad = 1280 ~ 1439px，pc ≥1440px */
+  @media screen and (max-width: 1279px) {
+    .addon-popup {
+      align-items: flex-end;
+      justify-content: stretch;
+    }
+
+    .addon-popup__dialog {
+      width: 100vw;
+      max-width: 100vw;
+      height: 80vh;
+      max-height: 86vh;
+      border-radius: 8px 8px 0 0;
+      margin: 0;
+    }
+
+    .addon-popup__header {
+      padding: 16px;
+    }
+
+    .addon-popup__heading {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    .addon-popup__close {
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+      gap: 10px;
+      border-radius: 6px;
+      border: 1px solid #0A0A0A;
+    }
+
+    .addon-popup__close-svg--pc {
+      display: none;
+    }
+
+    .addon-popup__close-svg--mobile {
+      display: block;
+    }
+
+    .addon-popup__gallery {
+      height: 240px;
+    }
+
+    .addon-popup__nav {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+    }
+
+    .addon-popup__nav--prev { left: 16px; }
+    .addon-popup__nav--next { right: 16px; }
+
+    .addon-popup__counter {
+      right: 16px;
+      bottom: 12px;
+      border-radius: 6px;
+    }
+
+    .addon-popup__specs-wrap {
+      padding: 16px 16px 40px;
+      gap: 16px;
+    }
+
+    .addon-popup__title-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding-bottom: 16px;
+    }
+
+    .addon-popup__title {
+      font-size: 18px;
+      line-height: 21.6px;
+    }
+
+    .addon-popup__prices {
+      gap: 8px;
+    }
+
+    .addon-popup__price {
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 19.2px;
+    }
+
+    .addon-popup__price-compare {
+      font-size: 16px;
+      line-height: 19.2px;
+    }
+
+    .addon-popup__info-heading {
+      display: block;
+      margin: 0 0 4px;
+      color: #000;
+      font-family: Gabarito, sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 33.6px;
+    }
+
+    .addon-popup__spec-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+      padding: 16px;
+      border-radius: 6px;
+    }
+
+    .addon-popup__spec-label {
+      font-weight: 500;
+    }
+
+    .addon-popup__spec-value {
+      text-align: left;
+    }
+  }
+{% endstyle %}
+
+<script>
+  (function () {
+    if (window.__addonPopupInited) return;
+    window.__addonPopupInited = true;
+
+    function openPopup(popup) {
+      if (!popup) return;
+      // 把弹窗节点搬到 <body> 直属，逃出祖先 stacking context（让 z-index 真正生效，能盖住 sticky bar / sidebar）
+      if (popup.parentElement !== document.body) {
+        if (!popup.dataset.originalParentId) {
+          // 记录原宿主以便关闭后还原
+          var parent = popup.parentElement;
+          if (parent) {
+            if (!parent.id) parent.id = 'addon-popup-host-' + Math.random().toString(36).slice(2, 9);
+            popup.dataset.originalParentId = parent.id;
+          }
+        }
+        document.body.appendChild(popup);
+      }
+      popup.hidden = false;
+      document.body.classList.add('addon-popup-open');
+      var closeBtn = popup.querySelector('.addon-popup__close');
+      if (closeBtn) closeBtn.focus();
+      resetGallery(popup);
+    }
+
+    function closePopup(popup) {
+      if (!popup) return;
+      popup.hidden = true;
+      // 还原回原宿主，避免重复打开导致 DOM 漂移
+      var origId = popup.dataset.originalParentId;
+      if (origId) {
+        var orig = document.getElementById(origId);
+        if (orig && popup.parentElement !== orig) orig.appendChild(popup);
+      }
+      if (!document.querySelector('[data-addon-popup]:not([hidden])')) {
+        document.body.classList.remove('addon-popup-open');
+      }
+    }
+
+    function resetGallery(popup) {
+      var slides = popup.querySelectorAll('[data-addon-slide]');
+      if (!slides.length) return;
+      slides.forEach(function (s, i) { s.classList.toggle('is-active', i === 0); });
+      var cur = popup.querySelector('[data-addon-counter-current]');
+      if (cur) cur.textContent = '1';
+    }
+
+    function step(popup, dir) {
+      var slides = popup.querySelectorAll('[data-addon-slide]');
+      if (!slides.length) return;
+      var activeIdx = 0;
+      slides.forEach(function (s, i) { if (s.classList.contains('is-active')) activeIdx = i; });
+      var next = (activeIdx + dir + slides.length) % slides.length;
+      slides[activeIdx].classList.remove('is-active');
+      slides[next].classList.add('is-active');
+      var cur = popup.querySelector('[data-addon-counter-current]');
+      if (cur) cur.textContent = String(next + 1);
+    }
+
+    // 打开
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('[data-addon-popup-target]');
+      if (!trigger) return;
+      var id = trigger.getAttribute('data-addon-popup-target');
+      var popup = id && document.getElementById(id);
+      if (!popup) return;
+      e.preventDefault();
+      e.stopPropagation();
+      openPopup(popup);
+    }, true);
+
+    // 关闭（蒙版 / X 按钮）
+    document.addEventListener('click', function (e) {
+      var closer = e.target.closest('[data-addon-popup-close]');
+      if (!closer) return;
+      var popup = closer.closest('[data-addon-popup]');
+      if (popup) closePopup(popup);
+    });
+
+    // 轮播
+    document.addEventListener('click', function (e) {
+      var nav = e.target.closest('[data-addon-nav]');
+      if (!nav) return;
+      var popup = nav.closest('[data-addon-popup]');
+      if (!popup) return;
+      step(popup, nav.getAttribute('data-addon-nav') === 'next' ? 1 : -1);
+    });
+
+    // ESC 关闭最顶层弹窗
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var open = document.querySelectorAll('[data-addon-popup]:not([hidden])');
+      if (!open.length) return;
+      closePopup(open[open.length - 1]);
+    });
+  })();
+</script>
 
 <script src="{{ 'product-add-ons-g7-m6.js' | asset_url }}" defer></script>
 

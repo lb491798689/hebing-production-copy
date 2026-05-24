@@ -1,0 +1,86 @@
+{%- comment -%}
+  Add-On 详情弹窗
+  inputs:
+    addon_product, addon_variant, popup_id, scope
+  上半截：图集（左右切换 + 计数）+ 标题 + 价格
+  下半截：specs 列表（数据源后续接 metaobject custom.addon_popup_specs，每项 label/value）
+{%- endcomment -%}
+
+{%- assign popup_media = addon_product.media | where: 'media_type', 'image' -%}
+{%- if popup_media.size == 0 -%}
+  {%- assign popup_media = addon_product.images -%}
+{%- endif -%}
+
+<div
+  class="addon-popup"
+  data-addon-popup
+  id="{{ popup_id }}"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="{{ popup_id }}-title"
+  hidden
+>
+  <div class="addon-popup__overlay" data-addon-popup-close></div>
+
+  <div class="addon-popup__dialog" role="document">
+    <header class="addon-popup__header">
+      <h3 class="addon-popup__heading" id="{{ popup_id }}-title">{{ details_label | default: 'Details' | escape }}</h3>
+      <button type="button" class="addon-popup__close" data-addon-popup-close aria-label="Close">
+        <svg class="addon-popup__close-svg addon-popup__close-svg--pc" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <path d="M11.1784 1.17839L6.76758 5.58919L11.1784 10L10 11.1784L5.58919 6.76758L1.17839 11.1784L0 10L4.41081 5.58919L0 1.17839L1.17839 0L5.58919 4.41081L10 0L11.1784 1.17839Z" fill="#0A0A0A"/>
+        </svg>
+        <svg class="addon-popup__close-svg addon-popup__close-svg--mobile" xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" aria-hidden="true">
+          <path d="M8.94271 0.942708L5.41406 4.47135L8.94271 8L8 8.94271L4.47135 5.41406L0.942708 8.94271L0 8L3.52865 4.47135L0 0.942708L0.942708 0L4.47135 3.52865L8 0L8.94271 0.942708Z" fill="#0A0A0A"/>
+        </svg>
+      </button>
+    </header>
+
+    <div class="addon-popup__body">
+      {%- if popup_media.size > 0 -%}
+        <div class="addon-popup__gallery" data-addon-gallery>
+          <div class="addon-popup__slides">
+            {%- for media in popup_media -%}
+              <div class="addon-popup__slide{% if forloop.first %} is-active{% endif %}" data-addon-slide data-index="{{ forloop.index0 }}">
+                {{- media | image_url: width: 1200 | image_tag: loading: 'lazy', sizes: '(min-width: 1280px) 720px, 100vw', widths: '480,720,960,1200,1440', class: 'addon-popup__image' -}}
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if popup_media.size > 1 -%}
+            <button type="button" class="addon-popup__nav addon-popup__nav--prev" data-addon-nav="prev" aria-label="Previous">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M9.5 12L4.5 7L9.5 2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <button type="button" class="addon-popup__nav addon-popup__nav--next" data-addon-nav="next" aria-label="Next">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M4.5 2L9.5 7L4.5 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <span class="addon-popup__counter" data-addon-counter>
+              <span data-addon-counter-current>1</span>/<span data-addon-counter-total>{{ popup_media.size }}</span>
+            </span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <div class="addon-popup__specs-wrap">
+        <div class="addon-popup__title-row">
+          <p class="addon-popup__title">{{ addon_product.title | escape }}</p>
+          <span class="addon-popup__prices">
+            <span class="addon-popup__price">{{ addon_variant.price | money }}</span>
+            {%- if addon_variant.compare_at_price > addon_variant.price -%}
+              <span class="addon-popup__price-compare">{{ addon_variant.compare_at_price | money }}</span>
+            {%- endif -%}
+          </span>
+        </div>
+
+        {%- comment -%} Mobile only：Product Information 标题（PC 不显示，且无 specs 时也不显示） {%- endcomment -%}
+        <h4 class="addon-popup__info-heading" data-addon-info-heading hidden>Product Information</h4>
+
+        {%- comment -%} Specs 区域：后续接 product.metafields.custom.addon_popup_specs（list metaobject） {%- endcomment -%}
+        <ul class="addon-popup__specs" data-addon-popup-specs></ul>
+      </div>
+    </div>
+  </div>
+</div>
