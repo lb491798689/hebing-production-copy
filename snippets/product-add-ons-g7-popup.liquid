@@ -75,11 +75,63 @@
           </span>
         </div>
 
-        {%- comment -%} Mobile only：Product Information 标题（PC 不显示，且无 specs 时也不显示） {%- endcomment -%}
-        <h4 class="addon-popup__info-heading" data-addon-info-heading hidden>Product Information</h4>
+        {%- comment -%}
+          Specs 列表 —— 数据源：product.metafields.custom.addon_popup_specs
+          类型：multi_line_text_field
+          约定：每行一条 "label: value"（兼容中文 "："）
+            - 空行跳过
+            - 没冒号的行跳过
+            - label / value 自动 trim
+            - 第一个冒号作为分隔符，value 中可继续出现冒号
+        {%- endcomment -%}
+        {%- assign popup_specs_raw = addon_product.metafields.custom.addon_popup_specs | default: '' -%}
+        {%- assign popup_specs_normalized = popup_specs_raw | replace: '：', ':' -%}
+        {%- assign newline = '
+' -%}
+        {%- assign spec_lines = popup_specs_normalized | split: newline -%}
 
-        {%- comment -%} Specs 区域：后续接 product.metafields.custom.addon_popup_specs（list metaobject） {%- endcomment -%}
-        <ul class="addon-popup__specs" data-addon-popup-specs></ul>
+        {%- comment -%} 第一遍只用来判断是否有可渲染的行 {%- endcomment -%}
+        {%- assign has_any_spec = false -%}
+        {%- for raw_line in spec_lines -%}
+          {%- assign line = raw_line | strip -%}
+          {%- if line == blank -%}{%- continue -%}{%- endif -%}
+          {%- unless line contains ':' -%}{%- continue -%}{%- endunless -%}
+          {%- assign has_any_spec = true -%}
+          {%- break -%}
+        {%- endfor -%}
+
+        {%- if has_any_spec -%}
+          {%- comment -%} Mobile only：Product Information 标题（PC 不显示，仅在有 specs 时显示） {%- endcomment -%}
+          <h4 class="addon-popup__info-heading" data-addon-info-heading>Product Information</h4>
+
+          <ul class="addon-popup__specs" data-addon-popup-specs>
+            {%- for raw_line in spec_lines -%}
+              {%- assign line = raw_line | strip -%}
+              {%- if line == blank -%}{%- continue -%}{%- endif -%}
+              {%- unless line contains ':' -%}{%- continue -%}{%- endunless -%}
+
+              {%- assign segments = line | split: ':' -%}
+              {%- assign row_label = segments[0] | strip -%}
+              {%- comment -%} 把第一段以外所有段用 ":" 重新拼接为 value（保留 value 内可能的冒号） {%- endcomment -%}
+              {%- assign row_value = '' -%}
+              {%- for seg in segments -%}
+                {%- if forloop.index0 == 0 -%}{%- continue -%}{%- endif -%}
+                {%- if row_value == '' -%}
+                  {%- assign row_value = seg -%}
+                {%- else -%}
+                  {%- assign row_value = row_value | append: ':' | append: seg -%}
+                {%- endif -%}
+              {%- endfor -%}
+              {%- assign row_value = row_value | strip -%}
+              {%- if row_label == blank and row_value == blank -%}{%- continue -%}{%- endif -%}
+
+              <li class="addon-popup__spec-row">
+                <span class="addon-popup__spec-label">{{ row_label | escape }}</span>
+                <span class="addon-popup__spec-value">{{ row_value | escape }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
       </div>
     </div>
   </div>
