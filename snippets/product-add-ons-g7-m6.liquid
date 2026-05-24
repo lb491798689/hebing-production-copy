@@ -488,6 +488,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .addon-popup.is-open {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .addon-popup__overlay {
@@ -507,6 +515,12 @@
     width: 720px;
     max-width: calc(100vw - 32px);
     max-height: 90vh;
+    transform: translateY(8px) scale(0.98);
+    transition: transform 0.25s ease;
+  }
+
+  .addon-popup.is-open .addon-popup__dialog {
+    transform: none;
   }
 
   /* Header */
@@ -747,6 +761,11 @@
       max-height: 86vh;
       border-radius: 8px 8px 0 0;
       margin: 0;
+      transform: translateY(100%);
+    }
+
+    .addon-popup.is-open .addon-popup__dialog {
+      transform: none;
     }
 
     .addon-popup__header {
@@ -874,6 +893,9 @@
         document.body.appendChild(popup);
       }
       popup.hidden = false;
+      // 强制 reflow，让浏览器先承认 opacity:0/transform 初始态，再切换 is-open 才能跑过渡
+      void popup.offsetWidth;
+      popup.classList.add('is-open');
       document.body.classList.add('addon-popup-open');
       var closeBtn = popup.querySelector('.addon-popup__close');
       if (closeBtn) closeBtn.focus();
@@ -882,16 +904,31 @@
 
     function closePopup(popup) {
       if (!popup) return;
-      popup.hidden = true;
-      // 还原回原宿主，避免重复打开导致 DOM 漂移
-      var origId = popup.dataset.originalParentId;
-      if (origId) {
-        var orig = document.getElementById(origId);
-        if (orig && popup.parentElement !== orig) orig.appendChild(popup);
-      }
-      if (!document.querySelector('[data-addon-popup]:not([hidden])')) {
-        document.body.classList.remove('addon-popup-open');
-      }
+      popup.classList.remove('is-open');
+
+      var done = function () {
+        popup.hidden = true;
+        // 还原回原宿主，避免重复打开导致 DOM 漂移
+        var origId = popup.dataset.originalParentId;
+        if (origId) {
+          var orig = document.getElementById(origId);
+          if (orig && popup.parentElement !== orig) orig.appendChild(popup);
+        }
+        if (!document.querySelector('[data-addon-popup]:not([hidden])')) {
+          document.body.classList.remove('addon-popup-open');
+        }
+      };
+
+      // 等过渡结束（兜底 350ms 防 transitionend 丢失）
+      var fired = false;
+      var onEnd = function () {
+        if (fired) return;
+        fired = true;
+        popup.removeEventListener('transitionend', onEnd);
+        done();
+      };
+      popup.addEventListener('transitionend', onEnd);
+      setTimeout(onEnd, 350);
     }
 
     function resetGallery(popup) {
