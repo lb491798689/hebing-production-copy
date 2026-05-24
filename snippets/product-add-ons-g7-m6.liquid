@@ -648,7 +648,7 @@
 
   /* Specs section */
   .addon-popup__specs-wrap {
-    padding: 24px 24px 48px;
+    padding: 24px 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -656,10 +656,12 @@
 
   .addon-popup__title-row {
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
     justify-content: space-between;
+    align-self: stretch;
     gap: 16px;
     padding-bottom: 16px;
+    border-bottom: 1px solid #CCC;
   }
 
   .addon-popup__title {
@@ -695,11 +697,6 @@
     font-weight: 400;
     line-height: 24px;
     text-decoration: line-through;
-  }
-
-  /* Mobile-only "Product Information" heading */
-  .addon-popup__info-heading {
-    display: none;
   }
 
   .addon-popup__specs:empty {
@@ -843,16 +840,6 @@
     .addon-popup__price-compare {
       font-size: 16px;
       line-height: 19.2px;
-    }
-
-    .addon-popup__info-heading {
-      display: block;
-      margin: 0 0 4px;
-      color: #000;
-      font-family: Gabarito, sans-serif;
-      font-size: 28px;
-      font-weight: 600;
-      line-height: 33.6px;
     }
 
     .addon-popup__spec-row {
