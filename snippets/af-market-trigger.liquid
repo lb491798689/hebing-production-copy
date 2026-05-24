@@ -1,0 +1,26 @@
+{%- comment -%}
+  AF 市场选择器触发按钮
+  variant: nav | footer
+{%- endcomment -%}
+{%- assign trigger_variant = variant | default: 'nav' -%}
+
+<button
+  type="button"
+  class="af-market-trigger{% if trigger_variant == 'footer' %} af-market-trigger--footer text-with-icon gap-2 af-footer-locale-btn group{% else %} af-market-trigger--nav text-with-icon gap-2 af-nav-locale-btn group{% endif %}"
+  data-af-market-trigger
+  aria-controls="af-market-selector"
+  aria-expanded="false"
+  aria-label="{{ 'general.localization.change_country_accessibility_text' | t | escape }}"
+>
+  {%- if trigger_variant == 'footer' -%}
+    {%- render 'af-footer-globe-icon' -%}
+    <span class="af-footer-locale-code">
+      {{- localization.country.name -}}
+      <span class="af-footer-locale-sep"> / </span>
+      {{- localization.language.endonym_name | capitalize -}}
+    </span>
+  {%- else -%}
+    {%- render 'af-nav-globe-icon' -%}
+    <span class="bold text-sm af-nav-locale-code">{{ localization.language.iso_code | split: '-' | first | upcase }}</span>
+  {%- endif -%}
+</button>

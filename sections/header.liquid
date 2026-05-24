@@ -1689,6 +1689,18 @@ ul.sub-link-container {
      Tailwind 原生 sm=700、lg=1024 不匹配 develop.md 的 MOB 上界 1279。
      在 700~1279 区间强制：移动图标显示、PC 图标/工具隐藏、抽屉可展开
      ======================================== */
+  /* PC 顶栏市场触发器：develop.md 1280+ 显示，移动端由侧滑菜单触发 */
+  @media screen and (max-width: 1279px) {
+    #shopify-section-{{ section.id }} .af-market-trigger-wrap--header {
+      display: none !important;
+    }
+  }
+  @media screen and (min-width: 1280px) {
+    #shopify-section-{{ section.id }} .af-market-trigger-wrap--header {
+      display: list-item !important;
+    }
+  }
+
   @media screen and (min-width: 700px) and (max-width: 1279px) {
     /* Tailwind sm:hidden 默认在 >=700 时 display:none，这里针对 header 内移动图标恢复显示 */
     #shopify-section-{{ section.id }} .header__secondary-nav li.sm\:hidden {
@@ -2061,21 +2073,9 @@ ul.sub-link-container {
             自定义 EN 按钮（globe icon + 语言码）触发 country 选择器；
             优先级：多国家时用 country compact 按钮；否则若多语言用 locale compact 按钮；否则静态胶囊
           {%- endcomment -%}
-          {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
-            <li class="hidden md:block shrink-0">
-              {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'end', nav_compact: true, mobile_popover_near_trigger: true, popover_id_suffix: 'nav' -%}
-            </li>
-          {%- elsif section.settings.show_locale_selector -%}
-            <li class="hidden sm:block shrink-0">
-              {%- if localization.available_languages.size > 1 -%}
-                {%- render 'localization-selector', type: 'locale', popover_vertical_position: 'end', nav_compact: true, mobile_popover_near_trigger: true, popover_id_suffix: 'nav' -%}
-              {%- else -%}
-                {%- comment -%}单语言时显示静态胶囊（无交互）{%- endcomment -%}
-                <div class="af-nav-locale-static">
-                  {%- render 'af-nav-globe-icon' -%}
-                  <span class="af-nav-locale-code">{{ localization.language.iso_code | split: '-' | first | upcase }}</span>
-                </div>
-              {%- endif -%}
+          {%- if section.settings.show_country_selector or section.settings.show_locale_selector -%}
+            <li class="af-market-trigger-wrap af-market-trigger-wrap--header shrink-0">
+              {%- render 'af-market-trigger', variant: 'nav' -%}
             </li>
           {%- endif -%}
 

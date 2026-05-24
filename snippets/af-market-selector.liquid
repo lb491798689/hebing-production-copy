@@ -1,0 +1,624 @@
+{%- comment -%}
+  AF 全局市场选择面板：紧贴 header 下方展开；移动端自左向右全屏滑入。
+{%- endcomment -%}
+
+{%- liquid
+  assign current_host = request.host | downcase
+  assign current_country = localization.country.iso_code | upcase
+  assign has_market_blocks = false
+  if section
+    for block in section.blocks
+      if block.type == 'af_market_region' or block.type == 'af_market_item' or block.type == 'market_region' or block.type == 'market_item'
+        assign has_market_blocks = true
+        break
+      endif
+    endfor
+  endif
+-%}
+
+<div id="af-market-selector" class="af-market-selector" aria-hidden="true">
+  <button type="button" class="af-market-selector__backdrop" data-af-market-close tabindex="-1" aria-label="{{ 'general.accessibility.close' | t | escape }}"></button>
+
+  <div class="af-market-selector__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.localization.change_country_accessibility_text' | t | escape }}">
+    <div class="af-market-selector__panel-inner">
+      <button type="button" class="af-market-selector__close" data-af-market-close aria-label="{{ 'general.accessibility.close' | t | escape }}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M13.4141 1.41406L8.12109 6.70703L13.4141 12L12 13.4141L6.70703 8.12109L1.41406 13.4141L0 12L5.29297 6.70703L0 1.41406L1.41406 0L6.70703 5.29297L12 0L13.4141 1.41406Z" fill="#0A0A0A"/>
+        </svg>
+      </button>
+      <div class="af-market-selector__body">
+        <div class="af-market-selector__regions">
+          {%- if has_market_blocks -%}
+            {%- assign region_open = false -%}
+            {%- for block in section.blocks -%}
+              {%- unless block.type == 'af_market_region' or block.type == 'af_market_item' or block.type == 'market_region' or block.type == 'market_item' -%}
+                {%- continue -%}
+              {%- endunless -%}
+              {%- case block.type -%}
+                {%- when 'af_market_region', 'market_region' -%}
+                  {%- if region_open -%}
+                    </ul>
+                  </section>
+                  {%- endif -%}
+                  <section class="af-market-selector__region" {{ block.shopify_attributes }}>
+                    {%- if block.settings.title != blank -%}
+                      <h3 class="af-market-selector__region-title">{{ block.settings.title | escape }}</h3>
+                    {%- endif -%}
+                    <ul class="af-market-selector__list" role="list">
+                  {%- assign region_open = true -%}
+                {%- when 'af_market_item', 'market_item' -%}
+                  {%- if block.settings.flag == blank or block.settings.country_name == blank -%}
+                    {%- continue -%}
+                  {%- endif -%}
+                  {%- unless region_open -%}
+                    <section class="af-market-selector__region">
+                      <ul class="af-market-selector__list" role="list">
+                    {%- assign region_open = true -%}
+                  {%- endunless -%}
+                  {%- liquid
+                    assign item_active = false
+                    assign code = block.settings.country_code | strip | upcase
+                    if code != blank and code == current_country
+                      assign item_active = true
+                    elsif block.settings.url != blank
+                      assign link_parts = block.settings.url | split: '://'
+                      if link_parts.size > 1
+                        assign link_host = link_parts[1] | split: '/' | first | downcase
+                        if current_host == link_host or current_host contains link_host
+                          if code == blank
+                            assign item_active = true
+                          endif
+                        endif
+                      endif
+                    endif
+                  -%}
+                  <li {{ block.shopify_attributes }}>
+                    <a
+                      href="{{ block.settings.url | default: '#' }}"
+                      class="af-market-selector__item{% if item_active %} is-active{% endif %}"
+                      {% if item_active %}aria-current="true"{% endif %}
+                    >
+                      <span class="af-market-selector__item-start">
+                        {%- if block.settings.flag != blank -%}
+                          {{
+                            block.settings.flag
+                            | image_url: width: 52
+                            | image_tag:
+                              class: 'af-market-selector__flag-img',
+                              widths: '26,52',
+                              width: 26,
+                              height: 26,
+                              loading: 'lazy',
+                              alt: block.settings.country_name
+                          }}
+                        {%- endif -%}
+                        <span class="af-market-selector__country">{{ block.settings.country_name | escape }}</span>
+                      </span>
+                      {%- if block.settings.language != blank -%}
+                        <span class="af-market-selector__language">{{ block.settings.language | escape }}</span>
+                      {%- endif -%}
+                    </a>
+                  </li>
+              {%- endcase -%}
+            {%- endfor -%}
+            {%- if region_open -%}
+              </ul>
+            </section>
+            {%- endif -%}
+          {%- elsif request.design_mode -%}
+            <p class="af-market-selector__empty-hint">在左侧选择 Header 分组 →「Market selector」→ 添加「Market region」和「Market」区块。</p>
+          {%- endif -%}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .af-market-selector {
+    --af-market-top: calc(var(--announcement-bar-height, 0px) + var(--header-height, 56px));
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  #header-sidebar-menu button.jingva-drawer-footer__locale {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .af-market-trigger {
+    cursor: pointer;
+  }
+
+  .af-market-trigger.is-active {
+    opacity: 0.85;
+  }
+
+  .af-market-selector.is-open,
+  .af-market-selector.is-closing {
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  .af-market-selector__backdrop {
+    position: absolute;
+    inset: var(--af-market-top) 0 0 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.35s ease;
+  }
+
+  .af-market-selector.is-open .af-market-selector__backdrop,
+  .af-market-selector.is-closing .af-market-selector__backdrop {
+    opacity: 1;
+  }
+
+  .af-market-selector.is-closing .af-market-selector__backdrop {
+    transition: opacity 0.35s ease;
+  }
+
+  .af-market-selector:not(.is-open):not(.is-closing) .af-market-selector__backdrop {
+    transition: opacity 0.35s ease 0.12s;
+  }
+
+  .af-market-selector__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: var(--af-market-top);
+    bottom: 0;
+    display: flex;
+    justify-content: stretch;
+    align-items: stretch;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .af-market-selector__panel-inner {
+    position: relative;
+    pointer-events: auto;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    color: #1f1f1f;
+    display: flex;
+    flex-direction: column;
+    will-change: clip-path;
+  }
+
+  .af-market-selector__close {
+    position: absolute;
+    top: 24px;
+    right: 44px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: #0a0a0a;
+    transition: opacity 0.2s ease;
+  }
+
+  .af-market-selector__close:hover {
+    opacity: 0.65;
+  }
+
+  .af-market-selector__close svg {
+    display: block;
+    width: 14px;
+    height: 14px;
+  }
+
+  .af-market-selector__body {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1;
+    min-height: 0;
+    padding: 24px 0 32px;
+  }
+
+  .af-market-selector__regions {
+    padding: 0 24px;
+  }
+
+  .af-market-selector__empty-hint {
+    margin: 0;
+    padding: 16px 0;
+    font-family: 'Gabarito', sans-serif;
+    font-size: 14px;
+    color: #666;
+  }
+
+  .af-market-selector__region + .af-market-selector__region {
+    margin-top: 32px;
+  }
+
+  .af-market-selector__region-title {
+    margin: 0 0 12px;
+    font-family: 'Gabarito', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: normal;
+    text-transform: none;
+    color: #1a1a1a;
+  }
+
+  .af-market-selector__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .af-market-selector__list > li {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+
+  .af-market-selector__item {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 233px;
+    height: 46px;
+    max-width: 100%;
+    min-height: 0;
+    padding: 0 12px;
+    background: #fafafa;
+    border-radius: 0;
+    text-decoration: none;
+    color: #1a1a1a;
+    transition: background 0.2s ease;
+  }
+
+  .af-market-selector__item:hover {
+    background: #f0f0f0;
+  }
+
+  .af-market-selector__item.is-active {
+    background: #f0f0f0;
+  }
+
+  .af-market-selector__item-start {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    flex: 0 0 auto;
+  }
+
+  .af-market-selector__flag-img {
+    display: block;
+    width: 26px;
+    height: 26px;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
+  .af-market-selector__country {
+    font-family: 'Gabarito', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: normal;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .af-market-selector__language {
+    flex: 0 0 auto;
+    font-family: 'Gabarito', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #1a1a1a;
+    white-space: nowrap;
+  }
+
+  html.af-market-selector-open {
+    overflow: hidden;
+  }
+
+  /* PC：铺满 header 下方整屏，自上而下展开 / 自下而上收起 */
+  @media screen and (min-width: 1280px) {
+    .af-market-selector {
+      z-index: 2147483647;
+    }
+
+    html.af-market-selector-open .shopify-section--header {
+      z-index: 2147483647;
+    }
+
+    .af-market-selector__panel {
+      /* 与 header 底边重叠 1px，避免 subpixel 缝隙透出横线 */
+      margin-top: -1px;
+    }
+
+    .af-market-selector__close {
+      top: 32px;
+    }
+
+    .af-market-selector__backdrop {
+      inset: var(--af-market-top) 0 0 0;
+    }
+
+    .af-market-selector__panel-inner {
+      max-width: none;
+      max-height: none;
+      box-shadow: none;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .af-market-selector.is-open .af-market-selector__panel-inner,
+    .af-market-selector.is-closing .af-market-selector__panel-inner {
+      transition: clip-path 0.48s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .af-market-selector.is-open .af-market-selector__panel-inner {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .af-market-selector.is-closing .af-market-selector__panel-inner {
+      clip-path: inset(0 0 100% 0);
+    }
+
+    .af-market-selector__body {
+      padding: 32px 0 48px;
+    }
+
+    .af-market-selector__regions {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 40px;
+    }
+
+    .af-market-selector__region-title {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+
+    .af-market-selector__list {
+      gap: 8px;
+    }
+
+    .af-market-selector__region + .af-market-selector__region {
+      margin-top: 32px;
+    }
+  }
+
+  /* Mobile: 自左向右全屏滑入（develop.md: < 1280px） */
+  @media screen and (max-width: 1279px) {
+    .af-market-selector {
+      z-index: 2147483647;
+    }
+
+    .af-market-selector__backdrop {
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .af-market-selector__panel {
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      align-items: stretch;
+    }
+
+    .af-market-selector__panel-inner {
+      max-width: none;
+      max-height: none;
+      height: 100%;
+      border-radius: 0;
+      box-shadow: none;
+      clip-path: none;
+      transform: translateX(-100%);
+      opacity: 1;
+      transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .af-market-selector.is-open .af-market-selector__panel-inner {
+      transform: translateX(0);
+    }
+
+    .af-market-selector.is-closing .af-market-selector__panel-inner {
+      transform: translateX(-100%);
+    }
+
+    .af-market-selector__body {
+      padding: 24px 0 32px;
+    }
+
+    .af-market-selector__regions {
+      padding: 0 20px;
+      max-width: none;
+      margin: 0;
+    }
+
+    .af-market-selector__region-title {
+      font-size: 20px;
+    }
+
+    .af-market-selector__list {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.getElementById('af-market-selector');
+    if (!root || root.dataset.afMarketInit === 'true') return;
+    root.dataset.afMarketInit = 'true';
+
+    if (root.parentElement !== document.body) {
+      document.body.appendChild(root);
+    }
+
+    var MOBILE_MQ = window.matchMedia('(max-width: 1279px)');
+    var triggers = [];
+    var closeEls = root.querySelectorAll('[data-af-market-close]');
+    var lastFocus = null;
+    var isOpen = false;
+
+    function collectTriggers() {
+      triggers = Array.prototype.slice.call(document.querySelectorAll('[data-af-market-trigger]'));
+    }
+
+    function syncTriggerState(expanded) {
+      triggers.forEach(function (btn) {
+        btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        btn.classList.toggle('is-active', expanded);
+      });
+    }
+
+    function closeNavDrawer() {
+      var drawer = document.getElementById('header-sidebar-menu');
+      if (drawer && typeof drawer.hide === 'function' && drawer.open) {
+        drawer.hide();
+      }
+    }
+
+    function syncPanelTop() {
+      var hdrSec = document.querySelector('.shopify-section--header');
+      if (!hdrSec) return;
+      var topPx = Math.round(hdrSec.getBoundingClientRect().bottom);
+      root.style.setProperty('--af-market-top', topPx + 'px');
+    }
+
+    function openAfMarketSelector() {
+      if (isOpen) return;
+      collectTriggers();
+      lastFocus = document.activeElement;
+      if (MOBILE_MQ.matches) closeNavDrawer();
+      syncPanelTop();
+      root.classList.remove('is-closing');
+      isOpen = true;
+      root.classList.add('is-open');
+      root.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('af-market-selector-open');
+      syncTriggerState(true);
+      var closeBtn = root.querySelector('.af-market-selector__close');
+      if (closeBtn) closeBtn.focus({ preventScroll: true });
+    }
+
+    function finishClose() {
+      root.classList.remove('is-closing');
+      root.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('af-market-selector-open');
+      if (lastFocus && typeof lastFocus.focus === 'function') {
+        lastFocus.focus({ preventScroll: true });
+      }
+      lastFocus = null;
+    }
+
+    function closeAfMarketSelector() {
+      if (!isOpen) return;
+      isOpen = false;
+      syncTriggerState(false);
+      root.classList.remove('is-open');
+      root.classList.add('is-closing');
+
+      var panelInner = root.querySelector('.af-market-selector__panel-inner');
+      var closed = false;
+      var duration = MOBILE_MQ.matches ? 420 : 480;
+
+      function complete() {
+        if (closed) return;
+        closed = true;
+        finishClose();
+      }
+
+      if (panelInner) {
+        var onEnd = function (event) {
+          if (event.target !== panelInner) return;
+          var prop = event.propertyName;
+          if (prop !== 'clip-path' && prop !== 'transform') return;
+          panelInner.removeEventListener('transitionend', onEnd);
+          complete();
+        };
+        panelInner.addEventListener('transitionend', onEnd);
+      }
+
+      window.setTimeout(complete, duration + 50);
+    }
+
+    function toggleAfMarketSelector() {
+      if (root.classList.contains('is-closing')) return;
+      if (isOpen) closeAfMarketSelector();
+      else openAfMarketSelector();
+    }
+
+    window.openAfMarketSelector = openAfMarketSelector;
+    window.closeAfMarketSelector = closeAfMarketSelector;
+    window.toggleAfMarketSelector = toggleAfMarketSelector;
+
+    document.addEventListener('click', function (event) {
+      var trigger = event.target.closest('[data-af-market-trigger]');
+      if (!trigger) return;
+      event.preventDefault();
+      event.stopPropagation();
+      toggleAfMarketSelector();
+    });
+
+    closeEls.forEach(function (el) {
+      el.addEventListener('click', function (event) {
+        event.preventDefault();
+        closeAfMarketSelector();
+      });
+    });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && isOpen) {
+        event.preventDefault();
+        closeAfMarketSelector();
+      }
+    });
+
+    collectTriggers();
+    document.addEventListener('shopify:section:load', collectTriggers);
+    window.addEventListener('resize', function () {
+      if (isOpen || root.classList.contains('is-closing')) syncPanelTop();
+    });
+
+    var hdrSec = document.querySelector('.shopify-section--header');
+    if (hdrSec && window.ResizeObserver) {
+      var topRo = new ResizeObserver(function () {
+        if (isOpen || root.classList.contains('is-closing')) syncPanelTop();
+      });
+      topRo.observe(hdrSec);
+    }
+  })();
+</script>

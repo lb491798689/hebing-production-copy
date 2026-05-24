@@ -1,0 +1,68 @@
+{%- render 'af-market-selector', section: section -%}
+
+{% schema %}
+{
+  "name": "AF国家选择器",
+  "tag": "div",
+  "class": "af-country-selector-section",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "配置 EN 地球按钮弹出的国家列表。点下方「添加区块」→ AF-地区标题 / AF-国家条目。"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "af_market_region",
+      "name": "AF-地区标题",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Region name"
+        }
+      ]
+    },
+    {
+      "type": "af_market_item",
+      "name": "AF-国家条目",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "flag",
+          "label": "Country flag (required)"
+        },
+        {
+          "type": "text",
+          "id": "country_name",
+          "label": "Country name (required)"
+        },
+        {
+          "type": "text",
+          "id": "language",
+          "label": "Language"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Store URL"
+        },
+        {
+          "type": "text",
+          "id": "country_code",
+          "label": "Country ISO code (optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "AF国家选择器"
+    }
+  ]
+}
+{% endschema %}

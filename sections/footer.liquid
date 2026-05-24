@@ -1280,22 +1280,7 @@
           {%- if locale_selector -%}
             <div class="footer-v2-locale-row">
               <div class="footer-v2-locale-pill">
-                {%- comment -%}
-                  优先级与 header 保持一致：多国家 → country compact 按钮（触发国家/币种选择）；
-                  否则若多语言 → locale compact 按钮（触发语言选择）；
-                  Popover 向上展开（vertical: start）避免被页面底部裁剪
-                {%- endcomment -%}
-                {%- if section.settings.show_country_selector and localization.available_countries.size > 1 -%}
-                  {%- render 'localization-selector', type: 'country', show_country_name: section.settings.show_country_name, show_country_flag: section.settings.show_country_flag, popover_vertical_position: 'start', popover_horizontal_position: popover_horizontal_position, footer_compact: true -%}
-                {%- elsif section.settings.show_locale_selector and localization.available_languages.size > 1 -%}
-                  {%- render 'localization-selector', type: 'locale', popover_vertical_position: 'start', popover_horizontal_position: popover_horizontal_position, footer_compact: true -%}
-                {%- else -%}
-                  {%- comment -%}单语言单国家：保留静态胶囊（无交互）{%- endcomment -%}
-                  <div class="af-footer-locale-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box;cursor:default;">
-                    {%- render 'af-footer-globe-icon' -%}
-                    <span class="af-footer-locale-code" style="font-family:'Gabarito',sans-serif;font-weight:400;font-size:16px;line-height:normal;color:#fafafa;white-space:nowrap;">{{ localization.country.name }}<span class="af-footer-locale-sep"> / </span>{{ localization.language.endonym_name | capitalize }}</span>
-                  </div>
-                {%- endif -%}
+                {%- render 'af-market-trigger', variant: 'footer' -%}
               </div>
             </div>
           {%- endif -%}
