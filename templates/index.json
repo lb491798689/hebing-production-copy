@@ -144,7 +144,7 @@
             "card_bg_mob": "shopify://shop_images/1_01_M_webp.webp",
             "card_slide_interval": 5,
             "card_name": "M Series",
-            "card_btn_text": "for pro gamers",
+            "card_btn_text": "For Pro Gamers",
             "card_link": "shopify://collections/m-series"
           }
         },
@@ -155,7 +155,7 @@
             "card_bg_mob": "shopify://shop_images/1_02_G_webp.webp",
             "card_slide_interval": 5,
             "card_name": "G Series",
-            "card_btn_text": "for work & play",
+            "card_btn_text": "For Work & Play",
             "card_link": "shopify://collections/autofull-g5-series"
           }
         }
