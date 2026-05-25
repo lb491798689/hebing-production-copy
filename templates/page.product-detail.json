@@ -72,6 +72,7 @@
       "settings": {
         "product_name": "AutoFull G7 Gaming Chair",
         "buy_url": "https://www.autofull.com/products/autofull-g7",
+        "buy_now_label": "BUY NOW",
         "sticky_offset": 64,
         "show_on_mobile": true
       }
