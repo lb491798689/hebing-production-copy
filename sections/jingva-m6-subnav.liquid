@@ -3,6 +3,7 @@
   assign se_stts = section.settings
   assign product_name = se_stts.product_name
   assign buy_url = se_stts.buy_url
+  assign buy_now_label = se_stts.buy_now_label | default: 'Buy Now'
   assign sticky_offset = se_stts.sticky_offset | default: 64
   assign has_buy = false
   if buy_url != blank
@@ -167,6 +168,7 @@
       }
       {{ default_sid }} .subnav-row--top .subnav-btn__text {
         font-size: 12px !important;
+        text-transform: none !important;
       }
       /* 行 1 仅显示 标题 + 小 BUY NOW；菜单链接放到行 2，避免重复 */
       {{ default_sid }} .subnav-row--top .subnav-links {
@@ -317,6 +319,7 @@
       }
       {{ default_sid }} .subnav-row--top .subnav-btn__text {
         font-size: 16px !important;
+        text-transform: none !important;
       }
     }
 
@@ -333,6 +336,7 @@
       transition: background-color 0.22s ease;
       white-space: nowrap;
       box-sizing: border-box;
+      text-transform: none !important;
     }
     {{ default_sid }} .subnav-btn:hover {
       background-color: #F74557;
@@ -346,7 +350,7 @@
       font-weight: 700;
       line-height: 120%;
       letter-spacing: 0;
-      text-transform: none;
+      text-transform: none !important;
     }
   {% endstyle %}
 
@@ -365,8 +369,8 @@
 
   {%- capture buy_btn -%}
     {%- if buy_url != blank -%}
-      <a href="{{ buy_url }}" class="subnav-btn" aria-label="Buy Now">
-        <span class="subnav-btn__text">Buy Now</span>
+      <a href="{{ buy_url }}" class="subnav-btn" aria-label="{{ buy_now_label | escape }}">
+        <span class="subnav-btn__text">{{ buy_now_label | escape }}</span>
       </a>
     {%- endif -%}
   {%- endcapture -%}
@@ -742,6 +746,13 @@
       "type": "url",
       "id": "buy_url",
       "label": "BUY NOW Button Link"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_label",
+      "label": "BUY NOW 按钮文案",
+      "default": "Buy Now",
+      "info": "按输入内容原样显示，不自动转大写。"
     },
     {
       "type": "number",
