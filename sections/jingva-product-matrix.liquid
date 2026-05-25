@@ -355,7 +355,7 @@
       font-weight: 700 !important;
       font-size: 16px !important;
       line-height: 1.2 !important;
-      text-transform: none !important;
+      text-transform: uppercase !important;
       text-align: center !important;
       cursor: pointer !important;
       transition: all 0.3s ease !important;
@@ -752,13 +752,13 @@
                     href="{{ learn_more_url }}" 
                     class="jingva-matrix-product-btn primary"
                   >
-                    Learn More
+                    {{ se_stts.learn_more_label | default: 'Learn More' }}
                   </a>
                   <a 
                     href="{{ buy_now_url }}" 
                     class="jingva-matrix-product-btn secondary"
                   >
-                    Buy Now
+                    {{ se_stts.buy_now_label | default: 'Buy Now' }}
                   </a>
                 </div>
               </div>
@@ -1082,6 +1082,24 @@
       "id": "title",
       "label": "模块标题",
       "default": "See Our Latest Innovations"
+    },
+    {
+      "type": "header",
+      "content": "产品卡片按钮"
+    },
+    {
+      "type": "text",
+      "id": "learn_more_label",
+      "label": "Learn More 按钮文案",
+      "default": "Learn More",
+      "info": "显示为全大写（CSS uppercase）。应用于本区块所有产品卡片。"
+    },
+    {
+      "type": "text",
+      "id": "buy_now_label",
+      "label": "Buy Now 按钮文案",
+      "default": "Buy Now",
+      "info": "显示为全大写（CSS uppercase）。应用于本区块所有产品卡片。"
     }
   ],
   "blocks": [
