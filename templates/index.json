@@ -229,7 +229,9 @@
       ],
       "name": "Jingva Product Matrix",
       "settings": {
-        "title": "EXPLORE LATEST INNOVATIONS"
+        "title": "EXPLORE LATEST INNOVATIONS",
+        "learn_more_label": "LEARN MORE",
+        "buy_now_label": "BUY NOW"
       }
     },
     "jingva_influencer_ydRk7n": {
