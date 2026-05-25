@@ -122,37 +122,62 @@
       position: relative !important;
       width: 100% !important;
       height: 960px !important;
-      background-color: {{ bg_color | default: '#121b2c' }} !important;
+      background-color: #000000 !important;
       overflow: hidden !important;
+      margin-bottom: -1px !important;
+      transform: translateZ(0) !important;
     }
 
-    {{ default_sid }} .jingva-g7-neck-pillow-image-base {
+    {{ default_sid }} picture.jingva-g7-neck-pillow-image-base,
+    {{ default_sid }} picture.jingva-g7-neck-pillow-image-overlay {
       position: absolute !important;
-      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: -1px !important;
       width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
+      height: calc(100% + 1px) !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      line-height: 0 !important;
       z-index: 1 !important;
+    }
+
+    {{ default_sid }} picture.jingva-g7-neck-pillow-image-overlay {
+      z-index: auto !important;
     }
 
     {{ default_sid }} .jingva-g7-neck-pillow-image-overlay-wrapper {
       position: absolute !important;
-      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: -1px !important;
+      height: calc(100% + 1px) !important;
       z-index: 2 !important;
       overflow: hidden !important;
     }
 
-    {{ default_sid }} .jingva-g7-neck-pillow-image-overlay {
+    {{ default_sid }} img.jingva-g7-neck-pillow-image-base,
+    {{ default_sid }} img.jingva-g7-neck-pillow-image-overlay {
       position: absolute !important;
-      inset: 0 !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: -1px !important;
       width: 100% !important;
-      height: 100% !important;
+      height: calc(100% + 1px) !important;
+      display: block !important;
       object-fit: cover !important;
+      object-position: center center !important;
+    }
+
+    {{ default_sid }} img.jingva-g7-neck-pillow-image-overlay {
       clip-path: inset(100% 0 0 0) !important;
       transition: clip-path 0.6s ease-out !important;
     }
 
-    {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover .jingva-g7-neck-pillow-image-overlay {
+    {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover img.jingva-g7-neck-pillow-image-overlay {
       clip-path: inset(0 0 0 0) !important;
     }
 
@@ -227,11 +252,11 @@
         cursor: pointer !important;
       }
 
-      {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover .jingva-g7-neck-pillow-image-overlay {
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container:hover img.jingva-g7-neck-pillow-image-overlay {
         clip-path: inset(100% 0 0 0) !important;
       }
 
-      {{ default_sid }} .jingva-g7-neck-pillow-media-container.jingva-g7-neck-pillow-active .jingva-g7-neck-pillow-image-overlay {
+      {{ default_sid }} .jingva-g7-neck-pillow-media-container.jingva-g7-neck-pillow-active img.jingva-g7-neck-pillow-image-overlay {
         clip-path: inset(0 0 0 0) !important;
       }
     }
