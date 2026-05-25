@@ -1757,7 +1757,7 @@ ul.sub-link-container {
   }
 
   /*
-    PAD（1280~1439）：Figma 仅缩小 logo↔菜单、菜单↔右侧工具区间距；菜单项间距 32px、字号 16px 不变。
+    PAD（1280~1439）：Figma 仅缩小 logo↔菜单、菜单↔右侧工具区间距；菜单区居中、字号 14px。
     禁止 flex-wrap 避免 ABOUT US / 语言切换被挤到第二行。
   */
   @media screen and (min-width: 1280px) {
@@ -1798,6 +1798,19 @@ ul.sub-link-container {
     #shopify-section-{{ section.id }} .header__main-nav,
     #shopify-section-{{ section.id }} .header__main-nav .header__link-list {
       overflow: visible !important;
+    }
+
+    #shopify-section-{{ section.id }} .header__main-nav .header__icon-list {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+    }
+
+    #shopify-section-{{ section.id }} .header__main-nav .header__icon-list .kiks_nav_fam,
+    #shopify-section-{{ section.id }} .header__main-nav .header__icon-list .kiks_nav_fam span,
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list > ul.contents > li > a,
+    #shopify-section-{{ section.id }} .header__main-nav .header__link-list > ul.contents > li > details > summary {
+      font-size: 14px !important;
     }
   }
 {%- endstyle -%}
