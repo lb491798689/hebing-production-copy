@@ -12107,7 +12107,19 @@ body.template-product-m6-20260402 .product-info__buy-buttons {
   text-decoration-color: #E01B1B;
 }
 
-/* 1280–1440 维持 PC 样式（按用户要求，原 PAD 缩小规则已移除） */
+/* 1280–1439 PAD：按钮宽度跟随 product-info 列宽（480px），Klarna 居中对齐按钮区 */
+@media screen and (min-width: 1280px) and (max-width: 1439px) {
+  .g7-btn-add-to-cart,
+  .g7-btn-buy-now {
+    /* product-info 列宽 480px，gap 12px → 单按钮 (480 - 12) / 2 = 234px */
+    width: 234px;
+  }
+
+  .g7-klarna-info {
+    justify-content: center;
+    width: 480px; /* 与按钮区总宽对齐 */
+  }
+}
 
 /* ========================================
    Mobile (mob) Sticky Cart — develop.md 断点 ≤ 1279px
