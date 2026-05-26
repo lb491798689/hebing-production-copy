@@ -171,7 +171,15 @@
       flex-shrink: 0 !important;
       position: relative !important;
     }
-    
+
+    {{ default_sid }} .jingva-matrix-product-image-wrapper-link {
+      display: block !important;
+      text-decoration: none !important;
+      border: none !important;
+      width: 240px !important;
+      height: 240px !important;
+    }
+
     {{ default_sid }} .jingva-matrix-product-image {
       position: absolute !important;
       top: 0 !important;
@@ -568,6 +576,15 @@
         aspect-ratio: 1 / 1 !important;
         height: auto !important;
       }
+
+      {{ default_sid }} .jingva-matrix-product-image-wrapper-link {
+        display: block !important;
+        text-decoration: none !important;
+        border: none !important;
+        width: 100% !important;
+        max-width: 220px !important;
+        aspect-ratio: 1 / 1 !important;
+      }
       
       {{ default_sid }} .jingva-matrix-product-title {
         font-size: 24px !important;
@@ -720,20 +737,22 @@
                 endif
               -%}
               <div class="jingva-matrix-product-card">
-                <div class="jingva-matrix-product-image-wrapper">
-                  {%- if product.featured_image != blank -%}
-                    <img 
-                      src="{{ product.featured_image | image_url: width: 480 }}" 
-                      alt="{{ product.title }}"
-                      class="jingva-matrix-product-image"
-                      width="240"
-                      height="240"
-                      loading="lazy"
-                    >
-                  {%- endif -%}
-                </div>
+                <a href="{{ buy_now_url }}" class="jingva-matrix-product-image-wrapper-link">
+                  <div class="jingva-matrix-product-image-wrapper">
+                    {%- if product.featured_image != blank -%}
+                      <img 
+                        src="{{ product.featured_image | image_url: width: 480 }}" 
+                        alt="{{ product.title }}"
+                        class="jingva-matrix-product-image"
+                        width="240"
+                        height="240"
+                        loading="lazy"
+                      >
+                    {%- endif -%}
+                  </div>
+                </a>
 
-                <h3 class="jingva-matrix-product-title">{{ product.title }}</h3>
+                <a href="{{ buy_now_url }}" class="jingva-matrix-product-title">{{ product.title }}</a>
                 {%- comment -%}
                   与商品详情页同源：Trustoo「Star Rating」非商品页用法
                   https://help.trustoo.io/docs/reviewAPI/review-widget/ （Other Pages: data-product-id）
