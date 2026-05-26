@@ -409,7 +409,6 @@
                   data-media-index="{{ forloop.index0 }}"
                   autoplay
                   muted
-                  loop
                   playsinline
                   {% if block.settings.pc_image != blank %}poster="{{ block.settings.pc_image | image_url: width: 1920 }}"{% endif %}
                 >
@@ -484,9 +483,11 @@
               var video = m.querySelector('video') || (m.tagName === 'VIDEO' ? m : null);
               if (video) {
                 if (i === current) {
+                  video.currentTime = 0;
                   video.play();
                 } else {
                   video.pause();
+                  video.currentTime = 0;
                 }
               }
             });
@@ -562,6 +563,17 @@
 
           setupDots(dotsPC);
           setupDots(dotsMOB);
+
+          // 为视频添加 ended 事件监听器，播放结束后重置到开头并暂停
+          medias.forEach(function(m) {
+            var video = m.querySelector('video') || (m.tagName === 'VIDEO' ? m : null);
+            if (video) {
+              video.addEventListener('ended', function() {
+                video.currentTime = 0;
+                video.pause();
+              });
+            }
+          });
         })();
       </script>
     {% endif %}
