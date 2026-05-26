@@ -48,13 +48,19 @@
 
           {%- if popup_media.size > 1 -%}
             <button type="button" class="addon-popup__nav addon-popup__nav--prev" data-addon-nav="prev" aria-label="Previous">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M9.5 12L4.5 7L9.5 2" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg class="addon-popup__nav-svg--pc" xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="#fff"/>
+              </svg>
+              <svg class="addon-popup__nav-svg--mobile" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true">
+                <path d="M0 5.1377L5.1377 10.2754L6.08105 9.33301L1.88574 5.1377L6.08105 0.942383L5.1377 0L0 5.1377Z" fill="#fff"/>
               </svg>
             </button>
             <button type="button" class="addon-popup__nav addon-popup__nav--next" data-addon-nav="next" aria-label="Next">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <path d="M4.5 2L9.5 7L4.5 12" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <svg class="addon-popup__nav-svg--pc" xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none" aria-hidden="true">
+                <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="#fff"/>
+              </svg>
+              <svg class="addon-popup__nav-svg--mobile" xmlns="http://www.w3.org/2000/svg" width="7" height="11" viewBox="0 0 7 11" fill="none" aria-hidden="true">
+                <path d="M6.08105 5.13867L0.943359 10.2764L0 9.33398L4.19531 5.13867L0 0.943359L0.943359 0L6.08105 5.13867Z" fill="#fff"/>
               </svg>
             </button>
             <span class="addon-popup__counter" data-addon-counter>

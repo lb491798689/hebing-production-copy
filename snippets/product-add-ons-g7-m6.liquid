@@ -567,6 +567,11 @@
     display: none;
   }
 
+  .addon-popup__close:hover {
+    background: rgba(26, 26, 26, 0.10);
+    border-color: transparent;
+  }
+
   .addon-popup__body {
     flex: 1 1 auto;
     overflow-y: auto;
@@ -626,9 +631,17 @@
   .addon-popup__nav--prev { left: 24px; }
   .addon-popup__nav--next { right: 24px; }
 
+  .addon-popup__nav-svg--mobile {
+    display: none;
+  }
+
   .addon-popup__nav:disabled {
     opacity: 0.5;
     cursor: default;
+  }
+
+  .addon-popup__nav:hover {
+    background: #FF1F1F;
   }
 
   .addon-popup__counter {
@@ -803,6 +816,14 @@
 
     .addon-popup__nav--prev { left: 16px; }
     .addon-popup__nav--next { right: 16px; }
+
+    .addon-popup__nav-svg--pc {
+      display: none;
+    }
+
+    .addon-popup__nav-svg--mobile {
+      display: block;
+    }
 
     .addon-popup__counter {
       right: 16px;
