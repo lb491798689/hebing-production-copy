@@ -400,6 +400,9 @@
       {% for block in section.blocks %}
         <div class="swiper-slide jingva-hero-slide" data-index="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
           <div class="jingva-hero-slide-inner">
+            {% if block.settings.image_link != blank %}
+              <a href="{{ block.settings.image_link }}" class="jingva-hero-media-link">
+            {% endif %}
             <div class="jingva-hero-media">
               <div class="jingva-hero-media__inner">
                 {%- liquid
@@ -471,6 +474,9 @@
                 {% endif %}
               </div>
             </div>
+            {% if block.settings.image_link != blank %}
+              </a>
+            {% endif %}
 
             <div class="jingva-hero-content">
               <div class="jingva-hero-title-group">
@@ -481,12 +487,12 @@
                 {% if block.settings.btn1_text != blank or block.settings.btn2_text != blank %}
                   <div class="jingva-hero-buttons">
                     {% if block.settings.btn1_text != blank %}
-                      <a href="{{ block.settings.btn1_link | default: '#' }}" class="jingva-hero-btn jingva-hero-btn-primary">
+                      <a href="{{ block.settings.btn1_link | default: '#' }}" class="jingva-hero-btn jingva-hero-btn-primary" data-stop-propagation>
                         {{ block.settings.btn1_text }}
                       </a>
                     {% endif %}
                     {% if block.settings.btn2_text != blank %}
-                      <a href="{{ block.settings.btn2_link | default: '#' }}" class="jingva-hero-btn jingva-hero-btn-secondary">
+                      <a href="{{ block.settings.btn2_link | default: '#' }}" class="jingva-hero-btn jingva-hero-btn-secondary" data-stop-propagation>
                         {{ block.settings.btn2_text }}
                       </a>
                     {% endif %}
@@ -733,6 +739,14 @@
           if (autoplayEnabled && enableLoop && swiper.autoplay) swiper.autoplay.start();
         });
       });
+
+      // 为按钮添加 stopPropagation，防止点击按钮时触发图片链接跳转
+      var stopPropagationBtns = slider.querySelectorAll('[data-stop-propagation]');
+      stopPropagationBtns.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+        });
+      });
     });
   </script>
 </section>
@@ -830,6 +844,11 @@
           "type": "video",
           "id": "video_mp4",
           "label": "MP4视频文件"
+        },
+        {
+          "type": "url",
+          "id": "image_link",
+          "label": "图片跳转链接"
         },
         {
           "type": "header",
