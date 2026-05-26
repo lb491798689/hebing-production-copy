@@ -139,16 +139,20 @@
         right: 16px !important;
         transform: translateY(-50%) !important;
         z-index: 10 !important;
+        gap: 10px !important;
       }
 
       {{ default_sid }} .jingva-flagship-nav-btn,
         {{ default_sid }} .swiper-button-prev,
         {{ default_sid }} .swiper-button-next {
-        width: 36px !important;
-        height: 36px !important;
-        border-radius: 8px !important;
-        background: transparent !important;
-        border: 1px solid #ffffff !important;
+          width: 36px !important;
+          height: 36px !important;
+          display: flex !important;
+          padding: 6px !important;
+          justify-content: center !important;
+          align-items: center !important;
+          border-radius: 6px !important;
+          border: 1px solid #FFF !important;
       }
 
       {{ default_sid }} .jingva-flagship-nav-btn svg {
@@ -159,10 +163,9 @@
       {{ default_sid }} .jingva-flagship-nav-btn:hover,
         {{ default_sid }} .swiper-button-prev:hover,
         {{ default_sid }} .swiper-button-next:hover {
-        border-radius: 8px !important;
-        background: rgba(255, 255, 255, 0.10) !important;
-        backdrop-filter: blur(8px) !important;
-        border: 1px solid transparent !important;
+        border-radius: 6px !important;
+        background: transparent !important;
+        border: 1px solid #FFF !important;
       }
     }
 
@@ -260,8 +263,8 @@
         </svg>
       </button>
       <button class="jingva-flagship-nav-btn jingva-flagship-next swiper-button-next" type="button" aria-label="Next">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
-          <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="white"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M17.4141 12L9.70703 19.707L8.29297 18.293L14.5859 12L8.29297 5.70703L9.70703 4.29297L17.4141 12Z" fill="white"/>
         </svg>
       </button>
     </div>
@@ -297,13 +300,13 @@
 
     <div class="jingva-flagship-nav">
       <button class="jingva-flagship-nav-btn jingva-flagship-prev swiper-button-prev" type="button" aria-label="Previous">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
-          <path d="M0 7.70703L7.70703 15.4141L9.12109 14L2.82812 7.70703L9.12109 1.41406L7.70703 0L0 7.70703Z" fill="white"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M4.39062 8L9.52832 13.1377L10.4717 12.1953L6.27637 8L10.4717 3.80469L9.52832 2.8623L4.39062 8Z" fill="white"/>
         </svg>
       </button>
       <button class="jingva-flagship-nav-btn jingva-flagship-next swiper-button-next" type="button" aria-label="Next">
-        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="16" viewBox="0 0 10 16" fill="none">
-          <path d="M9.12109 7.70703L1.41406 15.4141L0 14L6.29297 7.70703L0 1.41406L1.41406 0L9.12109 7.70703Z" fill="white"/>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M10.5039 7.42773L5.36621 12.5654L4.42285 11.623L8.61816 7.42773L4.42285 3.23242L5.36621 2.28906L10.5039 7.42773Z" fill="white"/>
         </svg>
       </button>
     </div>
