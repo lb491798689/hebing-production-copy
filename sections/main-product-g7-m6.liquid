@@ -177,20 +177,16 @@
     }
   }
 
-  /* PAD + PC（1280+）：按 develop.md 竬规范「版心：PC/PAD 均为 1200px」处理：
-     - .product 内容区严格限制 max-width: 1200px 居中
-     - section 本身跨视口全宽（背景可以铺满），仅用 padding 拉开顶底
-     - PAD/PC 双列布局：1fr | 560px，gap 使用该档 Grid token */
+  /* 桌面 PDP（1280+）：左列图片 1fr 缩放，右列信息固定宽；左右各 48px */
   @media screen and (min-width: 1280px) {
     #shopify-section-{{ section.id }} {
-      --product-grid: auto / 1fr 560px;
       --product-gallery-media-list-grid: auto / auto-flow 100%;
       --product-gallery-media-list-gap: calc(var(--grid-gutter) / 2);
       --pdp-sticky-gap: 20px;
       --pdp-sticky-top: calc(var(--sticky-area-height, var(--header-height, 60px)) + var(--pdp-sticky-gap));
+      --g7-pdp-info-width: 480px;
     }
 
-    /* 清除 section 默认上下间距，保留跨视口全宽以让背景铺满 */
     #shopify-section-{{ section.id }} .section,
     #shopify-section-{{ section.id }} .section--tight {
       --section-spacing-block-start: 0px !important;
@@ -203,60 +199,20 @@
       padding-block-end: 0 !important;
     }
 
-    /* 版心 1200px 居中：PAD/PC 一致，按 develop.md 要求 */
     #shopify-section-{{ section.id }} .product {
       display: flex !important;
-      grid: var(--product-grid) !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
       width: 100% !important;
       max-width: 100% !important;
       margin-inline: auto !important;
-      padding-top: 36px !important;
-      padding-left: 48px !important;
-      padding-right: 48px !important;
-      padding-bottom: 0 !important;
-      gap: 40px !important;
-      column-gap: 40px !important;
-      align-items: start !important;
-    }
-
-    /* gallery 在 1200 版心下填满左列 */
-    #shopify-section-{{ section.id }} .product-gallery {
-      {% comment %} width: 65% !important;
-      max-width: 65% !important; {% endcomment %}
-    }
-
-    /* PC：左列画廊 sticky；top 由下方脚本按公告/导航实际可见底边写入 --pdp-sticky-top，
-       与 store-header translateY 隐藏动画同步，避免顶栏消失后图片上方留白。 */
-    #shopify-section-{{ section.id }} product-gallery.product-gallery,
-    #shopify-section-{{ section.id }} .product-gallery {
-      position: sticky !important;
-      top: var(--pdp-sticky-top) !important;
-      transition: top 0.2s ease !important;
-      align-self: start !important;
-      z-index: 1;
-    }
-
-    #shopify-section-{{ section.id }} safe-sticky.product-info {
-      top: var(--pdp-sticky-top) !important;
-      transition: top 0.2s ease !important;
-    }
-  }
-
-  /* PAD（1280–1439）：缩 gap/padding + 弹性列宽；保留双列 sticky / safe-sticky 滚动逻辑，禁止横向撑出视口 */
-  @media screen and (min-width: 1280px) and (max-width: 1439px) {
-    #shopify-section-{{ section.id }} .product {
+      padding: 24px 48px 0 !important;
       gap: 16px !important;
-      column-gap: 16px !important;
-      padding-left: 40px !important;
-      padding-right: 40px !important;
-      padding-top: 24px !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      width: 100% !important;
-      overflow-x: clip !important;
       box-sizing: border-box !important;
+      overflow-x: clip !important;
     }
 
+    /* 左列：随视口缩放 */
     #shopify-section-{{ section.id }} product-gallery.product-gallery,
     #shopify-section-{{ section.id }} .product-gallery {
       flex: 1 1 0 !important;
@@ -270,19 +226,23 @@
       z-index: 1;
     }
 
+    /* 右列：固定宽，内容不得撑出列（覆盖主题 custom_css block-item:536px） */
     #shopify-section-{{ section.id }} safe-sticky.product-info,
     #shopify-section-{{ section.id }} .product-info {
-      flex: 0 0 480px !important;
-      width: 480px !important;
+      flex: 0 0 var(--g7-pdp-info-width) !important;
+      width: var(--g7-pdp-info-width) !important;
+      max-width: var(--g7-pdp-info-width) !important;
       min-width: 0 !important;
-      max-width: 480px !important;
       overflow-x: clip !important;
       overflow-y: visible !important;
+      top: var(--pdp-sticky-top) !important;
+      transition: top 0.2s ease !important;
     }
 
     #shopify-section-{{ section.id }} .product-info__block-item {
-      min-width: 0 !important;
+      width: 100% !important;
       max-width: 100% !important;
+      min-width: 0 !important;
       box-sizing: border-box !important;
     }
 
@@ -293,28 +253,16 @@
     }
   }
 
-  /* PC（≥ 1440）：按 Figma 1920 稿（节点 1156:254024）原生尺寸展开画廊列。
-     Figma 媒体橱窗 1264 × 852.69，信息列 560，列间 24 → PDP 版心 = 1264 + 24 + 560 = 1848px。
-     在 1440~1919 视口下按 1fr 比例自动缩小画廊列；至 1920+ 视口达到 Figma 原生 1264。 */
+  /* ≥1440：信息列 536px，列间距 24px；图片列继续 1fr */
   @media screen and (min-width: 1440px) {
     #shopify-section-{{ section.id }} {
       --product-gallery-media-list-gap: var(--grid-gutter);
+      --g7-pdp-info-width: 536px;
     }
 
-    /* 1848 = 1264 (gallery) + 24 (gap) + 560 (info)；box-sizing 取主题默认 border-box
-       因此不加 L/R padding，避免把 1fr 列挤小。视口 < 1848 时自动 margin: 0 auto 居中缩放。 */
     #shopify-section-{{ section.id }} .product {
-      max-width: 100% !important;
-      padding-left: 48px !important;
-      padding-right: 48px !important;
-    }
-  }
-  @media screen and (min-width: 1440px) {
-    #shopify-section-{{ section.id }} safe-sticky.product-info,
-    #shopify-section-{{ section.id }} .product-info {
-      flex: 0 0 536px;
-      width: 536px;
-      min-width: 0;
+      padding-top: 36px !important;
+      gap: 24px !important;
     }
   }
 
@@ -1158,7 +1106,11 @@
               <div class="g7-klarna-info">
                 {%- assign monthly_payment = product.selected_or_first_available_variant.price | divided_by: 4.0 | money -%}
                 <span class="g7-klarna-text">From {{ monthly_payment }}/month or 4 payments at 0% interest with</span>
-                <img src="{{ 'cart-klarna.svg' | asset_url }}" alt="Klarna" class="g7-klarna-logo" width="40" height="16" loading="lazy">
+                {%- if section.settings.sticky_cart_klarna_logo != blank -%}
+                  {{ section.settings.sticky_cart_klarna_logo | image_url: width: 120 | image_tag: class: 'g7-klarna-logo', alt: section.settings.sticky_cart_klarna_logo.alt | default: 'Klarna', width: 40, height: 16, loading: 'lazy' }}
+                {%- else -%}
+                  <img src="{{ 'cart-klarna.svg' | asset_url }}" alt="Klarna" class="g7-klarna-logo" width="40" height="16" loading="lazy">
+                {%- endif -%}
                 <span class="g7-klarna-link" style="display:none">Check purchase power</span>
               </div>
             </div>
@@ -4095,6 +4047,12 @@ quick buy information in a template, that will be extracted in JS, but ensure it
       "label": "Sticky bar: shipping line text",
       "default": "Normally ships within [days] days.",
       "info": "Shown in the sticky cart (class g7-ships-text). Use [days] to insert the number from “days until ship-by” above; omit it for fixed copy."
+    },
+    {
+      "type": "image_picker",
+      "id": "sticky_cart_klarna_logo",
+      "label": "Sticky bar: Klarna logo",
+      "info": "底部 sticky 条 Klarna 图标。不上传则使用主题默认 cart-klarna.svg。"
     },
     {
       "type": "header",
