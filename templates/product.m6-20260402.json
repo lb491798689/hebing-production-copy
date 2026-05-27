@@ -321,6 +321,7 @@
         "sticky_cart_delivery_plus_days": 2,
         "sticky_cart_ships_text": "Usually ships within [days] days.",
         "sticky_cart_klarna_logo": "shopify://shop_images/Klarna.svg",
+        "sticky_cart_klarna_text": "From $150.00/month or 4 payments at 0% interest with",
         "desktop_media_width": 50,
         "desktop_media_layout": "carousel_thumbnails_bottom",
         "mobile_media_size": "expanded",
