@@ -1105,7 +1105,14 @@
               {%- comment -%} Klarna Payment Info {%- endcomment -%}
               <div class="g7-klarna-info">
                 {%- assign monthly_payment = product.selected_or_first_available_variant.price | divided_by: 4.0 | money -%}
-                <span class="g7-klarna-text">From {{ monthly_payment }}/month or 4 payments at 0% interest with</span>
+                {%- liquid
+                  assign g7_klarna_text = section.settings.sticky_cart_klarna_text
+                  if g7_klarna_text == blank
+                    assign g7_klarna_text = 'From [price]/month or 4 payments at 0% interest with'
+                  endif
+                  assign g7_klarna_text = g7_klarna_text | replace: '[price]', monthly_payment
+                -%}
+                <span class="g7-klarna-text">{{ g7_klarna_text }}</span>
                 {%- if section.settings.sticky_cart_klarna_logo != blank -%}
                   {{ section.settings.sticky_cart_klarna_logo | image_url: width: 120 | image_tag: class: 'g7-klarna-logo', alt: section.settings.sticky_cart_klarna_logo.alt | default: 'Klarna', width: 40, height: 16, loading: 'lazy' }}
                 {%- else -%}
@@ -4053,6 +4060,13 @@ quick buy information in a template, that will be extracted in JS, but ensure it
       "id": "sticky_cart_klarna_logo",
       "label": "Sticky bar: Klarna logo",
       "info": "底部 sticky 条 Klarna 图标。不上传则使用主题默认 cart-klarna.svg。"
+    },
+    {
+      "type": "text",
+      "id": "sticky_cart_klarna_text",
+      "label": "Sticky bar: Klarna text",
+      "default": "From [price]/month or 4 payments at 0% interest with",
+      "info": "Use [price] to insert the monthly payment amount."
     },
     {
       "type": "header",
