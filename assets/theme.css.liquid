@@ -12135,6 +12135,14 @@ body.template-product-m6-20260402 .product-info__buy-buttons {
   }
 }
 
+/* 1440+ PC：Klarna 居中对齐按钮区 */
+@media screen and (min-width: 1440px) {
+  .g7-klarna-info {
+    justify-content: center;
+    width: 532px; /* 与按钮区总宽对齐：260px + 12px gap + 260px */
+  }
+}
+
 /* ========================================
    Mobile (mob) Sticky Cart — develop.md 断点 ≤ 1279px
    Figma 934:43045（.btn 组件 / 是否展开=no）
