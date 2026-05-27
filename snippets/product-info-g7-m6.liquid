@@ -780,20 +780,28 @@
 
               /* 桌面 PDP 右栏：与 MOB 同款 block 网格 + 红框选中，避免仅主题默认样式导致与参考页不一致 */
               @media screen and (min-width: 1000px) {
+                {{ _g7_vp_scope }} .variant-picker__option {
+                  margin: 0 !important;
+                  padding: 0 !important;
+                  border: none !important;
+                }
+
                 {{ _g7_vp_scope }} .variant-picker__option-values {
                   display: flex !important;
                   flex-wrap: wrap !important;
                   gap: 12px !important;
                   width: 100%;
+                  margin: 0 !important;
+                  padding: 0 !important;
                 }
 
                 .product-info__variant-picker .block-swatch {
-                  width: calc((100% - 48px) / 4) !important;
+                  width: calc((100% - 36px) / 4) !important;
                   min-width: 0 !important;
-                  max-width: calc((100% - 48px) / 4) !important;
+                  max-width: calc((100% - 36px) / 4) !important;
                   height: auto !important;
                   min-height: 107px !important;
-                  flex: 0 0 calc((100% - 48px) / 4) !important;
+                  flex: 0 0 calc((100% - 36px) / 4) !important;
                   padding: 24px 16px 16px 16px !important;
                   gap: 8px !important;
                   border-radius: 12px !important;
