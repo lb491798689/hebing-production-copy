@@ -1,0 +1,279 @@
+<style>
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .swiper-button-next::after,
+  #{{ section.id }} .swiper-button-prev::after {
+    content: none;
+  }
+
+  #{{ section.id }} .blog-product-list__title,
+  #{{ section.id }} .blog-product-list__product-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  #{{ section.id }} .blog-product-list__title {
+    -webkit-line-clamp: 1;
+  }
+
+  #{{ section.id }} .blog-product-list__product-title {
+    -webkit-line-clamp: 2;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="tw:font-gabarito">
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-end tw:gap-6
+      tw:max-md:gap-3
+    "
+  >
+    <div class="tw:flex tw:w-full tw:items-center tw:justify-between tw:max-md:px-4">
+      {%- if section.settings.title != blank -%}
+        <h2
+          class="
+            blog-product-list__title tw:m-0 tw:text-[40px] tw:font-semibold tw:font-gabarito
+            tw:leading-[48px] tw:text-[#0a0a0a] tw:max-md:text-[24px] tw:max-md:leading-[29px]
+          "
+        >
+          {{ section.settings.title | escape }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="swiper tw:w-full tw:overflow-hidden tw:max-md:px-4" data-blog-product-list-swiper>
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- assign product = block.settings.product -%}
+
+          <div
+            class="swiper-slide tw:group {% if forloop.last %}tw:w-[288px]! tw:max-md:w-[280px]!{% else %}tw:w-[304px]! tw:pr-4 tw:max-md:w-[296px]!{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            <a
+              href="{% if product != blank %}{{ product.url }}{% else %}#{% endif %}"
+              class="
+                tw:flex tw:h-auto tw:w-full tw:flex-col tw:items-start tw:justify-center
+                tw:rounded-[12px] tw:bg-[#f0f0f0]
+                tw:max-md:h-[379px] tw:overflow-hidden tw:max-md:rounded-[8px]
+              "
+            >
+              <div
+                class="tw:relative tw:block tw:w-full tw:overflow-hidden tw:p-4 tw:pb-6"
+                aria-label="{% if product != blank %}{{ product.title | escape }}{% else %}Product{% endif %}"
+              >
+                {%- if product != blank and product.featured_image != blank -%}
+                  {{
+                    product.featured_image
+                    | image_url: width: 700
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(min-width: 1150px) 256px, 248px',
+                      widths: '248,256,360,512,700',
+                      class: 'tw:aspect-square tw:w-full tw:object-cover tw:group-hover:scale-110 tw:transition-transform tw:duration-500 tw:ease-out',
+                      alt: product.featured_image.alt
+                  }}
+                {%- else -%}
+                  <div
+                    class="
+                      tw:flex tw:aspect-square tw:w-full
+                      tw:items-center tw:justify-center
+                       tw:bg-gray-300 tw:text-[#0a0a0a]/50
+                    "
+                  >
+                    product
+                  </div>
+                {%- endif -%}
+
+                {%- if block.settings.tag_text != blank -%}
+                  <span
+                    class="
+                      tw:absolute tw:left-4 tw:top-4 tw:flex tw:h-[22px]
+                      tw:items-center tw:justify-center tw:rounded-[4px] tw:border
+                       tw:border-[#e90202] tw:p-1 tw:font-orbitron tw:text-[14px] tw:font-semibold tw:uppercase tw:leading-none tw:text-[#e90202]
+                    "
+                  >
+                    {{ block.settings.tag_text | escape }}
+                  </span>
+                {%- endif -%}
+              </div>
+              <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-3 tw:px-4 tw:pb-6">
+                <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-1">
+                  <h3
+                    class="
+                      blog-product-list__product-title tw:m-0 tw:w-full tw:text-[20px] tw:font-gabarito tw:md:min-h-[48px] tw:max-md:min-h-[44px]
+                      tw:font-semibold tw:leading-[24px] tw:text-[#0a0a0a] tw:max-md:text-[18px] tw:max-md:leading-[22px] tw:line-clamp-2
+                    "
+                  >
+                    {%- if product != blank -%}
+                      <div class="tw:text-current">
+                        {{ product.title | escape }}
+                      </div>
+                    {%- else -%}
+                      Product title
+                    {%- endif -%}
+                  </h3>
+
+                  <div class="tw:flex tw:w-full tw:items-center tw:gap-2 tw:overflow-hidden tw:text-[16px] tw:leading-[1.2]">
+                    {%- if product != blank -%}
+                      <span class="tw:shrink-0 tw:font-medium tw:text-[#1a1a1a]/80">
+                        {{ product.price | money }}
+                      </span>
+
+                      {%- if product.compare_at_price > product.price -%}
+                        <span class="tw:shrink-0 tw:overflow-hidden tw:text-ellipsis tw:font-normal tw:text-[#1a1a1a]/40 tw:line-through">
+                          {{ product.compare_at_price | money }}
+                        </span>
+                      {%- endif -%}
+                    {%- else -%}
+                      <span class="tw:shrink-0 tw:font-medium tw:text-[#1a1a1a]/80">$400.00</span>
+                      <span class="tw:shrink-0 tw:overflow-hidden tw:text-ellipsis tw:font-normal tw:text-[#1a1a1a]/40 tw:line-through"
+                        >$400.00</span
+                      >
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.blocks.size > 4 -%}
+        <div class="tw:flex tw:w-full tw:items-center tw:gap-3 tw:pt-6 tw:max-md:hidden">
+          <button
+            type="button"
+            class="
+              swiper-button-prev tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a]
+              tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+            "
+            aria-label="Previous product"
+          >
+            <svg class="tw:size-full" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="
+              swiper-button-next tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a]
+              tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+            "
+            aria-label="Next product"
+          >
+            <svg class="tw:size-full tw:rotate-180" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+            </svg>
+          </button>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('{{ section.id }}');
+    if (!section) {
+      return;
+    }
+
+    const swiperElement = section.querySelector('[data-blog-product-list-swiper]');
+    if (!swiperElement || typeof Swiper === 'undefined') {
+      return;
+    }
+
+    new Swiper(swiperElement, {
+      slidesPerView: 'auto',
+      navigation: {
+        nextEl: section.querySelector('.swiper-button-next'),
+        prevEl: section.querySelector('.swiper-button-prev'),
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blog product list",
+  "class": "shopify-section--blog-product-list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "You may also like"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 96
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "text",
+          "id": "tag_text",
+          "label": "Tag text",
+          "default": "NEW"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog product list"
+    }
+  ]
+}
+{% endschema %}
