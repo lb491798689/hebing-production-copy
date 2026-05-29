@@ -1,0 +1,215 @@
+<section
+  id="{{ section.id }}"
+  class="tw:relative tw:isolate tw:h-[400px] tw:w-full tw:overflow-hidden tw:bg-[#070707] tw:text-white tw:max-md:h-[320px]"
+>
+  <div class="tw:absolute tw:inset-0 tw:z-0" aria-hidden="true">
+    {%- if section.settings.video != blank -%}
+      {{
+        section.settings.video
+        | video_tag:
+          autoplay: true,
+          loop: true,
+          muted: true,
+          controls: false,
+          playsinline: true,
+          preload: 'metadata',
+          image_size: '1920x',
+          class: 'tw:size-full tw:object-cover'
+      }}
+    {%- elsif section.settings.image != blank -%}
+      {{
+        section.settings.image
+        | image_url: width: section.settings.image.width
+        | image_tag:
+          loading: 'lazy',
+          sizes: '100vw',
+          widths: '390,600,780,960,1200,1440,1680,1920,2400',
+          class: 'tw:size-full tw:object-cover',
+          alt: section.settings.image.alt
+      }}
+    {%- else -%}
+      <div
+        class="tw:size-full tw:bg-[radial-gradient(circle_at_50%_55%,rgba(232,0,11,0.24),transparent_28%),linear-gradient(135deg,#050505_0%,#1a1a1a_55%,#050505_100%)]"
+      ></div>
+    {%- endif -%}
+  </div>
+
+  <div class="tw:absolute tw:inset-0 tw:z-1 tw:bg-black/60" aria-hidden="true"></div>
+
+  <div class="tw:relative tw:z-2 tw:flex tw:size-full tw:items-center tw:justify-center tw:px-8">
+    <div class="tw:flex tw:w-full tw:max-w-[998px] tw:flex-col tw:items-center tw:gap-6 tw:text-center">
+      <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-3">
+        {%- if section.settings.title != blank -%}
+          <h1 class="tw:m-0 tw:w-full tw:font-orbitron tw:text-[48px] tw:font-black tw:uppercase tw:leading-[60px] tw:tracking-normal tw:text-white tw:max-md:text-[32px] tw:max-md:leading-[40px]">
+            {{ section.settings.title | escape | newline_to_br }}
+          </h1>
+        {%- endif -%}
+
+        {%- if section.settings.desc != blank -%}
+          <div class="tw:w-full tw:font-gabarito tw:text-[24px] tw:font-normal tw:leading-[29px] tw:text-white/60 tw:max-md:text-[20px] tw:max-md:leading-[24px]">
+            {{ section.settings.desc | escape | newline_to_br }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_subscribe -%}
+        {%- assign newsletter_form_id = 'blog-banner-newsletter-' | append: section.id -%}
+
+        {%- form 'customer', id: newsletter_form_id, class: 'tw:w-full tw:max-w-[480px]' -%}
+          {%- if form.posted_successfully? -%}
+            {%- assign success_message = 'general.newsletter.subscribed_successfully' | t -%}
+            {%- render 'banner', content: success_message, status: 'success' -%}
+          {%- else -%}
+            {%- if form.errors -%}
+              {%- capture error_message -%}{{ form.errors.translated_fields['email'] }} {{ form.errors.messages['email'] }}{%- endcapture -%}
+              {%- render 'banner', content: error_message, status: 'error' -%}
+            {%- endif -%}
+
+            <input type="hidden" name="contact[tags]" value="newsletter">
+
+            <div class="tw:flex tw:h-12 tw:w-full tw:items-center tw:overflow-hidden tw:rounded-full tw:bg-white tw:max-md:h-10">
+              <label class="sr-only" for="BlogBannerEmail-{{ section.id }}">{{ 'general.newsletter.email' | t }}</label>
+              <input
+                id="BlogBannerEmail-{{ section.id }}"
+                class="tw:h-full tw:min-w-0 tw:flex-1 tw:border-0 tw:bg-transparent tw:px-6 tw:font-gabarito tw:text-[16px] tw:font-normal tw:text-[#1a1a1a] tw:placeholder:text-[#1a1a1a]/40 tw:focus:outline-none tw:max-md:text-[14px]"
+                type="email"
+                name="contact[email]"
+                value="{{ customer.email | escape }}"
+                placeholder="Enter your email"
+                autocomplete="email"
+                enterkeyhint="send"
+                required
+              >
+              <button
+                type="submit"
+                class="
+                  blog-banner-newsletter__submit tw:flex tw:h-full tw:min-w-[124px]
+                  tw:shrink-0 tw:items-center tw:justify-center tw:gap-2 tw:rounded-full
+                   tw:bg-[#e8000b] tw:px-5 tw:font-orbitron tw:text-[16px] tw:font-bold tw:uppercase
+                    tw:leading-[1.2] tw:text-[#f4f4f4] tw:transition-colors tw:hover:bg-[#ff2020]
+                    tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2 tw:focus-visible:outline-white
+                    tw:max-md:text-[14px]
+                "
+                data-blog-banner-submit
+              >
+                <span data-blog-banner-submit-label>Subscribe</span>
+                <span class="blog-banner-newsletter__spinner" aria-hidden="true" data-blog-banner-submit-spinner></span>
+                <span class="blog-banner-newsletter__loading-label" data-blog-banner-loading-label>Loading</span>
+              </button>
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .blog-banner-newsletter__submit[disabled] {
+    cursor: not-allowed;
+  }
+
+  .blog-banner-newsletter__submit.is-loading {
+    opacity: 0.72;
+    pointer-events: none;
+  }
+
+  .blog-banner-newsletter__submit.is-loading [data-blog-banner-submit-label] {
+    display: none;
+  }
+
+  .blog-banner-newsletter__spinner {
+    display: none;
+    inline-size: 16px;
+    block-size: 16px;
+    border: 2px solid currentColor;
+    border-block-start-color: transparent;
+    border-radius: 999px;
+    animation: blog-banner-newsletter-spin 0.8s linear infinite;
+  }
+
+  .blog-banner-newsletter__loading-label {
+    display: none;
+  }
+
+  .blog-banner-newsletter__submit.is-loading .blog-banner-newsletter__spinner {
+    display: inline-block;
+  }
+
+  @keyframes blog-banner-newsletter-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const initBlogBannerNewsletterForms = (scope = document) => {
+      scope.querySelectorAll('form[id^="blog-banner-newsletter-"]').forEach((form) => {
+        if (form.dataset.loadingInitialized === 'true') return;
+
+        form.dataset.loadingInitialized = 'true';
+        form.addEventListener('submit', () => {
+          const button = form.querySelector('[data-blog-banner-submit]');
+
+          if (!button || button.disabled) return;
+
+          button.classList.add('is-loading');
+          button.disabled = true;
+          button.setAttribute('aria-busy', 'true');
+        });
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => initBlogBannerNewsletterForms());
+    } else {
+      initBlogBannerNewsletterForms();
+    }
+
+    document.addEventListener('shopify:section:load', (event) => initBlogBannerNewsletterForms(event.target));
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Blog banner",
+  "class": "shopify-section--blog-banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "News"
+    },
+    {
+      "type": "textarea",
+      "id": "desc",
+      "label": "Description",
+      "default": "Get access to our latest news by signing up for our newsletter."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subscribe",
+      "label": "Show subscribe",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog banner"
+    }
+  ]
+}
+{% endschema %}
