@@ -1,0 +1,302 @@
+<style>
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .blog-page-card__title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="tw:relative tw:isolate tw:font-gabarito">
+  {%- if blog.articles_count == 0 -%}
+    <div class="tw:px-4">
+      <div class="tw:mx-auto tw:flex tw:min-h-[320px] tw:max-w-[1200px] tw:items-center tw:justify-center tw:text-center">
+        <div>
+          <h2 class="tw:m-0 tw:text-[24px] tw:font-semibold tw:leading-[1.2] tw:text-[#0a0a0a]">
+            {{ 'blog.general.empty_blog' | t }}
+          </h2>
+          <a
+            href="{{ routes.root_url }}"
+            class="tw:mt-4 tw:inline-flex tw:rounded-[8px] tw:bg-[#0a0a0a] tw:px-5 tw:py-3 tw:text-[14px] tw:font-semibold tw:text-white"
+          >
+            {{ 'blog.general.back_to_home' | t }}
+          </a>
+        </div>
+      </div>
+    </div>
+  {%- else -%}
+    {%- if section.settings.show_tags and blog.all_tags.size > 0 -%}
+      <nav
+        class="
+          tw:sticky tw:top-0 tw:z-2 tw:flex tw:h-[56px] tw:w-full tw:items-center tw:justify-center tw:gap-6 tw:overflow-x-auto
+          tw:border-b tw:border-[#cccccc] tw:bg-white tw:px-4
+          tw:max-md:h-[48px] tw:max-md:justify-start
+        "
+        aria-label="Blog categories"
+      >
+        <a
+          href="{{ blog.url }}"
+          class="
+            tw:flex tw:h-full tw:shrink-0 tw:items-center tw:border-b-2 tw:py-2 tw:text-center tw:text-[14px] tw:font-normal tw:capitalize tw:leading-[1.2]
+            tw:max-md:text-[16px]
+            {% if current_tags == blank %}tw:border-[#e8000b] tw:text-[#e8000b]{% else %}tw:border-transparent tw:text-[#1a1a1a]/60{% endif %}
+          "
+          aria-current="{% if current_tags == blank %}page{% else %}false{% endif %}"
+        >
+          All posts
+        </a>
+
+        {%- for tag in blog.all_tags -%}
+          {%- assign tag_is_active = false -%}
+          {%- if current_tags contains tag -%}
+            {%- assign tag_is_active = true -%}
+          {%- endif -%}
+
+          <a
+            href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+            class="
+              tw:flex tw:h-full tw:shrink-0 tw:items-center tw:border-b-2 tw:py-2 tw:text-center tw:text-[14px] tw:font-normal tw:capitalize tw:leading-[1.2]
+              tw:max-md:text-[16px]
+              {% if tag_is_active %}tw:border-[#e8000b] tw:text-[#e8000b]{% else %}tw:border-transparent tw:text-[#1a1a1a]/60{% endif %}
+            "
+            aria-current="{% if tag_is_active %}page{% else %}false{% endif %}"
+          >
+            {{ tag | escape }}
+          </a>
+        {%- endfor -%}
+      </nav>
+    {%- endif -%}
+
+    <div
+      class="
+        tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-end tw:gap-6 tw:px-0 tw:pt-6
+        tw:max-md:items-center tw:max-md:px-4
+      "
+    >
+      {%- paginate blog.articles by section.settings.articles_per_page -%}
+        <div class="tw:grid tw:w-full tw:grid-cols-3 tw:gap-x-3 tw:gap-y-6 tw:max-md:grid-cols-1">
+          {%- for article in blog.articles -%}
+            {%- assign article_tag = article.tags | first -%}
+
+            <article class="tw:flex tw:min-w-[320px] tw:flex-col tw:items-start tw:overflow-hidden tw:rounded-[12px] tw:group">
+              <a
+                href="{{ article.url }}"
+                class="tw:relative tw:block tw:aspect-[360/240] tw:w-full tw:overflow-hidden tw:rounded-[12px] tw:bg-gray-300"
+              >
+                {%- if article.image != blank -%}
+                  {{
+                    article.image
+                    | image_url: width: article.image.width
+                    | image_tag:
+                      loading: 'lazy',
+                      sizes: '(min-width: 1150px) 392px, calc(100vw - 32px)',
+                      widths: '358,480,600,720,840,960',
+                      class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:rounded-[12px] tw:group-hover:scale-110 tw:transition-transform tw:duration-500 tw:ease-out',
+                      alt: article.image.alt
+                  }}
+                {%- else -%}
+                  <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-300 tw:text-[#0a0a0a]/50">
+                    image
+                  </div>
+                {%- endif -%}
+              </a>
+
+              <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-3 tw:overflow-hidden tw:pb-6 tw:pr-6 tw:pt-3 tw:max-md:gap-2 tw:max-md:pb-4 tw:max-md:pr-4 tw:max-md:pt-2">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:max-md:gap-2">
+                  {%- if article_tag != blank -%}
+                    <span class="tw:shrink-0 tw:rounded-full tw:border tw:border-[#e8000b] tw:px-2 tw:py-1 tw:text-[14px] tw:font-normal tw:leading-[1.2] tw:tracking-normal tw:text-[#e8000b]">
+                      {{ article_tag | escape }}
+                    </span>
+                  {%- endif -%}
+
+                  <time
+                    class="tw:shrink-0 tw:text-[16px] tw:font-normal tw:leading-[19px] tw:text-[#1a1a1a]/60"
+                    datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+                  >
+                    {{ article.published_at | date: '%b %d, %Y' }}
+                  </time>
+                </div>
+
+                <h2
+                  class="
+                    blog-page-card__title tw:m-0 tw:min-w-full tw:text-[22px] tw:font-gabarito
+                    tw:font-semibold tw:leading-[26px] tw:text-[#0a0a0a] tw:max-md:text-[20px] tw:max-md:leading-[24px]
+                  "
+                >
+                  <a href="{{ article.url }}" class="tw:text-current">
+                    {{ article.title | escape }}
+                  </a>
+                </h2>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+
+        {%- if paginate.pages > 1 -%}
+          <nav
+            class="tw:flex tw:w-full tw:items-center tw:justify-center tw:gap-4 tw:max-md:gap-2"
+            aria-label="Pagination"
+          >
+            {%- if paginate.previous -%}
+              <a
+                href="{{ paginate.previous.url }}"
+                class="
+                  tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px] tw:border tw:border-[#0a0a0a]
+                  tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10 tw:max-md:size-9
+                "
+                aria-label="Previous page"
+              >
+                <svg class="tw:size-full" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </a>
+            {%- else -%}
+              <span
+                class="tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px] tw:border tw:border-[#1a1a1a]/30 tw:text-[#1a1a1a]/30 tw:max-md:size-9"
+                aria-hidden="true"
+              >
+                <svg class="tw:size-full" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </span>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              {%- if part.is_link -%}
+                <a
+                  href="{{ part.url }}"
+                  class="
+                    tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px] tw:border tw:border-[#1a1a1a]/60
+                    tw:font-orbitron tw:text-[16px] tw:font-bold tw:leading-[1.2] tw:text-[#1a1a1a]/60 tw:transition-all
+                     tw:duration-200 tw:hover:border-[#0a0a0a] tw:hover:text-[#0a0a0a] tw:max-md:size-9 tw:max-md:text-[14px]
+                  "
+                  aria-label="Page {{ part.title }}"
+                >
+                  {{ part.title }}
+                </a>
+              {%- else -%}
+                {%- assign part_page_number = part.title | plus: 0 -%}
+                {%- if part_page_number == paginate.current_page -%}
+                  <span
+                    class="
+                      tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px]
+                      tw:bg-[#0a0a0a] tw:font-orbitron tw:text-[16px] tw:font-bold tw:leading-[1.2] tw:text-white tw:max-md:size-9
+                      tw:max-md:text-[14px]
+                    "
+                    aria-current="page"
+                  >
+                    {{ part.title }}
+                  </span>
+                {%- else -%}
+                  <span class="tw:flex tw:size-10 tw:items-center tw:justify-center tw:font-orbitron tw:text-[16px] tw:font-bold tw:text-[#1a1a1a]/60 tw:max-md:size-9">
+                    {{ part.title }}
+                  </span>
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <a
+                href="{{ paginate.next.url }}"
+                class="tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px] tw:border tw:border-[#0a0a0a] tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10 tw:max-md:size-9"
+                aria-label="Next page"
+              >
+                <svg
+                  class="tw:size-full tw:rotate-180"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </a>
+            {%- else -%}
+              <span
+                class="tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:max-md:rounded-[6px] tw:border tw:border-[#1a1a1a]/30 tw:text-[#1a1a1a]/30 tw:max-md:size-9"
+                aria-hidden="true"
+              >
+                <svg
+                  class="tw:size-full tw:rotate-180"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </span>
+            {%- endif -%}
+          </nav>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog page",
+  "class": "shopify-section--blog-page",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_tags",
+      "label": "Show tags",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "label": "Articles per page",
+      "min": 3,
+      "max": 24,
+      "step": 1,
+      "default": 9
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 96
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog page"
+    }
+  ]
+}
+{% endschema %}
