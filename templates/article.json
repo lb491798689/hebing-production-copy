@@ -28,6 +28,7 @@
         "navigation",
         "comments"
       ],
+      "disabled": true,
       "settings": {
         "allow_transparent_header": false,
         "layout": "content_first",
@@ -41,9 +42,26 @@
         "overlay_opacity": 0,
         "content_width": "950px"
       }
+    },
+    "blog_article_AVwWJ6": {
+      "type": "blog-article",
+      "name": "Blog article",
+      "settings": {
+        "default_product_list": "all",
+        "default_article_list": "news",
+        "advertising_image": "shopify://shop_images/The_Recline_Perfected_mob.jpg",
+        "advertising_title": "SIGN UP FOR NEWSLETTER",
+        "advertising_subtitle": "Join the Autofull community for exclusive deals, early access",
+        "advertising_desc": "Join and enjoy extra $10 OFF",
+        "advertising_learn_more_link": "",
+        "show_related_products": true,
+        "show_continue_reading": true,
+        "show_advertising": true
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "blog_article_AVwWJ6"
   ]
 }
