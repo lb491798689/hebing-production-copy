@@ -1,0 +1,669 @@
+{%- liquid
+  assign article_tag = article.tags | first
+  assign related_products = article.metafields.custom.related_products.value
+  assign continue_reading_articles = article.metafields.custom.continue_reading.value
+  assign continue_reading_from_section = false
+
+  if related_products == blank and section.settings.default_product_list != blank
+    assign related_products = section.settings.default_product_list.products
+  endif
+
+  if continue_reading_articles == blank and section.settings.default_article_list != blank
+    assign continue_reading_articles = section.settings.default_article_list.articles
+    assign continue_reading_from_section = true
+  endif
+
+  assign back_to_blog_url = blog.url | default: routes.root_url
+  assign continue_reading_render_count = 0
+
+  if continue_reading_articles != blank
+    for reading_article in continue_reading_articles
+      if reading_article.id != article.id
+        assign continue_reading_render_count = continue_reading_render_count | plus: 1
+
+        if continue_reading_from_section and continue_reading_render_count == 6
+          break
+        endif
+      endif
+    endfor
+  endif
+-%}
+
+<style>
+  #{{ section.id }} .blog-article__body {
+    color: rgba(26, 26, 26, 0.8);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  #{{ section.id }} .blog-article__body > *:first-child {
+    margin-top: 0;
+  }
+
+  #{{ section.id }} .blog-article__body > *:last-child {
+    margin-bottom: 0;
+  }
+
+  #{{ section.id }} .blog-article__body h1,
+  #{{ section.id }} .blog-article__body h2,
+  #{{ section.id }} .blog-article__body h3,
+  #{{ section.id }} .blog-article__body h4,
+  #{{ section.id }} .blog-article__body h5,
+  #{{ section.id }} .blog-article__body h6 {
+    margin: 48px 0 16px;
+    color: #0a0a0a;
+    font-weight: 600;
+    line-height: 1.2;
+    font-family: Gabarito, sans-serif;
+  }
+
+  #{{ section.id }} .blog-article__body h1,
+  #{{ section.id }} .blog-article__body h2 {
+    font-size: 24px;
+  }
+
+  #{{ section.id }} .blog-article__body h3,
+  #{{ section.id }} .blog-article__body h4,
+  #{{ section.id }} .blog-article__body h5,
+  #{{ section.id }} .blog-article__body h6 {
+    font-size: 20px;
+  }
+
+  #{{ section.id }} .blog-article__body p,
+  #{{ section.id }} .blog-article__body ul,
+  #{{ section.id }} .blog-article__body ol,
+  #{{ section.id }} .blog-article__body blockquote,
+  #{{ section.id }} .blog-article__body table {
+    margin: 0 0 16px;
+  }
+
+  #{{ section.id }} .blog-article__body ul,
+  #{{ section.id }} .blog-article__body ol {
+    padding-left: 24px;
+  }
+
+  #{{ section.id }} .blog-article__body ul {
+    list-style: disc;
+  }
+
+  #{{ section.id }} .blog-article__body ol {
+    list-style: decimal;
+  }
+
+  #{{ section.id }} .blog-article__body li + li {
+    margin-top: 4px;
+  }
+
+  #{{ section.id }} .blog-article__body img,
+  #{{ section.id }} .blog-article__body video,
+  #{{ section.id }} .blog-article__body iframe {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  #{{ section.id }} .blog-article__body img {
+    max-height: 340px;
+  }
+
+  #{{ section.id }} .blog-article__line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  #{{ section.id }} .blog-article__related-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  #{{ section.id }} .blog-article__related-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  #{{ section.id }} .blog-article__reading-swiper .swiper-button-next,
+  #{{ section.id }} .blog-article__reading-swiper .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .blog-article__reading-swiper .swiper-button-next::after,
+  #{{ section.id }} .blog-article__reading-swiper .swiper-button-prev::after {
+    content: none;
+  }
+
+  @media screen and (max-width: 767px) {
+    #{{ section.id }} .blog-article__related-track {
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
+      scroll-padding-inline: 16px;
+      padding-inline: 16px;
+    }
+
+    #{{ section.id }} .blog-article__body img {
+      max-height: none;
+    }
+
+    #{{ section.id }} .blog-article__related-card {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+
+    #{{ section.id }} .blog-article__reading-swiper {
+      overflow: visible;
+    }
+
+    #{{ section.id }} .blog-article__reading-swiper .swiper-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transform: none !important;
+    }
+
+    #{{ section.id }} .blog-article__reading-swiper .swiper-slide {
+      width: 100% !important;
+      padding-right: 0 !important;
+    }
+
+    #{{ section.id }} .blog-article__body h1,
+    #{{ section.id }} .blog-article__body h2 {
+      font-size: 22px;
+    }
+  }
+</style>
+
+<section id="{{ section.id }}" class="tw:font-gabarito">
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-center tw:gap-12 tw:pt-24 tw:pb-[140px]
+      tw:max-md:items-start tw:max-md:pt-16 tw:max-md:pb-[64px] tw:max-md:gap-16
+    "
+  >
+    <header
+      class="
+        tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-6 tw:overflow-hidden tw:border-b tw:border-[#1a1a1a]/20 tw:pb-6
+        tw:max-md:gap-4 tw:max-md:px-4
+      "
+    >
+      <h1
+        class="
+          tw:m-0 tw:w-full tw:text-[56px] tw:font-bold tw:leading-[1.2] tw:text-[#0a0a0a]
+          tw:max-md:text-[32px] tw:font-gabarito
+        "
+      >
+        {{ article.title | escape }}
+      </h1>
+
+      <div class="tw:flex tw:w-full tw:items-center tw:justify-between tw:gap-6 tw:max-md:flex-col tw:max-md:items-start tw:max-md:gap-4">
+        <div class="tw:flex tw:items-center tw:gap-3">
+          {%- if article_tag != blank -%}
+            <span class="tw:shrink-0 tw:rounded-full tw:border tw:border-[#e8000b] tw:px-2 tw:py-1 tw:text-[14px] tw:font-normal tw:leading-[1.2] tw:text-[#e8000b]">
+              {{ article_tag | escape }}
+            </span>
+          {%- endif -%}
+
+          <time
+            class="tw:shrink-0 tw:text-[16px] tw:font-normal tw:leading-[1.4] tw:text-[#1a1a1a]/80"
+            datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+          >
+            {{ article.published_at | date: '%b %d, %Y' }}
+          </time>
+        </div>
+
+        <ul class="tw:flex tw:items-center tw:gap-6" role="list" aria-label="{{ 'general.social.share' | t }}">
+          <li>
+            <a
+              href="{% render 'share-link', host: 'facebook', title: article.title, url: article.url %}"
+              class="tw:flex tw:size-8 tw:items-center tw:justify-center tw:text-[#555555] tw:transition-[color] tw:duration-300 tw:hover:text-[#1a1a1a]"
+              aria-label="{{ 'general.social.share_on' | t: social_media: 'Facebook' }}"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="16" fill="currentColor"/>
+                <path d="M21.2933 9.49059H19.4821C18.062 9.49059 17.7871 10.1652 17.7871 11.1573V13.3426H21.1771L20.7349 16.7638H17.7871V25.5478H14.2525V16.7667H11.2961V13.3426H14.2525V10.82C14.2525 7.89195 16.041 6.29614 18.6544 6.29614C19.9073 6.29614 20.9815 6.38968 21.2961 6.4322V9.49059H21.2933Z" fill="white"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% render 'share-link', host: 'twitter', title: article.title, url: article.url %}"
+              class="tw:flex tw:size-8 tw:items-center tw:justify-center tw:text-[#555555] tw:transition-[color] tw:duration-300 tw:hover:text-[#1a1a1a]"
+              aria-label="{{ 'general.social.share_on' | t: social_media: 'Twitter' }}"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="16" fill="currentColor"/>
+                <g clip-path="url(#clip0_201_2626)">
+                <path d="M7.97234 8.66528L14.2016 16.9956L7.93384 23.7694H9.34404L14.833 17.8404L19.266 23.7694H24.0664L17.4884 14.9694L23.3217 8.66638H21.9115L16.857 14.1257L12.7738 8.66528H7.97234ZM10.0469 9.70478H12.2513L21.9907 22.7288H19.7841L10.0469 9.70588V9.70478Z" fill="white"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_201_2626">
+                <rect width="17.6" height="17.6" fill="white" transform="translate(7.19995 7.19995)"/>
+                </clipPath>
+                </defs>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% render 'share-link', host: 'pinterest', title: article.title, url: article.url %}"
+              class="tw:flex tw:size-8 tw:items-center tw:justify-center tw:text-[#555555] tw:transition-[color] tw:duration-300 tw:hover:text-[#1a1a1a]"
+              aria-label="{{ 'general.social.share_on' | t: social_media: 'Pinterest' }}"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_201_2629)">
+                <rect width="32" height="32" rx="16" fill="currentColor"/>
+                <circle cx="15.8025" cy="15.8025" r="15.8025" fill="white"/>
+                <path d="M16 0C7.1625 0 0 7.1625 0 16C0 22.7812 4.21875 28.5687 10.1687 30.9C10.0312 29.6312 9.9 27.6937 10.225 26.3125C10.5187 25.0625 12.1 18.3625 12.1 18.3625C12.1 18.3625 11.6187 17.4062 11.6187 15.9875C11.6187 13.7625 12.9062 12.1 14.5125 12.1C15.875 12.1 16.5375 13.125 16.5375 14.3562C16.5375 15.7312 15.6625 17.7812 15.2125 19.6812C14.8375 21.275 16.0125 22.575 17.5812 22.575C20.425 22.575 22.6125 19.575 22.6125 15.25C22.6125 11.4187 19.8625 8.7375 15.9312 8.7375C11.3812 8.7375 8.70625 12.15 8.70625 15.6812C8.70625 17.0562 9.2375 18.5312 9.9 19.3312C10.0312 19.4875 10.05 19.6313 10.0125 19.7875C9.89375 20.2938 9.61875 21.3812 9.56875 21.6C9.5 21.8937 9.3375 21.9562 9.03125 21.8125C7.03125 20.8813 5.78125 17.9625 5.78125 15.6125C5.78125 10.5625 9.45 5.93125 16.35 5.93125C21.9 5.93125 26.2125 9.8875 26.2125 15.175C26.2125 20.6875 22.7375 25.125 17.9125 25.125C16.2938 25.125 14.7687 24.2813 14.2437 23.2875C14.2437 23.2875 13.4437 26.3437 13.25 27.0937C12.8875 28.4812 11.9125 30.225 11.2625 31.2875C12.7625 31.75 14.35 32 16 32C24.8375 32 32 24.8375 32 16C32 7.1625 24.8375 0 16 0Z" fill="currentColor"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_201_2629">
+                <rect width="32" height="32" rx="16" fill="white"/>
+                </clipPath>
+                </defs>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% render 'share-link', host: 'email', title: article.title, url: article.url %}"
+              class="tw:flex tw:size-8 tw:items-center tw:justify-center tw:text-[#555555] tw:transition-[color] tw:duration-300 tw:hover:text-[#1a1a1a]"
+              aria-label="{{ 'general.social.share_email' | t }}"
+            >
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" rx="16" fill="currentColor"/>
+                <path d="M23.5 9.99976V12.5831L16 16.3748L8.5 12.5831V9.99976H23.5V21.9998L8.5 21.9998V9.99976" stroke="white" stroke-width="1.5" stroke-linecap="square"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="tw:flex tw:w-full tw:items-start tw:gap-6 tw:max-md:flex-col tw:max-md:px-4 tw:max-md:gap-16">
+      <div class="tw:flex tw:w-[800px] tw:shrink-0 tw:flex-col tw:items-start tw:gap-6 tw:max-md:w-full tw:max-md:gap-4">
+        <article class="tw:w-full tw:overflow-hidden tw:rounded-[12px] tw:bg-[#f8f8f8] tw:px-12 tw:py-12 tw:max-md:py-8 tw:max-md:px-4">
+          <div class="blog-article__body">
+            {{ article.content }}
+          </div>
+        </article>
+
+        <a
+          href="{{ back_to_blog_url }}"
+          class="tw:inline-flex tw:items-center tw:gap-1.5 tw:text-[16px] tw:font-medium tw:capitalize tw:leading-[1.2] tw:text-[#1a1a1a]/40 tw:transition-colors tw:hover:text-[#0a0a0a]"
+        >
+          <span>Back to Blog</span>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8.67904 4.51164L6.76823 6.42244H12.2565C14.5577 6.42244 16.4232 8.28793 16.4232 10.5891C16.4232 12.8903 14.5577 14.7558 12.2565 14.7558H3.57812V13.0891H12.2565C13.6372 13.0891 14.7565 11.9698 14.7565 10.5891C14.7565 9.2084 13.6372 8.08911 12.2565 8.08911H6.76823L8.67904 9.99992L7.50065 11.1783L3.57812 7.25578L7.50065 3.33325L8.67904 4.51164Z" fill="#1A1A1A" fill-opacity="0.4"/>
+          </svg>
+        </a>
+      </div>
+
+      <aside class="tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:items-start tw:gap-6 tw:md:overflow-hidden {% if section.settings.sticky_aside %}tw:md:sticky tw:md:top-24{% endif %} tw:max-md:w-full tw:max-md:gap-16">
+        {%- if section.settings.show_related_products and related_products != blank -%}
+          <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-6 tw:max-md:gap-3">
+            <h2 class="tw:m-0 tw:w-full tw:text-[24px] tw:font-semibold tw:leading-[1.2] tw:text-[#0a0a0a] tw:max-md:text-[24px] tw:font-gabarito">
+              Related Products
+            </h2>
+
+            <div
+              class="
+                blog-article__related-track tw:flex tw:w-full tw:flex-col
+                tw:items-start tw:gap-3 tw:max-md:flex-row tw:max-md:gap-4 tw:max-md:overflow-x-auto
+                tw:max-md:w-screen tw:max-md:-mx-4
+              "
+            >
+              {%- for related_product in related_products limit: 3 -%}
+                {%- assign related_product_badge = related_product.tags | first -%}
+
+                <a
+                  href="{{ related_product.url }}"
+                  class="
+                    blog-article__related-card
+                    tw:flex tw:h-[148px] tw:w-full tw:items-center tw:gap-3 tw:rounded-[12px] tw:bg-[#f8f8f8] tw:p-3 tw:text-current
+                    tw:max-md:h-auto tw:max-md:w-[280px] tw:max-md:shrink-0 tw:max-md:flex-col tw:max-md:items-start
+                    tw:max-md:justify-center tw:max-md:gap-6 tw:max-md:bg-[#f0f0f0] tw:max-md:p-4 tw:max-md:pb-6
+                    tw:max-md:rounded-[8px]
+                  "
+                >
+                  <div class="tw:relative tw:h-full tw:aspect-square tw:shrink-0 tw:overflow-hidden tw:max-md:h-auto tw:max-md:w-full">
+                    {%- if related_product.featured_image != blank -%}
+                      {{
+                        related_product.featured_image
+                        | image_url: width: 600
+                        | image_tag:
+                          loading: 'lazy',
+                          sizes: '(min-width: 768px) 124px, 248px',
+                          widths: '180,248,360,480,600',
+                          class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover',
+                          alt: related_product.featured_image.alt
+                      }}
+                    {%- else -%}
+                      <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-300 tw:text-[#0a0a0a]/50">
+                        product
+                      </div>
+                    {%- endif -%}
+                  </div>
+
+                  <div class="tw:flex tw:min-w-0 tw:flex-1 tw:flex-col tw:justify-center tw:gap-2 tw:max-md:w-full">
+                    <h3
+                      class="
+                        blog-article__line-clamp-2 tw:m-0 tw:w-full tw:text-[20px] tw:font-semibold tw:leading-[1.2] tw:text-[#0a0a0a]
+                        tw:max-md:text-[18px] tw:font-gabarito
+                      "
+                    >
+                      {{ related_product.title | escape }}
+                    </h3>
+
+                    <div class="tw:flex tw:w-full tw:items-center tw:gap-2 tw:overflow-hidden tw:text-[16px] tw:leading-[1.2]">
+                      <span class="tw:shrink-0 tw:font-medium tw:text-[#1a1a1a]/80">
+                        {{ related_product.price | money }}
+                      </span>
+
+                      {%- if related_product.compare_at_price > related_product.price -%}
+                        <span class="tw:shrink-0 tw:overflow-hidden tw:text-ellipsis tw:font-normal tw:text-[#1a1a1a]/40 tw:line-through">
+                          {{ related_product.compare_at_price | money }}
+                        </span>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </a>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_advertising -%}
+          <div class="tw:w-full tw:max-md:px-0">
+            <a
+              href="{% if section.settings.advertising_learn_more_link != blank %}{{ section.settings.advertising_learn_more_link }}{% else %}#{% endif %}"
+              class="tw:relative tw:block tw:aspect-[358/480] tw:w-full tw:overflow-hidden tw:rounded-[8px] tw:bg-[#07060c] tw:text-current"
+            >
+              {%- if section.settings.advertising_image != blank -%}
+                {{
+                  section.settings.advertising_image
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 768px) 358px, calc(100vw - 32px)',
+                    widths: '358,480,600,720,900',
+                    class: 'tw:absolute tw:left-1/2 tw:top-0 tw:h-[60%] tw:w-[202%] tw:max-w-none tw:-translate-x-1/2 tw:object-cover',
+                    alt: section.settings.advertising_image.alt
+                }}
+              {%- else -%}
+                <div class="tw:absolute tw:left-1/2 tw:top-0 tw:flex tw:h-[60%] tw:w-[202%] tw:max-w-none tw:-translate-x-1/2 tw:items-center tw:justify-center tw:bg-[#111827] tw:text-white/40">
+                  image
+                </div>
+              {%- endif -%}
+
+              <div class="tw:absolute tw:bottom-0 tw:left-0 tw:right-0 tw:flex tw:flex-col tw:items-center tw:justify-center tw:gap-6 tw:px-6 tw:pb-8 tw:pt-6 tw:text-center">
+                <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-3">
+                  {%- if section.settings.advertising_title != blank -%}
+                    <h2 class="tw:m-0 tw:w-full tw:text-[24px] tw:font-semibold tw:leading-[normal] tw:text-[#f7f700] tw:font-gabarito">
+                      {{ section.settings.advertising_title | escape }}
+                    </h2>
+                  {%- endif -%}
+
+                  {%- if section.settings.advertising_subtitle != blank -%}
+                    <p class="tw:m-0 tw:w-full tw:text-[16px] tw:font-normal tw:leading-[normal] tw:text-white/80">
+                      {{ section.settings.advertising_subtitle | escape }}
+                    </p>
+                  {%- endif -%}
+
+                  {%- if section.settings.advertising_desc != blank -%}
+                    <p class="tw:m-0 tw:w-full tw:text-[16px] tw:font-semibold tw:leading-[normal] tw:text-white">
+                      {{ section.settings.advertising_desc | escape }}
+                    </p>
+                  {%- endif -%}
+                </div>
+
+                <span class="tw:flex tw:h-12 tw:w-full tw:items-center tw:justify-center tw:rounded-full tw:bg-[#f7f700] tw:px-5 tw:py-3 tw:font-orbitron tw:text-[16px] tw:font-bold tw:uppercase tw:leading-[1.2] tw:text-[#0a0a0a]">
+                  Learn more
+                </span>
+              </div>
+            </a>
+          </div>
+        {%- endif -%}
+      </aside>
+    </div>
+
+    {%- if section.settings.show_continue_reading and continue_reading_render_count > 0 -%}
+      <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-6 tw:max-md:gap-3 tw:max-md:px-4">
+        <div class="tw:flex tw:w-full tw:items-center tw:justify-between">
+          <h2 class="tw:m-0 tw:text-[40px] tw:font-semibold tw:leading-[1.2] tw:text-[#0a0a0a] tw:max-md:text-[24px] tw:font-gabarito">
+            Continue reading
+          </h2>
+        </div>
+
+        <div class="blog-article__reading-swiper swiper tw:w-full tw:overflow-hidden" data-blog-article-reading-swiper>
+          <div class="swiper-wrapper">
+            {%- assign continue_count = 0 -%}
+            {%- for reading_article in continue_reading_articles -%}
+              {%- if reading_article.id != article.id -%}
+                {%- assign continue_count = continue_count | plus: 1 -%}
+                {%- assign reading_tag = reading_article.tags | first -%}
+                {%- assign is_last_continue = false -%}
+                {%- if continue_count == continue_reading_render_count -%}
+                  {%- assign is_last_continue = true -%}
+                {%- endif -%}
+
+                <div
+                  class="
+                    swiper-slide
+                    {% if is_last_continue %}tw:w-[389.333px]! tw:max-md:w-full!{% else %}tw:w-[405.333px]! tw:pr-4 tw:max-md:w-[calc(100%+12px)]! tw:max-md:pr-3{% endif %}
+                  "
+                >
+                  <a
+                    href="{{ reading_article.url }}"
+                    class="tw:flex tw:min-w-[320px] tw:flex-col tw:items-start tw:overflow-hidden tw:rounded-[12px] tw:max-md:min-w-0 tw:group"
+                  >
+                    <div
+                      class="tw:relative tw:block tw:aspect-[360/240] tw:w-full tw:overflow-hidden tw:rounded-[12px] tw:bg-gray-300"
+                    >
+                      {%- if reading_article.image != blank -%}
+                        {{
+                          reading_article.image
+                          | image_url: width: 800
+                          | image_tag:
+                            loading: 'lazy',
+                            sizes: '(min-width: 768px) 389px, calc(100vw - 32px)',
+                            widths: '358,480,600,720,800',
+                            class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:rounded-[12px] tw:group-hover:scale-110 tw:transition-transform tw:duration-500 tw:ease-out',
+                            alt: reading_article.image.alt
+                        }}
+                      {%- else -%}
+                        <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-300 tw:text-[#0a0a0a]/50">
+                          image
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                    <div class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-3 tw:overflow-hidden tw:pb-6 tw:pr-6 tw:pt-3 tw:max-md:gap-2 tw:max-md:pb-4 tw:max-md:pr-4 tw:max-md:pt-2">
+                      <div class="tw:flex tw:items-center tw:gap-3 tw:max-md:gap-2">
+                        {%- if reading_tag != blank -%}
+                          <span class="tw:shrink-0 tw:rounded-full tw:border tw:border-[#e8000b] tw:px-2 tw:py-1 tw:text-[14px] tw:font-normal tw:leading-[1.2] tw:text-[#e8000b]">
+                            {{ reading_tag | escape }}
+                          </span>
+                        {%- endif -%}
+
+                        <time
+                          class="tw:shrink-0 tw:text-[16px] tw:font-normal tw:leading-[normal] tw:text-[#1a1a1a]/60"
+                          datetime="{{ reading_article.published_at | date: '%Y-%m-%d' }}"
+                        >
+                          {{ reading_article.published_at | date: '%b.%d, %Y' }}
+                        </time>
+                      </div>
+
+                      <h3
+                        class="
+                          blog-article__line-clamp-2 tw:m-0 tw:min-w-full tw:text-[22px]
+                          tw:font-semibold tw:leading-[normal] tw:text-[#0a0a0a] tw:max-md:text-[20px]
+                          tw:font-gabarito
+                        "
+                      >
+                        <a href="{{ reading_article.url }}" class="tw:text-current">
+                          {{ reading_article.title | escape }}
+                        </a>
+                      </h3>
+                    </div>
+                  </a>
+                </div>
+
+                {%- if continue_reading_from_section and continue_count == 4 -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+
+          {%- if continue_reading_render_count > 1 -%}
+            <div class="tw:flex tw:w-full tw:items-center tw:gap-3 tw:pt-6 tw:max-md:hidden">
+              <button
+                type="button"
+                class="
+                  swiper-button-prev tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a]
+                  tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+                "
+                aria-label="Previous article"
+              >
+                <svg
+                  class="tw:size-full"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="
+                  swiper-button-next tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a]
+                  tw:text-[#0a0a0a] tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+                "
+                aria-label="Next article"
+              >
+                <svg
+                  class="tw:size-full tw:rotate-180"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                </svg>
+              </button>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('{{ section.id }}');
+    if (!section) {
+      return;
+    }
+
+    const desktopMedia = window.matchMedia('(min-width: 768px)');
+    const swiperElement = section.querySelector('[data-blog-article-reading-swiper]');
+    if (!desktopMedia.matches || !swiperElement || typeof Swiper === 'undefined') {
+      return;
+    }
+
+    new Swiper(swiperElement, {
+      slidesPerView: 'auto',
+      navigation: {
+        nextEl: section.querySelector('.blog-article__reading-swiper .swiper-button-next'),
+        prevEl: section.querySelector('.blog-article__reading-swiper .swiper-button-prev'),
+      },
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blog article",
+  "class": "shopify-section--blog-article",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "default_product_list",
+      "label": "Default product list"
+    },
+    {
+      "type": "blog",
+      "id": "default_article_list",
+      "label": "Default article list"
+    },
+    {
+      "type": "image_picker",
+      "id": "advertising_image",
+      "label": "Advertising image"
+    },
+    {
+      "type": "text",
+      "id": "advertising_title",
+      "label": "Advertising title",
+      "default": "SIGN UP FOR NEWSLETTER"
+    },
+    {
+      "type": "textarea",
+      "id": "advertising_subtitle",
+      "label": "Advertising subtitle",
+      "default": "Join the Autofull community for exclusive deals, early access"
+    },
+    {
+      "type": "textarea",
+      "id": "advertising_desc",
+      "label": "Advertising description",
+      "default": "Join and enjoy extra $10 OFF"
+    },
+    {
+      "type": "url",
+      "id": "advertising_learn_more_link",
+      "label": "Advertising learn more link"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_aside",
+      "label": "Sticky aside on desktop",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_related_products",
+      "label": "Show related products",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_continue_reading",
+      "label": "Show continue reading",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_advertising",
+      "label": "Show advertising",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog article"
+    }
+  ]
+}
+{% endschema %}
