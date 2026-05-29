@@ -1,0 +1,349 @@
+<style>
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+
+  #{{ section.id }} .blog-main-slide__title,
+  #{{ section.id }} .blog-main-slide__excerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  #{{ section.id }} .blog-main-slide__title {
+    -webkit-line-clamp: 2;
+  }
+
+  #{{ section.id }} .blog-main-slide__excerpt {
+    -webkit-line-clamp: 4;
+  }
+
+  @media screen and (max-width: 1149px) {
+    #{{ section.id }} .blog-main-slide__title {
+      -webkit-line-clamp: 4;
+    }
+    #{{ section.id }} .blog-main-slide__excerpt {
+     display: none;
+    }
+  }
+</style>
+
+{%- assign article_list = section.settings.article_list -%}
+
+<section id="{{ section.id }}" class="tw:font-gabarito tw:px-[calc((100%-1200px)/2)] tw:max-md:px-4">
+  <div
+    class="
+      tw:relative tw:mx-auto tw:w-full tw:max-w-[1200px] tw:overflow-hidden tw:rounded-[12px]
+      tw:max-md:rounded-[8px]
+    "
+    data-blog-main-slide
+  >
+    {%- if article_list != blank -%}
+      <div class="tw:grid tw:w-full" data-blog-main-slide-track>
+        {%- for article in article_list -%}
+          {%- assign article_tag = article.tags | first -%}
+          {%- assign article_excerpt = article.excerpt_or_content | strip_html | strip -%}
+
+          <a
+            class="
+              tw:col-start-1 tw:row-start-1 tw:flex tw:h-[420px] tw:w-full tw:cursor-pointer tw:overflow-hidden tw:bg-[#f8f8f8]
+              tw:max-md:h-auto tw:max-md:flex-col tw:min-h-[480px] tw:group
+            "
+            href="{{ article.url }}"
+            data-blog-main-slide-item
+            {% if forloop.first %}
+              style="opacity:1;pointer-events:auto;z-index:2;"
+            {% else %}
+              style="opacity:0;pointer-events:none;z-index:1;"
+            {% endif %}
+          >
+            <div
+              class="
+                tw:relative tw:block tw:h-full tw:w-[600px] tw:shrink-0
+                tw:overflow-hidden tw:bg-gray-300 tw:max-md:h-[240px] tw:max-md:w-full
+              "
+            >
+              {%- if article.image != blank -%}
+                {{
+                  article.image
+                  | image_url: width: article.image.width
+                  | image_tag:
+                    loading: 'lazy',
+                    sizes: '(min-width: 1150px) 600px, calc(100vw - 32px)',
+                    widths: '358,480,600,720,960,1200',
+                    class: 'tw:absolute tw:inset-0 tw:size-full tw:object-cover tw:transition-transform tw:duration-500 tw:ease-out tw:group-hover:scale-110',
+                    alt: article.image.alt
+                }}
+              {%- else -%}
+                <div class="tw:absolute tw:inset-0 tw:flex tw:size-full tw:items-center tw:justify-center tw:bg-gray-300 tw:text-[#0a0a0a]/50">
+                  image
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div
+              class="
+                tw:flex tw:h-full tw:min-w-0 tw:flex-1 tw:flex-col tw:justify-between tw:px-8 tw:py-6
+                tw:max-md:h-[240px] tw:max-md:w-full tw:max-md:px-4 tw:max-md:pb-6 tw:max-md:pt-4
+              "
+            >
+              <div class="tw:flex tw:min-w-0 tw:flex-col tw:items-start tw:gap-2">
+                <div class="tw:flex tw:items-center tw:gap-3 tw:min-h-[27px]">
+                  {%- if article_tag != blank -%}
+                    <span class="tw:rounded-full tw:border tw:border-[#e8000b] tw:px-2 tw:py-1 tw:text-[14px] tw:font-normal tw:leading-[1.2] tw:tracking-normal tw:text-[#e8000b]">
+                      {{ article_tag | escape }}
+                    </span>
+                  {%- endif -%}
+
+                  <time
+                    class="tw:text-[16px] tw:font-normal tw:leading-[19px] tw:text-[#1a1a1a]/60"
+                    datetime="{{ article.published_at | date: '%Y-%m-%d' }}"
+                  >
+                    {{ article.published_at | date: '%b %d, %Y' }}
+                  </time>
+                </div>
+
+                <h2
+                  class="
+                    blog-main-slide__title
+                    tw:m-0 tw:w-full tw:overflow-hidden tw:text-ellipsis tw:font-gabarito tw:text-[32px] tw:font-semibold tw:leading-[38px] tw:text-[#0a0a0a]
+                    tw:max-md:text-[20px] tw:max-md:leading-[24px]
+                  "
+                >
+                  <div class="tw:text-current">
+                    {{ article.title | escape }}
+                  </div>
+                </h2>
+
+                {%- if article_excerpt != blank -%}
+                  <p
+                    class="
+                      blog-main-slide__excerpt tw:m-0 tw:w-full tw:overflow-hidden tw:text-ellipsis
+                      tw:text-[16px] tw:font-normal tw:leading-[19px] tw:text-[#1a1a1a]/60 tw:max-md:hidden
+                    "
+                  >
+                    {{ article_excerpt | truncate: 220 }}
+                  </p>
+                {%- endif -%}
+              </div>
+
+              <div
+                class="tw:flex tw:w-full tw:items-center tw:gap-3"
+                data-blog-main-slide-controls
+                {% if article_list.size <= 1 %}
+                  style="display:none;"
+                {% endif %}
+              >
+                <button
+                  type="button"
+                  class="
+                    tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a] tw:bg-transparent tw:text-[#0a0a0a]
+                    tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+                    tw:max-md:size-9
+                  "
+                  data-prev
+                  aria-label="Previous article"
+                >
+                  <svg
+                    class="tw:size-full tw:leading-none"
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  class="
+                    tw:flex tw:size-10 tw:items-center tw:justify-center tw:rounded-[8px] tw:border tw:border-[#0a0a0a] tw:bg-transparent tw:text-[#0a0a0a]
+                    tw:transition-all tw:duration-200 tw:active:opacity-60 tw:hover:border-transparent tw:hover:bg-[#1a1a1a]/10
+                    tw:max-md:size-9
+                  "
+                  data-next
+                  aria-label="Next article"
+                >
+                  <svg
+                    class="tw:size-full tw:rotate-180 tw:leading-none"
+                    viewBox="0 0 48 48"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M26.5 29.5L21 24L26.5 18.5" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="tw:flex tw:h-[420px] tw:w-full tw:items-center tw:justify-center tw:bg-[#f8f8f8] tw:text-[#0a0a0a]/60 tw:max-md:h-[480px]">
+        Select articles
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script src="{{ 'motion.js' | asset_url }}" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const section = document.getElementById('{{ section.id }}');
+    if (!section) {
+      return;
+    }
+
+    const items = Array.from(section.querySelectorAll('[data-blog-main-slide-item]'));
+    const itemCount = items.length;
+    const motion = window.Motion || {};
+    const motionAnimate = motion.animate;
+    let currentIndex = 0;
+    let isAnimating = false;
+
+    function setItemState(item, isActive) {
+      item.style.opacity = isActive ? '1' : '0';
+      item.style.pointerEvents = isActive ? 'auto' : 'none';
+      item.style.transform = 'none';
+      item.style.zIndex = isActive ? '2' : '1';
+      item.style.willChange = 'opacity';
+    }
+
+    function showItem(index) {
+      items.forEach(function (item, itemIndex) {
+        setItemState(item, itemIndex === index);
+      });
+    }
+
+    showItem(currentIndex);
+
+    function goTo(nextIndex) {
+      if (isAnimating || nextIndex === currentIndex) {
+        return;
+      }
+
+      const currentItem = items[currentIndex];
+      const nextItem = items[nextIndex];
+
+      if (!currentItem || !nextItem) {
+        currentIndex = nextIndex;
+        showItem(currentIndex);
+        return;
+      }
+
+      isAnimating = true;
+
+      if (!motionAnimate) {
+        currentIndex = nextIndex;
+        showItem(currentIndex);
+        isAnimating = false;
+        return;
+      }
+
+      currentItem.style.zIndex = '2';
+      currentItem.style.opacity = '1';
+      currentItem.style.pointerEvents = 'none';
+      currentItem.style.transform = 'none';
+
+      nextItem.style.zIndex = '3';
+      nextItem.style.opacity = '0';
+      nextItem.style.pointerEvents = 'none';
+      nextItem.style.transform = 'none';
+
+      Promise.all([
+        motionAnimate(
+          currentItem,
+          { opacity: [1, 0] },
+          { duration: 0.32, easing: [0.22, 1, 0.36, 1], fill: 'forwards' }
+        ).finished,
+        motionAnimate(nextItem, { opacity: [0, 1] }, { duration: 0.38, easing: [0.22, 1, 0.36, 1], fill: 'forwards' })
+          .finished,
+      ])
+        .catch(function () {
+          // Force final state if the animation is interrupted.
+        })
+        .finally(function () {
+          currentIndex = nextIndex;
+          showItem(currentIndex);
+          isAnimating = false;
+        });
+    }
+
+    section.addEventListener('click', function (event) {
+      const prevButton = event.target.closest('[data-prev]');
+      const nextButton = event.target.closest('[data-next]');
+      const link = event.target.closest('a');
+      const slideItem = event.target.closest('[data-blog-main-slide-item]');
+
+      if (prevButton || nextButton) {
+        event.preventDefault();
+
+        if (itemCount <= 1) {
+          return;
+        }
+
+        const direction = prevButton ? -1 : 1;
+        const nextIndex = (currentIndex + direction + itemCount) % itemCount;
+
+        goTo(nextIndex);
+        return;
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Blog main slide",
+  "class": "shopify-section--blog-main-slide",
+  "settings": [
+    {
+      "type": "article_list",
+      "id": "article_list",
+      "label": "Articles"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 96
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 96
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog main slide"
+    }
+  ]
+}
+{% endschema %}
