@@ -256,6 +256,7 @@ font-size:16px;
 
 {%- comment -%}On the FAQ page, we also output the content with JSON microdata for SEO{%- endcomment -%}
 
+{% if section.settings.is_js_render == false %}
 <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -267,13 +268,52 @@ font-size:16px;
           "name": {{ block.settings.title | json }},
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": {{ block.settings.content | json }}
+            "text": {{ block.settings.content | strip_html  | json }}
           }
         }{% unless forloop.last %},{% endunless %}
       {%- endfor -%}
     ]
   }
 </script>
+{% else %}
+  <script type="application/json" class="faq-data">
+  [
+      {%- for block in section.blocks -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.title | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.content | strip_html  | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+</script>
+{% endif %}
+
+
+{% if section.settings.is_js_render %}
+<script>
+  if(!window.faq_script_loaded){
+  document.addEventListener("DOMContentLoaded",function(){
+    const data =  Array.from(document.querySelectorAll('.faq-data')).reduce((origin,current) => origin.concat(JSON.parse(current.textContent)),[])
+    const script = document.createElement('script');
+    script.type = "application/ld+json"
+    script.innerHTML = `
+     {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": ${JSON.stringify(data)}
+     }
+    `
+
+    document.head.appendChild(script)
+  })
+  window.faq_script_loaded = true
+  }
+</script>
+{% endif %}
 
 {% schema %}
 {
