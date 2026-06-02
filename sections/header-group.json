@@ -14,18 +14,19 @@
     "announcement-bar": {
       "type": "announcement-bar",
       "blocks": {
-        "message_KaEfxL": {
-          "type": "message",
-          "settings": {
-            "text": "⚡Flash Sale: Save up to 40%",
-            "url": "shopify://pages/flash-sale"
-          }
-        },
         "message_rmdtE3": {
           "type": "message",
           "settings": {
-            "text": "AutoFull x IEM Cologne Sale 2026 | Up to $300 OFF",
+            "text": "Up to $300 OFF | AutoFull x IEM Cologne Sale 2026",
             "url": "https://www.autofull.com/pages/iem-cologne-2026"
+          }
+        },
+        "message_KaEfxL": {
+          "type": "message",
+          "disabled": true,
+          "settings": {
+            "text": "⚡Flash Sale: Save up to 40%",
+            "url": "shopify://pages/flash-sale"
           }
         },
         "message_GexnaH": {
@@ -45,8 +46,8 @@
         }
       },
       "block_order": [
-        "message_KaEfxL",
         "message_rmdtE3",
+        "message_KaEfxL",
         "message_GexnaH",
         "message_WTTqWh"
       ],
