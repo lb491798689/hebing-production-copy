@@ -334,6 +334,36 @@
             "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00575.jpg"
           }
         },
+        "image_fNmeV6": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Viola-Schuldner_IEM-Cologne_00772.jpg"
+          }
+        },
+        "image_k67pyK": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00464_728b160e-679f-48a6-84bb-bee3c4e378c0.jpg"
+          }
+        },
+        "image_ahQRcB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_01385.jpg"
+          }
+        },
+        "image_D6r9aX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00527.jpg"
+          }
+        },
+        "image_GqbEN9": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00571.jpg"
+          }
+        },
         "image_4zFqHC": {
           "type": "image",
           "settings": {
@@ -351,6 +381,11 @@
         "image_XPFYin",
         "image_KcfeVY",
         "image_VUV9c6",
+        "image_fNmeV6",
+        "image_k67pyK",
+        "image_ahQRcB",
+        "image_D6r9aX",
+        "image_GqbEN9",
         "image_4zFqHC",
         "image_UeCDMJ"
       ],
