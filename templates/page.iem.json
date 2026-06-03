@@ -77,56 +77,6 @@
         "show_active_underline": false
       }
     },
-    "iem_esport_xMFEMP": {
-      "type": "iem-esport",
-      "blocks": {
-        "image_BQUgkQ": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Viola-Schuldner_IEM-Cologne_00774.jpg"
-          }
-        },
-        "image_hthdE3": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00620.jpg"
-          }
-        },
-        "image_fEApLn": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00371.jpg"
-          }
-        },
-        "image_BgLKnt": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00464.jpg"
-          }
-        },
-        "image_EtiHzi": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00567.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "image_BQUgkQ",
-        "image_hthdE3",
-        "image_fEApLn",
-        "image_BgLKnt",
-        "image_EtiHzi"
-      ],
-      "name": "IEM Esport",
-      "settings": {
-        "title": "Built for Esports",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 0
-      }
-    },
     "jingva_media_endorsement_Mk4VUt": {
       "type": "jingva-media-endorsement",
       "blocks": {
@@ -321,6 +271,56 @@
         "padding_bottom": 140,
         "padding_top_mobile": 0,
         "padding_bottom_mobile": 68
+      }
+    },
+    "iem_esport_xMFEMP": {
+      "type": "iem-esport",
+      "blocks": {
+        "image_BQUgkQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Viola-Schuldner_IEM-Cologne_00774.jpg"
+          }
+        },
+        "image_hthdE3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00620.jpg"
+          }
+        },
+        "image_fEApLn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00371.jpg"
+          }
+        },
+        "image_BgLKnt": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00464.jpg"
+          }
+        },
+        "image_EtiHzi": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00567.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_BQUgkQ",
+        "image_hthdE3",
+        "image_fEApLn",
+        "image_BgLKnt",
+        "image_EtiHzi"
+      ],
+      "name": "IEM Esport",
+      "settings": {
+        "title": "Built for Esports",
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 30
       }
     },
     "event_endorsement_gWJfnY": {
