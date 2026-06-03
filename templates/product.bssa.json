@@ -380,6 +380,110 @@
         "input_text_color": ""
       }
     },
+    "jingva_asymmetric_slide_m4mpqA": {
+      "type": "jingva-asymmetric-slide",
+      "blocks": {
+        "slide_8Pa8FH": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_01795_c5a8f0d1-9786-44bc-8b11-1e05bbac74f7.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "Join Now",
+            "button_url": ""
+          }
+        },
+        "slide_Mf6MhF": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_02027_2e926382-8529-4fd6-9aab-a0770612a10d.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        },
+        "slide_mVtajf": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_04538.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        },
+        "slide_CYCnh3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_02304.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        },
+        "slide_TRQCth": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_02662.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        },
+        "slide_pLRwYp": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_00856.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        },
+        "slide_GbNgfY": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/Copy_of_20260511_Luc-Bouchon_IEM-Atlanta_01661.jpg",
+            "title": "",
+            "subtitle": "",
+            "button_text": "",
+            "button_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_8Pa8FH",
+        "slide_Mf6MhF",
+        "slide_mVtajf",
+        "slide_CYCnh3",
+        "slide_TRQCth",
+        "slide_pLRwYp",
+        "slide_GbNgfY"
+      ],
+      "name": "异形幻灯片 (Asymmetric Slide)",
+      "settings": {
+        "title": "Official Chair of IEM 2026",
+        "description": "Featured on top esports tournaments and used by over 100 pro teams",
+        "button_text": "AutoFull Story",
+        "button_url": "shopify://pages/brand-page",
+        "autoplay": true,
+        "autoplay_delay": 3,
+        "show_arrows": true,
+        "show_dots": true,
+        "slide_height": 750,
+        "slide_height_mb": 250,
+        "margin_top": "0px;0px;0px",
+        "margin_bottom": "0px;0px;0px",
+        "padding_top": "100px;46px;46px",
+        "padding_bottom": "96px;46px;46px",
+        "color": "#000000",
+        "color_mb": "#000000",
+        "section_css": ""
+      }
+    },
     "jingva_slideshow_org_8B9VwU": {
       "type": "jingva-slideshow_org",
       "blocks": {
@@ -1800,6 +1904,7 @@
   },
   "order": [
     "main",
+    "jingva_asymmetric_slide_m4mpqA",
     "jingva_slideshow_org_8B9VwU",
     "custom_html_eR78aM",
     "kiks_slider_multi_column_7y6xU9",
