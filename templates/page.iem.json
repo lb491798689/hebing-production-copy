@@ -77,6 +77,128 @@
         "show_active_underline": false
       }
     },
+    "iem_esport_xMFEMP": {
+      "type": "iem-esport",
+      "blocks": {
+        "image_BQUgkQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Viola-Schuldner_IEM-Cologne_00774.jpg"
+          }
+        },
+        "image_hthdE3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00620.jpg"
+          }
+        },
+        "image_fEApLn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00371.jpg"
+          }
+        },
+        "image_BgLKnt": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00464.jpg"
+          }
+        },
+        "image_EtiHzi": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00567.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "image_BQUgkQ",
+        "image_hthdE3",
+        "image_fEApLn",
+        "image_BgLKnt",
+        "image_EtiHzi"
+      ],
+      "name": "IEM Esport",
+      "settings": {
+        "title": "Built for Esports",
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0
+      }
+    },
+    "jingva_media_endorsement_Mk4VUt": {
+      "type": "jingva-media-endorsement",
+      "blocks": {
+        "media_J3TXLi": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130247.png",
+            "media_alt": "Media",
+            "media_text": "\"Mit dem AutoFull M6 präsentiert sich einer der besten Gaming Chairs auf dem Markt, der über die bekannten Komfortmerkmale hinausgeht. Neben bester Ergonomie verfügt der Stuhl über Massage funktionen und aktive Heiz- und Kühlsysteme.\""
+          }
+        },
+        "media_L7Kmbd": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130246.png",
+            "media_alt": "Media",
+            "media_text": "\"Das gilt besonders für den AutoFull M6 Gaming-Stuhl. Der Stuhl wurde vom deutschen Institut für Gesundheit und Ergonomie (IGR) und von der International Chiropractic Association (ICA) für seine hervorragende Benutzerfreundlichkeit und sein ergonomisches Design zertifiziert.\""
+          }
+        },
+        "media_MeFXhf": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130246_1.png",
+            "media_alt": "Media",
+            "media_text": "\"Der AutoFull M6 Gaming-Stuhl wurde in Zusammenarbeit mit Gesundheitsexperten sowie Profi-Gamern entwickelt. Hersteller AutoFull arbeitet mit Teams wie Rogue oder BLG zusammen. Der französische Profi Kenny Schrub alias “kennyS” schwört beispielsweise auf den Stuhl.\""
+          }
+        },
+        "media_BAqhpa": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130248.png",
+            "media_alt": "Media",
+            "media_text": "\"Die belüftete Sitzfläche mit Heizfunktion des AutoFull M6 hält dich immer im richtigen Temperaturbereich. Im Sommer spenden zwei Ventilatoren angenehme Frische, während die integrierte Graphen-Heizung dich im Winter warm hält – unaufdringlich und effektiv.\""
+          }
+        },
+        "media_wLWx9V": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130249.png",
+            "media_alt": "Media",
+            "media_text": "\"Comment ne pas vous conseiller cette chaise gaming, cadeau parfait pour Noël, au regard de toutes ses qualités. Vous pensez ce prix élevé, mais je peux vous assurer qu’il reste raisonnable pour une chaise gaming de cette envergure.\""
+          }
+        },
+        "media_iJPmaA": {
+          "type": "media",
+          "settings": {
+            "media_image": "shopify://shop_images/Rectangle_1329130250.png",
+            "media_alt": "Media",
+            "media_text": "\"Si vous cherchez un fauteuil de qualité spécialement conçu pour le gaming, découvrez les 3 modèles AutoFull M6 disponibles s, dont le modèle premium avec chauffage et ventilation intégrés !\""
+          }
+        }
+      },
+      "block_order": [
+        "media_J3TXLi",
+        "media_L7Kmbd",
+        "media_MeFXhf",
+        "media_BAqhpa",
+        "media_wLWx9V",
+        "media_iJPmaA"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".jingva-media-endorsement-outer,.jingva-section-container-template--21864511570169__jingva_media_endorsement_Mk4VUt {background-color: transparent !important;}",
+        ".jingva-media-endorsement-description {color: white !important;}",
+        ".jingva-media-endorsement-scrollbar-dot {background-color: rgba(255, 255, 255, 0.2) !important;}",
+        ".jingva-media-endorsement-scrollbar-dot.active {background-color: #e90202 !important;}"
+      ],
+      "name": "Jingva Media Endorsement",
+      "settings": {
+        "main_title": "See why media loves autofull"
+      }
+    },
     "iem_shop_now_M73qrG": {
       "type": "iem-shop-now",
       "name": "IEM Shop Now",
@@ -201,125 +323,46 @@
         "padding_bottom_mobile": 68
       }
     },
-    "iem_esport_xMFEMP": {
-      "type": "iem-esport",
+    "event_endorsement_gWJfnY": {
+      "type": "event-endorsement",
       "blocks": {
-        "image_BQUgkQ": {
-          "type": "image",
+        "endorsement_item_EYMABU": {
+          "type": "endorsement_item",
           "settings": {
-            "image": "shopify://shop_images/20260602_Viola-Schuldner_IEM-Cologne_00774.jpg"
+            "logo_image": "shopify://shop_images/Techradar_PC.jpg",
+            "title": "@Techradar",
+            "description": "I'd potentially go so far as to call this one of the best gaming chairs out there right now"
           }
         },
-        "image_hthdE3": {
-          "type": "image",
+        "endorsement_item_F7MCUg": {
+          "type": "endorsement_item",
           "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00620.jpg"
+            "logo_image": "shopify://shop_images/Forbes_PC.jpg",
+            "title": "@Forbes",
+            "description": "The AutoFull M6 Ultra 2.0 Ergonomic Gaming Chair is so comfortable you’ll never want to leave it."
           }
         },
-        "image_fEApLn": {
-          "type": "image",
+        "endorsement_item_9J3NDt": {
+          "type": "endorsement_item",
           "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00371.jpg"
-          }
-        },
-        "image_BgLKnt": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00464.jpg"
-          }
-        },
-        "image_EtiHzi": {
-          "type": "image",
-          "settings": {
-            "image": "shopify://shop_images/20260602_Adela-Sznajder_IEM-Cologne_00567.jpg"
+            "logo_image": "shopify://shop_images/IGN_PC.jpg",
+            "title": "@IGN",
+            "description": "The AutoFull M6 Ultra is one of my favorite gaming chairs to date."
           }
         }
       },
       "block_order": [
-        "image_BQUgkQ",
-        "image_hthdE3",
-        "image_fEApLn",
-        "image_BgLKnt",
-        "image_EtiHzi"
+        "endorsement_item_EYMABU",
+        "endorsement_item_F7MCUg",
+        "endorsement_item_9J3NDt"
       ],
-      "name": "IEM Esport",
+      "name": "Event endorsement",
       "settings": {
-        "title": "Built for Esports",
-        "padding_top": 0,
-        "padding_bottom": 0,
-        "padding_top_mobile": 0,
-        "padding_bottom_mobile": 0
-      }
-    },
-    "jingva_media_endorsement_Mk4VUt": {
-      "type": "jingva-media-endorsement",
-      "blocks": {
-        "media_J3TXLi": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130247.png",
-            "media_alt": "Media",
-            "media_text": "\"Mit dem AutoFull M6 präsentiert sich einer der besten Gaming Chairs auf dem Markt, der über die bekannten Komfortmerkmale hinausgeht. Neben bester Ergonomie verfügt der Stuhl über Massage funktionen und aktive Heiz- und Kühlsysteme.\""
-          }
-        },
-        "media_L7Kmbd": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130246.png",
-            "media_alt": "Media",
-            "media_text": "\"Das gilt besonders für den AutoFull M6 Gaming-Stuhl. Der Stuhl wurde vom deutschen Institut für Gesundheit und Ergonomie (IGR) und von der International Chiropractic Association (ICA) für seine hervorragende Benutzerfreundlichkeit und sein ergonomisches Design zertifiziert.\""
-          }
-        },
-        "media_MeFXhf": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130246_1.png",
-            "media_alt": "Media",
-            "media_text": "\"Der AutoFull M6 Gaming-Stuhl wurde in Zusammenarbeit mit Gesundheitsexperten sowie Profi-Gamern entwickelt. Hersteller AutoFull arbeitet mit Teams wie Rogue oder BLG zusammen. Der französische Profi Kenny Schrub alias “kennyS” schwört beispielsweise auf den Stuhl.\""
-          }
-        },
-        "media_BAqhpa": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130248.png",
-            "media_alt": "Media",
-            "media_text": "\"Die belüftete Sitzfläche mit Heizfunktion des AutoFull M6 hält dich immer im richtigen Temperaturbereich. Im Sommer spenden zwei Ventilatoren angenehme Frische, während die integrierte Graphen-Heizung dich im Winter warm hält – unaufdringlich und effektiv.\""
-          }
-        },
-        "media_wLWx9V": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130249.png",
-            "media_alt": "Media",
-            "media_text": "\"Comment ne pas vous conseiller cette chaise gaming, cadeau parfait pour Noël, au regard de toutes ses qualités. Vous pensez ce prix élevé, mais je peux vous assurer qu’il reste raisonnable pour une chaise gaming de cette envergure.\""
-          }
-        },
-        "media_iJPmaA": {
-          "type": "media",
-          "settings": {
-            "media_image": "shopify://shop_images/Rectangle_1329130250.png",
-            "media_alt": "Media",
-            "media_text": "\"Si vous cherchez un fauteuil de qualité spécialement conçu pour le gaming, découvrez les 3 modèles AutoFull M6 disponibles s, dont le modèle premium avec chauffage et ventilation intégrés !\""
-          }
-        }
-      },
-      "block_order": [
-        "media_J3TXLi",
-        "media_L7Kmbd",
-        "media_MeFXhf",
-        "media_BAqhpa",
-        "media_wLWx9V",
-        "media_iJPmaA"
-      ],
-      "custom_css": [
-        ".jingva-media-endorsement-outer,.jingva-section-container-template--21864511570169__jingva_media_endorsement_Mk4VUt {background-color: transparent !important;}",
-        ".jingva-media-endorsement-description {color: white !important;}",
-        ".jingva-media-endorsement-scrollbar-dot {background-color: rgba(255, 255, 255, 0.2) !important;}",
-        ".jingva-media-endorsement-scrollbar-dot.active {background-color: #e90202 !important;}"
-      ],
-      "name": "Jingva Media Endorsement",
-      "settings": {
-        "main_title": "See why media loves autofull"
+        "title": "Featured on",
+        "padding_top": 140,
+        "padding_bottom": 140,
+        "padding_top_mobile": 64,
+        "padding_bottom_mobile": 64
       }
     },
     "iem_user_say_hWwrnJ": {
@@ -393,12 +436,13 @@
     "iem_bg_cgEMfd",
     "iem_banner_MzBK7X",
     "iem_nav_RHhQ8Y",
+    "jingva_media_endorsement_Mk4VUt",
     "iem_shop_now_M73qrG",
     "iem_tech_ewmFJT",
     "iem_feature_slide_6nMyGM",
     "iem_top_rated_QiVJ7Q",
     "iem_esport_xMFEMP",
-    "jingva_media_endorsement_Mk4VUt",
+    "event_endorsement_gWJfnY",
     "iem_user_say_hWwrnJ"
   ]
 }
