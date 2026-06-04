@@ -193,7 +193,7 @@
             "hide_sold_out_variants": false,
             "stack_blocks": true,
             "selector_style": "variant_image",
-            "swatch_selector_style": "block_swatch",
+            "swatch_selector_style": "none",
             "variant_image_options": "AutoFull Shipping & Accessories",
             "size_chart_page": ""
           }
