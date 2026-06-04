@@ -182,12 +182,11 @@
         },
         "variant_picker": {
           "type": "variant_picker",
-          "disabled": true,
           "settings": {
             "hide_sold_out_variants": false,
             "stack_blocks": false,
-            "selector_style": "variant_image",
-            "swatch_selector_style": "block_swatch",
+            "selector_style": "block",
+            "swatch_selector_style": "none",
             "variant_image_options": "AutoFull Shipping & Accessories",
             "size_chart_page": ""
           }
@@ -303,6 +302,7 @@
         },
         "selleasy_lb_upsell_widget_bl_ebYWBB": {
           "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bl/790c1a03-a71f-4bc1-9869-00dad526d3c2",
+          "disabled": true,
           "settings": {}
         }
       },
