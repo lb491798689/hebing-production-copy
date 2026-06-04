@@ -189,6 +189,7 @@
         },
         "variant_picker_XtRCWe": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "hide_sold_out_variants": false,
             "stack_blocks": true,
@@ -253,6 +254,7 @@
         },
         "text_8VUxjt": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "text": "<p><strong>***Pre-order Sale: Ultra+ 2.0 ships within 5 business days. Ultra 2.0 Ships within 2 days***</strong></p>"
           }
