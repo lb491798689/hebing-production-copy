@@ -18,17 +18,6 @@
             "heading_tag": "h4"
           }
         },
-        "trustoo_io_reviews_star_rating_widget_rx8kGj": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "star_size": 20,
-            "font_size": 16,
-            "text_color": "#585858",
-            "block_aligment": "left",
-            "margin_top": 10,
-            "margin_bottom": 0
-          }
-        },
         "price": {
           "type": "price",
           "settings": {
@@ -39,16 +28,6 @@
           "type": "text",
           "settings": {
             "text": "<p><strong>Chair Frame Lifetime Warranty | Free Shipping | 30-day Free Trial</strong><br/><br/></p>"
-          }
-        },
-        "klarna_on_site_messaging_app_block_UjfmHq": {
-          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
-          "settings": {
-            "data_key": "credit-promotion-badge",
-            "theme": "default",
-            "topPadding": "0",
-            "bottomPadding": "0",
-            "messagePrefix": ""
           }
         },
         "separator": {
@@ -237,25 +216,12 @@
             "enable_quantity": true
           }
         },
-        "gsc_countdown_timer_countdown_YfYQtr": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "settings": {
-            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
-          }
-        },
         "custom_free_gifts_nLATE8": {
           "type": "custom_free_gifts",
           "disabled": true,
           "settings": {
             "block_title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
             "custom_product": "computer-backpack"
-          }
-        },
-        "gsc_countdown_timer_countdown_j6DTzW": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "disabled": true,
-          "settings": {
-            "widget_id": "GSC-SMALL-lklmvITEEDYH"
           }
         },
         "bottom_policy_cHWzpb": {
@@ -299,19 +265,12 @@
           "settings": {
             "text": ""
           }
-        },
-        "selleasy_lb_upsell_widget_bl_ebYWBB": {
-          "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bl/790c1a03-a71f-4bc1-9869-00dad526d3c2",
-          "disabled": true,
-          "settings": {}
         }
       },
       "block_order": [
         "title",
-        "trustoo_io_reviews_star_rating_widget_rx8kGj",
         "price",
         "text_rMej8A",
-        "klarna_on_site_messaging_app_block_UjfmHq",
         "separator",
         "text_jwyLEg",
         "text_7adQR3",
@@ -331,16 +290,13 @@
         "kiks_extended_products_hDzU9G",
         "inventory_C7zkRG",
         "buy_buttons",
-        "gsc_countdown_timer_countdown_YfYQtr",
         "custom_free_gifts_nLATE8",
-        "gsc_countdown_timer_countdown_j6DTzW",
         "bottom_policy_cHWzpb",
         "bottom_policy_UyYGWj",
         "bottom_policy_mBhwPG",
         "bottom_policy_nj78NN",
         "separator_PDzrH6",
-        "text_GfUtBw",
-        "selleasy_lb_upsell_widget_bl_ebYWBB"
+        "text_GfUtBw"
       ],
       "settings": {
         "full_width": true,
@@ -613,7 +569,6 @@
         "video_wgDgti": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail1.mp4",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -641,7 +596,6 @@
         "video_X9Uwxp": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail3.mp4",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -669,7 +623,6 @@
         "video_PHjALx": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail2.mp4",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -795,8 +748,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/bbb_b29d8ed4-a5df-40d3-84bd-32436feef7b7.mp4",
-            "video_mp4_mb": "shopify://files/videos/11月2日.mp4",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1013,8 +964,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/10.801 (1).mp4",
-            "video_mp4_mb": "shopify://files/videos/10.801.mp4",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1263,8 +1212,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/20251107-144111.mp4",
-            "video_mp4_mb": "shopify://files/videos/11月2日(3).mp4",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1407,7 +1354,6 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_4.jpg",
-            "video": "shopify://files/videos/videoplayback (8) - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=3KL-hg4stkw",
             "title": "",
             "subtitle": "",
@@ -1419,7 +1365,6 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/maxresdefault_2.jpg",
-            "video": "shopify://files/videos/Autofull M6 Ultra vs. G7 – Welcher Gaming-Stuhl ist besser _moschuss.de - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=8Wf317ffrl8&t=18s",
             "title": "",
             "subtitle": "",
@@ -1431,7 +1376,6 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_1.jpg",
-            "video": "shopify://files/videos/videoplayback (7) - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=tqPxdl265oY",
             "title": "",
             "subtitle": "",
@@ -1443,7 +1387,6 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_3.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=wpSFeFgkNd4",
             "title": "",
             "subtitle": "",
@@ -1455,7 +1398,6 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/maxresdefault_1.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=85GUNCi41To",
             "title": "",
             "subtitle": "",
@@ -1501,7 +1443,6 @@
         "slide_dyGgJc": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频1 M6 ultra.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=E0HD2M4-v2U",
             "title": "",
             "subtitle": "",
@@ -1512,7 +1453,6 @@
         "slide_ecXhNy": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频3 M6 ultra.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=rtLOFLh1bbY&t=1s",
             "title": "",
             "subtitle": "",
@@ -1523,7 +1463,6 @@
         "slide_cXtgJE": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频4 M6 ultra.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=rtLOFLh1bbY&t=1s",
             "title": "",
             "subtitle": "",
@@ -1534,7 +1473,6 @@
         "slide_npBz3N": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频2 M6 ultra.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=tjPwU9TcM54",
             "title": "",
             "subtitle": "",
@@ -1547,7 +1485,6 @@
           "disabled": true,
           "settings": {
             "image": "shopify://shop_images/maxresdefault_1.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=85GUNCi41To",
             "title": "",
             "subtitle": "",
@@ -2192,17 +2129,6 @@
     },
     "1762325660a6578d10": {
       "type": "apps",
-      "blocks": {
-        "trustoo_io_reviews_review_widget_qNrjez": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "product": "autofull-m6-ultra-black-gaming-chair-massage"
-          }
-        }
-      },
-      "block_order": [
-        "trustoo_io_reviews_review_widget_qNrjez"
-      ],
       "settings": {
         "section_id": "",
         "full_width": true,

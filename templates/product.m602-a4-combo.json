@@ -18,17 +18,6 @@
             "heading_tag": "h4"
           }
         },
-        "trustoo_io_reviews_star_rating_widget_rx8kGj": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "star_size": 20,
-            "font_size": 16,
-            "text_color": "#585858",
-            "block_aligment": "left",
-            "margin_top": 10,
-            "margin_bottom": 0
-          }
-        },
         "text_j76Lmz": {
           "type": "text",
           "settings": {
@@ -39,16 +28,6 @@
           "type": "price",
           "settings": {
             "show_taxes_notice": false
-          }
-        },
-        "klarna_on_site_messaging_app_block_qQwYTL": {
-          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
-          "settings": {
-            "data_key": "top-strip-promotion-badge",
-            "theme": "default",
-            "topPadding": "0",
-            "bottomPadding": "0",
-            "messagePrefix": ""
           }
         },
         "custom_discode_gYWgX4": {
@@ -168,25 +147,12 @@
             "enable_quantity": true
           }
         },
-        "gsc_countdown_timer_countdown_YfYQtr": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "settings": {
-            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
-          }
-        },
         "custom_free_gifts_nLATE8": {
           "type": "custom_free_gifts",
           "disabled": true,
           "settings": {
             "block_title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
             "custom_product": "computer-backpack"
-          }
-        },
-        "gsc_countdown_timer_countdown_j6DTzW": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "disabled": true,
-          "settings": {
-            "widget_id": "GSC-SMALL-lklmvITEEDYH"
           }
         },
         "bottom_policy_cHWzpb": {
@@ -241,10 +207,8 @@
       },
       "block_order": [
         "title",
-        "trustoo_io_reviews_star_rating_widget_rx8kGj",
         "text_j76Lmz",
         "price",
-        "klarna_on_site_messaging_app_block_qQwYTL",
         "custom_discode_gYWgX4",
         "separator",
         "custom_free_gifts_6yy7wE",
@@ -258,9 +222,7 @@
         "kiks_extended_products_hDzU9G",
         "inventory_C7zkRG",
         "buy_buttons",
-        "gsc_countdown_timer_countdown_YfYQtr",
         "custom_free_gifts_nLATE8",
-        "gsc_countdown_timer_countdown_j6DTzW",
         "bottom_policy_cHWzpb",
         "bottom_policy_UyYGWj",
         "bottom_policy_mBhwPG",
@@ -711,7 +673,6 @@
         "video_hpEy7E": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/Dual-Fan Ventilation Cooling.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -765,7 +726,6 @@
         "video_ipgPia": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/M6_Air-conditioned Seat.mp4",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -792,7 +752,6 @@
         "video_rdyVa7": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -1623,17 +1582,6 @@
     },
     "1739339136bd4d24cb": {
       "type": "apps",
-      "blocks": {
-        "trustoo_io_reviews_review_widget_hYWPyE": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "trustoo_io_reviews_review_widget_hYWPyE"
-      ],
       "settings": {
         "section_id": "Reviews",
         "full_width": true,

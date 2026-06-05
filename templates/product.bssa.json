@@ -18,17 +18,6 @@
             "heading_tag": "h4"
           }
         },
-        "trustoo_io_reviews_star_rating_widget_rx8kGj": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "star_size": 20,
-            "font_size": 16,
-            "text_color": "#585858",
-            "block_aligment": "left",
-            "margin_top": 10,
-            "margin_bottom": 0
-          }
-        },
         "price": {
           "type": "price",
           "settings": {
@@ -46,16 +35,6 @@
           "disabled": true,
           "settings": {
             "text": "<p><strong>New Year Sale</strong> <strong>| 30-day Price Protection</strong></p>"
-          }
-        },
-        "klarna_on_site_messaging_app_block_UjfmHq": {
-          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
-          "settings": {
-            "data_key": "credit-promotion-badge",
-            "theme": "default",
-            "topPadding": "0",
-            "bottomPadding": "0",
-            "messagePrefix": ""
           }
         },
         "separator": {
@@ -245,13 +224,6 @@
             "enable_quantity": true
           }
         },
-        "gsc_countdown_timer_countdown_YfYQtr": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "disabled": true,
-          "settings": {
-            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
-          }
-        },
         "text_8VUxjt": {
           "type": "text",
           "disabled": true,
@@ -265,13 +237,6 @@
           "settings": {
             "block_title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
             "custom_product": "computer-backpack"
-          }
-        },
-        "gsc_countdown_timer_countdown_j6DTzW": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "disabled": true,
-          "settings": {
-            "widget_id": "GSC-SMALL-lklmvITEEDYH"
           }
         },
         "bottom_policy_cHWzpb": {
@@ -315,19 +280,13 @@
           "settings": {
             "text": ""
           }
-        },
-        "selleasy_lb_upsell_widget_bl_ebYWBB": {
-          "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bl/790c1a03-a71f-4bc1-9869-00dad526d3c2",
-          "settings": {}
         }
       },
       "block_order": [
         "title",
-        "trustoo_io_reviews_star_rating_widget_rx8kGj",
         "price",
         "text_7AbxVE",
         "text_jwyLEg",
-        "klarna_on_site_messaging_app_block_UjfmHq",
         "separator",
         "text_Um37pw",
         "text_7adQR3",
@@ -347,17 +306,14 @@
         "kiks_extended_products_hDzU9G",
         "inventory_C7zkRG",
         "buy_buttons",
-        "gsc_countdown_timer_countdown_YfYQtr",
         "text_8VUxjt",
         "custom_free_gifts_nLATE8",
-        "gsc_countdown_timer_countdown_j6DTzW",
         "bottom_policy_cHWzpb",
         "bottom_policy_UyYGWj",
         "bottom_policy_mBhwPG",
         "bottom_policy_nj78NN",
         "separator_PDzrH6",
-        "text_GfUtBw",
-        "selleasy_lb_upsell_widget_bl_ebYWBB"
+        "text_GfUtBw"
       ],
       "settings": {
         "full_width": true,
@@ -759,7 +715,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/1920-1080模块.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -832,7 +787,6 @@
         "item_h4DazN": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/上传850-600.mp4",
             "column_size": "2",
             "title": "Ultra+ 2.0",
             "small_heading_color": "#ffb74a",
@@ -846,7 +800,6 @@
         "item_fPLa9e": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/上传850-600_6f80950a-bae5-466f-9297-40f1ec9d7dbc.mp4",
             "column_size": "2",
             "title": "Ultra 2.0",
             "small_heading_color": "#ffffff",
@@ -888,7 +841,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1440-600.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1028,7 +980,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1440-630.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1102,7 +1053,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/坐垫1440-630.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1175,7 +1125,6 @@
         "item_Vwf3jz": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/800-800冷上传.mp4",
             "column_size": "2",
             "title": "Dual fan ventilation",
             "small_heading_color": "#ffffff",
@@ -1189,7 +1138,6 @@
         "item_8PWn6N": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/800-800热上传.mp4",
             "column_size": "2",
             "title": "Graphene heating",
             "small_heading_color": "#ffffff",
@@ -1230,7 +1178,6 @@
         "video_WXQYpC": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/800-800腿震动上传.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -1280,7 +1227,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/头枕1440-630.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1581,7 +1527,6 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1464-600.mp4",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1854,17 +1799,6 @@
     },
     "1762325660a6578d10": {
       "type": "apps",
-      "blocks": {
-        "trustoo_io_reviews_review_widget_qNrjez": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "product": "autofull-m6-ultra-black-gaming-chair-massage"
-          }
-        }
-      },
-      "block_order": [
-        "trustoo_io_reviews_review_widget_qNrjez"
-      ],
       "settings": {
         "section_id": "",
         "full_width": true,

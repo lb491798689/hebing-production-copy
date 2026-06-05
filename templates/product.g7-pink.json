@@ -18,17 +18,6 @@
             "heading_tag": "h3"
           }
         },
-        "trustoo_io_reviews_star_rating_widget_XawfG8": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "star_size": 20,
-            "font_size": 16,
-            "text_color": "#585858",
-            "block_aligment": "left",
-            "margin_top": 10,
-            "margin_bottom": 0
-          }
-        },
         "badges": {
           "type": "badges",
           "settings": {}
@@ -80,12 +69,6 @@
             "payment_button_background": "#1f1f1f",
             "payment_button_text_color": "#ffffff",
             "enable_quantity": true
-          }
-        },
-        "gsc_countdown_timer_countdown_rDWQ3V": {
-          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
-          "settings": {
-            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
           }
         },
         "associated_products_Jg8R88": {
@@ -158,7 +141,6 @@
       },
       "block_order": [
         "title",
-        "trustoo_io_reviews_star_rating_widget_XawfG8",
         "badges",
         "price",
         "text_eJdwwj",
@@ -167,7 +149,6 @@
         "payment_terms",
         "kiks_extended_products_hDzU9G",
         "buy_buttons",
-        "gsc_countdown_timer_countdown_rDWQ3V",
         "associated_products_Jg8R88",
         "custom_logos_Fn4hg4",
         "selling_points_DXFKc4",
@@ -328,7 +309,6 @@
         "item_Rhrn34": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/2 - Trim.mp4",
             "column_size": "3",
             "title": "Adaptive Lumbar Support",
             "heading_tag": "h4",
@@ -341,7 +321,6 @@
         "item_inpgAD": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/3.mp4",
             "column_size": "3",
             "title": "Three-Zone Lumbar Encapsulation",
             "heading_tag": "h4",
@@ -354,7 +333,6 @@
         "item_e9Nn7H": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/21 - Trim.mp4",
             "column_size": "3",
             "title": "Ergonomic Zoning Design",
             "heading_tag": "h4",
@@ -472,7 +450,6 @@
         "video_PgBbaN": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/8 - Trim.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -499,7 +476,6 @@
         "video_x9EkrX": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/6.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -526,7 +502,6 @@
         "video_3YEEXL": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/7 - Trim.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -1311,17 +1286,6 @@
     },
     "17555904571be06293": {
       "type": "apps",
-      "blocks": {
-        "trustoo_io_reviews_review_widget_9RYGHT": {
-          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "trustoo_io_reviews_review_widget_9RYGHT"
-      ],
       "settings": {
         "section_id": "",
         "full_width": true,
