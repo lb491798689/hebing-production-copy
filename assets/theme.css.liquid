@@ -3221,6 +3221,10 @@ model-media model-viewer, model-media .shopify-model-viewer-ui {
   .product-info .product-info__price .price-list compare-at-price {
     font-size: 14px;
   }
+
+  .product-info__price.custom-price-style .price-list compare-at-price .money {
+    font-size: 14px;
+  }
 }
 @media screen and (max-width: 430px) {
   .price-list,
@@ -3264,6 +3268,27 @@ model-media model-viewer, model-media .shopify-model-viewer-ui {
 
 /* 删除线仅在 .money，compare-at-price 上的 line-through 类不画线（避免双删除线） */
 .price-list--lg compare-at-price.line-through {
+  text-decoration: none !important;
+}
+
+/* PDP custom-price-style：仅售价用深色，划线价用灰色（覆盖 kiks-typography 等全局 span.money 规则） */
+.product-info__price.custom-price-style .price-list compare-at-price .money {
+  overflow: hidden !important;
+  color: #a3a3a3 !important;
+  color: color-mix(in srgb, #0a0a0a 40%, #ffffff) !important;
+  text-overflow: ellipsis;
+  font-family: Gabarito, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: 120%;
+  letter-spacing: -0.4px;
+  text-decoration-line: line-through;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.1em;
+}
+
+.product-info__price.custom-price-style .price-list compare-at-price.line-through {
   text-decoration: none !important;
 }
 

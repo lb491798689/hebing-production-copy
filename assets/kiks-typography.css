@@ -1,6 +1,6 @@
 /* Apply Variables */
-.product-info__price.custom-price-style span.money {
- color: #0D0D0D;
+.product-info__price.custom-price-style sale-price span.money {
+  color: #0D0D0D;
 }
 .h1, h1 ,.prose :is(h1) {
     /* font-family: var(--custom-font-family); */
