@@ -157,15 +157,15 @@
       margin: 0 !important;
       width: 100%;
       opacity: 0;
+      transform: translateY(-32px);
+      transition: none;
+      will-change: opacity, transform;
     }
 
-    /* Swiper 未初始化时（主题编辑器 block 显示/隐藏后 section 重载）先展示首屏文案 */
-    {{ default_sid }} .jingva-hero-slider:not(.swiper-initialized) .swiper-slide:first-child .jingva-hero-title,
-    {{ default_sid }} .swiper-slide-active .jingva-hero-title,
     {{ default_sid }} .jingva-hero-title.aos-animate {
       opacity: 1;
-      transition: opacity 0.4s ease 0.1s;
-      will-change: opacity;
+      transform: translateY(0);
+      transition: opacity 0.45s ease 0.08s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
     }
 
     {{ default_sid }} .jingva-hero-buttons {
@@ -174,14 +174,15 @@
       gap: 10px !important;
       margin-top: 0 !important;
       opacity: 0;
+      transform: translateY(-20px);
+      transition: none;
+      will-change: opacity, transform;
     }
 
-    {{ default_sid }} .jingva-hero-slider:not(.swiper-initialized) .swiper-slide:first-child .jingva-hero-buttons,
-    {{ default_sid }} .swiper-slide-active .jingva-hero-buttons,
     {{ default_sid }} .jingva-hero-buttons.aos-animate {
       opacity: 1;
-      transition: opacity 0.4s ease 0.15s;
-      will-change: opacity;
+      transform: translateY(0);
+      transition: opacity 0.45s ease 0.18s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
     }
 
     /* Figma：小圆角矩形（非胶囊）；主 Learn More 白底实色无边框，次 Buy Now 透明 + 白边白字 */
@@ -388,7 +389,12 @@
     @media (prefers-reduced-motion: reduce) {
       {{ default_sid }} .jingva-hero-title,
       {{ default_sid }} .jingva-hero-buttons {
+        transform: none !important;
         transition: none !important;
+      }
+      {{ default_sid }} .jingva-hero-title.aos-animate,
+      {{ default_sid }} .jingva-hero-buttons.aos-animate {
+        opacity: 1 !important;
       }
       {{ default_sid }} .jingva-hero-media__inner {
         transition: none !important;
@@ -563,6 +569,54 @@
     (function () {
       var sectionId = {{ section.id | json }};
       var sliderId = 'jingvaHeroSlider{{ sid }}';
+      var shopifySectionId = 'shopify-section-' + sectionId;
+
+      function hideSlideContent(slide) {
+        if (!slide) return;
+        slide.querySelectorAll('.jingva-hero-title, .jingva-hero-buttons').forEach(function (el) {
+          el.classList.remove('aos-animate');
+        });
+      }
+
+      function revealSlideContent(slide, btnDelay) {
+        if (!slide) return;
+        var title = slide.querySelector('.jingva-hero-title');
+        var buttons = slide.querySelector('.jingva-hero-buttons');
+
+        if (title) {
+          title.classList.remove('aos-animate');
+          void title.offsetWidth;
+          title.classList.add('aos-animate');
+        }
+
+        if (buttons) {
+          buttons.classList.remove('aos-animate');
+          void buttons.offsetWidth;
+          setTimeout(function () {
+            buttons.classList.add('aos-animate');
+          }, btnDelay == null ? 100 : btnDelay);
+        }
+      }
+
+      function resetSliderState(slider) {
+        if (slider.swiper) {
+          slider.swiper.destroy(true, true);
+        }
+
+        slider.classList.remove('swiper-initialized', 'swiper-horizontal', 'swiper-fade', 'swiper-watch-progress', 'swiper-backface-hidden');
+        slider.removeAttribute('style');
+
+        slider.querySelectorAll('.swiper-slide').forEach(function (slide) {
+          slide.removeAttribute('style');
+          slide.classList.remove(
+            'swiper-slide-active',
+            'swiper-slide-next',
+            'swiper-slide-prev',
+            'swiper-slide-visible',
+            'swiper-slide-fully-visible'
+          );
+        });
+      }
 
       function initJingvaHeroSlider() {
       var slider = document.getElementById(sliderId);
@@ -571,9 +625,7 @@
       var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
       if (total < 1) return;
 
-      if (slider.swiper) {
-        slider.swiper.destroy(true, true);
-      }
+      resetSliderState(slider);
 
       var autoplayEnabled = {{ autoplay | json }};
       var duration = {{ default_duration | times: 1000 }};
@@ -677,47 +729,27 @@
           afterInit: function (sw) {
             syncVideos(sw);
             updateDots(sw.realIndex);
-            
-            // 首屏直接显示
-            var firstSlide = sw.slides[sw.activeIndex];
-            if (firstSlide) {
-              var title = firstSlide.querySelector('.jingva-hero-title');
-              var buttons = firstSlide.querySelector('.jingva-hero-buttons');
-              if (title) title.classList.add('aos-animate');
-              if (buttons) buttons.classList.add('aos-animate');
-            }
+            setTimeout(function () {
+              revealSlideContent(sw.slides[sw.activeIndex]);
+            }, 50);
+          },
+          observerUpdate: function (sw) {
+            setTimeout(function () {
+              revealSlideContent(sw.slides[sw.activeIndex]);
+            }, 50);
           },
           slideChange: function (sw) {
-            // 切换开始的瞬间立即更新底部圆点指示器，避免动画结束后才高亮
             updateDots(sw.realIndex);
           },
           slideChangeTransitionStart: function (sw) {
-            // 切换开始时，隐藏所有幻灯片的文字内容
-            sw.slides.forEach(function(slide) {
-              var title = slide.querySelector('.jingva-hero-title');
-              var btns = slide.querySelector('.jingva-hero-buttons');
-              if (title) title.classList.remove('aos-animate');
-              if (btns) btns.classList.remove('aos-animate');
+            sw.slides.forEach(function (slide) {
+              hideSlideContent(slide);
             });
           },
           slideChangeTransitionEnd: function (sw) {
             syncVideos(sw);
-            
-            // 切换结束后，重新触发当前幻灯片的动画
-            var activeSlide = sw.slides[sw.activeIndex];
-            if (!activeSlide) return;
-            
-            var title = activeSlide.querySelector('.jingva-hero-title');
-            var btns = activeSlide.querySelector('.jingva-hero-buttons');
-            
-            // 使用 setTimeout 确保动画重新触发
-            setTimeout(function() {
-              if (title) title.classList.add('aos-animate');
-              if (btns) {
-                setTimeout(function() {
-                  btns.classList.add('aos-animate');
-                }, 100);
-              }
+            setTimeout(function () {
+              revealSlideContent(sw.slides[sw.activeIndex]);
             }, 50);
           }
         }
@@ -731,6 +763,11 @@
       }
 
       var swiper = new Swiper(slider, swiperOptions);
+
+      // 主题编辑器 section 重载后，兜底再触发一次淡入（防止 afterInit 时序问题）
+      setTimeout(function () {
+        revealSlideContent(swiper.slides[swiper.activeIndex]);
+      }, fadeMs + 80);
 
       function goToIndex(index) {
         if (enableLoop) {
@@ -771,7 +808,16 @@
       });
       }
 
-      function scheduleInit() {
+      function scheduleInit(retries) {
+        if (typeof Swiper === 'undefined') {
+          if (retries > 0) {
+            setTimeout(function () {
+              scheduleInit(retries - 1);
+            }, 100);
+          }
+          return;
+        }
+
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', initJingvaHeroSlider);
         } else {
@@ -779,13 +825,53 @@
         }
       }
 
-      scheduleInit();
+      function handleBlockSelect(event) {
+        var section = event.target.closest('#' + shopifySectionId);
+        if (!section) return;
+
+        var slider = section.querySelector('#' + sliderId);
+        if (!slider) return;
+
+        var slide = event.target.classList.contains('swiper-slide')
+          ? event.target
+          : event.target.closest('.swiper-slide');
+
+        if (!slide || !slider.contains(slide)) return;
+
+        var index = parseInt(slide.getAttribute('data-index') || '0', 10);
+        var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
+        var useLoop = total > 1;
+
+        if (slider.swiper) {
+          if (useLoop) {
+            slider.swiper.slideToLoop(index, 0);
+          } else {
+            slider.swiper.slideTo(index, 0);
+          }
+          revealSlideContent(slider.swiper.slides[slider.swiper.activeIndex]);
+        } else {
+          revealSlideContent(slide);
+        }
+      }
+
+      scheduleInit(30);
 
       document.addEventListener('shopify:section:load', function (event) {
-        if (event.target && event.target.id === 'shopify-section-' + sectionId) {
-          initJingvaHeroSlider();
+        if (event.target && event.target.id === shopifySectionId) {
+          requestAnimationFrame(function () {
+            scheduleInit(30);
+          });
         }
       });
+
+      document.addEventListener('shopify:section:unload', function (event) {
+        if (event.target && event.target.id === shopifySectionId) {
+          var slider = event.target.querySelector('#' + sliderId);
+          if (slider) resetSliderState(slider);
+        }
+      });
+
+      document.addEventListener('shopify:block:select', handleBlockSelect);
     })();
   </script>
 </section>
