@@ -55,7 +55,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      z-index: 10;
+      z-index: 3;
     }
 
     /* 背景图/视频：hover 轻微放大 + 遮罩（精细指针设备启用，避免移动端误触） */
@@ -128,7 +128,7 @@
       align-items: center;
       padding: 144px 0 120px;
       box-sizing: border-box;
-      z-index: 2;
+      z-index: 5;
     }
 
     @media screen and (max-width: 1279px) {
@@ -158,34 +158,11 @@
       width: 100%;
     }
 
-    /* 仅在 Swiper 切换过渡期间隐藏文字（由 JS 动态控制） */
-    {{ default_sid }} .jingva-hero-title.is-hiding {
-      opacity: 0;
-      transition: opacity 0.15s ease;
-    }
-
-    {{ default_sid }} .jingva-hero-title.is-showing {
-      opacity: 1;
-      transition: opacity 0.4s ease 0.1s;
-      will-change: opacity;
-    }
-
     {{ default_sid }} .jingva-hero-buttons {
       display: flex !important;
       justify-content: center !important;
       gap: 10px !important;
       margin-top: 0 !important;
-    }
-
-    {{ default_sid }} .jingva-hero-buttons.is-hiding {
-      opacity: 0;
-      transition: opacity 0.15s ease;
-    }
-
-    {{ default_sid }} .jingva-hero-buttons.is-showing {
-      opacity: 1;
-      transition: opacity 0.4s ease 0.15s;
-      will-change: opacity;
     }
 
     /* Figma：小圆角矩形（非胶囊）；主 Learn More 白底实色无边框，次 Buy Now 透明 + 白边白字 */
@@ -673,47 +650,12 @@
           afterInit: function (sw) {
             syncVideos(sw);
             updateDots(sw.realIndex);
-            // 标题和按钮默认已可见，无需额外处理
           },
           slideChange: function (sw) {
-            // 切换开始的瞬间立即更新底部圆点指示器
             updateDots(sw.realIndex);
-          },
-          slideChangeTransitionStart: function (sw) {
-            // 切换开始时，临时隐藏当前幻灯片的文字（淡出效果）
-            var activeSlide = sw.slides[sw.activeIndex];
-            if (!activeSlide) return;
-            var title = activeSlide.querySelector('.jingva-hero-title');
-            var btns = activeSlide.querySelector('.jingva-hero-buttons');
-            if (title) title.classList.add('is-hiding');
-            if (btns) btns.classList.add('is-hiding');
           },
           slideChangeTransitionEnd: function (sw) {
             syncVideos(sw);
-            
-            var activeSlide = sw.slides[sw.activeIndex];
-            if (!activeSlide) return;
-            
-            var title = activeSlide.querySelector('.jingva-hero-title');
-            var btns = activeSlide.querySelector('.jingva-hero-buttons');
-            
-            // 移除 hiding，添加 showing 触发淡入
-            if (title) {
-              title.classList.remove('is-hiding');
-              title.classList.add('is-showing');
-            }
-            if (btns) {
-              btns.classList.remove('is-hiding');
-              setTimeout(function() {
-                btns.classList.add('is-showing');
-              }, 100);
-            }
-            
-            // 动画结束后清理 showing class（避免残留）
-            setTimeout(function() {
-              if (title) title.classList.remove('is-showing');
-              if (btns) btns.classList.remove('is-showing');
-            }, 600);
           }
         }
       };
