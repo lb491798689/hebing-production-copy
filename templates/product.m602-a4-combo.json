@@ -711,7 +711,7 @@
         "video_hpEy7E": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/Dual-Fan Ventilation Cooling.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -765,7 +765,7 @@
         "video_ipgPia": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/M6_Air-conditioned Seat.mp4",
+            "video": "",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -792,7 +792,7 @@
         "video_rdyVa7": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,

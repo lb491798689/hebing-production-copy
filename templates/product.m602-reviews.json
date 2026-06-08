@@ -406,7 +406,7 @@
         "video_L8pYJi": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/压缩1.mp4",
+            "video": "",
             "video_url": "",
             "title": "Ventilation & Heating",
             "content": "Stay comfy year-round with 3-level climate control. Dual fans cool to 66°F for focus, while heating warms to 122°F for relaxation—adapting to your needs in any weather."
@@ -415,7 +415,7 @@
         "video_G8JMQp": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/anmo.mp4",
+            "video": "",
             "video_url": "",
             "title": "Massage",
             "content": "The lumbar support also includes a built-in massage feature with two high-frequency vibration motors to keep you relaxed and comfortable during long gaming or work sessions."
@@ -432,7 +432,7 @@
         "video_hEd94T": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/4月28日(1).mp4",
+            "video": "",
             "video_url": "",
             "title": "360° Armrests",
             "content": "Rotate 360° horizontally, tilt 40° inward/outward, and adjust height (3.54 inches) and depth (2.75 inches) for customized ergonomic support."
@@ -441,7 +441,7 @@
         "video_WYccT3": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/4月28日.mp4",
+            "video": "",
             "video_url": "",
             "title": "3D Pillow",
             "content": "The newly designed fixed 3D headrest offers individual support adjustments on both sides, with a 60° angle of adjustment."
@@ -971,7 +971,7 @@
         "allow_transparent_header": false,
         "autoplay": false,
         "video_size": "auto",
-        "video": "shopify://files/videos/250707-白无咎-白千一-海外实验室视频.mp4",
+        "video": "",
         "external_video_url": "",
         "poster": "shopify://shop_images/2025-07-05_110155_894.png",
         "mobile_text_position": "place-self-center text-center",

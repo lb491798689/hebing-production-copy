@@ -506,9 +506,9 @@
             "title": "Armrest Adjustment",
             "description": "<p>Armrest Adjustment: Supports 70mm height adjustment, 60mm front-to-back adjustment, 360° surface rotation, 360° handle rotation, and a 4-level flip-up adjustment up to 39°. Perfect arm support for PC gaming, mobile gaming, or resting.</p>",
             "bg_pc": "shopify://shop_images/Rectangle_24_7.webp",
-            "video_pc": "shopify://files/videos/G7_Armrest Adjustment_H.264.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/Frame_1973771812.webp",
-            "video_mob": "shopify://files/videos/G7_Armrest Adjustment_H.264.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_fnhGh4": {
@@ -517,9 +517,9 @@
             "title": "90° to 140°",
             "description": "<p>90° to 140°: Auto-balance mechanism ensures smooth motion regardless of body type.<br/>Lean back or sit up effortlessly. Includes 4-level locking for work, media, or napping. Integrated cable-controlled levers allow for height, depth, and recline adjustments without bending over.</p>",
             "bg_pc": "shopify://shop_images/The_Recline_Perfected_PC.jpg",
-            "video_pc": "shopify://files/videos/G7_90° to 140°_397d30d1-01ec-4b21-bc84-7c5878481ee1.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/The_Recline_Perfected_mob.jpg",
-            "video_mob": "shopify://files/videos/G7_90° to 140°_397d30d1-01ec-4b21-bc84-7c5878481ee1.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_AzQY9R": {
@@ -582,9 +582,9 @@
             "description": "Experience precision control with 8-way smart floating wings—featuring 40° left/right swivel, a 14° adaptive cradle, and micro-adjustments (1mm front/back, 1.6mm up/down). Engineered for dimensional accuracy in every task.",
             "media_type": "video",
             "pc_image": "shopify://shop_images/2_02_webp_1_fcad598a-2639-457d-9b35-413633571a1e.webp",
-            "pc_video": "shopify://files/videos/G7_Lumbar support_5ee29dc1-f2d1-4de6-a3cc-8af236f9a5f6.mp4",
+            "pc_video": "",
             "mob_image": "shopify://shop_images/2_02_webp_166dabf1-9cd5-4215-972e-3ced91ea7386.webp",
-            "mob_video": "shopify://files/videos/G7_Lumbar support_5ee29dc1-f2d1-4de6-a3cc-8af236f9a5f6.mp4"
+            "mob_video": ""
           }
         }
       },
@@ -683,8 +683,8 @@
         "description": "",
         "pc_image": "shopify://shop_images/High-Quality_Custom_Mech_PC.jpg",
         "mob_image": "shopify://shop_images/High-Quality_Custom_Mech_mob.jpg",
-        "pc_video": "shopify://files/videos/G7 ID-Back_H.264_2fdf86f5-4500-48f7-8afb-7878d06c8182.mp4",
-        "mob_video": "shopify://files/videos/G7 ID-Back_H.264_2fdf86f5-4500-48f7-8afb-7878d06c8182.mp4",
+        "pc_video": "",
+        "mob_video": "",
         "bg_color": "#FFFFFF",
         "title_color": "#0A0A0A",
         "padding_top": 140,
@@ -994,8 +994,8 @@
         "description": "",
         "pc_image": "shopify://shop_images/10_webp_1_0f2e82ab-3ac4-4040-bfc2-8d8adf19ad32.webp",
         "mob_image": "shopify://shop_images/10_webp_e7c589de-0513-4dd4-817b-2d0cd536fd41.webp",
-        "pc_video": "shopify://files/videos/The Recline, Perfected..mp4",
-        "mob_video": "shopify://files/videos/The Recline, Perfected..mp4",
+        "pc_video": "",
+        "mob_video": "",
         "bg_color": "#FFFFFF",
         "title_color": "#0A0A0A",
         "padding_top": 140,

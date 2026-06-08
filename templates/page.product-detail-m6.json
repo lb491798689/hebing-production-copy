@@ -14,8 +14,8 @@
       "settings": {
         "hero_image": "shopify://shop_images/0_KV_webp_8626b7a9-6aa4-4464-9dca-1d58f35c2e7a.webp",
         "hero_mobile_image": "shopify://shop_images/0KV_webp_ab7454f9-dceb-4e0f-8207-4dcb63aa8f97.webp",
-        "pc_video": "shopify://files/videos/飞书20260510-222741.mp4",
-        "mob_video": "shopify://files/videos/飞书20260510-222741.mp4",
+        "pc_video": "",
+        "mob_video": "",
         "title": "AutoFull M6 Ultra 2.0 Gaming Chair",
         "desktop_subtitle": "<p>MASSAGING LUMBAR<br/>COOLING SEATS</p>",
         "mobile_subtitle": "<p>Massaging<br/>Lumbar<br/>Cooling Seat</p>",
@@ -126,9 +126,9 @@
             "title": "Dynamic Lumbar Support",
             "description": "<p>Adaptive support that moves with you, featuring 6-direction adjustability designed to track and align with your posture.</p>",
             "bg_pc": "shopify://shop_images/1_02_webp_1_fc26e7fa-144e-4966-bcda-26a3d9706788.webp",
-            "video_pc": "shopify://files/videos/M6_lumbar support.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_02_webp_ad7e52a3-afc1-4411-b9ac-c12ac2d8df42.webp",
-            "video_mob": "shopify://files/videos/M6_lumbar support.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_xCUMKt": {
@@ -137,9 +137,9 @@
             "title": "Built-in Back & Leg Massage",
             "description": "<p>Integrated dual high-frequency massage motors in the lumbar and seat cushions deliver rhythmic pulses across the lower back, hips, glutes, and thighs. The system helps stimulate circulation and reduce numbness during extended gaming or work sessions.</p>",
             "bg_pc": "shopify://shop_images/1_03_webp_1_c71fc55d-6448-481c-a41d-6e7a3362fb6a.webp",
-            "video_pc": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_03_webp_015e22dd-e85b-4b3c-b9ca-74e7541031a4.webp",
-            "video_mob": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_6hcqj6": {
@@ -148,9 +148,9 @@
             "title": "Active Cooling & Heating",
             "description": "<p>Improves airflow and reduce heat buildup, lowering seat temperature by 56%, or increasing seat temperature by up to 67%.</p>",
             "bg_pc": "shopify://shop_images/1_04_webp_1_e276c6da-c51a-485b-94ed-60c4bedde3e9.webp",
-            "video_pc": "shopify://files/videos/M602_KSP_1_03_Air-conditioned Seat.webm",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_04_webp_c9f495c3-d20f-4f9f-8d43-e08926968bd3.webp",
-            "video_mob": "shopify://files/videos/M6_Air-conditioned Seat_13a22004-fcea-4bd8-bd45-ce7811406143.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_66MqDg": {
@@ -222,9 +222,9 @@
             "title": "Adaptive Lumbar Support",
             "description": "<p>Smart lumbar support senses your posture in real time with 6-way dynamic tracking, relieving long-hour sitting fatigue.</p>",
             "bg_pc": "shopify://shop_images/1_02_webp_1_44123722-ca77-4924-9512-8e481f3a88ae.webp",
-            "video_pc": "shopify://files/videos/M6_lumbar support.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_02_webp_007ea26c-e793-44e6-ae3f-214d727e84c4.webp",
-            "video_mob": "shopify://files/videos/M6_lumbar support.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_qWa8wQ": {
@@ -233,9 +233,9 @@
             "title": "Lumbar Massage",
             "description": "<p>High-frequency deep massage releases tension instantly.</p>",
             "bg_pc": "shopify://shop_images/1_03_webp_1_4409280f-6fa6-40a5-b63c-b7c852fb67f2.webp",
-            "video_pc": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_03_webp_015e22dd-e85b-4b3c-b9ca-74e7541031a4.webp",
-            "video_mob": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_WChiCB": {
@@ -244,9 +244,9 @@
             "title": "Air-conditioned Seat",
             "description": "<p>Ventilation, heating, and massage in one — year-round comfort at a touch, keeping you relaxed even during extended sessions.</p>",
             "bg_pc": "shopify://shop_images/1_04_webp_1_c0f87a26-6d82-4c0b-bad8-9a38ab055dc6.webp",
-            "video_pc": "shopify://files/videos/M6_Air-conditioned Seat_13a22004-fcea-4bd8-bd45-ce7811406143.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_04_webp_edddc103-cb21-4955-afde-779db0b07db0.webp",
-            "video_mob": "shopify://files/videos/M6_Air-conditioned Seat_13a22004-fcea-4bd8-bd45-ce7811406143.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_X6iaE8": {
@@ -321,8 +321,8 @@
         "padding_top_mob": 68,
         "pc_image": "shopify://shop_images/2_webp_1.webp",
         "mob_image": "shopify://shop_images/2_webp.webp",
-        "pc_video": "shopify://files/videos/飞书20260510-214850.mp4",
-        "mob_video": "shopify://files/videos/飞书20260510-214850.mp4",
+        "pc_video": "",
+        "mob_video": "",
         "feature_1": "Front/Back Adjustment 6 levels, 6cm Travel",
         "feature_2": "Height Adjustment 5cm Adaptive",
         "feature_3": "Rotation Adjustment 5° Adaptive",
@@ -341,14 +341,14 @@
         "tab1_label": "Vibration Massage",
         "tab1_pc_img": "shopify://shop_images/3_01_webp_1_ddc4c31f-caa5-4df9-be56-19f1b0ac196e.webp",
         "tab1_mob_img": "shopify://shop_images/3_01_webp_51e9ce94-083d-4029-ab95-1d9bde2d8dff.webp",
-        "tab1_pc_video": "shopify://files/videos/M6_Massagemp4.mp4",
-        "tab1_mob_video": "shopify://files/videos/M6_Massagemp4.mp4",
+        "tab1_pc_video": "",
+        "tab1_mob_video": "",
         "tab1_text": "3 intensity levels, promotes blood circulation and relieves sitting fatigue",
         "tab2_label": "Dual-Drive Ventilation",
         "tab2_pc_img": "shopify://shop_images/3_02_webp_1_d8a12a51-4b40-4abf-9927-f3071df5d1ac.webp",
         "tab2_mob_img": "shopify://shop_images/3_02_webp_c733f2f2-9ea4-43c8-a69c-2767ece236a2.webp",
-        "tab2_pc_video": "shopify://files/videos/M6_Air-conditioned Seat.mp4",
-        "tab2_mob_video": "shopify://files/videos/M6_Air-conditioned Seat.mp4",
+        "tab2_pc_video": "",
+        "tab2_mob_video": "",
         "tab2_text": "71.8cm³/min airflow | push-pull dual circulation for active cooling",
         "tab3_label": "Seat Heating",
         "tab3_pc_img": "shopify://shop_images/3_03_webp_1_5b3dd41d-8d4e-41c2-8855-5ea14f8f9a63.webp",

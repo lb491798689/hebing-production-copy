@@ -172,9 +172,9 @@
             "title": "90° to 140°",
             "description": "<p>90° to 140°: Auto-balance mechanism ensures smooth motion regardless of body type. Lean back or sit up effortlessly. Includes 4-level locking for work, media, or napping. Integrated cable-controlled levers allow for height, depth, and recline adjustments without bending over.</p>",
             "bg_pc": "shopify://shop_images/Rectangle_24_8.webp",
-            "video_pc": "shopify://files/videos/G7_90° to 140°_397d30d1-01ec-4b21-bc84-7c5878481ee1.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/Frame_1973771852_597f2c20-c11e-4615-8282-6f74bca99681.png",
-            "video_mob": "shopify://files/videos/G7_90° to 140°_397d30d1-01ec-4b21-bc84-7c5878481ee1.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_AzQY9R": {
@@ -237,9 +237,9 @@
             "description": "Vertical slide: 6 levels, 4cm | Horizontal slide: 5 levels, 3cm, lockable | Rotation: 12° adaptive | Vertical slide: 2cm adaptive | Side wings: inward/outward fold 40°",
             "media_type": "video",
             "pc_image": "shopify://shop_images/2_02_webp_1.webp",
-            "pc_video": "shopify://files/videos/G7_Lumbar support.mp4",
+            "pc_video": "",
             "mob_image": "shopify://shop_images/2_02_webp.webp",
-            "mob_video": "shopify://files/videos/G7_Lumbar support.mp4"
+            "mob_video": ""
           }
         }
       },
@@ -716,7 +716,7 @@
         "description": "<p>The backrest intuitively adjusts to your body weight and posture. Lean into it slightly, and it glides smoothly back with just the right resistance. Getting up is just as effortless. Lighter frames enjoy easy recline, while a solid build delivers even more stability. From sitting to leaning back to rising—every move feels natural, intuitive, and entirely your own.</p>",
         "pc_image": "shopify://shop_images/10_webp_1.webp",
         "mob_image": "shopify://shop_images/10_webp.webp",
-        "pc_video": "shopify://files/videos/G7_90° to 140°.mp4",
+        "pc_video": "",
         "bg_color": "#121B2C",
         "title_color": "#ffffff",
         "padding_top": 160,
@@ -768,8 +768,8 @@
         "subtitle": "",
         "description": "<p>Exceeds BIFMA standards, surpassing national requirements. Rigorously tested: 100,000 caster cycles, 120,000 backrest recline cycles, 60,000 armrest cycles, 120,000 gas lift cycles, 120,000 swivel cycles. Backed by a 3-year warranty engineered for reliability, supported with peace of mind.</p>",
         "mob_description": "<p>Strictly adhering to BIFMA international standards, the chair has passed rigorous 10-year simulated lifespan testing for long-lasting reliability. Specific tests include 100,000 caster cycles, 120,000 backrest recline cycles, and 600,000 armrest cycles. <br/>Comprehensive durability testing includes 120,000 gas lift cycles and 120,000 rotation fatigue cycles, ensuring every component is built to last. For after-sales, we provide a 3-year warranty and a special Lifetime Warranty for the AutoFull chair frame, demonstrating our confidence in the quality of the core structure.</p>",
-        "pc_video_file": "shopify://files/videos/G7 ID.mp4",
-        "mob_video_file": "shopify://files/videos/G7 ID.mp4",
+        "pc_video_file": "",
+        "mob_video_file": "",
         "pc_image": "shopify://shop_images/12_webp_1.webp",
         "mob_image": "shopify://shop_images/12_webp.webp",
         "logo_image": "shopify://shop_images/image_558.png"

@@ -250,7 +250,7 @@
         "item_DbwDGz": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/21 - Trim.mp4",
+            "video": "",
             "column_size": "3",
             "title": "Adaptive Lumbar Support",
             "heading_tag": "h5",
@@ -263,7 +263,7 @@
         "item_Pfmj4H": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/8 - Trim.mp4",
+            "video": "",
             "column_size": "3",
             "title": "720° Dual-Axis Rotating Armrests",
             "heading_tag": "h5",
@@ -276,7 +276,7 @@
         "item_UcxCqz": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/6.mp4",
+            "video": "",
             "column_size": "3",
             "title": "4D Dual-Axis Cervical Support Pillow",
             "heading_tag": "h5",

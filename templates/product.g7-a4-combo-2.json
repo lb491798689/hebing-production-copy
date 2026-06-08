@@ -778,7 +778,7 @@
         "item_bf7J9p": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/2 - Trim (2).mp4",
+            "video": "",
             "column_size": "3",
             "title": "Adaptive Lumbar Support",
             "small_heading_color": "#ffffff",
@@ -793,7 +793,7 @@
           "type": "item",
           "settings": {
             "image": "shopify://shop_images/3_-_frame_at_0m1s.jpg",
-            "video": "shopify://files/videos/3 (1).mp4",
+            "video": "",
             "column_size": "3",
             "title": "Three-Zone Lumbar Encapsulation",
             "small_heading_color": "#ffffff",
@@ -807,7 +807,7 @@
         "item_mBUPqm": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/21 - Trim (2).mp4",
+            "video": "",
             "column_size": "3",
             "title": "Ergonomic Zoning Design",
             "small_heading_color": "#ffffff",
@@ -926,7 +926,7 @@
         "video_ebPpje": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/8 - Trim (2).mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -953,7 +953,7 @@
         "video_9gWnVb": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/6 (1).mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -980,7 +980,7 @@
         "video_88kHDj": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/7 - Trim (2).mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,

@@ -613,7 +613,7 @@
         "video_wgDgti": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail1.mp4",
+            "video": "",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -641,7 +641,7 @@
         "video_X9Uwxp": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail3.mp4",
+            "video": "",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -669,7 +669,7 @@
         "video_PHjALx": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/detail2.mp4",
+            "video": "",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -795,8 +795,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/bbb_b29d8ed4-a5df-40d3-84bd-32436feef7b7.mp4",
-            "video_mp4_mb": "shopify://files/videos/11月2日.mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1013,8 +1013,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/10.801 (1).mp4",
-            "video_mp4_mb": "shopify://files/videos/10.801.mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1263,8 +1263,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/20251107-144111.mp4",
-            "video_mp4_mb": "shopify://files/videos/11月2日(3).mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "",
             "video_link_mb": "",
             "content_layout": "1",
@@ -1407,7 +1407,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_4.jpg",
-            "video": "shopify://files/videos/videoplayback (8) - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=3KL-hg4stkw",
             "title": "",
             "subtitle": "",
@@ -1419,7 +1419,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/maxresdefault_2.jpg",
-            "video": "shopify://files/videos/Autofull M6 Ultra vs. G7 – Welcher Gaming-Stuhl ist besser _moschuss.de - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=8Wf317ffrl8&t=18s",
             "title": "",
             "subtitle": "",
@@ -1431,7 +1431,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_1.jpg",
-            "video": "shopify://files/videos/videoplayback (7) - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=tqPxdl265oY",
             "title": "",
             "subtitle": "",
@@ -1443,7 +1443,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/hqdefault_3.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=wpSFeFgkNd4",
             "title": "",
             "subtitle": "",
@@ -1455,7 +1455,7 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/maxresdefault_1.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=85GUNCi41To",
             "title": "",
             "subtitle": "",
@@ -1501,7 +1501,7 @@
         "slide_dyGgJc": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频1 M6 ultra.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=E0HD2M4-v2U",
             "title": "",
             "subtitle": "",
@@ -1512,7 +1512,7 @@
         "slide_ecXhNy": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频3 M6 ultra.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=rtLOFLh1bbY&t=1s",
             "title": "",
             "subtitle": "",
@@ -1523,7 +1523,7 @@
         "slide_cXtgJE": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频4 M6 ultra.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=rtLOFLh1bbY&t=1s",
             "title": "",
             "subtitle": "",
@@ -1534,7 +1534,7 @@
         "slide_npBz3N": {
           "type": "slide",
           "settings": {
-            "video": "shopify://files/videos/视频2 M6 ultra.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=tjPwU9TcM54",
             "title": "",
             "subtitle": "",
@@ -1547,7 +1547,7 @@
           "disabled": true,
           "settings": {
             "image": "shopify://shop_images/maxresdefault_1.jpg",
-            "video": "shopify://files/videos/This Gaming Chair Has a Built-in Fan – Perfect for Summer! - Autofull M6 Ultra R - Trim.mp4",
+            "video": "",
             "external_video_url_desktop": "https://www.youtube.com/watch?v=85GUNCi41To",
             "title": "",
             "subtitle": "",

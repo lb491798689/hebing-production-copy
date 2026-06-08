@@ -54,7 +54,7 @@
       "type": "blog-banner",
       "name": "Blog banner",
       "settings": {
-        "video": "shopify://files/videos/logo演绎终稿20M.mp4",
+        "video": "",
         "title": "News",
         "desc": "Get access to our latest news by signing up for our newsletter.",
         "show_subscribe": true

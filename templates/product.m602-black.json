@@ -709,7 +709,7 @@
         "video_hpEy7E": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/5月14日_91ccb9a8-bbb4-48b9-b4c7-28320d398f78.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -763,7 +763,7 @@
         "video_ipgPia": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/5月14日(2)_338193c6-e4db-4e8c-a007-05680548f170.mp4",
+            "video": "",
             "external_video_url": "",
             "autoplay": true,
             "media_width": 50,
@@ -790,7 +790,7 @@
         "video_rdyVa7": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/飞书20250822-153012.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,

@@ -527,7 +527,7 @@
         "video_43TFPg": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/腰托.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -555,7 +555,7 @@
         "video_Db3Far": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/1扶手调节.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -583,7 +583,7 @@
         "video_EH3YPt": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/可拆卸背甲.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -781,8 +781,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/后仰_1dfadbf0-fdeb-4cd8-b0de-1c2f7b19ac7d.mp4",
-            "video_mp4_mb": "shopify://files/videos/后仰_1dfadbf0-fdeb-4cd8-b0de-1c2f7b19ac7d (1).mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -992,8 +992,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/1扶手调节 (1).mp4",
-            "video_mp4_mb": "shopify://files/videos/1扶手调节 (1).mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1203,8 +1203,8 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/头枕调节.mp4",
-            "video_mp4_mb": "shopify://files/videos/头枕调节.mp4",
+            "video_mp4": "",
+            "video_mp4_mb": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",

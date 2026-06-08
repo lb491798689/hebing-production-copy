@@ -25,7 +25,7 @@
       "type": "iem-banner",
       "name": "IEM Banner",
       "settings": {
-        "video": "shopify://files/videos/20260510-134220.mp4",
+        "video": "",
         "title": "AutoFull x IEM Cologne 2026\nOfficial Chair Partner",
         "desc": "Bringing comfort, support, and durability to 16 of the world's top CS2 teams. From the practice room to the championship stage, every AutoFull chair is engineered for victory. This May in Atlanta - take your seat with us."
       }
@@ -170,7 +170,7 @@
       "type": "iem-tech",
       "name": "IEM Tech",
       "settings": {
-        "video": "shopify://files/videos/Redefining.mp4",
+        "video": "",
         "title": "Redefining Lumbar Support\nwith 8D Dual-Core Kinetic Technology",
         "desc": "The M6 Ultra is not just a chair. It is a high-performance recovery suit for pro-players and creators. We’ve replaced passive support with an Active Restoration System, ensuring your lumbar stays in peak condition through every clutch moment.",
         "padding_top": 140,
@@ -185,7 +185,7 @@
         "feature_VBCptq": {
           "type": "feature",
           "settings": {
-            "video": "shopify://files/videos/背部贴合.mp4",
+            "video": "",
             "title": "Total-Surround Lumbar Armor: Precision Support, Zero Gaps",
             "desc": "The expansive 3D wrap-around design covers the entire lower back, increasing contact area by over 50% to redistribute pressure and eliminate gaps. This high-fidelity fit cradles every inch of your lumbar, providing the ultimate stability for long-time gaming and high-intensity work."
           }
@@ -193,7 +193,7 @@
         "feature_JWqtpp": {
           "type": "feature",
           "settings": {
-            "video": "shopify://files/videos/Dual-Fan Ventilation Cooling.mp4",
+            "video": "",
             "title": "Dual-Fan Ventilation Cooling",
             "desc": "Dual built-in fans cool the seat cushion and help reduce sweating, lowering seat temperature by up to 56%."
           }
@@ -201,7 +201,7 @@
         "feature_EP8dyq": {
           "type": "feature",
           "settings": {
-            "video": "shopify://files/videos/Seat Heating System.mp4",
+            "video": "",
             "title": "Seat Heating System",
             "desc": "Increase seat temperature by up to 67% for warm, comfortable winter use."
           }
@@ -209,7 +209,7 @@
         "feature_xh7daw": {
           "type": "feature",
           "settings": {
-            "video": "shopify://files/videos/720° Mechanical Arms.mp4",
+            "video": "",
             "title": "720° Mechanical Arms",
             "desc": "Maximize your performance with 720° Mechanical Arms, offering unobstructed support through 65mm height, 40mm depth, and 20° fold-up adjustments. With 720° main and 40° secondary axis rotation, this system provides professional symmetrical/asymmetrical support for PC gaming and stabilized elbow support for mobile and console play."
           }

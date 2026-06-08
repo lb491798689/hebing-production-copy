@@ -492,9 +492,9 @@
             "title": "Dynamic Lumbar Support",
             "description": "<p>Adaptive support that moves with you, featuring 6-direction adjustability designed to track and align with your posture.</p>",
             "bg_pc": "shopify://shop_images/1_02_webp_1_fc26e7fa-144e-4966-bcda-26a3d9706788.webp",
-            "video_pc": "shopify://files/videos/M6_lumbar support.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_02_webp_ad7e52a3-afc1-4411-b9ac-c12ac2d8df42.webp",
-            "video_mob": "shopify://files/videos/M6_lumbar support.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_NQmAyb": {
@@ -503,9 +503,9 @@
             "title": "Built-in Back & Leg Massage",
             "description": "<p>Integrated dual high-frequency massage motors in the lumbar and seat cushions deliver rhythmic pulses across the lower back, hips, glutes, and thighs. The system helps stimulate circulation and reduce numbness during extended gaming or work sessions.</p>",
             "bg_pc": "shopify://shop_images/1_03_webp_1_c71fc55d-6448-481c-a41d-6e7a3362fb6a.webp",
-            "video_pc": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_03_webp_015e22dd-e85b-4b3c-b9ca-74e7541031a4.webp",
-            "video_mob": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_eqLjaH": {
@@ -514,9 +514,9 @@
             "title": "Active Cooling & Heating",
             "description": "<p>Improves airflow and reduce heat buildup, lowering seat temperature by 56%, or increasing seat temperature by up to 67%.</p>",
             "bg_pc": "shopify://shop_images/1_04_webp_1_e276c6da-c51a-485b-94ed-60c4bedde3e9.webp",
-            "video_pc": "shopify://files/videos/M602_KSP_1_03_Air-conditioned Seat.webm",
+            "video_pc": "",
             "bg_mob": "shopify://shop_images/1_04_webp_c9f495c3-d20f-4f9f-8d43-e08926968bd3.webp",
-            "video_mob": "shopify://files/videos/M6_Air-conditioned Seat_13a22004-fcea-4bd8-bd45-ce7811406143.mp4"
+            "video_mob": ""
           }
         },
         "highlight_item_fnhGh4": {
@@ -584,8 +584,8 @@
         "padding_top_mob": 96,
         "pc_image": "shopify://shop_images/2_webp_1_00043cef-8ba1-4604-ba84-20f399763b9e.webp",
         "mob_image": "shopify://shop_images/2_webp_15d75d73-db48-4e39-bc69-98ddf2e30ca2.webp",
-        "pc_video": "shopify://files/videos/M6_lumbar support.mp4",
-        "mob_video": "shopify://files/videos/M6_lumbar support.mp4",
+        "pc_video": "",
+        "mob_video": "",
         "feature_1": "",
         "feature_2": "",
         "feature_3": "",
@@ -604,14 +604,14 @@
         "tab1_label": "Vibration Massage",
         "tab1_pc_img": "shopify://shop_images/3_01_webp_1_29f02617-5156-481c-9172-828acec5450f.webp",
         "tab1_mob_img": "shopify://shop_images/3_01_webp_9669dd9b-f075-4d0f-8313-24e3af3f5994.webp",
-        "tab1_pc_video": "shopify://files/videos/M6_Massagemp4.mp4",
-        "tab1_mob_video": "shopify://files/videos/M6_Massagemp4.mp4",
+        "tab1_pc_video": "",
+        "tab1_mob_video": "",
         "tab1_text": "",
         "tab2_label": "Dual-fan Active Cooling",
         "tab2_pc_img": "shopify://shop_images/3_02_webp_1_4c204706-40d7-4609-a765-55e0b6811a49.webp",
         "tab2_mob_img": "shopify://shop_images/3_02_webp_f49c66b7-d119-4b73-bd5e-9c847db6852a.webp",
-        "tab2_pc_video": "shopify://files/videos/3_02_Dual-Drive Ventilation.webm",
-        "tab2_mob_video": "shopify://files/videos/3_02_Dual-Drive Ventilation.webm",
+        "tab2_pc_video": "",
+        "tab2_mob_video": "",
         "tab2_text": "",
         "tab3_label": "Seat Heating",
         "tab3_pc_img": "shopify://shop_images/3_03_webp_1_882b723d-7375-4047-b162-3ed877f29921.webp",

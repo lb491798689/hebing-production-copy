@@ -759,7 +759,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/1920-1080模块.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -832,7 +832,7 @@
         "item_h4DazN": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/上传850-600.mp4",
+            "video": "",
             "column_size": "2",
             "title": "Ultra+ 2.0",
             "small_heading_color": "#ffb74a",
@@ -846,7 +846,7 @@
         "item_fPLa9e": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/上传850-600_6f80950a-bae5-466f-9297-40f1ec9d7dbc.mp4",
+            "video": "",
             "column_size": "2",
             "title": "Ultra 2.0",
             "small_heading_color": "#ffffff",
@@ -888,7 +888,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1440-600.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1028,7 +1028,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1440-630.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1102,7 +1102,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/坐垫1440-630.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1175,7 +1175,7 @@
         "item_Vwf3jz": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/800-800冷上传.mp4",
+            "video": "",
             "column_size": "2",
             "title": "Dual fan ventilation",
             "small_heading_color": "#ffffff",
@@ -1189,7 +1189,7 @@
         "item_8PWn6N": {
           "type": "item",
           "settings": {
-            "video": "shopify://files/videos/800-800热上传.mp4",
+            "video": "",
             "column_size": "2",
             "title": "Graphene heating",
             "small_heading_color": "#ffffff",
@@ -1230,7 +1230,7 @@
         "video_WXQYpC": {
           "type": "video",
           "settings": {
-            "video": "shopify://files/videos/800-800腿震动上传.mp4",
+            "video": "",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -1280,7 +1280,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/头枕1440-630.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
@@ -1581,7 +1581,7 @@
           "type": "slide",
           "settings": {
             "type": "mp4",
-            "video_mp4": "shopify://files/videos/上传1464-600.mp4",
+            "video_mp4": "",
             "video_link": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "video_link_mb": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "content_layout": "1",
