@@ -128,7 +128,13 @@
       align-items: center;
       padding: 144px 0 120px;
       box-sizing: border-box;
-      z-index: 2;
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    {{ default_sid }} .jingva-hero-content a,
+    {{ default_sid }} .jingva-hero-content button {
+      pointer-events: auto;
     }
 
     @media screen and (max-width: 1279px) {
@@ -191,6 +197,39 @@
       transform: translateY(0);
       transition: opacity 0.45s ease 0.18s, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.18s;
     }
+
+    {% if request.design_mode %}
+    @keyframes jingvaHeroTitleIn {
+      from {
+        opacity: 0;
+        transform: translateY(-32px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes jingvaHeroButtonsIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 主题编辑器：section 热重载时 JS 常来不及跑，用 CSS 动画保证文字淡入可见 */
+    {{ default_sid }} .jingva-hero-title {
+      animation: jingvaHeroTitleIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s both !important;
+    }
+
+    {{ default_sid }} .jingva-hero-buttons {
+      animation: jingvaHeroButtonsIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both !important;
+    }
+    {% endif %}
 
     /* Figma：小圆角矩形（非胶囊）；主 Learn More 白底实色无边框，次 Buy Now 透明 + 白边白字 */
     {{ default_sid }} .jingva-hero-btn {
@@ -508,11 +547,11 @@
             <div class="jingva-hero-content">
               <div class="jingva-hero-title-group">
                 {% if block.settings.title != blank %}
-                  <div class="jingva-hero-title">{{ block.settings.title }}</div>
+                  <div class="jingva-hero-title{% if request.design_mode %} aos-animate{% endif %}">{{ block.settings.title }}</div>
                 {% endif %}
 
                 {% if block.settings.btn1_text != blank or block.settings.btn2_text != blank %}
-                  <div class="jingva-hero-buttons">
+                  <div class="jingva-hero-buttons{% if request.design_mode %} aos-animate{% endif %}">
                     {% if block.settings.btn1_text != blank %}
                       <a href="{{ block.settings.btn1_link | default: '#' }}" class="jingva-hero-btn jingva-hero-btn-primary" data-stop-propagation>
                         {{ block.settings.btn1_text }}
@@ -735,18 +774,22 @@
           afterInit: function (sw) {
             syncVideos(sw);
             updateDots(sw.realIndex);
-            showSlideContent(sw.slides[sw.activeIndex]);
+            if (!isDesignMode) {
+              showSlideContent(sw.slides[sw.activeIndex]);
+            }
           },
           slideChange: function (sw) {
             updateDots(sw.realIndex);
           },
           slideChangeTransitionStart: function (sw) {
+            if (isDesignMode) return;
             sw.slides.forEach(function (slide) {
               hideSlideContent(slide);
             });
           },
           slideChangeTransitionEnd: function (sw) {
             syncVideos(sw);
+            if (isDesignMode) return;
             setTimeout(function () {
               replaySlideContent(sw.slides[sw.activeIndex]);
             }, 50);
@@ -762,12 +805,6 @@
       }
 
       var swiper = new Swiper(slider, swiperOptions);
-
-      if (isDesignMode) {
-        setTimeout(function () {
-          showSlideContent(swiper.slides[swiper.activeIndex]);
-        }, 200);
-      }
 
       function goToIndex(index) {
         if (enableLoop) {
@@ -844,7 +881,7 @@
             if (!event.target.closest('#' + shopifySectionId)) return;
 
             var slider = document.getElementById(sliderId);
-            if (!slider) return;
+            if (!slider || !slider.swiper) return;
 
             var slide = event.target.classList.contains('swiper-slide')
               ? event.target
@@ -856,18 +893,12 @@
             var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
             var sw = slider.swiper;
 
-            if (sw) {
-              if (sw.realIndex !== index) {
-                if (total > 1) {
-                  sw.slideToLoop(index, 0);
-                } else {
-                  sw.slideTo(index, 0);
-                }
+            if (sw.realIndex !== index) {
+              if (total > 1) {
+                sw.slideToLoop(index, 0);
               } else {
-                showSlideContent(sw.slides[sw.activeIndex]);
+                sw.slideTo(index, 0);
               }
-            } else {
-              showSlideContent(slide);
             }
           });
         }
