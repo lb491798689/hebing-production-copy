@@ -166,6 +166,11 @@
       will-change: opacity;
     }
 
+    /* 单 slide 时无 Swiper active class，直接显示标题 */
+    {{ default_sid }} .jingva-hero-single .jingva-hero-title {
+      opacity: 1;
+    }
+
     {{ default_sid }} .jingva-hero-buttons {
       display: flex !important;
       justify-content: center !important;
@@ -179,6 +184,10 @@
       opacity: 1;
       transition: opacity 0.4s ease 0.15s;
       will-change: opacity;
+    }
+
+    {{ default_sid }} .jingva-hero-single .jingva-hero-buttons {
+      opacity: 1;
     }
 
     /* Figma：小圆角矩形（非胶囊）；主 Learn More 白底实色无边框，次 Buy Now 透明 + 白边白字 */
@@ -401,7 +410,7 @@
   {% endstyle %}
 
   <div
-    class="jingva-hero-slider swiper jingva-hero-swiper-{{ sid }}"
+    class="jingva-hero-slider swiper jingva-hero-swiper-{{ sid }}{% if section.blocks.size <= 1 %} jingva-hero-single{% endif %}"
     id="jingvaHeroSlider{{ sid }}"
     data-total-slides="{{ section.blocks.size }}"
   >
