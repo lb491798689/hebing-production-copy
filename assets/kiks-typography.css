@@ -2,6 +2,13 @@
 .product-info__price.custom-price-style sale-price span.money {
   color: #0D0D0D;
 }
+
+.product-info__price.custom-price-style compare-at-price span.money,
+.product-info__price.custom-price-style compare-at-price span:not(.sr-only) {
+  color: #a3a3a3 !important;
+  font-weight: 400 !important;
+  text-decoration: line-through;
+}
 .h1, h1 ,.prose :is(h1) {
     /* font-family: var(--custom-font-family); */
     font-size: var(--text-h1);

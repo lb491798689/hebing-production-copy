@@ -203,6 +203,40 @@
   line-height: 1.2;
 }
 
+/* PDP 划线价（与 g7/m6 一致）：section 级样式，避免被 custom-price-style span.money 等全局规则覆盖 */
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price,
+#shopify-section-{{ section.id }} .price-list--lg compare-at-price {
+  display: inline-block !important;
+  line-height: 120% !important;
+  vertical-align: baseline;
+  color: #a3a3a3 !important;
+  color: color-mix(in srgb, #0a0a0a 40%, #ffffff) !important;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+}
+
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price .money,
+#shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price span:not(.sr-only),
+#shopify-section-{{ section.id }} .price-list--lg compare-at-price .money,
+#shopify-section-{{ section.id }} .price-list--lg compare-at-price span:not(.sr-only) {
+  color: #a3a3a3 !important;
+  color: color-mix(in srgb, #0a0a0a 40%, #ffffff) !important;
+  font-family: Gabarito, sans-serif !important;
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  line-height: 120% !important;
+  letter-spacing: -0.4px;
+  text-decoration-line: line-through !important;
+  text-decoration-color: currentColor !important;
+  text-decoration-thickness: 0.1em;
+}
+
+@media screen and (max-width: 700px) {
+  #shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price .money,
+  #shopify-section-{{ section.id }} .product-info__price .price-list--lg compare-at-price span:not(.sr-only) {
+    font-size: 14px !important;
+  }
+}
 
   @media (min-width:530px){
     #shopify-section-{{ section.id }} .kik_slideshow{
