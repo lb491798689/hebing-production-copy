@@ -3232,7 +3232,7 @@ model-media model-viewer, model-media .shopify-model-viewer-ui {
   gap: var(--spacing-3);
 }
 
-.price-list--lg .money {
+.price-list--lg sale-price .money {
   overflow: hidden;
   color: var(--Font-Color-Gy1, #0A0A0A);
   text-overflow: ellipsis;
@@ -3244,7 +3244,8 @@ model-media model-viewer, model-media .shopify-model-viewer-ui {
   letter-spacing: -0.48px;
 }
 
-.price-list--lg .compare-at-price .money {
+/* compare-at-price 是自定义元素标签，不是 .compare-at-price 类名 */
+.price-list--lg compare-at-price .money {
   overflow: hidden !important;
   /* 等效 Figma rgba(26,26,26,.4) 在白底上；删除线跟 currentColor 避免半透明叠字发暗 */
   color: #a3a3a3 !important;
@@ -3259,6 +3260,11 @@ model-media model-viewer, model-media .shopify-model-viewer-ui {
   text-decoration-line: line-through;
   text-decoration-color: currentColor;
   text-decoration-thickness: 0.1em;
+}
+
+/* 删除线仅在 .money，compare-at-price 上的 line-through 类不画线（避免双删除线） */
+.price-list--lg compare-at-price.line-through {
+  text-decoration: none !important;
 }
 
 .pickup-drawer::part(close-button) {
