@@ -1,9 +1,11 @@
 {%- comment -%}
   Single product tile for kiks-mega-menu-horizontal（Figma：248–252px 图区 + 标题 + 价格）
   @param pro {Product} required
+  Price/link use the first variant so menu price matches the landing SKU.
 {%- endcomment -%}
+{%- assign menu_variant = pro.variants.first -%}
 <div class="kik_menu_product">
-  <a href="{{ pro.url }}" class="kik_menu_product_link">
+  <a href="{{ menu_variant.url | default: pro.url }}" class="kik_menu_product_link">
     {% if pro.metafields.custom.badges != blank %}
       <div class="kik_pro_badge {% if pro.metafields.custom.badges.value == 'HOT' %}hot{% endif %}">{{ pro.metafields.custom.badges.value }}</div>
     {% elsif pro.tags contains 'New' or pro.tags contains 'new' %}
@@ -25,9 +27,9 @@
     <div class="kik_menu_product_body">
       <span class="kik_menu_product_title">{{ pro.title }}</span>
       <div class="kik_menu_product_price_row">
-        <span class="kik_price_sale">{{ pro.price | money }}</span>
-        {% if pro.compare_at_price != blank and pro.compare_at_price > pro.price %}
-          <span class="kik_price_compare">{{ pro.compare_at_price | money }}</span>
+        <span class="kik_price_sale">{{ menu_variant.price | money }}</span>
+        {% if menu_variant.compare_at_price != blank and menu_variant.compare_at_price > menu_variant.price %}
+          <span class="kik_price_compare">{{ menu_variant.compare_at_price | money }}</span>
         {% endif %}
       </div>
       {% if pro.metafields.custom.small_description != blank %}

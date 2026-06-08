@@ -1,8 +1,10 @@
 {%- comment -%}
   Mobile drawer product tile — Figma 765：每个系列一行 3 列；具体尺寸由 header / theme 的 .jingva-drawer-pcard* 控制
+  Price/link use the first variant so menu price matches the landing SKU.
 {%- endcomment -%}
+{%- assign menu_variant = product.variants.first -%}
 <article class="jingva-drawer-pcard">
-  <a href="{{ product.url }}" class="jingva-drawer-pcard__link">
+  <a href="{{ menu_variant.url | default: product.url }}" class="jingva-drawer-pcard__link">
     <div class="jingva-drawer-pcard__media">
       {% if product.metafields.custom.badges != blank %}
         <span class="jingva-drawer-pcard__badge">{{ product.metafields.custom.badges.value }}</span>
@@ -16,9 +18,9 @@
     <div class="jingva-drawer-pcard__body">
       <span class="jingva-drawer-pcard__title">{{ product.title }}</span>
       <div class="jingva-drawer-pcard__price">
-        <span class="jingva-drawer-pcard__sale">{{ product.price | money }}</span>
-        {% if product.compare_at_price != blank and product.compare_at_price > product.price %}
-          <span class="jingva-drawer-pcard__compare">{{ product.compare_at_price | money }}</span>
+        <span class="jingva-drawer-pcard__sale">{{ menu_variant.price | money }}</span>
+        {% if menu_variant.compare_at_price != blank and menu_variant.compare_at_price > menu_variant.price %}
+          <span class="jingva-drawer-pcard__compare">{{ menu_variant.compare_at_price | money }}</span>
         {% endif %}
       </div>
     </div>
