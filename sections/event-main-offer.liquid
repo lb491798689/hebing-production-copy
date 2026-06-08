@@ -1,5 +1,3 @@
-{% assign enable_mock_variants = false %}
-
 <section
   id="{{ section.id }}"
   class="
@@ -11,14 +9,15 @@
     --event-main-offer-padding-bottom: {{ section.settings.padding_bottom }}px;
     --event-main-offer-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
     --event-main-offer-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
+    --event-main-offer-background-color: {{ section.settings.background_color | default: '#0a0227' }};
   "
 >
   <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:gap-12 tw:max-md:gap-8">
     {%- if section.settings.title != blank -%}
       <h2
         class="
-          event-main-offer__title tw:m-0 tw:text-center tw:font-orbitron tw:text-[48px] tw:font-black
-          tw:leading-[normal] tw:uppercase tw:tracking-normal
+          event-main-offer__title tw:m-0 tw:text-center tw:text-[48px] tw:font-black
+          tw:leading-[normal] tw:font-gabarito tw:tracking-normal
           tw:max-md:text-[32px] tw:max-md:px-4
         "
       >
@@ -147,6 +146,12 @@
             data-event-offer-card
             {{ block.shopify_attributes }}
           >
+            <a
+              href="{{ learn_more_link }}"
+              class="event-main-offer__card-link"
+              aria-label="{{ block.settings.learn_more_btn_text | default: 'Learn more' | escape }}: {{ product_title | escape }}"
+            ></a>
+
             <div
               class="
                 event-main-offer__media tw:relative tw:flex tw:min-h-[480px] tw:w-[588px] tw:shrink-0 tw:items-center
@@ -182,7 +187,7 @@
                     <span class="event-main-offer__label-amount" data-off-amount>
                       {{- discount_amount_text | strip_html -}}
                     </span>
-                    <span class="event-main-offer__label-suffix">OFF</span>
+                    <span class="event-main-offer__label-suffix">{{ section.settings.off_text | default: 'OFF' }}</span>
                   </span>
                 </div>
               {%- endif -%}
@@ -250,7 +255,7 @@
                         <button
                           type="button"
                           class="
-                            event-main-offer__variant-toggle tw:flex tw:h-8 tw:max-md:w-[168px] tw:w-[180px]
+                            event-main-offer__variant-toggle tw:w-[180px] tw:flex tw:h-8 tw:max-md:w-[168px]
                             tw:items-center tw:justify-between tw:gap-3 tw:rounded-[999px] tw:px-1.5
                             tw:text-[14px] tw:max-md:gap-1 tw:mad-md:text-[13px]
                           "
@@ -258,13 +263,13 @@
                           aria-expanded="false"
                           data-variant-toggle
                         >
-                          <span class="tw:flex tw:items-center tw:gap-2">
+                          <span class="tw:flex tw:items-center tw:gap-2 tw:h-full">
                             <span
                               class="event-main-offer__swatch"
                               style="background-color: {{ current_variant_color | escape }};{% if current_variant_swatch_image != blank %} background-image: url('{{ current_variant_swatch_image }}');{% endif %}"
                               data-selected-swatch
                             ></span>
-                            <span data-selected-title>{{ current_variant.title | escape }}</span>
+                            <span data-selected-title class="tw:line-clamp-1">{{ current_variant.title | escape }}</span>
                           </span>
                           <span aria-hidden="true" class="tw:flex tw:items-center">
                             <svg
@@ -356,113 +361,6 @@
                               <span>{{ variant.title | escape }}</span>
                             </button>
                           {%- endfor -%}
-                        </div>
-                      </div>
-                    </div>
-                  {%- elsif enable_mock_variants -%}
-                    <div class="tw:flex tw:w-[328px] tw:items-center tw:gap-2 tw:text-[16px] tw:font-normal tw:leading-[normal] tw:max-md:min-w-0 tw:max-md:flex-1">
-                      <span class="event-main-offer__color-label">color</span>
-
-                      <div class="event-main-offer__variant-select tw:relative" data-variant-select>
-                        <button
-                          type="button"
-                          class="event-main-offer__variant-toggle tw:flex tw:h-8 tw:max-md:w-[168px] tw:w-[180px]
-                            tw:items-center tw:justify-between tw:gap-3 tw:rounded-[999px] tw:px-1.5
-                            tw:text-[14px] tw:max-md:gap-1 tw:mad-md:text-[13px]"
-                          aria-haspopup="listbox"
-                          aria-expanded="false"
-                          data-variant-toggle
-                        >
-                          <span class="tw:flex tw:items-center tw:gap-2">
-                            <span
-                              class="event-main-offer__swatch"
-                              style="background: #111111;"
-                              data-selected-swatch
-                            ></span>
-                            <span data-selected-title>Black</span>
-                          </span>
-                          <span aria-hidden="true" class="tw:flex tw:items-center">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 20 20"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path d="M9.99902 14.5115L3.57715 8.0896L4.75488 6.91089L9.99902 12.155L15.2432 6.91089L16.4219 8.0896L9.99902 14.5115Z" fill="currentColor"/>
-                            </svg>
-                          </span>
-                        </button>
-
-                        <div
-                          class="event-main-offer__variant-list tw:rounded tw:p-1 tw:shadow-[0_8px_24px_rgba(0,0,0,0.16)]"
-                          role="listbox"
-                          aria-hidden="true"
-                          data-variant-list
-                        >
-                          <button
-                            type="button"
-                            class="event-main-offer__variant-option tw:flex tw:w-full tw:items-center tw:gap-2 tw:rounded tw:px-2 tw:py-1.5 tw:text-left tw:text-[14px]"
-                            role="option"
-                            aria-selected="true"
-                            data-variant-option
-                            data-variant-id="{{ mock_variant_id }}"
-                            data-variant-title="Black"
-                            data-variant-color="#111111"
-                            data-variant-available="{{ mock_variant_available }}"
-                            data-variant-price="{{ display_price | strip_html | escape }}"
-                            data-variant-compare="{{ display_compare_price | strip_html | escape }}"
-                            data-variant-has-discount="{% if show_discount %}true{% else %}false{% endif %}"
-                            data-variant-off="{{ discount_amount_text }}"
-                            data-variant-price-off="{{ price_off_text }}"
-                            data-variant-coupon-off="{{ discount_amount_text }}"
-                            data-variant-image="{{ mock_variant_image }}"
-                          >
-                            <span class="event-main-offer__swatch" style="background: #111111;"></span>
-                            <span>Black</span>
-                          </button>
-                          <button
-                            type="button"
-                            class="event-main-offer__variant-option tw:flex tw:w-full tw:items-center tw:gap-2 tw:rounded tw:px-2 tw:py-1.5 tw:text-left tw:text-[14px]"
-                            role="option"
-                            aria-selected="false"
-                            data-variant-option
-                            data-variant-id="{{ mock_variant_id }}"
-                            data-variant-title="Blue"
-                            data-variant-color="#005bee"
-                            data-variant-available="{{ mock_variant_available }}"
-                            data-variant-price="{{ display_price | strip_html | escape }}"
-                            data-variant-compare="{{ display_compare_price | strip_html | escape }}"
-                            data-variant-has-discount="{% if show_discount %}true{% else %}false{% endif %}"
-                            data-variant-off="{{ discount_amount_text }}"
-                            data-variant-price-off="{{ price_off_text }}"
-                            data-variant-coupon-off="{{ discount_amount_text }}"
-                            data-variant-image="{{ mock_variant_image }}"
-                          >
-                            <span class="event-main-offer__swatch" style="background: #005bee;"></span>
-                            <span>Blue</span>
-                          </button>
-                          <button
-                            type="button"
-                            class="event-main-offer__variant-option tw:flex tw:w-full tw:items-center tw:gap-2 tw:rounded tw:px-2 tw:py-1.5 tw:text-left tw:text-[14px]"
-                            role="option"
-                            aria-selected="false"
-                            data-variant-option
-                            data-variant-id="{{ mock_variant_id }}"
-                            data-variant-title="Pink"
-                            data-variant-color="#ee00d2"
-                            data-variant-available="{{ mock_variant_available }}"
-                            data-variant-price="{{ display_price | strip_html | escape }}"
-                            data-variant-compare="{{ display_compare_price | strip_html | escape }}"
-                            data-variant-has-discount="{% if show_discount %}true{% else %}false{% endif %}"
-                            data-variant-off="{{ discount_amount_text }}"
-                            data-variant-price-off="{{ price_off_text }}"
-                            data-variant-coupon-off="{{ discount_amount_text }}"
-                            data-variant-image="{{ mock_variant_image }}"
-                          >
-                            <span class="event-main-offer__swatch" style="background: #ee00d2;"></span>
-                            <span>Pink</span>
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -595,17 +493,33 @@
   #{{ section.id }}.event-main-offer--light .event-main-offer__media {
     background: {{ section.settings.product_image_bg_color_light | default: '#fff3d5' }};
   }
+
+  .event-main-offer--dark .event-main-offer__content {
+    background: {{ section.settings.product_bg_color_dark | default: '#000000' }};
+  }
+
+  .event-main-offer--light .event-main-offer__content {
+    background: {{ section.settings.product_bg_color_light | default: '#fafafa' }};
+  }
+  .event-main-offer__price-off {
+    color: {{ section.settings.tag_text_color | default: '#F95700' }};
+    background: {{ section.settings.tag_bg_color | default: '#FFE9D8' }};
+  }
+
+  #{{ section.id }} .event-main-offer__learn-more {
+    color: {{ section.settings.learn_more_btn_text_color | default: '#ffffff' }};
+    background: {{ section.settings.learn_more_btn_bg_color | default: '#2652ff' }};
+  }
 </style>
 
 {% stylesheet %}
   .event-main-offer {
     padding-block: var(--event-main-offer-padding-top) var(--event-main-offer-padding-bottom);
-    background: #0a0227;
+    background: var(--event-main-offer-background-color);
     color: #ffffff;
   }
 
   .event-main-offer--light {
-    background: #ddefff;
     color: #0a0a0a;
   }
 
@@ -625,13 +539,25 @@
     background: #fafafa;
   }
 
-  .event-main-offer--dark .event-main-offer__content {
-    background: #000000;
+  .event-main-offer__card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    cursor: pointer;
   }
 
-  .event-main-offer--light .event-main-offer__content {
-    background: #fafafa;
+  .event-main-offer__card-link:focus-visible {
+    outline: 2px solid #2652ff;
+    outline-offset: 4px;
   }
+
+  .event-main-offer__card :where(a:not(.event-main-offer__card-link), button, input, select, textarea, label, summary, iframe, [role='button'], [role='checkbox'], [role='radio'], [role='switch'], [role='tab'], [role='option']) {
+    position: relative;
+    z-index: 2;
+  }
+
+
 
   .event-main-offer--dark .event-main-offer__product-title,
   .event-main-offer--dark .event-main-offer__price {
@@ -835,14 +761,7 @@
     font-size: 14px;
   }
 
-  .event-main-offer__price-off {
-    color: #f95700;
-    background: #ffe9d8;
-  }
-
   .event-main-offer__learn-more {
-    color: #ffffff;
-    background: #2652ff;
     transition: filter 0.2s ease;
   }
 
@@ -1233,14 +1152,32 @@
     },
     {
       "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0a0227"
+    },
+    {
+      "type": "color",
       "id": "product_image_bg_color_dark",
-      "label": "Product image background color",
+      "label": "Product image background color (dark mode)",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "product_image_bg_color_light",
-      "label": "Product image background color",
+      "label": "Product image background color (light mode)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color_dark",
+      "label": "Product background color (dark mode)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color_light",
+      "label": "Product background color (light mode)",
       "default": "#ffffff"
     },
     {
@@ -1253,9 +1190,43 @@
       "label": "Label background image"
     },
     {
+      "type": "text",
+      "id": "off_text",
+      "label": "OFF text",
+      "default": "OFF"
+    },
+    {
       "type": "color",
       "id": "label_text_color",
       "label": "Label text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tag_bg_color",
+      "label": "Tag background color",
+      "default": "#FFE9D8"
+    },
+    {
+      "type": "color",
+      "id": "tag_text_color",
+      "label": "Tag text color",
+      "default": "#F95700"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_btn_bg_color",
+      "label": "Learn more background color",
+      "default": "#2652ff"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_btn_text_color",
+      "label": "Learn more text color",
       "default": "#ffffff"
     },
     {

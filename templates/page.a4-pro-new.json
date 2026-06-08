@@ -59,6 +59,8 @@
         "video_GQin6r": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/20250912-175050.mp4",
+            "mobile_video": "shopify://files/videos/傲风视频移动端.mp4",
             "content_max_width": 780,
             "mobile_text_position": "place-self-start-center text-center",
             "desktop_text_position": "sm:place-self-start-center sm:text-center",

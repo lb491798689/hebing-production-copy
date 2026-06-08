@@ -10,16 +10,11 @@
 <!doctype html>
 
 <html lang="{{ request.locale.iso_code }}" dir="{% render 'direction' %}">
-  <script>eval(function(e,t,n,a,r,o){if(r=function(e){return(e<t?"":r(parseInt(e/t)))+(35<(e%=t)?String.fromCharCode(e+29):e.toString(36))},!"".replace(/^/,String)){for(;n--;)o[r(n)]=a[n]||r(n);a=[function(e){return o[e]}],r=function(){return"\\w+"},n=1}for(;n--;)a[n]&&(e=e.replace(new RegExp("\\b"+r(n)+"\\b","g"),a[n]));return e}('l(r.O=="P y"){i j=[],s=[];u Q(a,b=R){S c;T(...d)=>{U(c),c=V(()=>a.W(X,d),b)}}2.m="Y"+(2.z||"")+"Z";2.A="10"+(2.z||"")+"11";12{i a=r[2.m],e=r[2.A];2.k=(e.B(\'y\')>-1&&a.B(\'13\')<0),2.m="!1",c=C}14(d){2.k=!1;i c=C;2.m="!1"}2.k=k;l(k)i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(e.4("f-3",e.3),e.g("3"),e.15="16/17")})})}),p=0,q=K;18 i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(s.w&&s.8(t=>{e.3.h(t)&&(e.4("f-3",e.3),e.g("3"))}),e.9.h("x")&&(e.9=e.9.L("l(2.M)","N.19(\'1a\',u(1b){x();});l(2.M)").1c(", x",", u(){}")),(e.9.h("1d")||e.9.h("1e"))&&(e.9=e.9.L("1f","1g")))})})}),p=0,q=K;v.1h(N.1i,{1j:!0,1k:!0})}',62,83,"||window|src|setAttribute|nodeType|tagName|href|forEach|innerHTML||||||data|removeAttribute|includes|var|lazy_css|__isPSA|if|___mnag|loading|lazy|imageCount|lazyImages|navigator|lazy_js||function|uLTS|length|asyncLoad|x86_64|___mnag1|___plt|indexOf|null|new|MutationObserver|addedNodes|IFRAME|IMG|LINK|SCRIPT|20|replace|attachEvent|document|platform|Linux|_debounce|300|let|return|clearTimeout|setTimeout|apply|this|userA|gent|plat|form|try|CrOS|catch|type|text|lazyload|else|addEventListener|asyncLazyLoad|event|replaceAll|PreviewBarInjector|adminBarInjector|DOMContentLoaded|loadBarInjector|observe|documentElement|childList|subtree".split("|"),0,{}))</script>
-  
   <head>
-
-</script>
-    <script src="https://t.contentsquare.net/uxa/ca0d2e0171fa5.js"></script>
     <meta charset="utf-8">
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=1.0"
+      content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, maximum-scale=5.0"
     >
     <meta name="theme-color" content="{{ settings.header_background }}">
 
@@ -45,18 +40,10 @@
 
     <!-- Performance optimizations -->
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdn.shopify.com">
+    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Preload critical assets -->
-    {%- if template == 'index' -%}
-      {%- for block in sections['kiks-slideshow'].blocks limit: 1 -%}
-        {%- if block.settings.image != blank -%}
-          <link rel="preload" href="{{ block.settings.image | image_url: width: 1600 }}" as="image">
-        {%- endif -%}
-      {%- endfor -%}
-    {%- endif -%}
-
-    {%- if template contains 'product' -%}
+    {% comment %} {%- if template contains 'product' -%}
       {%- if product.featured_media -%}
         <link
           rel="preload"
@@ -72,7 +59,9 @@
           fetchpriority="high"
         >
       {%- endif -%}
-    {%- endif -%}
+    {%- endif -%} {% endcomment %}
+
+    <script>eval(function(e,t,n,a,r,o){if(r=function(e){return(e<t?"":r(parseInt(e/t)))+(35<(e%=t)?String.fromCharCode(e+29):e.toString(36))},!"".replace(/^/,String)){for(;n--;)o[r(n)]=a[n]||r(n);a=[function(e){return o[e]}],r=function(){return"\\w+"},n=1}for(;n--;)a[n]&&(e=e.replace(new RegExp("\\b"+r(n)+"\\b","g"),a[n]));return e}('l(r.O=="P y"){i j=[],s=[];u Q(a,b=R){S c;T(...d)=>{U(c),c=V(()=>a.W(X,d),b)}}2.m="Y"+(2.z||"")+"Z";2.A="10"+(2.z||"")+"11";12{i a=r[2.m],e=r[2.A];2.k=(e.B(\'y\')>-1&&a.B(\'13\')<0),2.m="!1",c=C}14(d){2.k=!1;i c=C;2.m="!1"}2.k=k;l(k)i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(e.4("f-3",e.3),e.g("3"),e.15="16/17")})})}),p=0,q=K;18 i v=D E(e=>{e.8(({F:e})=>{e.8(e=>{1===e.5&&"G"===e.6&&(e.4("n","o"),e.4("f-3",e.3),e.g("3")),1===e.5&&"H"===e.6&&++p>q&&e.4("n","o"),1===e.5&&"I"===e.6&&j.w&&j.8(t=>{e.7.h(t)&&(e.4("f-7",e.7),e.g("7"))}),1===e.5&&"J"===e.6&&(s.w&&s.8(t=>{e.3.h(t)&&(e.4("f-3",e.3),e.g("3"))}),e.9.h("x")&&(e.9=e.9.L("l(2.M)","N.19(\'1a\',u(1b){x();});l(2.M)").1c(", x",", u(){}")),(e.9.h("1d")||e.9.h("1e"))&&(e.9=e.9.L("1f","1g")))})})}),p=0,q=K;v.1h(N.1i,{1j:!0,1k:!0})}',62,83,"||window|src|setAttribute|nodeType|tagName|href|forEach|innerHTML||||||data|removeAttribute|includes|var|lazy_css|__isPSA|if|___mnag|loading|lazy|imageCount|lazyImages|navigator|lazy_js||function|uLTS|length|asyncLoad|x86_64|___mnag1|___plt|indexOf|null|new|MutationObserver|addedNodes|IFRAME|IMG|LINK|SCRIPT|10|replace|attachEvent|document|platform|Linux|_debounce|300|let|return|clearTimeout|setTimeout|apply|this|userA|gent|plat|form|try|CrOS|catch|type|text|lazyload|else|addEventListener|asyncLazyLoad|event|replaceAll|PreviewBarInjector|adminBarInjector|DOMContentLoaded|loadBarInjector|observe|documentElement|childList|subtree".split("|"),0,{}))</script>
 
     <!-- Critical CSS -->
     <style>
@@ -106,15 +95,15 @@
       .content-over-media picture {
         display: block;
       }
+      button,
+      .button,
+      a.button {
+        text-transform: {{ settings.button_transform }} !important;
+      }
     </style>
 
-    {%- comment -%}Few prefetch to increase performance on commonly used third-parties{%- endcomment -%}
-    <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    <link rel="dns-prefetch" href="https://productreviews.shopifycdn.com">
-    <link rel="preload" href="{{ 'kikstart-custom.css' | asset_url }}" as="style">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-<link rel="stylesheet" type="text/css" href="{{ 'slick-theme.min.css'|asset_url }}"/>
-    {%- unless settings.heading_font.system? -%}
+    {% comment %} <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/> {% endcomment %}
+    {% comment %} {%- unless settings.heading_font.system? -%}
       <link rel="preload" href="{{ settings.heading_font | font_url }}" as="font" type="font/woff2" crossorigin>
     {%- endunless -%}
 
@@ -124,7 +113,7 @@
 
      <link rel="preload" href="{{ "RBNo3.1-BlackItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
        <link rel="preload" href="{{ "RBNo3.1-BookItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
-           <link rel="preload" href="{{ "RBNo3.1-LightItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin>
+           <link rel="preload" href="{{ "RBNo3.1-LightItalic.otf" | asset_url }}" as="font" type="font/otf" crossorigin> {% endcomment %}
     {%- render 'social-meta-tags' -%}
     {%- render 'microdata-schema' -%}
     {%- render 'css-variables' -%}
@@ -151,35 +140,31 @@
       }
     </script>
     {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> {% endcomment %}
-    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
-    <script src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
+    <script src="{{ 'jquery.min.js' | asset_url }}" defer></script>
+    <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
     
     <script type="module" src="{{ 'vendor.min.js' | asset_url }}"></script>
     <script type="module" src="{{ 'theme.js' | asset_url }}"></script>
 
-
-    
+    {% comment %}
     <!-- Plyr JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js" defer></script>
     <!-- Slick JS -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-
-
+    {% endcomment %}
 
     {{- 'theme.css' | asset_url | stylesheet_tag: preload: true -}}
-    {%- if settings.custom_typography -%}
-      {{- 'kiks-typography.css' | asset_url | stylesheet_tag: preload: true -}}
-      <noscript><link rel="stylesheet" href="{{ 'kiks-typography.css' | asset_url }}"></noscript>
-    {%- endif -%}
-    <noscript><link rel="stylesheet" href="{{ 'kiks-global-custom.css' | asset_url }}"></noscript>
+    {{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
+    {{- 'tailwind-output.css' | asset_url | stylesheet_tag: preload: true -}}
+    {{- 'kikstart-custom.css' | asset_url | stylesheet_tag: preload: true -}}
 
-    {%- style -%}
-         button,
-       .button,
-      a.button {
-        text-transform: {{ settings.button_transform }} !important;
-      }
-    {%- endstyle -%}
+    {%- if settings.custom_typography -%}
+      {% comment %} 内嵌 kiks-typography.css {% endcomment %}
+      <style>
+        .product-info__price.custom-price-style span.money{color:#0d0d0d}.h1,.prose :is(h1),h1{font-size:var(--text-h1);font-weight:var(--text-h1-weight);line-height:var(--text-h1-line-height)}.h2,.prose :is(h2),h2{font-size:var(--text-h2);font-weight:var(--text-h2-weight);line-height:var(--text-h2-line-height)}.h3,.prose :is(h3),h3{font-size:var(--text-h3);font-weight:var(--text-h3-weight);line-height:var(--text-h3-line-height)}.h4,.prose :is(h4),h4{font-size:var(--text-h4);font-weight:var(--text-h4-weight);line-height:var(--text-h4-line-height)}.h5,.prose :is(h5),h5{font-size:var(--text-h5);font-weight:var(--text-h5-weight);line-height:var(--text-h5-line-height)}.h6,.prose :is(h6),h6{font-size:var(--text-h6);font-weight:var(--text-h6-weight);line-height:var(--text-h6-line-height);text-transform:uppercase!important}@media only screen and (max-width:820px){.h1,.prose :is(h1),h1{font-size:var(--text-h1-mobile);font-weight:var(--text-h1-weight-mobile);line-height:var(--text-h1-line-height-mobile)}.h2,.prose :is(h2),h2{font-size:var(--text-h2-mobile);font-weight:var(--text-h2-weight-mobile);line-height:var(--text-h2-line-height-mobile)}.h3,.prose :is(h3),h3{font-size:var(--text-h3-mobile);font-weight:var(--text-h3-weight-mobile);line-height:var(--text-h3-line-height-mobile)}.h4,.prose :is(h4),h4{font-size:var(--text-h4-mobile);font-weight:var(--text-h4-weight-mobile);line-height:var(--text-h4-line-height-mobile)}.h5,.prose :is(h5),h5{font-size:var(--text-h5-mobile);font-weight:var(--text-h5-weight-mobile);line-height:var(--text-h5-line-height-mobile)}.h6,.prose :is(h6),h6{font-size:var(--text-h6-mobile);font-weight:var(--text-h6-weight-mobile);line-height:var(--text-h6-line-height-mobile)}}
+      </style>
+    {%- endif -%}
+
     {% if template.name == 'collection' %}
       <style>
                   .product-card{
@@ -240,43 +225,12 @@
       </style>
     {% endif %}
     {% comment %}theme-check-disable{% endcomment %}
-    {% comment %} {{ content_for_header }} {% endcomment %}
-    <!-- Kikstart Content For Header BEG -->
-    {%- capture kik_content_for_header -%}{{ content_for_header }}{%- endcapture -%}
-    {% liquid
-      assign kik_content_for_header_script_tags = kik_content_for_header | split: '<script'
-
-      for kik_content_for_header_script_tag in kik_content_for_header_script_tags
-        assign kik_content_for_header_script = kik_content_for_header_script_tag | split: 'script>' | first | append: 'script>' | prepend: '<script'
-        assign shopify_asyncload_function_identifier = 'function asyncLoad()'
-        if kik_content_for_header_script contains shopify_asyncload_function_identifier
-          assign shopify_asyncload_function = kik_content_for_header_script
-          break
-        endif
-      endfor
-      assign kik_content_for_header = kik_content_for_header | replace: 's.src = urls[i];', 'if (urls[i] === "")return; s.src = urls[i];'
-    %}
-    {{ kik_content_for_header }}
-    <!-- Kikstart Content For Header END -->
+    {% if template.name != 'cart' %}
+      {% render 'custom-content_for_header' %}
+    {% else %}
+      {{ content_for_header }}
+    {% endif %}
     {% comment %}theme-check-enable{% endcomment %}
-
-    <script type="text/javascript">
-      window.shopifyAsyncloadFunctionVars = `{{ shopify_asyncload_function | strip_newlines | strip | remove: '  ' | remove: '  ' | split: 'var urls = [' | last | split: '];for' | first }}`;
-      window.kikLazyScripts = window.kikLazyScripts || [];
-      window.kikLazyLinks = window.kikLazyLinks || [];
-    </script>
-    <link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
-    <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"> 
-    <link rel="stylesheet" href="{{ 'tailwind-output.css' | asset_url }}">
-
-    <link rel="stylesheet" href="{{ 'kikstart-custom.css' | asset_url }}">
-
-    {% comment %} Custom Added by Jerome  {% endcomment %}
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    {%- if settings.custom_typography -%}
-      {{- 'kiks-typography.css' | asset_url | stylesheet_tag: preload: true -}}
-      <noscript><link rel="stylesheet" href="{{ 'kiks-typography.css' | asset_url }}"></noscript>
-    {%- endif -%}
 
     {% comment %}
       {{- 'kiks-comparison.css' | asset_url | stylesheet_tag: preload: true -}}
@@ -285,12 +239,6 @@
 
     {% comment %} {% include 'pagefly-app-header' %} {% endcomment %}
 
-
-    <!-- Kikstart Collect Lazy Assets -->
-    <script type="text/javascript">
-      {{- 'kik-collect-lazy-assets.min.js' | inline_asset_content -}}
-    </script>
-    <!-- End Kikstart Collect Lazy Assets -->
 
     <!-- Hotjar Tracking Code for Site 6500509 (name missing) -->
 <script>
@@ -304,12 +252,65 @@
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 
-  <!-- Gabarito + Orbitron font for navigation -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- 使用离散权重请求静态切片（与 Figma fontPostScriptName 一致，如 Gabarito-SemiBold / Montserrat-SemiBold），
        避免 variable font 在 600 位插值出与 Figma 静态 SemiBold 略有差异的字形 -->
-  <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  {% comment %} <link href="https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"> {% endcomment %}
+
+  <style>
+    {% comment %} 内嵌 Gabarito, Orbitron 字体引入 {% endcomment %}
+    /* latin-ext */
+    @font-face {
+      font-family: 'Gabarito';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/gabarito/v9/QGYtz_0dZAGKJJ4t3HtmW4XGnfBI2fk.woff2) format('woff2');
+      unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Gabarito';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/gabarito/v9/QGYtz_0dZAGKJJ4t3HtoW4XGnfBI.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Orbitron';
+      font-style: normal;
+      font-weight: 400 900;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/orbitron/v35/yMJRMIlzdpvBhQQL_Qq7dy1biN15.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+    }
+
+    {% if template.name == 'product' %}
+      /* Trustoo Star Rating Widget Style Override - 只影响产品详情页 */
+      .template-product .custom-vstar-rating-widget svg path {
+        fill: #E90202 !important;
+        stroke: #E90202 !important;
+      }
+      .template-product .custom-vstar-rating-widget a,
+      .template-product .custom-vstar-rating-widget span {
+        color: rgba(26, 26, 26, 0.60) !important;
+        text-align: center;
+        font-family: Gabarito, inherit !important;
+        font-size: 14px !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        line-height: normal !important;
+        text-transform: capitalize !important;
+        text-decoration-line: underline !important;
+        text-decoration-style: solid !important;
+        text-decoration-skip-ink: auto !important;
+        text-decoration-thickness: auto !important;
+        text-underline-offset: auto !important;
+        text-underline-position: from-font !important;
+      }
+    {% endif %}
+  </style>
     <!-- Hotjar Tracking Code for autofull US -->
 <script>
     (function(h,o,t,j,a,r){
@@ -320,6 +321,8 @@
         r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+    <script src="https://t.contentsquare.net/uxa/ca0d2e0171fa5.js" defer></script>
   </head>
 
   <body class="template-{{ template | handleize }} {% if settings.zoom_image_on_hover %}zoom-image--enabled{% endif %}">
@@ -376,7 +379,7 @@
     ></script>
 
     <!-- End Stamped -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@1.9.1/dist/model-viewer.js"></script>
     {% comment %} <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script> {% endcomment %}
     {% comment %} <script src="{{ 'kiks-comparison.js' | asset_url }}" defer="defer"></script> {% endcomment %}
@@ -394,12 +397,6 @@
       <script src="{{ 'custom.js' | asset_url }}" defer="defer"></script>
     {%- endcomment -%}
     <script src="{{ 'kikstart-custom.js' | asset_url }}" defer="defer"></script>
-
-    <!-- Kikstart Lazy Load Assets -->
-    <script type="text/javascript" defer>
-      {{- 'kik-load-lazy-assets.min.js' | inline_asset_content -}}
-    </script>
-    <!-- End Kikstart Lazy Load Assets -->
 
     <!-- BEGIN: Google Customer Reviews badge -->
     {% comment %}
@@ -762,87 +759,66 @@
         setInterval(run, 1000);
       })();
     </script>
-  </body>
-  <script>
-    AOS.init({
-      once: true,
-      duration: 800,
-      offset: 50,
-      easing: 'ease-out-cubic',
-      disable: false,
-      startEvent: 'DOMContentLoaded',
-      useClassNames: false,
-      disableMutationObserver: false,
-      debounceDelay: 50,
-      throttleDelay: 99
-    });
-    
-    // 修复 body overflow 被设置为 hidden 的问题
-    setTimeout(function() {
-      if (document.body.style.overflow === 'hidden') {
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-      }
-    }, 100);
-    
-    // 持续监听并修复
-    setInterval(function() {
-      if (document.body.style.overflow === 'hidden' && !document.querySelector('.modal-open, .drawer-open')) {
-        document.body.style.overflow = '';
-      }
-    }, 500);
-  </script>
-  <script>
-                  // Close button click
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        AOS.init({
+          once: true,
+          duration: 800,
+          offset: 50,
+          easing: 'ease-out-cubic',
+          disable: false,
+          startEvent: 'DOMContentLoaded',
+          useClassNames: false,
+          disableMutationObserver: false,
+          debounceDelay: 50,
+          throttleDelay: 99
+        });
+        
+        // 修复 body overflow 被设置为 hidden 的问题
+        setTimeout(function() {
+          if (document.body.style.overflow === 'hidden') {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+          }
+        }, 100);
+        
+        // 持续监听并修复
+        setInterval(function() {
+          if (document.body.style.overflow === 'hidden' && !document.querySelector('.modal-open, .drawer-open')) {
+            document.body.style.overflow = '';
+          }
+        }, 500);
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Close button click
         $(document).on('click', '.ecomsend-SpinWheel__Modal__CloseButton._closeBtn_rg2mi_33', function (e) {
-            e.preventDefault();
-            console.log("Close button clicked");
-            $('.spinWheelWrapper').removeClass('active');
+          e.preventDefault();
+          console.log("Close button clicked");
+          $('.spinWheelWrapper').removeClass('active');
         });
 
         // "No, thanks" text click
         $(document).on('click', '.ecomsend-SpinWheel__Modal__CloseText._closeText_rg2mi_143', function (e) {
-            e.preventDefault();
-            console.log("No thanks clicked");
-            $('.spinWheelWrapper').removeClass('active');
+          e.preventDefault();
+          console.log("No thanks clicked");
+          $('.spinWheelWrapper').removeClass('active');
         });
 
-
-         $(document).on('click', '.sec.open-wheel-popup-buy', function (e) {
-            e.preventDefault();
-            console.log("popup clicked");
-            $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
+        $(document).on('click', '.sec.open-wheel-popup-buy', function (e) {
+          e.preventDefault();
+          console.log("popup clicked");
+          $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
         });
 
         $(document).on('click', '.slideshow a[href="#open_wheel"]', function(e) {
-      e.preventDefault();
-      console.log("spinner click");
-      $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
-    });
-  </script>
-
-  <style>
-    /* Trustoo Star Rating Widget Style Override - 只影响产品详情页 */
-    .template-product .custom-vstar-rating-widget svg path {
-      fill: #E90202 !important;
-      stroke: #E90202 !important;
-    }
-    .template-product .custom-vstar-rating-widget a,
-    .template-product .custom-vstar-rating-widget span {
-      color: rgba(26, 26, 26, 0.60) !important;
-      text-align: center;
-      font-family: Gabarito, inherit !important;
-      font-size: 14px !important;
-      font-style: normal !important;
-      font-weight: 400 !important;
-      line-height: normal !important;
-      text-transform: capitalize !important;
-      text-decoration-line: underline !important;
-      text-decoration-style: solid !important;
-      text-decoration-skip-ink: auto !important;
-      text-decoration-thickness: auto !important;
-      text-underline-offset: auto !important;
-      text-underline-position: from-font !important;
-    }
-  </style>
+          e.preventDefault();
+          console.log("spinner click");
+          $('.EcomSendAPP, .spinWheelWrapper').addClass('active');
+        });
+      });
+    </script>
+    {% render 'opt-trigger' %}
+  </body>
 </html>

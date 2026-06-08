@@ -48,6 +48,102 @@ only way to do it on Shopify right now.
     endfor
   endif
 -%}
+<style>
+  .product-gallery .page-dots>* {
+    width: 8px;
+    height: 2px;
+    
+  }
+  .product-gallery .page-dots--blurred{
+    margin-top: 18px;
+  }
+  .page-dots>[aria-current=true], 
+  .swiper-pagination span.swiper-pagination-bullet.swiper-pagination-bullet-active{
+    background-color: #000;
+    height: 2px;
+    width: 8px;
+  }
+  .jingva-product-gallery-box{
+    position: relative;
+  }
+  /* always hide legacy mouse-follow cursor */
+  .product-gallery__cursor{display:none !important;}
+  /* arrows */
+  .product-gallery__media-list-wrapper{position: relative;}
+  .product-gallery__nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;border:1px solid #111;cursor:pointer;z-index:3;transition:all .2s ease;}
+  .product-gallery__nav:hover:not([disabled]){background:#000;color:#fff;border-color:#000;}
+  .product-gallery__nav[disabled]{;color:#D3D3D3;border-color:#D3D3D3;cursor:default;}
+  .product-gallery__nav svg{width:14px;height:14px;}
+  .product-gallery__nav--prev{left:-64px;}
+  .product-gallery__nav--next{right:-64px;}
+
+
+  .jingva-product-gallery-box .jingva-scroll-shadow-box{
+    margin: 26px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .jingva-product-img-video-svg-box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: #c6c6c6;
+  }
+  .jingva-product-img-video-svg-box .active{
+    color: #fff;
+    background: #000;
+  }
+  .jingva-product-img-video-svg-box .j-icon-box{
+    border: 1px solid #c6c6c6;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  .jingva-product-img-video-svg-box .img-box{
+    padding: 5px;
+  }
+
+  
+
+  @media screen and (max-width: 1000px) {
+    .product-gallery .page-dots--blurred{
+      /* position: absolute; */
+    }
+    .jingva-product-gallery-box{
+      background-color: #fff;
+      margin-top:8px;
+    }
+    .product-gallery__nav{width:30px;height:30px;}
+    .product-gallery__nav svg{width:10px;height:10px;}
+    .product-gallery__nav--prev{left:0px;}
+    .product-gallery__nav--next{right:0px;}
+  }
+  @media screen and (max-width: 999px) {
+
+
+    .jingva-product-gallery-box .product-gallery__choose{
+      position: absolute;
+      right: 0;
+      bottom:130px;
+      gap: 4px !important;
+      z-index: 99;
+    }
+    .jingva-product-gallery-box .product-gallery__choose .product__choose-btn{
+      padding: 3px 4px !important;
+      height:auto !important;
+    }
+  }
+
+  @media screen and (max-width: 750px) {
+    .jingva-product-gallery-box .jingva-scroll-shadow-box{
+      margin-bottom: 0;
+      margin-top: 14px;
+    }
+  }
+</style>
 
 <product-gallery form="{{ product_form_id }}" filtered-indexes="{{ filtered_indexes | json }}" {%- if section.settings.enable_image_zoom -%}allow-zoom="{{ section.settings.max_image_zoom_level }}"{% endif %} class="product-gallery {% if section.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %} {% if section.settings.desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %} {% if section.settings.desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %} {% if section.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}">
   {%- capture page_dots -%}
@@ -61,104 +157,6 @@ only way to do it on Shopify right now.
     </page-dots>
   {%- endcapture -%}
 
-  <style>
-    .product-gallery .page-dots>* {
-      width: 8px;
-      height: 2px;
-      
-    }
-    .product-gallery .page-dots--blurred{
-      margin-top: 18px;
-    }
-    .page-dots>[aria-current=true], 
-    .swiper-pagination span.swiper-pagination-bullet.swiper-pagination-bullet-active{
-      background-color: #000;
-      height: 2px;
-      width: 8px;
-    }
-    .jingva-product-gallery-box{
-      position: relative;
-    }
-    /* always hide legacy mouse-follow cursor */
-    .product-gallery__cursor{display:none !important;}
-    /* arrows */
-    .product-gallery__media-list-wrapper{position: relative;}
-    .product-gallery__nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#111;border:1px solid #111;cursor:pointer;z-index:3;transition:all .2s ease;}
-    .product-gallery__nav:hover:not([disabled]){background:#000;color:#fff;border-color:#000;}
-    .product-gallery__nav[disabled]{;color:#D3D3D3;border-color:#D3D3D3;cursor:default;}
-    .product-gallery__nav svg{width:14px;height:14px;}
-    .product-gallery__nav--prev{left:-64px;}
-    .product-gallery__nav--next{right:-64px;}
-
- 
-    .jingva-product-gallery-box .jingva-scroll-shadow-box{
-      margin: 26px auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .jingva-product-img-video-svg-box{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      color: #c6c6c6;
-    }
-    .jingva-product-img-video-svg-box .active{
-      color: #fff;
-      background: #000;
-    }
-    .jingva-product-img-video-svg-box .j-icon-box{
-      border: 1px solid #c6c6c6;
-      border-radius: 8px;
-      padding: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-    }
-    .jingva-product-img-video-svg-box .img-box{
-      padding: 5px;
-    }
-
-    
-
-    @media screen and (max-width: 1000px) {
-      .product-gallery .page-dots--blurred{
-        /* position: absolute; */
-      }
-      .jingva-product-gallery-box{
-        background-color: #fff;
-        margin-top:8px;
-      }
-      .product-gallery__nav{width:30px;height:30px;}
-      .product-gallery__nav svg{width:10px;height:10px;}
-      .product-gallery__nav--prev{left:0px;}
-      .product-gallery__nav--next{right:0px;}
-    }
-    @media screen and (max-width: 999px) {
-  
-
-      .jingva-product-gallery-box .product-gallery__choose{
-        position: absolute;
-        right: 0;
-        bottom:130px;
-        gap: 4px !important;
-        z-index: 99;
-      }
-      .jingva-product-gallery-box .product-gallery__choose .product__choose-btn{
-        padding: 3px 4px !important;
-        height:auto !important;
-      }
-    }
-
-    @media screen and (max-width: 750px) {
-      .jingva-product-gallery-box .jingva-scroll-shadow-box{
-        margin-bottom: 0;
-        margin-top: 14px;
-      }
-    }
-  
-
-  </style>
   <div class="jingva-product-gallery-box rounded-sm">
     <div class="product-gallery__ar-wrapper">
       <div class="product-gallery__media-list-wrapper">
@@ -193,7 +191,7 @@ only way to do it on Shopify right now.
               {% for variant in product.variants %}
                 {% assign vpos = variant.featured_media.position | append: '' %}
                 <div class="product-gallery__media snap-center is-selected"  data-id="{{ variant.id }}" data-media-type="{{ variant.featured_media.media_type }}" data-media-id="{{ variant.featured_media.id }}" data-media-type="{{ variant.featured_media.media_type }}"  {% if filtered_indexes contains vpos and variant.featured_media != default_media %}hidden{% endif %}>
-                  {%- render 'media', media: variant.featured_media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
+                  {%- render 'media', media: variant.featured_media, sizes: sizes, preload: true, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
                 </div>
                 {% for image in variant.metafields.custom.images.value %}
                       {% assign ipos = image.position | append: '' %}

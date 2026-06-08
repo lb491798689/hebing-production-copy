@@ -1,0 +1,280 @@
+{% style %}
+  div.shopify-section {
+    margin-top: 0!important;
+  }
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section
+  id="{{ section.id }}"
+  style="background-color: {{ section.settings.background_color }};"
+  class="event-exclusive tw:overflow-hidden tw:font-gabarito tw:text-white"
+>
+  <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:gap-[46px] tw:max-md:max-w-none tw:max-md:gap-12 tw:max-md:px-0">
+    {%- if section.settings.title != blank -%}
+      <h2
+        class="
+          tw:m-0 tw:w-full tw:text-center tw:text-[48px] tw:font-semibold tw:leading-[1.2]
+          tw:capitalize tw:tracking-normal tw:max-md:text-[32px] tw:font-gabarito
+        "
+      >
+        {{ section.settings.title | escape | newline_to_br }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="
+          tw:grid tw:grid-cols-3 tw:items-start tw:gap-[14px]
+          tw:max-md:flex tw:max-md:gap-3 tw:max-md:overflow-x-auto tw:max-md:[scrollbar-width:none]
+          tw:max-md:px-4
+        "
+      >
+        {%- for block in section.blocks -%}
+          <article
+            class="
+              tw:relative tw:h-[540px] tw:min-w-0 tw:overflow-hidden tw:rounded-[12px]
+              tw:max-md:h-[440px] tw:max-md:w-[320px] tw:max-md:shrink-0
+            "
+            {{ block.shopify_attributes }}
+          >
+            <div
+              class="
+                tw:absolute tw:bottom-0 tw:left-0 tw:h-[435px] tw:w-full tw:rounded-[12px]
+                tw:bg-[linear-gradient(180deg,#ddefff_0%,#93baf0_100%)]
+                tw:max-md:h-[390px] tw:max-md:bg-[linear-gradient(180deg,#ddefff_0%,#95bbf1_100%)]
+              "
+              aria-hidden="true"
+            ></div>
+
+            <div
+              class="
+                tw:absolute tw:left-0 tw:top-0 tw:z-1 tw:flex tw:h-[290px] tw:w-full tw:items-center tw:justify-center
+                tw:overflow-hidden tw:max-md:h-[253px] tw:max-md:px-0
+              "
+            >
+              {%- if block.settings.image != blank -%}
+                {{
+                  block.settings.image
+                  | image_url: width: block.settings.image.width
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '320,390,640,780,960,1200',
+                    sizes: '(min-width: 769px) 390px, 320px',
+                    class: 'tw:h-full tw:w-full tw:object-contain',
+                    alt: block.settings.image.alt
+                }}
+              {%- else -%}
+                <div class="tw:flex tw:h-full tw:w-full tw:items-center tw:justify-center tw:text-[20px] tw:font-semibold tw:text-black/30">
+                  Image
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div
+              class="
+                tw:absolute tw:left-0 tw:top-[322px] tw:bottom-0 tw:z-2 tw:flex tw:w-full tw:flex-col tw:items-center
+                tw:justify-between tw:px-[30px] tw:pb-9 tw:text-center tw:text-black
+                tw:max-md:top-[268px] tw:max-md:gap-4 tw:max-md:px-5 tw:max-md:pb-8
+              "
+            >
+              <div class="tw:flex tw:w-full tw:flex-col tw:items-center tw:gap-[5px]">
+                {%- if block.settings.title != blank -%}
+                  <h3
+                    class="
+                      tw:m-0 tw:w-full tw:text-[36px] tw:font-semibold tw:leading-none tw:capitalize
+                      tw:max-md:text-[24px] tw:font-gabarito
+                    "
+                  >
+                    {{ block.settings.title | escape | newline_to_br }}
+                  </h3>
+                {%- endif -%}
+
+                {%- if block.settings.desc != blank -%}
+                  <div
+                    class="
+                      tw:w-full tw:text-[20px] tw:font-normal tw:leading-[1.2]
+                      tw:max-md:text-[16px]
+                    "
+                  >
+                    {{ block.settings.desc | escape | newline_to_br }}
+                  </div>
+                {%- endif -%}
+              </div>
+
+              {%- if block.settings.open_spin -%}
+                <button
+                  data-open-spin
+                  class="
+                    tw:inline-flex tw:h-12 tw:min-w-[148px] tw:items-center tw:justify-center tw:rounded-[12px]
+                    tw:bg-[#0051ff] tw:px-5 tw:py-3 tw:text-center tw:text-[16px] tw:font-semibold tw:leading-[1.2]
+                    tw:text-[#f4f4f4] tw:no-underline tw:transition-colors tw:duration-200
+                    tw:hover:bg-[#266eff] tw:max-md:h-9 tw:max-md:min-w-[94px] tw:max-md:rounded-md tw:max-md:px-3 tw:max-md:py-2
+                  "
+                >
+                  {{ block.settings.button_text | escape }}
+                </button>
+              {%- else if block.settings.button_text != blank -%}
+                <a
+                  href="{% if block.settings.button_link != blank %}{{ block.settings.button_link }}{% else %}#{% endif %}"
+                  class="
+                    tw:inline-flex tw:h-12 tw:min-w-[148px] tw:items-center tw:justify-center tw:rounded-[12px]
+                    tw:bg-[#0051ff] tw:px-5 tw:py-3 tw:text-center tw:text-[16px] tw:font-semibold tw:leading-[1.2]
+                    tw:text-[#f4f4f4] tw:no-underline tw:transition-colors tw:duration-200
+                    tw:hover:bg-[#266eff] tw:max-md:h-9 tw:max-md:min-w-[94px] tw:max-md:rounded-md tw:max-md:px-3 tw:max-md:py-2
+                  "
+                >
+                  {{ block.settings.button_text | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+
+<script>
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var sectionEl = document.querySelector("#{{ section.id }}");
+    const button = sectionEl.querySelector('button[data-open-spin]');
+    button.addEventListener('click', function () {
+      document.querySelector("#omnisend-form-6916e373a6a40d14ddf37e77-teaser-btn")?.click();
+    });
+  })
+
+</script>
+
+{% schema %}
+{
+  "name": "Event exclusive",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Father’s Day Exclusive"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0a0227"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 140
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 64
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "exclusive_item",
+      "name": "Exclusive item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "textarea",
+          "id": "title",
+          "label": "Title",
+          "default": "Win A IEM Ticket!"
+        },
+        {
+          "type": "textarea",
+          "id": "desc",
+          "label": "Description",
+          "default": "100% Win Rate! Spin now for IEM tickets, backpacks, discounts — every spin wins instantly!"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text",
+          "default": "Spin Now"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_spin",
+          "label": "Open spin",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event exclusive",
+      "blocks": [
+        {
+          "type": "exclusive_item",
+          "settings": {
+            "title": "Win A IEM Ticket!",
+            "desc": "100% Win Rate! Spin now for IEM tickets, backpacks, discounts — every spin wins instantly!",
+            "button_text": "Spin Now"
+          }
+        },
+        {
+          "type": "exclusive_item",
+          "settings": {
+            "title": "The Best Price For Venus",
+            "desc": "Save €650 + Father’s Gift.",
+            "button_text": "Buy Now"
+          }
+        },
+        {
+          "type": "exclusive_item",
+          "settings": {
+            "title": "Win A Free Order",
+            "desc": "Join our Discord for a chance to get your gaming chair order for FREE, fastest after-sales support!",
+            "button_text": "Join Now"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -314,7 +314,7 @@
 </section>
 
 <script>
-  (function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const sectionId = '{{ sid }}';
     const desktopSlider = document.querySelector('.jingva-section-container-' + sectionId + ' [data-flagship-slider-desktop]');
     const mobileSlider = document.querySelector('.jingva-section-container-' + sectionId + ' [data-flagship-slider-mobile]');
@@ -350,7 +350,7 @@
 
     initSlider(desktopSlider);
     initSlider(mobileSlider);
-  })();
+  });
 </script>
 
 {% schema %}

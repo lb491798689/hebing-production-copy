@@ -1,4 +1,4 @@
-{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
+
 {%- unless section.settings.full_width -%}
     {%- render 'section-spacing-collapsing' -%}
   {%- endunless -%}
@@ -421,7 +421,6 @@
       </div>
     </div>
 
-  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   // 丝滑无限匀速滚动 + 允许拖动（悬停/触摸时暂停，移开/松开恢复）
@@ -488,9 +487,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
-
-
-
 </script>
   {% schema %}
   {

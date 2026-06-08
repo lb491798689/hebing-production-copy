@@ -1,0 +1,954 @@
+{%- liquid
+  assign sid = section.id
+  assign se_stts = section.settings
+  assign faq_blocks = section.blocks
+  assign pad_top_pc = se_stts.padding_top_pc | default: 180 | plus: 0
+  assign pad_bottom_pc = se_stts.padding_bottom_pc | default: 170 | plus: 0
+  assign pad_top_mob = se_stts.padding_top_mobile | default: 68 | plus: 0
+  assign pad_bottom_mob = se_stts.padding_bottom_mobile | default: 68 | plus: 0
+-%}
+{% capture default_sid %}.event-faq-{{ sid }}{% endcapture %}
+
+<section
+  {% if se_stts.anchor_id != blank %}
+    id="{{ se_stts.anchor_id | escape }}"
+  {% endif %}
+  class="jingva-section-container event-faq-{{sid}}"
+  data-section-id="{{ sid }}"
+>
+  {% style %}
+    /* Scoped styles: desktop base, tablet and mobile overrides below. */
+    {{ default_sid }} {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      background-color: {{ se_stts.background_color | default: '#ffffff' }};
+      padding: {{ pad_top_pc }}px 0 {{ pad_bottom_pc }}px 0;
+      box-sizing: border-box;
+    }
+
+    {{ default_sid }} .event-faq-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 48px;
+      box-sizing: border-box;
+    }
+
+    {{ default_sid }} .event-faq-section-title {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 900;
+      font-size: 48px;
+      line-height: normal;
+      text-transform: uppercase;
+      color: #000000;
+      text-align: center;
+      margin: 0;
+    }
+
+    {{ default_sid }} .event-faq-item {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0px;
+      box-sizing: border-box;
+    }
+
+    {{ default_sid }} .event-faq-header {
+      appearance: none;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      font: inherit;
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding-bottom: 24px;
+      cursor: pointer;
+      box-sizing: border-box;
+      text-align: left;
+    }
+
+    /* PC 默认（item 2-5）: Gabarito 600 32px lh:1.2 */
+    {{ default_sid }} .event-faq-title {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 600;
+      font-size: 32px;
+      line-height: 1.2;
+      color: #000000;
+      text-align: left;
+      margin: 0;
+      flex: 1;
+    }
+
+    {{ default_sid }} .event-faq-icon {
+      position: relative;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border: 2.2px solid #000000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      transition: transform 0.3s ease;
+    }
+
+    {{ default_sid }} .event-faq-icon::before,
+    {{ default_sid }} .event-faq-icon::after {
+      content: '';
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.85);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    {{ default_sid }} .event-faq-icon::before {
+      width: 15px;
+      height: 2.2px;
+    }
+
+    {{ default_sid }} .event-faq-icon::after {
+      width: 2.2px;
+      height: 15px;
+    }
+
+    {{ default_sid }} .event-faq-item.is-active .event-faq-icon::after {
+      transform: rotate(90deg);
+      opacity: 0;
+    }
+
+    {{ default_sid }} .event-faq-content {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      height: 0;
+      opacity: 0;
+      transition: height 0.36s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.24s ease;
+      box-sizing: border-box;
+      will-change: height;
+    }
+
+    {{ default_sid }} .event-faq-item.is-active .event-faq-content {
+      opacity: 1;
+    }
+
+    {{ default_sid }} .event-faq-content-inner {
+      padding: 0 0 24px 0;
+    }
+
+    {{ default_sid }} .event-faq-content p {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.6);
+      margin: 0;
+    }
+
+    /* What's in the Box Styles */
+    {{ default_sid }} .event-faq-whats-in-box-image {
+      width: 100%;
+      padding: 24px 0 0 0;
+      box-sizing: border-box;
+    }
+
+    {{ default_sid }} .event-faq-image-pc {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    {{ default_sid }} .event-faq-image-mob {
+      display: none;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Specs Styles */
+    {{ default_sid }} .event-faq-specs-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 128px;
+      padding: 24px 0 0 0;
+    }
+
+    {{ default_sid }} .event-faq-spec-column {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    {{ default_sid }} .event-faq-spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    {{ default_sid }} .event-faq-spec-label {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 19.2px;
+      color: rgba(0, 0, 0, 1);
+    }
+
+    {{ default_sid }} .event-faq-spec-value {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: normal;
+      color: rgba(0, 0, 0, 0.6);
+      white-space: pre-line;
+    }
+
+    /* FAQ Q&A Styles */
+    {{ default_sid }} .event-faq-qa-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 24px 0 0 0;
+    }
+
+    {{ default_sid }} .event-faq-qa-item {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    {{ default_sid }} .event-faq-question {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      line-height: 1.2;
+      color: rgba(0, 0, 0, 1);
+    }
+
+    {{ default_sid }} .event-faq-answer {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 1.2;
+      color: rgba(0, 0, 0, 0.6);
+      white-space: pre-line;
+    }
+
+    /* Reviews Styles */
+    {{ default_sid }} .event-faq-reviews {
+      font-family: 'Gabarito', sans-serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 1.5;
+      color: rgba(0, 0, 0, 0.6);
+    }
+
+    {{ default_sid }} .event-faq-divider {
+      width: 100%;
+      height: 1px;
+      background-color: rgba(0, 0, 0, 0.12);
+      flex-shrink: 0;
+    }
+
+    /* === PAD: 1280~1439 === */
+    @media screen and (min-width: 1280px) and (max-width: 1439px) {
+      {{ default_sid }} .event-faq-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 40px;
+        gap: 40px;
+      }
+
+      {{ default_sid }} .event-faq-title {
+        font-size: 28px;
+      }
+    }
+
+    /* === MOB: 375~1279 === */
+    @media screen and (max-width: 1279px) {
+      {{ default_sid }} {
+        padding: {{ pad_top_mob }}px 0 {{ pad_bottom_mob }}px 0;
+      }
+
+      {{ default_sid }} .event-faq-wrapper {
+        margin: 0 auto;
+        padding: 0 16px;
+        gap: 24px;
+        max-width: 100%;
+      }
+
+      {{ default_sid }} .event-faq-section-title {
+        font-size: 32px;
+      }
+
+      {{ default_sid }} .event-faq-item {
+        gap: 0;
+      }
+
+      {{ default_sid }} .event-faq-header {
+        padding-bottom: 24px;
+      }
+
+
+      /* MOB 所有项: Gabarito 600 20px lh:1.2（按输入展示）*/
+      {{ default_sid }} .event-faq-title {
+        font-family: 'Gabarito', sans-serif;
+        font-size: 20px;
+        line-height: 1.2;
+        text-transform: none;
+      }
+
+      {{ default_sid }} .event-faq-icon {
+        width: 24px;
+        height: 24px;
+        border-width: 1.333px;
+      }
+
+      {{ default_sid }} .event-faq-icon::before {
+        width: 11.25px;
+        height: 1.6px;
+      }
+
+      {{ default_sid }} .event-faq-icon::after {
+        width: 1.6px;
+        height: 11.25px;
+      }
+
+      {{ default_sid }} .event-faq-content-inner {
+        padding: 0 0 12px 0;
+      }
+
+      {{ default_sid }} .event-faq-content p {
+        font-size: 14px;
+      }
+
+      /* What's in the Box Mobile */
+      {{ default_sid }} .event-faq-whats-in-box-image {
+        padding: 16px 0 0 0;
+      }
+
+      {{ default_sid }} .event-faq-image-pc {
+        display: none;
+      }
+
+      {{ default_sid }} .event-faq-image-mob {
+        display: block;
+      }
+
+      /* Specs Mobile */
+      {{ default_sid }} .event-faq-specs-list {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 12px 0 0 0;
+      }
+
+      {{ default_sid }} .event-faq-spec-item {
+        gap: 8px;
+      }
+
+      {{ default_sid }} .event-faq-spec-label {
+        font-size: 16px;
+      }
+
+      {{ default_sid }} .event-faq-spec-value {
+        font-size: 12px;
+      }
+
+      /* FAQ Mobile */
+      {{ default_sid }} .event-faq-qa-list {
+        gap: 12px;
+        padding: 12px 0 0 0;
+      }
+
+      {{ default_sid }} .event-faq-qa-item {
+        gap: 8px;
+      }
+
+      {{ default_sid }} .event-faq-question {
+        font-size: 18px;
+      }
+
+      {{ default_sid }} .event-faq-answer {
+        font-size: 16px;
+      }
+
+      /* Reviews Mobile */
+      {{ default_sid }} .event-faq-reviews {
+        padding: 12px 0 0 0;
+      }
+    }
+  {% endstyle %}
+
+  {% if se_stts.title != blank or faq_blocks.size > 0 %}
+    <div class="event-faq-wrapper">
+      {% if se_stts.title != blank %}
+        <h2 class="event-faq-section-title">{{ se_stts.title | escape }}</h2>
+      {% endif %}
+
+      {% if faq_blocks.size > 0 %}
+        {% for block in faq_blocks %}
+          <div class="event-faq-item" data-index="{{ forloop.index0 }}">
+            <button
+              class="event-faq-header"
+              type="button"
+              aria-expanded="false"
+              aria-controls="event-faq-content-{{ section.id }}-{{ block.id }}"
+            >
+              {% if block.settings.title != blank %}
+                <span class="event-faq-title">{{ block.settings.title }}</span>
+              {% endif %}
+              <span class="event-faq-icon" aria-hidden="true"></span>
+            </button>
+
+            <div
+              id="event-faq-content-{{ section.id }}-{{ block.id }}"
+              class="event-faq-content"
+              role="region"
+            >
+              <div class="event-faq-content-inner">
+                {% case block.type %}
+                  {% when 'whats_in_box' %}
+                    <div class="event-faq-whats-in-box-image">
+                      {% if block.settings.pc_image != blank %}
+                        <img
+                          class="event-faq-image-pc"
+                          src="{{ block.settings.pc_image | image_url: width: 1200 }}"
+                          alt="{{ block.settings.title | default: "What's in the box" | escape }}"
+                          loading="lazy"
+                          width="1200"
+                          height="auto"
+                        >
+                      {% endif %}
+                      {% if block.settings.mob_image != blank %}
+                        <img
+                          class="event-faq-image-mob"
+                          src="{{ block.settings.mob_image | image_url: width: 375 }}"
+                          alt="{{ block.settings.title | default: "What's in the box" | escape }}"
+                          loading="lazy"
+                          width="375"
+                          height="auto"
+                        >
+                      {% endif %}
+                    </div>
+                  {% when 'specs' %}
+                    <div class="event-faq-specs-list">
+                      {% for col in (1..3) %}
+                        <div class="event-faq-spec-column">
+                          {% for i in (1..5) %}
+                            {% assign lk = 'col' | append: col | append: '_label_' | append: i %}
+                            {% assign vk = 'col' | append: col | append: '_value_' | append: i %}
+                            {% if block.settings[lk] != blank %}
+                              <div class="event-faq-spec-item">
+                                <div class="event-faq-spec-label">{{ block.settings[lk] }}</div>
+                                {% if block.settings[vk] != blank %}
+                                  <div class="event-faq-spec-value">{{ block.settings[vk] }}</div>
+                                {% endif %}
+                              </div>
+                            {% endif %}
+                          {% endfor %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% when 'faq' %}
+                    <div class="event-faq-qa-list">
+                      {% for i in (1..3) %}
+                        {% assign question_key = 'faq_' | append: i | append: '_question' %}
+                        {% assign answer_key = 'faq_' | append: i | append: '_answer' %}
+
+                        {% if block.settings[question_key] != blank %}
+                          <div class="event-faq-qa-item">
+                            <div class="event-faq-question">{{ block.settings[question_key] }}</div>
+                            <div class="event-faq-answer">{{ block.settings[answer_key] | newline_to_br }}</div>
+                          </div>
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  {% when 'reviews' %}
+                    {% if block.settings.content != blank %}
+                      <div class="event-faq-reviews">{{ block.settings.content }}</div>
+                    {% endif %}
+                {% endcase %}
+              </div>
+            </div>
+            {% unless forloop.last %}
+              <div class="event-faq-divider"></div>
+            {% endunless %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% if faq_blocks.size > 0 %}
+    <script>
+      (function () {
+        var container = document.querySelector('{{ default_sid }}');
+        if (!container) return;
+
+        var items = container.querySelectorAll('.event-faq-item');
+
+        function setItemState(item, shouldOpen) {
+          var header = item.querySelector('.event-faq-header');
+          var content = item.querySelector('.event-faq-content');
+          if (!header || !content) return;
+
+          item.classList.toggle('is-active', shouldOpen);
+          header.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+
+          if (shouldOpen) {
+            content.style.height = content.scrollHeight + 'px';
+          } else {
+            content.style.height = content.scrollHeight + 'px';
+            content.offsetHeight;
+            content.style.height = '0px';
+          }
+        }
+
+        items.forEach(function (item) {
+          var header = item.querySelector('.event-faq-header');
+          if (!header) return;
+
+          header.addEventListener('click', function () {
+            var isActive = item.classList.contains('is-active');
+
+            items.forEach(function (i) {
+              if (i !== item) setItemState(i, false);
+            });
+
+            setItemState(item, !isActive);
+          });
+
+          var content = item.querySelector('.event-faq-content');
+          if (content) {
+            content.addEventListener('transitionend', function (event) {
+              if (event.propertyName !== 'height') return;
+              if (item.classList.contains('is-active')) {
+                content.style.height = 'auto';
+              }
+            });
+          }
+        });
+
+        window.addEventListener('resize', function () {
+          items.forEach(function (item) {
+            var content = item.querySelector('.event-faq-content');
+            if (content && item.classList.contains('is-active')) {
+              content.style.height = content.scrollHeight + 'px';
+              window.requestAnimationFrame(function () {
+                content.style.height = 'auto';
+              });
+            }
+          });
+        });
+      })();
+    </script>
+  {% endif %}
+</section>
+
+{% schema %}
+{
+  "name": "Event FAQ",
+  "class": "shopify-section--event-faq",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Anchor ID (for subnav navigation)",
+      "info": "The id attribute for subnav to scroll to this section (without #)"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "FAQS"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (desktop ≥1280)",
+      "default": 180
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (desktop ≥1280)",
+      "default": 170
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (mobile ≤1279)",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (mobile ≤1279)",
+      "default": 68
+    }
+  ],
+  "blocks": [
+    {
+      "type": "whats_in_box",
+      "name": "What's in the Box",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "What's in the box"
+        },
+        {
+          "type": "image_picker",
+          "id": "pc_image",
+          "label": "PC Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "mob_image",
+          "label": "Mobile Image"
+        }
+      ]
+    },
+    {
+      "type": "specs",
+      "name": "Specs",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Specs"
+        },
+        {
+          "type": "header",
+          "content": "Column 1 Items"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_1",
+          "label": "Col 1 - Item 1 Label",
+          "default": "Lumbar Support"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_1",
+          "label": "Col 1 - Item 1 Value",
+          "default": "Height adjustment: 6 levels, 4 cm travel\nForward/backward lockable adjustment: 5 levels, 3 cm travel\n12° rotation\nVertical sliding adjustment: 2 cm travel\nSide wings: 40° inward/outward folding adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_2",
+          "label": "Col 1 - Item 2 Label",
+          "default": "Armrests"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_2",
+          "label": "Col 1 - Item 2 Value",
+          "default": "Main axis 360° rotation\nSecondary axis 360° rotation\n4-level 39° folding adjustment: 2 levels 26° upward, 1 level 13° downward\n6 cm forward/backward adjustment\n7 cm height adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_3",
+          "label": "Col 1 - Item 3 Label",
+          "default": "Armrest Top"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_3",
+          "label": "Col 1 - Item 3 Value",
+          "default": "Armrest pad: PU foam"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_4",
+          "label": "Col 1 - Item 4 Label",
+          "default": "Multi-tilt Mechanism"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_4",
+          "label": "Col 1 - Item 4 Value",
+          "default": "Weight-activated chassis with cable-controlled adjustment"
+        },
+        {
+          "type": "text",
+          "id": "col1_label_5",
+          "label": "Col 1 - Item 5 Label",
+          "default": "Recline (Tilt unlocked)"
+        },
+        {
+          "type": "textarea",
+          "id": "col1_value_5",
+          "label": "Col 1 - Item 5 Value",
+          "default": "Recline range: 100° to 140°, with 4 lockable positions at 100°, 110°, 125°, and 140°"
+        },
+        {
+          "type": "header",
+          "content": "Column 2 Items"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_1",
+          "label": "Col 2 - Item 1 Label",
+          "default": "Construction and Material"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_1",
+          "label": "Col 2 - Item 1 Value",
+          "default": "Backrest cover/filling: Dragon Pattern special mesh\nLumbar support cover/filling: Dragon Pattern special mesh + protein leather\nSeat cover/filling: 4-way stretch mesh\nHeadrest cover/filling: High-density special mesh\nArmrest cover/filling: PU foam\nFootrest cover/filling: Cut foam + protein leather"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_2",
+          "label": "Col 2 - Item 2 Label",
+          "default": "Frame Construction"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_2",
+          "label": "Col 2 - Item 2 Value",
+          "default": "Nylon 6 + 30% glass fiber"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_3",
+          "label": "Col 2 - Item 3 Label",
+          "default": "Available Upholstery"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_3",
+          "label": "Col 2 - Item 3 Value",
+          "default": "Mesh"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_4",
+          "label": "Col 2 - Item 4 Label",
+          "default": "Logo"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_4",
+          "label": "Col 2 - Item 4 Value",
+          "default": "Autofull"
+        },
+        {
+          "type": "text",
+          "id": "col2_label_5",
+          "label": "Col 2 - Item 5 Label",
+          "default": "Head Pillow"
+        },
+        {
+          "type": "textarea",
+          "id": "col2_value_5",
+          "label": "Col 2 - Item 5 Value",
+          "default": "Component contains neodymium magnets\nHeadrest frame rotation: 70°\nHeadrest bracket folding and swivel adjustment: 70°\nHeight adjustment range: 4.5 cm\nForward/backward adjustment: 5 levels, 5 cm travel"
+        },
+        {
+          "type": "header",
+          "content": "Column 3 Items"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_1",
+          "label": "Col 3 - Item 1 Label",
+          "default": "Hydraulic Gas Piston"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_1",
+          "label": "Col 3 - Item 1 Value",
+          "default": "Class 4 gas lift"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_2",
+          "label": "Col 3 - Item 2 Label",
+          "default": "Wheelbase"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_2",
+          "label": "Col 3 - Item 2 Value",
+          "default": "70 cm"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_3",
+          "label": "Col 3 - Item 3 Label",
+          "default": "Caster"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_3",
+          "label": "Col 3 - Item 3 Value",
+          "default": "PU casters"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_4",
+          "label": "Col 3 - Item 4 Label",
+          "default": "Dimensions"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_4",
+          "label": "Col 3 - Item 4 Value",
+          "default": "Seat height range (cm): 47.5-55.5\nBackrest height × width (cm): 38.8 × 53\nSeat depth range (cm): 38-46\nBase width (cm): 70"
+        },
+        {
+          "type": "text",
+          "id": "col3_label_5",
+          "label": "Col 3 - Item 5 Label",
+          "default": "Package Info"
+        },
+        {
+          "type": "textarea",
+          "id": "col3_value_5",
+          "label": "Col 3 - Item 5 Value",
+          "default": "Packaging dimensions (cm): 81 × 69 × 48\nPackaging weight (kg): 3.5 ± 0.5\nNet weight (kg): 26.8 ± 0.5"
+        }
+      ]
+    },
+    {
+      "type": "faq",
+      "name": "FAQ",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "FAQs"
+        },
+        {
+          "type": "header",
+          "content": "FAQ Items"
+        },
+        {
+          "type": "text",
+          "id": "faq_1_question",
+          "label": "FAQ 1 Question",
+          "default": "Is the Hbada E3 good for back pain?"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_1_answer",
+          "label": "FAQ 1 Answer",
+          "default": "Yes. The Hbada E3 is designed with ergonomic lumbar support to help relieve back pain caused by long periods of sitting. It promotes better posture and reduces pressure on the lower back."
+        },
+        {
+          "type": "text",
+          "id": "faq_2_question",
+          "label": "FAQ 2 Question",
+          "default": "FAQ 2 Question"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_2_answer",
+          "label": "FAQ 2 Answer",
+          "default": "FAQ 2 Answer"
+        },
+        {
+          "type": "text",
+          "id": "faq_3_question",
+          "label": "FAQ 3 Question",
+          "default": "FAQ 3 Question"
+        },
+        {
+          "type": "textarea",
+          "id": "faq_3_answer",
+          "label": "FAQ 3 Answer",
+          "default": "FAQ 3 Answer"
+        }
+      ]
+    },
+    {
+      "type": "reviews",
+      "name": "Reviews",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Reviews"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Reviews Content",
+          "default": "<p>Add customer reviews and testimonials here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event FAQ",
+      "blocks": [
+        {
+          "type": "whats_in_box",
+          "settings": {
+            "title": "What's in the box"
+          }
+        },
+        {
+          "type": "specs",
+          "settings": {
+            "title": "Specs"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "title": "FAQs"
+          }
+        },
+        {
+          "type": "reviews",
+          "settings": {
+            "title": "Reviews"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

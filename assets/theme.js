@@ -1001,7 +1001,7 @@ var BaseCarousel = class extends HTMLElement {
         this.addEventListener("carousel:settle", this._adjustHeight);
         this._adjustHeight();
       }
-      this.addEventListener("carousel:select", this._preloadImages, { signal: this._abortController.signal });
+      // this.addEventListener("carousel:select", this._preloadImages, { signal: this._abortController.signal });
       this.addEventListener("carousel:filter", this._filterItems, { signal: this._abortController.signal });
       this.addEventListener("control:prev", this.previous, { signal: this._abortController.signal });
       this.addEventListener("control:next", this.next, { signal: this._abortController.signal });

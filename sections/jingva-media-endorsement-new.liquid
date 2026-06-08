@@ -6,8 +6,6 @@
   assign endorsement_count = endorsement_blocks | size
 -%}
 
-{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag -}}
-
 <section{% if se_stts.anchor_id != blank %} id="{{ se_stts.anchor_id | escape }}"{% endif %} class="jingva-media-endorsement-new jingva-media-endorsement-new-{{ sid }}" data-section-id="{{ sid }}" style="--jme-pc-pt: {{ se_stts.pc_padding_top | default: 160 }}px; --jme-pc-pb: {{ se_stts.pc_padding_bottom | default: 0 }}px; --jme-mob-pt: {{ se_stts.mob_padding_top | default: 68 }}px; --jme-mob-pb: {{ se_stts.mob_padding_bottom | default: 0 }}px;">
   <style>
     /* === PC：≥1440（develop.md）=== */
@@ -481,8 +479,6 @@
     </div>
   {% endif %}
 </section>
-
-<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

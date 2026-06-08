@@ -17,9 +17,6 @@
 
 {% capture default_sid %}.jingva-asymmetric-slide-{{ sid }}{% endcapture %}
 
-<!-- Swiper CSS -->
-<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
-
 <section  class="jingva-asymmetric-slide jingva-asymmetric-slide-{{sid}} {{section.settings.section_css}}">
   {% style %}
   {{ default_sid }} {
@@ -694,8 +691,6 @@
   </div>
 </section>
 
-<!-- Swiper JS -->
-<script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const swiperContainer = document.querySelector('.asymmetric-swiper-{{sid}}');

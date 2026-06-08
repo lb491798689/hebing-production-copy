@@ -20,6 +20,7 @@
       "type": "esport-zone-banner",
       "name": "Esport Zone Banner",
       "settings": {
+        "video": "shopify://files/videos/5.11-傲风-1920X1080_3671ac29-fbbe-4001-b445-ac41579dd81b.mp4",
         "logo": "shopify://shop_images/logo_3.svg",
         "title": "Be your\nOwn Hero",
         "button_label": "WATCH MOVIE",

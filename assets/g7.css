@@ -1,0 +1,512 @@
+/* ========================================
+   G7 Product Page - Hide Buy Buttons & Always Show Sticky Cart
+   ======================================== */
+
+/* 隐藏页面中的 Add to Cart 按钮模块 */
+body.template-product-g7-20260402 .product-info__buy-buttons,
+body.template-product-m6-20260402 .product-info__buy-buttons {
+  display: none !important;
+}
+
+/* ========================================
+   G7 Custom Sticky Cart Bar — Desktop 参考 1045:45038；移动端 934:43045（≤767px Grid）
+   ======================================== */
+
+.g7-custom-sticky-cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #FFFFFF;  /* Figma: fills 白色 */
+  border-top: 1px solid rgba(26, 26, 26, 0.1);  /* Figma: strokes */
+  box-shadow: 0px -2px 12px rgba(0, 0, 0, 0.08);
+  /* Figma 1045:45038 padding 16/48/16/48 */
+  padding: 16px 48px;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
+.g7-sticky-cart-container {
+  width: 100%;
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Figma Frame 1973771599: HORIZONTAL space-between，无固定 gap；保留 24 兜底防紧贴 */
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Left Section: Delivery Info - Frame 1973771595 */
+.g7-sticky-delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;  /* Figma: itemSpacing = 8px */
+  flex-shrink: 0;
+}
+
+/* Deliver to + Singapore - Frame 1973771594 */
+.g7-delivery-to {
+  display: flex;
+  align-items: center;
+  gap: 4px;  /* Figma: itemSpacing = 4px */
+  font-family: Gabarito, sans-serif;
+  font-size: 16px;  /* Figma: fontSize = 16px */
+  line-height: 120%;  /* Figma: lineHeightPercentFontSize = 120% */
+}
+
+/* "Deliver to:" 文字 - ID: 1045:45047 */
+.g7-delivery-label {
+  color: #0A0A0A;  /* Figma: rgb(10,10,10) */
+  font-family: Gabarito, sans-serif;
+  font-size: 16px !important;
+  font-weight: 500;  /* Figma: Medium = 500 */
+  line-height: 120%;
+  letter-spacing: 0;
+}
+
+/* "Singapore" 文字 - ID: 1045:45048 */
+.g7-delivery-location {
+  color: #2873FF;  /* Figma: rgb(40,115,255) */
+  font-family: Gabarito, sans-serif;
+  font-size: 16px !important;
+  font-weight: 400;  /* Figma: Regular = 400 */
+  line-height: 120%;
+  text-decoration: underline;  /* Figma: textDecoration = UNDERLINE */
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+.g7-delivery-location:hover {
+  color: #1A5FCC;  /* 悬停时稍微变暗 */
+}
+
+/* 第二行 ships / 送达说明（Figma 934:43045 为动态日期句） */
+.g7-delivery-date {
+  color: rgba(26, 26, 26, 0.60);  /* Figma: opacity = 0.6 */
+  font-family: Gabarito, sans-serif;
+  font-size: 16px;  /* Figma: fontSize = 16px */
+  font-weight: 400;  /* Figma: Regular = 400 */
+  line-height: 120%;  /* Figma: lineHeightPercentFontSize = 120% */
+  letter-spacing: 0;
+}
+
+.g7-ships-text {
+  font-size: 16px;
+}
+
+/* Right Section: Price + Buttons */
+.g7-sticky-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-shrink: 0;
+}
+
+/* Price - ID: 1045:45052 */
+.g7-sticky-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+/* "$369.99" 文字 - ID: 1045:45054 */
+.g7-price-current {
+  color: #0A0A0A;  /* Figma: rgb(10,10,10) */
+  font-family: Gabarito, sans-serif;
+  font-size: 32px;  /* Figma: fontSize = 32px */
+  font-weight: 500;  /* Figma: Medium = 500 */
+  line-height: 120%;  /* Figma: lineHeightPercentFontSize = 120% */
+  letter-spacing: 0;  /* Figma: letterSpacing = 0 */
+}
+
+/* PAD/PC（>=1280px）隐藏划线价，仅 mob (<=1279) 展示 — 对齐 develop.md 断点 */
+@media screen and (min-width: 1280px) {
+  .g7-sticky-cart-container .g7-price-compare {
+    display: none !important;
+  }
+}
+
+/* 划线价：实色 #AEAEAE（与 .text-subdued 一致），避免 rgba 透明叠加变深 */
+.g7-price-compare {
+  color: #AEAEAE;
+  font-family: Gabarito, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 120%;
+  text-decoration: line-through;
+  text-decoration-color: #AEAEAE;
+}
+
+/* Buttons — Figma 1045:45058 BTN VERTICAL gap=4（按钮行 + 可选 Klarna 文案 17px） */
+.g7-sticky-buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.g7-sticky-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.g7-sticky-buttons buy-buttons {
+  display: contents;
+}
+
+/* Sticky 主按钮：PC 文案 Add To Cart；≤767px 为 Figma CheckOut */
+.g7-sticky-atc-label--mobile {
+  display: none;
+}
+
+.g7-btn-add-to-cart,
+.g7-btn-buy-now {
+  /* Figma 1045:45059 Frame 1973771808: 532×48, gap=12 → 单按钮 260×48 */
+  width: 260px;
+  height: 48px;
+  padding: 0 28px;
+  border-radius: 6px;
+  font-family: Gabarito, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 120%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.g7-btn-add-to-cart {
+  background: #E90102;
+  color: #FFFFFF;
+}
+
+.g7-btn-add-to-cart:hover {
+  background: #C00001;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(233, 1, 2, 0.3);
+}
+
+.g7-btn-buy-now {
+  background: #FFFFFF;
+  color: #0A0A0A;
+  border: 1.5px solid #0A0A0A;
+}
+
+.g7-btn-buy-now:hover {
+  background: #0A0A0A;
+  color: #FFFFFF;
+}
+
+/* Klarna Payment Info — cart-klarna.svg 40×16，与 14px 文案同一行垂直居中 */
+.g7-klarna-info {
+  display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  min-height: 16px;
+  font-family: Gabarito, sans-serif;
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(26, 26, 26, 0.70);
+}
+
+.g7-klarna-text {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: rgba(26, 26, 26, 0.70);
+  font-size: 14px;
+  line-height: 16px;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.g7-klarna-logo {
+  display: inline-block;
+  flex: 0 0 40px;
+  flex-shrink: 0;
+  width: 40px !important;
+  height: 16px !important;
+  min-width: 40px;
+  min-height: 16px;
+  max-width: 40px !important;
+  max-height: 16px !important;
+  margin: 0;
+  padding: 0;
+  object-fit: contain;
+  object-position: center;
+  vertical-align: middle;
+}
+
+.g7-klarna-link {
+  color: #FF1F1F;
+  text-decoration: underline;
+  text-decoration-color: #FF1F1F;
+  cursor: pointer;
+}
+
+.g7-klarna-link:hover {
+  color: #E01B1B;
+  text-decoration-color: #E01B1B;
+}
+
+/* 1280–1439 PAD：按钮宽度跟随 product-info 列宽（480px），Klarna 居中对齐按钮区 */
+@media screen and (min-width: 1280px) and (max-width: 1439px) {
+  .g7-btn-add-to-cart,
+  .g7-btn-buy-now {
+    /* product-info 列宽 480px，gap 12px → 单按钮 (480 - 12) / 2 = 234px */
+    width: 234px;
+  }
+
+  .g7-klarna-info {
+    justify-content: center;
+    width: 480px; /* 与按钮区总宽对齐 */
+  }
+}
+
+/* 1440+ PC：Klarna 居中对齐按钮区 */
+@media screen and (min-width: 1440px) {
+  .g7-klarna-info {
+    justify-content: center;
+    width: 532px; /* 与按钮区总宽对齐：260px + 12px gap + 260px */
+  }
+}
+
+/* ========================================
+   Mobile (mob) Sticky Cart — develop.md 断点 ≤ 1279px
+   Figma 934:43045（.btn 组件 / 是否展开=no）
+   版式：首行 Space between（价格组｜Deliver to）；次行 ships 文案；第三行双按钮 175×40、间距 8px；
+   垂直间距：价格块内 4px；ships 与按钮区 8px。外层 padding 16，顶圆角 8，投影 y=4 blur=20。
+   Klarna 文案层在该变体中为隐藏，mob 不展示。
+   ======================================== */
+@media screen and (max-width: 1279px) {
+  .g7-custom-sticky-cart {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: #FFFFFF;
+    border-radius: 8px 8px 0 0;
+    border-top: none;
+    box-shadow: 0 -4px 20px rgba(26, 26, 26, 0.2);
+    padding: 16px;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .g7-sticky-cart-container {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px !important;
+    align-items: start;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .g7-sticky-delivery,
+  .g7-sticky-right {
+    display: contents;
+  }
+
+  /* Row 1 col 1：价格 + 划线价 */
+  .g7-sticky-price {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  /* Figma 934:43045 现价 TEXT：fill rgb(26,26,26) */
+  .g7-price-current {
+    color: #1A1A1A;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+  }
+
+  .g7-price-compare {
+    color: #AEAEAE;
+    text-decoration-color: #AEAEAE;
+    font-family: Gabarito, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.4px;
+    text-decoration: line-through;
+  }
+
+  /* Row 1 col 2：Deliver to: + 国家 */
+  .g7-delivery-to {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    justify-self: end;
+  }
+
+  .g7-delivery-label {
+    color: #0A0A0A;
+    font-family: Gabarito, sans-serif;
+    font-size: 14px !important;
+    font-weight: 500;
+    line-height: 16.8px;
+    letter-spacing: -0.28px;
+  }
+
+  .g7-delivery-location {
+    color: #2873FF;
+    font-family: Gabarito, sans-serif;
+    font-size: 14px !important;
+    font-weight: 400;
+    line-height: 16.8px;
+    letter-spacing: -0.28px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Row 2：发货 / 送达说明（Figma 示例为单行 ships copy，opacity 0.6） */
+  .g7-delivery-date {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 4px;
+    color: rgba(26, 26, 26, 0.6);
+    font-family: Gabarito, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    letter-spacing: -0.28px;
+    text-align: left;
+  }
+
+  .g7-ships-text {
+    display: block;
+    font-size: 14px;
+    line-height: 16.8px;
+    margin-bottom: 4px !important;
+  }
+
+  /* Row 3：按钮区 */
+  .g7-sticky-buttons-wrapper {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .g7-sticky-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .g7-sticky-buttons buy-buttons {
+    display: contents;
+  }
+
+  .g7-sticky-atc-label--desktop {
+    display: none;
+  }
+
+  .g7-sticky-atc-label--mobile {
+    display: inline;
+  }
+
+  .g7-btn-add-to-cart,
+  .g7-btn-buy-now {
+    box-sizing: border-box;
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 12px;
+    border-radius: 8px;
+    font-family: Gabarito, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16.8px;
+    letter-spacing: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Figma Base Botton Kit：fill rgb(233,2,2)；标签 TEXT rgb(243,243,243) */
+  .g7-btn-add-to-cart {
+    background: #E90102;
+    color: #F3F3F3;
+    border: none;
+  }
+
+  .g7-btn-add-to-cart:hover {
+    background: #C00001;
+    color: #F3F3F3;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* 线框按钮：1px #0A0A0A */
+  .g7-btn-buy-now {
+    background: #FFFFFF;
+    color: #0A0A0A;
+    border: 1px solid #0A0A0A;
+  }
+
+  .g7-btn-buy-now:hover {
+    background: #0A0A0A;
+    color: #FFFFFF;
+  }
+
+  /* 该 Figma 变体未展开 Klarna 文案层 */
+  .g7-klarna-info {
+    display: none !important;
+  }
+}
+
+/* 极小屏 (<360px)：iPhone SE 等，进一步收紧 padding 避免按钮挤压 */
+@media screen and (max-width: 359px) {
+  .g7-custom-sticky-cart {
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .g7-sticky-buttons {
+    gap: 6px;
+  }
+
+  .g7-btn-add-to-cart,
+  .g7-btn-buy-now {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .g7-price-current,
+  .g7-price-compare {
+    font-size: 18px;
+  }
+}

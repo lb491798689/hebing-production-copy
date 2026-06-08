@@ -232,7 +232,7 @@
 </section>
 
 <script>
-  (function () {
+  document.addEventListener('DOMContentLoaded', function() {
     var sectionId = '{{ sid }}';
     var root = document.querySelector('.jingva-section-container-' + sectionId);
     if (!root) return;
@@ -299,7 +299,7 @@
         if (mq.matches) initSwiper();
       }
     });
-  })();
+  });
 </script>
 
 {% schema %}

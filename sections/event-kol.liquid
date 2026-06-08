@@ -1,0 +1,437 @@
+{% style %}
+  #{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  #{{ section.id }} .swiper-button-next,
+  #{{ section.id }} .swiper-button-prev {
+    position: static;
+    margin: 0;
+  }
+
+  #{{ section.id }} .swiper-button-next::after,
+  #{{ section.id }} .swiper-button-prev::after {
+    content: none;
+  }
+
+  #{{ section.id }} .swiper-button-disabled {
+    border-color: rgba(0, 0, 0, 0.2);
+    color: rgba(0, 0, 0, 0.2);
+    pointer-events: none;
+  }
+
+  #{{ section.id }} .event-kol__media.is-playing .event-kol__play-button {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    #{{ section.id }} {
+      padding-top: {{ section.settings.padding_top_mobile }}px;
+      padding-bottom: {{ section.settings.padding_bottom_mobile }}px;
+    }
+  }
+{% endstyle %}
+
+<section
+  id="{{ section.id }}"
+  class="event-kol tw:overflow-hidden tw:bg-[#ddefff] tw:font-gabarito tw:text-[#0a0a0a]"
+  data-event-kol
+>
+  <div
+    class="
+      tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:items-start tw:gap-12
+      tw:max-md:max-w-none tw:max-md:px-4 tw:max-md:gap-3
+    "
+  >
+    {%- if section.settings.title != blank -%}
+      <h2
+        id="EventKolTitle-{{ section.id }}"
+        class="
+          tw:m-0 tw:w-full tw:text-center tw:text-[48px] tw:font-semibold tw:leading-[1.2]
+          tw:capitalize tw:tracking-normal tw:max-md:text-left tw:max-md:text-[28px] tw:font-gabarito
+        "
+      >
+        {{ section.settings.title | escape | newline_to_br }}
+      </h2>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <div
+        class="tw:flex tw:w-full tw:flex-col tw:items-start tw:gap-6"
+        role="region"
+        aria-roledescription="carousel"
+        {% if section.settings.title != blank %}
+          aria-labelledby="EventKolTitle-{{ section.id }}"
+        {% else %}
+          aria-label="Explore AutoFull with users"
+        {% endif %}
+      >
+        <div class="swiper tw:w-full tw:overflow-visible">
+          <div class="swiper-wrapper tw:flex">
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign product = block.settings.product
+                assign current_variant = null
+                if product != blank
+                  assign current_variant = product.selected_or_first_available_variant
+                  if current_variant == blank
+                    assign current_variant = product.variants.first
+                  endif
+                endif
+
+                assign product_image = blank
+                if current_variant != blank
+                  assign product_image = current_variant.featured_image | default: current_variant.featured_media.preview_image
+                endif
+                if product_image == blank and product != blank
+                  assign product_image = product.featured_image
+                endif
+
+                assign card_url = block.settings.link
+                if card_url == blank and product != blank
+                  assign card_url = product.url
+                endif
+
+                assign product_title = product.title | default: 'AutoFull M6 Ultra+ 2.0 Shiatsu Massage Gaming Chair'
+                assign video_poster = block.settings.video.preview_image
+              -%}
+
+              <div
+                class="
+                  swiper-slide tw:w-[404px]! {% unless forloop.last %}tw:pr-3{% endunless %}
+                  tw:max-md:w-[333px]!
+                "
+                {{ block.shopify_attributes }}
+              >
+                <article class="tw:block tw:w-full tw:overflow-hidden tw:rounded-[12px]">
+                  <div
+                    class="
+                      event-kol__media tw:relative tw:h-[580px] tw:w-full tw:cursor-pointer tw:overflow-hidden tw:rounded-t-[12px] tw:bg-[#c8d9e8]
+                      tw:max-md:aspect-[320/479] tw:max-md:h-auto
+                    "
+                    data-video-media
+                  >
+                    {%- if block.settings.video != blank -%}
+                      {{
+                        block.settings.video
+                        | video_tag:
+                          loop: true,
+                          playsinline: true,
+                          controls: false,
+                          preload: 'metadata',
+                          image_size: '900x',
+                          class: 'tw:absolute tw:inset-0 tw:h-full tw:w-full tw:object-cover'
+                      }}
+                    {%- elsif video_poster != blank -%}
+                      {{
+                        video_poster
+                        | image_url: width: 900
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '320,392,480,640,784,900',
+                          sizes: '(min-width: 769px) 392px, 321px',
+                          class: 'tw:absolute tw:inset-0 tw:h-full tw:w-full tw:object-cover',
+                          alt: video_poster.alt
+                      }}
+                    {%- else -%}
+                      <div class="tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center tw:text-[20px] tw:font-semibold tw:text-black/30">
+                        Video
+                      </div>
+                    {%- endif -%}
+
+                    {%- if block.settings.video != blank -%}
+                      <button
+                        type="button"
+                        class="
+                          event-kol__play-button tw:absolute tw:left-1/2 tw:top-1/2 tw:z-2 tw:flex tw:size-16
+                          tw:-translate-x-1/2 tw:-translate-y-1/2 tw:items-center tw:justify-center tw:rounded-full
+                          tw:bg-black/55 tw:text-white tw:transition-colors tw:duration-200 tw:hover:bg-black/70
+                          tw:focus-visible:outline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-2
+                          tw:focus-visible:outline-white tw:max-md:size-14
+                        "
+                        aria-label="Play video"
+                        aria-pressed="false"
+                        data-video-toggle
+                      >
+                        <svg
+                          class="event-kol__play-icon tw:size-12 tw:max-md:size-8"
+                          viewBox="0 0 28 28"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path d="M9.5 6.75L21 14L9.5 21.25V6.75Z" fill="currentColor"/>
+                        </svg>
+                      </button>
+                    {%- endif -%}
+                  </div>
+
+                  {%- if card_url != blank -%}
+                    <a
+                      href="{{ card_url }}"
+                      class="
+                        tw:flex tw:h-[130px] tw:w-full tw:items-center tw:gap-6 tw:rounded-b-[12px]
+                        tw:bg-[#ffffff] tw:px-[17px] tw:py-[18px] tw:text-[#0a0a0a] tw:no-underline
+                        tw:transition-colors tw:duration-200 tw:hover:bg-[#f0f0f0]
+                        tw:focus-visible:outline tw:focus-visible:outline-2 tw:focus-visible:outline-offset-[-2px]
+                        tw:focus-visible:outline-[#0051ff]
+                        tw:max-md:h-[101px] tw:max-md:gap-5 tw:max-md:px-[14px] tw:max-md:py-[15px]
+                      "
+                      aria-label="{{ product_title | escape }}"
+                    >
+                  {%- else -%}
+                    <div
+                      class="
+                        tw:flex tw:h-[130px] tw:w-full tw:items-center tw:gap-6 tw:rounded-b-[12px]
+                        tw:bg-[#ffffff] tw:px-[17px] tw:py-[18px]
+                        tw:max-md:h-[101px] tw:max-md:gap-5 tw:max-md:px-[14px] tw:max-md:py-[15px]
+                      "
+                    >
+                  {%- endif -%}
+                    <div
+                      class="
+                        tw:relative tw:size-[83px] tw:shrink-0 tw:overflow-hidden
+                        tw:max-md:size-[70px]
+                      "
+                    >
+                      {%- if product_image != blank -%}
+                        {{
+                          product_image
+                          | image_url: width: 240
+                          | image_tag:
+                            loading: 'lazy',
+                            widths: '70,83,140,166,240',
+                            sizes: '(min-width: 769px) 83px, 70px',
+                            class: 'tw:absolute tw:inset-0 tw:h-full tw:w-full tw:object-contain',
+                            alt: product_image.alt
+                        }}
+                      {%- else -%}
+                        <div class="tw:absolute tw:inset-0 tw:flex tw:items-center tw:justify-center tw:bg-black/5 tw:text-[12px] tw:font-semibold tw:text-black/30">
+                          Product
+                        </div>
+                      {%- endif -%}
+                    </div>
+
+                    <h3
+                      class="
+                        tw:m-0 tw:min-w-0 tw:flex-1 tw:text-[20px] tw:font-semibold tw:leading-[normal]
+                        tw:text-[#0a0a0a] tw:max-md:text-[16px] tw:font-gabarito
+                      "
+                    >
+                      {{ product_title | escape }}
+                    </h3>
+
+                  {%- if card_url != blank -%}
+                    </a>
+                  {%- else -%}
+                    </div>
+                  {%- endif -%}
+                </article>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="tw:flex tw:items-center tw:gap-3">
+          <button
+            type="button"
+            class="
+              swiper-button-prev tw:pointer-events-auto tw:flex tw:size-10 tw:items-center
+              tw:justify-center tw:overflow-hidden tw:rounded-[8px] tw:border tw:border-black/40
+              tw:bg-transparent tw:p-[6px] tw:text-[#0a0a0a] tw:transition-colors tw:duration-200
+              tw:hover:border-black tw:focus-visible:outline tw:focus-visible:outline-2
+              tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#0051ff]
+            "
+            aria-label="Previous user video"
+            data-prev
+          >
+            <svg
+              class="tw:block tw:size-5"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M11.75 14.5L7.25 10L11.75 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+            </svg>
+          </button>
+
+          <button
+            type="button"
+            class="
+              swiper-button-next tw:pointer-events-auto tw:flex tw:size-10 tw:items-center
+              tw:justify-center tw:overflow-hidden tw:rounded-[8px] tw:border tw:border-black
+              tw:bg-transparent tw:p-[6px] tw:text-[#0a0a0a] tw:transition-colors tw:duration-200
+              tw:hover:bg-white/40 tw:focus-visible:outline tw:focus-visible:outline-2
+              tw:focus-visible:outline-offset-2 tw:focus-visible:outline-[#0051ff]
+            "
+            aria-label="Next user video"
+            data-next
+          >
+            <svg
+              class="tw:block tw:size-5"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M8.25 14.5L12.75 10L8.25 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% javascript %}
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('[data-event-kol]').forEach((sectionEl) => {
+      const swiperEl = sectionEl.querySelector('.swiper');
+
+      if (!swiperEl) {
+        return;
+      }
+
+      new Swiper(swiperEl, {
+        slidesPerView: 'auto',
+        navigation: {
+          nextEl: sectionEl.querySelector('[data-next]'),
+          prevEl: sectionEl.querySelector('[data-prev]'),
+        },
+      });
+
+      sectionEl.querySelectorAll('[data-video-media]').forEach((mediaEl) => {
+        const videoEl = mediaEl.querySelector('video');
+        const toggleEl = mediaEl.querySelector('[data-video-toggle]');
+
+        if (!videoEl || !toggleEl) {
+          return;
+        }
+
+        const syncState = () => {
+          const isPlaying = !videoEl.paused && !videoEl.ended;
+
+          mediaEl.classList.toggle('is-playing', isPlaying);
+          toggleEl.setAttribute('aria-hidden', isPlaying ? 'true' : 'false');
+        };
+
+        const playVideo = () => {
+          document.querySelectorAll('[data-event-kol] video').forEach((otherVideoEl) => {
+            if (otherVideoEl !== videoEl && !otherVideoEl.paused && !otherVideoEl.ended) {
+              otherVideoEl.pause();
+            }
+          });
+
+          const playPromise = videoEl.play();
+
+          if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(syncState);
+          }
+        };
+
+        const pauseVideo = () => {
+          if (!videoEl.paused && !videoEl.ended) {
+            videoEl.pause();
+          }
+        };
+
+        mediaEl.addEventListener('click', pauseVideo);
+        toggleEl.addEventListener('click', (event) => {
+          event.stopPropagation();
+          playVideo();
+        });
+        videoEl.addEventListener('play', syncState);
+        videoEl.addEventListener('pause', syncState);
+        videoEl.addEventListener('ended', syncState);
+
+        syncState();
+      });
+    });
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Event KOL",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title",
+      "default": "Explore AutoFull With Users"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "number",
+      "id": "padding_top",
+      "label": "Padding top",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_top_mobile",
+      "label": "Padding top mobile",
+      "default": 70
+    },
+    {
+      "type": "number",
+      "id": "padding_bottom_mobile",
+      "label": "Padding bottom mobile",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "kol_item",
+      "name": "KOL item",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Event KOL",
+      "blocks": [
+        {
+          "type": "kol_item"
+        },
+        {
+          "type": "kol_item"
+        },
+        {
+          "type": "kol_item"
+        },
+        {
+          "type": "kol_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

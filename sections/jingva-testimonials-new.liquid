@@ -1,4 +1,3 @@
-{{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}}
 {%- liquid
   assign sid = section.id
   assign se_stts = section.settings
@@ -659,7 +658,7 @@
 
     {% if slide_count > 1 %}
       <script>
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
           var sliderEl = document.getElementById('jingva-testimonials-new-slider-{{ sid }}');
           if (!sliderEl) return;
 
@@ -709,7 +708,7 @@
             resistance: true,
             resistanceRatio: 0.85
           });
-        })();
+        });
       </script>
     {% endif %}
   {% endif %}

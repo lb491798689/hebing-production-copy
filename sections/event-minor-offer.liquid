@@ -1,4 +1,21 @@
 {% assign enable_mock_variants = false %}
+{%- liquid
+  assign configured_tabs = section.settings.tabs | newline_to_br | split: '<br />'
+  assign has_tabs = false
+  assign first_tab_handle = ''
+
+  for tab_label in configured_tabs
+    assign tab_label = tab_label | strip
+    if tab_label == blank
+      continue
+    endif
+
+    assign has_tabs = true
+    if first_tab_handle == blank
+      assign first_tab_handle = tab_label | handleize
+    endif
+  endfor
+-%}
 
 <section
   id="{{ section.id }}"
@@ -12,25 +29,80 @@
     --event-minor-offer-padding-top-mobile: {{ section.settings.padding_top_mobile }}px;
     --event-minor-offer-padding-bottom-mobile: {{ section.settings.padding_bottom_mobile }}px;
     --event-minor-offer-row-count: {{ section.settings.row_count }};
+    --event-minor-offer-background-color: {{ section.settings.background_color | default: '#0a0227' }};
   "
 >
   <div class="tw:mx-auto tw:flex tw:w-full tw:max-w-[1200px] tw:flex-col tw:gap-8 tw:max-md:px-4">
-    {%- if section.settings.title != blank -%}
-      <h2
-        class="
-          event-minor-offer__title tw:m-0 tw:text-center tw:font-orbitron tw:text-[48px] tw:font-black
-          tw:leading-[normal] tw:uppercase tw:tracking-normal
-          tw:max-md:text-[32px]
-        "
-      >
-        {{ section.settings.title | escape | newline_to_br }}
-      </h2>
+    {%- if section.settings.title != blank or has_tabs -%}
+      <div class="event-minor-offer__header tw:flex tw:flex-col tw:items-center tw:gap-4">
+        {%- if section.settings.title != blank -%}
+          <h2
+            class="
+              event-minor-offer__title tw:m-0 tw:text-center tw:font-gabarito tw:text-[48px] tw:font-black
+              tw:leading-[normal] tw:tracking-normal
+              tw:max-md:text-[32px]
+            "
+          >
+            {{ section.settings.title | escape | newline_to_br }}
+          </h2>
+        {%- endif -%}
+
+        {%- if has_tabs -%}
+          {%- assign active_tab_assigned = false -%}
+          <div
+            class="event-minor-offer__tabs tw:w-full tw:px-4 tw:max-md:px-0"
+            role="tablist"
+            aria-label="{{ section.settings.title | default: 'Product groups' | escape }}"
+            data-event-minor-offer-tabs
+          >
+            {%- for tab_label in configured_tabs -%}
+              {%- liquid
+                assign tab_label = tab_label | strip
+                if tab_label == blank
+                  continue
+                endif
+
+                assign tab_handle = tab_label | handleize
+                assign is_active_tab = false
+                if active_tab_assigned == false
+                  assign is_active_tab = true
+                  assign active_tab_assigned = true
+                endif
+              -%}
+              <button
+                type="button"
+                class="event-minor-offer__tab tw:font-orbitron tw:font-bold tw:uppercase!"
+                id="event-minor-offer-tab-{{ section.id }}-{{ forloop.index }}"
+                role="tab"
+                aria-selected="{% if is_active_tab %}true{% else %}false{% endif %}"
+                aria-controls="event-minor-offer-grid-{{ section.id }}"
+                tabindex="{% if is_active_tab %}0{% else %}-1{% endif %}"
+                data-event-minor-offer-tab
+                data-tab-handle="{{ tab_handle | escape }}"
+              >
+                {{ tab_label | escape }}
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
     {%- endif -%}
 
     {%- if section.blocks.size > 0 -%}
-      <div class="event-minor-offer__grid tw:grid tw:gap-3 tw:max-md:grid-cols-1">
+      <div
+        id="event-minor-offer-grid-{{ section.id }}"
+        class="event-minor-offer__grid tw:grid tw:gap-3 tw:max-md:grid-cols-1"
+        data-event-minor-offer-grid
+      >
         {%- for block in section.blocks -%}
           {%- liquid
+            assign block_tab = block.settings.tab | strip
+            assign block_tab_handle = block_tab | handleize
+            assign is_tab_hidden = false
+            if has_tabs and block_tab != blank and block_tab_handle != first_tab_handle
+              assign is_tab_hidden = true
+            endif
+
             assign product = block.settings.product
             assign current_variant = null
             assign default_product_title = 'AutoFull M6 Ultra Gaming Chair & A4 Pro Gaming Desk Bundle'
@@ -137,10 +209,20 @@
           -%}
 
           <article
-            class="event-minor-offer__card tw:flex tw:min-h-[510px] tw:flex-col tw:overflow-visible tw:rounded-xl tw:max-md:min-h-0"
+            class="event-minor-offer__card tw:relative tw:flex tw:min-h-[510px] tw:flex-col tw:overflow-visible tw:rounded-xl tw:max-md:min-h-0"
             data-event-minor-offer-card
+            data-event-minor-offer-card-tab="{{ block_tab_handle | escape }}"
+            {% if is_tab_hidden %}
+              hidden
+            {% endif %}
             {{ block.shopify_attributes }}
           >
+            <a
+              href="{{ learn_more_link }}"
+              class="event-minor-offer__card-link"
+              aria-label="{{ block.settings.learn_more_btn_text | default: 'Learn more' | escape }}: {{ product_title | escape }}"
+            ></a>
+
             <div class="event-minor-offer__media tw:relative tw:h-[280px] tw:w-full tw:shrink-0 tw:overflow-hidden tw:rounded-t-xl">
               <div class="tw:absolute tw:left-1/2 tw:top-1/2 tw:flex tw:size-[280px] tw:-translate-x-1/2 tw:-translate-y-1/2 tw:items-center tw:justify-center">
                 {%- if product_image != blank -%}
@@ -172,7 +254,7 @@
                     <span class="event-minor-offer__label-amount" data-off-amount>
                       {{- discount_amount_text | strip_html -}}
                     </span>
-                    <span class="event-minor-offer__label-suffix">OFF</span>
+                    <span class="event-minor-offer__label-suffix">{{ section.settings.off_text | default: 'OFF' | escape }}</span>
                   </span>
                 </div>
               {%- endif -%}
@@ -479,22 +561,134 @@
   #{{ section.id }}.event-minor-offer--light .event-minor-offer__media {
     background: {{ section.settings.product_image_bg_color_light | default: '#fff3d5' }};
   }
+
+  #{{ section.id }}.event-minor-offer--dark .event-minor-offer__card,
+  #{{ section.id }}.event-minor-offer--dark .event-minor-offer__content {
+    background: {{ section.settings.product_bg_color_dark | default: '#000000' }};
+  }
+
+  #{{ section.id }}.event-minor-offer--light .event-minor-offer__card,
+  #{{ section.id }}.event-minor-offer--light .event-minor-offer__content {
+    background: {{ section.settings.product_bg_color_light | default: '#ffffff' }};
+  }
+
+  #{{ section.id }} .event-minor-offer__price-off {
+    color: {{ section.settings.tag_text_color | default: '#F95700' }};
+    background: {{ section.settings.tag_bg_color | default: '#FFE9D8' }};
+  }
+
+  #{{ section.id }} .event-minor-offer__learn-more {
+    color: {{ section.settings.learn_more_btn_text_color | default: '#ffffff' }};
+    background: {{ section.settings.learn_more_btn_bg_color | default: '#2652ff' }};
+  }
 </style>
 
 {% stylesheet %}
   .event-minor-offer {
     padding-block: var(--event-minor-offer-padding-top) var(--event-minor-offer-padding-bottom);
-    background: #0a0227;
+    background: var(--event-minor-offer-background-color);
     color: #ffffff;
   }
 
   .event-minor-offer--light {
-    background: #ddefff;
     color: #0a0a0a;
   }
 
   .event-minor-offer__grid {
     grid-template-columns: repeat(var(--event-minor-offer-row-count), minmax(0, 1fr));
+  }
+
+  .event-minor-offer__tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .event-minor-offer__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .event-minor-offer__tab {
+    display: inline-flex;
+    block-size: 56px;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 20px;
+    line-height: 1.2;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .event-minor-offer--light .event-minor-offer__tab {
+    border-color: rgba(10, 10, 10, 0.4);
+    color: rgba(10, 10, 10, 0.4);
+  }
+
+  .event-minor-offer__tab[aria-selected='true'] {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+
+  .event-minor-offer--light .event-minor-offer__tab[aria-selected='true'] {
+    border-color: #0a0a0a;
+    background: #0a0a0a;
+    color: #ffffff;
+  }
+
+  .event-minor-offer__tab:hover,
+  .event-minor-offer__tab:focus-visible {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+
+  .event-minor-offer--light .event-minor-offer__tab:hover,
+  .event-minor-offer--light .event-minor-offer__tab:focus-visible {
+    border-color: #0a0a0a;
+    color: #0a0a0a;
+  }
+
+  .event-minor-offer--light .event-minor-offer__tab[aria-selected='true']:hover,
+  .event-minor-offer--light .event-minor-offer__tab[aria-selected='true']:focus-visible {
+    color: #ffffff;
+  }
+
+  .event-minor-offer__tab:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  .event-minor-offer__card[hidden] {
+    display: none;
+  }
+
+  .event-minor-offer__card-link {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+    cursor: pointer;
+  }
+
+  .event-minor-offer__card-link:focus-visible {
+    outline: 2px solid #2652ff;
+    outline-offset: 4px;
+  }
+
+  .event-minor-offer__card :where(a:not(.event-minor-offer__card-link), button, input, select, textarea, label, summary, iframe, [role='button'], [role='checkbox'], [role='radio'], [role='switch'], [role='tab'], [role='option']) {
+    position: relative;
+    z-index: 2;
   }
 
   .event-minor-offer--dark .event-minor-offer__title,
@@ -507,16 +701,6 @@
   .event-minor-offer--light .event-minor-offer__product-title,
   .event-minor-offer--light .event-minor-offer__price {
     color: #0a0a0a;
-  }
-
-  .event-minor-offer--dark .event-minor-offer__card,
-  .event-minor-offer--dark .event-minor-offer__content {
-    background: #000000;
-  }
-
-  .event-minor-offer--light .event-minor-offer__card,
-  .event-minor-offer--light .event-minor-offer__content {
-    background: #ffffff;
   }
 
   .event-minor-offer--dark .event-minor-offer__color-label,
@@ -648,13 +832,7 @@
   }
 
   .event-minor-offer__learn-more {
-    color: #ffffff;
-    background: #2652ff;
     transition: filter 0.2s ease;
-  }
-
-  .event-minor-offer--light .event-minor-offer__learn-more {
-    background: #291aff;
   }
 
   .event-minor-offer__learn-more:hover,
@@ -729,6 +907,17 @@
     .event-minor-offer__grid {
       grid-template-columns: minmax(0, 1fr);
     }
+
+    .event-minor-offer__tabs {
+      gap: 8px;
+    }
+
+    .event-minor-offer__tab {
+      block-size: 48px;
+      padding: 13px 16px;
+      border-radius: 8px;
+      font-size: 16px;
+    }
   }
 {% endstylesheet %}
 
@@ -739,6 +928,97 @@
 
     const cartUrl = {{ routes.cart_url | json }};
     const cartAddUrl = `${window.Shopify?.routes?.root || '/'}cart/add.js`;
+
+    const createTabs = () => {
+      const tabList = root.querySelector('[data-event-minor-offer-tabs]');
+      const tabs = Array.from(root.querySelectorAll('[data-event-minor-offer-tab]'));
+      const cards = Array.from(root.querySelectorAll('[data-event-minor-offer-card]'));
+
+      if (!tabList || !tabs.length || !cards.length) {
+        return;
+      }
+
+      const centerTab = (tab, shouldAnimate) => {
+        const tabListWidth = tabList.clientWidth;
+        const maxScrollLeft = Math.max(0, tabList.scrollWidth - tabListWidth);
+        const targetScrollLeft = Math.min(
+          maxScrollLeft,
+          Math.max(0, tab.offsetLeft - (tabListWidth - tab.offsetWidth) / 2)
+        );
+
+        tabList.scrollTo({
+          left: targetScrollLeft,
+          behavior: shouldAnimate ? 'smooth' : 'auto',
+        });
+      };
+
+      const setActiveTab = (nextIndex, shouldFocus) => {
+        const selectedHandle = tabs[nextIndex]?.dataset.tabHandle || '';
+
+        tabs.forEach((tab, index) => {
+          const isActive = index === nextIndex;
+
+          tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          tab.setAttribute('tabindex', isActive ? '0' : '-1');
+
+          if (isActive && shouldFocus) {
+            tab.focus();
+          }
+        });
+
+        cards.forEach((card) => {
+          const cardHandle = card.dataset.eventMinorOfferCardTab || '';
+          card.hidden = Boolean(cardHandle && cardHandle !== selectedHandle);
+        });
+
+        centerTab(tabs[nextIndex], true);
+      };
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', (event) => {
+          const nextIndex = tabs.indexOf(event.currentTarget);
+
+          if (nextIndex >= 0) {
+            setActiveTab(nextIndex, false);
+          }
+        });
+
+        tab.addEventListener('keydown', (event) => {
+          const currentIndex = tabs.indexOf(event.currentTarget);
+
+          if (currentIndex < 0) {
+            return;
+          }
+
+          let nextIndex = null;
+
+          if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+            nextIndex = (currentIndex + 1) % tabs.length;
+          } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+            nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+          } else if (event.key === 'Home') {
+            nextIndex = 0;
+          } else if (event.key === 'End') {
+            nextIndex = tabs.length - 1;
+          }
+
+          if (nextIndex === null) {
+            return;
+          }
+
+          event.preventDefault();
+          setActiveTab(nextIndex, true);
+        });
+      });
+
+      requestAnimationFrame(() => {
+        const activeIndex = tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
+
+        if (activeIndex >= 0) {
+          centerTab(tabs[activeIndex], false);
+        }
+      });
+    };
 
     const setLoading = (button, isLoading) => {
       button.classList.toggle('is-loading', isLoading);
@@ -772,6 +1052,8 @@
         detail: { baseEvent, cart }
       }));
     };
+
+    createTabs();
 
     root.querySelectorAll('[data-event-minor-offer-card]').forEach((card) => {
       const image = card.querySelector('.event-minor-offer__image');
@@ -909,6 +1191,12 @@
       "default": "Save more with bundles"
     },
     {
+      "type": "textarea",
+      "id": "tabs",
+      "label": "Tabs",
+      "info": "One tab per line. Leave blank to show all products without tab filtering."
+    },
+    {
       "type": "select",
       "id": "row_count",
       "label": "Products per row",
@@ -938,14 +1226,32 @@
     },
     {
       "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0a0227"
+    },
+    {
+      "type": "color",
       "id": "product_image_bg_color_dark",
-      "label": "Product image background color",
+      "label": "Product image background color (dark mode)",
       "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "product_image_bg_color_light",
-      "label": "Product image background color",
+      "label": "Product image background color (light mode)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color_dark",
+      "label": "Product background color (dark mode)",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "product_bg_color_light",
+      "label": "Product background color (light mode)",
       "default": "#ffffff"
     },
     {
@@ -958,9 +1264,43 @@
       "label": "Label background image"
     },
     {
+      "type": "text",
+      "id": "off_text",
+      "label": "OFF text",
+      "default": "OFF"
+    },
+    {
       "type": "color",
       "id": "label_text_color",
       "label": "Label text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "tag_bg_color",
+      "label": "Tag background color",
+      "default": "#FFE9D8"
+    },
+    {
+      "type": "color",
+      "id": "tag_text_color",
+      "label": "Tag text color",
+      "default": "#F95700"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_btn_bg_color",
+      "label": "Learn more background color",
+      "default": "#2652ff"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_btn_text_color",
+      "label": "Learn more text color",
       "default": "#ffffff"
     },
     {
@@ -1003,6 +1343,12 @@
           "label": "Product"
         },
         {
+          "type": "text",
+          "id": "tab",
+          "label": "Tab",
+          "info": "Match one of the section tabs. Leave blank to always show this product."
+        },
+        {
           "type": "image_picker",
           "id": "product_image",
           "label": "Product image"
@@ -1040,6 +1386,9 @@
   "presets": [
     {
       "name": "Event minor offer",
+      "settings": {
+        "tabs": "M-series\nG-series"
+      },
       "blocks": [
         {
           "type": "product_item"

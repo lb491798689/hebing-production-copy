@@ -1,0 +1,45 @@
+<script>
+  const interactions = ['pointerdown', 'scroll', 'wheel', 'keydown', 'mousemove']
+  let actionFlag = false
+
+  function actionEvent() {
+    if (actionFlag) return
+    actionFlag = true
+
+    console.log('actionEvent triggered')
+
+    if (typeof scopeObserver !== 'undefined' && scopeObserver) {
+      scopeObserver.disconnect()
+    }
+
+    window.dispatchEvent(new CustomEvent('CustomLoad'))
+
+    document.querySelectorAll("script[type='text/lazyload']").forEach((originalScript) => {
+      const newScript = document.createElement('script')
+      if (originalScript.dataset.src) {
+        newScript.src = originalScript.dataset.src
+      }
+      for (const attr of originalScript.attributes) {
+        if (attr.name !== 'data-type' && attr.name !== 'data-src') {
+          newScript.setAttribute(attr.name, attr.value)
+        }
+      }
+      newScript.type = originalScript.dataset.type || 'text/javascript'
+
+      if (originalScript.textContent.trim()) {
+        newScript.textContent = originalScript.textContent
+      }
+
+      originalScript.parentNode.replaceChild(newScript, originalScript)
+    })
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    interactions.forEach(function (eventType) {
+      window.addEventListener(eventType, actionEvent, {
+        passive: true,
+        once: true
+      })
+    })
+  })
+</script>

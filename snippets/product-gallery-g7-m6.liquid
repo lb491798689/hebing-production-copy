@@ -751,7 +751,7 @@ only way to do it on Shopify right now.
               {% for variant in product.variants %}
                 {% assign vpos = variant.featured_media.position | append: '' %}
                 <div class="product-gallery__media snap-center is-selected"  data-id="{{ variant.id }}" data-media-type="{{ variant.featured_media.media_type }}" data-media-id="{{ variant.featured_media.id }}" data-media-type="{{ variant.featured_media.media_type }}"  {% if filtered_indexes contains vpos and variant.featured_media != default_media %}hidden{% endif %}>
-                  {%- render 'media', media: variant.featured_media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
+                  {%- render 'media', media: variant.featured_media, sizes: sizes, preload: true, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
                 </div>
                 {% for image in variant.metafields.custom.images.value %}
                       {% assign ipos = image.position | append: '' %}
@@ -929,11 +929,11 @@ only way to do it on Shopify right now.
   {%- endif -%}
 {%- endfor -%}
 
-{% if section.settings.type_switch %}
+{% comment %} {% if section.settings.type_switch %}
   {% if image_size > 0 or video_size > 0 or model_size > 0 %}
     {%- comment -%} Figma: 控制条隐藏，功能按钮已整合到下方控制条 {%- endcomment -%}
   {% endif %}
-{% endif %}
+{% endif %} {% endcomment %}
 
 
   {%- comment -%}
@@ -1105,13 +1105,13 @@ only way to do it on Shopify right now.
 
 </product-gallery>
 
-{% if section.settings.type_switch %}
+{% comment %} {% if section.settings.type_switch %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // type_switch 功能暂时保留但不影响新布局
 });
 </script>
-{% endif %}
+{% endif %} {% endcomment %}
 
 <script>
 /* 移动端：把权益区移动到 product-info 末尾（即 Add-Ons 模块下方） */

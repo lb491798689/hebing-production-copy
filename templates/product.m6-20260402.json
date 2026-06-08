@@ -18,6 +18,17 @@
             "heading_tag": "h4"
           }
         },
+        "trustoo_io_reviews_star_rating_widget_rx8kGj": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "star_size": 12,
+            "font_size": 14,
+            "text_color": "#1a1a1a",
+            "block_aligment": "left",
+            "margin_top": 10,
+            "margin_bottom": 0
+          }
+        },
         "price": {
           "type": "price",
           "settings": {
@@ -29,6 +40,27 @@
           "disabled": true,
           "settings": {
             "text": "<p>or Starting at $53/mo with Klarna</p>"
+          }
+        },
+        "klarna_on_site_messaging_app_block_UjfmHq": {
+          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
+          "disabled": true,
+          "settings": {
+            "data_key": "credit-promotion-badge",
+            "theme": "default",
+            "topPadding": "0",
+            "bottomPadding": "0",
+            "messagePrefix": ""
+          }
+        },
+        "klarna_on_site_messaging_app_block_pWYCGE": {
+          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
+          "settings": {
+            "data_key": "credit-promotion-badge",
+            "theme": "default",
+            "topPadding": "0",
+            "bottomPadding": "0",
+            "messagePrefix": ""
           }
         },
         "product_tabs": {
@@ -213,6 +245,12 @@
             "enable_quantity": false
           }
         },
+        "gsc_countdown_timer_countdown_YfYQtr": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "settings": {
+            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
+          }
+        },
         "custom_free_gifts_nLATE8": {
           "type": "custom_free_gifts",
           "disabled": true,
@@ -220,6 +258,16 @@
             "block_title": "Add to Cart & Use Code at Checkout to Claim Your Free Backpack or Tumbler Gift",
             "custom_product": "computer-backpack"
           }
+        },
+        "gsc_countdown_timer_countdown_j6DTzW": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "settings": {
+            "widget_id": "GSC-SMALL-lklmvITEEDYH"
+          }
+        },
+        "selleasy_lb_upsell_widget_bl_ebYWBB": {
+          "type": "shopify://apps/selleasy/blocks/lb-upsell-widget-bl/790c1a03-a71f-4bc1-9869-00dad526d3c2",
+          "settings": {}
         },
         "product_add_ons_Xnqf7w": {
           "type": "product_add_ons",
@@ -234,8 +282,11 @@
       },
       "block_order": [
         "title",
+        "trustoo_io_reviews_star_rating_widget_rx8kGj",
         "price",
         "text_jwyLEg",
+        "klarna_on_site_messaging_app_block_UjfmHq",
+        "klarna_on_site_messaging_app_block_pWYCGE",
         "product_tabs",
         "countdown_qfDFXF",
         "custom_discode_gYWgX4",
@@ -252,7 +303,10 @@
         "kiks_extended_products_hDzU9G",
         "inventory_C7zkRG",
         "buy_buttons",
+        "gsc_countdown_timer_countdown_YfYQtr",
         "custom_free_gifts_nLATE8",
+        "gsc_countdown_timer_countdown_j6DTzW",
+        "selleasy_lb_upsell_widget_bl_ebYWBB",
         "product_add_ons_Xnqf7w"
       ],
       "custom_css": [
@@ -438,7 +492,9 @@
             "title": "Dynamic Lumbar Support",
             "description": "<p>Adaptive support that moves with you, featuring 6-direction adjustability designed to track and align with your posture.</p>",
             "bg_pc": "shopify://shop_images/1_02_webp_1_fc26e7fa-144e-4966-bcda-26a3d9706788.webp",
-            "bg_mob": "shopify://shop_images/1_02_webp_ad7e52a3-afc1-4411-b9ac-c12ac2d8df42.webp"
+            "video_pc": "shopify://files/videos/M6_lumbar support.mp4",
+            "bg_mob": "shopify://shop_images/1_02_webp_ad7e52a3-afc1-4411-b9ac-c12ac2d8df42.webp",
+            "video_mob": "shopify://files/videos/M6_lumbar support.mp4"
           }
         },
         "highlight_item_NQmAyb": {
@@ -447,7 +503,9 @@
             "title": "Built-in Back & Leg Massage",
             "description": "<p>Integrated dual high-frequency massage motors in the lumbar and seat cushions deliver rhythmic pulses across the lower back, hips, glutes, and thighs. The system helps stimulate circulation and reduce numbness during extended gaming or work sessions.</p>",
             "bg_pc": "shopify://shop_images/1_03_webp_1_c71fc55d-6448-481c-a41d-6e7a3362fb6a.webp",
-            "bg_mob": "shopify://shop_images/1_03_webp_015e22dd-e85b-4b3c-b9ca-74e7541031a4.webp"
+            "video_pc": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4",
+            "bg_mob": "shopify://shop_images/1_03_webp_015e22dd-e85b-4b3c-b9ca-74e7541031a4.webp",
+            "video_mob": "shopify://files/videos/M6_Massagemp4_5d3a2beb-8b54-4ff1-be36-19f06c333952.mp4"
           }
         },
         "highlight_item_eqLjaH": {
@@ -456,7 +514,9 @@
             "title": "Active Cooling & Heating",
             "description": "<p>Improves airflow and reduce heat buildup, lowering seat temperature by 56%, or increasing seat temperature by up to 67%.</p>",
             "bg_pc": "shopify://shop_images/1_04_webp_1_e276c6da-c51a-485b-94ed-60c4bedde3e9.webp",
-            "bg_mob": "shopify://shop_images/1_04_webp_c9f495c3-d20f-4f9f-8d43-e08926968bd3.webp"
+            "video_pc": "shopify://files/videos/M602_KSP_1_03_Air-conditioned Seat.webm",
+            "bg_mob": "shopify://shop_images/1_04_webp_c9f495c3-d20f-4f9f-8d43-e08926968bd3.webp",
+            "video_mob": "shopify://files/videos/M6_Air-conditioned Seat_13a22004-fcea-4bd8-bd45-ce7811406143.mp4"
           }
         },
         "highlight_item_fnhGh4": {
@@ -524,6 +584,8 @@
         "padding_top_mob": 96,
         "pc_image": "shopify://shop_images/2_webp_1_00043cef-8ba1-4604-ba84-20f399763b9e.webp",
         "mob_image": "shopify://shop_images/2_webp_15d75d73-db48-4e39-bc69-98ddf2e30ca2.webp",
+        "pc_video": "shopify://files/videos/M6_lumbar support.mp4",
+        "mob_video": "shopify://files/videos/M6_lumbar support.mp4",
         "feature_1": "",
         "feature_2": "",
         "feature_3": "",
@@ -542,10 +604,14 @@
         "tab1_label": "Vibration Massage",
         "tab1_pc_img": "shopify://shop_images/3_01_webp_1_29f02617-5156-481c-9172-828acec5450f.webp",
         "tab1_mob_img": "shopify://shop_images/3_01_webp_9669dd9b-f075-4d0f-8313-24e3af3f5994.webp",
+        "tab1_pc_video": "shopify://files/videos/M6_Massagemp4.mp4",
+        "tab1_mob_video": "shopify://files/videos/M6_Massagemp4.mp4",
         "tab1_text": "",
         "tab2_label": "Dual-fan Active Cooling",
         "tab2_pc_img": "shopify://shop_images/3_02_webp_1_4c204706-40d7-4609-a765-55e0b6811a49.webp",
         "tab2_mob_img": "shopify://shop_images/3_02_webp_f49c66b7-d119-4b73-bd5e-9c847db6852a.webp",
+        "tab2_pc_video": "shopify://files/videos/3_02_Dual-Drive Ventilation.webm",
+        "tab2_mob_video": "shopify://files/videos/3_02_Dual-Drive Ventilation.webm",
         "tab2_text": "",
         "tab3_label": "Seat Heating",
         "tab3_pc_img": "shopify://shop_images/3_03_webp_1_882b723d-7375-4047-b162-3ed877f29921.webp",

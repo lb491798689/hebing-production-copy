@@ -54,6 +54,9 @@
 %}
 {% capture default_sid %}.jingva-section-container-{{ sid }}{% endcapture %}
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/plyr/3.7.8/plyr.min.js" defer></script>
 
 <section class="jingva-section-container  jingva-section-container-{{sid}} {{section.settings.section_css}} jingva-carousel-section">
   {% style %}
@@ -218,7 +221,7 @@
                         <source srcset="{{ image_mb | img_url: '750x' }}"  media="(max-width: 767px)">
                         <source srcset="{{ image_mb | img_url: '1160x' }}" media="(max-width: 1000px)" >
                        {% endif %}
-                        <img fetchpriority="high"  src="{{ image | img_url: '2400x' }}"  alt="{{ image.alt }}" {%unless forloop.first%}loading="lazy"{% endunless %} width="auto" height="100%">
+                        <img src="{{ image | img_url: '2400x' }}"  alt="{{ image.alt }}" {% if section.index == 1 and forloop.first %}fetchpriority="high" loading="eager"{% else %}fetchpriority="low" loading="lazy"{% endif %} width="auto" height="100%">
                       </picture>
                     </div>   
                   {% else %}

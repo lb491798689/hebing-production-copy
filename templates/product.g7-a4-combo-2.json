@@ -18,6 +18,17 @@
             "heading_tag": "h3"
           }
         },
+        "trustoo_io_reviews_star_rating_widget_pAP89J": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/star-rating-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "star_size": 20,
+            "font_size": 16,
+            "text_color": "#585858",
+            "block_aligment": "left",
+            "margin_top": 10,
+            "margin_bottom": 0
+          }
+        },
         "badges": {
           "type": "badges",
           "settings": {}
@@ -32,6 +43,16 @@
           "type": "text",
           "settings": {
             "text": "<p><strong>Chair Frame Lifetime Warranty | 30 Day Worry-free Return | Free Fast Local Shipping</strong></p>"
+          }
+        },
+        "klarna_on_site_messaging_app_block_QwUmjY": {
+          "type": "shopify://apps/klarna-on-site-messaging/blocks/app-block/b95936a9-74b6-4a95-8103-6a1b6459c25e",
+          "settings": {
+            "data_key": "credit-promotion-badge",
+            "theme": "default",
+            "topPadding": "0",
+            "bottomPadding": "0",
+            "messagePrefix": ""
           }
         },
         "custom_discode_bWha8x": {
@@ -171,6 +192,12 @@
           "settings": {
             "title": "",
             "text": ""
+          }
+        },
+        "gsc_countdown_timer_countdown_keNFQ7": {
+          "type": "shopify://apps/gsc-countdown-timer/blocks/countdown/58dc5b1b-43d2-4209-b1f3-52aff31643ed",
+          "settings": {
+            "widget_id": "GSC-SMALL-eEMoHrBWDcSd"
           }
         },
         "bottom_policy_UwR94Y": {
@@ -323,9 +350,11 @@
       },
       "block_order": [
         "title",
+        "trustoo_io_reviews_star_rating_widget_pAP89J",
         "badges",
         "price",
         "text_fa3UFR",
+        "klarna_on_site_messaging_app_block_QwUmjY",
         "custom_discode_bWha8x",
         "custom_free_gifts_nLATE8",
         "separator",
@@ -342,6 +371,7 @@
         "text_czdULp",
         "associated_products_Jg8R88",
         "selling_points_GLn8nr",
+        "gsc_countdown_timer_countdown_keNFQ7",
         "bottom_policy_UwR94Y",
         "bottom_policy_CmYLxg",
         "bottom_policy_W9EcBm",
@@ -748,6 +778,7 @@
         "item_bf7J9p": {
           "type": "item",
           "settings": {
+            "video": "shopify://files/videos/2 - Trim (2).mp4",
             "column_size": "3",
             "title": "Adaptive Lumbar Support",
             "small_heading_color": "#ffffff",
@@ -762,6 +793,7 @@
           "type": "item",
           "settings": {
             "image": "shopify://shop_images/3_-_frame_at_0m1s.jpg",
+            "video": "shopify://files/videos/3 (1).mp4",
             "column_size": "3",
             "title": "Three-Zone Lumbar Encapsulation",
             "small_heading_color": "#ffffff",
@@ -775,6 +807,7 @@
         "item_mBUPqm": {
           "type": "item",
           "settings": {
+            "video": "shopify://files/videos/21 - Trim (2).mp4",
             "column_size": "3",
             "title": "Ergonomic Zoning Design",
             "small_heading_color": "#ffffff",
@@ -893,6 +926,7 @@
         "video_ebPpje": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/8 - Trim (2).mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -919,6 +953,7 @@
         "video_9gWnVb": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/6 (1).mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -945,6 +980,7 @@
         "video_88kHDj": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/7 - Trim (2).mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -1659,6 +1695,17 @@
     },
     "175559055005790ff3": {
       "type": "apps",
+      "blocks": {
+        "trustoo_io_reviews_review_widget_yVEtjH": {
+          "type": "shopify://apps/trustwill-trustoo/blocks/review-widget/c8f15077-6475-4e86-ad06-b66038d5ba2c",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "trustoo_io_reviews_review_widget_yVEtjH"
+      ],
       "settings": {
         "section_id": "",
         "full_width": true,

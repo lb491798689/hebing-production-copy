@@ -536,6 +536,7 @@
         "video_BXQGim": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/f.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,
@@ -562,6 +563,7 @@
         "video_ETz7tQ": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/a1.mp4",
             "external_video_url": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
             "autoplay": true,
             "media_width": 50,

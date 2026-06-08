@@ -21,7 +21,8 @@
       "name": "Jingva Contact Hero",
       "settings": {
         "title": "Get the Help You Need",
-        "description": "If you have any questions about our products, payments, delivery, or returns, please feel free to contact us."
+        "description": "If you have any questions about our products, payments, delivery, or returns, please feel free to contact us.",
+        "pc_video": "shopify://files/videos/飞书20260510-205224.mp4"
       }
     },
     "jingva_contact_form_UQhmxB": {

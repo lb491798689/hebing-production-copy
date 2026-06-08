@@ -72,8 +72,6 @@
 -%}
 {% capture default_sid %}.jingva-m6-air-conditioned-seat-{{ sid }}{% endcapture %}
 
-<link rel="stylesheet" href="{{ 'swiper-bundle.min.css' | asset_url }}">
-
 <section class="jingva-section-container jingva-m6-air-conditioned-seat-{{ sid }}" data-section-id="{{ sid }}">
   {% style %}
     {{ default_sid }} {
@@ -779,9 +777,8 @@
     </div>
   </div>
 
-  <script src="{{ 'swiper-bundle.min.js' | asset_url }}"></script>
   <script>
-    (function() {
+    document.addEventListener('DOMContentLoaded', function() {
       var sectionId = '{{ sid }}';
       var container = document.querySelector('.jingva-m6-air-conditioned-seat-' + sectionId);
       if (!container) return;
@@ -873,7 +870,7 @@
           if (p && typeof p.catch === 'function') p.catch(function () {});
         });
       });
-    })();
+    });
   </script>
 </section>
 

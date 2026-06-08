@@ -371,6 +371,617 @@
   }
 {% endstyle %}
 
+<style>
+  .EcomSendAPP{
+    height: auto !important;
+  }
+
+  /* ── Klarna placement ::part() 样式覆盖 ── */
+  klarna-placement::part(osm-container) {
+    border-radius: 12px !important;
+    border: 1px solid rgba(26, 26, 26, 0.20) !important;
+    padding: 12px 16px 12px 2px !important;
+    flex-direction: row-reverse !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+  }
+
+  klarna-placement::part(osm-badge-container) {
+    margin-right: 0 !important;
+    width: 59.2px !important;
+    height: 24px !important;
+    flex-shrink: 0 !important;
+  }
+
+  klarna-placement::part(osm-badge) {
+    width: 59.2px !important;
+    height: 24px !important;
+  }
+
+  klarna-placement::part(osm-message) {
+    color: rgba(26, 26, 26, 0.60) !important;
+    font-family: 'Gabarito', sans-serif !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 120% !important;
+    letter-spacing: -0.28px !important;
+    min-width: 0 !important;
+  }
+
+  klarna-placement::part(osm-message) strong,
+  klarna-placement::part(osm-message) b {
+    font-weight: 400 !important;
+  }
+
+  klarna-placement::part(osm-cta) {
+    color: #FF2020 !important;
+    font-family: 'Gabarito', sans-serif !important;
+    font-size: 14px !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    line-height: 120% !important;
+    letter-spacing: -0.28px !important;
+    text-decoration-line: underline !important;
+    text-decoration-style: solid !important;
+    text-decoration-skip-ink: auto !important;
+    text-decoration-thickness: auto !important;
+    text-underline-offset: auto !important;
+    text-underline-position: from-font !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+  }
+
+  /* PAD（1280–1439）：保持 PC 横向布局，Klarna 与 tabs 防溢出 */
+  @media screen and (min-width: 1280px) and (max-width: 1439px) {
+    klarna-placement::part(osm-container) {
+      flex-direction: row-reverse !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      padding: 12px 16px 12px 2px !important;
+      gap: 10px !important;
+    }
+
+    klarna-placement::part(osm-message),
+    klarna-placement::part(osm-cta) {
+      font-size: 14px !important;
+      letter-spacing: -0.28px !important;
+    }
+
+    .product-tabs-container {
+      padding: 0 16px 16px 16px !important;
+      margin-top: 20px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    .product-tabs-header {
+      width: 100% !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding: 8px 0 0 !important;
+      gap: 16px !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .product-tabs-header::-webkit-scrollbar {
+      display: none;
+    }
+
+    .product-tabs-header::after {
+      width: 48px !important;
+    }
+
+    .product-tabs-content,
+    .product-tab-pane,
+    .product-tab-main-content,
+    .product-tab-main-content p {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+
+    .product-tab {
+      font-size: 14px !important;
+    }
+
+    .product-tab-images-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+
+  /* Product Tabs */
+  .product-tabs-container {
+    background-color: #F0F0F0;
+    border-radius: 12px;
+    padding: 0 16px 16px 16px;
+    margin-top: 24px;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  /* Tab 条：Figma 3337:84492 — pt 8px、px 24px、gap 24px、items-center */
+  /* 底边灰线用 ::before 单独一层（z-index:0），避免父级 border-bottom 盖住子级红线约 1px */
+  .product-tabs-header {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 8px 0 0;
+    border-bottom: none;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .product-tabs-header::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* PC（≥1440）：Figma 全宽 tab 条，负 margin 出血对齐容器 padding */
+  @media screen and (min-width: 1440px) {
+    .product-tabs-container {
+      padding: 0 24px 24px 24px;
+    }
+
+    .product-tabs-header {
+      width: calc(100% + 48px);
+      margin-left: -24px;
+      margin-right: -24px;
+      padding: 8px 24px 0;
+      overflow: hidden;
+    }
+  }
+
+  .product-tabs-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: rgba(26, 26, 26, 0.20);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .product-tabs-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 160px;
+    background: linear-gradient(to right, rgba(240, 240, 240, 0), #F0F0F0 70%);
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .product-tab {
+    background: none;
+    border: none;
+    padding: 0 !important;
+    text-align: center;
+    font-family: Gabarito;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    color: var(--Font-Color-Gy4, rgba(26, 26, 26, 0.40));
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 单 tab：Figma 内层 py 12px + border-b-2；红线与透明底同宽同高，避免切换跳动 */
+  .product-tab__label {
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+    padding: 12px 0 12px;
+    box-sizing: border-box;
+  }
+
+  .product-tab:hover {
+    color: rgba(26, 26, 26, 0.60);
+  }
+
+  .product-tab.active {
+    color: #1A1A1A;
+    font-weight: 600;
+  }
+
+  .product-tab.active .product-tab__label {
+    border-bottom: 2px solid #E90202;
+  }
+
+  .product-tabs-content {
+    padding: 0 !important;
+    {% comment %} width: 488px !important; {% endcomment %}
+  }
+
+  .product-tab-pane {
+    display: none;
+  }
+
+  .product-tab-pane.active {
+    display: block;
+  }
+
+  .product-tab-pane .prose {
+    color: rgba(26, 26, 26, 0.80);
+    font-family: Gabarito;
+    font-size: 14px;
+    line-height: 120%;
+  }
+
+  .product-tab-content-heading {
+    color: #0A0A0A;
+    font-family: Gabarito;
+    font-size: 20px !important;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 140%;
+    margin: 0 0 8px 0;
+  }
+
+  .product-tab-main-content {
+    color: rgba(26, 26, 26, 0.60);
+    font-family: Gabarito;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.28px;
+  }
+
+  .product-tab-main-content p {
+    letter-spacing: -0.32px !important;
+  }
+
+  .product-tab-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .product-tab-tag {
+    background-color: #DBDBDB;
+    color: #0A0A0A;
+    font-family: Gabarito;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.28px;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .product-tab-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .product-tab-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .product-tab-list-icon {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 2px;
+  }
+
+  .product-tab-list-text {
+    color: rgba(26, 26, 26, 0.80);
+    font-family: Gabarito;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 140%;
+    letter-spacing: -0.28px;
+  }
+
+  .product-tab-image {
+    margin-top: 16px;
+  }
+
+  .product-tab-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .product-tab-images-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .product-tab-image-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  /* ========== 移动端 product-tabs 样式 ========== */
+  @media screen and (max-width: 999px) {
+    .product-tabs-container {
+      background-color: #F0F0F0;
+      border-radius: 12px;
+      padding: 0 16px 16px 16px;
+      margin-top: 0;
+    }
+
+    /* 覆盖 PC 端 488px 固定宽度，避免在窄屏溢出 */
+    .product-tabs-content {
+      width: 100% !important;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .product-tab-pane,
+    .product-tab-main-content,
+    .product-tab-main-content p {
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .product-tabs-header {
+      align-items: center;
+      gap: 16px;
+      width: calc(100% + 32px);
+      margin-left: -16px;
+      margin-right: -16px;
+      padding: 8px 16px 0;
+      border-bottom: none;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .product-tabs-header::-webkit-scrollbar { display: none; }
+
+    /* 移动端去掉右侧渐变蒙层，否则激活的第 3 个 tab 也会被遮成灰色 */
+    .product-tabs-header::after {
+      display: none !important;
+    }
+
+    .product-tab {
+      flex: 0 0 auto;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+      font-family: Gabarito;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      color: rgba(26, 26, 26, 0.40);
+      white-space: nowrap;
+      text-transform: none;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-tab__label {
+      padding: 12px 0 12px;
+    }
+
+    .product-tab.active {
+      color: #1A1A1A;
+      font-family: Gabarito;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      text-transform: none;
+    }
+
+    .product-tab.active .product-tab__label {
+      border-bottom: 2px solid #E90202;
+    }
+
+    /* 移动端：未展开时最多 3 行 + 省略号，避免与下方 View More 叠盖 */
+    .product-tab-main-content {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-break: break-word;
+    }
+
+    .product-tab-main-content.expanded {
+      display: block;
+      -webkit-line-clamp: unset;
+      line-clamp: unset;
+      overflow: visible;
+    }
+
+    .product-tab-view-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 8px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px 0;
+      color: #3180FF;
+      font-family: Gabarito, sans-serif;
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 120%;
+      text-transform: uppercase;
+    }
+
+    .product-tab-view-more-label {
+      text-transform: uppercase;
+    }
+
+    .product-tab-view-more .view-more-icon {
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .product-tab-view-more[hidden] {
+      display: none !important;
+    }
+
+    /* What you'll love（tab-1）：tags 随 VIEW MORE 展开后一并显示 */
+    #tab-1 .product-tab-tags {
+      display: none;
+    }
+
+    #tab-1 .product-tab-main-content.expanded ~ .product-tab-tags {
+      display: flex;
+    }
+
+    .product-tab-tags {
+      margin-top: 16px !important;
+    }
+  }
+
+  /* PC端隐藏 view more；奖项图 Figma 全宽 padding 仅 ≥1440 */
+  @media screen and (min-width: 1000px) {
+    .product-tab-view-more {
+      display: none !important;
+    }
+
+    .product-tab-main-content {
+      display: block !important;
+      -webkit-line-clamp: unset !important;
+      line-clamp: unset !important;
+      overflow: visible !important;
+    }
+
+    #tab-1 .product-tab-tags {
+      display: flex !important;
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    /* Tab3 奖项图：对齐 Figma ward 1755:7707（横向 flex、96×48 单元、gap 8、左右 24） */
+    .product-tab-images-grid {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 0 24px;
+      margin-top: 16px;
+      box-sizing: border-box;
+    }
+
+    .product-tab-image-item {
+      flex: 0 0 auto;
+      width: 96px;
+      height: 48px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-tab-image-item img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: contain;
+      border-radius: 0;
+    }
+
+    .product-tab-image-item:first-child img {
+      object-fit: cover;
+    }
+  }
+
+  /* PAD（1280–1439）：tabs / tags 严格限制在 info 列内，防止撑开页面 */
+  @media screen and (min-width: 1280px) and (max-width: 1439px) {
+    .product-tabs-container {
+      padding: 0 16px 16px 16px !important;
+      margin-top: 20px !important;
+    }
+
+    .product-tabs-header {
+      width: 100% !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      padding: 8px 0 0 !important;
+      gap: 16px !important;
+    }
+
+    .product-tabs-header::after {
+      width: 40px !important;
+    }
+
+    .product-tabs-content,
+    .product-tab-pane,
+    .product-tab-main-content,
+    .product-tab-main-content p,
+    .product-tab-tags,
+    .product-tab-list,
+    .product-tab-list-text {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+
+    .product-tab {
+      font-size: 14px !important;
+    }
+
+    .product-tab-images-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      padding: 0 !important;
+      gap: 8px !important;
+    }
+
+    .product-tab-image-item {
+      width: auto !important;
+      height: auto !important;
+      max-width: 100% !important;
+    }
+  }
+</style>
+
 <safe-sticky class="product-info">
   {%- assign inside_block_group_context = false -%}
   {%- assign current_block_group_name = '' -%}
@@ -1762,616 +2373,6 @@
       <input type="hidden" disabled name="id" value="{{ product.selected_or_first_available_variant.id }}">
     {%- endform -%}
   {%- endunless -%}
-  <style>
-    .EcomSendAPP{
-      height: auto !important;
-    }
-
-    /* ── Klarna placement ::part() 样式覆盖 ── */
-    klarna-placement::part(osm-container) {
-      border-radius: 12px !important;
-      border: 1px solid rgba(26, 26, 26, 0.20) !important;
-      padding: 12px 16px 12px 2px !important;
-      flex-direction: row-reverse !important;
-      justify-content: space-between !important;
-      gap: 10px !important;
-      box-sizing: border-box !important;
-      max-width: 100% !important;
-    }
-
-    klarna-placement::part(osm-badge-container) {
-      margin-right: 0 !important;
-      width: 59.2px !important;
-      height: 24px !important;
-      flex-shrink: 0 !important;
-    }
-
-    klarna-placement::part(osm-badge) {
-      width: 59.2px !important;
-      height: 24px !important;
-    }
-
-    klarna-placement::part(osm-message) {
-      color: rgba(26, 26, 26, 0.60) !important;
-      font-family: 'Gabarito', sans-serif !important;
-      font-size: 14px !important;
-      font-style: normal !important;
-      font-weight: 400 !important;
-      line-height: 120% !important;
-      letter-spacing: -0.28px !important;
-      min-width: 0 !important;
-    }
-
-    klarna-placement::part(osm-message) strong,
-    klarna-placement::part(osm-message) b {
-      font-weight: 400 !important;
-    }
-
-    klarna-placement::part(osm-cta) {
-      color: #FF2020 !important;
-      font-family: 'Gabarito', sans-serif !important;
-      font-size: 14px !important;
-      font-style: normal !important;
-      font-weight: 400 !important;
-      line-height: 120% !important;
-      letter-spacing: -0.28px !important;
-      text-decoration-line: underline !important;
-      text-decoration-style: solid !important;
-      text-decoration-skip-ink: auto !important;
-      text-decoration-thickness: auto !important;
-      text-underline-offset: auto !important;
-      text-underline-position: from-font !important;
-      background: none !important;
-      border: none !important;
-      padding: 0 !important;
-      cursor: pointer !important;
-    }
-
-    /* PAD（1280–1439）：保持 PC 横向布局，Klarna 与 tabs 防溢出 */
-    @media screen and (min-width: 1280px) and (max-width: 1439px) {
-      klarna-placement::part(osm-container) {
-        flex-direction: row-reverse !important;
-        flex-wrap: nowrap !important;
-        align-items: center !important;
-        padding: 12px 16px 12px 2px !important;
-        gap: 10px !important;
-      }
-
-      klarna-placement::part(osm-message),
-      klarna-placement::part(osm-cta) {
-        font-size: 14px !important;
-        letter-spacing: -0.28px !important;
-      }
-
-      .product-tabs-container {
-        padding: 0 16px 16px 16px !important;
-        margin-top: 20px !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-      }
-
-      .product-tabs-header {
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding: 8px 0 0 !important;
-        gap: 16px !important;
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-
-      .product-tabs-header::-webkit-scrollbar {
-        display: none;
-      }
-
-      .product-tabs-header::after {
-        width: 48px !important;
-      }
-
-      .product-tabs-content,
-      .product-tab-pane,
-      .product-tab-main-content,
-      .product-tab-main-content p {
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-wrap: break-word !important;
-        word-break: break-word !important;
-      }
-
-      .product-tab {
-        font-size: 14px !important;
-      }
-
-      .product-tab-images-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-    }
-
-    /* Product Tabs */
-    .product-tabs-container {
-      background-color: #F0F0F0;
-      border-radius: 12px;
-      padding: 0 16px 16px 16px;
-      margin-top: 24px;
-      max-width: 100%;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* Tab 条：Figma 3337:84492 — pt 8px、px 24px、gap 24px、items-center */
-    /* 底边灰线用 ::before 单独一层（z-index:0），避免父级 border-bottom 盖住子级红线约 1px */
-    .product-tabs-header {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 24px;
-      width: 100%;
-      margin-left: 0;
-      margin-right: 0;
-      padding: 8px 0 0;
-      border-bottom: none;
-      margin-bottom: 24px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      position: relative;
-      box-sizing: border-box;
-    }
-
-    .product-tabs-header::-webkit-scrollbar {
-      display: none;
-    }
-
-    /* PC（≥1440）：Figma 全宽 tab 条，负 margin 出血对齐容器 padding */
-    @media screen and (min-width: 1440px) {
-      .product-tabs-container {
-        padding: 0 24px 24px 24px;
-      }
-
-      .product-tabs-header {
-        width: calc(100% + 48px);
-        margin-left: -24px;
-        margin-right: -24px;
-        padding: 8px 24px 0;
-        overflow: hidden;
-      }
-    }
-
-    .product-tabs-header::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 1px;
-      background: rgba(26, 26, 26, 0.20);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .product-tabs-header::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 160px;
-      background: linear-gradient(to right, rgba(240, 240, 240, 0), #F0F0F0 70%);
-      pointer-events: none;
-      z-index: 3;
-    }
-
-    .product-tab {
-      background: none;
-      border: none;
-      padding: 0 !important;
-      text-align: center;
-      font-family: Gabarito;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-      color: var(--Font-Color-Gy4, rgba(26, 26, 26, 0.40));
-      cursor: pointer;
-      position: relative;
-      z-index: 2;
-      transition: color 0.2s ease;
-      white-space: nowrap;
-      flex-shrink: 0;
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* 单 tab：Figma 内层 py 12px + border-b-2；红线与透明底同宽同高，避免切换跳动 */
-    .product-tab__label {
-      display: inline-block;
-      border-bottom: 2px solid transparent;
-      padding: 12px 0 12px;
-      box-sizing: border-box;
-    }
-
-    .product-tab:hover {
-      color: rgba(26, 26, 26, 0.60);
-    }
-
-    .product-tab.active {
-      color: #1A1A1A;
-      font-weight: 600;
-    }
-
-    .product-tab.active .product-tab__label {
-      border-bottom: 2px solid #E90202;
-    }
-
-    .product-tabs-content {
-      padding: 0 !important;
-      {% comment %} width: 488px !important; {% endcomment %}
-    }
-
-    .product-tab-pane {
-      display: none;
-    }
-
-    .product-tab-pane.active {
-      display: block;
-    }
-
-    .product-tab-pane .prose {
-      color: rgba(26, 26, 26, 0.80);
-      font-family: Gabarito;
-      font-size: 14px;
-      line-height: 120%;
-    }
-
-    .product-tab-content-heading {
-      color: #0A0A0A;
-      font-family: Gabarito;
-      font-size: 20px !important;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 140%;
-      margin: 0 0 8px 0;
-    }
-
-    .product-tab-main-content {
-      color: rgba(26, 26, 26, 0.60);
-      font-family: Gabarito;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 140%;
-      letter-spacing: -0.28px;
-    }
-
-    .product-tab-main-content p {
-      letter-spacing: -0.32px !important;
-    }
-
-    .product-tab-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
-    .product-tab-tag {
-      background-color: #DBDBDB;
-      color: #0A0A0A;
-      font-family: Gabarito;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 140%;
-      letter-spacing: -0.28px;
-      padding: 4px 12px;
-      border-radius: 999px;
-    }
-
-    .product-tab-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .product-tab-list-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .product-tab-list-icon {
-      flex-shrink: 0;
-      width: 17px;
-      height: 17px;
-      margin-top: 2px;
-    }
-
-    .product-tab-list-text {
-      color: rgba(26, 26, 26, 0.80);
-      font-family: Gabarito;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 140%;
-      letter-spacing: -0.28px;
-    }
-
-    .product-tab-image {
-      margin-top: 16px;
-    }
-
-    .product-tab-image img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    .product-tab-images-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 16px;
-    }
-
-    .product-tab-image-item img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 8px;
-    }
-
-    /* ========== 移动端 product-tabs 样式 ========== */
-    @media screen and (max-width: 999px) {
-      .product-tabs-container {
-        background-color: #F0F0F0;
-        border-radius: 12px;
-        padding: 0 16px 16px 16px;
-        margin-top: 0;
-      }
-
-      /* 覆盖 PC 端 488px 固定宽度，避免在窄屏溢出 */
-      .product-tabs-content {
-        width: 100% !important;
-        max-width: 100%;
-        box-sizing: border-box;
-      }
-
-      .product-tab-pane,
-      .product-tab-main-content,
-      .product-tab-main-content p {
-        max-width: 100%;
-        word-break: break-word;
-        overflow-wrap: break-word;
-      }
-
-      .product-tabs-header {
-        align-items: center;
-        gap: 16px;
-        width: calc(100% + 32px);
-        margin-left: -16px;
-        margin-right: -16px;
-        padding: 8px 16px 0;
-        border-bottom: none;
-        margin-bottom: 16px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-      }
-
-      .product-tabs-header::-webkit-scrollbar { display: none; }
-
-      /* 移动端去掉右侧渐变蒙层，否则激活的第 3 个 tab 也会被遮成灰色 */
-      .product-tabs-header::after {
-        display: none !important;
-      }
-
-      .product-tab {
-        flex: 0 0 auto;
-        padding: 0;
-        position: relative;
-        z-index: 2;
-        font-family: Gabarito;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-        color: rgba(26, 26, 26, 0.40);
-        white-space: nowrap;
-        text-transform: none;
-        display: inline-flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .product-tab__label {
-        padding: 12px 0 12px;
-      }
-
-      .product-tab.active {
-        color: #1A1A1A;
-        font-family: Gabarito;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        text-transform: none;
-      }
-
-      .product-tab.active .product-tab__label {
-        border-bottom: 2px solid #E90202;
-      }
-
-      /* 移动端：未展开时最多 3 行 + 省略号，避免与下方 View More 叠盖 */
-      .product-tab-main-content {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
-        line-clamp: 3;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        word-break: break-word;
-      }
-
-      .product-tab-main-content.expanded {
-        display: block;
-        -webkit-line-clamp: unset;
-        line-clamp: unset;
-        overflow: visible;
-      }
-
-      .product-tab-view-more {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        margin-top: 8px;
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 4px 0;
-        color: #3180FF;
-        font-family: Gabarito, sans-serif;
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 120%;
-        text-transform: uppercase;
-      }
-
-      .product-tab-view-more-label {
-        text-transform: uppercase;
-      }
-
-      .product-tab-view-more .view-more-icon {
-        flex-shrink: 0;
-        display: block;
-      }
-
-      .product-tab-view-more[hidden] {
-        display: none !important;
-      }
-
-      /* What you'll love（tab-1）：tags 随 VIEW MORE 展开后一并显示 */
-      #tab-1 .product-tab-tags {
-        display: none;
-      }
-
-      #tab-1 .product-tab-main-content.expanded ~ .product-tab-tags {
-        display: flex;
-      }
-
-      .product-tab-tags {
-        margin-top: 16px !important;
-      }
-    }
-
-    /* PC端隐藏 view more；奖项图 Figma 全宽 padding 仅 ≥1440 */
-    @media screen and (min-width: 1000px) {
-      .product-tab-view-more {
-        display: none !important;
-      }
-
-      .product-tab-main-content {
-        display: block !important;
-        -webkit-line-clamp: unset !important;
-        line-clamp: unset !important;
-        overflow: visible !important;
-      }
-
-      #tab-1 .product-tab-tags {
-        display: flex !important;
-      }
-    }
-
-    @media screen and (min-width: 1440px) {
-      /* Tab3 奖项图：对齐 Figma ward 1755:7707（横向 flex、96×48 单元、gap 8、左右 24） */
-      .product-tab-images-grid {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        gap: 8px;
-        padding: 0 24px;
-        margin-top: 16px;
-        box-sizing: border-box;
-      }
-
-      .product-tab-image-item {
-        flex: 0 0 auto;
-        width: 96px;
-        height: 48px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .product-tab-image-item img {
-        width: 100%;
-        height: 100%;
-        max-width: none;
-        object-fit: contain;
-        border-radius: 0;
-      }
-
-      .product-tab-image-item:first-child img {
-        object-fit: cover;
-      }
-    }
-
-    /* PAD（1280–1439）：tabs / tags 严格限制在 info 列内，防止撑开页面 */
-    @media screen and (min-width: 1280px) and (max-width: 1439px) {
-      .product-tabs-container {
-        padding: 0 16px 16px 16px !important;
-        margin-top: 20px !important;
-      }
-
-      .product-tabs-header {
-        width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-        padding: 8px 0 0 !important;
-        gap: 16px !important;
-      }
-
-      .product-tabs-header::after {
-        width: 40px !important;
-      }
-
-      .product-tabs-content,
-      .product-tab-pane,
-      .product-tab-main-content,
-      .product-tab-main-content p,
-      .product-tab-tags,
-      .product-tab-list,
-      .product-tab-list-text {
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-        overflow-wrap: break-word !important;
-        word-break: break-word !important;
-      }
-
-      .product-tab {
-        font-size: 14px !important;
-      }
-
-      .product-tab-images-grid {
-        display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important;
-        padding: 0 !important;
-        gap: 8px !important;
-      }
-
-      .product-tab-image-item {
-        width: auto !important;
-        height: auto !important;
-        max-width: 100% !important;
-      }
-    }
-  </style>
 
 <script>
 (function() {

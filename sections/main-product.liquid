@@ -1,4 +1,3 @@
-{% comment %} {{- 'swiper-bundle.min.css' | asset_url | stylesheet_tag: preload: true -}} {% endcomment %}
 {%- render 'section-spacing-collapsing' -%}
 
 <style>
@@ -38,9 +37,6 @@
       --product-gallery-media-list-gap: var(--grid-gutter);
     }
   }
-
-</style>
-<style>
   {% if section.settings.type_switch %}
   #shopify-section-{{ section.id }}  .product-gallery__choose{
     display: flex;
@@ -458,18 +454,20 @@ quick buy information in a template, that will be extracted in JS, but ensure it
 {% endif %} {% endcomment %}
  {% if product.metafields.custom.size_guide_image != blank %}
   <script>
- $(document).on('click', '.kik_size_guide_heading .kik_close_icon', function() {
-  $('.kik_product_size_guide').removeClass('active');
-});
+    document.addEventListener("DOMContentLoaded", function () {
+      $(document).on('click', '.kik_size_guide_heading .kik_close_icon', function() {
+        $('.kik_product_size_guide').removeClass('active');
+      });
 
-$(document).on('click', '.size_guide', function() {
-  $('.kik_product_size_guide').addClass('active');
-});
+      $(document).on('click', '.size_guide', function() {
+        $('.kik_product_size_guide').addClass('active');
+      });
 
-$(document).on('click', '.kik_size_guide_overlay', function() {
-  $('.kik_product_size_guide').removeClass('active');
-});
-</script>
+      $(document).on('click', '.kik_size_guide_overlay', function() {
+        $('.kik_product_size_guide').removeClass('active');
+      });
+    });
+  </script>
 {% endif %}
 {% assign selling = false %}
 {% for block in section.blocks %}
@@ -511,9 +509,9 @@ function swiperBlog() {
 }
   document.addEventListener('DOMContentLoaded', function() { 
     swiperBlog();
-  })
 
-window.addEventListener("resize", swiperBlog);
+    window.addEventListener("resize", swiperBlog);
+  })
 </script>
   {% endif %}
   <script>

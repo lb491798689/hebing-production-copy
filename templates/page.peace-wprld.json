@@ -277,6 +277,8 @@
         "video_faVKmV": {
           "type": "video",
           "settings": {
+            "video": "shopify://files/videos/20250912-175050.mp4",
+            "mobile_video": "shopify://files/videos/傲风视频移动端.mp4",
             "content_max_width": 780,
             "mobile_text_position": "place-self-start-center text-center",
             "desktop_text_position": "sm:place-self-start-center sm:text-center",
@@ -596,6 +598,8 @@
         "allow_transparent_header": false,
         "autoplay": false,
         "video_size": "auto",
+        "video": "shopify://files/videos/M6 16：9.mp4",
+        "mobile_video": "shopify://files/videos/M6 1：1.mp4",
         "external_video_url": "",
         "poster": "shopify://shop_images/M6_16_9_-_frame_at_0m0s.jpg",
         "mobile_text_position": "place-self-center text-center",
@@ -741,6 +745,7 @@
         "item_DbwDGz": {
           "type": "item",
           "settings": {
+            "video": "shopify://files/videos/21 - Trim.mp4",
             "column_size": "3",
             "title": "Adaptive Lumbar Support",
             "heading_tag": "h5",
@@ -753,6 +758,7 @@
         "item_Pfmj4H": {
           "type": "item",
           "settings": {
+            "video": "shopify://files/videos/8 - Trim.mp4",
             "column_size": "3",
             "title": "720° Dual-Axis Rotating Armrests",
             "heading_tag": "h5",
@@ -765,6 +771,7 @@
         "item_UcxCqz": {
           "type": "item",
           "settings": {
+            "video": "shopify://files/videos/6.mp4",
             "column_size": "3",
             "title": "4D Dual-Axis Cervical Support Pillow",
             "heading_tag": "h5",

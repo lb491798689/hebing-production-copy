@@ -110,7 +110,7 @@
       {%- endif -%}
     </div>
 
-    <div class="tw:absolute tw:inset-0 tw:z-1 tw:bg-black/10" aria-hidden="true"></div>
+    <div class="tw:absolute tw:inset-0 tw:z-1" style="background: rgba(0,0,0,1);opacity: {{ section.settings.overlay_opacity }}%;" aria-hidden="true"></div>
 
     <div
       class="
@@ -155,9 +155,10 @@
 
         {%- if section.settings.title != blank -%}
           <h2
+            style="color: {{ section.settings.title_color }}"
             class="
               tw:m-0 tw:min-w-full tw:max-w-full tw:font-orbitron tw:text-[48px] tw:font-black tw:leading-[1.08]
-              tw:text-[#FFFC04] tw:uppercase tw:tracking-normal
+              tw:uppercase tw:tracking-normal
               tw:max-md:text-[36px] tw:max-md:leading-[1.18]
             "
           >
@@ -324,6 +325,12 @@
       "default": "M6 ULTRA+ 2.0 SHIATSU"
     },
     {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#FFFC04"
+    },
+    {
       "type": "textarea",
       "id": "desc",
       "label": "Description",
@@ -386,6 +393,16 @@
       "default": "390/640",
       "info": "Used only when section height is set to aspect ratio. Example: 390/40.",
       "visible_if": "{{ section.settings.height_mode == 'aspect' }}"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 10
     },
     {
       "type": "header",

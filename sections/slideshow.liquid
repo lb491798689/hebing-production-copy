@@ -4,6 +4,9 @@ CSS
 ------------------------------------------------------------------------------------------------------------------------
 {%- endcomment -%}
 {%- assign section_identifier = '#shopify-section-' | append: section.id -%}
+
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 <style>
   {%- if section.settings.controls_type == 'filled_arrows' -%}
     {%- assign controls_background = section.blocks.first.settings.button_background -%}

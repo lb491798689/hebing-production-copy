@@ -437,6 +437,7 @@
                       width="{{ block.settings.image.width | default: 2400 }}"
                       height="{{ block.settings.image.height | default: 1350 }}"
                       loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                      fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
                     >
                   </picture>
                 {% elsif block.settings.type == 'image' and has_image %}
@@ -450,6 +451,7 @@
                       width="{{ block.settings.image.width | default: 2400 }}"
                       height="{{ block.settings.image.height | default: 1350 }}"
                       loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                      fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}"
                     >
                   </picture>
                 {% elsif block.settings.type == 'creditcard' %}
