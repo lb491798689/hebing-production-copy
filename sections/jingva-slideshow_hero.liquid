@@ -162,6 +162,13 @@
       will-change: opacity, transform;
     }
 
+    {{ default_sid }} .jingva-hero-title p {
+      margin: 0 !important;
+      font: inherit !important;
+      color: inherit !important;
+      text-align: inherit !important;
+    }
+
     {{ default_sid }} .jingva-hero-title.aos-animate {
       opacity: 1;
       transform: translateY(0);
@@ -501,7 +508,7 @@
             <div class="jingva-hero-content">
               <div class="jingva-hero-title-group">
                 {% if block.settings.title != blank %}
-                  <h2 class="jingva-hero-title">{{ block.settings.title }}</h2>
+                  <div class="jingva-hero-title">{{ block.settings.title }}</div>
                 {% endif %}
 
                 {% if block.settings.btn1_text != blank or block.settings.btn2_text != blank %}
@@ -570,6 +577,7 @@
       var sectionId = {{ section.id | json }};
       var sliderId = 'jingvaHeroSlider{{ sid }}';
       var shopifySectionId = 'shopify-section-' + sectionId;
+      var isDesignMode = window.Shopify && Shopify.designMode;
 
       function hideSlideContent(slide) {
         if (!slide) return;
@@ -578,7 +586,22 @@
         });
       }
 
-      function revealSlideContent(slide, btnDelay) {
+      // 首次显示：只加 class，不 remove/reflow，避免编辑器里反复闪动
+      function showSlideContent(slide) {
+        if (!slide) return;
+        var title = slide.querySelector('.jingva-hero-title');
+        var buttons = slide.querySelector('.jingva-hero-buttons');
+
+        if (title && !title.classList.contains('aos-animate')) {
+          title.classList.add('aos-animate');
+        }
+        if (buttons && !buttons.classList.contains('aos-animate')) {
+          buttons.classList.add('aos-animate');
+        }
+      }
+
+      // 轮播切换：先隐藏再重播淡入动效
+      function replaySlideContent(slide) {
         if (!slide) return;
         var title = slide.querySelector('.jingva-hero-title');
         var buttons = slide.querySelector('.jingva-hero-buttons');
@@ -588,34 +611,19 @@
           void title.offsetWidth;
           title.classList.add('aos-animate');
         }
-
         if (buttons) {
           buttons.classList.remove('aos-animate');
           void buttons.offsetWidth;
           setTimeout(function () {
             buttons.classList.add('aos-animate');
-          }, btnDelay == null ? 100 : btnDelay);
+          }, 100);
         }
       }
 
-      function resetSliderState(slider) {
-        if (slider.swiper) {
+      function destroySlider(slider) {
+        if (slider && slider.swiper) {
           slider.swiper.destroy(true, true);
         }
-
-        slider.classList.remove('swiper-initialized', 'swiper-horizontal', 'swiper-fade', 'swiper-watch-progress', 'swiper-backface-hidden');
-        slider.removeAttribute('style');
-
-        slider.querySelectorAll('.swiper-slide').forEach(function (slide) {
-          slide.removeAttribute('style');
-          slide.classList.remove(
-            'swiper-slide-active',
-            'swiper-slide-next',
-            'swiper-slide-prev',
-            'swiper-slide-visible',
-            'swiper-slide-fully-visible'
-          );
-        });
       }
 
       function initJingvaHeroSlider() {
@@ -625,7 +633,7 @@
       var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
       if (total < 1) return;
 
-      resetSliderState(slider);
+      destroySlider(slider);
 
       var autoplayEnabled = {{ autoplay | json }};
       var duration = {{ default_duration | times: 1000 }};
@@ -706,7 +714,7 @@
       }
 
       var autoplayConfig = false;
-      if (autoplayEnabled && enableLoop) {
+      if (autoplayEnabled && enableLoop && !isDesignMode) {
         autoplayConfig = {
           delay: duration,
           disableOnInteraction: false  // 点击后继续自动播放
@@ -714,8 +722,6 @@
       }
 
       var swiperOptions = {
-        observer: true,
-        observeParents: true,
         slidesPerView: 1,
         spaceBetween: 0,
         loop: enableLoop,
@@ -729,14 +735,7 @@
           afterInit: function (sw) {
             syncVideos(sw);
             updateDots(sw.realIndex);
-            setTimeout(function () {
-              revealSlideContent(sw.slides[sw.activeIndex]);
-            }, 50);
-          },
-          observerUpdate: function (sw) {
-            setTimeout(function () {
-              revealSlideContent(sw.slides[sw.activeIndex]);
-            }, 50);
+            showSlideContent(sw.slides[sw.activeIndex]);
           },
           slideChange: function (sw) {
             updateDots(sw.realIndex);
@@ -749,7 +748,7 @@
           slideChangeTransitionEnd: function (sw) {
             syncVideos(sw);
             setTimeout(function () {
-              revealSlideContent(sw.slides[sw.activeIndex]);
+              replaySlideContent(sw.slides[sw.activeIndex]);
             }, 50);
           }
         }
@@ -764,10 +763,11 @@
 
       var swiper = new Swiper(slider, swiperOptions);
 
-      // 主题编辑器 section 重载后，兜底再触发一次淡入（防止 afterInit 时序问题）
-      setTimeout(function () {
-        revealSlideContent(swiper.slides[swiper.activeIndex]);
-      }, fadeMs + 80);
+      if (isDesignMode) {
+        setTimeout(function () {
+          showSlideContent(swiper.slides[swiper.activeIndex]);
+        }, 200);
+      }
 
       function goToIndex(index) {
         if (enableLoop) {
@@ -819,59 +819,59 @@
         }
 
         if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initJingvaHeroSlider);
+          document.addEventListener('DOMContentLoaded', initJingvaHeroSlider, { once: true });
         } else {
           initJingvaHeroSlider();
         }
       }
 
-      function handleBlockSelect(event) {
-        var section = event.target.closest('#' + shopifySectionId);
-        if (!section) return;
-
-        var slider = section.querySelector('#' + sliderId);
-        if (!slider) return;
-
-        var slide = event.target.classList.contains('swiper-slide')
-          ? event.target
-          : event.target.closest('.swiper-slide');
-
-        if (!slide || !slider.contains(slide)) return;
-
-        var index = parseInt(slide.getAttribute('data-index') || '0', 10);
-        var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
-        var useLoop = total > 1;
-
-        if (slider.swiper) {
-          if (useLoop) {
-            slider.swiper.slideToLoop(index, 0);
-          } else {
-            slider.swiper.slideTo(index, 0);
-          }
-          revealSlideContent(slider.swiper.slides[slider.swiper.activeIndex]);
-        } else {
-          revealSlideContent(slide);
-        }
-      }
-
       scheduleInit(30);
 
-      document.addEventListener('shopify:section:load', function (event) {
-        if (event.target && event.target.id === shopifySectionId) {
-          requestAnimationFrame(function () {
-            scheduleInit(30);
+      if (isDesignMode) {
+        var editorListenerKey = 'jingvaHeroEditor_' + sectionId;
+
+        if (!window[editorListenerKey]) {
+          window[editorListenerKey] = true;
+
+          document.addEventListener('shopify:section:unload', function (event) {
+            if (event.target && event.target.id === shopifySectionId) {
+              destroySlider(event.target.querySelector('#' + sliderId));
+              window[editorListenerKey] = false;
+            }
+          });
+
+          document.addEventListener('shopify:block:select', function (event) {
+            if (!event.target.closest('#' + shopifySectionId)) return;
+
+            var slider = document.getElementById(sliderId);
+            if (!slider) return;
+
+            var slide = event.target.classList.contains('swiper-slide')
+              ? event.target
+              : event.target.closest('.swiper-slide');
+
+            if (!slide || !slider.contains(slide)) return;
+
+            var index = parseInt(slide.getAttribute('data-index') || '0', 10);
+            var total = parseInt(slider.getAttribute('data-total-slides') || '0', 10);
+            var sw = slider.swiper;
+
+            if (sw) {
+              if (sw.realIndex !== index) {
+                if (total > 1) {
+                  sw.slideToLoop(index, 0);
+                } else {
+                  sw.slideTo(index, 0);
+                }
+              } else {
+                showSlideContent(sw.slides[sw.activeIndex]);
+              }
+            } else {
+              showSlideContent(slide);
+            }
           });
         }
-      });
-
-      document.addEventListener('shopify:section:unload', function (event) {
-        if (event.target && event.target.id === shopifySectionId) {
-          var slider = event.target.querySelector('#' + sliderId);
-          if (slider) resetSliderState(slider);
-        }
-      });
-
-      document.addEventListener('shopify:block:select', handleBlockSelect);
+      }
     })();
   </script>
 </section>
