@@ -12,16 +12,16 @@
       width: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
-      background-color: #ffffff !important;
+      background-color: {{ se_stts.bg_color_pc | default: '#ffffff' }} !important;
     }
 
     {{ default_sid }} .jvh-outer {
       width: 100% !important;
-      padding: 70px 0 !important;
+      padding: {{ se_stts.padding_top_pc | default: 70 }}px 0 {{ se_stts.padding_bottom_pc | default: 70 }}px !important;
       display: flex !important;
       justify-content: center !important;
       align-items: center !important;
-      background-color: #ffffff !important;
+      background-color: {{ se_stts.bg_color_pc | default: '#ffffff' }} !important;
     }
 
     /* ===== PC: KV 视频框 1200×640, clipsContent ===== */
@@ -129,8 +129,13 @@
 
     /* ========== 手机端 ========== */
     @media screen and (max-width: 1279px) {
+      {{ default_sid }},
       {{ default_sid }} .jvh-outer {
-        padding: 0 !important;
+        background-color: {{ se_stts.bg_color_mobile | default: '#ffffff' }} !important;
+      }
+
+      {{ default_sid }} .jvh-outer {
+        padding: {{ se_stts.padding_top_mobile | default: 0 }}px 0 {{ se_stts.padding_bottom_mobile | default: 0 }}px !important;
       }
 
       {{ default_sid }} .jvh-video-wrap {
@@ -289,6 +294,66 @@
       "id": "section_id",
       "label": "Section ID",
       "info": "用于标识该 section 的唯一 ID"
+    },
+    {
+      "type": "header",
+      "content": "PC端设置"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_pc",
+      "label": "背景颜色 (PC)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_pc",
+      "label": "上间距 (PC)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_pc",
+      "label": "下间距 (PC)",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "default": 70
+    },
+    {
+      "type": "header",
+      "content": "手机端设置"
+    },
+    {
+      "type": "color",
+      "id": "bg_color_mobile",
+      "label": "背景颜色 (手机端)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "label": "上间距 (手机端)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "label": "下间距 (手机端)",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "default": 0
     },
     {
       "type": "header",
