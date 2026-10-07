@@ -89,13 +89,7 @@
       {%- if section.settings.image != blank -%}
         {%- capture sizes -%}{% if section.settings.full_width %}100vw{% else %}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min({{ settings.page_width }}px, 100vw - 96px){% endif %}{%- endcapture -%}
         
-        {%- render 'optimized-image' with 
-          image: section.settings.image,
-          mobile_image: section.settings.mobile_image,
-          class: 'banner-image',
-          sizes: sizes,
-          priority: 'high'
-        -%}
+        {%- render 'optimized-image' with image, image: section.settings.image, mobile_image: section.settings.mobile_image, class: 'banner-image', sizes: sizes, priority: 'high' -%}
       {%- else -%}
         {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' | replace: '<svg', '<svg preserveAspectRatio="xMinYMin slice"' }}
       {%- endif -%}
@@ -671,4 +665,17 @@
       }
     ]
   }
-  {% endschema %}
+  {% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'optimized-image' with \n          image: section.settings.image,\n
+    \         mobile_image: section.settings.mobile_image,\n          class: 'banner-image',\n
+    \         sizes: sizes,\n          priority: 'high'\n        -%}"
+  to: "{%- render 'optimized-image' with image, image: section.settings.image, mobile_image:
+    section.settings.mobile_image, class: 'banner-image', sizes: sizes, priority:
+    'high' -%}"
+  position: 4054..4228
+{%- endcomment -%}

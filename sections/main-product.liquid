@@ -393,7 +393,7 @@
   <product-rerender id="product-info-{{ product.id }}-{{ section.id }}" observe-form="{{ product_form_id }}" allow-partial-rerender>
     <div class="product">
       {%- if product.media.size > 0 -%}
-        {%- render 'product-gallery', product: product, product_form_id: product_form_id,  custom_metafield: product.metafields.custom.3d_product.value -%}
+        {%- render 'product-gallery', product: product, product_form_id: product_form_id, custom_metafield: product.metafields.custom['3d_product'].value -%}
       {%- endif -%}
 
       {%- render 'product-info', 
@@ -2850,4 +2850,15 @@ checkUrlChange();
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'product-gallery', product: product, product_form_id: product_form_id,
+    \ custom_metafield: product.metafields.custom.3d_product.value -%}"
+  to: "{%- render 'product-gallery', product: product, product_form_id: product_form_id,
+    custom_metafield: product.metafields.custom['3d_product'].value -%}"
+  position: 11965..12114
+{%- endcomment -%}
